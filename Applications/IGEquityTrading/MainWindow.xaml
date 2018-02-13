@@ -1,0 +1,437 @@
+﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ig="http://schemas.infragistics.com/xaml"
+        xmlns:controls="clr-namespace:IGTrading.Controls"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        x:Class="IGTrading.MainWindow"
+        xmlns:local="clr-namespace:IGTrading" 
+        xmlns:loc="clr-namespace:IGTrading.Assets.LocalizedResources"
+        xmlns:exCommon="clr-namespace:IGExtensions.Common.Controls;assembly=IGExtensions.Common" x:Name="RootWindow"
+        Title="{Binding Path=Strings.AppName, Source={StaticResource LocalizedResources}}"
+        WindowState="Maximized"
+        Icon="/IGExtensions.Common;component/Images/apps/IgEquityTrading.png"
+        Loaded="Window_Loaded"
+        
+		SizeChanged="Window_SizeChanged" Width="908" Height="631">
+    <Window.Resources>
+        <loc:LocalizedResources x:Key="LocalizedResources"/>
+        <!--<loc:Strings x:Key="LocalizedResources"/>-->
+        <ListBox x:Key="newsListBox"
+                Style="{DynamicResource MsgNewsListboxStyle}"
+                ItemContainerStyle="{DynamicResource MsgNewsListboxItem}">
+            <ListBoxItem Content="{Binding Strings.News_1, Source={StaticResource LocalizedResources}}" />
+            <ListBoxItem Content="{Binding Strings.News_2, Source={StaticResource LocalizedResources}}" />
+            <ListBoxItem Content="{Binding Strings.News_3, Source={StaticResource LocalizedResources}}" />
+            <ListBoxItem Content="{Binding Strings.News_4, Source={StaticResource LocalizedResources}}" />
+            <ListBoxItem Content="{Binding Strings.News_5, Source={StaticResource LocalizedResources}}" />
+        </ListBox>
+        <ListBox x:Key="msgsListBox"
+                Style="{DynamicResource MsgNewsListboxStyle}"
+                ItemContainerStyle="{DynamicResource MsgNewsListboxItem}">
+            <ListBoxItem Content="{Binding Strings.Message_1, Source={StaticResource LocalizedResources}}" />
+            <ListBoxItem Content="{Binding Strings.Message_2, Source={StaticResource LocalizedResources}}" />
+            <ListBoxItem Content="{Binding Strings.Message_3, Source={StaticResource LocalizedResources}}" />
+        </ListBox>
+        <controls:TransactionHistory x:Key="transactionHistoryControl"
+                     DataContext="{StaticResource stockViewModel}" />
+        <controls:PortfolioManager x:Key="portfolioMgr" 
+                 DataContext="{StaticResource stockViewModel}"
+                    BuySellCommand="{Binding Path=SellCommand, RelativeSource={RelativeSource AncestorType=local:MainWindow}}" />
+        <controls:RealTimeStocks x:Key="realtimeStocksControl"
+                     DataContext="{StaticResource stockViewModel}"
+                    BuyCommand="{Binding Path=BuyCommand, RelativeSource={RelativeSource AncestorType=local:MainWindow}}" />
+        <controls:StockAnalysisNormal x:Key="stockAnalysisNormal" />
+        <controls:StockAnalysisMaximized x:Key="stockAnalysisMaximized" />
+        
+    </Window.Resources>
+    <Window.DataContext>
+        <StaticResource ResourceKey="stockViewModel" />
+    </Window.DataContext>
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Rectangle Fill="#FF0C0C0C"
+                       Grid.ColumnSpan="2" />
+            <Rectangle Fill="{DynamicResource BrushHeaderGlow}"
+                       Grid.ColumnSpan="2" />
+            <!--<Image Source="Assets/Images/Logo.png"
+                   Stretch="Fill"
+                   Width="266"
+                   HorizontalAlignment="Left"
+                   Margin="2,0,0,1"
+                   Height="40" />-->
+            <exCommon:AppLogo HorizontalAlignment="Left" Margin="5"
+                              AppName="{Binding Path=Strings.AppName, Source={StaticResource LocalizedResources}}"
+                              AppSubTitle="{Binding Path=Strings.AppSubTitle, Source={StaticResource LocalizedResources}}"
+                              AppImage="/IGExtensions.Common;component/Images/apps/IgEquityTrading_Trans.png"/>
+
+            <Grid Grid.ColumnSpan="2"
+                  Opacity="0.5">
+                <Rectangle Height="6"
+                           Opacity="0.6"
+                           VerticalAlignment="Top"
+                           Margin="0">
+                    <Rectangle.Fill>
+                        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0" SpreadMethod="Repeat">
+                            <GradientStop Color="#19606060" Offset="0" />
+                            <GradientStop Color="#19606060" Offset="0.16" />
+                            <GradientStop Color="#4C606060" Offset="0.17" />
+                            <GradientStop Color="#4C606060" Offset="0.33" />
+                            <GradientStop Color="#7F606060" Offset="0.34" />
+                            <GradientStop Color="#7F606060" Offset="0.5" />
+                            <GradientStop Color="#19606060" Offset="0.51" />
+                            <GradientStop Color="#19606060" Offset="0.66" />
+                            <GradientStop Color="#4C606060" Offset="0.67" />
+                            <GradientStop Color="#4C606060" Offset="0.83" />
+                            <GradientStop Color="#7F606060" Offset="0.84" />
+                            <GradientStop Color="#7F606060" Offset="1" />
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Rectangle Height="6"
+                           Opacity="0.6"
+                           VerticalAlignment="Top"
+                           Margin="0,6,0,0">
+                    <Rectangle.Fill>
+                        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0" SpreadMethod="Repeat">
+                            <GradientStop Color="#19606060" Offset="0" />
+                            <GradientStop Color="#19606060" Offset="0.16" />
+                            <GradientStop Color="#4C606060" Offset="0.17" />
+                            <GradientStop Color="#4C606060" Offset="0.33" />
+                            <GradientStop Color="#7F606060" Offset="0.34" />
+                            <GradientStop Color="#7F606060" Offset="0.5" />
+                            <GradientStop Color="#19606060" Offset="0.51" />
+                            <GradientStop Color="#19606060" Offset="0.66" />
+                            <GradientStop Color="#4C606060" Offset="0.67" />
+                            <GradientStop Color="#4C606060" Offset="0.83" />
+                            <GradientStop Color="#7F606060" Offset="0.84" />
+                            <GradientStop Color="#7F606060" Offset="1" />
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Rectangle Height="6"
+                           Opacity="0.6"
+                           VerticalAlignment="Top"
+                           Margin="0,12,0,0">
+                    <Rectangle.Fill>
+                        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0" SpreadMethod="Repeat">
+                            <GradientStop Color="#19606060" Offset="0" />
+                            <GradientStop Color="#19606060" Offset="0.16" />
+                            <GradientStop Color="#4C606060" Offset="0.17" />
+                            <GradientStop Color="#4C606060" Offset="0.33" />
+                            <GradientStop Color="#7F606060" Offset="0.34" />
+                            <GradientStop Color="#7F606060" Offset="0.5" />
+                            <GradientStop Color="#19606060" Offset="0.51" />
+                            <GradientStop Color="#19606060" Offset="0.66" />
+                            <GradientStop Color="#4C606060" Offset="0.67" />
+                            <GradientStop Color="#4C606060" Offset="0.83" />
+                            <GradientStop Color="#7F606060" Offset="0.84" />
+                            <GradientStop Color="#7F606060" Offset="1" />
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Rectangle Height="6"
+                           Opacity="0.6"
+                           VerticalAlignment="Top"
+                           Margin="0,18,0,0">
+                    <Rectangle.Fill>
+                        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0" SpreadMethod="Repeat">
+                            <GradientStop Color="#19606060" Offset="0" />
+                            <GradientStop Color="#19606060" Offset="0.16" />
+                            <GradientStop Color="#4C606060" Offset="0.17" />
+                            <GradientStop Color="#4C606060" Offset="0.33" />
+                            <GradientStop Color="#7F606060" Offset="0.34" />
+                            <GradientStop Color="#7F606060" Offset="0.5" />
+                            <GradientStop Color="#19606060" Offset="0.51" />
+                            <GradientStop Color="#19606060" Offset="0.66" />
+                            <GradientStop Color="#4C606060" Offset="0.67" />
+                            <GradientStop Color="#4C606060" Offset="0.83" />
+                            <GradientStop Color="#7F606060" Offset="0.84" />
+                            <GradientStop Color="#7F606060" Offset="1" />
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Rectangle Height="6"
+                           Opacity="0.6"
+                           VerticalAlignment="Top"
+                           Margin="0,24,0,0">
+                    <Rectangle.Fill>
+                        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0" SpreadMethod="Repeat">
+                            <GradientStop Color="#19606060" Offset="0" />
+                            <GradientStop Color="#19606060" Offset="0.16" />
+                            <GradientStop Color="#4C606060" Offset="0.17" />
+                            <GradientStop Color="#4C606060" Offset="0.33" />
+                            <GradientStop Color="#7F606060" Offset="0.34" />
+                            <GradientStop Color="#7F606060" Offset="0.5" />
+                            <GradientStop Color="#19606060" Offset="0.51" />
+                            <GradientStop Color="#19606060" Offset="0.66" />
+                            <GradientStop Color="#4C606060" Offset="0.67" />
+                            <GradientStop Color="#4C606060" Offset="0.83" />
+                            <GradientStop Color="#7F606060" Offset="0.84" />
+                            <GradientStop Color="#7F606060" Offset="1" />
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Rectangle Height="6"
+                           Opacity="0.6"
+                           VerticalAlignment="Top"
+                           Margin="0,30,0,0">
+                    <Rectangle.Fill>
+                        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0" SpreadMethod="Repeat">
+                            <GradientStop Color="#19606060" Offset="0" />
+                            <GradientStop Color="#19606060" Offset="0.16" />
+                            <GradientStop Color="#4C606060" Offset="0.17" />
+                            <GradientStop Color="#4C606060" Offset="0.33" />
+                            <GradientStop Color="#7F606060" Offset="0.34" />
+                            <GradientStop Color="#7F606060" Offset="0.5" />
+                            <GradientStop Color="#19606060" Offset="0.51" />
+                            <GradientStop Color="#19606060" Offset="0.66" />
+                            <GradientStop Color="#4C606060" Offset="0.67" />
+                            <GradientStop Color="#4C606060" Offset="0.83" />
+                            <GradientStop Color="#7F606060" Offset="0.84" />
+                            <GradientStop Color="#7F606060" Offset="1" />
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Rectangle Height="6"
+                           Opacity="0.6"
+                           VerticalAlignment="Top"
+                           Margin="0,36,0,0">
+                    <Rectangle.Fill>
+                        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0" SpreadMethod="Repeat">
+                            <GradientStop Color="#19606060" Offset="0" />
+                            <GradientStop Color="#19606060" Offset="0.16" />
+                            <GradientStop Color="#4C606060" Offset="0.17" />
+                            <GradientStop Color="#4C606060" Offset="0.33" />
+                            <GradientStop Color="#7F606060" Offset="0.34" />
+                            <GradientStop Color="#7F606060" Offset="0.5" />
+                            <GradientStop Color="#19606060" Offset="0.51" />
+                            <GradientStop Color="#19606060" Offset="0.66" />
+                            <GradientStop Color="#4C606060" Offset="0.67" />
+                            <GradientStop Color="#4C606060" Offset="0.83" />
+                            <GradientStop Color="#7F606060" Offset="0.84" />
+                            <GradientStop Color="#7F606060" Offset="1" />
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Grid>
+            <StackPanel HorizontalAlignment="Right"
+                        Orientation="Horizontal"
+                        Grid.Column="1">
+                <Button Content="{Binding Strings.Save_Layout, Source={StaticResource LocalizedResources}}"
+                        x:Name="saveLayoutBtn" Visibility="Collapsed"
+                        Click="saveLayoutBtn_Click"
+                        Style="{DynamicResource GenericButtonStyle}"
+                        VerticalAlignment="Center"
+                        Margin="0,0,13,0" />
+                <Button
+                        Content="{Binding Strings.About, Source={StaticResource LocalizedResources}}"
+                        x:Name="AboutBtn"
+                        Click="ShowAbout_Click"
+                        Style="{DynamicResource GenericButtonStyle}"
+                        VerticalAlignment="Center"
+                        Margin="0,0,13,0" />
+            </StackPanel>
+        </Grid>
+
+        <ig:XamTileManager Grid.Row="1" x:Name="TileManager"
+                                 HeaderPath="Text"
+                                 TileDragging="OnTileManager_TileDragging"
+                                 TileStateChanging="OnTileManager_TileStateChanging"
+                                 AnimationStarted="OnTileManager_AnimationStarted"
+                                 AnimationEnded="OnTileManager_AnimationEnded"
+                                 Loaded="xamTilesControl1_Loaded"
+                                 Background="#FF2D2D2D">
+            <ig:XamTileManager.NormalModeSettings>
+                <ig:NormalModeSettings TileLayoutOrder="UseExplicitRowColumnOnTile"
+                                            MaxColumns="2" 
+                                            MaxRows="4"
+                                            VerticalTileAreaAlignment="Stretch"
+                                            HorizontalTileAreaAlignment="Stretch" />
+            </ig:XamTileManager.NormalModeSettings>
+            <ig:XamTileManager.MaximizedModeSettings>
+                <ig:MaximizedModeSettings AllowTileDragging="Swap"
+                                               MaximizedTileLocation="Left"
+                                               MinimizedTileExpansionMode="AllowMultiple"
+                                               VerticalTileAreaAlignment="Stretch"
+                                               HorizontalTileAreaAlignment="Stretch">
+                    <ig:MaximizedModeSettings.MinimizedTileConstraints>
+                        <ig:TileConstraints PreferredWidth = "160"/>
+                    </ig:MaximizedModeSettings.MinimizedTileConstraints>
+                    <ig:MaximizedModeSettings.MinimizedExpandedTileConstraints>
+                        <ig:TileConstraints PreferredWidth = "160" MaxHeight="300"/>
+                    </ig:MaximizedModeSettings.MinimizedExpandedTileConstraints>
+                </ig:MaximizedModeSettings>
+            </ig:XamTileManager.MaximizedModeSettings>
+
+            <ig:XamTile x:Name="portfolioMgrTile"
+                              Header="{Binding Strings.Portfolio_Manager, Source={StaticResource LocalizedResources}}"
+                                ig:XamTileManager.Column="1"
+                                ig:XamTileManager.Row="0"
+                                ig:XamTileManager.RowSpan="2"
+                              Style="{DynamicResource TileStyle1}">
+                <ig:XamTile.ContentTemplate>
+                    <DataTemplate>
+                        <!--Portfolio manager grid-->
+                        <ContentPresenter Content="{StaticResource portfolioMgr}" />
+                    </DataTemplate>
+                </ig:XamTile.ContentTemplate>
+                <ig:XamTile.ContentTemplateMinimized>
+                    <DataTemplate>
+                        <Button Content="Button" 
+                                    Command="{Binding Path=TileMaximizeCommand, ElementName=RootWindow}"
+                                    CommandParameter="{Binding ElementName=portfolioMgrTile}"
+                                    Style="{DynamicResource TileIcon_PortfolioManager}" />
+                    </DataTemplate>
+                </ig:XamTile.ContentTemplateMinimized>
+            </ig:XamTile>
+            <ig:XamTile x:Name="realtimeStocksTile"
+                          ig:XamTileManager.Column="0"
+                          ig:XamTileManager.Row="0"
+                          Header="{Binding Strings.RealTime_Stocks, Source={StaticResource LocalizedResources}}"
+                          Style="{StaticResource TileStyle1}">
+                <ig:XamTile.ContentTemplate>
+                    <DataTemplate>
+                        <!--Real-time Stocks grid-->
+                        <ContentPresenter Content="{StaticResource realtimeStocksControl}" />
+                    </DataTemplate>
+                </ig:XamTile.ContentTemplate>
+                <ig:XamTile.ContentTemplateMinimized>
+                    <DataTemplate>
+                        <Button Content="Button" 
+                                Command="{Binding Path=TileMaximizeCommand, ElementName=RootWindow}"
+                                CommandParameter="{Binding ElementName=realtimeStocksTile}"
+                                Style="{DynamicResource TileIcon_RealTimeStocks}" />
+                    </DataTemplate>
+                </ig:XamTile.ContentTemplateMinimized>
+            </ig:XamTile>
+            <ig:XamTile x:Name="msgsListTile"
+                          Header="{Binding Strings.Messages, Source={StaticResource LocalizedResources}}"
+                          ig:XamTileManager.Column="0"
+                          ig:XamTileManager.Row="3"
+                          Style="{StaticResource TileStyle1}">
+                <ig:XamTile.ContentTemplate>
+                    <DataTemplate>
+                        <ContentPresenter Content="{StaticResource msgsListBox}" />
+                    </DataTemplate>
+                </ig:XamTile.ContentTemplate>
+                <ig:XamTile.ContentTemplateMinimized>
+                    <DataTemplate>
+                        <Button Content="Button"
+                                Command="{Binding Path=TileMaximizeCommand, ElementName=RootWindow}"
+                                CommandParameter="{Binding ElementName=msgsListTile}"
+                                Style="{DynamicResource TileIcon_Message}" />
+                    </DataTemplate>
+                </ig:XamTile.ContentTemplateMinimized>
+            </ig:XamTile>
+            <ig:XamTile x:Name="stockAnalysisTile"
+                          Header="{Binding Strings.Stock_Analysis, Source={StaticResource LocalizedResources}}"
+                          ig:XamTileManager.Column="0"
+                          ig:XamTileManager.Row="1"
+                          ig:XamTileManager.RowSpan="2"
+                          Style="{StaticResource TileStyle1}">
+                <!-- End Stock Analysis -->
+                <ig:XamTile.ContentTemplate>
+                    <DataTemplate>
+                        <ContentPresenter Content="{StaticResource stockAnalysisNormal}" />
+                    </DataTemplate>
+                </ig:XamTile.ContentTemplate>
+                <ig:XamTile.ContentTemplateMaximized>
+                    <DataTemplate>
+                        <ContentPresenter Content="{StaticResource stockAnalysisMaximized}" />
+                    </DataTemplate>
+                </ig:XamTile.ContentTemplateMaximized>
+                <ig:XamTile.ContentTemplateMinimized>
+                    <DataTemplate>
+                        <Button Content="Button"
+                                Command="{Binding Path=TileMaximizeCommand, ElementName=RootWindow}"
+                                CommandParameter="{Binding ElementName=stockAnalysisTile}"
+                                Style="{DynamicResource TileIcon_StocksAnalysis}" />
+                    </DataTemplate>
+                </ig:XamTile.ContentTemplateMinimized>
+            </ig:XamTile>
+            <ig:XamTile x:Name="transactionHistoryTile"
+                          Header="{Binding Strings.Trade_History, Source={StaticResource LocalizedResources}}"
+                          ig:XamTileManager.Column="1"
+                          ig:XamTileManager.Row="2"
+                          Style="{StaticResource TileStyle1}">
+                <ig:XamTile.ContentTemplate>
+                    <DataTemplate>
+                        <!--Transaction history grid-->
+                        <ContentPresenter Content="{StaticResource transactionHistoryControl}" />
+                    </DataTemplate>
+                </ig:XamTile.ContentTemplate>
+                <ig:XamTile.ContentTemplateMinimized>
+                    <DataTemplate>
+                        <Button Content="Button"
+                                Command="{Binding Path=TileMaximizeCommand, ElementName=RootWindow}"
+                                CommandParameter="{Binding ElementName=transactionHistoryTile}"
+                                Style="{DynamicResource TileIcon_TradeHistory}" />
+                    </DataTemplate>
+                </ig:XamTile.ContentTemplateMinimized>
+            </ig:XamTile>
+            <ig:XamTile x:Name="newsTile"
+                          Header="{Binding Strings.News, Source={StaticResource LocalizedResources}}"
+                          ig:XamTileManager.Column="1"
+                          ig:XamTileManager.Row="3"
+                          Style="{StaticResource TileStyle1}">
+                <ig:XamTile.ContentTemplate>
+                    <DataTemplate>
+                        <ContentPresenter Content="{StaticResource newsListBox}" />
+                    </DataTemplate>
+                </ig:XamTile.ContentTemplate>
+                <ig:XamTile.ContentTemplateMinimized>
+                    <DataTemplate>
+                        <Button Content="Button"
+                                Command="{Binding Path=TileMaximizeCommand, ElementName=RootWindow}"
+                                CommandParameter="{Binding ElementName=newsTile}"
+                                Style="{DynamicResource TileIcon_News}" />
+                    </DataTemplate>
+                </ig:XamTile.ContentTemplateMinimized>
+            </ig:XamTile>
+        </ig:XamTileManager>
+
+        <!--Buy/Sell dialog window-->
+        <ig:XamDialogWindow Grid.RowSpan="2"
+                            Header="{Binding Strings.Execute_Transaction, Source={StaticResource LocalizedResources}}"
+                            x:Name="BuySellDialogWindow"
+                            WindowState="Hidden"
+                            Width="500" MinHeight="235"
+                            IsModal="True"
+                            IsResizable="False"
+							IsMoveable="False"
+							MinimizeButtonVisibility="Collapsed"
+							MaximizeButtonVisibility="Collapsed"
+                            StartupPosition="Center"
+                          DataContext="{x:Null}"  Style="{DynamicResource XamDialogWindowStyle1}" >
+            <controls:BuySellDialogContent />
+        </ig:XamDialogWindow>
+        
+        <!--About dialog window-->
+        <ig:XamDialogWindow Grid.RowSpan="2"
+                            Header="{Binding Strings.About, Source={StaticResource LocalizedResources}}"
+                            x:Name="AboutDialogWindow"
+                            WindowState="Hidden"
+                            Width="500" MinHeight="350"
+                            IsModal="True"
+                            IsResizable="False"
+							IsMoveable="False"
+							MinimizeButtonVisibility="Collapsed"
+							MaximizeButtonVisibility="Collapsed"
+                            StartupPosition="Center"
+                            DataContext="{x:Null}"  Style="{DynamicResource XamDialogWindowStyle1}">
+            <controls:AboutDialog/>
+        </ig:XamDialogWindow>
+    </Grid>
+</Window>

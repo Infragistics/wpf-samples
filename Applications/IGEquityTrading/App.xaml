@@ -1,0 +1,333 @@
+﻿<Application xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="clr-namespace:IGTrading.Converters"
+             xmlns:sw="clr-namespace:System.Windows;assembly=PresentationFramework"
+             xmlns:igDP="http://infragistics.com/DataPresenter"
+             xmlns:vm="clr-namespace:IGTrading.ViewModels"
+             xmlns:ig="http://schemas.infragistics.com/xaml"
+             xmlns:controls="clr-namespace:IGTrading.Controls"
+             xmlns:igEditors="http://infragistics.com/Editors"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:loc="clr-namespace:IGTrading.Assets.LocalizedResources" mc:Ignorable="d"
+             x:Class="IGTrading.App"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+                <!--<ResourceDictionary Source="/IGTrading;component/Assets/Styles/CommonBrushes.xaml" />-->
+                <!--<ResourceDictionary Source="/IGTrading;component/Assets/Styles/CommonStyles.xaml" />-->
+                <ResourceDictionary Source="/IGTrading;component/Assets/Styles.xaml" />
+                <!--<ResourceDictionary Source="/IGTrading;component/Assets/DarkStyles.xaml" />-->
+
+                <ResourceDictionary Source="/IGTrading;component/Assets/Styles/CommonBrushes.xaml" />
+                <ResourceDictionary Source="/IGTrading;component/Assets/Styles/CommonStyles.xaml" />
+                <ResourceDictionary Source="/IGTrading;component/Assets/Styles/XamEditorStyles.xaml" />
+                <ResourceDictionary Source="/IGTrading;component/Assets/Styles/XamTileStyles.xaml" />
+                <ResourceDictionary Source="/IGTrading;component/Assets/Styles/XamWindowsStyles.xaml" />
+                <ResourceDictionary Source="/IGTrading;component/Assets/Styles/XamDataPresenterStyles.xaml" />
+                <ResourceDictionary Source="/IGTrading;component/Assets/Styles/XamTabControlStyles.xaml" />
+                <ResourceDictionary Source="/IGTrading;component/Assets/Styles/XamDialogWindowStyles.xaml" />
+                <ResourceDictionary Source="/IGTrading;component/Assets/Styles/XamTreemapStyles.xaml" />
+                <ResourceDictionary Source="/IGTrading;component/Assets/Styles/XamZoombarStyles.xaml" />
+ 
+            </ResourceDictionary.MergedDictionaries>
+            <!--<loc:LocalizedResources x:Key="LocalizedResources"/>-->
+            <vm:HeatmapViewModel x:Key="heatmapViewModel" />
+            <vm:StockViewModel x:Key="stockViewModel">
+                <vm:StockViewModel.StockColors>
+                    <ig:BrushCollection>
+                        <SolidColorBrush Color="#FF00BAE8" />
+                        <SolidColorBrush Color="#FFFF8A13" />
+                        <SolidColorBrush Color="#FFFF535F" />
+                        <SolidColorBrush Color="#FFB866FF" />
+                        <SolidColorBrush Color="#FFFFBF33" />
+                        <SolidColorBrush Color="#FF0186CE" />
+                        <SolidColorBrush Color="#FFAECA13" />
+                        <SolidColorBrush Color="#FF3DD4A7" />
+                        <SolidColorBrush Color="#FF884BD4" />
+                    </ig:BrushCollection>
+                </vm:StockViewModel.StockColors>
+            </vm:StockViewModel>
+
+          
+            <!-- Chart type: Line Series -->
+            <controls:SeriesTemplateSelector x:Key="StockValueChartTypeTemplateSelector">
+                <controls:SeriesTemplateSelector.LineChartTemplate>
+                    <DataTemplate>
+                        <ig:LineSeries ItemsSource="{Binding FilteredData, Mode=OneWay}"
+                                       ValueMemberPath="Close"
+                                       Brush="{Binding Brush}"
+                                       XAxis="{Binding ElementName=xStockValue}"
+                                       YAxis="{Binding ElementName=yStockValue}"
+                                       MarkerType="None"
+                                       FontFamily="Arial"
+                                       Margin="0" />
+                    </DataTemplate>
+                </controls:SeriesTemplateSelector.LineChartTemplate>
+
+                <!-- Chart type: O-H-L-C -->
+                <controls:SeriesTemplateSelector.OHLCChartTemplate>
+                    <DataTemplate>
+                        <ig:FinancialPriceSeries ItemsSource="{Binding FilteredData, Mode=OneWay}"
+                                                 DisplayType="OHLC"
+                                                 HighMemberPath="High"
+                                                 LowMemberPath="Low"
+                                                 OpenMemberPath="Open"
+                                                 CloseMemberPath="Close"
+                                                 Brush="{Binding Brush}"
+																								 NegativeBrush="#FF979797"
+                                                 XAxis="{Binding ElementName=xStockValue}"
+                                                 YAxis="{Binding ElementName=yStockValue}"
+                                                 FontFamily="Arial"
+                                                 Margin="0" />
+                    </DataTemplate>
+                </controls:SeriesTemplateSelector.OHLCChartTemplate>
+
+                <!-- Chart type: Area -->
+                <controls:SeriesTemplateSelector.AreaChartTemplate>
+                    <DataTemplate>
+                        <ig:AreaSeries ItemsSource="{Binding FilteredData, Mode=OneWay}"
+                                       ValueMemberPath="Close"
+                                       Brush="{Binding Brush}"
+                                       XAxis="{Binding ElementName=xStockValue}"
+                                       YAxis="{Binding ElementName=yStockValue}"
+                                       MarkerType="None"
+                                       FontFamily="Arial"
+                                       Margin="0" />
+                    </DataTemplate>
+                </controls:SeriesTemplateSelector.AreaChartTemplate>
+
+                <!-- Chart type: CandelStick -->
+                <controls:SeriesTemplateSelector.CandleStickTemplate>
+                    <DataTemplate>
+                        <ig:FinancialPriceSeries ItemsSource="{Binding FilteredData, Mode=OneWay}"
+                                                 DisplayType="Candlestick"
+                                                 HighMemberPath="High"
+                                                 LowMemberPath="Low"
+                                                 OpenMemberPath="Open"
+                                                 CloseMemberPath="Close"
+                                                 Brush="{Binding Brush}"
+																								 NegativeBrush="#FF979797"
+																								 Outline="#FF686868" Thickness="1"
+                                                 XAxis="{Binding ElementName=xStockValue}"
+                                                 YAxis="{Binding ElementName=yStockValue}"
+                                                 FontFamily="Arial"
+                                                 Margin="0" />
+                    </DataTemplate>
+                </controls:SeriesTemplateSelector.CandleStickTemplate>
+            </controls:SeriesTemplateSelector>
+
+            <!-- Financial indicator: Average Directional Index Indicator-->
+            <DataTemplate x:Key="FinancialIndicatorSeriesTemplate">
+                <ig:AverageDirectionalIndexIndicator ItemsSource="{Binding FilteredData, Mode=OneWay}"
+                                                     HighMemberPath="High"
+                                                     LowMemberPath="Low"
+                                                     OpenMemberPath="Open"
+                                                     CloseMemberPath="Close"
+                                                     VolumeMemberPath="Volume"
+                                                     Thickness="3"
+                                                     Brush="#FF66B233" NegativeBrush="#FFB81E1E"
+                                                     XAxis="{Binding ElementName=xStockValue}"
+                                                     YAxis="{Binding ElementName=yFinancialIndicator}"
+                                                     FontFamily="Arial"
+                                                     Margin="0" />
+            </DataTemplate>
+
+            <!-- Category X Axis: Single Series -->
+            <controls:AxisTemplateSelector x:Key="StockValueChartTypeXAxisTemplateSelector">
+                <controls:AxisTemplateSelector.SingleSeriesTemplate>
+                    <DataTemplate>
+                        <ig:CategoryXAxis x:Name="xStockValue"
+                                          ItemsSource="{Binding FilteredData, Mode=OneWay}"
+                                          Label="{}{Date:d}"
+                                          Strip="Transparent"
+                                          MajorStroke="#FF333333"
+                                          MinorStroke="#B2333333"
+                                          Stroke="#FF252525"
+                                          Margin="0"
+                                          Height="10"
+                                          VerticalAlignment="Bottom">
+                            <ig:CategoryXAxis.LabelSettings>
+                                <ig:AxisLabelSettings Extent="36"
+                                                      Location="OutsideBottom"
+                                                      VerticalAlignment="Center"
+                                                      Foreground="#CCCCCC"
+                                                      FontSize="12" />
+                            </ig:CategoryXAxis.LabelSettings>
+                        </ig:CategoryXAxis>
+                    </DataTemplate>
+                </controls:AxisTemplateSelector.SingleSeriesTemplate>
+            </controls:AxisTemplateSelector>
+
+            <!-- Category Y Axis: Single Series -->
+            <controls:AxisTemplateSelector x:Key="StockValueChartTypeYAxisTemplateSelector">
+                <controls:AxisTemplateSelector.SingleSeriesTemplate>
+                    <DataTemplate>
+                        <ig:NumericYAxis x:Name="yStockValue"
+                                         Strip="Transparent"
+                                         MajorStroke="#FF333333"
+                                         MinorStroke="#B2333333"
+                                         Stroke="#FF252525"
+                                         Margin="0">
+                            <ig:NumericYAxis.LabelSettings>
+                                <ig:AxisLabelSettings Foreground="#CCCCCC"
+                                                      FontFamily="Arial"
+                                                      FontSize="12"
+                                                      Extent="30"
+                                                      Location="OutsideLeft"
+                                                      Padding="0,35,0,20" />
+                            </ig:NumericYAxis.LabelSettings>
+                        </ig:NumericYAxis>
+                    </DataTemplate>
+                </controls:AxisTemplateSelector.SingleSeriesTemplate>
+            </controls:AxisTemplateSelector>
+
+            <!-- Financial Indicator Y Axis: Single Series -->
+            <controls:AxisTemplateSelector x:Key="FinancialIndicatorYAxisTemplateSelector">
+                <controls:AxisTemplateSelector.SingleSeriesTemplate>
+                    <DataTemplate>
+                        <ig:NumericYAxis x:Name="yFinancialIndicator"
+                                         Strip="Transparent"
+                                         MajorStroke="Transparent"
+                                         MinorStroke="Transparent"
+                                         Stroke="#FF252525"
+                                         Margin="0">
+                            <ig:NumericYAxis.LabelSettings>
+                                <ig:AxisLabelSettings Foreground="#CCCCCC"
+                                                      FontFamily="Arial"
+                                                      FontSize="12"
+                                                      Extent="30"
+                                                      Location="OutsideRight"
+                                                      Padding="0,35,0,20" />
+                            </ig:NumericYAxis.LabelSettings>
+                        </ig:NumericYAxis>
+                    </DataTemplate>
+                </controls:AxisTemplateSelector.SingleSeriesTemplate>
+            </controls:AxisTemplateSelector>
+
+            <!--Definition of the chart that is displayed in the Minimized Tile-->
+            <controls:DataChartEx x:Key="MiniStocksChart"
+                                  SeriesSource="{Binding SelectedStock}"
+                                  SeriesTemplateSelector="{StaticResource StockValueChartTypeTemplateSelector}"
+                                  FinancialIndicatorSeriesTemplate="{StaticResource FinancialIndicatorSeriesTemplate}"
+                                  AxisCategoryXTemplateSelector="{StaticResource StockValueChartTypeXAxisTemplateSelector}"
+                                  AxisCategoryYTemplateSelector="{StaticResource StockValueChartTypeYAxisTemplateSelector}"
+                                  AxisFinancialIndicatorYTemplateSelector="{StaticResource FinancialIndicatorYAxisTemplateSelector}"
+                                  SelectedChartType="{Binding SelectedChartType}"
+                                  DataContext="{StaticResource stockViewModel}"
+                                  HorizontalZoombarVisibility="Visible"
+                                  VerticalZoombarVisibility="Collapsed"
+                                  HorizontalZoomable="True"
+                                  ZoombarStyle="{StaticResource XamZoombarStyle2}"
+                                  Margin="0,0,0,10"  
+                                  PlotAreaBorderThickness="0" Background="Transparent"
+                                  PlotAreaBorderBrush="Transparent"
+                                  PlotAreaMinHeight="0"
+                                  PlotAreaMinWidth="0"
+                                  PlotAreaBackground="#FF161616"
+                                  Padding="0">
+                <ig:SyncManager.SyncSettings>
+                    <ig:SyncSettings SyncChannel="Group1"
+                                     SynchronizeHorizontally="True"
+                                     SynchronizeVertically="False" />
+                </ig:SyncManager.SyncSettings>
+            </controls:DataChartEx>
+
+            <Style x:Key="graphingCVPStyle"
+                   TargetType="{x:Type igDP:CellValuePresenter}">
+                <Setter Property="Background" Value="Black" />
+                <Setter Property="Margin" Value="0" />
+								<Setter Property="Padding" Value="0" />
+								<Setter Property="Height" Value="25" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type igDP:CellValuePresenter}">
+                            <Border Height="{TemplateBinding Height}" 
+                                    Background="{StaticResource CellItemNormalBackgroundBrush}" 
+                                    BorderBrush="{StaticResource CellItemNormalBorderBrush}" BorderThickness="0,0,1,1">
+                        		<sw:VisualStateManager.VisualStateGroups>
+                                    <sw:VisualStateGroup x:Name="CommonStates">
+                                        <sw:VisualState x:Name="Normal"/>
+                                        <sw:VisualState x:Name="Disabled"/>
+                                        <sw:VisualState x:Name="MouseOver"/>
+                                    </sw:VisualStateGroup>
+                                </sw:VisualStateManager.VisualStateGroups>
+                        		<Grid MaxWidth="133" Margin="0,1,5,0">
+                        			<Grid.ColumnDefinitions>
+                        				<ColumnDefinition Width="Auto" />
+                        				<ColumnDefinition Width="*" />
+                        			</Grid.ColumnDefinitions>
+                        			<Border Background="{x:Null}"
+                        				Margin="1"
+                        				CornerRadius="0"
+                        				SnapsToDevicePixels="True">
+                        				<Border BorderThickness="0,1,0,0"
+                        					BorderBrush="{x:Null}"
+                        					CornerRadius="0"
+                        					Margin="1,-4,1,1"
+                        					SnapsToDevicePixels="True" VerticalAlignment="Center">
+                        					<Label Content="{Binding Value, RelativeSource={RelativeSource TemplatedParent}}"
+                        						MinWidth="45"
+                        						Foreground="#FFFFFFFF" VerticalAlignment="Top" />
+                        				</Border>
+                        			</Border>
+                        			<controls:CellValueGrapher ValueHistory="{Binding ValueHistory, RelativeSource={RelativeSource TemplatedParent}}"
+                        				Background="Transparent"
+                        				Grid.Column="1"
+                        				MinHeight="20"
+                        				Margin="1,2,5,2"
+                        				PositiveSegmentBrush="#FF53A917"
+                        				NegativeSegmentBrush="#FFD82820"
+                        				Foreground="White" BorderBrush="#FFEBEBEB" NegativeTrendBrush="{x:Null}" PositiveTrendBrush="{x:Null}" />
+                        		</Grid>
+                        	</Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            
+            <LinearGradientBrush x:Key="GreenBrush"
+                                 EndPoint="0.49,1"
+                                 StartPoint="0.49,0">
+                <GradientStop Color="#FF448D13" />
+                <GradientStop Color="#FF2E600B" Offset="0.988"/>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="RedBrush"
+                                 StartPoint="0.50,0.25"
+                                 EndPoint="0.50,1.45">
+                <GradientStop Offset="1"
+                              Color="#FF6E0E0E" />
+                <GradientStop Color="#FF9A1C1C"/>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="LightBlueBrush"
+                                 StartPoint="0.50,0.25"
+                                 EndPoint="0.50,1.45">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Offset="0"
+                                      Color="LightBlue" />
+                        <GradientStop Offset="0.97"
+                                      Color="Blue" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <!-- Andrea's black style brushes for the grid conditional formatting
+            <SolidColorBrush x:Key="GreenBrush" Color="#FF33CC33"/>
+            <SolidColorBrush x:Key="RedBrush" Color="#FFB62B2B"/>
+            <SolidColorBrush x:Key="LightBlueBrush" Color="#FF787878"/>
+            -->
+            
+            <converters:ByteToBitmapConverter x:Key="ByteToBitmapConverter" />
+            <converters:StringComparisonToBoolValueConverter x:Key="StringComparisonToBoolValueConverter" />
+            <converters:PositiveNegativeBrushValueConverter x:Key="positiveNegativeBrushValueConverter"
+                                                            StockPositiveChangeColor="Green"
+                                                            StockNegativeChangeColor="Red" />
+			<converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+            <converters:DataItemIsSelectedStockValueConverter x:Key="selectedStockIsCheckedValueConverter" />
+            <!--<BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />-->
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

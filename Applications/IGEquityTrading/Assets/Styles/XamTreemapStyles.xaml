@@ -1,0 +1,344 @@
+﻿<ResourceDictionary    
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:ig="http://schemas.infragistics.com/xaml" 
+    xmlns:igBase="http://schemas.infragistics.com/xaml" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    mc:Ignorable="d" 
+    xmlns:win="clr-namespace:System.Windows;assembly=PresentationFramework" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.MergedDictionaries>
+        <!--<ResourceDictionary Source="/IGTrading;component/Assets/Styles/CommonBrushes.xaml" />-->
+        <!--<ResourceDictionary Source="/IGTrading;component/Assets/Styles/CommonStyles.xaml" />-->
+        <!--<ResourceDictionary Source="/IGTrading;component/Assets/Styles/CommonStyles.xaml" />-->
+    </ResourceDictionary.MergedDictionaries>
+
+
+    <!-- *********************************  XamTreemap Style  ********************************* -->
+    <Style TargetType="{x:Type ig:XamTreemap}">
+        <Setter Property="MinWidth" Value="10"/>
+        <Setter Property="MinHeight" Value="10"/>
+        <Setter Property="Background" Value="#FF5A5F63"/>
+        <Setter Property="BorderBrush">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                    <GradientStop Offset="0" Color="#FFCCD3D8"/>
+                    <GradientStop Offset="1" Color="#FF8C9194"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="BorderThickness" Value="1,1,1,0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ig:XamTreemap}">
+                    <ContentPresenter x:Name="RootElement"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!-- *********************************  TreemapNode Style  ********************************* -->
+    <Style TargetType="ig:TreemapNode">
+        <Setter Property="Fill" Value="{StaticResource HeaderHoverBackgroundBrush}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ig:TreemapNode">
+                    <ControlTemplate.Resources>
+                        <Storyboard x:Key="NodeHover">
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverlayBorder" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1"/>
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </ControlTemplate.Resources>
+                    <Border x:Name="border" Background="{TemplateBinding Fill}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <win:VisualStateManager.VisualStateGroups>
+                            <win:VisualStateGroup x:Name="CommonStates">
+                                <win:VisualState x:Name="Disabled"/>
+                                <win:VisualState x:Name="Normal"/>
+                                <win:VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0:0:0.2" From="0.15" Storyboard.TargetName="OverlayBorder" Storyboard.TargetProperty="(Border.Opacity)" To=".5"/>
+                                    </Storyboard>
+                                </win:VisualState>
+                                <win:VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverlayBorder" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="0.3"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </win:VisualState>
+                                <win:VisualState x:Name="ReadOnly"/>
+                            </win:VisualStateGroup>
+                            <win:VisualStateGroup x:Name="FocusStates">
+                                <win:VisualState x:Name="Focused"/>
+                                <win:VisualState x:Name="Unfocused"/>
+                            </win:VisualStateGroup>
+                        </win:VisualStateManager.VisualStateGroups>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border x:Name="OverlayBorder" Grid.RowSpan="3" Background="#4CFFFFFF" BorderBrush="#99FFFFFF" BorderThickness="1" Opacity="0"/>
+                            <TextBlock HorizontalAlignment="Center" Margin="2" FontWeight="Bold" Foreground="White" Text="{TemplateBinding Text}" TextWrapping="Wrap"/>
+                            <ig:NodesPanel x:Name="NodesPanel" Grid.Row="1" Background="Transparent"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <EventTrigger RoutedEvent="Mouse.MouseEnter" SourceName="border">
+                            <BeginStoryboard Storyboard="{StaticResource NodeHover}"/>
+                        </EventTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!-- *********************************  TreemapMarketNode Style  ********************************* -->
+    <Style x:Key="TreemapMarketNodeStyle" TargetType="ig:TreemapNode">
+        <Setter Property="Fill" Value="#FF161616"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ig:TreemapNode">
+                    <Border Background="{TemplateBinding Fill}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <win:VisualStateManager.VisualStateGroups>
+                            <win:VisualStateGroup x:Name="CommonStates">
+                                <win:VisualState x:Name="Disabled"/>
+                                <win:VisualState x:Name="Normal"/>
+                                <win:VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0:0:0.2" From="0.15" Storyboard.TargetName="OverlayBorder" Storyboard.TargetProperty="(Border.Opacity)" To=".5"/>
+                                    </Storyboard>
+                                </win:VisualState>
+                                <win:VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverlayBorder" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="0.3"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </win:VisualState>
+                                <win:VisualState x:Name="ReadOnly"/>
+                            </win:VisualStateGroup>
+                            <win:VisualStateGroup x:Name="FocusStates">
+                                <win:VisualState x:Name="Focused"/>
+                                <win:VisualState x:Name="Unfocused"/>
+                            </win:VisualStateGroup>
+                        </win:VisualStateManager.VisualStateGroups>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border x:Name="OverlayBorder" Grid.RowSpan="3" Background="#4CFFFFFF" BorderBrush="#99FFFFFF" BorderThickness="1" Opacity="0"/>
+                            <TextBlock HorizontalAlignment="Left" Margin="7,5" FontSize="14" Foreground="White" Text="{TemplateBinding Text}" TextWrapping="Wrap"/>
+                            <ig:NodesPanel x:Name="NodesPanel" Grid.Row="1" Background="Transparent"/>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!-- *********************************  TreemapSectorNode Style  ********************************* -->
+    <Style x:Key="TreemapSectorNodeStyle" TargetType="ig:TreemapNode">
+        <Setter Property="Fill" Value="{StaticResource FilterCellFill}"/>
+        <Setter Property="BorderBrush" Value="#FF2e2e2e"/>
+        <Setter Property="BorderThickness" Value="0.5"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ig:TreemapNode">
+                    <Border Background="{TemplateBinding Fill}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" ToolTipService.InitialShowDelay="0">
+                        <win:VisualStateManager.VisualStateGroups>
+                            <win:VisualStateGroup x:Name="CommonStates">
+                                <win:VisualState x:Name="Disabled"/>
+                                <win:VisualState x:Name="Normal"/>
+                                <win:VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0:0:0.2" From="0.15" Storyboard.TargetName="OverlayBorder" Storyboard.TargetProperty="(Border.Opacity)" To=".5"/>
+                                    </Storyboard>
+                                </win:VisualState>
+                                <win:VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverlayBorder" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="0.3"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </win:VisualState>
+                                <win:VisualState x:Name="ReadOnly"/>
+                            </win:VisualStateGroup>
+                            <win:VisualStateGroup x:Name="FocusStates">
+                                <win:VisualState x:Name="Focused"/>
+                                <win:VisualState x:Name="Unfocused"/>
+                            </win:VisualStateGroup>
+                        </win:VisualStateManager.VisualStateGroups>
+                        <Border.ToolTip>
+                            <ToolTip Placement="Right">
+                                <ToolTip.Template>
+                                    <ControlTemplate>
+                                        <Border Background="#E5121212" BorderThickness="1" CornerRadius="4">
+                                            <Border.Effect>
+                                                <DropShadowEffect BlurRadius="10" Opacity="0.6"/>
+                                            </Border.Effect>
+                                            <Border.BorderBrush>
+                                                <LinearGradientBrush StartPoint="0.50,1.04" EndPoint="0.50,0.04">
+                                                    <GradientStop Offset="0.60" Color="#9900CCFF"/>
+                                                    <GradientStop Offset="0.97" Color="#FF00CCFF"/>
+                                                    <GradientStop Offset="0.02" Color="#3300CCFF"/>
+                                                </LinearGradientBrush>
+                                            </Border.BorderBrush>
+                                            <Grid Margin="10">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" FontWeight="Bold" Foreground="#FF00BFEE" Text="{Binding Description}"/>
+                                                <TextBlock Grid.Column="0" Grid.Row="1" Foreground="#FFAFAFAF" Text="{Binding Strings.Change, Source={StaticResource Strings}, Mode=OneTime}"/>
+                                                <TextBlock Grid.Column="0" Grid.Row="2" Foreground="#FFAFAFAF" Text="{Binding Strings.Market_Cap, Source={StaticResource Strings}, Mode=OneTime}"/>
+                                                <TextBlock Grid.Column="0" Grid.Row="3" Foreground="#FFAFAFAF" Text="{Binding Strings.PE, Source={StaticResource Strings}, Mode=OneTime}"/>
+                                                <TextBlock Grid.Column="0" Grid.Row="4" Foreground="#FFAFAFAF" Text="{Binding Strings.ROE, Source={StaticResource Strings}, Mode=OneTime}"/>
+                                                <TextBlock Grid.Column="0" Grid.Row="5" Foreground="#FFAFAFAF" Text="{Binding Strings.Div_Yield, Source={StaticResource Strings}, Mode=OneTime}"/>
+                                                <TextBlock Grid.Column="0" Grid.Row="6" Foreground="#FFAFAFAF" Text="{Binding Strings.Price_to_Book, Source={StaticResource Strings}, Mode=OneTime}"/>
+                                                <TextBlock Grid.Column="0" Grid.Row="7" Foreground="#FFAFAFAF" Text="{Binding Strings.Price_to_Free_Cash_Flow, Source={StaticResource Strings}, Mode=OneTime}"/>
+                                                <TextBlock Grid.Column="0" Grid.Row="8" Foreground="#FFAFAFAF" Text="{Binding Strings.Net_Profit_Margin, Source={StaticResource Strings}, Mode=OneTime}"/>
+                                                <TextBlock Grid.Column="1" Grid.Row="1" Margin="5,0,0,0" Foreground="White" Text="{Binding ChangeValue, TargetNullValue=NA, StringFormat=\{0:0.00\%\}}"/>
+                                                <TextBlock Grid.Column="1" Grid.Row="2" Margin="5,0,0,0" Foreground="White" Text="{Binding MarketCap, TargetNullValue=NA}"/>
+                                                <TextBlock Grid.Column="1" Grid.Row="3" Margin="5,0,0,0" Foreground="White" Text="{Binding PEValue, TargetNullValue=NA, StringFormat=\{0:0.00\}}"/>
+                                                <TextBlock Grid.Column="1" Grid.Row="4" Margin="5,0,0,0" Foreground="White" Text="{Binding ROEValue, TargetNullValue=NA, StringFormat=\{0:0.00\%\}}"/>
+                                                <TextBlock Grid.Column="1" Grid.Row="5" Margin="5,0,0,0" Foreground="White" Text="{Binding DivYieldValue, TargetNullValue=NA, StringFormat=\{0:0.00\%\}}"/>
+                                                <TextBlock Grid.Column="1" Grid.Row="6" Margin="5,0,0,0" Foreground="White" Text="{Binding PriceToBookValue, TargetNullValue=NA, StringFormat=\{0:0.00\}}"/>
+                                                <TextBlock Grid.Column="1" Grid.Row="7" Margin="5,0,0,0" Foreground="White" Text="{Binding PriceToFreeCashFlowValue, TargetNullValue=NA, StringFormat=\{0:0.00\}}"/>
+                                                <TextBlock Grid.Column="1" Grid.Row="8" Foreground="White" Text="{Binding NetProfitMarginValue, TargetNullValue=NA, StringFormat=\{0:0.00\}}"/>
+                                            </Grid>
+                                        </Border>
+                                    </ControlTemplate>
+                                </ToolTip.Template>
+                            </ToolTip>
+                        </Border.ToolTip>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border x:Name="OverlayBorder" Grid.RowSpan="3" Background="#4CFFFFFF" BorderBrush="#99FFFFFF" BorderThickness="1" Opacity="0"/>
+                            <TextBlock HorizontalAlignment="Left" Margin="7,3,7,3" FontSize="13" Foreground="#FF141414" Text="{TemplateBinding Text}" TextWrapping="Wrap"/>
+                            <ig:NodesPanel x:Name="NodesPanel" Grid.Row="1" Margin="0,0,0.5,0"/>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!-- *********************************  TreemapIndustryNode Style  ********************************* -->
+    <Style x:Key="TreemapIndustryNodeStyle" TargetType="ig:TreemapNode">
+        <Setter Property="Fill" Value="{StaticResource BaseOverlayBrush}"/>
+        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="Foreground" Value="{StaticResource BaseColorBrush}"/>
+        <Setter Property="BorderThickness" Value="0.1"/>
+        <Setter Property="Padding" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ig:TreemapNode">
+                    <Border Background="{TemplateBinding Fill}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" ToolTipService.InitialShowDelay="0">
+                        <win:VisualStateManager.VisualStateGroups>
+                            <win:VisualStateGroup x:Name="CommonStates">
+                                <win:VisualState x:Name="Disabled"/>
+                                <win:VisualState x:Name="Normal"/>
+                                <win:VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0:0:0.2" From="0.15" Storyboard.TargetName="OverlayBorder" Storyboard.TargetProperty="(Border.Opacity)" To=".5"/>
+                                    </Storyboard>
+                                </win:VisualState>
+                                <win:VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverlayBorder" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="0.3"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </win:VisualState>
+                                <win:VisualState x:Name="ReadOnly"/>
+                            </win:VisualStateGroup>
+                            <win:VisualStateGroup x:Name="FocusStates">
+                                <win:VisualState x:Name="Focused"/>
+                                <win:VisualState x:Name="Unfocused"/>
+                            </win:VisualStateGroup>
+                        </win:VisualStateManager.VisualStateGroups>
+                        <Border.ToolTip>
+                            <ToolTip Placement="Right">
+                                <ToolTip.Template>
+                                    <ControlTemplate>
+                                        <Border Background="#E5121212" BorderThickness="1" CornerRadius="4">
+                                            <Border.Effect>
+                                                <DropShadowEffect BlurRadius="10" Opacity="0.6"/>
+                                            </Border.Effect>
+                                            <Border.BorderBrush>
+                                                <LinearGradientBrush StartPoint="0.50,1.04" EndPoint="0.50,0.04">
+                                                    <GradientStop Offset="0.60" Color="#9900CCFF"/>
+                                                    <GradientStop Offset="0.97" Color="#FF00CCFF"/>
+                                                    <GradientStop Offset="0.02" Color="#3300CCFF"/>
+                                                </LinearGradientBrush>
+                                            </Border.BorderBrush>
+                                            <Grid Margin="10">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" FontWeight="Bold" Foreground="#FF00BFEE" Text="{Binding Description}"/>
+                                                <TextBlock Grid.Column="0" Grid.Row="1" Foreground="#FFAFAFAF" Text="{Binding Strings.Change, Source={StaticResource Strings}, Mode=OneTime}"/>
+                                                <TextBlock Grid.Column="0" Grid.Row="2" Foreground="#FFAFAFAF" Text="{Binding Strings.Market_Cap, Source={StaticResource Strings}, Mode=OneTime}"/>
+                                                <TextBlock Grid.Column="0" Grid.Row="3" Foreground="#FFAFAFAF" Text="{Binding Strings.PE, Source={StaticResource Strings}, Mode=OneTime}"/>
+                                                <TextBlock Grid.Column="0" Grid.Row="4" Foreground="#FFAFAFAF" Text="{Binding Strings.ROE, Source={StaticResource Strings}, Mode=OneTime}"/>
+                                                <TextBlock Grid.Column="0" Grid.Row="5" Foreground="#FFAFAFAF" Text="{Binding Strings.Div_Yield, Source={StaticResource Strings}, Mode=OneTime}"/>
+                                                <TextBlock Grid.Column="0" Grid.Row="6" Foreground="#FFAFAFAF" Text="{Binding Strings.Price_to_Book, Source={StaticResource Strings}, Mode=OneTime}"/>
+                                                <TextBlock Grid.Column="0" Grid.Row="7" Foreground="#FFAFAFAF" Text="{Binding Strings.Price_to_Free_Cash_Flow, Source={StaticResource Strings}, Mode=OneTime}"/>
+                                                <TextBlock Grid.Column="0" Grid.Row="8" Foreground="#FFAFAFAF" Text="{Binding Strings.Net_Profit_Margin, Source={StaticResource Strings}, Mode=OneTime}"/>
+                                                <TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Margin="5,0,0,0" Foreground="White" Text="{Binding ChangeValue, TargetNullValue=NA, StringFormat=\{0:0.00\%\}}"/>
+                                                <TextBlock Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Margin="5,0,0,0" Foreground="White" Text="{Binding MarketCap, TargetNullValue=NA}"/>
+                                                <TextBlock Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" Margin="5,0,0,0" Foreground="White" Text="{Binding PEValue, TargetNullValue=NA, StringFormat=\{0:0.00\}}"/>
+                                                <TextBlock Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left" Margin="5,0,0,0" Foreground="White" Text="{Binding ROEValue, TargetNullValue=NA, StringFormat=\{0:0.00\%\}}"/>
+                                                <TextBlock Grid.Column="1" Grid.Row="5" HorizontalAlignment="Left" Margin="5,0,0,0" Foreground="White" Text="{Binding DivYieldValue, TargetNullValue=NA, StringFormat=\{0:0.00\%\}}"/>
+                                                <TextBlock Grid.Column="1" Grid.Row="6" HorizontalAlignment="Left" Margin="5,0,0,0" Foreground="White" Text="{Binding PriceToBookValue, TargetNullValue=NA, StringFormat=\{0:0.00\}}"/>
+                                                <TextBlock Grid.Column="1" Grid.Row="7" HorizontalAlignment="Left" Margin="5,0,0,0" Foreground="White" Text="{Binding PriceToFreeCashFlowValue, TargetNullValue=NA, StringFormat=\{0:0.00\}}"/>
+                                                <TextBlock Grid.Column="1" Grid.Row="8" HorizontalAlignment="Left" Margin="5,0,0,0" Foreground="White" Text="{Binding NetProfitMarginValue, TargetNullValue=NA, StringFormat=\{0:0.00\}}"/>
+                                            </Grid>
+                                        </Border>
+                                    </ControlTemplate>
+                                </ToolTip.Template>
+                            </ToolTip>
+                        </Border.ToolTip>
+                        <Grid>
+                            <Border x:Name="OverlayBorder" Grid.RowSpan="3" Background="#4CFFFFFF" BorderBrush="#99FFFFFF" BorderThickness="1" Opacity="0"/>
+                            <TextBlock HorizontalAlignment="Center" Margin="3" VerticalAlignment="Center" FontSize="{TemplateBinding FontSize}" Foreground="White" Text="{TemplateBinding Text}" TextAlignment="Center" TextWrapping="Wrap"/>
+                            <igBase:NodesPanel x:Name="NodesPanel" Background="Transparent"/>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

@@ -1,0 +1,70 @@
+﻿<UserControl	
+    x:Class="MediaTimeline.Views.About"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:framework="clr-namespace:IGExtensions.Framework.Controls;assembly=IGExtensions.Framework" 
+	xmlns:exCommon="clr-namespace:IGExtensions.Common.Controls;assembly=IGExtensions.Common" 
+	mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="750" FontSize="10" >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot"  Background="{StaticResource AppInfoBackground}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Grid.ColumnSpan="2" Margin="-1,0,-1,0" VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="{StaticResource AppNavigationHeaderBackground}">
+
+            <exCommon:AppLogo HorizontalAlignment="Left" Margin="5,5,5,5" Height="60"
+                              AppName="{Binding Path=AppStrings.AppName, Source={StaticResource AssetsLocalizer}}"
+                              AppSubTitle="{Binding Path=AppStrings.AppSubTitle, Source={StaticResource AssetsLocalizer}}"
+                              AppImage="/IGExtensions.Common;component/Images/apps/IgMediaTimeline_Trans.png"/>
+
+        </Grid>
+
+        <StackPanel Grid.Row="1" Margin="0,20,0,0" Grid.Column="0"  HorizontalAlignment="Stretch" Orientation="Vertical" VerticalAlignment="Stretch" >
+            <TextBlock Text="{Binding Path=AppStrings.AboutText, Source={StaticResource AssetsLocalizer}, Mode=OneTime}" TextWrapping="Wrap" 
+                       Margin="25,0,50,0" Style="{StaticResource AboutTextStyle}"/>
+
+            <StackPanel HorizontalAlignment="Left" Orientation="Vertical" Margin="25,20,14,25" >
+                <Image  Stretch="Uniform" Height="42" Width="315" Source="/IGExtensions.Common;component/Assets/Images/IGLogo_notNegative.png" HorizontalAlignment="Left"/>
+
+                <StackPanel Orientation="Horizontal" Margin="0,8,0,0" HorizontalAlignment="Left" >
+                    <framework:NavigationButton x:Name="NavWebsiteButton"  
+                                               IsNavigationTargetExternal="true"
+								               NavigationUri="{Binding Path=CommonStrings.AppInfoWebsiteLink, Source={StaticResource AssetsLocalizer}}"
+                                               Content="{Binding Path=CommonStrings.AppInfoWebsiteTitle, Source={StaticResource AssetsLocalizer}}" 
+                                               Foreground="{StaticResource AppInfoForeground}" Margin="4" />
+                    <framework:NavigationButton x:Name="NavDownloadButton" 
+                                               IsNavigationTargetExternal="true"
+								               NavigationUri="{Binding Path=AppInfoDownloadLink, Source={StaticResource AssetsLocalizer}}"
+                                               Content="{Binding Path=CommonStrings.AppInfoDownloadTitle, Source={StaticResource AssetsLocalizer}}" 
+                                               Foreground="{StaticResource AppInfoForeground}" Margin="4"/>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,20,25,0" HorizontalAlignment="Left" Orientation="Vertical" VerticalAlignment="Stretch" >
+            <StackPanel Orientation="Vertical" x:Name="ComponentListPanel">
+                <TextBlock Text="{Binding Path=CommonStrings.AppUsedControls, Source={StaticResource AssetsLocalizer}, Mode=OneWay}" 
+							Margin="0,0,0,12" FontSize="14.667" Opacity="0.8" Style="{StaticResource AboutTextStyle}"/>
+                <exCommon:NavigationSampleLink Component="ResourceWasher" Foreground="{StaticResource ForegroundDark}"/>
+                <exCommon:NavigationSampleLink Component="DialogWindow" Foreground="{StaticResource ForegroundDark}"/>
+                <!--<exCommon:NavigationSampleLink Component="HtmlViewer" Foreground="{StaticResource ForegroundDark}"/>-->
+                <exCommon:NavigationSampleLink Component="Timeline" Foreground="{StaticResource ForegroundDark}"/>
+                <exCommon:NavigationSampleLink Component="Zoombar" Foreground="{StaticResource ForegroundDark}"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

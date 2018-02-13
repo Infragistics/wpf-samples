@@ -1,0 +1,35 @@
+﻿<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controlsToolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Toolkit" xmlns:ig="http://schemas.infragistics.com/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="MediaTimeline.Views.VideoWindowView">
+    <!--TODO: create wpf version of VideoWindowView and add to WPF project-->
+
+    <Grid x:Name="VideoWindow" Background="#B2000000">
+
+        <!-- Main Window - XamDialogWindow -->
+        <ig:XamDialogWindow x:Name="MainWindow" Width="590" Height="480" StartupPosition="Center" Header="{Binding Title}" RenderTransformOrigin="0.5,0.5" IsModal="True">
+            <ig:XamDialogWindow.RenderTransform>
+                <CompositeTransform />
+            </ig:XamDialogWindow.RenderTransform>
+
+            <Grid x:Name="LayoutRoot">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!-- Html Viewer -->
+                <ig:XamHtmlViewer x:Name="HtmlViewer" Grid.Row="0" />
+
+                <!-- Expander -->
+                <!-- The style has to be COMMENTED if editing in Blend -->
+                <!--<controlsToolkit:Expander x:Name="ExpanderDetails" Grid.Row="1" IsExpanded="True" DataContext="{Binding}" Style="{StaticResource ExpanderStyle1}">-->
+                <controlsToolkit:Expander x:Name="ExpanderDetails" Grid.Row="1" IsExpanded="True" DataContext="{Binding}">
+                    <controlsToolkit:Expander.Header>
+                        <TextBlock Text="{Binding Path=AppStrings.Details, Source={StaticResource AssetsLocalizer}, Mode=OneTime}" />
+                    </controlsToolkit:Expander.Header>
+
+                    <!-- HtmlViewerDetails -->
+                    <ig:XamHtmlViewer x:Name="HtmlViewerDetails" MinHeight="100" Margin="0,5,0,0" Padding="0" />
+                </controlsToolkit:Expander>
+            </Grid>
+        </ig:XamDialogWindow>
+    </Grid>
+</UserControl>

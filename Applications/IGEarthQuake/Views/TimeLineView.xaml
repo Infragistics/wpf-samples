@@ -1,0 +1,207 @@
+﻿<framework:NavigationPage 
+    x:Class="IGShowcase.EarthQuake.Views.TimeLineView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:IGShowcase.EarthQuake.ViewModels" 
+    xmlns:views="clr-namespace:IGShowcase.EarthQuake.Views" 
+    xmlns:ig="http://schemas.infragistics.com/xaml" 
+    xmlns:commonConverters="clr-namespace:IGExtensions.Common.Converters;assembly=IGExtensions.Common" 
+    xmlns:framework="clr-namespace:IGExtensions.Framework.Controls;assembly=IGExtensions.Framework" 
+    xmlns:ext="clr-namespace:IGExtensions.Framework.Extensions;assembly=IGExtensions.Framework" 
+    mc:Ignorable="d"
+    d:DataContext="{d:DesignData Source=../Assets/SampleData/TimeLineSampleData.xaml}" 
+    d:DesignHeight="480" d:DesignWidth="640"
+    Title="TimeLineView Page">
+    
+    <framework:NavigationPage.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<!--<ResourceDictionary Source="/IGShowcase.EarthQuake;component/Assets/Styles/TimelineStyles.xaml" />-->
+                
+				<!--<ResourceDictionary Source="/IGShowcase.EarthQuake;component/Assets/Images/EarthquakeIcon.xaml" />-->
+				<!--<ResourceDictionary Source="/IGShowcase.EarthQuake;component/Assets/MagnitudeGradient.xaml" />-->
+			</ResourceDictionary.MergedDictionaries>
+
+            <commonConverters:WarpGradientConverter x:Key="gradientConverter" />
+            <commonConverters:StringFormatConverter x:Key="stringFormatConverter" />
+
+			<!-- GroundShake - Storyboard -->
+            <Storyboard x:Key="StoryGroundShake">
+				<DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="timeLine" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)">
+					<EasingDoubleKeyFrame KeyTime="00:00:00.5000000" Value="-4"/>
+					<EasingDoubleKeyFrame KeyTime="00:00:00.6000000" Value="5"/>
+					<EasingDoubleKeyFrame KeyTime="00:00:00.7000000" Value="-5"/>
+					<EasingDoubleKeyFrame KeyTime="00:00:00.8000000" Value="5"/>
+					<EasingDoubleKeyFrame KeyTime="00:00:00.9000000" Value="-5"/>
+					<EasingDoubleKeyFrame KeyTime="00:00:01" Value="5"/>
+					<EasingDoubleKeyFrame KeyTime="00:00:01.1000000" Value="-5"/>
+					<EasingDoubleKeyFrame KeyTime="00:00:01.2000000" Value="5"/>
+					<EasingDoubleKeyFrame KeyTime="00:00:01.3000000" Value="-5"/>
+					<EasingDoubleKeyFrame KeyTime="00:00:01.4000000" Value="4"/>
+					<EasingDoubleKeyFrame KeyTime="00:00:01.6000000" Value="-3"/>
+					<EasingDoubleKeyFrame KeyTime="00:00:01.8000000" Value="2"/>
+					<EasingDoubleKeyFrame KeyTime="00:00:02" Value="-1"/>
+					<EasingDoubleKeyFrame KeyTime="00:00:02.1000000" Value="0"/>
+				</DoubleAnimationUsingKeyFrames>
+			</Storyboard>
+
+            <Storyboard x:Key="RightPanelExpanded">
+                <DoubleAnimation Storyboard.TargetName="RightPanelColumn" To="220" Duration="00:00:00.6">
+                    <DoubleAnimation.EasingFunction>
+                        <CircleEase EasingMode="EaseOut" />
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+            </Storyboard>
+            <Storyboard x:Key="RightPanelCollapsed">
+                <DoubleAnimation Storyboard.TargetName="RightPanelColumn" To="0" Duration="00:00:00.6">
+                    <DoubleAnimation.EasingFunction>
+                        <CircleEase EasingMode="EaseOut" />
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+            </Storyboard>
+            
+        </ResourceDictionary>
+    </framework:NavigationPage.Resources>
+
+    <framework:NavigationPage.DataContext>
+		<vm:TimeLineViewModel x:Name="timeLineViewModel"/>
+    </framework:NavigationPage.DataContext>
+
+	<Grid x:Name="LayoutRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition x:Name="RightPanelColumn" Width="*" ext:GridExtension.ColumnWidth="220"/>
+        </Grid.ColumnDefinitions>
+        <!-- Timeline       -->
+		<ig:XamTimeline x:Name="timeLine"  Grid.ColumnSpan="2"
+						   Background="{Binding Path=WarpGradientParameters, Converter={StaticResource gradientConverter}, ConverterParameter={StaticResource skyBrush}, Mode=OneWay}"
+						  Style="{StaticResource EarthquakeTimelineStyle}"
+						   RenderTransformOrigin="0.5,0.5" Margin="0,0,0,0" Padding="10,0,10,0">
+			<ig:XamTimeline.RenderTransform>
+				<TranslateTransform/>
+			</ig:XamTimeline.RenderTransform>
+            <!-- Timeline Axis      -->
+            <ig:XamTimeline.Axis>
+                <ig:DateTimeAxis AutoRange="False"  Style="{StaticResource EarthquakeAxisStyle}"
+								 ScrollPosition="{Binding Path=ScrollPosition,Mode=TwoWay}"
+								 ScrollScale="{Binding Path=ScrollScale,Mode=TwoWay}"
+								 Minimum="{Binding Path=MinTime, Mode=OneWay}" 
+								 Maximum="{Binding Path=MaxTime, Mode=OneWay}" 
+								 SelectedTime="{Binding Path=SelectedTime, Mode=TwoWay}"
+								/>
+			</ig:XamTimeline.Axis>
+            <!-- Timeline Series-->
+            <ig:XamTimeline.Series>
+                <ig:DateTimeSeries DataSource="{Binding Path=EarthQuakes, Mode=OneWay}" 
+								   DataMapping="Time=Updated;Details=Details; Title=Details" 
+								   Position="TopOrLeft">
+					<ig:DateTimeSeries.EventPointStyle>
+						<Style TargetType="ig:EventPoint">
+							<Setter Property="Width" Value="20" />
+							<Setter Property="Height" Value="20" />
+							<Setter Property="Template">
+								<Setter.Value>
+									<ControlTemplate TargetType="ig:EventPoint">
+										<ContentControl Width="20" 
+														Height="20" 
+														Background="{Binding Path=Details.Magnitude, Mode=OneWay, Converter={StaticResource MagnitudeColorConverter}, ConverterParameter={StaticResource EarthQuakeMarkerScaleBrush}, RelativeSource={RelativeSource TemplatedParent}}" 
+														Template="{StaticResource EarthQuakeIcon}" />
+									</ControlTemplate>
+								</Setter.Value>
+							</Setter>
+						</Style>
+					</ig:DateTimeSeries.EventPointStyle>
+					<ig:DateTimeSeries.EventTitleStyle>
+						<Style TargetType="ig:EventTitle">
+                            <Setter Property="MaxWidth" Value="300" />
+                            <Setter Property="LineStyle" Value="{StaticResource EventTitleLineStyle}" />
+							<Setter Property="Template">
+								<Setter.Value>
+									<ControlTemplate TargetType="ig:EventTitle">
+                                        <StackPanel MouseLeftButtonDown="StackPanel_MouseLeftButtonDown" Margin="0,5,0,5">
+                                            <Rectangle Height="1" Fill="#FFCCCCCC" Width="5" HorizontalAlignment="Left" />
+                                            <Border BorderThickness="0"
+                                                    BorderBrush="#7FFFFFFF"
+                                                    CornerRadius="4"
+                                                    Margin="2"
+                                                    Height="auto">
+                                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                    <TextBlock Text="{Binding Path=Magnitude, Mode=OneWay, Converter={StaticResource stringFormatConverter}, ConverterParameter='#0.0'}"
+                                                               Foreground="{Binding Path=Magnitude, Mode=OneWay, Converter={StaticResource MagnitudeColorConverter}, ConverterParameter={StaticResource EarthQuakeMarkerScaleBrush}}"
+                                                               Margin="5,0,0,0"  FontWeight="Bold" FontFamily="Arial" FontSize="28" TextWrapping="Wrap" />
+                                                    <Grid HorizontalAlignment="Stretch"  >
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto" />
+                                                            <RowDefinition Height="*" />
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Text="{Binding Path=Location, Mode=OneWay}" MaxWidth="160"
+                                                                   Margin="5,0,0,0"  Foreground="#FF666666"  FontFamily="Arial" FontSize="12" TextWrapping="Wrap" />
+                                                        <TextBlock Text="{Binding Path=Updated, Mode=OneWay}"
+                                                                   Grid.Row="1"  Margin="5,0,0,0"  Foreground="#FF666666" FontFamily="Arial"  FontSize="12" />
+                                                    </Grid>
+                                                </StackPanel>
+                                            </Border>
+                                            <Rectangle Height="1" Fill="#FFCCCCCC" Width="5" HorizontalAlignment="Left" />
+                                        </StackPanel>
+                                    </ControlTemplate>
+								</Setter.Value>
+							</Setter>
+						</Style>
+					</ig:DateTimeSeries.EventTitleStyle>
+                    
+					<ig:DateTimeSeries.EventDetailsStyle>
+						<Style TargetType="ig:EventDetails">
+                            <Setter Property="MaxWidth" Value="400" />
+							<Setter Property="HorizontalAlignment" Value="Center"/>
+							<Setter Property="Template">
+								<Setter.Value>
+									<ControlTemplate TargetType="ig:EventDetails">
+                                        <views:DetailsView DialogClosed="DetailsView_DialogClosed" VerticalAlignment="Bottom" Margin="0,0,0,0" DataContext="{Binding Path=Details}" />
+									</ControlTemplate>
+								</Setter.Value>
+							</Setter>
+						</Style>
+					</ig:DateTimeSeries.EventDetailsStyle>
+				</ig:DateTimeSeries>
+			</ig:XamTimeline.Series>
+		</ig:XamTimeline>
+
+        <!-- Filter Panel -->
+        <Grid x:Name="FiltersStack" Grid.Column="1" RenderTransformOrigin="0.5,0.5" Margin="0,10,0,10"  VerticalAlignment="Top" 
+              >
+
+            <Border Background="{StaticResource FilterBorderBackground}"
+                    BorderBrush="{StaticResource FilterBorderBrush}" 
+                    BorderThickness="1" CornerRadius="0,0,0,0" 
+                    HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Top">
+                <Grid Margin="10">
+
+                    <views:FilterView  DataContext="{Binding}" Background="Transparent"/>
+                </Grid>
+            </Border>
+        </Grid>
+        <Grid Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" Margin="0,10,0,10" VerticalAlignment="Top">
+            <!--<Rectangle Fill="{StaticResource SplitterBackgroundBrush}" 
+                        Width="3" HorizontalAlignment="Right" VerticalAlignment="Stretch"
+                        Margin="0,0,0,0" />-->
+            <ToggleButton x:Name="RightPanelToggleButton" 
+                          Click="RightPanelToggleButton_Click"
+                          Style="{StaticResource ToggleExpandButtonStyle}"
+                          Background="{StaticResource FilterBorderBackground}"
+                          BorderBrush="{StaticResource FilterBorderBrush}" 
+                          BorderThickness="1" Height="Auto" HorizontalAlignment="Right" Width="Auto" 
+                          RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" 
+                          d:LayoutRounding="Auto" VerticalAlignment="Top" 
+                          Margin="0,0,0,0" Canvas.ZIndex="1">
+                <ToggleButton.RenderTransform>
+                    <TransformGroup>
+                        <RotateTransform Angle="-90" />
+                    </TransformGroup>
+                </ToggleButton.RenderTransform>
+            </ToggleButton>
+        </Grid>
+
+    </Grid>
+</framework:NavigationPage>

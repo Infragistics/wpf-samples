@@ -1,0 +1,823 @@
+﻿<UserControl x:Class="IGTrading.Controls.StockHistoryChart"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+		xmlns:input="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
+		xmlns:controls="clr-namespace:IGTrading.Controls" xmlns:ig="http://schemas.infragistics.com/xaml"
+		MinWidth="860" DataContext="{StaticResource stockViewModel}" Loaded="Window_Loaded">
+	<Grid Background="Black">
+		<Grid.RowDefinitions>
+			<RowDefinition MaxHeight="72" Height="72" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+
+		<!-- Header -->
+		<Grid Grid.Row="0" Height="72" Margin="0" Grid.RowSpan="1" Background="#FF333333">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width=".5*" />
+				<!-- Search/Add Stock -->
+				<ColumnDefinition Width="*" />
+				<!-- Logo -->
+			</Grid.ColumnDefinitions>
+			<!-- Header Tiled Image -->
+			<Rectangle x:Name="tiledImage1" Grid.ColumnSpan="2" IsHitTestVisible="False" Margin="0">
+				<Rectangle.Fill>
+					<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+						<GradientStop Color="#FF2D2D2D" Offset="0" />
+						<GradientStop Color="#FF1A1A1A" Offset="1" />
+					</LinearGradientBrush>
+				</Rectangle.Fill>
+
+			</Rectangle>
+			<Grid Grid.ColumnSpan="2" Opacity="0.4">
+				<Rectangle Height="6" Opacity="0.6" VerticalAlignment="Top" Margin="0">
+					<Rectangle.Fill>
+						<LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0"
+								SpreadMethod="Repeat">
+							<GradientStop Color="#19606060" Offset="0" />
+							<GradientStop Color="#19606060" Offset="0.16" />
+							<GradientStop Color="#4C606060" Offset="0.17" />
+							<GradientStop Color="#4C606060" Offset="0.33" />
+							<GradientStop Color="#7F606060" Offset="0.34" />
+							<GradientStop Color="#7F606060" Offset="0.5" />
+							<GradientStop Color="#19606060" Offset="0.51" />
+							<GradientStop Color="#19606060" Offset="0.66" />
+							<GradientStop Color="#4C606060" Offset="0.67" />
+							<GradientStop Color="#4C606060" Offset="0.83" />
+							<GradientStop Color="#7F606060" Offset="0.84" />
+							<GradientStop Color="#7F606060" Offset="1" />
+						</LinearGradientBrush>
+					</Rectangle.Fill>
+				</Rectangle>
+				<Rectangle Height="6" Opacity="0.6" VerticalAlignment="Top" Margin="0,6,0,0">
+					<Rectangle.Fill>
+						<LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0"
+								SpreadMethod="Repeat">
+							<GradientStop Color="#19606060" Offset="0" />
+							<GradientStop Color="#19606060" Offset="0.16" />
+							<GradientStop Color="#4C606060" Offset="0.17" />
+							<GradientStop Color="#4C606060" Offset="0.33" />
+							<GradientStop Color="#7F606060" Offset="0.34" />
+							<GradientStop Color="#7F606060" Offset="0.5" />
+							<GradientStop Color="#19606060" Offset="0.51" />
+							<GradientStop Color="#19606060" Offset="0.66" />
+							<GradientStop Color="#4C606060" Offset="0.67" />
+							<GradientStop Color="#4C606060" Offset="0.83" />
+							<GradientStop Color="#7F606060" Offset="0.84" />
+							<GradientStop Color="#7F606060" Offset="1" />
+						</LinearGradientBrush>
+					</Rectangle.Fill>
+				</Rectangle>
+				<Rectangle Height="6" Opacity="0.6" VerticalAlignment="Top" Margin="0,12,0,0">
+					<Rectangle.Fill>
+						<LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0"
+								SpreadMethod="Repeat">
+							<GradientStop Color="#19606060" Offset="0" />
+							<GradientStop Color="#19606060" Offset="0.16" />
+							<GradientStop Color="#4C606060" Offset="0.17" />
+							<GradientStop Color="#4C606060" Offset="0.33" />
+							<GradientStop Color="#7F606060" Offset="0.34" />
+							<GradientStop Color="#7F606060" Offset="0.5" />
+							<GradientStop Color="#19606060" Offset="0.51" />
+							<GradientStop Color="#19606060" Offset="0.66" />
+							<GradientStop Color="#4C606060" Offset="0.67" />
+							<GradientStop Color="#4C606060" Offset="0.83" />
+							<GradientStop Color="#7F606060" Offset="0.84" />
+							<GradientStop Color="#7F606060" Offset="1" />
+						</LinearGradientBrush>
+					</Rectangle.Fill>
+				</Rectangle>
+				<Rectangle Height="6" Opacity="0.6" VerticalAlignment="Top" Margin="0,18,0,0">
+					<Rectangle.Fill>
+						<LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0"
+								SpreadMethod="Repeat">
+							<GradientStop Color="#19606060" Offset="0" />
+							<GradientStop Color="#19606060" Offset="0.16" />
+							<GradientStop Color="#4C606060" Offset="0.17" />
+							<GradientStop Color="#4C606060" Offset="0.33" />
+							<GradientStop Color="#7F606060" Offset="0.34" />
+							<GradientStop Color="#7F606060" Offset="0.5" />
+							<GradientStop Color="#19606060" Offset="0.51" />
+							<GradientStop Color="#19606060" Offset="0.66" />
+							<GradientStop Color="#4C606060" Offset="0.67" />
+							<GradientStop Color="#4C606060" Offset="0.83" />
+							<GradientStop Color="#7F606060" Offset="0.84" />
+							<GradientStop Color="#7F606060" Offset="1" />
+						</LinearGradientBrush>
+					</Rectangle.Fill>
+				</Rectangle>
+				<Rectangle Height="6" Opacity="0.6" VerticalAlignment="Top" Margin="0,24,0,0">
+					<Rectangle.Fill>
+						<LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0"
+								SpreadMethod="Repeat">
+							<GradientStop Color="#19606060" Offset="0" />
+							<GradientStop Color="#19606060" Offset="0.16" />
+							<GradientStop Color="#4C606060" Offset="0.17" />
+							<GradientStop Color="#4C606060" Offset="0.33" />
+							<GradientStop Color="#7F606060" Offset="0.34" />
+							<GradientStop Color="#7F606060" Offset="0.5" />
+							<GradientStop Color="#19606060" Offset="0.51" />
+							<GradientStop Color="#19606060" Offset="0.66" />
+							<GradientStop Color="#4C606060" Offset="0.67" />
+							<GradientStop Color="#4C606060" Offset="0.83" />
+							<GradientStop Color="#7F606060" Offset="0.84" />
+							<GradientStop Color="#7F606060" Offset="1" />
+						</LinearGradientBrush>
+					</Rectangle.Fill>
+				</Rectangle>
+				<Rectangle Height="6" Opacity="0.6" VerticalAlignment="Top" Margin="0,30,0,0">
+					<Rectangle.Fill>
+						<LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0"
+								SpreadMethod="Repeat">
+							<GradientStop Color="#19606060" Offset="0" />
+							<GradientStop Color="#19606060" Offset="0.16" />
+							<GradientStop Color="#4C606060" Offset="0.17" />
+							<GradientStop Color="#4C606060" Offset="0.33" />
+							<GradientStop Color="#7F606060" Offset="0.34" />
+							<GradientStop Color="#7F606060" Offset="0.5" />
+							<GradientStop Color="#19606060" Offset="0.51" />
+							<GradientStop Color="#19606060" Offset="0.66" />
+							<GradientStop Color="#4C606060" Offset="0.67" />
+							<GradientStop Color="#4C606060" Offset="0.83" />
+							<GradientStop Color="#7F606060" Offset="0.84" />
+							<GradientStop Color="#7F606060" Offset="1" />
+						</LinearGradientBrush>
+					</Rectangle.Fill>
+				</Rectangle>
+				<Rectangle Height="6" Opacity="0.6" VerticalAlignment="Top" Margin="0,36,0,0">
+					<Rectangle.Fill>
+						<LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0"
+								SpreadMethod="Repeat">
+							<GradientStop Color="#19606060" Offset="0" />
+							<GradientStop Color="#19606060" Offset="0.16" />
+							<GradientStop Color="#4C606060" Offset="0.17" />
+							<GradientStop Color="#4C606060" Offset="0.33" />
+							<GradientStop Color="#7F606060" Offset="0.34" />
+							<GradientStop Color="#7F606060" Offset="0.5" />
+							<GradientStop Color="#19606060" Offset="0.51" />
+							<GradientStop Color="#19606060" Offset="0.66" />
+							<GradientStop Color="#4C606060" Offset="0.67" />
+							<GradientStop Color="#4C606060" Offset="0.83" />
+							<GradientStop Color="#7F606060" Offset="0.84" />
+							<GradientStop Color="#7F606060" Offset="1" />
+						</LinearGradientBrush>
+					</Rectangle.Fill>
+				</Rectangle>
+				<Rectangle Height="6" Opacity="0.6" VerticalAlignment="Top" Margin="0,42,0,0">
+					<Rectangle.Fill>
+						<LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0"
+								SpreadMethod="Repeat">
+							<GradientStop Color="#19606060" Offset="0" />
+							<GradientStop Color="#19606060" Offset="0.16" />
+							<GradientStop Color="#4C606060" Offset="0.17" />
+							<GradientStop Color="#4C606060" Offset="0.33" />
+							<GradientStop Color="#7F606060" Offset="0.34" />
+							<GradientStop Color="#7F606060" Offset="0.5" />
+							<GradientStop Color="#19606060" Offset="0.51" />
+							<GradientStop Color="#19606060" Offset="0.66" />
+							<GradientStop Color="#4C606060" Offset="0.67" />
+							<GradientStop Color="#4C606060" Offset="0.83" />
+							<GradientStop Color="#7F606060" Offset="0.84" />
+							<GradientStop Color="#7F606060" Offset="1" />
+						</LinearGradientBrush>
+					</Rectangle.Fill>
+				</Rectangle>
+				<Rectangle Height="6" Opacity="0.6" VerticalAlignment="Top" Margin="0,48,0,0">
+					<Rectangle.Fill>
+						<LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0"
+								SpreadMethod="Repeat">
+							<GradientStop Color="#19606060" Offset="0" />
+							<GradientStop Color="#19606060" Offset="0.16" />
+							<GradientStop Color="#4C606060" Offset="0.17" />
+							<GradientStop Color="#4C606060" Offset="0.33" />
+							<GradientStop Color="#7F606060" Offset="0.34" />
+							<GradientStop Color="#7F606060" Offset="0.5" />
+							<GradientStop Color="#19606060" Offset="0.51" />
+							<GradientStop Color="#19606060" Offset="0.66" />
+							<GradientStop Color="#4C606060" Offset="0.67" />
+							<GradientStop Color="#4C606060" Offset="0.83" />
+							<GradientStop Color="#7F606060" Offset="0.84" />
+							<GradientStop Color="#7F606060" Offset="1" />
+						</LinearGradientBrush>
+					</Rectangle.Fill>
+				</Rectangle>
+				<Rectangle Height="6" Opacity="0.6" VerticalAlignment="Top" Margin="0,54,0,0">
+					<Rectangle.Fill>
+						<LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0"
+								SpreadMethod="Repeat">
+							<GradientStop Color="#19606060" Offset="0" />
+							<GradientStop Color="#19606060" Offset="0.16" />
+							<GradientStop Color="#4C606060" Offset="0.17" />
+							<GradientStop Color="#4C606060" Offset="0.33" />
+							<GradientStop Color="#7F606060" Offset="0.34" />
+							<GradientStop Color="#7F606060" Offset="0.5" />
+							<GradientStop Color="#19606060" Offset="0.51" />
+							<GradientStop Color="#19606060" Offset="0.66" />
+							<GradientStop Color="#4C606060" Offset="0.67" />
+							<GradientStop Color="#4C606060" Offset="0.83" />
+							<GradientStop Color="#7F606060" Offset="0.84" />
+							<GradientStop Color="#7F606060" Offset="1" />
+						</LinearGradientBrush>
+					</Rectangle.Fill>
+				</Rectangle>
+				<Rectangle Height="6" Opacity="0.6" VerticalAlignment="Top" Margin="0,60,0,0">
+					<Rectangle.Fill>
+						<LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0"
+								SpreadMethod="Repeat">
+							<GradientStop Color="#19606060" Offset="0" />
+							<GradientStop Color="#19606060" Offset="0.16" />
+							<GradientStop Color="#4C606060" Offset="0.17" />
+							<GradientStop Color="#4C606060" Offset="0.33" />
+							<GradientStop Color="#7F606060" Offset="0.34" />
+							<GradientStop Color="#7F606060" Offset="0.5" />
+							<GradientStop Color="#19606060" Offset="0.51" />
+							<GradientStop Color="#19606060" Offset="0.66" />
+							<GradientStop Color="#4C606060" Offset="0.67" />
+							<GradientStop Color="#4C606060" Offset="0.83" />
+							<GradientStop Color="#7F606060" Offset="0.84" />
+							<GradientStop Color="#7F606060" Offset="1" />
+						</LinearGradientBrush>
+					</Rectangle.Fill>
+				</Rectangle>
+				<Rectangle Height="6" Opacity="0.6" VerticalAlignment="Top" Margin="0,66,0,0">
+					<Rectangle.Fill>
+						<LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0"
+								SpreadMethod="Repeat">
+							<GradientStop Color="#19606060" Offset="0" />
+							<GradientStop Color="#19606060" Offset="0.16" />
+							<GradientStop Color="#4C606060" Offset="0.17" />
+							<GradientStop Color="#4C606060" Offset="0.33" />
+							<GradientStop Color="#7F606060" Offset="0.34" />
+							<GradientStop Color="#7F606060" Offset="0.5" />
+							<GradientStop Color="#19606060" Offset="0.51" />
+							<GradientStop Color="#19606060" Offset="0.66" />
+							<GradientStop Color="#4C606060" Offset="0.67" />
+							<GradientStop Color="#4C606060" Offset="0.83" />
+							<GradientStop Color="#7F606060" Offset="0.84" />
+							<GradientStop Color="#7F606060" Offset="1" />
+						</LinearGradientBrush>
+					</Rectangle.Fill>
+				</Rectangle>
+			</Grid>
+
+			<!-- Search/Add Stock -->
+			<StackPanel Margin="15,0,-21,0" Width="332" HorizontalAlignment="Left">
+				<StackPanel.Resources>
+					<DataTemplate x:Key="StockTickerAutoCompleteTemplate">
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="40" />
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="40" />
+							</Grid.ColumnDefinitions>
+							<TextBlock Grid.Column="0" Text="{Binding Symbol}" Style="{StaticResource AutoCompleteTxt}" />
+							<TextBlock Grid.Column="1" Text="{Binding Name}" Style="{StaticResource AutoCompleteTxt}" />
+							<TextBlock Grid.Column="2" Text="{Binding Exchange}"
+									Style="{StaticResource AutoCompleteTxt}" />
+						</Grid>
+					</DataTemplate>
+				</StackPanel.Resources>
+				<TextBlock
+						Text="{Binding Strings.Type_Ticker_Here, Mode=OneTime, Source={StaticResource LocalizedResources}}"
+						Margin="5,0,0,3" VerticalAlignment="Center" Background="{x:Null}" FontSize="12.66"
+						FontWeight="Bold" Foreground="#FFE2E2E2" />
+				<Canvas>
+					<Rectangle Fill="{StaticResource InputBg}" RadiusX="8.375" RadiusY="8.375" Height="41" Width="274"
+							Stroke="{StaticResource GradientStroke1}" />
+					<input:AutoCompleteBox x:Name="txtbxSymbolNew" FilterMode="StartsWith"
+							ItemsSource="{Binding StockSearchList, Mode=OneWay}"
+							ItemTemplate="{StaticResource StockTickerAutoCompleteTemplate}"
+							DropDownClosed="TxtbxSymbolNewDropDownClosed" Width="260" Height="40"
+							Style="{StaticResource AutoCompleteBoxStyle1}"
+							ItemContainerStyle="{StaticResource ListBoxStyle2}" Margin="2,0,0,0" />
+					<Button x:Name="btnStockAdd"
+							Content="{Binding Strings.ADD, Mode=OneTime, Source={StaticResource LocalizedResources}}"
+							Command="{Binding AddStockCommand}"
+							CommandParameter="{Binding Text, ElementName=txtbxSymbolNew, Mode=OneWay}"
+							Style="{StaticResource AddButton}" Canvas.Left="215" />
+				</Canvas>
+			</StackPanel>
+		</Grid>
+
+		<Grid Grid.Row="1" Visibility="{Binding SelectedStock, Converter={StaticResource NullToVisibilityConverter}}">
+			<Grid.RowDefinitions>
+				<!-- Watched Stocks -->
+				<RowDefinition MaxHeight="42" Height="42" />
+				<!-- Selected Stock Details -->
+				<RowDefinition MaxHeight="123" Height="123" />
+				<!-- Time Range Filter -->
+				<RowDefinition MaxHeight="32" Height="32" />
+				<!-- Stock Chart -->
+				<RowDefinition Height="*" />
+				<!-- Volume -->
+				<RowDefinition MaxHeight="88" Height="88" />
+				<!-- Zoombar -->
+				<RowDefinition MaxHeight="88" Height="88" />
+			</Grid.RowDefinitions>
+			<!-- Watched Stocks -->
+		<Grid Margin="0,1,0,0" Grid.Row="0" Background="#FF212121">
+			<Grid Margin="0" Opacity="0.6">
+				<Rectangle Height="6" Opacity="0.6" VerticalAlignment="Top" Margin="0">
+					<Rectangle.Fill>
+						<LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0"
+								SpreadMethod="Repeat">
+							<GradientStop Color="#19606060" Offset="0" />
+							<GradientStop Color="#19606060" Offset="0.16" />
+							<GradientStop Color="#4C606060" Offset="0.17" />
+							<GradientStop Color="#4C606060" Offset="0.33" />
+							<GradientStop Color="#7F606060" Offset="0.34" />
+							<GradientStop Color="#7F606060" Offset="0.5" />
+							<GradientStop Color="#19606060" Offset="0.51" />
+							<GradientStop Color="#19606060" Offset="0.66" />
+							<GradientStop Color="#4C606060" Offset="0.67" />
+							<GradientStop Color="#4C606060" Offset="0.83" />
+							<GradientStop Color="#7F606060" Offset="0.84" />
+							<GradientStop Color="#7F606060" Offset="1" />
+						</LinearGradientBrush>
+					</Rectangle.Fill>
+				</Rectangle>
+				<Rectangle Height="6" Opacity="0.6" VerticalAlignment="Top" Margin="0,6,0,0">
+					<Rectangle.Fill>
+						<LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0"
+								SpreadMethod="Repeat">
+							<GradientStop Color="#19606060" Offset="0" />
+							<GradientStop Color="#19606060" Offset="0.16" />
+							<GradientStop Color="#4C606060" Offset="0.17" />
+							<GradientStop Color="#4C606060" Offset="0.33" />
+							<GradientStop Color="#7F606060" Offset="0.34" />
+							<GradientStop Color="#7F606060" Offset="0.5" />
+							<GradientStop Color="#19606060" Offset="0.51" />
+							<GradientStop Color="#19606060" Offset="0.66" />
+							<GradientStop Color="#4C606060" Offset="0.67" />
+							<GradientStop Color="#4C606060" Offset="0.83" />
+							<GradientStop Color="#7F606060" Offset="0.84" />
+							<GradientStop Color="#7F606060" Offset="1" />
+						</LinearGradientBrush>
+					</Rectangle.Fill>
+				</Rectangle>
+				<Rectangle Height="6" Opacity="0.6" VerticalAlignment="Top" Margin="0,12,0,0">
+					<Rectangle.Fill>
+						<LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0"
+								SpreadMethod="Repeat">
+							<GradientStop Color="#19606060" Offset="0" />
+							<GradientStop Color="#19606060" Offset="0.16" />
+							<GradientStop Color="#4C606060" Offset="0.17" />
+							<GradientStop Color="#4C606060" Offset="0.33" />
+							<GradientStop Color="#7F606060" Offset="0.34" />
+							<GradientStop Color="#7F606060" Offset="0.5" />
+							<GradientStop Color="#19606060" Offset="0.51" />
+							<GradientStop Color="#19606060" Offset="0.66" />
+							<GradientStop Color="#4C606060" Offset="0.67" />
+							<GradientStop Color="#4C606060" Offset="0.83" />
+							<GradientStop Color="#7F606060" Offset="0.84" />
+							<GradientStop Color="#7F606060" Offset="1" />
+						</LinearGradientBrush>
+					</Rectangle.Fill>
+				</Rectangle>
+				<Rectangle Height="6" Opacity="0.6" VerticalAlignment="Top" Margin="0,18,0,0">
+					<Rectangle.Fill>
+						<LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0"
+								SpreadMethod="Repeat">
+							<GradientStop Color="#19606060" Offset="0" />
+							<GradientStop Color="#19606060" Offset="0.16" />
+							<GradientStop Color="#4C606060" Offset="0.17" />
+							<GradientStop Color="#4C606060" Offset="0.33" />
+							<GradientStop Color="#7F606060" Offset="0.34" />
+							<GradientStop Color="#7F606060" Offset="0.5" />
+							<GradientStop Color="#19606060" Offset="0.51" />
+							<GradientStop Color="#19606060" Offset="0.66" />
+							<GradientStop Color="#4C606060" Offset="0.67" />
+							<GradientStop Color="#4C606060" Offset="0.83" />
+							<GradientStop Color="#7F606060" Offset="0.84" />
+							<GradientStop Color="#7F606060" Offset="1" />
+						</LinearGradientBrush>
+					</Rectangle.Fill>
+				</Rectangle>
+				<Rectangle Height="6" Opacity="0.6" VerticalAlignment="Top" Margin="0,24,0,0">
+					<Rectangle.Fill>
+						<LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0"
+								SpreadMethod="Repeat">
+							<GradientStop Color="#19606060" Offset="0" />
+							<GradientStop Color="#19606060" Offset="0.16" />
+							<GradientStop Color="#4C606060" Offset="0.17" />
+							<GradientStop Color="#4C606060" Offset="0.33" />
+							<GradientStop Color="#7F606060" Offset="0.34" />
+							<GradientStop Color="#7F606060" Offset="0.5" />
+							<GradientStop Color="#19606060" Offset="0.51" />
+							<GradientStop Color="#19606060" Offset="0.66" />
+							<GradientStop Color="#4C606060" Offset="0.67" />
+							<GradientStop Color="#4C606060" Offset="0.83" />
+							<GradientStop Color="#7F606060" Offset="0.84" />
+							<GradientStop Color="#7F606060" Offset="1" />
+						</LinearGradientBrush>
+					</Rectangle.Fill>
+				</Rectangle>
+				<Rectangle Height="6" Opacity="0.6" VerticalAlignment="Top" Margin="0,30,0,0">
+					<Rectangle.Fill>
+						<LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0"
+								SpreadMethod="Repeat">
+							<GradientStop Color="#19606060" Offset="0" />
+							<GradientStop Color="#19606060" Offset="0.16" />
+							<GradientStop Color="#4C606060" Offset="0.17" />
+							<GradientStop Color="#4C606060" Offset="0.33" />
+							<GradientStop Color="#7F606060" Offset="0.34" />
+							<GradientStop Color="#7F606060" Offset="0.5" />
+							<GradientStop Color="#19606060" Offset="0.51" />
+							<GradientStop Color="#19606060" Offset="0.66" />
+							<GradientStop Color="#4C606060" Offset="0.67" />
+							<GradientStop Color="#4C606060" Offset="0.83" />
+							<GradientStop Color="#7F606060" Offset="0.84" />
+							<GradientStop Color="#7F606060" Offset="1" />
+						</LinearGradientBrush>
+					</Rectangle.Fill>
+				</Rectangle>
+				<Rectangle Height="6" Opacity="0.6" VerticalAlignment="Top" Margin="0,36,0,0">
+					<Rectangle.Fill>
+						<LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0"
+								SpreadMethod="Repeat">
+							<GradientStop Color="#19606060" Offset="0" />
+							<GradientStop Color="#19606060" Offset="0.16" />
+							<GradientStop Color="#4C606060" Offset="0.17" />
+							<GradientStop Color="#4C606060" Offset="0.33" />
+							<GradientStop Color="#7F606060" Offset="0.34" />
+							<GradientStop Color="#7F606060" Offset="0.5" />
+							<GradientStop Color="#19606060" Offset="0.51" />
+							<GradientStop Color="#19606060" Offset="0.66" />
+							<GradientStop Color="#4C606060" Offset="0.67" />
+							<GradientStop Color="#4C606060" Offset="0.83" />
+							<GradientStop Color="#7F606060" Offset="0.84" />
+							<GradientStop Color="#7F606060" Offset="1" />
+						</LinearGradientBrush>
+					</Rectangle.Fill>
+				</Rectangle>
+			</Grid>
+
+			<StackPanel Orientation="Horizontal" Height="41" VerticalAlignment="Top">
+				<ListBox x:Name="StockListBox" ItemsPanel="{StaticResource ListBoxItemsPanelTemplateH}"
+						ItemTemplate="{StaticResource StockTemplate}" ItemsSource="{Binding Tickers}"
+						SelectedItem="{Binding SelectedStock, Mode=TwoWay}" Margin="0"
+						Style="{StaticResource ListBoxStyle1}" Height="41" Width="1023" BorderThickness="0"
+						ItemContainerStyle="{StaticResource StocksListBoxItemStyle1}">
+					<ListBox.Background>
+						<ImageBrush Stretch="Fill" />
+					</ListBox.Background>
+				</ListBox>
+			</StackPanel>
+
+		</Grid>
+
+		<!-- Selected Stock Details -->
+		<Grid Grid.Row="1" RenderTransformOrigin="0.5,0.5" DataContext="{Binding SelectedStock.Details, Mode=OneWay}"
+				Margin="0" Background="#FF0D0D0D">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="0.5*" />
+				<!-- Stock Symbol/Name/LU -->
+				<ColumnDefinition Width="0.5*" />
+				<!-- Stock Details -->
+			</Grid.ColumnDefinitions>
+			<Rectangle Stroke="Black" Grid.ColumnSpan="2">
+				<Rectangle.Fill>
+					<RadialGradientBrush Center="0.495,0.978" GradientOrigin="0.495,0.978" RadiusX="1.737"
+							RadiusY="0.739">
+						<RadialGradientBrush.RelativeTransform>
+							<TransformGroup>
+								<ScaleTransform CenterX="0.49500000476837158" CenterY="0.9779999852180481"
+										ScaleX="0.587" ScaleY="1.583" />
+								<SkewTransform AngleX="0" AngleY="0" CenterX="0.49500000476837158"
+										CenterY="0.9779999852180481" />
+								<RotateTransform Angle="0" CenterX="0.49500000476837158" CenterY="0.9779999852180481" />
+								<TranslateTransform X="0.017" Y="0.368" />
+							</TransformGroup>
+						</RadialGradientBrush.RelativeTransform>
+						<GradientStop Color="Black" Offset="1" />
+						<GradientStop Color="#FF333333" />
+					</RadialGradientBrush>
+				</Rectangle.Fill>
+			</Rectangle>
+			<!-- Stock Symbol/Name/LU -->
+			<StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="30,0,0,0">
+				<TextBlock Text="{Binding Name, Mode=OneWay}" Style="{StaticResource StockDetailsSymbolTextBlock}" />
+				<StackPanel Orientation="Horizontal">
+					<!-- Stock Trade Price -->
+					<TextBlock Text="{Binding LastTradeAmount, Mode=OneWay}"
+							Style="{StaticResource StockDetailsTradeAmountTextBlock}" />
+					<!-- Stock % Change -->
+					<StackPanel Orientation="Horizontal" Margin="0,18,0,0">
+						<TextBlock Text="{Binding Change, Mode=OneWay}"
+								Style="{StaticResource StockDetailsChangeTextBlock}" />
+						<TextBlock Text=" (" Style="{StaticResource StockDetailsChangeTextBlock}" />
+						<TextBlock Text="{Binding PercentChange, Mode=OneWay}"
+								Style="{StaticResource StockDetailsChangeTextBlock}" />
+						<TextBlock Text=")" Style="{StaticResource StockDetailsChangeTextBlock}" />
+					</StackPanel>
+				</StackPanel>
+				<TextBlock Text="{Binding LastUpdate, Mode=OneWay}"
+						Style="{StaticResource StockDetailsLastUpdateTextBlock}" />
+			</StackPanel>
+
+			<!-- Stock Details -->
+			<Grid Grid.Column="1" Height="95" Margin="0,3,0,0">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" MinWidth="80" />
+					<ColumnDefinition Width="Auto" MinWidth="90" />
+					<ColumnDefinition Width="Auto" MinWidth="80" />
+					<ColumnDefinition Width="Auto" MinWidth="90" />
+					<ColumnDefinition Width="Auto" MinWidth="80" />
+					<ColumnDefinition Width="Auto" MinWidth="92" />
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition />
+					<RowDefinition />
+					<RowDefinition />
+					<RowDefinition />
+				</Grid.RowDefinitions>
+
+				<!-- Row 1 -->
+				<TextBlock Grid.Row="0" Grid.Column="0"
+						Text="{Binding Strings.Range, Source={StaticResource LocalizedResources}, Mode=OneTime}"
+						Style="{StaticResource StockDetailsLabelTextBlock}" />
+				<TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding DailyRange, Mode=OneWay}"
+						Style="{StaticResource StockDetailsDataTextBlock}" />
+
+				<TextBlock Grid.Row="0" Grid.Column="2"
+						Text="{Binding Strings.Mkt_Cap, Source={StaticResource LocalizedResources}, Mode=OneTime}"
+						Style="{StaticResource StockDetailsLabelTextBlock}" />
+				<TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding MarketCapitalization, Mode=OneWay}"
+						Style="{StaticResource StockDetailsDataTextBlock}" />
+
+				<TextBlock Grid.Row="0" Grid.Column="4"
+						Text="{Binding Strings.Ask, Source={StaticResource LocalizedResources}, Mode=OneTime}"
+						Style="{StaticResource StockDetailsLabelTextBlock}" />
+				<TextBlock Grid.Row="0" Grid.Column="5" Text="{Binding Ask}"
+						Style="{StaticResource StockDetailsDataTextBlock}" />
+
+				<!-- Row 2 -->
+				<TextBlock Grid.Row="1" Grid.Column="0"
+						Text="{Binding Strings._52_Weeks, Source={StaticResource LocalizedResources}, Mode=OneTime}"
+						Style="{StaticResource StockDetailsLabelTextBlock}" />
+				<TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Range52Week, Mode=OneWay}"
+						Style="{StaticResource StockDetailsDataTextBlock}" />
+
+				<TextBlock Grid.Row="1" Grid.Column="2"
+						Text="{Binding Strings.P_E, Source={StaticResource LocalizedResources}, Mode=OneTime}"
+						Style="{StaticResource StockDetailsLabelTextBlock}" />
+				<TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding PERatio, Mode=OneWay}"
+						Style="{StaticResource StockDetailsDataTextBlock}" />
+
+				<TextBlock Grid.Row="1" Grid.Column="4"
+						Text="{Binding Strings.Bid, Source={StaticResource LocalizedResources}, Mode=OneTime}"
+						Style="{StaticResource StockDetailsLabelTextBlock}" />
+				<TextBlock Grid.Row="1" Grid.Column="5" Text="{Binding Bid}"
+						Style="{StaticResource StockDetailsDataTextBlock}" />
+
+				<!-- Row 3 -->
+				<TextBlock Grid.Row="2" Grid.Column="0"
+						Text="{Binding Strings.Open, Source={StaticResource LocalizedResources}, Mode=OneTime}"
+						Style="{StaticResource StockDetailsLabelTextBlock}" />
+				<TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Open, Mode=OneWay}"
+						Style="{StaticResource StockDetailsDataTextBlock}" />
+
+				<TextBlock Grid.Row="2" Grid.Column="2"
+						Text="{Binding Strings.EBITA, Source={StaticResource LocalizedResources}, Mode=OneTime}"
+						Style="{StaticResource StockDetailsLabelTextBlock}" />
+				<TextBlock Grid.Row="2" Grid.Column="3" Text="{Binding EBITDA, Mode=OneWay}"
+						Style="{StaticResource StockDetailsDataTextBlock}" />
+
+				<TextBlock Grid.Row="2" Grid.Column="4"
+						Text="{Binding Strings.Daily_High, Source={StaticResource LocalizedResources}, Mode=OneTime}"
+						Style="{StaticResource StockDetailsLabelTextBlock}" />
+				<TextBlock Grid.Row="2" Grid.Column="5" Text="{Binding DailyHigh}"
+						Style="{StaticResource StockDetailsDataTextBlock}" />
+				<!-- Row 4 -->
+				<TextBlock Grid.Row="3" Grid.Column="0"
+						Text="{Binding Strings.Vol, Source={StaticResource LocalizedResources}, Mode=OneTime}"
+						Style="{StaticResource StockDetailsLabelTextBlock}" />
+				<TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Volume, Mode=OneWay}"
+						Style="{StaticResource StockDetailsDataTextBlock}" />
+
+				<TextBlock Grid.Row="3" Grid.Column="2"
+						Text="{Binding Strings.EPS, Source={StaticResource LocalizedResources}, Mode=OneTime}"
+						Style="{StaticResource StockDetailsLabelTextBlock}" />
+				<TextBlock Grid.Row="3" Grid.Column="3" Text="{Binding EarningsPerShare, Mode=OneWay}"
+						Style="{StaticResource StockDetailsDataTextBlock}" />
+
+				<TextBlock Grid.Row="3" Grid.Column="4"
+						Text="{Binding Strings.Daily_Low, Source={StaticResource LocalizedResources}, Mode=OneTime}"
+						Style="{StaticResource StockDetailsLabelTextBlock}" />
+				<TextBlock Grid.Row="3" Grid.Column="5" Text="{Binding DailyLow}"
+						Style="{StaticResource StockDetailsDataTextBlock}" />
+			</Grid>
+		</Grid>
+
+		<!-- Time Range Filter -->
+		<StackPanel Grid.Row="2" Orientation="Horizontal" Height="32" VerticalAlignment="Top" Background="#FF454545"
+				d:LayoutOverrides="GridBox" Opacity="0.98">
+
+			<RadioButton Content="{Binding Strings._1_MONTH, Source={StaticResource LocalizedResources}, Mode=OneTime}"
+					Style="{StaticResource StockTimeSelctorRadioButtonStyle}"
+					Command="{Binding StockDisplayRangeCommand, Mode=OneWay}" CommandParameter="1"
+					GroupName="TimeRangeFilter"
+					IsChecked="{Binding SelectedStock.RangeFilter, Converter={StaticResource StringComparisonToBoolValueConverter}, ConverterParameter=1, Mode=OneWay}"
+					Height="Auto" Width="Auto" Margin="10,0,0,0" />
+			<RadioButton Content="{Binding Strings._3_MONTHS, Source={StaticResource LocalizedResources}, Mode=OneTime}"
+					Style="{StaticResource StockTimeSelctorRadioButtonStyle}"
+					Command="{Binding StockDisplayRangeCommand, Mode=OneWay}" CommandParameter="3"
+					GroupName="TimeRangeFilter"
+					IsChecked="{Binding SelectedStock.RangeFilter, Converter={StaticResource StringComparisonToBoolValueConverter}, ConverterParameter=3, Mode=OneWay}"
+					Width="Auto" Height="Auto" Margin="0" />
+			<RadioButton Content="{Binding Strings._6_MONTHS, Source={StaticResource LocalizedResources}, Mode=OneTime}"
+					Style="{StaticResource StockTimeSelctorRadioButtonStyle}"
+					Command="{Binding StockDisplayRangeCommand, Mode=OneWay}" CommandParameter="6"
+					GroupName="TimeRangeFilter"
+					IsChecked="{Binding SelectedStock.RangeFilter, Converter={StaticResource StringComparisonToBoolValueConverter}, ConverterParameter=6, Mode=OneWay}"
+					Width="Auto" Height="Auto" Margin="0" />
+			<RadioButton Content="{Binding Strings._1_YEAR, Source={StaticResource LocalizedResources}, Mode=OneTime}"
+					Style="{StaticResource StockTimeSelctorRadioButtonStyle}"
+					Command="{Binding StockDisplayRangeCommand, Mode=OneWay}" CommandParameter="12"
+					GroupName="TimeRangeFilter"
+					IsChecked="{Binding SelectedStock.RangeFilter, Converter={StaticResource StringComparisonToBoolValueConverter}, ConverterParameter=12, Mode=OneWay}"
+					Width="Auto" Height="Auto" Margin="0" />
+		</StackPanel>
+		<Rectangle Fill="#FF333333" Grid.Row="3" Height="23" VerticalAlignment="Bottom" Margin="0,0,0,15"
+				Visibility="Collapsed" />
+		<controls:DataChartEx Grid.Row="3" SeriesSource="{Binding SelectedStock}"
+				SeriesTemplateSelector="{StaticResource StockValueChartTypeTemplateSelector}"
+				FinancialIndicatorSeriesTemplate="{StaticResource FinancialIndicatorSeriesTemplate}"
+				AxisCategoryXTemplateSelector="{StaticResource StockValueChartTypeXAxisTemplateSelector}"
+				AxisCategoryYTemplateSelector="{StaticResource StockValueChartTypeYAxisTemplateSelector}"
+				AxisFinancialIndicatorYTemplateSelector="{StaticResource FinancialIndicatorYAxisTemplateSelector}"
+				SelectedChartType="{Binding SelectedChartType}" DataContext="{Binding}"
+				HorizontalZoombarVisibility="Visible" VerticalZoombarVisibility="Collapsed" HorizontalZoomable="True"
+				VerticalZoomable="False" ZoombarStyle="{StaticResource XamZoombarStyle2}" Margin="0,15,0,0"
+				PlotAreaBorderThickness="0" PlotAreaMinHeight="0" PlotAreaMinWidth="0" PlotAreaBackground="Transparent"
+				Padding="0"  Background="Transparent">
+			<ig:SyncManager.SyncSettings>
+				<ig:SyncSettings SyncChannel="Group1" SynchronizeHorizontally="True" SynchronizeVertically="False" />
+			</ig:SyncManager.SyncSettings>
+		</controls:DataChartEx>
+
+		<!-- Stock Chart -->
+		<!-- Stock Price Chart Label -->
+		<Grid Style="{StaticResource ChartTitleGrid}" Grid.Row="3" Background="{x:Null}">
+			<Rectangle Fill="#99333333" RadiusX="2" RadiusY="2" />
+			<TextBlock Text="{Binding Strings.Stock_Price, Source={StaticResource LocalizedResources}, Mode=OneTime}"
+					Style="{StaticResource ChartTitle}" />
+		</Grid>
+
+		<!-- Volume -->
+		<ig:XamDataChart x:Name="stockChart" Grid.Row="4" DataContext="{Binding SelectedStock}"
+				HorizontalZoombarVisibility="Collapsed" VerticalZoombarVisibility="Collapsed" HorizontalZoomable="True"
+				Margin="0" PlotAreaBorderThickness="0" PlotAreaBorderBrush="Transparent"
+				PlotAreaBackground="Transparent" Height="100"  Background="Transparent">
+			<ig:SyncManager.SyncSettings>
+				<ig:SyncSettings SyncChannel="Group1" SynchronizeHorizontally="True" SynchronizeVertically="False" />
+			</ig:SyncManager.SyncSettings>
+
+			<ig:XamDataChart.Axes>
+				<ig:CategoryXAxis x:Name="xVolume" ItemsSource="{Binding FilteredData}" Label="{}{Date:d}"
+						Strip="Transparent" MajorStroke="Transparent" MinorStroke="Transparent" Stroke="Transparent"
+						Gap="5" Height="88" Margin="0">
+					<ig:CategoryXAxis.LabelSettings>
+						<ig:AxisLabelSettings Visibility="Collapsed" />
+					</ig:CategoryXAxis.LabelSettings>
+				</ig:CategoryXAxis>
+				<ig:NumericYAxis x:Name="yVolume" Strip="Transparent" MajorStroke="Transparent"
+						MinorStroke="Transparent" Stroke="Transparent" Height="88" Margin="0">
+					<ig:NumericYAxis.LabelSettings>
+						<ig:AxisLabelSettings Visibility="Collapsed" />
+					</ig:NumericYAxis.LabelSettings>
+				</ig:NumericYAxis>
+			</ig:XamDataChart.Axes>
+
+			<ig:XamDataChart.Series>
+				<ig:ColumnSeries ItemsSource="{Binding FilteredData}" ValueMemberPath="Volume"
+						XAxis="{Binding ElementName=xVolume}" YAxis="{Binding ElementName=yVolume}" Height="88"
+						Margin="05" Brush="#FF626262" Outline="Transparent" />
+			</ig:XamDataChart.Series>
+		</ig:XamDataChart>
+
+		<!-- Sales Volume Label -->
+		<Grid Style="{StaticResource ChartTitleGrid}" Grid.Row="4" Background="{x:Null}">
+			<Rectangle Fill="#99333333" RadiusX="2" RadiusY="2" />
+			<TextBlock Text="{Binding Strings.Sales_Volume, Source={StaticResource LocalizedResources}, Mode=OneTime}"
+					Style="{StaticResource ChartTitle}" />
+		</Grid>
+
+		<!-- Zoombar -->
+		<controls:ZoombarEx Grid.Row="5" d:LayoutOverrides="Height"
+				Range="{Binding ElementName=stockChart, Path=HorizontalZoombar.Range, Mode=TwoWay}"
+				Style="{StaticResource XamZoombarStyle1}">
+			<ig:XamZoombar.HorizontalPreviewContent>
+				<ig:XamDataChart DataContext="{Binding SelectedStock, Mode=OneWay}"
+						HorizontalZoombarVisibility="Collapsed" VerticalZoombarVisibility="Collapsed"
+						HorizontalZoomable="True" Margin="0" PlotAreaBorderThickness="0"
+						PlotAreaBorderBrush="Transparent" PlotAreaBackground="Transparent" Padding="0"
+                        Background="Transparent">
+					<ig:XamDataChart.Axes>
+						<ig:CategoryXAxis x:Name="xStockValueZoom" ItemsSource="{Binding FilteredData, Mode=OneWay}"
+								Label="{}{Date:d}" Strip="Transparent" Stroke="Transparent" MajorStroke="Transparent"
+								MinorStroke="Transparent" Interval="{Binding RangeIntervalX}">
+							<ig:CategoryXAxis.LabelSettings>
+								<ig:AxisLabelSettings Visibility="Collapsed" />
+							</ig:CategoryXAxis.LabelSettings>
+						</ig:CategoryXAxis>
+						<ig:NumericYAxis x:Name="yStockValueZoom" Strip="Transparent" MajorStroke="Transparent"
+								Stroke="Transparent" MinorStroke="Transparent" Interval="{Binding RangeIntervalY}">
+							<ig:NumericYAxis.LabelSettings>
+								<ig:AxisLabelSettings Visibility="Collapsed" />
+							</ig:NumericYAxis.LabelSettings>
+						</ig:NumericYAxis>
+					</ig:XamDataChart.Axes>
+					<ig:XamDataChart.Series>
+						<ig:LineSeries ItemsSource="{Binding FilteredData, Mode=OneWay}" ValueMemberPath="Close"
+								MarkerType="None" Brush="{StaticResource GreenText}"
+								XAxis="{Binding ElementName=xStockValueZoom}"
+								YAxis="{Binding ElementName=yStockValueZoom}" FontFamily="Arial" />
+					</ig:XamDataChart.Series>
+				</ig:XamDataChart>
+			</ig:XamZoombar.HorizontalPreviewContent>
+		</controls:ZoombarEx>
+		<Rectangle Fill="#FF666666" Height="1" Margin="0" VerticalAlignment="Top" Grid.Row="6" />
+
+		<!-- ??? Label -->
+		<Grid Style="{StaticResource ChartTitleGrid}" Grid.Row="5" Background="{x:Null}">
+			<Rectangle Fill="#99333333" RadiusX="2" RadiusY="2" />
+			<TextBlock
+					Text="{Binding Strings.Price_Over_Time, Source={StaticResource LocalizedResources}, Mode=OneTime}"
+					Style="{StaticResource ChartTitle}" />
+		</Grid>
+
+		<!-- Line Pattern -->
+		<Image Source="../Assets/Images/linePattern_full.png" Stretch="Fill" Grid.RowSpan="5"
+				IsHitTestVisible="False" Grid.Row="1" Opacity="0.8" />
+
+		<!-- Choose Chart Type -->
+		<StackPanel HorizontalAlignment="Right" Margin="0" Grid.Row="2" Orientation="Horizontal">
+			<TextBlock
+					Text="{Binding Strings.Choose_Chart_Type, Source={StaticResource LocalizedResources}, Mode=OneTime}"
+					Style="{StaticResource ChooseChartTypeTitle}" />
+			<RadioButton Style="{StaticResource ChartType_RadioButton}" Height="26" BorderThickness="0"
+					Command="{Binding SelectedChartTypeCommand, Mode=OneWay}" CommandParameter="0"
+					GroupName="ChartTypeGroup"
+					IsChecked="{Binding SelectedChartType, ConverterParameter=0, Converter={StaticResource StringComparisonToBoolValueConverter}, Mode=OneWay}"
+					Margin="0,0,6,0" Cursor="Hand">
+				<ToolTipService.ToolTip>
+					<ToolTip Style="{StaticResource TooltipStyle1}">
+						<TextBlock Style="{StaticResource TooltipText}"><Run
+									Text="{Binding Strings.Chart_Line, Source={StaticResource LocalizedResources}, Mode=OneTime}"
+									FontWeight="Bold" /><LineBreak /><Run
+									Text="{Binding Strings.Chart_Line_Desc, Source={StaticResource LocalizedResources}, Mode=OneTime}" /></TextBlock>
+					</ToolTip>
+				</ToolTipService.ToolTip>
+				<Image Height="26" Width="46" Source="../Assets/Images/chartType1.png" Stretch="Fill" Margin="0" />
+			</RadioButton>
+			<RadioButton Style="{StaticResource ChartType_RadioButton}" Height="26" BorderThickness="0"
+					Command="{Binding SelectedChartTypeCommand, Mode=OneWay}" CommandParameter="1"
+					GroupName="ChartTypeGroup"
+					IsChecked="{Binding SelectedChartType, ConverterParameter=1, Converter={StaticResource StringComparisonToBoolValueConverter}, Mode=OneWay}"
+					Margin="0,0,6,0" Cursor="Hand">
+				<ToolTipService.ToolTip>
+					<ToolTip Style="{StaticResource TooltipStyle1}">
+						<TextBlock Style="{StaticResource TooltipText}"><Run
+									Text="{Binding Strings.Chart_OHLC, Source={StaticResource LocalizedResources}, Mode=OneTime}"
+									FontWeight="Bold" /><LineBreak /><Run
+									Text="{Binding Strings.Chart_OHLC_Desc, Source={StaticResource LocalizedResources}, Mode=OneTime}" /></TextBlock>
+					</ToolTip>
+				</ToolTipService.ToolTip>
+				<Image Height="26" Width="46" Source="../Assets/Images/chartType2.png" Stretch="Fill" Margin="0" />
+			</RadioButton>
+			<RadioButton Style="{StaticResource ChartType_RadioButton}" Height="26" BorderThickness="0"
+					Command="{Binding SelectedChartTypeCommand, Mode=OneWay}" CommandParameter="2"
+					GroupName="ChartTypeGroup"
+					IsChecked="{Binding SelectedChartType, ConverterParameter=2, Converter={StaticResource StringComparisonToBoolValueConverter}, Mode=OneWay}"
+					Margin="0,0,6,0" Cursor="Hand">
+				<ToolTipService.ToolTip>
+					<ToolTip Style="{StaticResource TooltipStyle1}">
+						<TextBlock Style="{StaticResource TooltipText}"><Run
+									Text="{Binding Strings.Chart_Area, Source={StaticResource LocalizedResources}, Mode=OneTime}"
+									FontWeight="Bold" /><LineBreak /><Run
+									Text="{Binding Strings.Chart_Area_Desc, Source={StaticResource LocalizedResources}, Mode=OneTime}" /></TextBlock>
+					</ToolTip>
+				</ToolTipService.ToolTip>
+				<Image Height="26" Width="46" Source="../Assets/Images/chartType3.png" Stretch="Fill" Margin="0" />
+			</RadioButton>
+			<RadioButton Style="{StaticResource ChartType_RadioButton}" Height="26" BorderThickness="0"
+					Command="{Binding SelectedChartTypeCommand, Mode=OneWay}" CommandParameter="3"
+					GroupName="ChartTypeGroup"
+					IsChecked="{Binding SelectedChartType, ConverterParameter=3, Converter={StaticResource StringComparisonToBoolValueConverter}, Mode=OneWay}"
+					Margin="0,0,6,0" Cursor="Hand">
+				<ToolTipService.ToolTip>
+					<ToolTip Style="{StaticResource TooltipStyle1}">
+						<TextBlock Style="{StaticResource TooltipText}"><Run
+									Text="{Binding Strings.Chart_CandleStick, Source={StaticResource LocalizedResources}, Mode=OneTime}"
+									FontWeight="Bold" /><LineBreak /><Run
+									Text="{Binding Strings.Chart_CandleStick_Desc, Source={StaticResource LocalizedResources}, Mode=OneTime}" /></TextBlock>
+					</ToolTip>
+				</ToolTipService.ToolTip>
+				<Image Height="26" Width="46" Source="../Assets/Images/chartType4.png" Stretch="Fill" Margin="0" />
+			</RadioButton>
+		</StackPanel>
+		</Grid>
+	</Grid>
+</UserControl>

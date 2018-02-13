@@ -1,0 +1,369 @@
+﻿<framework:NavigationPage 
+    x:Class="IGShowcase.AirplaneSeatingChart.Views.SeatingMapView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+	xmlns:vm="clr-namespace:IGShowcase.AirplaneSeatingChart.ViewModels" 
+	xmlns:views="clr-namespace:IGShowcase.AirplaneSeatingChart.Views" 
+	xmlns:local="clr-namespace:IGShowcase.AirplaneSeatingChart.Converters" 
+	xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+    xmlns:converters="clr-namespace:IGExtensions.Common.Converters;assembly=IGExtensions.Common"
+    xmlns:assets="clr-namespace:IGShowcase.AirplaneSeatingChart.Resources" 
+    xmlns:framework="clr-namespace:IGExtensions.Framework.Controls;assembly=IGExtensions.Framework" 
+    xmlns:custom="clr-namespace:IGExtensions.Common.Maps.StyleSelectors;assembly=IGExtensions.Common.Maps"
+    d:DesignHeight="800" d:DesignWidth="1000"  mc:Ignorable="d">
+    <framework:NavigationPage.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGShowcase.AirplaneSeatingChart;component/Assets/Styles/AppBrushes.xaml"/>
+                <ResourceDictionary Source="/IGShowcase.AirplaneSeatingChart;component/Assets/Styles/XamDataChartStyles.xaml"/>
+                <ResourceDictionary Source="/IGShowcase.AirplaneSeatingChart;component/Assets/Styles/XamGeographicMapStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        <assets:AppLocalizer x:Key="AppLocalizer" />
+        <converters:VisibilityConverter x:Key="nullToVisibilityConverter" />
+        <local:AreaImageSourceConverter x:Key="areaImageSourceConverter" />
+
+            <custom:ComparisonStyleSelector x:Key="ComparisonStyleSelector" >
+                <custom:ComparisonStyleSelector.Rules>
+                    <custom:ComparisonStyleRule ValueMemberPath="IsDisabled" ComparisonValue="True" StyleToApply="{StaticResource DisabledSeatStyle}"/>
+                    <custom:ComparisonStyleRule ValueMemberPath="IsOccupied" ComparisonValue="True" StyleToApply="{StaticResource OccupiedSeatStyle}" />
+                    <custom:ComparisonStyleRule ValueMemberPath="IsSelected" ComparisonValue="True" StyleToApply="{StaticResource SelectedSeatStyle}" />
+                    <custom:ComparisonStyleRule ValueMemberPath="SeatType" ComparisonValue="StandardSeat" StyleToApply="{StaticResource StandardSeatStyle}" />
+                    <custom:ComparisonStyleRule ValueMemberPath="SeatType" ComparisonValue="GoodSeat" StyleToApply="{StaticResource GoodSeatStyle}" />
+                    <custom:ComparisonStyleRule ValueMemberPath="SeatType" ComparisonValue="SomeDrawbacks" StyleToApply="{StaticResource SomeDrawbacksSeatStyle}" />
+                    <custom:ComparisonStyleRule ValueMemberPath="SeatType" ComparisonValue="PoorSeat" StyleToApply="{StaticResource PoorSeatStyle}" />
+                </custom:ComparisonStyleSelector.Rules>
+            </custom:ComparisonStyleSelector>
+            <custom:BasicShapeStyleSelector x:Key="AreaIconsShapeSelector"
+                                            PathStyle="{StaticResource SeatLabelStyle}"
+                                            ShapeControlStyle="{StaticResource SeatLabelStyle_ShapeControl}"/>
+            <ig:BrushCollection x:Key="mapBrushes">
+                <SolidColorBrush Color="#87CEEB"/>
+                <SolidColorBrush Color="White"/>
+                <SolidColorBrush Color="#78E078"/>
+                <SolidColorBrush Color="#FFF46D"/>
+                <SolidColorBrush Color="#FF812D"/>
+                <LinearGradientBrush StartPoint="0.4,0" EndPoint="0.4,1.0">
+                    <GradientStop Color="#FF4178af" Offset="0" />
+                    <GradientStop Color="#FF1c4c7c" Offset="0.9" />
+                </LinearGradientBrush>
+                <SolidColorBrush Color="#D7D7D7"/>
+            </ig:BrushCollection>
+        </ResourceDictionary>
+    </framework:NavigationPage.Resources>
+
+    <framework:NavigationPage.DataContext>
+        <vm:SeatingMapViewModel SeatBrushes="{StaticResource mapBrushes}"/>
+    </framework:NavigationPage.DataContext>
+
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="600"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="1" Margin="12,0,12,24" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" MinWidth="120"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" MinHeight="70"/>
+                    <RowDefinition Height="12" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="{Binding Path=AppStrings.SelectClass, Source={StaticResource AppLocalizer}, Mode=OneTime}" Style="{StaticResource SelectedItems}" d:LayoutOverrides="Width" VerticalAlignment="Center" />
+                <!-- Class Selection -->
+                <StackPanel Orientation="Horizontal" Grid.Column="1">
+                    <ListBox BorderThickness="0" Margin="0" Padding="0"
+						ItemsSource="{Binding Path=Classes, Mode=OneWay}" 
+						SelectedItem="{Binding Path=SelectedClass, Mode=TwoWay}" ItemContainerStyle="{StaticResource MenuBoxItemStyle}" Background="{x:Null}" BorderBrush="{x:Null}" >
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=SeatCategory, Mode=OneWay}" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </StackPanel>
+                <TextBlock Grid.Row="2" Text="{Binding Path=AppStrings.SelectedSeat, Mode=OneTime, Source={StaticResource AppLocalizer}}" Style="{StaticResource SelectedItems}" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                <Border Grid.Row="2" HorizontalAlignment="Left"  VerticalAlignment="stretch" Height="40" Grid.Column="1">
+                    <Grid>
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <TextBlock Text="{Binding SelectedSeat.Position, Mode=OneWay}" Style="{StaticResource HeaderLabelStyle}" Foreground="{StaticResource ForegroundAccent}" FontSize="20" Margin="10,0,10,0" />
+                        </StackPanel>
+                        <Rectangle  StrokeDashArray="1,0,1" Stroke="{StaticResource SelectedSeatDashedBorderBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                    </Grid>
+                </Border>
+                <!-- Selected seat -->
+            </Grid>
+            <Border Grid.Row="1" BorderThickness="1" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition MinWidth="300"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Border >
+                        <TextBlock Text="{Binding Path=AppStrings.SeatMapKey, Source={StaticResource AppLocalizer}, Mode=OneTime}" Style="{StaticResource HeaderLabelStyle}"/>
+                    </Border>
+                    <Border Grid.Column="1" >
+                        <TextBlock Text="{Binding Path=AppStrings.CustomerSatisfaction, Source={StaticResource AppLocalizer}, Mode=OneTime}" Style="{StaticResource HeaderLabelStyle}"/>
+                    </Border>
+                    <!-- Customer Satisfaction DataChart -->
+                    <Grid Grid.Row="1" Margin="0,0,12,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="5,0">
+                            <Border BorderBrush="{StaticResource SeatOccupiedBorderBrush}" Background="{Binding Path=SeatBrushes[0]}"  Style="{StaticResource LegendSwatchStyle}" />
+                            <TextBlock Text="{Binding Path=AppStrings.Occupied, Source={StaticResource AppLocalizer}, Mode=OneTime}" Style="{StaticResource CellsTextStyle}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="5,0">
+                            <Border Background="{Binding Path=SeatBrushes[1]}" Style="{StaticResource LegendSwatchStyle}" BorderBrush="{StaticResource SeatStandardBorderBrush}" />
+                            <TextBlock Text="{Binding Path=AppStrings.StandartSeat, Source={StaticResource AppLocalizer}, Mode=OneTime}" Style="{StaticResource CellsTextStyle}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Center" Margin="5,0">
+                            <Border BorderBrush="{StaticResource SeatGoodBorderBrush}" Style="{StaticResource LegendSwatchStyle}" Background="{Binding Path=SeatBrushes[2]}"   />
+                            <TextBlock Text="{Binding Path=AppStrings.GoodSeat, Source={StaticResource AppLocalizer}, Mode=OneTime}" Style="{StaticResource CellsTextStyle}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Center" Margin="5,0">
+                            <Border BorderBrush="{StaticResource SomeDrawbacksBorderBrush}" Background="{Binding Path=SeatBrushes[3]}" Style="{StaticResource LegendSwatchStyle}" />
+                            <TextBlock Text="{Binding Path=AppStrings.SomeDrawbacks, Source={StaticResource AppLocalizer}, Mode=OneTime}" Style="{StaticResource CellsTextStyle}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="4" Orientation="Horizontal" VerticalAlignment="Center" Margin="5,0">
+                            <Border BorderBrush="{StaticResource SeatBadBorderBrush}"  Background="{Binding Path=SeatBrushes[4]}"  Style="{StaticResource LegendSwatchStyle}" />
+                            <TextBlock Text="{Binding Path=AppStrings.BadSeat, Source={StaticResource AppLocalizer}, Mode=OneTime}" Style="{StaticResource CellsTextStyle}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="5" Orientation="Horizontal" VerticalAlignment="Center" Margin="5,0">
+                            <Border Background="{Binding Path=SeatBrushes[5]}"  BorderBrush="{StaticResource SeatSelectedBorderBrush}" Style="{StaticResource LegendSwatchStyle}" />
+                            <TextBlock Text="{Binding Path=AppStrings.SelectedSeat, Source={StaticResource AppLocalizer}, Mode=OneTime}" Style="{StaticResource CellsTextStyle}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="5,0">
+                            <Image Source="/IGShowcase.AirplaneSeatingChart;component/Assets/Images/Lavatory.png" Stretch="None" Opacity="0.7"/>
+                            <TextBlock Text="{Binding Path=AppStrings.Lavetory, Source={StaticResource AppLocalizer}, Mode=OneTime}" Style="{StaticResource CellsTextStyle}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="5,0">
+                            <Image Source="/IGShowcase.AirplaneSeatingChart;component/Assets/Images/Galley.png" Stretch="None" Opacity="0.7"/>
+                            <TextBlock Text="{Binding Path=AppStrings.Galley, Source={StaticResource AppLocalizer}, Mode=OneTime}"  Style="{StaticResource CellsTextStyle}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="5,0">
+                            <Image Source="/IGShowcase.AirplaneSeatingChart;component/Assets/Images/ExitLeft.png" Stretch="None" Opacity="0.7"/>
+                            <TextBlock Text="{Binding Path=AppStrings.Exits, Source={StaticResource AppLocalizer}, Mode=OneTime}"  Style="{StaticResource CellsTextStyle}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="6" Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="5,0">
+                            <Border Background="{Binding Path=SeatBrushes[6]}" BorderBrush="{StaticResource SeatDisabledBorderBrush}" Style="{StaticResource LegendSwatchStyle}"/>
+                            <TextBlock Text="{Binding Path=AppStrings.Restricted, Source={StaticResource AppLocalizer}, Mode=OneTime}" Style="{StaticResource CellsTextStyle}"/>
+                        </StackPanel>
+                    </Grid>
+                    
+                    <!-- Customer Satisfaction DataChart -->
+                    <ig:XamDock Grid.Row="1" Grid.Column="1" Grid.RowSpan="2">
+                        <ig:Legend x:Name="Legend1" ig:XamDock.Edge="OutsideTop" ig:XamDock.HorizontalDockAlignment="Right"  
+                                   Style="{StaticResource LegendChartStyle}" Margin="0,0,0,8" />
+
+                        <ig:XamDataChart Legend="{Binding ElementName=Legend1}"
+										 Padding="0"  Background="Transparent"
+										 PlotAreaMinHeight="0" 
+										 PlotAreaBackground="Transparent" 
+										 PlotAreaBorderBrush="Transparent" 
+										 Foreground="{x:Null}" 
+										 HorizontalZoomable="True" 
+										 HorizontalZoombarVisibility="Collapsed" 
+										 VerticalZoomable="True" 
+										 VerticalZoombarVisibility="Collapsed" 
+										 DefaultInteraction="None" Margin="2,10,10,10">
+                            <ig:XamDataChart.Axes>
+                                <ig:TimeXAxis x:Name="xAxis" 
+										      ItemsSource="{Binding Path=Classes[1].CustomerSatisfaction, Mode=OneWay}" 
+										      DateTimeMemberPath="Date" 
+										      Label="{}{Date:MMM-yy}" 
+										      MajorStroke="#FFB3C8DD" 
+										      Stroke="#FFB3C8DD"  >
+                                    <ig:TimeXAxis.Intervals>
+                                        <ig:TimeAxisInterval 
+                                            Interval="60" Range="1.0:00:00"
+                                            IntervalType="Days" /> 
+                                        <ig:TimeAxisInterval 
+                                            Interval="6" Range="365.0:00:00"
+                                            IntervalType="Months" /> 
+                                        <ig:TimeAxisInterval 
+                                            Interval="1" Range="1825.0:00:00"
+                                            IntervalType="Years" /> 
+                                    </ig:TimeXAxis.Intervals>
+                                    <ig:TimeXAxis.LabelFormats>
+                                        <ig:TimeAxisLabelFormat
+                                            Format="MMM dd"
+                                            Range="1.00:00:00" />
+                                        <ig:TimeAxisLabelFormat
+                                            Format="yy MMM"
+                                            Range="365.0:00:00" />
+                                        <ig:TimeAxisLabelFormat
+                                            Format="yyyy"
+                                            Range="1825.0:00:00" />
+                                </ig:TimeXAxis.LabelFormats>
+                                    <ig:TimeXAxis.LabelSettings>
+                                        <ig:AxisLabelSettings FontSize="11"  Location="OutsideBottom" Padding="10,0" />
+                                    </ig:TimeXAxis.LabelSettings>
+                                </ig:TimeXAxis>
+                                <ig:NumericYAxis x:Name="yAxis" 
+                                                 Label="{}{0:p0}" Interval=".25"
+												 MajorStroke="#FFB3C8DD" 
+												 Stroke="#FFB3C8DD" >
+                                    <ig:NumericYAxis.LabelSettings>
+                                        <ig:AxisLabelSettings FontSize="11" Visibility="Visible" Location="OutsideLeft" />
+                                    </ig:NumericYAxis.LabelSettings>
+                                </ig:NumericYAxis>
+                            </ig:XamDataChart.Axes>
+
+                            <ig:XamDataChart.Series>
+                                <ig:LineSeries XAxis="{Binding ElementName=xAxis, Mode=OneWay}" 
+												    YAxis="{Binding ElementName=yAxis, Mode=OneWay}" 
+												    ItemsSource="{Binding Path=Classes[1].CustomerSatisfaction, Mode=OneWay}" 
+												    Title="{Binding Path=Classes[1].SeatCategory, Mode=OneWay}" 
+												    MarkerType="None" 
+												    ValueMemberPath="Value" IsTransitionInEnabled="True"
+												    TransitionDuration="0" />
+                                <ig:LineSeries XAxis="{Binding ElementName=xAxis, Mode=OneWay}" 
+												    YAxis="{Binding ElementName=yAxis, Mode=OneWay}" 
+												    ItemsSource="{Binding Path=Classes[2].CustomerSatisfaction, Mode=OneWay}" 
+												    Title="{Binding Path=Classes[2].SeatCategory, Mode=OneWay}"
+												    MarkerType="None" 
+												    ValueMemberPath="Value"  IsTransitionInEnabled="True"
+												    TransitionDuration="0" />
+                                <ig:LineSeries XAxis="{Binding ElementName=xAxis, Mode=OneWay}" 
+												    YAxis="{Binding ElementName=yAxis, Mode=OneWay}" 
+												    ItemsSource="{Binding Path=Classes[3].CustomerSatisfaction, Mode=OneWay}" 
+												    Title="{Binding Path=Classes[3].SeatCategory, Mode=OneWay}"
+												    MarkerType="None" 
+												    ValueMemberPath="Value"  IsTransitionInEnabled="True"
+												    TransitionDuration="0" />
+                                <ig:LineSeries XAxis="{Binding ElementName=xAxis, Mode=OneWay}" 
+												    YAxis="{Binding ElementName=yAxis, Mode=OneWay}" 
+												    ItemsSource="{Binding Path=Classes[4].CustomerSatisfaction, Mode=OneWay}" 
+												    Title="{Binding Path=Classes[4].SeatCategory, Mode=OneWay}"
+												    MarkerType="None" 
+												    ValueMemberPath="Value"  IsTransitionInEnabled="True"
+												    TransitionDuration="0"/>
+                            </ig:XamDataChart.Series>
+
+                        </ig:XamDataChart>
+                    </ig:XamDock>
+                    <Border Grid.Row="2" Grid.ColumnSpan="2"  Margin="0">
+                        <TextBlock Text="{Binding Path=AppStrings.FlightAmenities, Source={StaticResource AppLocalizer}, Mode=OneTime}" Style="{StaticResource HeaderLabelStyle}"/>
+                    </Border>
+                    <!-- Flight Amenities -->
+                    <views:FlightAmenitiesView Grid.Row="3" Grid.ColumnSpan="2" Margin="0,0,0,6" >
+                    </views:FlightAmenitiesView>
+                    <!-- Airplane Grid   -->
+                    <views:AirplaneGridView Grid.Row="4" Grid.ColumnSpan="2"  Margin="0,6,0,6"  >
+                    </views:AirplaneGridView>
+                </Grid>
+            </Border>
+        </Grid>
+        <Grid Margin="0,0,0,0">
+            <!--Airplane Map-->
+            <ig:XamGeographicMap x:Name="geoMap" 
+                             Background="transparent" 
+                             OverviewPlusDetailPaneVisibility="Collapsed"
+                             OverviewPlusDetailPaneHorizontalAlignment="Left"
+                             OverviewPlusDetailPaneVerticalAlignment="Bottom"
+                             SeriesMouseLeftButtonUp="geoMap_SeriesMouseLeftButtonUp"
+                             Zoomable="True"
+							 BorderThickness="0,0,0,0"
+                             Padding="0,0,10,0"
+                             Margin="10">
+                <ig:XamGeographicMap.BackgroundContent>
+                    <ig:OpenStreetMapImagery Opacity="0" />
+                </ig:XamGeographicMap.BackgroundContent>
+                <ig:XamGeographicMap.Series>
+                    <ig:GeographicShapeSeries x:Name="BodyLinSeries" IsHitTestVisible="false" 
+                                                     ShapeStyle="{StaticResource BodyMapLayerStyle}" 
+                                                     ShapeMemberPath="Shape" />
+                    <ig:GeographicShapeSeries x:Name="AreasPolSeries" 
+                                                     ShapeStyle="{StaticResource MapLayerStyle}"
+                                                     ShapeMemberPath="Shape"/>
+                    <ig:GeographicShapeControlSeries x:Name="SeatsPolSeries" 
+                                                     ShapeMemberPath="Shape"
+                                                     ShapeStyleSelector="{StaticResource ComparisonStyleSelector}">
+                        <ig:GeographicShapeControlSeries.ToolTip>
+                            <Border  Style="{StaticResource ToolTip}">
+                                <Grid>
+                                    <Path Margin="-20,4,0,4" HorizontalAlignment="Left" Width="10" Stretch="Fill" 
+                                      Data="M12,13 C12,13 22,-0.40000001 22,-0.40000001 C22,-0.40000001 22,28.847664 22,28.847664 C22,28.847664 12,13 12,14 z" 
+                                      UseLayoutRounding="False" Fill="{StaticResource AirplaneTooltipBackground}" VerticalAlignment="Center" />
+                                    <StackPanel VerticalAlignment="Top">
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                                            <TextBlock Text="{Binding Item.Position, Mode=OneWay}" FontSize="20" Style="{StaticResource ToolTipText}" Margin="0,0,10,0" VerticalAlignment="Top" />
+                                            <TextBlock Text="{Binding Item.Class, Mode=OneWay}" FontSize="20" Style="{StaticResource ToolTipText}" VerticalAlignment="Top" />
+                                        </StackPanel>
+                                        <TextBlock Text="{Binding Item.StatusText, Mode=OneWay}" FontSize="10"  Style="{StaticResource ToolTipText}" VerticalAlignment="Top" />
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </ig:GeographicShapeControlSeries.ToolTip>
+
+
+                    </ig:GeographicShapeControlSeries>
+                    <ig:GeographicShapeSeries  x:Name="SeatLabelsLinSeries" 
+                                              ShapeStyle="{StaticResource SeatLabelStyle}"  
+                                              ShapeMemberPath="Shape" IsHitTestVisible="False">
+                        <ig:GeographicShapeSeries.MarkerTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=Item.Label, Mode=OneWay}" Foreground="Gray"/>
+                            </DataTemplate>
+                        </ig:GeographicShapeSeries.MarkerTemplate>
+                    </ig:GeographicShapeSeries>
+                    <ig:GeographicShapeSeries x:Name="AreaIconsLinSeries" ShapeStyleSelector="{StaticResource AreaIconsShapeSelector}" ShapeMemberPath="Shape">
+                        <ig:GeographicShapeSeries.MarkerTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding Path=Item.Type, Converter={StaticResource areaImageSourceConverter}, Mode=OneWay}" IsHitTestVisible="False" Opacity="0.5" />
+                            </DataTemplate>
+                        </ig:GeographicShapeSeries.MarkerTemplate>
+                        <ig:GeographicShapeSeries.ToolTip>
+                            <Border  Style="{StaticResource ToolTip}"  >
+                                <Grid>
+                                    <Path Margin="-20,4,0,4" HorizontalAlignment="Left" Width="10" Stretch="Fill" 
+                                      Data="M12,13 C12,13 22,-0.40000001 22,-0.40000001 C22,-0.40000001 22,28.847664 22,28.847664 C22,28.847664 12,13 12,14 z" 
+                                      UseLayoutRounding="False" Fill="{StaticResource AirplaneTooltipBackground}" VerticalAlignment="Center" />
+                                    <StackPanel VerticalAlignment="Top">
+                                        <TextBlock Text="{Binding Item.Type, Mode=OneWay}" FontSize="20" Style="{StaticResource ToolTipText}" Margin="0,0,10,0" VerticalAlignment="Top" />
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </ig:GeographicShapeSeries.ToolTip>
+                    </ig:GeographicShapeSeries>
+                </ig:XamGeographicMap.Series>
+            </ig:XamGeographicMap>
+        </Grid>
+    </Grid>
+</framework:NavigationPage>

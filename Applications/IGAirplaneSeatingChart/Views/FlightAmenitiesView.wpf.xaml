@@ -1,0 +1,150 @@
+﻿<UserControl 
+    x:Class="IGShowcase.AirplaneSeatingChart.Views.FlightAmenitiesView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:local="clr-namespace:IGShowcase.AirplaneSeatingChart.Converters" 
+    xmlns:exControls="clr-namespace:IGExtensions.Common.Controls;assembly=IGExtensions.Common" 
+    mc:Ignorable="d"    d:DesignHeight="300" d:DesignWidth="400">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!--<ResourceDictionary Source="/IGShowcase.AirplaneSeatingChart;component/IG.ControlsStyles.xaml"/>-->
+           
+            </ResourceDictionary.MergedDictionaries>
+
+            <ig:BrushCollection x:Key="amentitiesBrushes">
+                <SolidColorBrush Color="{StaticResource AmenitiesBrushes2}"/>
+                <SolidColorBrush Color="{StaticResource AmenitiesBrushes1}"/>
+            </ig:BrushCollection>
+            <local:AmentitiesColorConverter x:Key="AmentitiesColorConverter" />
+			
+            <Style x:Key="AmenetiesLabelStyle" TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="Segoe UI" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+		        <Setter Property="FontSize" Value="14.667"/>
+                <Setter Property="Foreground" Value="{StaticResource ForegroundDark}" />
+            </Style>
+            <Style x:Key="AmenetiesTextStyle" TargetType="TextBlock">
+		        <Setter Property="FontSize" Value="13.333"/>
+		        <Setter Property="FontFamily" Value="Segoe UI"/>
+                <Setter Property="TextWrapping" Value="Wrap" />
+                <Setter Property="Foreground" Value="{StaticResource ForegroundDark}" />
+            </Style>
+            <SolidColorBrush x:Key="TabControlNormalBorderBrush" Color="#8C8E94"/>
+			
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot"   >
+    	<!--<Rectangle Fill="{StaticResource AppNavigationHeaderBackground}" Height="6" VerticalAlignment="Top" Width="398" HorizontalAlignment="Left"/>-->
+        <!--Style="{StaticResource AirplaneSeatingMapTabControlStyle}" -->
+        <exControls:TabControl Background="Transparent"  >
+            <!--Style="{StaticResource AirplaneSeatingMapTabItemStyle}"-->
+            <exControls:TabItem >
+                <exControls:TabItem.Header>
+                    <Grid Width="50">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <ContentControl Template="{StaticResource FoodIcon}" 
+													Foreground="{Binding HasFood, ConverterParameter={StaticResource amentitiesBrushes}, Converter={StaticResource AmentitiesColorConverter}, Mode=OneTime}"
+													HorizontalAlignment="Center" 
+													VerticalAlignment="Center"/>
+                        <TextBlock Grid.Row="1" Text="{Binding Path=AppStrings.Food, Source={StaticResource AppLocalizer}, Mode=OneTime}" Style="{StaticResource AmenetiesLabelStyle}"/>
+                    </Grid>
+                </exControls:TabItem.Header>
+                <TextBlock Text="{Binding Path=AppStrings.FoodText, Source={StaticResource AppLocalizer}, Mode=OneTime}" Style="{StaticResource AmenetiesTextStyle}"/>
+            </exControls:TabItem>
+            <!--Style="{StaticResource AirplaneSeatingMapTabItemStyle}"-->
+            <exControls:TabItem >
+                <exControls:TabItem.Header>
+                    <Grid Width="50">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <ContentControl Template="{StaticResource AudioIcon}" 
+													Foreground="{Binding HasAudio, ConverterParameter={StaticResource amentitiesBrushes}, Converter={StaticResource AmentitiesColorConverter}, Mode=OneTime}" 
+													HorizontalAlignment="Center" 
+													VerticalAlignment="Center"/>
+                        <TextBlock Grid.Row="1" Text="{Binding Path=AppStrings.Audio, Source={StaticResource AppLocalizer}, Mode=OneTime}" Style="{StaticResource AmenetiesLabelStyle}"/>
+                    </Grid>
+                </exControls:TabItem.Header>
+                <TextBlock Text="{Binding Path=AppStrings.AudioText, Source={StaticResource AppLocalizer}, Mode=OneTime}" Style="{StaticResource AmenetiesTextStyle}"/>
+            </exControls:TabItem>
+            <!--Style="{StaticResource AirplaneSeatingMapTabItemStyle}"-->
+            <exControls:TabItem >
+                <exControls:TabItem.Header>
+                    <Grid Width="50">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <ContentControl Template="{StaticResource VideoIcon}" 
+													Foreground="{Binding HasVideo, ConverterParameter={StaticResource amentitiesBrushes}, Converter={StaticResource AmentitiesColorConverter}, Mode=OneTime}" 
+													HorizontalAlignment="Center" 
+													VerticalAlignment="Center"/>
+                        <TextBlock Grid.Row="1" Text="{Binding Path=AppStrings.Video, Source={StaticResource AppLocalizer}, Mode=OneTime}" Style="{StaticResource AmenetiesLabelStyle}"/>
+                    </Grid>
+                </exControls:TabItem.Header>
+                <TextBlock Text="{Binding Path=AppStrings.VideoText, Source={StaticResource AppLocalizer}, Mode=OneTime}" Style="{StaticResource AmenetiesTextStyle}"/>
+            </exControls:TabItem>
+            <!--Style="{StaticResource AirplaneSeatingMapTabItemStyle}"-->
+            <exControls:TabItem >
+                <exControls:TabItem.Header>
+                    <Grid Width="50">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <ContentControl Template="{StaticResource PowerIcon}" 
+													Foreground="{Binding HasPower, ConverterParameter={StaticResource amentitiesBrushes}, Converter={StaticResource AmentitiesColorConverter}, Mode=OneTime}" 
+													HorizontalAlignment="Center" 
+													VerticalAlignment="Center"/>
+                        <TextBlock Grid.Row="1" Text="{Binding Path=AppStrings.Power, Source={StaticResource AppLocalizer}, Mode=OneTime}" Style="{StaticResource AmenetiesLabelStyle}"/>
+                    </Grid>
+                </exControls:TabItem.Header>
+                <TextBlock Text="{Binding Path=AppStrings.PowerText, Source={StaticResource AppLocalizer}, Mode=OneTime}" Style="{StaticResource AmenetiesTextStyle}"/>
+            </exControls:TabItem>
+            <!--Style="{StaticResource AirplaneSeatingMapTabItemStyle}"-->
+            <exControls:TabItem >
+                <exControls:TabItem.Header>
+                    <Grid Width="50">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <ContentControl Template="{StaticResource InternetIcon}" 
+													Foreground="{Binding HasInternet, ConverterParameter={StaticResource amentitiesBrushes}, Converter={StaticResource AmentitiesColorConverter}, Mode=OneTime}" 
+													HorizontalAlignment="Center" 
+													VerticalAlignment="Center"/>
+                        <TextBlock Grid.Row="1" Text="{Binding Path=AppStrings.Internet, Source={StaticResource AppLocalizer}, Mode=OneTime}" Style="{StaticResource AmenetiesLabelStyle}"/>
+                    </Grid>
+                </exControls:TabItem.Header>
+                <TextBlock Text="{Binding Path=AppStrings.InternetText, Source={StaticResource AppLocalizer}, Mode=OneTime}" Style="{StaticResource AmenetiesTextStyle}"/>
+            </exControls:TabItem>
+            <!--Style="{StaticResource AirplaneSeatingMapTabItemStyle}"-->
+            <exControls:TabItem >
+                <exControls:TabItem.Header>
+                    <Grid Width="50">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <ContentControl Template="{StaticResource InfantIcon}" 
+													Foreground="{Binding HasInfant, ConverterParameter={StaticResource amentitiesBrushes}, Converter={StaticResource AmentitiesColorConverter}, Mode=OneTime}" 
+													HorizontalAlignment="Center" 
+													VerticalAlignment="Center"/>
+                        <TextBlock Grid.Row="1" Text="{Binding Path=AppStrings.Infant, Source={StaticResource AppLocalizer}, Mode=OneTime}" Style="{StaticResource AmenetiesLabelStyle}"/>
+                    </Grid>
+                </exControls:TabItem.Header>
+                <TextBlock Text="{Binding Path=AppStrings.InfantText, Source={StaticResource AppLocalizer}, Mode=OneTime}" Style="{StaticResource AmenetiesTextStyle}"/>
+            </exControls:TabItem>
+        </exControls:TabControl>
+
+    </Grid>
+</UserControl>

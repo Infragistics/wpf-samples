@@ -1,0 +1,51 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+	xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" >
+
+<!-- Hide Legend -->
+	<Style x:Key="hideLegend" TargetType="ig:TimelineLegend">
+		<Setter Property="Visibility" Value="Collapsed" />
+	</Style>
+	
+<!-- Details Style -->
+    <Style x:Key="detailsStyle" TargetType="ig:EventDetails">
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Bottom" /> 
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ig:EventDetails">
+                	<Image Source="{Binding PictureLink}" Height="0" Margin="1,0" d:LayoutOverrides="VerticalAlignment, Height" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+<!-- Scene Style -->
+    <Style x:Key="SceneStyle" TargetType="ig:Scene">
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ig:Scene">
+                    <Grid Margin="0">
+                        <ig:StripesPanel x:Name="StripesPanelElement"/>
+                        <ig:GridLinesPanel x:Name="GridLinesPanelElement"/>
+                        <Grid Style="{TemplateBinding SceneGridStyle}">
+                            <Grid.RowDefinitions>
+								<RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+								<RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <ig:EventTitlesPanel x:Name="TitlesPanelTopOrLeftElement" Grid.Row="0" Position="TopOrLeft"/>
+                            <Grid x:Name="AxisPaneElement" Grid.Row="1"/>
+                            <ig:EventTitlesPanel x:Name="TitlesPanelBottomOrRightElement" Grid.Row="2" Position="BottomOrRight" Margin="0 20 0 0"/>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

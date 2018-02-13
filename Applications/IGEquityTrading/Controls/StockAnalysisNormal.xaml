@@ -1,0 +1,112 @@
+﻿<UserControl x:Class="IGTrading.Controls.StockAnalysisNormal"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:ig="http://schemas.infragistics.com/xaml"
+             xmlns:controls="clr-namespace:IGTrading.Controls"
+             xmlns:igWindows="http://infragistics.com/Windows" 
+             xmlns:loc="clr-namespace:IGTrading.Assets.LocalizedResources" mc:Ignorable="d"
+             d:DesignHeight="300"
+             d:DesignWidth="300">
+    <UserControl.Resources>
+        <loc:LocalizedResources x:Key="LocalizedResources"/>
+    </UserControl.Resources>
+    <igWindows:XamTabControl  Style="{DynamicResource XamTabControlStyle1}">
+        <igWindows:TabItemEx Header="{Binding Strings.Chart, Source={StaticResource LocalizedResources}, Mode=OneTime}"
+                             Style="{DynamicResource TabItemExStyle1}">
+            <Grid DataContext="{StaticResource stockViewModel}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height=".8*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height=".2*" />
+                </Grid.RowDefinitions>
+                <ListBox x:Name="StockListBox"
+                         ItemsPanel="{StaticResource ListBoxItemsPanelTemplateH}"
+                         ItemTemplate="{StaticResource StockTemplate}"
+                         ItemsSource="{Binding Tickers}"
+                         SelectedItem="{Binding SelectedStock, Mode=TwoWay}"
+                         Margin="0"
+                         Style="{StaticResource ListBoxStyle1}"
+                         Height="41"
+                         BorderThickness="0"
+                         ItemContainerStyle="{StaticResource StocksListBoxItemStyle1}">
+                    <ListBox.Background>
+                        <ImageBrush Stretch="Fill" />
+                    </ListBox.Background>
+                </ListBox>
+                <ContentControl Grid.Row="1"
+                                x:Name="MiniChart" />
+                <!-- Content="{StaticResource MiniStocksChart}" -->
+                <Grid  Style="{StaticResource ChartTitleGrid}"
+                       VerticalAlignment="Top"
+                       Margin="0"
+                       Grid.Row="2"
+                       Background="{x:Null}">
+                    <Rectangle Fill="#99333333"
+                               RadiusX="2"
+                               RadiusY="2" />
+                    <TextBlock Text="{Binding Strings.Sales_Volume, Source={StaticResource LocalizedResources}}"
+                               Style="{StaticResource ChartTitle}" />
+                </Grid>
+                <ig:XamDataChart x:Name="stockChart"
+                                 Grid.Row="3"
+                                 DataContext="{Binding SelectedStock}"
+                                 HorizontalZoombarVisibility="Collapsed"
+                                 VerticalZoombarVisibility="Collapsed"
+                                 HorizontalZoomable="True"
+                                 Margin="0"
+                                 PlotAreaBorderThickness="0"
+                                 PlotAreaBorderBrush="Transparent"
+                                 PlotAreaBackground="Transparent"
+                                 Background="Transparent">
+
+                    <ig:XamDataChart.Axes>
+                        <ig:CategoryXAxis x:Name="xVolume"
+                                          ItemsSource="{Binding FilteredData}"
+                                          Label="{}{0}"
+                                          Strip="Transparent"
+                                          MajorStroke="Transparent"
+                                          Stroke="Transparent"
+                                          MinorStroke="Transparent"
+                                          Gap="5">
+                            <ig:CategoryXAxis.LabelSettings>
+                                <ig:AxisLabelSettings Visibility="Collapsed" />
+                            </ig:CategoryXAxis.LabelSettings>
+                        </ig:CategoryXAxis>
+                        <ig:NumericYAxis x:Name="yVolume"
+                                         Label=""
+                                         Strip="Transparent"
+                                         MajorStroke="Transparent"
+                                         Stroke="Transparent"
+                                         MinorStroke="Transparent">
+                            <ig:NumericYAxis.LabelSettings>
+                                <ig:AxisLabelSettings Visibility="Collapsed" />
+                            </ig:NumericYAxis.LabelSettings>
+                        </ig:NumericYAxis>
+                    </ig:XamDataChart.Axes>
+
+                    <ig:XamDataChart.Series>
+                        <ig:ColumnSeries ItemsSource="{Binding FilteredData}"
+                                         ValueMemberPath="Volume"
+                                         XAxis="{Binding ElementName=xVolume}"
+                                         YAxis="{Binding ElementName=yVolume}"
+                                         Brush="#FF626262"
+                                         Outline="Transparent" />
+                    </ig:XamDataChart.Series>
+                    <ig:SyncManager.SyncSettings>
+                        <ig:SyncSettings SyncChannel="Group1"
+                                         SynchronizeHorizontally="True"
+                                         SynchronizeVertically="False" />
+                    </ig:SyncManager.SyncSettings>
+                </ig:XamDataChart>
+            </Grid>
+        </igWindows:TabItemEx>
+        <igWindows:TabItemEx Header="{Binding Strings.Heat_Map, Source={StaticResource LocalizedResources}, Mode=OneTime}"
+                             Style="{DynamicResource TabItemExStyle1}">
+            <controls:HeatMapChart HorizontalAlignment="Stretch"
+                                   VerticalAlignment="Stretch" />
+        </igWindows:TabItemEx>
+    </igWindows:XamTabControl>
+</UserControl>

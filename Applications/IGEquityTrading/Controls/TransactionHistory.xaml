@@ -1,0 +1,84 @@
+﻿<UserControl
+    x:Class="IGTrading.Controls.TransactionHistory"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:igGrid="http://infragistics.com/DataPresenter"
+    xmlns:igEditors="http://infragistics.com/Editors"
+    xmlns:conv="clr-namespace:IGTrading.Converters" xmlns:loc="clr-namespace:IGTrading.Assets.LocalizedResources" mc:Ignorable="d"
+      
+    d:DesignHeight="500" d:DesignWidth="550">
+    <!--NOTE: this works only in MS Blend -->
+    <!--    d:DataContext="{d:DesignData /Assets/SampleData/StocksDashboardSampleData.xaml}"    -->
+
+    <UserControl.Resources>
+        <loc:LocalizedResources x:Key="LocalizedResources"/>
+        <conv:TransactionTypeToStringConverter x:Key="transactionTypeConverter" />
+    </UserControl.Resources>
+    <igGrid:XamDataGrid DataSource="{Binding StockTransactionHistory}"
+                                    x:Name="historyGrid"
+                                    ScrollingMode="DeferredWithScrollTips"
+                                    GroupByAreaLocation="None"
+                                    Style="{StaticResource XamDataGridStyle1}">
+        <igGrid:XamDataGrid.FieldLayoutSettings>
+            <igGrid:FieldLayoutSettings AutoGenerateFields="False"
+                                                    AutoFitMode="Always"
+                                                    AllowRecordFixing="No"
+													AllowClipboardOperations="Copy"
+													FieldMovingMaxRows="1" />
+        </igGrid:XamDataGrid.FieldLayoutSettings>
+        <igGrid:XamDataGrid.FieldSettings>
+            <igGrid:FieldSettings AllowEdit="False" FilterCellEditorStyle="{StaticResource xamComboEditorStyle}"
+                                              CellClickAction="SelectRecord"
+                                              FilterOperatorDefaultValue="StartsWith"
+                                              AllowRecordFiltering="True" />
+        </igGrid:XamDataGrid.FieldSettings>
+        <igGrid:XamDataGrid.FieldLayouts>
+            <igGrid:FieldLayout>
+                <igGrid:Field Name="Account"
+                              Label="{Binding Strings.Account, Source={StaticResource LocalizedResources}}">
+                    <igGrid:Field.Settings>
+                        <igGrid:FieldSettings />
+                    </igGrid:Field.Settings>
+                </igGrid:Field>
+                <igGrid:Field Name="Symbol" Width="200" IsScrollTipField="True"
+                              Label="{Binding Strings.Symbol, Source={StaticResource LocalizedResources}}">
+                    <igGrid:Field.Settings>
+                        <igGrid:FieldSettings  Width="500"/>
+                    </igGrid:Field.Settings>
+                </igGrid:Field>
+                <igGrid:Field Name="Quantity"
+                              Label="{Binding Strings.Quantity, Source={StaticResource LocalizedResources}}">
+                    <igGrid:Field.Settings>
+                        <igGrid:FieldSettings AllowRecordFiltering="False" />
+                    </igGrid:Field.Settings>
+                </igGrid:Field>
+                <igGrid:Field Name="PricePerShare"
+                              Label="{Binding Strings.Price_Per_Share, Source={StaticResource LocalizedResources}}">
+                    <igGrid:Field.Settings>
+                        <igGrid:FieldSettings  AllowRecordFiltering="False" EditorStyle="{StaticResource currencyStyle}"/>
+                    </igGrid:Field.Settings>
+                </igGrid:Field>
+                <igGrid:Field Name="TransactionType"
+                              Label="{Binding Strings.Type, Source={StaticResource LocalizedResources}}">
+                    <igGrid:Field.Settings>
+                        <igGrid:FieldSettings>
+                            <igGrid:FieldSettings.EditorStyle>
+                                <Style TargetType="{x:Type igEditors:XamTextEditor}">
+                                    <Setter Property="ValueToDisplayTextConverter" Value="{StaticResource transactionTypeConverter}" />
+                                </Style>
+                            </igGrid:FieldSettings.EditorStyle>
+                        </igGrid:FieldSettings>
+                    </igGrid:Field.Settings>
+                </igGrid:Field>
+                <igGrid:Field Name="Timestamp"
+                              Label="{Binding Strings.Timestamp, Source={StaticResource LocalizedResources}}">
+                    <igGrid:Field.Settings>
+                        <igGrid:FieldSettings  EditorStyle="{StaticResource dateStyle}" />
+                    </igGrid:Field.Settings>
+                </igGrid:Field>
+            </igGrid:FieldLayout>
+        </igGrid:XamDataGrid.FieldLayouts>
+    </igGrid:XamDataGrid>
+</UserControl>

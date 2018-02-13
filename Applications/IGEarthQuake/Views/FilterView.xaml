@@ -1,0 +1,193 @@
+﻿<UserControl 
+    x:Class="IGShowcase.EarthQuake.Views.FilterView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:framework="clr-namespace:IGExtensions.Framework.Controls;assembly=IGExtensions.Framework" 
+    xmlns:System="clr-namespace:System;assembly=mscorlib" 
+    xmlns:local="clr-namespace:IGShowcase.EarthQuake.Views" 
+    xmlns:assets="clr-namespace:IGShowcase.EarthQuake.Resources" mc:Ignorable="d"
+    d:DesignHeight="300" d:DesignWidth="400"
+    Background="Transparent">
+    
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGShowcase.EarthQuake;component/Assets/Styles/AppBrushes.xaml"/>
+                <ResourceDictionary Source="/IGShowcase.EarthQuake;component/Assets/Styles/AppStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <assets:AppLocalizer x:Key="AppLocalizer" />
+
+            <RadialGradientBrush x:Key="mapBackground2">
+                <GradientStop Color="#FFD4D4D4" Offset="1" />
+                <GradientStop Color="White" />
+            </RadialGradientBrush>
+            <SolidColorBrush x:Key="ShapeSelectedBrush" Color="#00AAAAAC"  />
+            <SolidColorBrush x:Key="ShapeDeselectedBrush" Color="#FFDBDBDC"  />
+
+            <System:Double x:Key="shapeOpacity">1.0</System:Double>
+            <Style TargetType="Path" x:Key="shapeOceansSelectedStyle">
+                <Setter Property="Fill" Value="#00F8F7F7" />
+                <Setter Property="StrokeThickness" Value="0.7" />
+                <Setter Property="Stroke" Value="#00AAAAAC" />
+                <Setter Property="Opacity" Value="{StaticResource shapeOpacity}" />
+            </Style>
+            <Style TargetType="Path" x:Key="shapeOceansDeselectedStyle">
+                <Setter Property="Fill" Value="#FFDBDBDC" />
+                <Setter Property="StrokeThickness" Value="0.7" />
+                <Setter Property="Stroke" Value="#00AAAAAC" />
+                <Setter Property="Opacity" Value="{StaticResource shapeOpacity}" />
+            </Style>
+            <Style TargetType="Path" x:Key="shapeDeselectedStyle">
+                <Setter Property="Fill" Value="#FFAAAAAC" />
+                <Setter Property="StrokeThickness" Value="0.7" />
+                <Setter Property="Stroke" Value="#FFAAAAAC" />
+                <Setter Property="Opacity" Value="{StaticResource shapeOpacity}" />
+            </Style>
+            <Style TargetType="Path" x:Key="shapeAsiaStyle">
+                <Setter Property="Fill" Value="#FFD6DA3C" />
+                <Setter Property="StrokeThickness" Value="0.7" />
+                <Setter Property="Stroke" Value="#FFD6DA3C" />
+                <Setter Property="Opacity" Value="{StaticResource shapeOpacity}" />
+            </Style>
+            <Style TargetType="Path" x:Key="shapeNorthAmericaStyle">
+                <Setter Property="Fill" Value="#FF3A96CF" />
+                <Setter Property="StrokeThickness" Value="0.7" />
+                <Setter Property="Stroke" Value="#FF3A96CF" />
+                <Setter Property="Opacity" Value="{StaticResource shapeOpacity}" />
+            </Style>
+            <Style TargetType="Path" x:Key="shapeAustraliaStyle">
+                <Setter Property="Fill" Value="#FFA645D6" />
+                <Setter Property="StrokeThickness" Value="0.7" />
+                <Setter Property="Stroke" Value="#FFA645D6" />
+                <Setter Property="Opacity" Value="{StaticResource shapeOpacity}" />
+            </Style>
+            <Style TargetType="Path" x:Key="shapeAfricaStyle">
+                <Setter Property="Fill" Value="#FF56DA40" />
+                <Setter Property="StrokeThickness" Value="0.7" />
+                <Setter Property="Stroke" Value="#FF56DA40" />
+                <Setter Property="Opacity" Value="{StaticResource shapeOpacity}" />
+            </Style>
+            <Style TargetType="Path" x:Key="shapeAntarcticaStyle">
+                <Setter Property="Fill" Value="#FF717171" />
+                <Setter Property="StrokeThickness" Value="0.7" />
+                <Setter Property="Stroke" Value="#FF717171" />
+                <Setter Property="Opacity" Value="{StaticResource shapeOpacity}" />
+            </Style>
+            <Style TargetType="Path" x:Key="shapeLatinAmericaStyle">
+                <Setter Property="Fill" Value="#FFDC8F43" />
+                <Setter Property="StrokeThickness" Value="0.7" />
+                <Setter Property="Stroke" Value="#FFDC8F43" />
+                <Setter Property="Opacity" Value="{StaticResource shapeOpacity}" />
+            </Style>
+            <Style TargetType="Path" x:Key="shapeEuropeStyle">
+                <Setter Property="Fill" Value="#FFDC3E3E" />
+                <Setter Property="StrokeThickness" Value="0.7" />
+                <Setter Property="Stroke" Value="#FFDC3E3E" />
+                <Setter Property="Opacity" Value="{StaticResource shapeOpacity}" />
+            </Style>
+            <ig:ConditionalStyleSelector x:Key="ComparisonStyleSelector">
+                <ig:ConditionalStyleSelector.Rules>
+                    <local:IsSelectedShapeStyleRule SelectionMemberPath="IsSelected" ValueMemberPath="ShapeLabel" ComparisonValue="Africa" SelectedStyle="{StaticResource shapeAfricaStyle}" DeSelectedStyle="{StaticResource shapeDeselectedStyle}" />
+                    <!--<local:IsSelectedShapeStyleRule SelectionMemberPath="IsSelected" ValueMemberPath="Fields[REGION]" ComparisonValue="Sub Saharan Africa" SelectedStyle="{StaticResource shapeAfricaStyle}" DeSelectedStyle="{StaticResource shapeDeselectedStyle}"/>-->
+                    <local:IsSelectedShapeStyleRule SelectionMemberPath="IsSelected" ValueMemberPath="ShapeLabel" ComparisonValue="Antarctica" SelectedStyle="{StaticResource shapeAntarcticaStyle}" DeSelectedStyle="{StaticResource shapeDeselectedStyle}"/>
+                    <local:IsSelectedShapeStyleRule SelectionMemberPath="IsSelected" ValueMemberPath="ShapeLabel" ComparisonValue="Asia" SelectedStyle="{StaticResource shapeAsiaStyle}" DeSelectedStyle="{StaticResource shapeDeselectedStyle}"/>
+                    <local:IsSelectedShapeStyleRule SelectionMemberPath="IsSelected" ValueMemberPath="ShapeLabel" ComparisonValue="Australia" SelectedStyle="{StaticResource shapeAustraliaStyle}" DeSelectedStyle="{StaticResource shapeDeselectedStyle}"/>
+                    <local:IsSelectedShapeStyleRule SelectionMemberPath="IsSelected" ValueMemberPath="ShapeLabel" ComparisonValue="Europe" SelectedStyle="{StaticResource shapeEuropeStyle}" DeSelectedStyle="{StaticResource shapeDeselectedStyle}"/>
+                    <local:IsSelectedShapeStyleRule SelectionMemberPath="IsSelected" ValueMemberPath="ShapeLabel" ComparisonValue="North America" SelectedStyle="{StaticResource shapeNorthAmericaStyle}" DeSelectedStyle="{StaticResource shapeDeselectedStyle}"/>
+                    <!--<local:IsSelectedShapeStyleRule SelectionMemberPath="IsSelected" ValueMemberPath="Fields[REGION]" ComparisonValue="Caribbean" SelectedStyle="{StaticResource shapeNorthAmericaStyle}" DeSelectedStyle="{StaticResource shapeDeselectedStyle}"/>-->
+                    <local:IsSelectedShapeStyleRule SelectionMemberPath="IsSelected" ValueMemberPath="ShapeLabel" ComparisonValue="South America" SelectedStyle="{StaticResource shapeLatinAmericaStyle}" DeSelectedStyle="{StaticResource shapeDeselectedStyle}"/>
+                    <!--<local:IsSelectedShapeStyleRule SelectionMemberPath="IsSelected" ValueMemberPath="ShapeLabel" ComparisonValue="Pacific" SelectedStyle="{StaticResource shapeAustraliaStyle}" DeSelectedStyle="{StaticResource shapeDeselectedStyle}"/>-->
+                    <local:IsSelectedShapeStyleRule SelectionMemberPath="IsSelected" ValueMemberPath="ShapeLabel" ComparisonValue="Oceans" SelectedStyle="{StaticResource shapeOceansSelectedStyle}" DeSelectedStyle="{StaticResource shapeOceansDeselectedStyle}"/>
+                </ig:ConditionalStyleSelector.Rules>
+            </ig:ConditionalStyleSelector>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <StackPanel Margin="0" >
+
+            <TextBlock Text="{Binding Path=AppStrings.Properties, Source={StaticResource AppLocalizer}, Mode=OneTime}"
+                       Visibility="Collapsed"  Foreground="{StaticResource AppInfoForeground}" 
+                       FontFamily="Verdana" FontSize="12" Margin="5,5,5,0" />
+            <!-- Regions Filter BackgroundContent="{x:Null}" -->
+            <TextBlock Text="{Binding Path=AppStrings.Region, Source={StaticResource AppLocalizer}, Mode=OneTime}" 
+                       Foreground="{StaticResource AppInfoForeground}" FontFamily="Arial" 
+                       FontSize="12" Margin="0,0,0,0" HorizontalAlignment="Center" FontWeight="Bold"/>
+            <ig:XamGeographicMap x:Name="RegionMap" Height="200" Width="200" Visibility="Visible"
+                                 DefaultInteraction="None" BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                 Cursor="Hand" BackgroundContent="{x:Null}" 
+                                 Background="Transparent" 
+                                 Margin="0" Zoomable="False"
+                                 PlotAreaBackground="Transparent" PlotAreaBorderThickness="0" 
+                                 SeriesMouseLeftButtonDown="RegionMap_SeriesMouseLeftButtonDown"
+                                 MouseLeftButtonDown="RegionMap_MouseLeftButtonDown"
+                                 OverviewPlusDetailPaneVisibility="Collapsed">
+                <ig:XamGeographicMap.Series>
+                    <ig:GeographicShapeSeries x:Name="ContinentsRegionShapeSeries"
+                                          ShapeStyleSelector="{StaticResource ComparisonStyleSelector}"
+                                          ShapeMemberPath="Points" MarkerCollisionAvoidance="None" >
+                        <ig:GeographicShapeSeries.ToolTip>
+                            <Border BorderBrush="Gray" BorderThickness="1" Background="#FFFFFFFF">
+                                <StackPanel Margin="4">
+                                    <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+                                        <TextBlock Text="{Binding Path=Item.ShapeLabel}" 
+                                                   Foreground="{StaticResource AppInfoForeground}" 
+                                                   FontSize="13.3" Margin="2,2,2,2" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </ig:GeographicShapeSeries.ToolTip>
+                    </ig:GeographicShapeSeries>
+                </ig:XamGeographicMap.Series>
+            </ig:XamGeographicMap>
+            <ScrollViewer Style="{StaticResource PanelScrollViewerStyle1}" VerticalScrollBarVisibility="Auto" Visibility="Collapsed">
+                <ItemsControl ItemsSource="{Binding Path=Regions, Mode=OneWay}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <CheckBox ClickMode="Press" IsChecked="{Binding Path=IsSelected, Mode=TwoWay}" Style="{StaticResource PanelsCheckBox}">
+                                <framework:NavigationButton Content="{Binding Path=DisplayName, Mode=OneWay}" Padding="0" Margin="0" Foreground="White" Click="EarthQuakeListItemButton_Click"/>
+                            </CheckBox>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+            <!--<Rectangle  Fill="{StaticResource EarhQuakeFilterSepratorBrush}" Height="1" Margin="0,10,0,5"/>-->
+
+            <!-- Magnitude Filter -->
+            <TextBlock Text="{Binding Path=AppStrings.Edit_MagnitudeFilter, Source={StaticResource AppLocalizer}, Mode=OneTime}" 
+                       Foreground="{StaticResource AppInfoForeground}" FontFamily="Arial" 
+                       FontSize="12" Margin="0,5,0,5" HorizontalAlignment="Center"  FontWeight="Bold"/>
+            <ig:XamNumericRangeSlider x:Name="magnitudeRange" MinValue="4" MaxValue="10" Margin="5,15,5,0" 
+                                                  IncreaseButtonVisibility="Collapsed" SmallChange="0.1" LargeChange="0.1"
+                                                  DecreaseButtonVisibility="Collapsed" 
+        					                      TrackFillStyle="{StaticResource RangeSliderTrackFill}"
+                                                  ThumbStyle="{StaticResource RangeSliderThumbs}" >
+              <ig:XamNumericRangeSlider.TickMarks>
+                    <ig:SliderTickMarks TickMarksFrequency="1">
+                        <ig:SliderTickMarks.HorizontalTickMarksTemplate>
+                            <DataTemplate>
+                                <Rectangle Margin="0,0,0,5" Width="1" Height="5" Opacity=".5" Fill="#FF77929d" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
+                            </DataTemplate>
+                        </ig:SliderTickMarks.HorizontalTickMarksTemplate>
+                    </ig:SliderTickMarks>
+                    <ig:SliderTickMarks TickMarksFrequency="2" IncludeSliderEnds="True">
+                        <ig:SliderTickMarks.HorizontalTickMarksTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="0,0,0,25" Orientation="Vertical">
+                                    <TextBlock Text="{Binding}" Foreground="{StaticResource AppInfoForeground}"  FontFamily="Arial" FontSize="11" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                    <Rectangle Margin="0,5,0,0" Width="1" Height="7" Fill="#FF77929d" HorizontalAlignment="Center" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ig:SliderTickMarks.HorizontalTickMarksTemplate>
+                    </ig:SliderTickMarks>
+                </ig:XamNumericRangeSlider.TickMarks>
+                <ig:XamSliderNumericThumb x:Name="magnitudeMinSlider" Value="{Binding Path=MinMagnitude, Mode=TwoWay}" InteractionMode="Lock" TrackFillBrush="Transparent"/>
+                <ig:XamSliderNumericThumb x:Name="magnitudeMaxSlider" Value="{Binding Path=MaxMagnitude, Mode=TwoWay}" InteractionMode="Lock"   />
+            </ig:XamNumericRangeSlider>
+
+        </StackPanel>
+    </Grid>
+</UserControl>

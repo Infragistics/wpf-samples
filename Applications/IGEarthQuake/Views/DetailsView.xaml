@@ -1,0 +1,339 @@
+﻿<UserControl 
+    x:Class="IGShowcase.EarthQuake.Views.DetailsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:ig="http://schemas.infragistics.com/xaml" 
+    xmlns:common="clr-namespace:IGExtensions.Common.Converters;assembly=IGExtensions.Common" 
+    xmlns:framework="clr-namespace:IGExtensions.Framework.Controls;assembly=IGExtensions.Framework" 
+    xmlns:assets="clr-namespace:IGShowcase.EarthQuake.Resources" MaxWidth="300" 
+    d:DataContext="{d:DesignData Source=../Assets/SampleData/DetailsSampleData.xaml}"
+    Visibility ="Visible" Width="300" Height="200">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGShowcase.EarthQuake;component/Assets/Styles/AppBrushes.xaml"/>
+                <ResourceDictionary Source="/IGShowcase.EarthQuake;component/Assets/Styles/DetailsStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <common:StringFormatConverter x:Key="stringFormatConverter" />
+            <assets:AppLocalizer x:Key="AppLocalizer" />
+        </ResourceDictionary>
+
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot" RenderTransformOrigin="0.5,0.5" Visibility="Collapsed" SizeChanged="AlignDetailsView">
+        <Grid.RenderTransform>
+            <!--<CompositeTransform ScaleX="0" ScaleY="0"/>-->
+            <TransformGroup>
+                <ScaleTransform x:Name="RootScaleTransform" ScaleX="0" ScaleY="0" />
+                <SkewTransform />
+                <RotateTransform   />
+                <TranslateTransform /> 
+            </TransformGroup>
+        </Grid.RenderTransform>
+        <!-- Details: View States -->
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="ViewStates">
+                <VisualStateGroup.Transitions>
+                    <VisualTransition From="ColapsedDetails" To="VisibleDetails" GeneratedDuration="0:0:0.8">
+                        <VisualTransition.GeneratedEasingFunction>
+                            <ElasticEase EasingMode="EaseOut" Oscillations="1" Springiness="9"/>
+                        </VisualTransition.GeneratedEasingFunction>
+                        <Storyboard>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Visibility">
+                                <!--<DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Visible}" />-->
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0" >
+                                    <DiscreteObjectKeyFrame.Value>
+                                        <Visibility>Visible</Visibility>
+                                    </DiscreteObjectKeyFrame.Value>
+                                </DiscreteObjectKeyFrame>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualTransition>
+                    <VisualTransition From="VisibleDetails" To="ColapsedDetails" GeneratedDuration="0:0:0.2">
+                        <VisualTransition.GeneratedEasingFunction>
+                            <CircleEase EasingMode="EaseIn"/>
+                        </VisualTransition.GeneratedEasingFunction>
+                        <Storyboard>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Visibility">
+                                <!--<DiscreteObjectKeyFrame KeyTime="00:00:00.2" Value="{x:Static Visibility.Collapsed}" />-->
+                                <DiscreteObjectKeyFrame KeyTime="00:00:00.2" >
+                                    <DiscreteObjectKeyFrame.Value>
+                                        <Visibility>Collapsed</Visibility>
+                                    </DiscreteObjectKeyFrame.Value>
+                                </DiscreteObjectKeyFrame>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualTransition>
+                </VisualStateGroup.Transitions>
+                <VisualState x:Name="ColapsedDetails" />
+                <VisualState x:Name="VisibleDetails">
+                    <Storyboard >
+                        <!--<DoubleAnimation  Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1" Duration="0:0:0" />
+                        <DoubleAnimation  Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1" Duration="0:0:0" />-->
+                        <DoubleAnimation  Storyboard.TargetName="RootScaleTransform" Storyboard.TargetProperty="ScaleX" To="1" Duration="0:0:0" />
+                        <DoubleAnimation  Storyboard.TargetName="RootScaleTransform" Storyboard.TargetProperty="ScaleY" To="1" Duration="0:0:0" />
+
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Visibility" Duration="0:0:0">
+                            <!--<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}" />-->
+                            <DiscreteObjectKeyFrame KeyTime="0:0:0" >
+                                <DiscreteObjectKeyFrame.Value>
+                                    <Visibility>Visible</Visibility>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <!-- Details -->
+        <Border Style="{StaticResource DetailsBorderStyle}" Padding="0">
+            <Grid Margin="0" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <!--<Rectangle Fill="{StaticResource AppPrimaryBrush1}" VerticalAlignment="Top" Height="35" Grid.ColumnSpan="2"/>-->
+                <Grid Margin="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <!--<RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>-->
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.ColumnSpan="2" Background="{StaticResource AppPrimaryBrush1}" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{Binding Path=Title, Mode=OneWay}" TextWrapping="Wrap" Margin="5,5,5,5" Style="{StaticResource DetailsTitleStyle}" Foreground="#FFFFFFFF" 
+                                   TextAlignment="Left" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+
+                        <!-- Details: Close Button -->
+                        <Button Grid.Column="1" x:Name="CloseButton" Style="{StaticResource DetailsCloseButtonStyle}" 
+						Width="20" Height="15"
+						HorizontalAlignment="Center" 
+						VerticalAlignment="Top" 
+                        Click="CloseButton_Click"
+						Margin="0,5,5,0">
+                        </Button>
+                    </Grid>
+                   
+                    <StackPanel Orientation="Vertical" Margin="4" Grid.Column="0" Grid.Row="1" >
+                        <TextBlock Text="{Binding AppStrings.UTC_Time, Source={StaticResource AppLocalizer}, Mode=OneTime}" Margin="5" Style="{StaticResource DetailsLabelTextStyle}"/>
+                        <TextBlock Text="{Binding AppStrings.Latitude, Source={StaticResource AppLocalizer}, Mode=OneTime}" Margin="5" Style="{StaticResource DetailsLabelTextStyle}"/>
+                        <TextBlock Text="{Binding AppStrings.Longitude, Source={StaticResource AppLocalizer}, Mode=OneTime}" Margin="5" Style="{StaticResource DetailsLabelTextStyle}"/>
+                        <TextBlock Text="{Binding AppStrings.Depth, Source={StaticResource AppLocalizer}, Mode=OneTime}"  Margin="5" Style="{StaticResource DetailsLabelTextStyle}"/>
+                        <TextBlock Text="{Binding AppStrings.Magnitude, Source={StaticResource AppLocalizer}, Mode=OneTime}" Margin="5" Style="{StaticResource DetailsLabelTextStyle}"/>
+
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Margin="4" Grid.Column="1" Grid.Row="1" >
+                        <TextBlock Text="{Binding Path=Updated, Mode=OneWay}" Margin="5" Style="{StaticResource DetailsValueTextStyle}" />
+                        <TextBlock Text="{Binding Path=Latitude, Converter={StaticResource stringFormatConverter}, ConverterParameter='N #0.0000°;S #0.0000°', Mode=OneWay}" 
+								   Margin="5" Style="{StaticResource DetailsValueTextStyle}"  Grid.Column="1" />
+                        <TextBlock Text="{Binding Path=Longitude, Converter={StaticResource stringFormatConverter}, ConverterParameter='E #0.0000°;W #0.0000°', Mode=OneWay}" 
+								   Margin="5" Style="{StaticResource DetailsValueTextStyle}" Grid.Column="1" />
+                        <TextBlock Text="{Binding Path=Depth, Converter={StaticResource stringFormatConverter}, ConverterParameter='#0.00 km', Mode=OneWay}" 
+								   Margin="5" Style="{StaticResource DetailsValueTextStyle}" Grid.Column="1" />
+
+                    </StackPanel>
+              
+                </Grid>
+                <!-- Details: Tab control -->
+                <framework:NavigationTabControl Margin="8,8,8,0" Style="{StaticResource DetailsTabControlStyle}"
+                                                Visibility="Collapsed">
+                    <framework:NavigationTabItem Header="{Binding Path=AppStrings.INFO, Source={StaticResource AppLocalizer}, Mode=OneTime}" 
+                                                 Style="{StaticResource DetailsTabItemStyle}">
+                     </framework:NavigationTabItem>
+                    <framework:NavigationTabItem Header="{Binding AppStrings.PICTURES, Source={StaticResource AppLocalizer}, Mode=OneTime}" 
+                                                 Style="{StaticResource DetailsTabItemStyle}"
+                                                 Visibility="Collapsed">
+                        
+                        <Grid>
+                            <ScrollViewer Style="{StaticResource DetailsScrollViewerStyle}">
+                                <ItemsControl ItemsSource="{Binding Path=FlickrCollection, Mode=OneWay}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border BorderBrush="Silver" BorderThickness="2">
+                                                <Image Source="{Binding ImgSrc, Mode=OneWay}" Stretch="Uniform"/>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+                            <Grid Background="#70000000" Visibility="{Binding Path=ImgsNotFoundTextVisibility, Mode=OneWay}" >
+                                <TextBlock Text="{Binding AppStrings.FlickerNoImages, Source={StaticResource AppLocalizer}, Mode=OneTime}" 
+											   TextWrapping="Wrap" 
+											   Foreground="White" 
+											   FontSize="28" 
+											   VerticalAlignment="Center" 
+											   HorizontalAlignment="Center" />
+                            </Grid>
+                            <!--<commonControls:PageBusyIndicator x:Name="PageBusyIndicator" IndicatorIsBusy="{Binding Path=IsFlickrBusy, Mode=OneWay}"   >
+
+                            </commonControls:PageBusyIndicator>
+-->
+                        </Grid>
+                    
+                    </framework:NavigationTabItem>
+                    <framework:NavigationTabItem Header="{Binding Path=AppStrings.LINKS, Source={StaticResource AppLocalizer}, Mode=OneTime}" 
+                                                 Style="{StaticResource DetailsTabItemStyle}"
+                                                 Visibility="Collapsed">
+                        <Grid Margin="4,0,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <framework:NavigationButton Grid.Row="0" 
+                                                        NavigationUri="{Binding DetailsLink, Mode=OneWay}" 
+											 IsNavigationTargetExternal="true"
+											 Style="{StaticResource DetailsLinkStyle}">
+                                <TextBlock Text="{Binding Path=AppStrings.More_Details, Source={StaticResource AppLocalizer}, Mode=OneTime}" />
+                            </framework:NavigationButton>
+                            <framework:NavigationButton Grid.Row="1" 
+											 NavigationUri="{Binding SummaryLink, Mode=OneWay}" 
+											 IsNavigationTargetExternal="true"
+											 Style="{StaticResource DetailsLinkStyle}">
+                                <TextBlock Text="{Binding Path=AppStrings.Event_Summary, Source={StaticResource AppLocalizer}, Mode=OneTime}" />
+                            </framework:NavigationButton>
+                            <framework:NavigationButton Grid.Row="2" 
+											 NavigationUri="{Binding MapsLink, Mode=OneWay}" 
+											 IsNavigationTargetExternal="true"
+											 Style="{StaticResource DetailsLinkStyle}">
+                                <TextBlock Text="{Binding Path=AppStrings.Regional_Maps, Source={StaticResource AppLocalizer}, Mode=OneTime}" />
+                            </framework:NavigationButton>
+                            <framework:NavigationButton Grid.Row="3" 
+											 NavigationUri="{Binding ScitechLink, Mode=OneWay}" 
+											 IsNavigationTargetExternal="true"
+											 Style="{StaticResource DetailsLinkStyle}">
+                                <TextBlock Text="{Binding Path=AppStrings.SciTech_Info, Source={StaticResource AppLocalizer}, Mode=OneTime}" />
+                            </framework:NavigationButton>
+                        </Grid>
+                    </framework:NavigationTabItem>
+                    <framework:NavigationTabItem Header="{Binding Path=AppStrings.MAP1, Source={StaticResource AppLocalizer}, Mode=OneTime}" x:Name="tabMap" 
+                                                 Style="{StaticResource DetailsTabItemStyle}"
+                                                 Visibility="Collapsed">
+                        <Grid Margin="4,0,0,0">
+                            <Grid.RowDefinitions>
+                            </Grid.RowDefinitions>
+                            <!--<ig:XamMap x:Name="xamMap"
+										  Loaded="Map_Loaded"
+										  MapProjectionType="SphericalMercator" 
+										  IsZoomable="False" 
+										  IsAutoWorldRect="False" 
+										  IsClickable="False" 
+										  IsEnabled="True" 
+										  WindowAnimationMode="None" 
+										  WindowAnimationDuration="0"
+                                          ViewportBackground="#0D2F2D" 
+                                          IsPannable="False" 
+                                          IsHitTestVisible="False" 
+                                          IsTabStop="False">
+
+                                <ig:XamMap.MapTileSource >
+                                    <ig:CloudMadeTileSource Key="a66373ac35ad5a2195f1b68cafb5255b" Parameter="12708"/>
+                                </ig:XamMap.MapTileSource>
+                                <ig:XamMap.Layers>
+                                    <ig:MapLayer x:Name="locationLayer"/>
+                                </ig:XamMap.Layers>
+                            </ig:XamMap>-->
+                        </Grid>
+                    </framework:NavigationTabItem>
+                </framework:NavigationTabControl>
+              
+                <!-- Details: Magnitude -->
+                <Grid Grid.Row="1" VerticalAlignment="Center"
+							Background="{x:Null}" >
+                    <!--<Rectangle Style="{StaticResource gaugeDelimiter}" Margin="10 0" />-->
+
+                    <ig:XamLinearGauge Height="50" Margin="5,0,5,5" MinimumValue="0" MaximumValue="10">
+                        <ig:XamLinearGauge.Ranges>
+                            <ig:XamLinearGraphRange StartValue="0" EndValue="10">
+                                
+                            </ig:XamLinearGraphRange>
+                        </ig:XamLinearGauge.Ranges>
+                        <!--<ig:XamLinearGauge.Scales>
+                            <ig:LinearGaugeScale Orientation="Horizontal" 
+												 StartValue="0" 
+												 EndValue="10">
+                                <ig:LinearGaugeScale.Needles>
+                                    <ig:LinearGaugeNeedle Value="{Binding Magnitude, Mode=OneWay}" StartExtent="0.15" EndExtent="0.85" >
+                                        <ig:LinearGaugeNeedle.Template>
+                                            <ControlTemplate TargetType="ig:LinearGaugeNeedle">
+                                                <Grid x:Name="NeedleGrid" HorizontalAlignment="Center" VerticalAlignment="Center" Height="30" Width="32">
+                                                    <VisualStateManager.VisualStateGroups>
+                                                        <VisualStateGroup x:Name="Positions">
+                                                            <VisualState x:Name="Horizontal">
+                                                                <Storyboard>
+                                                                    <DoubleAnimation Storyboard.TargetName="NeedleGrid" 
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(RotateTransform.Angle)" 
+                                                         Duration="0" To="0"></DoubleAnimation>
+                                                                </Storyboard>
+                                                            </VisualState>
+                                                            <VisualState x:Name="Vertical">
+                                                                <Storyboard>
+                                                                    <DoubleAnimation Storyboard.TargetName="NeedleGrid" 
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(RotateTransform.Angle)" 
+                                                         Duration="0" To="-90"></DoubleAnimation>
+                                                                </Storyboard>
+                                                            </VisualState>
+                                                        </VisualStateGroup>
+                                                    </VisualStateManager.VisualStateGroups>
+                                                    <Grid.RenderTransform>
+                                                        <TransformGroup>
+                                                            <RotateTransform/>
+                                                        </TransformGroup>
+                                                    </Grid.RenderTransform>
+
+                                                    <Ellipse Fill="#FF666666" Width="29" Height="30" HorizontalAlignment="Right"/>
+                                                    <Ellipse Fill="#FF666666" Height="30" Width="29" HorizontalAlignment="Left"/>
+                                                    <Ellipse Fill="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MagnitudeColorConverter}, ConverterParameter={StaticResource EarthQuakeMarkerScaleBrush}, Mode=OneWay}" 
+                                                             Height="30" Width="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    <Ellipse Grid.Row="1" Margin="2">
+                                                        <Ellipse.Fill>
+                                                            <LinearGradientBrush EndPoint="0,0.5" StartPoint="1,0.5">
+                                                                <GradientStop Color="#7FFFFFFF" Offset="0"/>
+                                                                <GradientStop Color="#19FFFFFF" Offset="0.389"/>
+                                                                <GradientStop Color="Transparent" Offset="0.414"/>
+                                                            </LinearGradientBrush>
+                                                        </Ellipse.Fill>
+                                                    </Ellipse>
+                                                    <TextBlock Text="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource stringFormatConverter}, ConverterParameter='#0.0', Mode=OneWay}"
+															   VerticalAlignment="Center" 
+															   HorizontalAlignment="Center" 
+															   Foreground="White" 
+															   FontFamily="Arial" 
+															   FontWeight="Bold" 
+															   FontSize="12">
+													<TextBlock.RenderTransform>
+								                		<TransformGroup>
+								                			<RotateTransform Angle="90"/>
+								                			<TranslateTransform Y="-1" X="15"/>
+								                		</TransformGroup>
+								                	</TextBlock.RenderTransform>
+                                                    </TextBlock>
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </ig:LinearGaugeNeedle.Template>
+                                    </ig:LinearGaugeNeedle>
+                                </ig:LinearGaugeScale.Needles>
+                            </ig:LinearGaugeScale>
+                        </ig:XamLinearGauge.Scales>-->
+                    </ig:XamLinearGauge>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>
