@@ -1,0 +1,2 @@
+﻿# Excel-Inspired UI
+Built using Infragistics controls, this sample application gives users an Excel-like spreadsheet, with features like visuals and styles inspired by MS Office software, patterns and practices from the Microsoft Prism library, common design patterns and principals such as MVVM (Model-View-ViewModel), IoC (Inversion of Control), DI (dependency injection), event aggregation, commanding, navigation, and modular application development techniques.
