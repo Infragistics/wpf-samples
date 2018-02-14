@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="IGShowcase.AirplaneSeatingChart.Views.AirplaneGridView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+	 xmlns:igPrimitives="http://schemas.infragistics.com/xaml/primitives"
+    mc:Ignorable="d"
+    d:DesignHeight="300" d:DesignWidth="400">
+    <Grid x:Name="LayoutRoot" >
+
+        <ig:XamGrid  ItemsSource="{Binding Classes, Mode=OneWay}"
+									AutoGenerateColumns="False" 
+									RowHover="None" 
+									Background="{x:Null}"
+									IsAlternateRowsEnabled="False" 
+									BorderBrush="{x:Null}" 
+									BorderThickness="0" CellStyle="{StaticResource MetroCellControlStyle}" 
+									HeaderStyle="{StaticResource MetroHeaderCellStyle}">
+            <ig:XamGrid.SelectionSettings>
+                <ig:SelectionSettings CellClickAction="SelectCell" CellSelection="None" ColumnSelection="None" RowSelection="None"/>
+            </ig:XamGrid.SelectionSettings>
+            <ig:XamGrid.SortingSettings>
+                <ig:SortingSettings AllowSorting="False"/>
+            </ig:XamGrid.SortingSettings>
+            <ig:XamGrid.GroupBySettings>
+                <ig:GroupBySettings IsGroupable="False" />
+            </ig:XamGrid.GroupBySettings>
+            <ig:XamGrid.EditingSettings>
+                <ig:EditingSettings AllowEditing="None"/>
+            </ig:XamGrid.EditingSettings>
+            <ig:XamGrid.Columns>
+                <ig:TextColumn Key="SeatCategory" HeaderText="{Binding Strings.Class, Source={StaticResource AppLocalizer}, Mode=OneTime}" Width="*" IsResizable="False"/>
+                <ig:TemplateColumn Key="SeatCount" HeaderText="{Binding Strings.SeatingDetails, Source={StaticResource AppLocalizer}, Mode=OneTime}" Width="2*" IsResizable="False">
+                    <ig:TemplateColumn.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding SeatCount, Mode=OneWay}"/>
+                                <TextBlock Text="{Binding Description, Mode=OneWay}" Margin="5,0,0,0"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ig:TemplateColumn.ItemTemplate>
+                </ig:TemplateColumn>
+                <ig:TextColumn Key="SeatPitch" HeaderText="{Binding Strings.Pitch, Source={StaticResource AppLocalizer}, Mode=OneTime}" Width="*" IsResizable="False"/>
+                <ig:TextColumn Key="SeatWidth" HeaderText="{Binding Strings.Width, Source={StaticResource AppLocalizer}, Mode=OneTime}" Width="*" IsResizable="False"/>
+            </ig:XamGrid.Columns>
+        </ig:XamGrid>
+
+    </Grid>
+</UserControl>

@@ -1,0 +1,50 @@
+﻿<igOutlookBar:OutlookBarGroup x:Class="IgOutlook.Modules.Calendar.Menus.CalendarGroup"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:ig="http://schemas.infragistics.com/xaml"  
+              xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"                              
+              xmlns:igOutlookBar="http://infragistics.com/OutlookBar"
+              xmlns:infPrism="clr-namespace:IgOutlook.Infrastructure.Prism;assembly=IgOutlook.Infrastructure"
+              xmlns:inf="clr-namespace:IgOutlook.Infrastructure;assembly=IgOutlook.Infrastructure"
+              xmlns:resources="clr-namespace:IgOutlook.Modules.Calendar.Resources"
+              xmlns:prism="http://www.codeplex.com/prism"
+              Header="{x:Static resources:ResourceStrings.CalendarGroup_Header_Calendar}"
+              LargeImage="/IgOutlook.Modules.Calendar;component/Images/NewAppointment32.png" 
+              SmallImage="/IgOutlook.Modules.Calendar;component/Images/NewAppointment16.png">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="200"/>
+            <RowDefinition Height="*" MinHeight="100"/>
+        </Grid.RowDefinitions>
+        <ig:XamDateNavigator Grid.Row="0" Margin="5" HighlightDayCriteria="DaysWithActivity" Background="Transparent" DataManager="{Binding DataManager}"
+                             infPrism:XamDateNavigatorSelectedDates.Command="{Binding DateNavigatorSelectedDatesCommand}" 
+                             infPrism:XamDateNavigatorProperties.SelectedDates="{Binding SelectedDates}"/>
+        <GridSplitter Grid.Row="0" ResizeDirection="Rows" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+            <GridSplitter.Template>
+                <ControlTemplate>
+                    <Grid Background="White">
+                        <Rectangle Height="1" Fill="#FFD4D4D4" igPrim:XamlHelper.SnapsToDevicePixels="True" Margin="3,0,3,0" HorizontalAlignment="Stretch"/>
+                    </Grid>
+                </ControlTemplate>
+            </GridSplitter.Template>
+        </GridSplitter>
+
+        <ig:XamDataTree ItemsSource="{Binding Items}" Background="Transparent" Grid.Row="1" Name="tree" PreviewMouseLeftButtonDown="tree_PreviewMouseLeftButtonDown"
+                        ActiveNodeChanging="ActiveNodeChanging"
+                        infPrism:XamDataTreeSelectedUnselectedItemBehavior.SelectedDataItem="{Binding SelectedCalendar}"
+                        infPrism:XamDataTreeSelectedUnselectedItemBehavior.UnselectedDataItem="{Binding UnselectedCalendar}"
+                        infPrism:XamDataTreeDataItemUnselected.Command="{Binding CalendarUnselectedComman}"
+                        infPrism:XamDataTreeItemSelected.Command="{x:Static inf:Commands.NavigateCommand}">
+            <ig:XamDataTree.SelectionSettings>
+                <ig:TreeSelectionSettings NodeSelection="Multiple"/>
+            </ig:XamDataTree.SelectionSettings>
+            <ig:XamDataTree.CheckBoxSettings>
+                <ig:CheckBoxSettings CheckBoxVisibility="Visible" CheckBoxMode="Auto" IsCheckBoxThreeState="False"/>
+            </ig:XamDataTree.CheckBoxSettings>
+            <ig:XamDataTree.GlobalNodeLayouts>
+                <ig:NodeLayout Key="ItemsLayout" TargetTypeName="NavigationItem" DisplayMemberPath="Caption" IsExpandedMemberPath="IsExpanded"/>
+            </ig:XamDataTree.GlobalNodeLayouts>
+        </ig:XamDataTree>
+
+    </Grid>
+</igOutlookBar:OutlookBarGroup>

@@ -1,0 +1,85 @@
+﻿<inf:RibbonTabItem x:Class="IgOutlook.Modules.Mail.Menus.MessageReadOnlyHomeTab"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="clr-namespace:IgOutlook.Modules.Mail.Converters"
+             xmlns:inf="clr-namespace:IgOutlook.Infrastructure;assembly=IgOutlook.Infrastructure"
+             xmlns:igWpf="http://schemas.infragistics.com/xaml/wpf"
+             xmlns:resources="clr-namespace:IgOutlook.Modules.Mail.Resources"
+             Header="{x:Static resources:ResourceStrings.HomeTab_Header_Home}">
+
+    <inf:RibbonTabItem.Resources>
+        <converters:ColorTotBrushConverter x:Key="ColorTotBrushConverter"/>
+        <converters:CategoryIsCheckedConverter x:Key="CategoryIsCheckedConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </inf:RibbonTabItem.Resources>
+
+    <igWpf:RibbonGroup Caption="{x:Static resources:ResourceStrings.HomeTab_RibbonGroupCaption_Delete}">
+        <igWpf:ButtonTool Caption="{x:Static resources:ResourceStrings.HomeTab_RibbonGroupDelete_ButtonTool_Delete}" 
+                          Command="{Binding DeleteCommand}" 
+                          LargeImage="/IgOutlook.Modules.Mail;component/Images/Delete32.png" 
+                          SmallImage="/IgOutlook.Modules.Mail;component/Images/Delete16.png" igWpf:RibbonGroup.MaximumSize="ImageAndTextLarge"/>
+    </igWpf:RibbonGroup>
+
+    <igWpf:RibbonGroup Caption="{x:Static resources:ResourceStrings.HomeTab_RibbonGroupCaption_Respond}">
+        <igWpf:ButtonTool Caption="{x:Static resources:ResourceStrings.HomeTab_RibbonGroupRespond_ButtonTool_Reply}" 
+                          Command="{Binding MessageCommand}" CommandParameter="Reply" 
+                          LargeImage="/IgOutlook.Modules.Mail;component/Images/Reply32.png" 
+                          SmallImage="/IgOutlook.Modules.Mail;component/Images/Reply16.png" igWpf:RibbonGroup.MaximumSize="ImageAndTextLarge" />
+        <igWpf:ButtonTool Caption="{x:Static resources:ResourceStrings.HomeTab_RibbonGroupRespond_ButtonTool_ReplyAll}"
+                          Command="{Binding MessageCommand}" CommandParameter="ReplyAll" 
+                          LargeImage="/IgOutlook.Modules.Mail;component/Images/ReplyAll32.png" 
+                          SmallImage="/IgOutlook.Modules.Mail;component/Images/ReplyAll16.png" igWpf:RibbonGroup.MaximumSize="ImageAndTextLarge" />
+        <igWpf:ButtonTool Caption="{x:Static resources:ResourceStrings.HomeTab_RibbonGroupRespond_ButtonTool_Forward}"
+                          Command="{Binding MessageCommand}" CommandParameter="Forward" 
+                          LargeImage="/IgOutlook.Modules.Mail;component/Images/Forward32.png" 
+                          SmallImage="/IgOutlook.Modules.Mail;component/Images/Forward16.png" igWpf:RibbonGroup.MaximumSize="ImageAndTextLarge"/>
+    </igWpf:RibbonGroup>
+
+    <igWpf:RibbonGroup Caption="{x:Static resources:ResourceStrings.HomeTab_RibbonGroupCaption_Tags}">
+        <igWpf:ButtonTool Caption="{x:Static resources:ResourceStrings.HomeTab_RibbonGroupTags_ButtonTool_UnreadRead}"
+                          Command="{Binding ReadCommand}" 
+                          SmallImage="/IgOutlook.Modules.Mail;component/Images/Mail16.png" 
+                          LargeImage="/IgOutlook.Modules.Mail;component/Images/Mail32.png" igWpf:RibbonGroup.MaximumSize="ImageAndTextLarge"/>
+        <igWpf:MenuTool Caption="{x:Static resources:ResourceStrings.HomeTab_RibbonGroupTags_ButtonTool_Categorize}"
+                        ButtonType="Segmented" ItemsSource="{Binding Categories}" Command="{Binding ChangeCategoryCommand}" 
+                        LargeImage="/IgOutlook.Modules.Mail;component/Images/AllCategories32.png" 
+                        SmallImage="/IgOutlook.Modules.Mail;component/Images/AllCategories16.png" igWpf:RibbonGroup.MaximumSize="ImageAndTextLarge">
+            <igWpf:MenuTool.ItemContainerStyle>
+                <Style TargetType="{x:Type igWpf:ToolMenuItem }">
+                    <Style.Setters>
+                        <Setter Property="Command" Value="{Binding Path=DataContext.ChangeCategoryCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"></Setter>
+                        <Setter Property="CommandParameter" Value="{Binding CategoryName}"></Setter>
+                    </Style.Setters>
+                    <Style.Triggers>
+                        <DataTrigger Value="True">
+                            <DataTrigger.Binding>
+                                <MultiBinding Converter="{StaticResource CategoryIsCheckedConverter}">
+                                    <Binding  Path="DataContext.Message.Category" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}"></Binding>
+                                    <Binding  Path="CategoryName"></Binding>
+                                </MultiBinding>
+                            </DataTrigger.Binding>
+                            <DataTrigger.Setters>
+                                <Setter Property="IsChecked" Value="True"></Setter>
+                            </DataTrigger.Setters>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </igWpf:MenuTool.ItemContainerStyle>
+            <igWpf:MenuTool.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="-28,0,0,0">
+                        <Border Margin="0,0,8,0" HorizontalAlignment="Left" Width="16" Height="16" BorderThickness="1" BorderBrush="{Binding Color, Converter={StaticResource ColorTotBrushConverter}}" 
+                                Name="SelectionBorder" Visibility="{Binding Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type igWpf:ToolMenuItem}}}"/>
+                        <Border Margin="2,0,8,0" HorizontalAlignment="Left" Width="12" Height="11" BorderThickness="0" Name="ColorBorder" Background="{Binding Color, Converter={StaticResource ColorTotBrushConverter}}"/>
+                        <TextBlock Text="{Binding CategoryName}" Margin="20,0,0,0" Foreground="#666666"/>
+                    </Grid>
+                </DataTemplate>
+            </igWpf:MenuTool.ItemTemplate>
+        </igWpf:MenuTool>
+        <igWpf:ButtonTool Caption="{x:Static resources:ResourceStrings.HomeTab_RibbonGroupTags_ButtonTool_FollowUp}"
+                          Command="{Binding FollowUpCommand}" 
+                          LargeImage="/IgOutlook.Modules.Mail;component/Images/Flagged32.png" 
+                          SmallImage="/IgOutlook.Modules.Mail;component/Images/Flagged16.png" igWpf:RibbonGroup.MaximumSize="ImageAndTextLarge"/>
+    </igWpf:RibbonGroup>
+
+</inf:RibbonTabItem>

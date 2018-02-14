@@ -1,0 +1,393 @@
+﻿<ResourceDictionary         
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:igWindows="http://infragistics.com/Windows" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    mc:Ignorable="d" 
+    xmlns:win="clr-namespace:System.Windows;assembly=PresentationFramework" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.MergedDictionaries>
+        <!--<ResourceDictionary Source="/IGTrading;component/Assets/Styles/CommonBrushes.xaml" />
+        <ResourceDictionary Source="/IGTrading;component/Assets/Styles/CommonStyles.xaml" />-->
+        <!--<ResourceDictionary Source="/IGTrading;component/Assets/Styles/CommonStyles.xaml" />-->
+    </ResourceDictionary.MergedDictionaries>
+
+
+    <!-- *********************************  Expansion Indicator Style  ********************************* -->
+    <Style x:Key="ExpansionIndicatorStyle1" TargetType="{x:Type igWindows:ExpansionIndicator}">
+        <Setter Property="Background" Value="{StaticResource SelectedFill}"/>
+        <Setter Property="BorderBrush" Value="#FF999999"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="ClipToBounds" Value="False"/>
+        <Setter Property="Margin" Value="5,0,3,0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type igWindows:ExpansionIndicator}">
+                    <Grid Background="Transparent">
+                        <win:VisualStateManager.VisualStateGroups>
+                            <win:VisualStateGroup x:Name="CommonStates">
+                                <win:VisualState x:Name="Normal"/>
+                                <win:VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="hover" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </win:VisualState>
+                                <win:VisualState x:Name="Pressed"/>
+                                <win:VisualState x:Name="Disabled"/>
+                            </win:VisualStateGroup>
+                            <win:VisualStateGroup x:Name="CheckStates">
+                                <win:VisualState x:Name="Checked"/>
+                                <win:VisualState x:Name="Unchecked"/>
+                                <win:VisualState x:Name="Indeterminate"/>
+                            </win:VisualStateGroup>
+                        </win:VisualStateManager.VisualStateGroups>
+                        <Grid x:Name="grdExpansionIndicatorClosed" Width="12" Height="12" RenderTransformOrigin="0.5,0.5" SnapsToDevicePixels="True">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Border x:Name="outerBorder" Background="{StaticResource SelectedFill}" CornerRadius="2" RenderTransformOrigin="0.5,0.5"/>
+                            <Border x:Name="hover" CornerRadius="2" Opacity="0" RenderTransformOrigin="0.5,0.5" Background="{StaticResource SelectedFill}"/>
+                            <Rectangle x:Name="plusHorizontal" Width="Auto" Height="2" HorizontalAlignment="Stretch" Margin="2,5" VerticalAlignment="Stretch" Fill="White" RenderTransformOrigin="0.5,0.5"/>
+                            <Rectangle x:Name="plusVert" Width="2" Height="Auto" Margin="5,2" Fill="White" RenderTransformOrigin="0.5,0.5"/>
+                        </Grid>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked" Value="True"/>
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="plusVert" Property="Visibility" Value="Collapsed"/>
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!-- *********************************  ExpanderBar Style  ********************************* -->
+   
+    <!--<Style x:Key="ExpanderBarStyle1" TargetType="igWindows:ExpanderBar">
+        <Setter Property="Background" Value="{StaticResource SelectedFill}"/>
+        <Setter Property="BackgroundHover" Value="{StaticResource SelectedFill}"/>
+        <Style.BasedOn>
+            <Style TargetType="igWindows:ExpanderBar">
+                <Setter Property="Background" Value="{StaticResource SelectedFill}"/>
+                <Setter Property="BackgroundHover" Value="{StaticResource SelectedFill}"/>
+                <Setter Property="BorderBrush" Value="#FF898C95"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="BorderHoverBrush" Value="#FF4DA2E4"/>
+                <Setter Property="MinHeight" Value="10"/>
+                <Setter Property="Cursor" Value="Hand"/>
+                <Setter Property="Focusable" Value="False"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="igWindows:ExpanderBar">
+                            <Grid>
+                                <win:VisualStateManager.VisualStateGroups>
+                                    <win:VisualStateGroup x:Name="CommonStates">
+                                        <win:VisualState x:Name="Normal"/>
+                                        <win:VisualState x:Name="MouseOver">
+                                            <Storyboard>
+                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="over" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                                    <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                                                </DoubleAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </win:VisualState>
+                                        <win:VisualState x:Name="Pressed"/>
+                                        <win:VisualState x:Name="Disabled"/>
+                                    </win:VisualStateGroup>
+                                </win:VisualStateManager.VisualStateGroups>
+                                <Rectangle x:Name="normal" Fill="{StaticResource SelectedFill}"/>
+                                <Rectangle x:Name="over" Opacity="0" StrokeThickness="0" Fill="{StaticResource SelectedFill}"/>
+                                <Path x:Name="BtnArrow" Width="8" Height="4" HorizontalAlignment="Center" Margin="0,0,6,0" Data="F1 M 301.14,-189.04L 311.57,-189.04L 306.35,-182.94L 301.14,-189.04 Z " Stretch="Uniform" Fill="White"/>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsMouseOver" Value="True"/>
+                                    </MultiTrigger.Conditions>
+                                    <Setter TargetName="over" Property="Fill" Value="{Binding BackgroundHover, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                </MultiTrigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Style.BasedOn>
+    </Style>-->
+
+    <!-- *********************************  ToolWindow Button  ********************************* -->
+    <Style x:Key="ToolWindowBtn" TargetType="{x:Type Button}">
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid Width="22" Height="17" Margin="0">
+                        <win:VisualStateManager.VisualStateGroups>
+                            <win:VisualStateGroup x:Name="CommonStates">
+                                <win:VisualState x:Name="Normal"/>
+                                <win:VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="hover" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </win:VisualState>
+                                <win:VisualState x:Name="Pressed"/>
+                                <win:VisualState x:Name="Disabled"/>
+                            </win:VisualStateGroup>
+                            <win:VisualStateGroup x:Name="FocusStates">
+                                <win:VisualState x:Name="Focused"/>
+                                <win:VisualState x:Name="Unfocused"/>
+                            </win:VisualStateGroup>
+                        </win:VisualStateManager.VisualStateGroups>
+                        <Border x:Name="normal" Background="{StaticResource ButtonNormalFill}" CornerRadius="2"/>
+                        <Border x:Name="hover" Background="{StaticResource SelectedFill}" CornerRadius="2" Opacity="0"/>
+                        <Border x:Name="pressed" Background="{StaticResource ButtonFocusFill}" CornerRadius="2" Opacity="0"/>
+                        <Path Width="12" Height="10" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M0.5,0.5L4.51,0.5 6.06,3.12 7.49,0.5 11.5,0.5 11.5,1.54 8.74,6.12 11.5,10.35 11.5,11.5 7.49,11.5 6.06,8.87 4.51,11.5 0.5,11.5 0.5,10.43 3.30,6.12 0.5,1.46 0.5,0.5z" Fill="#E4FFFFFF" Stretch="Fill" Stroke="#FF3F3F3F"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!-- *********************************  ToolWindow Style  ********************************* -->
+    <Style TargetType="{x:Type igWindows:ToolWindow}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="UseOSNonClientArea" Value="False"/>
+        <Setter Property="BorderThickness" Value="15"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type igWindows:ToolWindow}">
+                    <AdornerDecorator>
+                        <Grid Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                            <Border x:Name="windowCenterBorder" Background="{StaticResource ToolWindowBg}" CornerRadius="6">
+                                <Grid SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <igWindows:CardPanel x:Name="PART_Caption" Margin="0,4,0,0" Background="Transparent">
+                                        <DockPanel Margin="6,1,6,5">
+                                            <Button HorizontalAlignment="Right" VerticalAlignment="Center" Command="igWindows:ToolWindow.CloseCommand" DockPanel.Dock="Right" Style="{StaticResource ToolWindowBtn}">
+                                            </Button>
+                                            <TextBlock x:Name="txtCaption" FontFamily="{StaticResource {x:Static SystemFonts.SmallCaptionFontFamilyKey}}" FontSize="{StaticResource {x:Static SystemFonts.SmallCaptionFontSizeKey}}" FontStyle="{StaticResource {x:Static SystemFonts.SmallCaptionFontStyleKey}}" FontWeight="{StaticResource {x:Static SystemFonts.SmallCaptionFontWeightKey}}" Foreground="White" IsHitTestVisible="False" Text="{TemplateBinding Title}" TextDecorations="{StaticResource {x:Static SystemFonts.SmallCaptionFontTextDecorationsKey}}" TextTrimming="CharacterEllipsis"/>
+                                        </DockPanel>
+                                    </igWindows:CardPanel>
+                                    <Grid x:Name="Content" Grid.Row="1" Margin="6,0,6,6">
+                                        <Grid.Background>
+                                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                                <GradientStop Offset="0" Color="#FF323232"/>
+                                                <GradientStop Offset="1" Color="#FF242424"/>
+                                            </LinearGradientBrush>
+                                        </Grid.Background>
+                                        <ContentPresenter x:Name="PART_Content" Grid.Row="1" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Content="{TemplateBinding Content}" ContentSource="Content" ContentStringFormat="{TemplateBinding ContentStringFormat}" ContentTemplate="{TemplateBinding ContentTemplate}"/>
+                                        <Grid x:Name="PART_ResizeGrip" Grid.RowSpan="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="Transparent" Visibility="Collapsed">
+                                            <ResizeGrip IsHitTestVisible="False" IsTabStop="False"/>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                            <Grid x:Name="resizeAreas" Visibility="Collapsed">
+                                <igWindows:ToolWindowResizeElement x:Name="PART_BorderTop" HorizontalAlignment="Stretch" Margin="0" VerticalAlignment="Top" BorderLocation="Top" BorderThickness="0" CornerRadius="0" Cursor="SizeNS" ForceCursor="True"/>
+                                <igWindows:ToolWindowResizeElement x:Name="PART_BorderLeft" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Stretch" BorderLocation="Left" BorderThickness="0" CornerRadius="0" Cursor="SizeWE" ForceCursor="True"/>
+                                <igWindows:ToolWindowResizeElement x:Name="PART_BorderBottom" HorizontalAlignment="Stretch" Margin="0" VerticalAlignment="Bottom" BorderLocation="Bottom" BorderThickness="0" CornerRadius="0" Cursor="SizeNS" ForceCursor="True"/>
+                                <igWindows:ToolWindowResizeElement x:Name="PART_BorderRight" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Stretch" BorderLocation="Right" BorderThickness="0" CornerRadius="0" Cursor="SizeWE" ForceCursor="True"/>
+                                <igWindows:ToolWindowResizeElement x:Name="PART_BorderTopLeft" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top" BorderLocation="TopLeft" BorderThickness="0" CornerRadius="0" Cursor="SizeNWSE" ForceCursor="True"/>
+                                <igWindows:ToolWindowResizeElement x:Name="PART_BorderTopRight" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Top" BorderLocation="TopRight" BorderThickness="0" CornerRadius="0" Cursor="SizeNESW" ForceCursor="True"/>
+                                <igWindows:ToolWindowResizeElement x:Name="PART_BorderBottomLeft" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Bottom" BorderLocation="BottomLeft" BorderThickness="0" CornerRadius="0" Cursor="SizeNESW" ForceCursor="True"/>
+                                <igWindows:ToolWindowResizeElement x:Name="PART_BorderBottomRight" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Bottom" BorderLocation="BottomRight" BorderThickness="0" CornerRadius="0" Cursor="SizeNWSE" ForceCursor="True"/>
+                            </Grid>
+                        </Grid>
+                    </AdornerDecorator>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsActive" Value="True">
+                            <Setter TargetName="txtCaption" Property="Foreground" Value="White"/>
+                            <Setter TargetName="windowCenterBorder" Property="Background" Value="{StaticResource ToolWindowBg}"/>
+                            <Setter TargetName="PART_Caption" Property="Background" Value="Transparent"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="ResizeMode" Value="CanResize"/>
+                                <Condition Property="IsUsingOSNonClientArea" Value="False"/>
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="resizeAreas" Property="Visibility" Value="Visible"/>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="ResizeMode" Value="CanResizeWithGrip"/>
+                                <Condition Property="IsUsingOSNonClientArea" Value="False"/>
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="resizeAreas" Property="Visibility" Value="Visible"/>
+                        </MultiTrigger>
+                        <Trigger Property="ResizeMode" Value="CanResizeWithGrip">
+                            <Setter TargetName="PART_ResizeGrip" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                        <Trigger Property="IsUsingOSNonClientArea" Value="True">
+                            <Setter TargetName="PART_Caption" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="Content" Property="Margin" Value="0"/>
+                            <Setter TargetName="windowCenterBorder" Property="Background" Value="Transparent"/>
+                            <Setter TargetName="windowCenterBorder" Property="Padding" Value="0"/>
+                            <Setter TargetName="windowCenterBorder" Property="Margin" Value="0"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsActive" Value="True">
+                <Setter Property="BorderBrush" Value="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+   
+    <!-- *********************************  ComparisonOperatorSelector ComboBox Style  ********************************* -->
+    <Style x:Key="ComparisonOperatorSelectorComboBoxStyle" TargetType="{x:Type ComboBox}">
+        <Setter Property="IsSynchronizedWithCurrentItem" Value="False"/>
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="Foreground" Value="{StaticResource ForegroundLight}"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="Padding" Value="4,3"/>
+        <Setter Property="FocusVisualStyle">
+            <Setter.Value>
+                <Style/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ComboBox}">
+                    <Grid>
+                        <Border BorderThickness="{TemplateBinding BorderThickness}">
+                            <ToggleButton x:Name="PART_DropDownButton" IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Style="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type igWindows:ComparisonOperatorSelector}, AncestorLevel=1}, Path=DropDownButtonStyle}"/>
+                        </Border>
+                        <Popup x:Name="PART_Popup" MaxHeight="{TemplateBinding MaxDropDownHeight}" AllowsTransparency="True" Focusable="False" HorizontalOffset="-1" IsOpen="{TemplateBinding IsDropDownOpen}" Placement="Bottom" PopupAnimation="{StaticResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" VerticalOffset="1">
+                            <Border Background="{StaticResource EditableComboBoxBg}" BorderBrush="{StaticResource HeaderNormalBackgroundBrush}" BorderThickness="1">
+                                <ScrollViewer x:Name="ScrollViewer" HorizontalScrollBarVisibility="Auto" Style="{StaticResource ScrollViewerStyle}" VerticalScrollBarVisibility="Auto">
+                                    <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                </ScrollViewer>
+                            </Border>
+                        </Popup>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="HasItems" Value="False">
+                            <Setter TargetName="PART_Popup" Property="MinHeight" Value="95"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{StaticResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                        </Trigger>
+                        <Trigger Property="HasDropShadow" SourceName="PART_Popup" Value="True">
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!-- *********************************  ComparisonOperatorSelector.DropDownButtonStyleKey  ********************************* -->
+    <Style x:Key="{x:Static igWindows:ComparisonOperatorSelector.DropDownButtonStyleKey}" TargetType="{x:Type ToggleButton}">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="MinWidth" Value="0"/>
+        <Setter Property="MinHeight" Value="0"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Padding" Value="2"/>
+        <Setter Property="ClickMode" Value="Press"/>
+        <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type igWindows:ComparisonOperatorSelector}, AncestorLevel=1}, Path=SelectedOperatorInfo.Description}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <igWindows:AutoDisabledImage MinHeight="14" MinWidth="14" HorizontalAlignment="Center" Margin="{TemplateBinding Padding}" 
+                                                     VerticalAlignment="Center" 
+                                                     Source="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type igWindows:ComparisonOperatorSelector}, AncestorLevel=1}, Path=SelectedOperatorInfo.Image}" 
+                                                     Stretch="None"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!-- *********************************  ComparisonOperatorSelector operator images  ********************************* -->
+    <BitmapImage x:Key="{x:Static igWindows:ComparisonOperatorSelector.OperatorEqualsImageKey}" DecodePixelHeight="16" DecodePixelWidth="16" UriSource="/IGTrading;component/Assets/Images/Operators/FilterOp_Equals.png"/>
+    <BitmapImage x:Key="{x:Static igWindows:ComparisonOperatorSelector.OperatorNotEqualsImageKey}" DecodePixelHeight="16" DecodePixelWidth="16" UriSource="/IGTrading;component/Assets/Images/Operators/FilterOp_NotEquals.png"/>
+    <BitmapImage x:Key="{x:Static igWindows:ComparisonOperatorSelector.OperatorLessThanImageKey}" DecodePixelHeight="16" DecodePixelWidth="16" UriSource="/IGTrading;component/Assets/Images/Operators/FilterOp_LessThan.png"/>
+    <BitmapImage x:Key="{x:Static igWindows:ComparisonOperatorSelector.OperatorLessThanOrEqualToImageKey}" DecodePixelHeight="16" DecodePixelWidth="16" UriSource="/IGTrading;component/Assets/Images/Operators/FilterOp_LessThanOrEqualTo.png"/>
+    <BitmapImage x:Key="{x:Static igWindows:ComparisonOperatorSelector.OperatorGreaterThanImageKey}" DecodePixelHeight="16" DecodePixelWidth="16" UriSource="/IGTrading;component/Assets/Images/Operators/FilterOp_GreaterThan.png"/>
+    <BitmapImage x:Key="{x:Static igWindows:ComparisonOperatorSelector.OperatorGreaterThanOrEqualToImageKey}" DecodePixelHeight="16" DecodePixelWidth="16" UriSource="/IGTrading;component/Assets/Images/Operators/FilterOp_GreaterThanOrEqualTo.png"/>
+    <BitmapImage x:Key="{x:Static igWindows:ComparisonOperatorSelector.OperatorContainsImageKey}" DecodePixelHeight="16" DecodePixelWidth="16" UriSource="/IGTrading;component/Assets/Images/Operators/FilterOp_Contains.png"/>
+    <BitmapImage x:Key="{x:Static igWindows:ComparisonOperatorSelector.OperatorDoesNotContainImageKey}" DecodePixelHeight="16" DecodePixelWidth="16" UriSource="/IGTrading;component/Assets/Images/Operators/FilterOp_DoesNotContain.png"/>
+    <BitmapImage x:Key="{x:Static igWindows:ComparisonOperatorSelector.OperatorLikeImageKey}" DecodePixelHeight="16" DecodePixelWidth="16" UriSource="/IGTrading;component/Assets/Images/Operators/FilterOp_Like.png"/>
+    <BitmapImage x:Key="{x:Static igWindows:ComparisonOperatorSelector.OperatorNotLikeImageKey}" DecodePixelHeight="16" DecodePixelWidth="16" UriSource="/IGTrading;component/Assets/Images/Operators/FilterOp_NotLike.png"/>
+    <BitmapImage x:Key="{x:Static igWindows:ComparisonOperatorSelector.OperatorMatchImageKey}" DecodePixelHeight="16" DecodePixelWidth="16" UriSource="/IGTrading;component/Assets/Images/Operators/FilterOp_Match.png"/>
+    <BitmapImage x:Key="{x:Static igWindows:ComparisonOperatorSelector.OperatorDoesNotMatchImageKey}" DecodePixelHeight="16" DecodePixelWidth="16" UriSource="/IGTrading;component/Assets/Images/Operators/FilterOp_DoesNotMatch.png"/>
+    <BitmapImage x:Key="{x:Static igWindows:ComparisonOperatorSelector.OperatorStartsWithImageKey}" DecodePixelHeight="16" DecodePixelWidth="16" UriSource="/IGTrading;component/Assets/Images/Operators/FilterOp_StartsWith.png"/>
+    <BitmapImage x:Key="{x:Static igWindows:ComparisonOperatorSelector.OperatorDoesNotStartWithImageKey}" DecodePixelHeight="16" DecodePixelWidth="16" UriSource="/IGTrading;component/Assets/Images/Operators/FilterOp_DoesNotStartWith.png"/>
+    <BitmapImage x:Key="{x:Static igWindows:ComparisonOperatorSelector.OperatorEndsWithImageKey}" DecodePixelHeight="16" DecodePixelWidth="16" UriSource="/IGTrading;component/Assets/Images/Operators/FilterOp_EndsWith.png"/>
+    <BitmapImage x:Key="{x:Static igWindows:ComparisonOperatorSelector.OperatorDoesNotEndWithImageKey}" DecodePixelHeight="16" DecodePixelWidth="16" UriSource="/IGTrading;component/Assets/Images/Operators/FilterOp_DoesNotEndWith.png"/>
+    <BitmapImage x:Key="{x:Static igWindows:ComparisonOperatorSelector.OperatorTopImageKey}" DecodePixelHeight="16" DecodePixelWidth="16" UriSource="/IGTrading;component/Assets/Images/Operators/FilterOp_Top.png"/>
+    <BitmapImage x:Key="{x:Static igWindows:ComparisonOperatorSelector.OperatorBottomImageKey}" DecodePixelHeight="16" DecodePixelWidth="16" UriSource="/IGTrading;component/Assets/Images/Operators/FilterOp_Bottom.png"/>
+    <BitmapImage x:Key="{x:Static igWindows:ComparisonOperatorSelector.OperatorTopPercentileImageKey}" DecodePixelHeight="16" DecodePixelWidth="16" UriSource="/IGTrading;component/Assets/Images/Operators/FilterOp_TopPercentile.png"/>
+    <BitmapImage x:Key="{x:Static igWindows:ComparisonOperatorSelector.OperatorBottomPercentileImageKey}" DecodePixelHeight="16" DecodePixelWidth="16" UriSource="/IGTrading;component/Assets/Images/Operators/FilterOp_BottomPercentile.png"/>
+    <!-- *********************************  ComparisonOperatorListItem  ********************************* -->
+    <DataTemplate DataType="{x:Type igWindows:ComparisonOperatorListItem}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock x:Name="TextBlock" Grid.Column="1" Grid.Row="0" Text="{Binding Path=Description}"/>
+            <Border Margin="4,0,4,0">
+                <Image Grid.Column="0" Grid.Row="0" Source="{Binding Path=Image}" Stretch="Uniform" StretchDirection="Both"/>
+            </Border>
+        </Grid>
+    </DataTemplate>
+    <!-- *********************************  ComparisonOperatorSelector Style  ********************************* -->
+    <Style TargetType="{x:Type igWindows:ComparisonOperatorSelector}">
+        <Setter Property="DropDownButtonStyle" Value="{StaticResource {x:Static igWindows:ComparisonOperatorSelector.DropDownButtonStyleKey}}"/>
+        <Setter Property="OperatorEqualsImage" Value="{StaticResource {x:Static igWindows:ComparisonOperatorSelector.OperatorEqualsImageKey}}"/>
+        <Setter Property="OperatorNotEqualsImage" Value="{StaticResource {x:Static igWindows:ComparisonOperatorSelector.OperatorNotEqualsImageKey}}"/>
+        <Setter Property="OperatorLessThanImage" Value="{StaticResource {x:Static igWindows:ComparisonOperatorSelector.OperatorLessThanImageKey}}"/>
+        <Setter Property="OperatorLessThanOrEqualToImage" Value="{StaticResource {x:Static igWindows:ComparisonOperatorSelector.OperatorLessThanOrEqualToImageKey}}"/>
+        <Setter Property="OperatorGreaterThanImage" Value="{StaticResource {x:Static igWindows:ComparisonOperatorSelector.OperatorGreaterThanImageKey}}"/>
+        <Setter Property="OperatorGreaterThanOrEqualToImage" Value="{StaticResource {x:Static igWindows:ComparisonOperatorSelector.OperatorGreaterThanOrEqualToImageKey}}"/>
+        <Setter Property="OperatorContainsImage" Value="{StaticResource {x:Static igWindows:ComparisonOperatorSelector.OperatorContainsImageKey}}"/>
+        <Setter Property="OperatorDoesNotContainImage" Value="{StaticResource {x:Static igWindows:ComparisonOperatorSelector.OperatorDoesNotContainImageKey}}"/>
+        <Setter Property="OperatorLikeImage" Value="{StaticResource {x:Static igWindows:ComparisonOperatorSelector.OperatorLikeImageKey}}"/>
+        <Setter Property="OperatorNotLikeImage" Value="{StaticResource {x:Static igWindows:ComparisonOperatorSelector.OperatorNotLikeImageKey}}"/>
+        <Setter Property="OperatorMatchImage" Value="{StaticResource {x:Static igWindows:ComparisonOperatorSelector.OperatorMatchImageKey}}"/>
+        <Setter Property="OperatorDoesNotMatchImage" Value="{StaticResource {x:Static igWindows:ComparisonOperatorSelector.OperatorDoesNotMatchImageKey}}"/>
+        <Setter Property="OperatorStartsWithImage" Value="{StaticResource {x:Static igWindows:ComparisonOperatorSelector.OperatorStartsWithImageKey}}"/>
+        <Setter Property="OperatorDoesNotStartWithImage" Value="{StaticResource {x:Static igWindows:ComparisonOperatorSelector.OperatorDoesNotStartWithImageKey}}"/>
+        <Setter Property="OperatorEndsWithImage" Value="{StaticResource {x:Static igWindows:ComparisonOperatorSelector.OperatorEndsWithImageKey}}"/>
+        <Setter Property="OperatorDoesNotEndWithImage" Value="{StaticResource {x:Static igWindows:ComparisonOperatorSelector.OperatorDoesNotEndWithImageKey}}"/>
+        <Setter Property="OperatorTopImage" Value="{StaticResource {x:Static igWindows:ComparisonOperatorSelector.OperatorTopImageKey}}"/>
+        <Setter Property="OperatorBottomImage" Value="{StaticResource {x:Static igWindows:ComparisonOperatorSelector.OperatorBottomImageKey}}"/>
+        <Setter Property="OperatorTopPercentileImage" Value="{StaticResource {x:Static igWindows:ComparisonOperatorSelector.OperatorTopPercentileImageKey}}"/>
+        <Setter Property="OperatorBottomPercentileImage" Value="{StaticResource {x:Static igWindows:ComparisonOperatorSelector.OperatorBottomPercentileImageKey}}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type igWindows:ComparisonOperatorSelector}">
+                    <ComboBox x:Name="PART_ComboBox" Background="Transparent" BorderThickness="0"
+                              IsDropDownOpen="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsDropDownOpen, Mode=TwoWay}" 
+                              ItemContainerStyle="{StaticResource ComboBoxItemStyle1}" 
+                              ItemsSource="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Items}" 
+                              SelectedIndex="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectedIndex, Mode=TwoWay}" 
+                              Style="{StaticResource ComparisonOperatorSelectorComboBoxStyle}"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

@@ -1,0 +1,248 @@
+﻿<UserControl x:Class="MediaTimeline.Views.MediaTimelineView" 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:c="clr-namespace:MediaTimeline.Converters"
+    xmlns:dv="http://schemas.infragistics.com/xaml"
+    xmlns:vm="clr-namespace:MediaTimeline.ViewModels"
+    xmlns:Views="clr-namespace:MediaTimeline.Views" 
+    xmlns:commonControls="clr-namespace:IGExtensions.Common.Controls;assembly=IGExtensions.Common" 
+    d:DataContext="{d:DesignData ../Assets/SampleData/MediaTimelineSampleData.xaml}" 
+    d:DesignWidth="1024" d:DesignHeight="480">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGShowcase.MediaTimeline;component/Assets/MediaTimelineStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <!--EventTitle style -->
+            <Style x:Key="titleStyle" TargetType="dv:EventTitle">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="dv:EventTitle">
+                            <Views:TitleView DataContext="{Binding}" MouseLeftButtonDown="DateTimeSeries_MouseLeftButtonDown" 
+                                             />
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="LineStyle">
+                    <Setter.Value>
+                        <Style TargetType="Line">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <!-- Converters -->
+            <c:BoolToIntConverter x:Key="boolToIntConverter" />
+            <c:BoolToOrderByConverter x:Key="boolToOrderByConverter" />
+            <c:StringToStringConverter x:Key="stringToStringConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <UserControl.DataContext>
+        <vm:MediaTimelineViewModel />
+    </UserControl.DataContext>
+
+    <Grid x:Name="LayoutRoot" Background="{StaticResource TimelineBackgroundBrush}">
+       <Grid.Resources>
+			<Style x:Name="EventTitleStyle"
+                   TargetType="dv:EventTitle">
+				<Setter Property="LineStyle">
+					<Setter.Value>
+						<Style TargetType="Line">
+							<Setter Property="Visibility"
+                                    Value="Collapsed" />
+						</Style>
+					</Setter.Value>
+				</Setter>
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="dv:EventTitle">
+							<Border BorderThickness="0,0,1,1"
+                                    CornerRadius="4">
+								<ContentPresenter Content="{TemplateBinding Title}" />
+							</Border>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+
+            <Style x:Key="HiddenPreviewAxisStyle" TargetType="dv:PreviewAxis">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </Style>
+
+            <Style TargetType="dv:DateTimeAxis">
+                <Setter Property="MajorGridLineStyle">
+                    <Setter.Value>
+                        <Style TargetType="dv:Mark">
+                            <Setter Property="Fill" Value="{StaticResource BaseBorderBrush}" />
+                            <Setter Property="Stroke" Value="{StaticResource BaseBorderBrush}" />
+                            <Setter Property="IsTabStop" Value="False" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="dv:Mark">
+										<!--<Path Height="{Binding ElementName=timeLine, Path=ActualWidth}" Width="1" Stroke="#72FFFFFF" StrokeDashArray="1 1" Data="M1,10 L1,500" UseLayoutRounding="False"/>-->
+                                        <Path Stretch="Fill" Stroke="#72FFFFFF" Width="1" UseLayoutRounding="False" Grid.Row="1" Data="M1,10 L1,500" StrokeDashArray="1 1" />
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="PaneStyle">
+                    <Setter.Value>
+                        <Style TargetType="dv:Mark">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="LabelStyle">
+                    <Setter.Value>
+                        <Style TargetType="dv:AxisLabel">
+                            <Setter Property="IsTabStop" Value="True" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="dv:AxisLabel">
+                                        <TextBlock x:Name="TextBlockElement" FontSize="16" Foreground="White" Text="{TemplateBinding FormattedText}" FontFamily="Arial" FontWeight="Bold" HorizontalAlignment="Left"
+                                       VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" >
+                        		<TextBlock.RenderTransform>
+                        			<TransformGroup>
+                        				<ScaleTransform/>
+                        				<SkewTransform/>
+                        				<RotateTransform Angle="90"/>
+                        				<TranslateTransform/>
+                        			</TransformGroup>
+                        		</TextBlock.RenderTransform>
+                        		<TextBlock.Effect>
+                        			<DropShadowEffect Color="#FF00CCFF" ShadowDepth="0" BlurRadius="30" Opacity="0.6"/>
+                        		</TextBlock.Effect>
+                                        </TextBlock>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style TargetType="dv:DateTimeSeries">
+                <Setter Property="EventPointStyle">
+                    <Setter.Value>
+                        <Style TargetType="dv:EventPoint">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+        </Grid.Resources>
+        <!-- Activity Indicator -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="0.703*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="54"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+
+            <!-- Background Gray Color -->
+            <Grid Grid.ColumnSpan="2" Background="{StaticResource OptionsBackgroundBrush}" />
+
+			<!-- Search Filters -->
+			<StackPanel Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
+				<!-- Search Button -->
+				<Grid Height="33" Width="370" HorizontalAlignment="Left">
+					<StackPanel Orientation="Horizontal">
+						<!-- Searck TextBox -->
+						<commonControls:AutoCompleteBox x:Name="autoCompleteBox" 
+													Text="{Binding SearchText, Mode=TwoWay}"  
+													FilterMode="None" 
+													VerticalAlignment="Center"
+													IsTextCompletionEnabled="True" 
+													ValueMemberPath="Key"
+													Populating="AutoCompleteBox_Populating"
+													KeyUp="AutoCompleteBox_KeyUp" 
+													Style="{StaticResource MediaAutoCompleteBoxStyle}" 
+													Margin="1 0 0 0"
+													Height="33"
+													Width="285">
+							<commonControls:AutoCompleteBox.ItemTemplate>
+									<DataTemplate>
+										<Grid Width="360">
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition/>
+												<ColumnDefinition Width="0.45*"/>
+											</Grid.ColumnDefinitions>
+											<TextBlock Grid.Column="0" Text="{Binding Key}" Margin="0"/>
+											<TextBlock Grid.Column="1" Text="{Binding Value}" HorizontalAlignment="Right" Foreground="#FF0099FF" TextAlignment="Right"/>
+										</Grid>
+									</DataTemplate>
+							</commonControls:AutoCompleteBox.ItemTemplate>
+						</commonControls:AutoCompleteBox>
+						<!-- Search Button -->
+						<Button Foreground="White" Content="{Binding AppStrings.Search, Source={StaticResource AssetsLocalizer}, Mode=OneTime}"  Click="SearchButton_Click" Margin="-1 0 0 0" HorizontalAlignment="Right" FontFamily="/IGShowcase.MediaTimeline;component/Fonts/segoeui_0.ttf#Segoe UI" FontSize="16" VerticalAlignment="Center" Height="31" Style="{StaticResource searchButton}" Width="83" />
+					</StackPanel>
+					<Border BorderThickness="2" BorderBrush="{StaticResource SearchMenuBorderBrush}"/>
+				</Grid>
+
+				<!-- Number of Results: filters -->
+				<Grid Height="28" Margin="30 0 0 0">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="110" />
+						<ColumnDefinition />
+					</Grid.ColumnDefinitions>
+					<TextBlock Text="{Binding AppStrings.Number_Of_Results, Source={StaticResource AssetsLocalizer}, Mode=OneTime}" Style="{StaticResource FilterLabels}" HorizontalAlignment="Left" VerticalAlignment="Center" />
+					<ComboBox x:Name="NumberOfResultsComboBox" FontSize="14" Width="60" Grid.Column="1" SelectedIndex="0" SelectedItem="{Binding MaxResults, Mode=TwoWay}" Style="{StaticResource TransparentComboBoxStyle}"/>
+				</Grid>
+
+				<!-- Sort By: filters -->
+				<Grid Height="28" Margin="20 0 20 0">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="50"/>
+						<ColumnDefinition/>
+					</Grid.ColumnDefinitions>
+					<TextBlock Text="{Binding AppStrings.Sort_By, Source={StaticResource AssetsLocalizer}, Mode=OneTime}" Style="{StaticResource FilterLabels}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+					<ComboBox x:Name="SortByComboBox" FontSize="14" Grid.Column="1" Height="28" Width="115" SelectedIndex="0" Style="{StaticResource TransparentComboBoxStyle}" SelectedItem="{Binding OrderBy, Mode=TwoWay, Converter={StaticResource stringToStringConverter}}" />
+				</Grid>
+			</StackPanel>
+
+            <!-- TimeLine -->
+            <dv:XamTimeline x:Name="timeLine" 
+        						Grid.Row="1"
+								Grid.ColumnSpan="2"
+                                LegendStyle="{StaticResource hideLegend}" Background="Transparent"
+        						SceneStyle="{StaticResource SceneStyle}"
+                                ZoombarStyle="{StaticResource XamZoombarStyle}">
+                <dv:XamTimeline.Axis  >
+                    <dv:DateTimeAxis x:Name="timeLineAxis" AutoRange="True" VerticalAlignment="Bottom" ShowThumb="False" 
+        					Unit="7" ShowMajorGridLines="True" ShowMajorTickMarks="False" />
+                </dv:XamTimeline.Axis>
+                <dv:XamTimeline.Series>
+                    <dv:DateTimeSeries DataSource="{Binding YouTubeEvents, Mode=OneWay}" 
+        								DataMapping="Time=ReleaseDate;Title=Title;Details=Details" 
+        								Position="BottomOrRight" 
+                                        EventTitleStyle="{StaticResource titleStyle}"
+										EventDetailsStyle="{StaticResource detailsStyle}"/>
+                </dv:XamTimeline.Series>
+            </dv:XamTimeline>
+
+            <!-- Less Popular - More Popular Box -->
+            <Grid VerticalAlignment="Bottom" Grid.Row="2" HorizontalAlignment="Center" Width="190" Height="40" Grid.ColumnSpan="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="7*"/>
+                </Grid.RowDefinitions>
+                <Path Data="M0,-18.000828 C0,-24.628242 5.3725829,-30.000826 12,-30.000826 L207,-30.000826 C213.62741,-30.000826 219,-24.628242 219,-18.000828 C219,-7.3341103 219,-0.6674062 219,9.9993095 C219,9.9993095 0,9.9993095 0,9.9993095 z" Height="40" Stretch="Fill" Opacity="0.4" UseLayoutRounding="False" Margin="0" VerticalAlignment="Top" Grid.RowSpan="2" Fill="{StaticResource AppNavigationHeaderBackground2}"/>
+                <Image Height="35" Source="{Binding Images.Popularity, Source={StaticResource AssetsLocalizer}, Converter={StaticResource ByteToBitmapConverter}, Mode=OneTime}" Stretch="Fill" Margin="26,0,14,0" VerticalAlignment="Top" Grid.Row="1"/>
+            </Grid>
+        </Grid>
+        <!--TODO: add BusyIndicator from Common project-->
+        <!--<controlsToolkit:BusyIndicator IsBusy="{Binding IsBusy}"  >
+        </controlsToolkit:BusyIndicator>-->
+    </Grid>
+</UserControl>

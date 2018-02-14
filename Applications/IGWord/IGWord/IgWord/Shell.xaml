@@ -1,0 +1,870 @@
+﻿<igwpf:XamRibbonWindow x:Class="IgWord.Shell"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ig="http://schemas.infragistics.com/xaml"
+        xmlns:igwpf="http://schemas.infragistics.com/xaml/wpf"
+        xmlns:views="clr-namespace:IgWord.Views"
+        xmlns:prism="http://www.codeplex.com/prism"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:converters="clr-namespace:IgWord.Converters"                       
+        xmlns:props="clr-namespace:IgWord.Infrastructure.AttachedProperties;assembly=IgWord.Infrastructure"
+        xmlns:behaviours="clr-namespace:IgWord.Infrastructure.Behaviours;assembly=IgWord.Infrastructure"
+        xmlns:commands="clr-namespace:IgWord.Infrastructure.Commands;assembly=IgWord.Infrastructure"
+        xmlns:adapters="clr-namespace:IgWord.Infrastructure.Adapters;assembly=IgWord.Infrastructure"
+        xmlns:infr="clr-namespace:IgWord.Infrastructure;assembly=IgWord.Infrastructure"
+        xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+        xmlns:rtfb="clr-namespace:IgWord.Infrastructure.RichTextFormatBar;assembly=IgWord.Infrastructure"
+        xmlns:resources="clr-namespace:IgWord.ResourceStrings;assembly=IgWord"
+        Icon="Images/Icons/IgWord.ico"                       
+        Title="{Binding Title}" Height="750" Width="825" WindowState="Minimized">
+    <igwpf:XamRibbonWindow.InputBindings>
+        <KeyBinding Modifiers="Control" Key="S" Command="{Binding SaveDocumentCommand}"/>
+        <KeyBinding Modifiers="Control" Key="N" Command="{Binding CreateNewDocumentCommand}"/>
+        <KeyBinding Modifiers="Control" Key="F" Command="{Binding ShowFindDialogCommand}" CommandParameter="{Binding ElementName=richTextEditor, Path=FindReplaceManager}"/>
+        <KeyBinding Modifiers="Control" Key="H" Command="{Binding ShowReplaceDialogCommand}" CommandParameter="{Binding ElementName=richTextEditor, Path=FindReplaceManager}"/>
+        <KeyBinding Modifiers="Control" Key="D" Command="{Binding ShowFontDialogCommand}" CommandParameter="{Binding Path=Document, ElementName=richTextEditor}"/>
+        <KeyBinding Modifiers="Control" Key="OemPeriod" Command="EditingCommands.IncreaseFontSize" CommandTarget="{Binding ElementName=richTextEditor}"/>
+        <KeyBinding Modifiers="Control" Key="OemComma" Command="EditingCommands.DecreaseFontSize" CommandTarget="{Binding ElementName=richTextEditor}"/>
+        <KeyBinding Modifiers="Control" Key="K"  Command="{Binding ShowHyperlinkDialogCommand}" CommandParameter="{Binding Path=Document, ElementName=richTextEditor}"/>
+    </igwpf:XamRibbonWindow.InputBindings>
+    <Grid>
+        <Grid.Resources>
+            <!-- ================================== DataTemplates ================================== -->
+            <DataTemplate x:Key="SingleLineTemplate">
+                <Line X1="1" Y1="1" X2="150" Y2="1" Width="150" Height="7" StrokeThickness="1" Stroke="Black" igPrim:XamlHelper.SnapsToDevicePixels="True"/>
+            </DataTemplate>
+            <DataTemplate x:Key="DoubleLineTemplate">
+                <StackPanel>
+                    <Line X1="1" Y1="1" X2="150" Y2="1" Width="150" Height="3.5" StrokeThickness="1" Stroke="Black" igPrim:XamlHelper.SnapsToDevicePixels="True"/>
+                    <Line X1="1" Y1="1" X2="150" Y2="1" Width="150" Height="3.5" StrokeThickness="1" Stroke="Black" igPrim:XamlHelper.SnapsToDevicePixels="True"/>
+                </StackPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="ThickLineTemplate">
+                <Line X1="1" Y1="1" X2="150" Y2="1" Width="150" Height="7" StrokeThickness="3" Stroke="Black" igPrim:XamlHelper.SnapsToDevicePixels="True"/>
+            </DataTemplate>
+            <DataTemplate x:Key="DottedLineTemplate">
+                <Line X1="1" Y1="1" X2="150" Y2="1" Width="150" Height="7" StrokeDashArray="3 3" StrokeThickness="1" Stroke="Black" igPrim:XamlHelper.SnapsToDevicePixels="True"/>
+            </DataTemplate>
+            <DataTemplate x:Key="DashLineTemplate">
+                <Line X1="1" Y1="1" X2="150" Y2="1" Width="150" Height="7" StrokeDashArray="3 9" StrokeThickness="1" Stroke="Black" igPrim:XamlHelper.SnapsToDevicePixels="True"/>
+            </DataTemplate>
+            <DataTemplate x:Key="DotDashLineTemplate">
+                <Line X1="1" Y1="1" X2="150" Y2="1" Width="150" Height="7" StrokeDashArray="3 3 12" StrokeThickness="1" Stroke="Black" igPrim:XamlHelper.SnapsToDevicePixels="True"/>
+            </DataTemplate>
+            <DataTemplate x:Key="DotDotDashLineTemplate">
+                <Line X1="1" Y1="1" X2="150" Y2="1" Width="150" Height="7" StrokeDashArray="3 3 3 3 12" StrokeThickness="1" Stroke="Black" igPrim:XamlHelper.SnapsToDevicePixels="True"/>
+            </DataTemplate>
+            <DataTemplate x:Key="NoneLineTemplate">
+                <TextBlock Text="{x:Static resources:ResourceStrings.Text_None}"></TextBlock>
+            </DataTemplate>
+            <!-- ================================== Converters ================================== -->
+            <converters:UnderlineTypeSelectionConverter  x:Key="underlineTypeSelectionConverter"/>
+            <converters:SplitButtonTextConverter x:Key="SplitButtonTextConverter"/>
+            <converters:RichTextAdapterRefreshTriggerConverter x:Key="richTextAdapterRefreshTriggerConverter"/>
+            <converters:ParagraphAlignmentConverter x:Key="ParagraphAlignmentConverter"/>
+            <converters:HiddenSymbolDisplayModeConverter x:Key="HiddenSymbolDisplayModeConverter"/>
+            <converters:InvertedBooleanToVisibilityConverter x:Key="InvertedBooleanToVisibilityConverter"/>
+            <converters:MagnificationConverter x:Key="MagnificationConverter"/>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
+            <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverterCustom"/>
+            <infr:UnderlineTemplateSelector x:Key="UnderlineTemplateSelector" 
+                                            SingleLineTemplate="{StaticResource SingleLineTemplate}"
+                                            DoubleLineTemplate="{StaticResource DoubleLineTemplate}"
+                                            ThickLineTemplate="{StaticResource ThickLineTemplate}"
+                                            DottedLineTemplate="{StaticResource DottedLineTemplate}"
+                                            DashLineTemplate="{StaticResource DashLineTemplate}"
+                                            DotDashLineTemplate="{StaticResource DotDashLineTemplate}"
+                                            DotDotDashLineTemplate="{StaticResource DotDotDashLineTemplate}"
+                                            NoneLineTemplate="{StaticResource NoneLineTemplate}"/>
+
+
+            <SolidColorBrush Color="#D4D4D4" x:Key="LineBrush"/>
+            <SolidColorBrush Color="#E6F2FA" x:Key="HoverBrush"/>
+            <SolidColorBrush Color="#CDE6F7" x:Key="SelectedBrush"/>
+            <SolidColorBrush Color="#666666" x:Key="LightTextBrush"/>
+            <SolidColorBrush Color="#444444" x:Key="DarkTextBrush"/>
+
+            <!-- ================================== Styles ================================== -->
+            <Style x:Key="minimizeButton" TargetType="{x:Type ToggleButton}">
+                <Setter Property="Width" Value="30"></Setter>
+                <Setter Property="Height" Value="25"></Setter>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                            <Border x:Name="border" Background="#fff7f7f7" VerticalAlignment="{TemplateBinding VerticalAlignment}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" Margin="0,0,0,0" BorderThickness="0" igPrim:XamlHelper.SnapsToDevicePixels="True">
+                                <Grid x:Name="grid" VerticalAlignment="Center" HorizontalAlignment="Center" Height="6" Width="11">
+                                    <Path x:Name="arrowShowMenu" Data="M 0,0 L 5,5 L 10,0" HorizontalAlignment="Center" Stroke="#6D6D6D" Opacity="0" RenderOptions.EdgeMode="Aliased"
+                                          StrokeThickness="1" VerticalAlignment="Center" UseLayoutRounding="True"/>
+                                    <Path x:Name="arrowHideMenu" Data="M 0,5 L 5,0 L 10,5" HorizontalAlignment="Center" Stroke="#6D6D6D" RenderOptions.EdgeMode="Aliased"
+                                          StrokeThickness="1" VerticalAlignment="Center" UseLayoutRounding="True"/>
+                                </Grid>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsChecked" Value="true">
+                                    <Setter Property="Opacity" Value="1" TargetName="arrowShowMenu" />
+                                    <Setter Property="Opacity" Value="0" TargetName="arrowHideMenu" />
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="true">
+                                    <Setter Property="Background" TargetName="border" Value="#ffffffff" />
+                                    <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" TargetName="border" />
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="true">
+                                    <Setter Property="Opacity" Value="0.5" TargetName="border" />
+                                </Trigger>
+
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsMouseOver" Value="True"></Condition>
+                                        <Condition Property="IsChecked" Value="False"></Condition>
+                                    </MultiTrigger.Conditions>
+                                    <MultiTrigger.Setters>
+                                        <Setter Property="Margin" TargetName="border" Value="0,0,0,-1" />
+                                        <Setter Property="BorderThickness" Value="1,1,1,0" TargetName="border" />
+                                        <Setter Property="Margin" Value="0,0,0,1" TargetName="grid" />
+                                        <Setter Property="ToolTip">
+                                            <Setter.Value>
+                                                <igwpf:XamRibbonScreenTip Header="{x:Static resources:ResourceStrings.Text_MinimizeRibbon_Header}" Padding="4,0,0,0" FooterSeparatorVisibility="Collapsed"
+                                                                  Content="{x:Static resources:ResourceStrings.Text_MinimizeRibbon_Content}"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </MultiTrigger.Setters>
+                                </MultiTrigger>
+
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsMouseOver" Value="True"></Condition>
+                                        <Condition Property="IsChecked" Value="True"></Condition>
+                                    </MultiTrigger.Conditions>
+                                    <MultiTrigger.Setters>
+                                        <Setter Property="BorderThickness" Value="1,1,1,1" TargetName="border" />
+                                        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" TargetName="border" />
+                                        <Setter Property="Margin" TargetName="border" Value="0,0,0,1" />
+                                        <Setter Property="Margin" Value="0,1,0,0" TargetName="grid" />
+                                        <Setter Property="ToolTip">
+                                            <Setter.Value>
+                                                <igwpf:XamRibbonScreenTip Header="{x:Static resources:ResourceStrings.Text_ExpandRibbon_Header}" Padding="4,0,0,0" FooterSeparatorVisibility="Collapsed"
+                                                                          Content="{x:Static resources:ResourceStrings.Text_ExpandRibbon_Content}"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </MultiTrigger.Setters>
+                                </MultiTrigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Grid.Resources>
+        <igwpf:RibbonWindowContentHost>
+            <!-- ================================== Ribbon ================================== -->
+            <igwpf:RibbonWindowContentHost.Ribbon>
+                <igwpf:XamRibbon Name="xamRibbon1" ApplicationMenuMode="Office2010" Theme="Office2013" ApplicationAccentColor="#2B579A">
+                    <igwpf:XamRibbon.TabItemAreaToolbar>
+                        <!-- ================================== TabItemAreaToolbar ================================== -->
+                        <igwpf:TabItemAreaToolbar>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,18,0">
+                                <ToggleButton Cursor="Hand" Name="btnUserInfo" ClickMode="Press">
+                                    <ToggleButton.Template>
+                                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                            <StackPanel Name="btnUserInfoContainer" Orientation="Horizontal" Background="#fff7f7f7" Margin="0,0,5,0">
+                                                <Image Source="/IgWord;component/Images/UserPhoto.jpg"  Width="23" Height="23" Margin="0,1,8,0"/>
+                                                <TextBlock VerticalAlignment="Center" Name="tbUserName" Text="{x:Static resources:ResourceStrings.Ig_UserName_String}" Foreground="{StaticResource DarkTextBrush}" Margin="0,0,10,0" />
+                                            </StackPanel>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsChecked" Value="true">
+                                                    <Setter Property="Background" TargetName="btnUserInfoContainer" Value="#ffffffff" />
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="true">
+                                                    <Setter Property="Opacity" TargetName="btnUserInfoContainer" Value="0.5" />
+                                                </Trigger>
+                                                <MultiTrigger>
+                                                    <MultiTrigger.Conditions>
+                                                        <Condition Property="IsMouseOver" Value="True"></Condition>
+                                                        <Condition Property="IsChecked" Value="False"></Condition>
+                                                    </MultiTrigger.Conditions>
+                                                    <MultiTrigger.Setters>
+                                                        <Setter Property="Background" TargetName="btnUserInfoContainer" Value="#ffffffff" />
+                                                    </MultiTrigger.Setters>
+                                                </MultiTrigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </ToggleButton.Template>
+                                </ToggleButton>
+                                <ToggleButton Style="{StaticResource minimizeButton}" IsChecked="{Binding ElementName=xamRibbon1,Path=IsMinimized}" Visibility="{Binding ElementName=applicationMenu2010, Path=IsOpen, Converter={StaticResource InvertedBooleanToVisibilityConverter}}" />
+                                <Popup Name="popupUserInfo" Width="300" Height="160" PopupAnimation="Slide"
+                                       IsOpen="{Binding ElementName=btnUserInfo, Path=IsChecked}"
+                                       StaysOpen="{Binding ElementName=btnUserInfo, Path=IsMouseOver}"
+                                       PlacementTarget="{Binding ElementName=btnUserInfo}" Placement="Bottom">
+                                    <Border BorderBrush="{StaticResource LineBrush}" BorderThickness="1" Background="White">
+                                        <StackPanel Margin="20">
+                                            <StackPanel Orientation="Horizontal">
+                                                <Border Width="50" Height="50" Margin="0,0,20,18" HorizontalAlignment="Left" VerticalAlignment="Top">
+                                                    <Image Source="/IgWord;component/Images/UserPhoto.jpg"/>
+                                                </Border>
+                                                <StackPanel>
+                                                    <TextBlock Foreground="{StaticResource LightTextBrush}" FontSize="18" Text="{x:Static resources:ResourceStrings.Ig_UserName_String}" Margin="0,0,0,1"/>
+                                                    <TextBlock Foreground="{StaticResource LightTextBrush}" Text="{x:Static resources:ResourceStrings.Ig_UserEmail_String}"/>
+                                                </StackPanel>
+                                            </StackPanel>
+                                            <Rectangle Height="1" Fill="{StaticResource LineBrush}" igPrim:XamlHelper.SnapsToDevicePixels="True" Margin="0"/>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Border Margin="0,20,20,18" Width="100" Height="25" Background="{StaticResource AppDefaultBtnBackgrColor}" HorizontalAlignment="Left">
+                                                    <TextBlock Foreground="{StaticResource ApplicationAccentColor}" Text="{x:Static resources:ResourceStrings.Text_AccountSeetings}" FontSize="11" HorizontalAlignment="Center" Margin="4" />
+                                                </Border>
+                                                <Border Margin="27,20,0,18" Width="110" Height="25" Background="{StaticResource AppDefaultBtnBackgrColor}">
+                                                    <TextBlock Foreground="{StaticResource ApplicationAccentColor}" Text="{x:Static resources:ResourceStrings.Text_SwitchAccount}" FontSize="11" HorizontalAlignment="Center" Margin="4"/>
+                                                </Border>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Border>
+                                </Popup>
+                            </StackPanel>
+                        </igwpf:TabItemAreaToolbar>
+                    </igwpf:XamRibbon.TabItemAreaToolbar>
+                    <!-- ================================== ApplicationMenu2010 ================================== -->
+                    <igwpf:XamRibbon.ApplicationMenu2010>
+                        <igwpf:ApplicationMenu2010 Caption="{x:Static resources:ResourceStrings.Text_FILE}" 
+                                                   IsOpen="{Binding IsBackstageOpened, Mode=TwoWay}" 
+                                                   props:ApplicationMenu2010Properties.SelectedItemName="{Binding SelectedBackstageMenuItem}" 
+                                                   Name="applicationMenu2010">
+                            <igwpf:ApplicationMenu2010Item Header="{x:Static resources:ResourceStrings.Text_Info}" IsEnabled="{Binding IsUiPartEnabled}">
+                                <views:InfoView  FileName="{Binding FileNameWithoutExtension, Mode=TwoWay}" DocumentProperties="{Binding ElementName=richTextEditor, Path=Document.RootNode.DocumentProperties}" />
+                            </igwpf:ApplicationMenu2010Item>
+                            <igwpf:ApplicationMenu2010Item Header="{x:Static resources:ResourceStrings.Text_New}">
+                                <ContentControl prism:RegionManager.RegionName="NewDocumentRegion"/>
+                            </igwpf:ApplicationMenu2010Item>
+                            <igwpf:ApplicationMenu2010Item Header="{x:Static resources:ResourceStrings.Text_Open}">
+                                <ContentControl prism:RegionManager.RegionName="OpenFileRegion"/>
+                            </igwpf:ApplicationMenu2010Item>
+                            <igwpf:ApplicationMenu2010Item Header="{x:Static resources:ResourceStrings.Text_Save}" Command="{Binding SaveDocumentCommand}" IsEnabled="{Binding IsUiPartEnabled}">
+                                <Grid/>
+                            </igwpf:ApplicationMenu2010Item>
+                            <igwpf:ApplicationMenu2010Item Header="{x:Static resources:ResourceStrings.Text_SaveAs}" Name="saveAsTab" IsEnabled="{Binding IsUiPartEnabled}">
+                                <ContentControl prism:RegionManager.RegionName="SaveFileRegion"/>
+                            </igwpf:ApplicationMenu2010Item>
+                            <igwpf:ApplicationMenu2010Item Header="{x:Static resources:ResourceStrings.Text_Close}" Command="{Binding CloseDocumentCommand}" IsEnabled="{Binding IsUiPartEnabled}"/>
+                        </igwpf:ApplicationMenu2010>
+
+                    </igwpf:XamRibbon.ApplicationMenu2010>
+                    <igwpf:XamRibbon.QuickAccessToolbar>
+                        <!-- ================================== QuickAccessToolbar ================================== -->
+                        <igwpf:QuickAccessToolbar>
+                            <igwpf:QatPlaceholderTool TargetId="saveTool"/>
+                            <igwpf:QatPlaceholderTool TargetId="undoTool"/>
+                            <igwpf:QatPlaceholderTool TargetId="redoTool"/>
+                        </igwpf:QuickAccessToolbar>
+                    </igwpf:XamRibbon.QuickAccessToolbar>
+                    <igwpf:XamRibbon.Tabs>
+                        <!-- ================================== Ribbon HOME Tab ================================== -->
+                        <igwpf:RibbonTabItem Header="{x:Static resources:ResourceStrings.Text_HOME}">
+                            <!-- ================================== Ribbon Clipboard RibbonGroup ================================== -->
+                            <igwpf:RibbonGroup Caption="{x:Static resources:ResourceStrings.Text_Clipboard}" IsEnabled="{Binding IsUiPartEnabled}">
+                                <igwpf:ButtonTool Caption="{x:Static resources:ResourceStrings.Text_Paste}"
+                                                  Command="ApplicationCommands.Paste"
+                                                  LargeImage="/IgWord;component/Images/Paste_32x32.png" 
+                                                  igwpf:RibbonGroup.MinimumSize="ImageAndTextLarge" igwpf:RibbonGroup.MaximumSize="ImageAndTextLarge">
+                                    <igwpf:ButtonTool.ToolTip>
+                                        <igwpf:XamRibbonScreenTip Header="{x:Static resources:ResourceStrings.Text_Paste_Header}"
+                                                                  Content="{x:Static resources:ResourceStrings.Text_Paste_Content}"
+                                                                  FooterSeparatorVisibility="Collapsed"/>
+                                    </igwpf:ButtonTool.ToolTip>
+                                </igwpf:ButtonTool>
+                                <igwpf:ButtonTool Caption="{x:Static resources:ResourceStrings.Text_Cut}" 
+                                                  Command="ApplicationCommands.Cut"
+                                                  SmallImage="/IgWord;component/Images/Cut_16x16.png" 
+                                                  igwpf:RibbonGroup.MaximumSize="ImageAndTextNormal">
+                                    <igwpf:ButtonTool.ToolTip>
+                                        <igwpf:XamRibbonScreenTip Header="{x:Static resources:ResourceStrings.Text_Cut_Header}"
+                                                                  Content="{x:Static resources:ResourceStrings.Text_Cut_Content}"
+                                                                  FooterSeparatorVisibility="Collapsed"/>
+                                    </igwpf:ButtonTool.ToolTip>
+                                </igwpf:ButtonTool>
+                                <igwpf:ButtonTool Caption="{x:Static resources:ResourceStrings.Text_Copy}" 
+                                                  Command="ApplicationCommands.Copy"
+                                                  SmallImage="/IgWord;component/Images/Copy_16x16.png" igwpf:RibbonGroup.MaximumSize="ImageAndTextNormal">
+                                    <igwpf:ButtonTool.ToolTip>
+                                        <igwpf:XamRibbonScreenTip Header="{x:Static resources:ResourceStrings.Text_Copy_Header}"
+                                                                  Content="{x:Static resources:ResourceStrings.Text_Copy_Content}"
+                                                                  FooterSeparatorVisibility="Collapsed"/>
+                                    </igwpf:ButtonTool.ToolTip>
+                                </igwpf:ButtonTool>
+                            </igwpf:RibbonGroup>
+                            <!-- ================================== Ribbon Font RibbonGroup ================================== -->
+                            <igwpf:RibbonGroup Caption="{x:Static resources:ResourceStrings.Text_Font}" IsEnabled="{Binding IsUiPartEnabled}">
+                                <igwpf:ToolHorizontalWrapPanel>
+                                    <igwpf:ButtonGroup>
+                                        <igwpf:ComboEditorTool IsEditable="True" ItemsSource="{Binding FontNames}"
+                                                               Value="{Binding ElementName=selectionAdapter, Path=FontName}">
+                                            <igwpf:ComboEditorTool.ComboBoxStyle>
+                                                <Style TargetType="ComboBox">
+                                                    <Setter Property="ItemTemplate">
+                                                        <Setter.Value>
+                                                            <DataTemplate>
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <Image VerticalAlignment="Center" Width="16" Height="16" Source="/IgWord;component/Images/FontIcon.png" Margin="0,0,7,0" />
+                                                                    <TextBlock Text="{Binding }" FontFamily="{Binding }" FontSize="12" Width="180"/>
+                                                                </StackPanel>
+                                                            </DataTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </igwpf:ComboEditorTool.ComboBoxStyle>
+                                            <igwpf:ComboEditorTool.ToolTip>
+                                                <igwpf:XamRibbonScreenTip Header="{x:Static resources:ResourceStrings.Text_Font_Header}"
+                                                                          Content="{x:Static resources:ResourceStrings.Text_Font_Content}"
+                                                                          FooterSeparatorVisibility="Collapsed"/>
+                                            </igwpf:ComboEditorTool.ToolTip>
+                                        </igwpf:ComboEditorTool>
+                                        <igwpf:ComboEditorTool EditAreaWidth="45" IsEditable="True" ItemsSource="{Binding FontSizes}" 
+                                                               Value="{Binding ElementName=selectionAdapter, Path=FontSize}">
+                                            <igwpf:ComboEditorTool.ToolTip>
+                                                <igwpf:XamRibbonScreenTip Header="{x:Static resources:ResourceStrings.Text_FontSize_Header}"
+                                                                          Content="{x:Static resources:ResourceStrings.Text_FontSize_Content}"
+                                                                          FooterSeparatorVisibility="Collapsed"/>
+                                            </igwpf:ComboEditorTool.ToolTip>
+                                        </igwpf:ComboEditorTool>
+                                        <igwpf:ButtonTool SmallImage="/IgWord;component/Images/IncFont_16x16.png" Command="EditingCommands.IncreaseFontSize">
+                                            <igwpf:ButtonTool.ToolTip>
+                                                <igwpf:XamRibbonScreenTip Header="{x:Static resources:ResourceStrings.Text_IncreaseFontSize_Header}"
+                                                                          Content="{x:Static resources:ResourceStrings.Text_IncreaseFontSize_Content}"
+                                                                          FooterSeparatorVisibility="Collapsed"/>
+                                            </igwpf:ButtonTool.ToolTip>
+                                        </igwpf:ButtonTool>
+                                        <igwpf:ButtonTool SmallImage="/IgWord;component/Images/DecFont_16x16.png" Command="EditingCommands.DecreaseFontSize">
+                                            <igwpf:ButtonTool.ToolTip>
+                                                <igwpf:XamRibbonScreenTip Header="{x:Static resources:ResourceStrings.Text_DecreaseFontSize_Header}"
+                                                                          Content="{x:Static resources:ResourceStrings.Text_DecreaseFontSize_Content}"
+                                                                          FooterSeparatorVisibility="Collapsed"/>
+                                            </igwpf:ButtonTool.ToolTip>
+                                        </igwpf:ButtonTool>
+                                        <igwpf:SeparatorTool/>
+                                        <igwpf:MenuTool SmallImage="/IgWord;component/Images/Aa_16x16.png" ButtonType="DropDown">
+                                            <igwpf:ToolMenuItem Header="lower case" Command="{Binding ElementName=selectionAdapter, Path=LowerCaseCommand}"/>
+                                            <igwpf:ToolMenuItem Header="UPPER CASE" Command="{Binding ElementName=selectionAdapter, Path=UpperCaseCommand}"/>
+                                            <igwpf:ToolMenuItem Header="tOGGLE cASE" Command="{Binding ElementName=selectionAdapter, Path=ToggleCaseCommand}"/>
+                                            <igwpf:MenuTool.ToolTip>
+                                                <igwpf:XamRibbonScreenTip Header="{x:Static resources:ResourceStrings.Text_ChangeCase_Header}"
+                                                                      Content="{x:Static resources:ResourceStrings.Text_ChangeCase_Content}"
+                                                                      FooterSeparatorVisibility="Collapsed"/>
+                                            </igwpf:MenuTool.ToolTip>
+                                        </igwpf:MenuTool>
+                                        <igwpf:SeparatorTool/>
+                                        <igwpf:ButtonTool SmallImage="/IgWord;component/Images/AEraser_16x16.png"
+                                                          Command="{Binding ElementName=selectionAdapter, Path=ClearAllFormatingCommand}">
+                                            <igwpf:ButtonTool.ToolTip>
+                                                <igwpf:XamRibbonScreenTip Header="{x:Static resources:ResourceStrings.Text_ClearAllFormatting_Header}"
+                                                                          Content="{x:Static resources:ResourceStrings.Text_ClearAllFormatting_Content}"
+                                                                          FooterSeparatorVisibility="Collapsed"/>
+                                            </igwpf:ButtonTool.ToolTip>
+                                        </igwpf:ButtonTool>
+                                    </igwpf:ButtonGroup>
+                                    <igwpf:ButtonGroup>
+                                        <igwpf:ToggleButtonTool Command="EditingCommands.ToggleBold"
+                                                                IsChecked="{Binding ElementName=selectionAdapter, Path=IsBold, Mode=OneWay}"
+                                                                SmallImage="/IgWord;component/Images/Bold16.png">
+                                            <igwpf:ToggleButtonTool.ToolTip>
+                                                <igwpf:XamRibbonScreenTip Header="{x:Static resources:ResourceStrings.Text_Bold_Header}"
+                                                                          Content="{x:Static resources:ResourceStrings.Text_Bold_Content}"
+                                                                          FooterSeparatorVisibility="Collapsed"/>
+                                            </igwpf:ToggleButtonTool.ToolTip>
+                                        </igwpf:ToggleButtonTool>
+                                        <igwpf:ToggleButtonTool x:Name="_italicTool" Command="EditingCommands.ToggleItalic"
+                                                                IsChecked="{Binding ElementName=selectionAdapter, Path=IsItalic, Mode=OneWay}"
+                                                                SmallImage="/IgWord;component/Images/Italic16.png">
+                                            <igwpf:ToggleButtonTool.ToolTip>
+                                                <igwpf:XamRibbonScreenTip Header="{x:Static resources:ResourceStrings.Text_Italic_Header}"
+                                                                          Content="{x:Static resources:ResourceStrings.Text_Italic_Content}"
+                                                                          FooterSeparatorVisibility="Collapsed"/>
+                                            </igwpf:ToggleButtonTool.ToolTip>
+                                        </igwpf:ToggleButtonTool>
+                                        <igwpf:MenuTool ItemsSource="{Binding ElementName=selectionAdapter, Path=UnderlineTypes}"
+                                                        ButtonType="SegmentedState" 
+                                                        SmallImage="/IgWord;component/Images/Underline16.png"
+                                                        igwpf:RibbonGroup.MaximumSize="ImageOnly"
+                                                        Command="{Binding Path=ToggleUnderlineCommand, ElementName=selectionAdapter}"
+                                                        CommandParameter="{Binding ElementName=selectionAdapter, Path=LastAppliedUnderline}"
+                                                        IsChecked="{Binding Path=IsUnderline, ElementName=selectionAdapter, Mode=OneWay}"
+                                                        ItemTemplateSelector="{StaticResource UnderlineTemplateSelector}">
+                                            <igwpf:MenuTool.ToolTip>
+                                                <igwpf:XamRibbonScreenTip Header="{x:Static resources:ResourceStrings.Text_Underline_Header}"
+                                                                          Content="{x:Static resources:ResourceStrings.Text_Underline_Content}"
+                                                                          FooterSeparatorVisibility="Collapsed"/>
+                                            </igwpf:MenuTool.ToolTip>
+                                            <igwpf:MenuTool.ItemContainerStyle>
+                                                <Style TargetType="{x:Type igwpf:ToolMenuItem}">
+                                                    <Setter Property="Command" Value="{Binding Path=ApplyUnderlineCommand, ElementName=selectionAdapter}"></Setter>
+                                                    <Setter Property="CommandParameter" Value="{Binding}"></Setter>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Value="true">
+                                                            <DataTrigger.Binding>
+                                                                <MultiBinding Converter="{StaticResource underlineTypeSelectionConverter}">
+                                                                    <Binding />
+                                                                    <Binding ElementName="selectionAdapter" Path="Underline"/>
+                                                                </MultiBinding>
+                                                            </DataTrigger.Binding>
+                                                            <Setter Property="IsChecked" Value="True"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </igwpf:MenuTool.ItemContainerStyle>
+                                        </igwpf:MenuTool>
+
+                                        <igwpf:ToggleButtonTool SmallImage="/IgWord;component/Images/strikeout_16x16.png"
+                                                                IsChecked="{Binding ElementName=selectionAdapter, Path=IsStrikethrough}">
+                                            <igwpf:ToggleButtonTool.ToolTip>
+                                                <igwpf:XamRibbonScreenTip Header="{x:Static resources:ResourceStrings.Text_Strikethrough_Header}"
+                                                                          Content="{x:Static resources:ResourceStrings.Text_Strikethrough_Content}"
+                                                                          FooterSeparatorVisibility="Collapsed"/>
+                                            </igwpf:ToggleButtonTool.ToolTip>
+                                        </igwpf:ToggleButtonTool>
+                                        <igwpf:ToggleButtonTool SmallImage="/IgWord;component/Images/x_sub2_16x16.png"
+                                                                Command="EditingCommands.ToggleSubscript"
+                                                                IsChecked="{Binding ElementName=selectionAdapter, Path=IsSubscript, Mode=OneWay}">
+                                            <igwpf:ToggleButtonTool.ToolTip>
+                                                <igwpf:XamRibbonScreenTip Header="{x:Static resources:ResourceStrings.Text_Subscript_Header}"
+                                                                          Content="{x:Static resources:ResourceStrings.Text_Subscript_Content}"
+                                                                          FooterSeparatorVisibility="Collapsed"/>
+                                            </igwpf:ToggleButtonTool.ToolTip>
+                                        </igwpf:ToggleButtonTool>
+                                        <igwpf:ToggleButtonTool SmallImage="/IgWord;component/Images/x_sup2_16x16.png"
+                                                                Command="EditingCommands.ToggleSuperscript"
+                                                                IsChecked="{Binding ElementName=selectionAdapter, Path=IsSuperscript, Mode=OneWay}">
+                                            <igwpf:ToggleButtonTool.ToolTip>
+                                                <igwpf:XamRibbonScreenTip Header="{x:Static resources:ResourceStrings.Text_Superscript_Header}"
+                                                                          Content="{x:Static resources:ResourceStrings.Text_Superscript_Content}"
+                                                                          FooterSeparatorVisibility="Collapsed"/>
+                                            </igwpf:ToggleButtonTool.ToolTip>
+                                        </igwpf:ToggleButtonTool>
+                                        <igwpf:SeparatorTool/>
+                                        <infr:HightlightColorTool Image="/IgWord;component/Images/TextHighlightColor_16x16.png" 
+                                                                  NoColorItemText="{x:Static resources:ResourceStrings.Text_NoColor}"
+                                                                  ItemsSource="{Binding ElementName=selectionAdapter, Path=HighlightColors}"
+                                                                  SelectedValue="{Binding TextHighlightColor, Mode=TwoWay}"
+                                                                  Command="{Binding ElementName=selectionAdapter, Path=TextHighlightColorCommand}" 
+                                                                  CommandParameter="{Binding TextHighlightColor}">
+                                            <infr:HightlightColorTool.ToolTip>
+                                                <igwpf:XamRibbonScreenTip Header="{x:Static resources:ResourceStrings.Text_TextHighlightColor_Header}"
+                                                                          Content="{x:Static resources:ResourceStrings.Text_TextHighlightColor_Content}"
+                                                                          FooterSeparatorVisibility="Collapsed"/>
+                                            </infr:HightlightColorTool.ToolTip>
+                                        </infr:HightlightColorTool>
+                                        <infr:ColorPickerTool Image="/IgWord;component/Images/FontColor_16x16.png" 
+                                                              Command="{Binding ElementName=selectionAdapter, Path=FontColorCommand}" 
+                                                              CommandParameter="{Binding FontColor}"
+                                                              SelectedColor="{Binding FontColor, Mode=TwoWay}"
+                                                              TransparentColorItemText="{x:Static resources:ResourceStrings.Text_Automatic}"
+                                                              UndoManager="{Binding ElementName=richTextEditor, Path=Document.UndoManager}">
+                                            <infr:ColorPickerTool.ToolTip>
+                                                <igwpf:XamRibbonScreenTip Header="{x:Static resources:ResourceStrings.Text_FontColor_Header}"
+                                                                          Content="{x:Static resources:ResourceStrings.Text_FontColor_Content}"
+                                                                          FooterSeparatorVisibility="Collapsed"/>
+                                            </infr:ColorPickerTool.ToolTip>
+                                        </infr:ColorPickerTool>
+                                    </igwpf:ButtonGroup>
+                                </igwpf:ToolHorizontalWrapPanel>
+                                <igwpf:RibbonGroup.DialogBoxLauncherTool>
+                                    <igwpf:ButtonTool Command="{Binding ShowFontDialogCommand}" CommandParameter="{Binding Path=Document, ElementName=richTextEditor}">
+                                        <igwpf:ButtonTool.ToolTip>
+                                            <igwpf:XamRibbonScreenTip Header="{x:Static resources:ResourceStrings.FontDialog_Tooltip_Header}"
+                                                                      ContentImage="/IgWord;component/Images/FontDialogPreview.png"
+                                                                      Content="{x:Static resources:ResourceStrings.FontDialog_Tooltip_Content}"
+                                                                      FooterSeparatorVisibility="Hidden"/>
+                                        </igwpf:ButtonTool.ToolTip>
+                                    </igwpf:ButtonTool>
+                                </igwpf:RibbonGroup.DialogBoxLauncherTool>
+                            </igwpf:RibbonGroup>
+                            <!-- ================================== Ribbon Paragraph RibbonGroup ================================== -->
+                            <igwpf:RibbonGroup Caption="{x:Static resources:ResourceStrings.Text_Paragraph}" IsEnabled="{Binding IsUiPartEnabled}">
+                                <igwpf:ToolHorizontalWrapPanel>
+                                    <igwpf:ButtonGroup>
+                                        <igwpf:MenuTool SmallImage="/IgWord;component/Images/bullets_16x16.png" Command="EditingCommands.ToggleBullets" 
+                                                        ButtonType="SegmentedState" igwpf:RibbonGroup.MaximumSize="ImageOnly" 
+                                                        IsChecked="{Binding ElementName=selectionAdapter, Path=IsBulletList, Mode=OneWay}"
+                                                        DataContext="{Binding ElementName=selectionAdapter}">
+                                            <igwpf:GalleryTool MaxDropDownColumns="6" MinDropDownColumns="6" ItemBehavior="StateButton">
+                                                <igwpf:GalleryTool.ItemSettings>
+                                                    <igwpf:GalleryItemSettings TextDisplayMode="Never"/>
+                                                </igwpf:GalleryTool.ItemSettings>
+                                                <i:Interaction.Behaviors>
+                                                    <behaviours:GalleryToolBehavior ItemsSource="{Binding BulletListStyles}"
+                                                                                    SelectedItemKey="{Binding BulletListStyle, Mode=TwoWay}"
+                                                                                    ImagesPath="/Images/Lists/Bullets/"/>
+                                                </i:Interaction.Behaviors>
+                                                <igwpf:GalleryTool.Groups>
+                                                    <igwpf:GalleryItemGroup Title="Bullet Library" behaviours:GalleryToolBehavior.GroupKeys="{Binding BulletListStyles}">
+                                                    </igwpf:GalleryItemGroup>
+                                                </igwpf:GalleryTool.Groups>
+                                            </igwpf:GalleryTool>
+                                            <igwpf:MenuTool.ToolTip>
+                                                <igwpf:XamRibbonScreenTip Header="{x:Static resources:ResourceStrings.Text_Bullets_Header}"
+                                                                          Content="{x:Static resources:ResourceStrings.Text_Bullets_Content}"
+                                                                          FooterSeparatorVisibility="Collapsed"/>
+                                            </igwpf:MenuTool.ToolTip>
+                                        </igwpf:MenuTool>
+
+                                        <igwpf:MenuTool SmallImage="/IgWord;component/Images/numbering_16x16.png" Command="EditingCommands.ToggleNumbering" 
+                                                        ButtonType="SegmentedState" igwpf:RibbonGroup.MaximumSize="ImageOnly"
+                                                        IsChecked="{Binding ElementName=selectionAdapter, Path=IsNumberList, Mode=OneWay}"
+                                                        DataContext="{Binding ElementName=selectionAdapter}">
+                                            <igwpf:GalleryTool ItemBehavior="StateButton" MaxDropDownColumns="6" MinDropDownColumns="6">
+                                                <igwpf:GalleryTool.ItemSettings>
+                                                    <igwpf:GalleryItemSettings TextDisplayMode="Never"/>
+                                                </igwpf:GalleryTool.ItemSettings>
+                                                <i:Interaction.Behaviors>
+                                                    <behaviours:GalleryToolBehavior ItemsSource="{Binding NumberListStyles}"
+                                                                                    SelectedItemKey="{Binding NumberListStyle, Mode=TwoWay}"
+                                                                                    ImagesPath="/Images/Lists/Numbering/"/>
+                                                </i:Interaction.Behaviors>
+                                                <igwpf:GalleryTool.Groups>
+                                                    <igwpf:GalleryItemGroup Title="Numbering Library" behaviours:GalleryToolBehavior.GroupKeys="{Binding NumberListStyles}">
+                                                    </igwpf:GalleryItemGroup>
+                                                </igwpf:GalleryTool.Groups>
+                                            </igwpf:GalleryTool>
+                                            <igwpf:MenuTool.ToolTip>
+                                                <igwpf:XamRibbonScreenTip Header="{x:Static resources:ResourceStrings.Text_Numbering_Header}"
+                                                                          Content="{x:Static resources:ResourceStrings.Text_Numbering_Content}"
+                                                                          FooterSeparatorVisibility="Collapsed"/>
+                                            </igwpf:MenuTool.ToolTip>
+                                        </igwpf:MenuTool>
+                                        <igwpf:SeparatorTool/>
+                                        <igwpf:ButtonTool SmallImage="/IgWord;component/Images/indentleft_16x16.png" Command="EditingCommands.DecreaseIndentation">
+                                            <igwpf:ButtonTool.ToolTip>
+                                                <igwpf:XamRibbonScreenTip Header="{x:Static resources:ResourceStrings.Text_DecreaseIndent_Header}"
+                                                                          Content="{x:Static resources:ResourceStrings.Text_DecreaseIndent_Content}"
+                                                                          FooterSeparatorVisibility="Collapsed"/>
+                                            </igwpf:ButtonTool.ToolTip>
+                                        </igwpf:ButtonTool>
+                                        <igwpf:ButtonTool SmallImage="/IgWord;component/Images/indentright_16x16.png" Command="EditingCommands.IncreaseIndentation">
+                                            <igwpf:ButtonTool.ToolTip>
+                                                <igwpf:XamRibbonScreenTip Header="{x:Static resources:ResourceStrings.Text_IncreaseIndent_Header}"
+                                                                          Content="{x:Static resources:ResourceStrings.Text_IncreaseIndent_Content}"
+                                                                          FooterSeparatorVisibility="Collapsed"/>
+                                            </igwpf:ButtonTool.ToolTip>
+                                        </igwpf:ButtonTool>
+                                        <igwpf:SeparatorTool/>
+                                        <igwpf:ToggleButtonTool SmallImage="/IgWord;component/Images/format_16x16.png"
+                                                                IsChecked="{Binding ElementName=richTextEditor, Path=HiddenSymbolDisplayMode, Mode=TwoWay, Converter={StaticResource HiddenSymbolDisplayModeConverter}}">
+                                            <igwpf:ToggleButtonTool.ToolTip>
+                                                <igwpf:XamRibbonScreenTip Header="{x:Static resources:ResourceStrings.Text_ShowParagraphMarks_Header}"
+                                                                          Content="{x:Static resources:ResourceStrings.Text_ShowParagraphMarks_Content}"
+                                                                          FooterSeparatorVisibility="Collapsed"/>
+                                            </igwpf:ToggleButtonTool.ToolTip>
+                                        </igwpf:ToggleButtonTool>
+                                    </igwpf:ButtonGroup>
+                                    <igwpf:ButtonGroup>
+                                        <igwpf:ToggleButtonTool Command="EditingCommands.AlignLeft" 
+                                                                SmallImage="/IgWord;component/Images/left_16x16.png"
+                                                                IsChecked="{Binding ElementName=selectionAdapter, Path=ParagraphAlignment, Mode=OneWay, Converter={StaticResource ParagraphAlignmentConverter}, ConverterParameter=Start}">
+                                            <igwpf:ToggleButtonTool.ToolTip>
+                                                <igwpf:XamRibbonScreenTip Header="{x:Static resources:ResourceStrings.Text_AlignLeft_Header}"
+                                                                          Content="{x:Static resources:ResourceStrings.Text_AlignLeft_Content}"
+                                                                          FooterSeparatorVisibility="Collapsed"/>
+                                            </igwpf:ToggleButtonTool.ToolTip>
+                                        </igwpf:ToggleButtonTool>
+                                        <igwpf:ToggleButtonTool Command="EditingCommands.AlignCenter" 
+                                                                SmallImage="/IgWord;component/Images/center_16x16.png"
+                                                                IsChecked="{Binding ElementName=selectionAdapter, Path=ParagraphAlignment, Mode=OneWay, Converter={StaticResource ParagraphAlignmentConverter}, ConverterParameter=Center}">
+                                            <igwpf:ToggleButtonTool.ToolTip>
+                                                <igwpf:XamRibbonScreenTip Header="{x:Static resources:ResourceStrings.Text_Center_Header}"
+                                                                          Content="{x:Static resources:ResourceStrings.Text_Center_Content}"
+                                                                          FooterSeparatorVisibility="Collapsed"/>
+                                            </igwpf:ToggleButtonTool.ToolTip>
+                                        </igwpf:ToggleButtonTool>
+                                        <igwpf:ToggleButtonTool Command="EditingCommands.AlignRight" 
+                                                                SmallImage="/IgWord;component/Images/right_16x16.png"
+                                                                IsChecked="{Binding ElementName=selectionAdapter, Path=ParagraphAlignment, Mode=OneWay, Converter={StaticResource ParagraphAlignmentConverter}, ConverterParameter=End}">
+                                            <igwpf:ToggleButtonTool.ToolTip>
+                                                <igwpf:XamRibbonScreenTip Header="{x:Static resources:ResourceStrings.Text_AlignRight_Header}"
+                                                                          Content="{x:Static resources:ResourceStrings.Text_AlignRight_Content}"
+                                                                          FooterSeparatorVisibility="Collapsed"/>
+                                            </igwpf:ToggleButtonTool.ToolTip>
+                                        </igwpf:ToggleButtonTool>
+                                        <igwpf:ToggleButtonTool Command="EditingCommands.AlignJustify" 
+                                                                SmallImage="/IgWord;component/Images/justify_16x16.png"
+                                                                IsChecked="{Binding ElementName=selectionAdapter, Path=ParagraphAlignment, Mode=OneWay, Converter={StaticResource ParagraphAlignmentConverter}, ConverterParameter=Justify}">
+                                            <igwpf:ToggleButtonTool.ToolTip>
+                                                <igwpf:XamRibbonScreenTip Header="{x:Static resources:ResourceStrings.Text_Justify_Header}"
+                                                                          Content="{x:Static resources:ResourceStrings.Text_Justify_Content}"
+                                                                          FooterSeparatorVisibility="Collapsed"/>
+                                            </igwpf:ToggleButtonTool.ToolTip>
+                                        </igwpf:ToggleButtonTool>
+                                        <igwpf:SeparatorTool/>
+                                        <igwpf:MenuTool SmallImage="/IgWord;component/Images/paragraphSpacing_16x16.png" ButtonType="DropDown">
+                                            <igwpf:ToolMenuItem Header="1.0" Command="{Binding ElementName=selectionAdapter, Path=LineSpacingCommand}" CommandParameter="{Binding Header, RelativeSource={RelativeSource Self}}"/>
+                                            <igwpf:ToolMenuItem Header="1.15" Command="{Binding ElementName=selectionAdapter, Path=LineSpacingCommand}" CommandParameter="{Binding Header, RelativeSource={RelativeSource Self}}"/>
+                                            <igwpf:ToolMenuItem Header="1.5" Command="{Binding ElementName=selectionAdapter, Path=LineSpacingCommand}" CommandParameter="{Binding Header, RelativeSource={RelativeSource Self}}"/>
+                                            <igwpf:ToolMenuItem Header="2.0" Command="{Binding ElementName=selectionAdapter, Path=LineSpacingCommand}" CommandParameter="{Binding Header, RelativeSource={RelativeSource Self}}"/>
+                                            <igwpf:ToolMenuItem Header="2.5" Command="{Binding ElementName=selectionAdapter, Path=LineSpacingCommand}" CommandParameter="{Binding Header, RelativeSource={RelativeSource Self}}"/>
+                                            <igwpf:ToolMenuItem Header="3.0" Command="{Binding ElementName=selectionAdapter, Path=LineSpacingCommand}" CommandParameter="{Binding Header, RelativeSource={RelativeSource Self}}"/>
+                                            <igwpf:MenuTool.ToolTip>
+                                                <igwpf:XamRibbonScreenTip Header="{x:Static resources:ResourceStrings.Text_LineSpacing_Header}"
+                                                                          Content="{x:Static resources:ResourceStrings.Text_LineSpacing_Content}"
+                                                                          FooterSeparatorVisibility="Collapsed"/>
+                                            </igwpf:MenuTool.ToolTip>
+                                        </igwpf:MenuTool>
+                                        <igwpf:SeparatorTool/>
+                                        <infr:ColorPickerTool Image="/IgWord;component/Images/fill_16x16.png" 
+                                                              SelectedColor="{Binding Shading, Mode=TwoWay}" 
+                                                              Command="{Binding ElementName=selectionAdapter, Path=ShadingCommand}" 
+                                                              CommandParameter="{Binding Shading}"
+                                                              TransparentColorItemText="{x:Static resources:ResourceStrings.Text_NoColor}"
+                                                              UndoManager="{Binding ElementName=richTextEditor, Path=Document.UndoManager}">
+                                            <infr:ColorPickerTool.ToolTip>
+                                                <igwpf:XamRibbonScreenTip Header="{x:Static resources:ResourceStrings.Text_Shading_Header}"
+                                                                          Content="{x:Static resources:ResourceStrings.Text_Shading_Content}"
+                                                                          FooterSeparatorVisibility="Collapsed"/>
+                                            </infr:ColorPickerTool.ToolTip>
+                                        </infr:ColorPickerTool>
+                                    </igwpf:ButtonGroup>
+                                </igwpf:ToolHorizontalWrapPanel>
+                                <igwpf:RibbonGroup.DialogBoxLauncherTool>
+                                    <igwpf:ButtonTool Command="{Binding ShowParagraphDialogCommand}"  CommandParameter="{Binding Path=Document, ElementName=richTextEditor}">
+                                        <igwpf:ButtonTool.ToolTip>
+                                            <igwpf:XamRibbonScreenTip Header="{x:Static resources:ResourceStrings.ParagraphDialog_Tooltip_Header}"
+                                                                      ContentImage="/IgWord;component/Images/ParagraphDialogPreview.png"
+                                                                      Content="{x:Static resources:ResourceStrings.ParagraphDialog_Tooltip_Content}"
+                                                                      FooterSeparatorVisibility="Hidden"/>
+                                        </igwpf:ButtonTool.ToolTip>
+                                    </igwpf:ButtonTool>
+                                </igwpf:RibbonGroup.DialogBoxLauncherTool>
+                            </igwpf:RibbonGroup>
+                            <!-- ================================== Ribbon Editing RibbonGroup ================================== -->
+                            <igwpf:RibbonGroup Caption="{x:Static resources:ResourceStrings.Text_Editing}" IsEnabled="{Binding IsUiPartEnabled}">
+                                <igwpf:ButtonTool SmallImage="/IgWord;component/Images/find_16.png" Caption="{x:Static resources:ResourceStrings.Text_Find}" 
+                                                  Command="{Binding ShowFindDialogCommand}" 
+                                                  CommandParameter="{Binding ElementName=richTextEditor, Path=FindReplaceManager}">
+                                    <igwpf:ButtonTool.ToolTip>
+                                        <igwpf:XamRibbonScreenTip Header="{x:Static resources:ResourceStrings.Text_Find_Header}"
+                                                                  Content="{x:Static resources:ResourceStrings.Text_Find_Content}"
+                                                                  FooterSeparatorVisibility="Collapsed"/>
+                                    </igwpf:ButtonTool.ToolTip>
+                                </igwpf:ButtonTool>
+                                <igwpf:ButtonTool SmallImage="/IgWord;component/Images/replace_16.png" Caption="{x:Static resources:ResourceStrings.Text_Replace}" 
+                                                  Command="{Binding ShowReplaceDialogCommand}" 
+                                                  CommandParameter="{Binding ElementName=richTextEditor, Path=FindReplaceManager}">
+                                    <igwpf:ButtonTool.ToolTip>
+                                        <igwpf:XamRibbonScreenTip Header="{x:Static resources:ResourceStrings.Text_Replace_Header}"
+                                                                  Content="{x:Static resources:ResourceStrings.Text_Replace_Content}"
+                                                                  FooterSeparatorVisibility="Collapsed"/>
+                                    </igwpf:ButtonTool.ToolTip>
+                                </igwpf:ButtonTool>
+                            </igwpf:RibbonGroup>
+
+                            <!-- ================================== Ribbon UndoRedoGroup Collapsed RibbonGroup ================================== -->
+                            <igwpf:RibbonGroup Caption="UndoRedoGroup" Visibility="Collapsed" IsEnabled="{Binding IsUiPartEnabled}">
+                                <igwpf:ButtonTool Id="undoTool" SmallImage="/IgWord;component/Images/Undo16.png" Caption="Undo" 
+                                                  Command="ApplicationCommands.Undo" ToolTip="{Binding ElementName=richTextEditor, Path=Document.UndoManager.TopUndoHistoryItem.LongDescription}"/>
+
+                                <igwpf:ButtonTool Id="redoTool" SmallImage="/IgWord;component/Images/Redo16.png" Caption="Redo" 
+                                                  Command="ApplicationCommands.Redo" ToolTip="{Binding ElementName=richTextEditor, Path=Document.UndoManager.TopRedoHistoryItem.LongDescription}"/>
+                                <igwpf:ButtonTool Caption="{x:Static resources:ResourceStrings.Text_Save}" Id="saveTool"
+                                                  SmallImage="/IgWord;component/Images/Save_16x16.png" 
+                                                  Command="{Binding SaveDocumentCommand}" />
+                            </igwpf:RibbonGroup>
+                        </igwpf:RibbonTabItem>
+                        <!-- ================================== Ribbon INSERT Tab ================================== -->
+                        <igwpf:RibbonTabItem Header="{x:Static resources:ResourceStrings.Text_INSERT}">
+                            <igwpf:RibbonGroup Caption="{x:Static resources:ResourceStrings.Text_Tables}" IsEnabled="{Binding IsUiPartEnabled}">
+                                <igwpf:ButtonTool Caption="{x:Static resources:ResourceStrings.Text_Table}"  Command="{Binding ShowInsertTableDialogCommand}" 
+                                                  CommandParameter="{Binding Path=Document, ElementName=richTextEditor}"
+                                                  LargeImage="/IgWord;component/Images/Table_32x32.png"
+                                                  igwpf:RibbonGroup.MinimumSize="ImageAndTextLarge" igwpf:RibbonGroup.MaximumSize="ImageAndTextLarge">
+                                    <igwpf:ButtonTool.ToolTip>
+                                        <igwpf:XamRibbonScreenTip Header="{x:Static resources:ResourceStrings.Text_AddTable_Header}"
+                                                                  Content="{x:Static resources:ResourceStrings.Text_AddTable_Content}"
+                                                                  FooterSeparatorVisibility="Collapsed"/>
+                                    </igwpf:ButtonTool.ToolTip>
+                                </igwpf:ButtonTool>
+                            </igwpf:RibbonGroup>
+                            <igwpf:RibbonGroup Caption="{x:Static resources:ResourceStrings.Text_Links}" IsEnabled="{Binding IsUiPartEnabled}">
+                                <igwpf:ButtonTool Caption="{x:Static resources:ResourceStrings.TExt_Hyperlink}"  Command="{Binding ShowHyperlinkDialogCommand}" 
+                                                  CommandParameter="{Binding Path=Document, ElementName=richTextEditor}"
+                                                  LargeImage="/IgWord;component/Images/Hyperlink_32x32.png"
+                                                  igwpf:RibbonGroup.MinimumSize="ImageAndTextLarge" igwpf:RibbonGroup.MaximumSize="ImageAndTextLarge">
+                                    <igwpf:ButtonTool.ToolTip>
+                                        <igwpf:XamRibbonScreenTip Header="{x:Static resources:ResourceStrings.Text_AddHyperlink_Header}"
+                                                                  Content="{x:Static resources:ResourceStrings.Text_AddHyperlink_Content}"
+                                                                  FooterSeparatorVisibility="Collapsed"/>
+                                    </igwpf:ButtonTool.ToolTip>
+                                </igwpf:ButtonTool>
+                            </igwpf:RibbonGroup>
+                            <igwpf:RibbonGroup Caption="{x:Static resources:ResourceStrings.Text_Illustrations}" IsEnabled="{Binding IsUiPartEnabled}">
+                                <igwpf:ButtonTool Caption="{x:Static resources:ResourceStrings.Text_Picture}" 
+                                                  Command="{Binding ShowInsertPictureDialogCommand}" CommandParameter="{Binding Path=Document, ElementName=richTextEditor}"
+                                                  LargeImage="/IgWord;component/Images/Pictures_32x32.png"
+                                                  igwpf:RibbonGroup.MinimumSize="ImageAndTextLarge" igwpf:RibbonGroup.MaximumSize="ImageAndTextLarge">
+                                    <igwpf:ButtonTool.ToolTip>
+                                        <igwpf:XamRibbonScreenTip Header="{x:Static resources:ResourceStrings.Text_InsertImageFromFile_Header}"
+                                                                  Content="{x:Static resources:ResourceStrings.Text_InsertImageFromFile_Content}"
+                                                                  FooterSeparatorVisibility="Collapsed"/>
+                                    </igwpf:ButtonTool.ToolTip>
+                                </igwpf:ButtonTool>
+                            </igwpf:RibbonGroup>
+
+                        </igwpf:RibbonTabItem>
+                        <!-- ================================== Ribbon VIEW Tab ================================== -->
+                        <igwpf:RibbonTabItem Header="{x:Static resources:ResourceStrings.Text_VIEW}">
+                            <igwpf:RibbonGroup Caption="{x:Static resources:ResourceStrings.Text_Zoom}" IsEnabled="{Binding IsUiPartEnabled}">
+                                <igwpf:ButtonTool Caption="100%" Command="{Binding ResetZoomLevelCommand}" 
+                                                  igwpf:RibbonGroup.MaximumSize="ImageAndTextLarge"  
+                                                  LargeImage="/IgWord;component/Images/100percent_32x32.png" >
+                                    <igwpf:ButtonTool.ToolTip>
+                                        <igwpf:XamRibbonScreenTip Header="{x:Static resources:ResourceStrings.Text_100Percent_Header}"
+                                                                  Content="{x:Static resources:ResourceStrings.Text_100Percent_Content}"
+                                                                  FooterSeparatorVisibility="Collapsed"/>
+                                    </igwpf:ButtonTool.ToolTip>
+                                </igwpf:ButtonTool>
+                            </igwpf:RibbonGroup>
+                            <igwpf:RibbonGroup Caption="{x:Static resources:ResourceStrings.Text_Window}" IsEnabled="{Binding IsUiPartEnabled}">
+                                <igwpf:ButtonTool Caption="{Binding ElementName=richTextEditor, Path=IsDocumentViewSplit, Converter={StaticResource SplitButtonTextConverter}}" 
+                                                  Command="{x:Static commands:RichTextEditorCommands.ToggleSplitEditArea}"
+                                                  CommandTarget="{Binding ElementName=richTextEditor}"
+                                                  igwpf:RibbonGroup.MaximumSize="ImageAndTextLarge"  
+                                                  LargeImage="/IgWord;component/Images/Split_32x32.png">
+                                    <igwpf:ButtonTool.ToolTip>
+                                        <igwpf:XamRibbonScreenTip Header="{x:Static resources:ResourceStrings.Text_SplitWindow_Header}"
+                                                                  Content="{x:Static resources:ResourceStrings.Text_SplitWindow_Content}"
+                                                                  FooterSeparatorVisibility="Collapsed"/>
+                                    </igwpf:ButtonTool.ToolTip>
+                                </igwpf:ButtonTool>
+                            </igwpf:RibbonGroup>
+                        </igwpf:RibbonTabItem>
+                    </igwpf:XamRibbon.Tabs>
+
+                </igwpf:XamRibbon>
+            </igwpf:RibbonWindowContentHost.Ribbon>
+
+            <!-- ================================== Content ================================== -->
+            <Grid Name="ContentGrid" Background="LightGray">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <!-- ================================== Document Adapters ================================== -->
+                <ig:RtfDocumentAdapter Document="{Binding Path=Document, ElementName=richTextEditor}" 
+                               Value="{Binding RtfData, Mode=TwoWay}" 
+                               RefreshTrigger="{Binding RtfAdapterRefreshTrigger, Converter={StaticResource richTextAdapterRefreshTriggerConverter}}"
+                               DelayAfterFirstEdit="{Binding DelayAfterFirstEdit}"
+                               DelayAfterLastEdit="{Binding DelayAfterLastEdit}"
+                               DocumentLoadError="DocumentAdapter_DocumentLoadError" />
+
+                <ig:WordDocumentAdapter Document="{Binding Path=Document, ElementName=richTextEditor}" 
+                               Value="{Binding Path=WordData, Mode=TwoWay}"
+                               RefreshTrigger="{Binding WordAdapterRefreshTrigger, Converter={StaticResource richTextAdapterRefreshTriggerConverter}}"
+                               DelayAfterFirstEdit="{Binding DelayAfterFirstEdit}"
+                               DelayAfterLastEdit="{Binding DelayAfterLastEdit}"
+                               DocumentLoadError="DocumentAdapter_DocumentLoadError" />
+
+                <ig:PlainTextDocumentAdapter Document="{Binding Path=Document, ElementName=richTextEditor}" 
+                               Value="{Binding Path=TextData, Mode=TwoWay}" 
+                               RefreshTrigger="{Binding TextAdapterRefreshTrigger, Converter={StaticResource richTextAdapterRefreshTriggerConverter}}"
+                               DelayAfterFirstEdit="{Binding DelayAfterFirstEdit}"
+                               DelayAfterLastEdit="{Binding DelayAfterLastEdit}"
+                               DocumentLoadError="DocumentAdapter_DocumentLoadError" />
+
+                <ig:HtmlDocumentAdapter Document="{Binding Path=Document, ElementName=richTextEditor}" 
+                                Value="{Binding Path=HtmlData, Mode=TwoWay}"  
+                                RefreshTrigger="{Binding HtmlAdapterRefreshTrigger, Converter={StaticResource richTextAdapterRefreshTriggerConverter}}"
+                                DelayAfterFirstEdit="{Binding DelayAfterFirstEdit}"
+                                DelayAfterLastEdit="{Binding DelayAfterLastEdit}"
+                                DocumentLoadError="DocumentAdapter_DocumentLoadError" />
+
+                <!-- ================================== XamRichTextEditor ================================== -->
+                <ig:XamRichTextEditor Name="richTextEditor" BorderThickness="0" Grid.Row="1" IsMultiSelectEnabled="True"
+                                      IsDocumentViewSplit="{Binding IsDocumentViewSplit, Mode=TwoWay}"
+                                      Visibility="{Binding IsEditorVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                      ZoomLevel="{Binding ZoomLevel, Mode=TwoWay}">
+                    <ig:XamRichTextEditor.ClipboardSerializationProviders>
+                        <ig:RtfSerializationProvider/>
+                        <ig:WordSerializationProvider/>
+                        <ig:HtmlSerializationProvider/>
+                    </ig:XamRichTextEditor.ClipboardSerializationProviders>
+                    <rtfb:RichTextBoxFormatBarManager.FormatBar>
+                        <rtfb:RichTextFormatBar FontSizes="{Binding FontSizes, Mode=TwoWay}" 
+                                                FontNames="{Binding FontNames}" 
+                                                FontFamilyTooltip="{x:Static resources:ResourceStrings.Text_Font_Header}" 
+                                                FontSizeTooltip="{x:Static resources:ResourceStrings.Text_FontSize_Header}" 
+                                                BoldTooltip="{x:Static resources:ResourceStrings.Text_Bold_Header}"
+                                                ItalicTooltip="{x:Static resources:ResourceStrings.Text_Italic_Header}"
+                                                UnderlineTooltip="{x:Static resources:ResourceStrings.Text_Underline_Header}"
+                                                AlignLeftTooltip="{x:Static resources:ResourceStrings.Text_AlignLeft_Header}"
+                                                AlignCenterTooltip="{x:Static resources:ResourceStrings.Text_Center_Header}"
+                                                AlignRightTooltip="{x:Static resources:ResourceStrings.Text_AlignRight_Header}"/>
+                    </rtfb:RichTextBoxFormatBarManager.FormatBar>
+                </ig:XamRichTextEditor>
+
+                <adapters:RichTextEditorSelectionAdapter Name="selectionAdapter" Editor="{Binding ElementName=richTextEditor}" Selection="{Binding Selection, Mode=OneWayToSource}"/>
+            </Grid>
+
+            <!-- ================================= StatusBar ================================= -->
+            <igwpf:RibbonWindowContentHost.StatusBar>
+                <StatusBar x:Name="statusBar" IsEnabled="{Binding IsUiPartEnabled}">
+                    <StatusBar.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                            </Grid>
+                        </ItemsPanelTemplate>
+                    </StatusBar.ItemsPanel>
+                    <StatusBarItem Grid.Row="1" HorizontalAlignment="Right" Margin="0,0,250,0">
+                        <TextBlock Text="Ig Word is saving the document" Visibility="{Binding AutoSaved, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    </StatusBarItem>
+                    <StatusBarItem Grid.Row="1" HorizontalAlignment="Right">
+                        <StackPanel Orientation="Horizontal">
+                            <Button Width="10" Height="10" Command="{Binding DecreaseZoomLevelCommand}">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Grid Width="10" Height="10" Background="Transparent">
+                                            <Path Fill="White" Name="pathDecrease" Stretch="Fill" Width="8" Height="2" Data="M448.83333,332 L496.16665,332.00034 496.16666,347.00067 448.83334,347.00036 z" igPrim:XamlHelper.SnapsToDevicePixels="True"/>
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsEnabled" Value="False">
+                                                <Trigger.Setters>
+                                                    <Setter  TargetName="pathDecrease" Property="Fill" Value="#19478A"></Setter>
+                                                </Trigger.Setters>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                            <Slider Width="150" Minimum="0" Maximum="100" SmallChange="2" LargeChange="10" VerticalAlignment="Center" Value="{Binding ZoomLevel, Converter={StaticResource MagnificationConverter}}" Style="{StaticResource IGWordSliderStyle}"/>
+                            <Button Width="10" Height="10" Command="{Binding IncreaseZoomLevelCommand}">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Grid Width="10" Height="10" Background="Transparent">
+                                            <Path Name="pathIncrease" Fill="White" Stretch="Fill" Height="8" Width="8" Data="M1384.6667,307.99984 L1399.6667,308.0005 1399.6667,331.34476 1424.5,331.67859 1424.5,347.01898 1399.8333,347.01932 1399.8333,371.69754 1384.8333,371.6972 1384.8333,346.85182 1359.5,346.85183 1359.5,331.84475 1384.8333,331.84475 1384.8333,307.83344" igPrim:XamlHelper.SnapsToDevicePixels="True"/>
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsEnabled" Value="False">
+                                                <Trigger.Setters>
+                                                    <Setter TargetName="pathIncrease" Property="Fill" Value="#19478A"></Setter>
+                                                </Trigger.Setters>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel.Resources>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsEnabled" Value="False">
+                                                <Setter Property="Visibility" Value="Hidden"></Setter>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </StackPanel.Resources>
+                                <TextBlock Text="{Binding ElementName=richTextEditor, Path=ZoomLevelAsPercentage,StringFormat={}{0}%}" Margin="5,0" Width="30" VerticalAlignment="Center"/>
+                            </StackPanel>
+
+                        </StackPanel>
+                    </StatusBarItem>
+                </StatusBar>
+            </igwpf:RibbonWindowContentHost.StatusBar>
+        </igwpf:RibbonWindowContentHost>
+
+    </Grid>
+</igwpf:XamRibbonWindow >

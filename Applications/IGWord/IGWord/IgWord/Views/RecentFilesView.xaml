@@ -1,0 +1,71 @@
+﻿<inf:ViewBaseWithAnimations x:Class="IgWord.Views.RecentFilesView"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+              xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+              xmlns:inf="clr-namespace:IgWord.Infrastructure;assembly=IgWord.Infrastructure"
+              xmlns:prism="http://www.codeplex.com/prism"
+              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
+              xmlns:converters="clr-namespace:IgWord.Converters"
+              xmlns:igwpf="http://schemas.infragistics.com/xaml/wpf"
+              xmlns:resources="clr-namespace:IgWord.ResourceStrings"
+              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+              mc:Ignorable="d" 
+              d:DesignHeight="600" d:DesignWidth="500"
+              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
+    <UserControl.Resources>
+        <converters:FileIconConverter x:Key="FileIconConverter"/>
+        <converters:FilePathConverter x:Key="FilePathConverter"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid Grid.Row="1" Grid.Column="2" Margin="0,0,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="600"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Text="{x:Static resources:ResourceStrings.Text_RecentDocuments}" FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="{StaticResource HeaderTextBrush}" />
+
+            <!--Recent Folders Items-->
+            <ScrollViewer Margin="0,0,0,0" Grid.Row="1">
+                <Border BorderThickness="0,1,0,0" BorderBrush="{StaticResource BorderBrush}" Margin="0,10,0,0" >
+                    <ItemsControl ItemsSource="{Binding RecentDocuments}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Height="60" Margin="0" Command="{Binding Path=DataContext.OpenFileCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding FullName}" igwpf:ApplicationMenu2010Item.CloseWhenClicked="True">
+                                    <Button.Template>
+                                        <ControlTemplate>
+                                            <Border Name="rootPanelBorder" BorderThickness="0,0,0,1" BorderBrush="{StaticResource BorderBrush}">
+                                                <StackPanel Name="rootPanel" Orientation="Horizontal">
+                                                    <Image Source="{Binding FullName,Converter={StaticResource FileIconConverter}}" Height="32" Width="32" Margin="14,0,14,0"/>
+                                                    <StackPanel Margin="0,12,0,0">
+                                                        <TextBlock Name="rootPanelName" Text="{Binding Name}" FontSize="14" VerticalAlignment="Bottom" Foreground="#ff444444" />
+                                                        <TextBlock Name="rootPanelAddress" Foreground="#ff999999" Text="{Binding FullName, Converter={StaticResource FilePathConverter}}" FontSize="11" VerticalAlignment="Top" Margin="0"/>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#FFE7EDf6" TargetName="rootPanelBorder"/>
+                                                    <Setter Property="BorderBrush" Value="#FF355E9E" TargetName="rootPanelBorder"/>
+                                                    <Setter Property="Foreground" Value="{StaticResource ApplicationAccentColor}" TargetName="rootPanelName"/>
+                                                    <Setter Property="Foreground" Value="{StaticResource ApplicationAccentColor}" TargetName="rootPanelAddress"/>
+                                                </Trigger>
+                                                <Trigger Property="Button.IsPressed" Value="True">
+                                                    <Setter Property="Background" Value="#FFD5E1F2" TargetName="rootPanelBorder"/>
+                                                    <Setter Property="Foreground" Value="{StaticResource ApplicationAccentColor}" TargetName="rootPanelName"/>
+                                                    <Setter Property="Foreground" Value="{StaticResource ApplicationAccentColor}" TargetName="rootPanelAddress"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Border>
+            </ScrollViewer>
+
+        </Grid>
+    </Grid>
+</inf:ViewBaseWithAnimations >

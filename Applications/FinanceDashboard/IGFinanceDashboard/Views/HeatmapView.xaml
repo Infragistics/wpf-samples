@@ -1,0 +1,314 @@
+﻿<framework:NavigationPage 
+    x:Class="IGShowcase.FinanceDashboard.Views.HeatmapView"
+   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+   xmlns:ig="http://schemas.infragistics.com/xaml"
+   xmlns:framework="clr-namespace:IGExtensions.Framework.Controls;assembly=IGExtensions.Framework" 
+    xmlns:common="clr-namespace:IGExtensions.Common.Controls;assembly=IGExtensions.Common"
+    mc:Ignorable="d" d:DesignHeight="600" d:DesignWidth="1000"
+   DataContext="{StaticResource heatmapViewModel}">
+
+
+    <framework:NavigationPage.Resources>
+
+    </framework:NavigationPage.Resources>
+    <Grid  Background="{StaticResource PageBackground}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <common:GridSplitter Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Width="20" HorizontalAlignment="Center" VerticalAlignment="Stretch" 
+                             ShowsPreview="True" 
+                             Background="{StaticResource GridSplitterBackground}"
+                             Foreground="{StaticResource GridSplitterForeground}" Margin="0 5" />
+
+        <Rectangle Fill="{StaticResource HeatMapViewHeaderBackground}" Grid.ColumnSpan="3"/>
+        <!--<Image HorizontalAlignment="Stretch"
+				VerticalAlignment="Stretch"
+				Source="/IGShowcase.FinanceDashboard;component/Assets/Images/linePattern_full.png"
+				Stretch="Fill"
+				IsHitTestVisible="False" 
+				Grid.Row="1"
+				Grid.ColumnSpan="3" />-->
+
+        <Border VerticalAlignment="Top" Grid.ColumnSpan="2" HorizontalAlignment="Left">
+            <Grid Margin="0,10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.ColumnSpan="2" Orientation="Horizontal" Grid.Row="1" d:LayoutOverrides="Width" Margin="18,0,0,0">
+
+                    <!--<TextBlock 	Style="{StaticResource ChartTitle}" VerticalAlignment="Center" 
+							Text="{Binding AppStrings.HeatMap_Filter, Source={StaticResource AppLocalizer}}" Margin="0,0,10,0" />-->
+                    <Grid Margin="24,0,0,0">
+
+                        <Rectangle 	/>
+                        <StackPanel Orientation="Horizontal" d:LayoutOverrides="Width">
+
+                            <TextBlock 	Text="{Binding AppStrings.HeatMap_Title, Source={StaticResource AppLocalizer}}"  
+									Style="{StaticResource ChartTitle}"  VerticalAlignment="Center" Margin="10,0" />
+                            <!--TODO-VD apply these styles to ComboBox and make sure that they work in SL and WPF-->
+                            <!--Style="{StaticResource ComboBoxStyle}" 
+                            ItemContainerStyle="{StaticResource ComboBoxItemStyle}"-->
+                            <ComboBox x:Name="ComboBoxFilter"
+									      ItemsSource="{Binding TreemapFilters}" 
+                                          SelectedItem="{Binding TreemapFilter, Mode=TwoWay}"
+									      Background="{x:Null}" BorderBrush="{x:Null}"  
+                                          MinWidth="210" Style="{StaticResource ComboBoxStyle}" VerticalAlignment="Center" >
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Description}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+
+                            <Grid DataContext="{Binding TreemapFilter}" Margin="10,0" Height="15" VerticalAlignment="Center" Width="180">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding Minimum}" Style="{StaticResource StockDetailsLabelTextBlock}" 
+										Margin="0" Opacity="0.5" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                                <Rectangle Grid.Column="1" Margin="6,5,6,0" Height="6" VerticalAlignment="Center" >
+                                    <Rectangle.Fill>
+                                        <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                                            <GradientStop Color="#FF00AADE" />
+                                            <GradientStop Offset="1" Color="#FFAAC200" />
+                                        </LinearGradientBrush>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <TextBlock Grid.Column="2" Text="{Binding Maximum}" Style="{StaticResource StockDetailsLabelTextBlock}" 
+										Margin="0" Opacity="0.5" VerticalAlignment="Top"/>
+                            </Grid>
+
+                        </StackPanel>
+
+                    </Grid>
+
+                </StackPanel>
+
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+
+            <TextBlock Text="{Binding AppStrings.Info, Mode=OneTime, Source={StaticResource AppLocalizer}}"  
+							Margin="0 8 0 0" HorizontalAlignment="Center" Visibility="Collapsed"
+                                 	Style="{StaticResource StockDetailsLabelTextBlock}"/>
+
+            <Border Grid.Row="1" Margin="5">
+                <!-- Margin="10"-->
+                <ig:XamTreemap x:Name="Treemap"
+                                   NodeMouseLeftButtonDown="Treemap_NodeMouseLeftButtonDown"
+                                   NodeMouseRightButtonDown="Treemap_NodeMouseRightButtonDown" Style="{StaticResource XamTreemap}" >
+                    <ig:XamTreemap.NodeBinders>
+                        <ig:NodeBinder TargetTypeName="HeatmapViewModel"
+                                           ItemsSourcePath="Sectors"
+                                           TextPath="Description" ToolTipMemberPath="Description"
+                                            />
+                        <ig:NodeBinder TargetTypeName="SectorViewModel"
+                                           TextPath="Description"
+                                           ValuePath="MarketCapValue"
+                                           ItemsSourcePath="Industries" ToolTipMemberPath="Description"
+                                            />
+                        <ig:NodeBinder TargetTypeName="IndustryViewModel"
+                                           TextPath="Description"
+                                           ValuePath="MarketCapValue" ToolTipMemberPath="Description"
+                                            />
+                    </ig:XamTreemap.NodeBinders>
+                    <ig:XamTreemap.ValueMappers>
+                        <ig:ColorMapper ValueTypeName="IndustryViewModel"
+                                            TargetProperty="Fill"
+                                            From="#00AADE"
+                                            To="#AAC200" />
+                        <!--04CDFF-->
+                    </ig:XamTreemap.ValueMappers>
+                </ig:XamTreemap>
+            </Border>
+
+        </Grid>
+
+        <!-- Lines Pattern Image-->
+        <Grid Grid.Row="1" Grid.Column="2" >
+
+            <Border CornerRadius="5" Padding="5">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="{Binding SelectedIndustry}" Margin="0,4,0,8" HorizontalAlignment="Center"
+                                 	Style="{StaticResource StockDetailsLabelTextBlock}" FontSize="14.667"/>
+
+                    <!--TODO-VD make sure that XamGrid styles work in SL and WPF-->
+                    <ig:XamGrid Grid.Row="1"
+                                    VerticalAlignment="Top"
+                                    ItemsSource="{Binding Companies}"
+                                    AutoGenerateColumns="False" CellStyle="{StaticResource CellControlStyle}" Style="{StaticResource XamGridStyle}" HeaderStyle="{StaticResource HeaderCellControlStyle}">
+
+                        <!-- Enable Deferred Scrolling-->
+                        <ig:XamGrid.DeferredScrollingSettings>
+                            <ig:DeferredScrollingSettings  AllowDeferredScrolling="Default">
+                                <ig:DeferredScrollingSettings.DeferredScrollTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Rectangle Fill="Black" Opacity=".65" />
+                                            <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,15,15,0">
+                                                <TextBlock Text="{Binding Path=Row.Data.Description}" Foreground="#FFFFFF" FontWeight="Bold" TextAlignment="Center" Margin="0,5,0,0" />
+                                            </StackPanel>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ig:DeferredScrollingSettings.DeferredScrollTemplate>
+                            </ig:DeferredScrollingSettings>
+                        </ig:XamGrid.DeferredScrollingSettings>
+
+
+                        <!-- Filtering -->
+                        <ig:XamGrid.FilteringSettings>
+                            <ig:FilteringSettings AllowFiltering="FilterRowTop"/>
+                        </ig:XamGrid.FilteringSettings>
+
+                        <!-- ConditionalFormatting -->
+                        <ig:XamGrid.ConditionalFormattingSettings>
+                            <ig:ConditionalFormattingSettings AllowConditionalFormatting="True" />
+                        </ig:XamGrid.ConditionalFormattingSettings>
+
+                        <!-- Disable Editing-->
+                        <ig:XamGrid.EditingSettings>
+                            <ig:EditingSettings AllowEditing="None" />
+                        </ig:XamGrid.EditingSettings>
+
+                        <!-- Enable Column Moving -->
+                        <ig:XamGrid.ColumnMovingSettings>
+                            <ig:ColumnMovingSettings AllowColumnMoving="Indicator"/>
+                        </ig:XamGrid.ColumnMovingSettings>
+
+                        <!-- Enable Fixed Columns -->
+                        <ig:XamGrid.FixedColumnSettings>
+                            <ig:FixedColumnSettings AllowFixedColumns="Indicator"></ig:FixedColumnSettings>
+                        </ig:XamGrid.FixedColumnSettings>
+
+
+                        <ig:XamGrid.Columns>
+                            <ig:TextColumn Key="Description" IsFixed="Left">
+                                <ig:TextColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding AppStrings.Description, Mode=OneTime, Source={StaticResource AppLocalizer}}" />
+                                    </DataTemplate>
+                                </ig:TextColumn.HeaderTemplate>
+                            </ig:TextColumn>
+                            <ig:TextColumn Key="ChangeValue"
+                                               FormatString="{}{0:0.00\%}"
+                                               HorizontalContentAlignment="Right">
+                                <ig:TextColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding AppStrings.Change, Mode=OneTime, Source={StaticResource AppLocalizer}}" />
+                                    </DataTemplate>
+                                </ig:TextColumn.HeaderTemplate>
+                            </ig:TextColumn>
+                            <ig:TextColumn Key="MarketCapValue"
+                                               FormatString="{}{0:#,#0,,.####} M"
+                                               HorizontalContentAlignment="Right">
+                                <ig:TextColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding AppStrings.Market_Cap, Mode=OneTime, Source={StaticResource AppLocalizer}}" />
+                                    </DataTemplate>
+                                </ig:TextColumn.HeaderTemplate>
+                            </ig:TextColumn>
+                            <ig:TextColumn Key="PEValue"
+                                               FormatString="{}{0:0.00}"
+                                               HorizontalContentAlignment="Right">
+                                <ig:TextColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding AppStrings.PE, Mode=OneTime, Source={StaticResource AppLocalizer}}" />
+                                    </DataTemplate>
+                                </ig:TextColumn.HeaderTemplate>
+                            </ig:TextColumn>
+                            <ig:TextColumn Key="ROEValue"
+                                               FormatString="{}{0:0.00\%}"
+                                               HorizontalContentAlignment="Right">
+                                <ig:TextColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding AppStrings.ROE, Mode=OneTime, Source={StaticResource AppLocalizer}}" />
+                                    </DataTemplate>
+                                </ig:TextColumn.HeaderTemplate>
+                            </ig:TextColumn>
+                            <ig:TextColumn Key="DivYieldValue"
+                                               FormatString="{}{0:0.00\%}"
+                                               HorizontalContentAlignment="Right">
+                                <ig:TextColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding AppStrings.Div_Yield, Mode=OneTime, Source={StaticResource AppLocalizer}}" />
+                                    </DataTemplate>
+                                </ig:TextColumn.HeaderTemplate>
+                            </ig:TextColumn>
+                            <ig:TextColumn Key="PriceToBookValue"
+                                               FormatString="{}{0:0.00}"
+                                               HorizontalContentAlignment="Right">
+                                <ig:TextColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding AppStrings.Grid_Price_to_Book, Mode=OneTime, Source={StaticResource AppLocalizer}}" />
+                                    </DataTemplate>
+                                </ig:TextColumn.HeaderTemplate>
+                            </ig:TextColumn>
+                            <ig:TextColumn Key="PriceToFreeCashFlowValue"
+                                               FormatString="{}{0:0.00}"
+                                               HorizontalContentAlignment="Right">
+                                <ig:TextColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding AppStrings.Grid_Price_to_Free_Cash_Flow, Mode=OneTime, Source={StaticResource AppLocalizer}}" />
+                                    </DataTemplate>
+                                </ig:TextColumn.HeaderTemplate>
+                            </ig:TextColumn>
+                            <ig:TextColumn Key="NetProfitMarginValue"
+                                               FormatString="{}{0:0.00}"
+                                               HorizontalContentAlignment="Right">
+                                <ig:TextColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding AppStrings.Grid_Net_Profit_Margin, Mode=OneTime, Source={StaticResource AppLocalizer}}" />
+                                    </DataTemplate>
+                                </ig:TextColumn.HeaderTemplate>
+                            </ig:TextColumn>
+                        </ig:XamGrid.Columns>
+                    </ig:XamGrid>
+
+                </Grid>
+            </Border>
+        </Grid>
+        <Image HorizontalAlignment="Left" Margin="0,0,0,90" Grid.RowSpan="2" 
+                   Source="/IGShowcase.FinanceDashboard;component/Assets/Images/linePattern_full.png" Stretch="Fill" Width="1"/>
+
+        <!--<common:PageBusyIndicator x:Name="BusyIndicator"  
+                                  Grid.RowSpan="2" Grid.ColumnSpan="3"  
+                                  IndicatorIsBusy="{Binding Path=IsInitialDataLoading, Mode=OneWay}"
+                                  Visibility="Collapsed" />-->
+
+        <common:PageBusyIndicator x:Name="BusyIndicator"  
+                                  Grid.RowSpan="2" Grid.ColumnSpan="3" 
+                                  Visibility="Visible" 
+                                  IndicatorIsBusy="{Binding Path=IsInitialDataLoading, Mode=OneWay}"
+                                  IndicatorOverlayBrush="Black" IndicatorOverlayOpacity="0.9"
+                                  
+                                   />
+        
+    </Grid>
+
+
+</framework:NavigationPage>

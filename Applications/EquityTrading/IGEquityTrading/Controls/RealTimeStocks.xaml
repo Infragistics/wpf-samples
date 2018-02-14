@@ -1,0 +1,107 @@
+﻿<UserControl
+    x:Class="IGTrading.Controls.RealTimeStocks"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    mc:Ignorable="d"
+    xmlns:igGrid="http://infragistics.com/DataPresenter"
+    xmlns:igEditors="http://infragistics.com/Editors" 
+    d:DataContext="{d:DesignData /Assets/SampleData/StocksDashboardSampleData.xaml}"
+    xmlns:loc="clr-namespace:IGTrading.Assets.LocalizedResources" d:DesignHeight="500" d:DesignWidth="500">
+    <UserControl.Resources>
+        <loc:LocalizedResources x:Key="LocalizedResources"/>
+    </UserControl.Resources>
+    <igGrid:XamDataGrid DataSource="{Binding AllStocksInfo}"
+                                    x:Name="tickingStocksGrid"
+                                    Style="{DynamicResource XamDataGridStyle1}"
+                                    DataValueChangedDirect="tickingStocksGrid_DataValueChangedDirect"
+                                    GroupByAreaLocation="None"
+                                    ScrollingMode="Immediate"
+                                    RecordFixedLocationChanged="tickingStocksGrid_RecordFixedLocationChanged"
+                                    MouseDoubleClick="TickingStocksGridMouseDoubleClick">
+        <igGrid:XamDataGrid.SuppressedEvents>
+            <igGrid:RoutedEventWrapper RoutedEvent="igEditors:ValueEditor.TextChanged" />
+            <igGrid:RoutedEventWrapper RoutedEvent="igEditors:ValueEditor.ValueChanged" />
+            <igGrid:RoutedEventWrapper RoutedEvent="igGrid:DataPresenterBase.AssigningFieldLayoutToItem" />
+            <igGrid:RoutedEventWrapper RoutedEvent="igGrid:DataPresenterBase.CellActivating" />
+            <igGrid:RoutedEventWrapper RoutedEvent="igGrid:DataPresenterBase.CellActivated" />
+            <igGrid:RoutedEventWrapper RoutedEvent="igGrid:DataPresenterBase.CellDeactivating" />
+            <igGrid:RoutedEventWrapper RoutedEvent="igGrid:DataPresenterBase.DataValueChanged" />
+            <igGrid:RoutedEventWrapper RoutedEvent="igGrid:DataPresenterBase.ExecutingCommand" />
+            <igGrid:RoutedEventWrapper RoutedEvent="igGrid:DataPresenterBase.ExecutedCommand" />
+            <igGrid:RoutedEventWrapper RoutedEvent="igGrid:DataPresenterBase.InitializeCellValuePresenter" />
+            <igGrid:RoutedEventWrapper RoutedEvent="igGrid:DataPresenterBase.RecordActivating" />
+            <igGrid:RoutedEventWrapper RoutedEvent="igGrid:DataPresenterBase.RecordActivated" />
+            <igGrid:RoutedEventWrapper RoutedEvent="igGrid:DataPresenterBase.RecordDeactivating" />
+            <igGrid:RoutedEventWrapper RoutedEvent="igGrid:DataPresenterBase.RecordsInViewChanged" />
+        </igGrid:XamDataGrid.SuppressedEvents>
+        <igGrid:XamDataGrid.FieldLayoutSettings>
+            <igGrid:FieldLayoutSettings AutoGenerateFields="False"
+                                                    AutoFitMode="Always"
+                                                    AllowRecordFixing="Top"
+                                                    AllowClipboardOperations="Copy"
+													FieldMovingMaxRows="1" />
+        </igGrid:XamDataGrid.FieldLayoutSettings>
+        <igGrid:XamDataGrid.FieldSettings>
+            <igGrid:FieldSettings AllowEdit="False" FilterCellEditorStyle="{DynamicResource xamComboEditorStyle}"
+                                              CellClickAction="SelectRecord"
+                                              FilterOperatorDefaultValue="StartsWith"
+                                              AllowRecordFiltering="True" />
+        </igGrid:XamDataGrid.FieldSettings>
+        <igGrid:XamDataGrid.FieldLayouts>
+            <igGrid:FieldLayout>
+                <igGrid:Field Name="Symbol" Width="200"
+                              Label="{Binding Strings.Symbol, Source={StaticResource LocalizedResources}}">
+                    <igGrid:Field.Settings>
+                        <igGrid:FieldSettings />
+                    </igGrid:Field.Settings>
+                </igGrid:Field>
+                <igGrid:Field Name="Open"
+                              Label="{Binding Strings.Open, Source={StaticResource LocalizedResources}}">
+                    <igGrid:Field.Settings>
+                        <igGrid:FieldSettings EditorStyle="{StaticResource currencyStyle}" AllowRecordFiltering="False" />
+                    </igGrid:Field.Settings>
+                </igGrid:Field>
+                <igGrid:Field Name="DailyLow"
+                              Label="{Binding Strings.Daily_Low, Source={StaticResource LocalizedResources}}">
+                    <igGrid:Field.Settings>
+                        <igGrid:FieldSettings EditorStyle="{StaticResource currencyStyle}" AllowRecordFiltering="False" />
+                    </igGrid:Field.Settings>
+                </igGrid:Field>
+                <igGrid:Field Name="Bid"
+                              Label="{Binding Strings.Bid, Source={StaticResource LocalizedResources}}">
+                    <igGrid:Field.Settings>
+                        <igGrid:FieldSettings DataValueChangedHistoryLimit="2" AllowRecordFiltering="False"
+                                                          DataValueChangedNotificationsActive="True"
+                                                          EditorStyle="{StaticResource currencyStyle}" />
+                    </igGrid:Field.Settings>
+                </igGrid:Field>
+                <igGrid:Field Name="Ask"
+                              Label="{Binding Strings.Ask, Source={StaticResource LocalizedResources}}">
+                    <igGrid:Field.Settings>
+                        <igGrid:FieldSettings DataValueChangedHistoryLimit="2" AllowRecordFiltering="False"
+                                                          DataValueChangedNotificationsActive="True"
+                                                          EditorStyle="{StaticResource currencyStyle}" />
+                    </igGrid:Field.Settings>
+                </igGrid:Field>
+                <igGrid:Field Name="LastTradeAmount"
+                              Label="{Binding Strings.Last_Trade_Amount, Source={StaticResource LocalizedResources}}"
+                              Width="150">
+                    <igGrid:Field.Settings>
+                        <igGrid:FieldSettings DataValueChangedHistoryLimit="15" AllowRecordFiltering="False"
+                                                          DataValueChangedNotificationsActive="True"
+                                                          EditorStyle="{StaticResource currencyStyle}"
+                                                          CellValuePresenterStyle="{StaticResource graphingCVPStyle}" />
+                    </igGrid:Field.Settings>
+                </igGrid:Field>
+                <igGrid:Field Name="Change"
+                              Label="{Binding Strings.Change, Source={StaticResource LocalizedResources}}">
+                    <igGrid:Field.Settings>
+                        <igGrid:FieldSettings EditorStyle="{StaticResource currencyStyle}" AllowRecordFiltering="False" />
+                    </igGrid:Field.Settings>
+                </igGrid:Field>
+            </igGrid:FieldLayout>
+        </igGrid:XamDataGrid.FieldLayouts>
+    </igGrid:XamDataGrid>
+</UserControl>

@@ -1,0 +1,3 @@
+﻿# Outlook-Inspired UI
+
+The IG Outlook showcase application provides guidance on how to build a Microsoft Outlook inspired application using Microsoft’s Patterns & Practices Prism library. This showcase demonstrates the use of common design patterns and principals such as MVVM (Model-View-ViewModel), IoC (Inversion of Control), DI (dependency injection), event aggregation, commanding, navigation, and modular application development techniques in combination with Infragistics controls.

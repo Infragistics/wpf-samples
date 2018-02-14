@@ -1,0 +1,124 @@
+﻿<UserControl x:Class="IgWord.Dialogs.ParagraphDialogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ig="http://schemas.infragistics.com/xaml"
+             xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+             xmlns:adapters="clr-namespace:IgWord.Infrastructure.Adapters;assembly=IgWord.Infrastructure"
+             xmlns:resources="clr-namespace:IgWord.ResourceStrings"
+             xmlns:converters="clr-namespace:IgWord.Converters"
+             xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
+             prismMvvm:ViewModelLocator.AutoWireViewModel="True"
+             Height="440" Width="410" Background="White">
+    <UserControl.Resources>
+        <converters:LineSpacingTypeConverter x:Key="LineSpacingTypeConverter"/>
+    </UserControl.Resources>
+    <Grid Margin="20,15,20,20" igPrim:XamlHelper.SnapsToDevicePixels="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="18"/>
+            <RowDefinition Height="22"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="18"/>
+            <RowDefinition Height="22"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="18"/>
+            <RowDefinition Height="22"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition/>
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
+
+        <!-- ===================== General ===================== -->
+        <TextBlock Grid.Row="0" Margin="0,0,0,0" Style="{StaticResource HeaderTextBlock}" Text="{x:Static resources:ResourceStrings.Text_General}"/>
+        <Label Grid.Row="1" Margin="0,0,0,0" Padding="0" VerticalAlignment="Center" Content="{x:Static resources:ResourceStrings.Lbl_Alignment}"/>
+        <ComboBox Grid.Row="2" Margin="0,0,0,0" Width="70" HorizontalAlignment="Left" 
+                  ItemsSource="{Binding ElementName=previewAdapter, Path=ParagraphAlignments}" 
+                  SelectedItem="{Binding ElementName=previewAdapter, Path=Alignment}"/>
+
+        <!-- ===================== Indentation ===================== -->
+        <TextBlock Grid.Row="3" Margin="0,15,0,0" Style="{StaticResource HeaderTextBlock}" Text="{x:Static resources:ResourceStrings.Text_Indentation}"/>
+        <Label Grid.Row="4" Margin="0,0,0,0" Padding="0" VerticalAlignment="Center" Content="{x:Static resources:ResourceStrings.Lbl_Left}"/>
+        <ig:XamNumericInput Grid.Row="5" Margin="0,0,0,0" Width="70" HorizontalAlignment="Left" SpinButtonDisplayMode="Always" PromptChar="" Mask="nn.n cm" 
+                            TrimFractionalZeros="True" SpinIncrement=".1" Value="{Binding ElementName=previewAdapter, Path=IndentationBeforeText}" >
+            <ig:XamNumericInput.ValueConstraint>
+                <ig:ValueConstraint MinInclusive="-55.87" MaxInclusive="55.87"/>
+            </ig:XamNumericInput.ValueConstraint>
+        </ig:XamNumericInput>
+        <Label Grid.Row="4" Margin="84,0,0,0" Padding="0" VerticalAlignment="Center" Content="{x:Static resources:ResourceStrings.Lbl_Right}"/>
+        <ig:XamNumericInput Grid.Row="5" Margin="84,0,0,0" Width="70" HorizontalAlignment="Left" SpinButtonDisplayMode="Always" PromptChar="" Mask="nn.n cm" 
+                            TrimFractionalZeros="True" SpinIncrement=".1" Value="{Binding ElementName=previewAdapter, Path=IndentationAfterText}" >
+            <ig:XamNumericInput.ValueConstraint>
+                <ig:ValueConstraint MinInclusive="-55.87" MaxInclusive="55.87"/>
+            </ig:XamNumericInput.ValueConstraint>
+        </ig:XamNumericInput>
+
+        <Label Grid.Row="4" Margin="186,0,0,0" Padding="0" VerticalAlignment="Center" Content="{x:Static resources:ResourceStrings.Lbl_Special}"/>
+        <ComboBox Grid.Row="5" Margin="186,0,0,0" Width="100" HorizontalAlignment="Left" 
+                  ItemsSource="{Binding ElementName=previewAdapter, Path=FirstLineTypes}"
+                  SelectedValue="{Binding ElementName=previewAdapter, Path=FirstLineType}" />
+
+        <Label Grid.Row="4" Margin="300,0,0,0" Padding="0" VerticalAlignment="Center" Content="{x:Static resources:ResourceStrings.Lbl_By}"/>
+        <ig:XamNumericInput Grid.Row="5" Margin="300,0,0,0" Width="70" HorizontalAlignment="Left" SpinButtonDisplayMode="Always" PromptChar="" Mask="nn.nn cm" 
+                            TrimFractionalZeros="True" SpinIncrement=".1" Value="{Binding ElementName=previewAdapter, Path=FirstLineIndent}" >
+            <ig:XamNumericInput.ValueConstraint>
+                <ig:ValueConstraint MinInclusive="-55.87" MaxInclusive="55.87"/>
+            </ig:XamNumericInput.ValueConstraint>
+        </ig:XamNumericInput>
+
+        <!-- ===================== Spacing ===================== -->
+        <TextBlock Grid.Row="6" Margin="0,15,0,0" Style="{StaticResource HeaderTextBlock}" Text="{x:Static resources:ResourceStrings.Text_Spacing}"/>
+        <Label Grid.Row="7" Margin="0,0,0,0" Padding="0" VerticalAlignment="Center" Content="{x:Static resources:ResourceStrings.Lbl_Before}"/>
+        <ig:XamNumericInput Grid.Row="8" Margin="0,0,0,0" Width="70" HorizontalAlignment="Left" SpinButtonDisplayMode="Always" PromptChar="" Mask="nn pt" 
+                            TrimFractionalZeros="True" SpinIncrement="6" Value="{Binding ElementName=previewAdapter, Path=SpacingBefore}" >
+            <ig:XamNumericInput.ValueConstraint>
+                <ig:ValueConstraint MinInclusive="0" MaxInclusive="1584"/>
+            </ig:XamNumericInput.ValueConstraint>
+        </ig:XamNumericInput>
+        <Label Grid.Row="7" Margin="84,0,0,0" Padding="0" VerticalAlignment="Center" Content="{x:Static resources:ResourceStrings.Lbl_After}"/>
+        <ig:XamNumericInput Grid.Row="8" Margin="84,0,0,0" Width="70" HorizontalAlignment="Left" SpinButtonDisplayMode="Always" PromptChar="" Mask="nn pt" 
+                            TrimFractionalZeros="True" SpinIncrement="6" Value="{Binding ElementName=previewAdapter, Path=SpacingAfter}" >
+            <ig:XamNumericInput.ValueConstraint>
+                <ig:ValueConstraint MinInclusive="0" MaxInclusive="1584"/>
+            </ig:XamNumericInput.ValueConstraint>
+        </ig:XamNumericInput>
+
+        <Label Grid.Row="7" Margin="186,0,0,0" Padding="0" VerticalAlignment="Center" Content="{x:Static resources:ResourceStrings.Lbl_LineSpacing}"/>
+        <ComboBox Grid.Row="8" Margin="186,0,0,0" Width="100" HorizontalAlignment="Left" 
+                  ItemsSource="{Binding ElementName=previewAdapter, Path=LineSpacingTypes}"
+                  SelectedValue="{Binding ElementName=previewAdapter, Path=LineSpacingType}" >
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Converter={StaticResource LineSpacingTypeConverter}}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+
+        <Label Grid.Row="7" Margin="300,0,0,0" Padding="0" VerticalAlignment="Center" Content="{x:Static resources:ResourceStrings.Lbl_At}"/>
+        <ig:XamNumericInput Grid.Row="8" Margin="300,0,0,0" Width="70" HorizontalAlignment="Left" SpinButtonDisplayMode="Always" PromptChar="" 
+                            Mask="{Binding ElementName=previewAdapter, Path=LineSpacingMask}" ValueTypeName="float"
+                            TrimFractionalZeros="False" SpinIncrement=".5" Value="{Binding ElementName=previewAdapter, Path=LineSpacing}">
+            <ig:XamNumericInput.ValueConstraint>
+                <ig:ValueConstraint MinInclusive="0.5" MaxInclusive="1584"/>
+            </ig:XamNumericInput.ValueConstraint>
+        </ig:XamNumericInput>
+
+        <!-- ===================== Preview ===================== -->
+        <TextBlock Grid.Row="9" Margin="0,15,0,0" Style="{StaticResource HeaderTextBlock}" Text="{x:Static resources:ResourceStrings.Text_Preview}"/>
+        <ig:HtmlDocumentAdapter Document="{Binding Path=Document, ElementName=richTextEditor}" Value="{Binding Path=HtmlData, Mode=TwoWay}"/>
+
+        <ig:XamRichTextEditor Name="richTextEditor" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden" Margin="0,0,0,0" ZoomLevel="0.7"
+                              BorderThickness="0" Grid.Row="10" IsReadOnly="True" AllowDocumentViewSplitting="False" />
+
+        <Border BorderThickness="1" BorderBrush="{StaticResource BorderBrush}" Margin="0,0,0,0" Padding="10" Grid.Row="10"></Border>
+        <Border BorderThickness="0" Margin="0,0,0,0" Grid.Row="10" Background="White" Opacity="0.001"></Border>
+        
+        <adapters:ParagraphSettingsPreviewAdapter Name="previewAdapter" Editor="{Binding ElementName=richTextEditor}" InputParagraphSettings="{Binding ParagraphSettings}" PreviewParagraphIndex="1"/>
+
+        <Button Grid.Row="19" Width="90" HorizontalAlignment="Right" Margin="0,0,0,0" Command="{Binding OkCommand}" Content="{x:Static resources:ResourceStrings.Text_Ok}" Style="{StaticResource PrimaryButtonStyle}"/>
+        <Button Grid.Row="19" Width="90" HorizontalAlignment="Right" Margin="0,0,110,0" Command="{Binding CancelCommand}" Content="{x:Static resources:ResourceStrings.Text_Cancel}" Style="{StaticResource DefaultButtonStyle}"/>
+    </Grid>
+</UserControl>

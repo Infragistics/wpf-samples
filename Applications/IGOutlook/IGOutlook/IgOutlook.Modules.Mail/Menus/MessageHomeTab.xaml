@@ -1,0 +1,69 @@
+﻿<inf:RibbonTabItem  x:Class="IgOutlook.Modules.Mail.Menus.MessageHomeTab"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:inf="clr-namespace:IgOutlook.Infrastructure;assembly=IgOutlook.Infrastructure"
+                    xmlns:igWpf="http://schemas.infragistics.com/xaml/wpf"
+                    xmlns:ig="http://schemas.infragistics.com/xaml"
+                    xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+                    xmlns:resources="clr-namespace:IgOutlook.Modules.Mail.Resources"
+                    Header="{x:Static resources:ResourceStrings.HomeTab_Header_Home}">
+
+    <igWpf:RibbonGroup Caption="{x:Static resources:ResourceStrings.MessageHomeTab_RibbonGroupCaption_Clipboard}">
+        <igWpf:ButtonTool Caption="{x:Static resources:ResourceStrings.MessageHomeTab_RibbonGroupNew_ButtonTool_Paste}"
+                          Command="ApplicationCommands.Paste"
+                          LargeImage="/IgOutlook.Modules.Mail;component/Images/Paste32.png" 
+                          igWpf:RibbonGroup.MinimumSize="ImageAndTextLarge" igWpf:RibbonGroup.MaximumSize="ImageAndTextLarge"/>
+        <igWpf:ButtonTool Caption="{x:Static resources:ResourceStrings.MessageHomeTab_RibbonGroupNew_ButtonTool_Cut}" 
+                          Command="ApplicationCommands.Cut"
+                          SmallImage="/IgOutlook.Modules.Mail;component/Images/Cut16.png" 
+                          igWpf:RibbonGroup.MaximumSize="ImageOnly"/>
+        <igWpf:ButtonTool Caption="{x:Static resources:ResourceStrings.MessageHomeTab_RibbonGroupNew_ButtonTool_Copy}" 
+                          Command="ApplicationCommands.Copy"
+                          SmallImage="/IgOutlook.Modules.Mail;component/Images/Copy16.png" igWpf:RibbonGroup.MaximumSize="ImageOnly"/>
+    </igWpf:RibbonGroup>
+    <igWpf:RibbonGroup Caption="{x:Static resources:ResourceStrings.MessageHomeTab_RibbonGroupCaption_Font}">
+        <igWpf:ToolHorizontalWrapPanel>
+            <igWpf:ButtonGroup>
+                <igWpf:ComboEditorTool x:Name="_fontFamilyList" SelectedItemChanged="FontFamily_SelectionChanged" IsEditable="True" />
+                <igWpf:ComboEditorTool x:Name="_fontSizeList" SelectedItemChanged="FontSize_SelectionChanged" EditAreaWidth="45" IsEditable="True" />
+            </igWpf:ButtonGroup>
+            <igWpf:ButtonGroup>
+                <igWpf:ToggleButtonTool x:Name="_boldTool" Command="EditingCommands.ToggleBold"
+                                        SmallImage="/IgOutlook.Modules.Mail;component/Images/Bold16.png"/>
+                <igWpf:ToggleButtonTool x:Name="_italicTool" Command="EditingCommands.ToggleItalic" 
+                                        SmallImage="/IgOutlook.Modules.Mail;component/Images/Italic16.png"/>
+                <igWpf:ToggleButtonTool x:Name="_underlineTool" Command="EditingCommands.ToggleUnderline"
+                                        SmallImage="/IgOutlook.Modules.Mail;component/Images/Underline16.png"/>
+            </igWpf:ButtonGroup>
+        </igWpf:ToolHorizontalWrapPanel>
+    </igWpf:RibbonGroup>
+    <igWpf:RibbonGroup Caption="{x:Static resources:ResourceStrings.MessageHomeTab_RibbonGroupCaption_Paragraph}">
+        <igWpf:ToolHorizontalWrapPanel>
+            <igWpf:ButtonGroup>
+                <igWpf:RadioButtonTool x:Name="_alignLeftTool" Command="EditingCommands.AlignLeft"
+                                       SmallImage="/IgOutlook.Modules.Mail;component/Images/LeftAlign16.png" />
+                <igWpf:RadioButtonTool x:Name="_alignCenterTool" Command="EditingCommands.AlignCenter"
+                                       SmallImage="/IgOutlook.Modules.Mail;component/Images/CenterAlign16.png" />
+                <igWpf:RadioButtonTool x:Name="_alignRightTool" Command="EditingCommands.AlignRight"
+                                       SmallImage="/IgOutlook.Modules.Mail;component/Images/RightAlign16.png"/>
+                <igWpf:RadioButtonTool x:Name="_alignJustifyTool" Command="EditingCommands.AlignJustify"
+                                       SmallImage="/IgOutlook.Modules.Mail;component/Images/JustifyAlign16.png"/>
+            </igWpf:ButtonGroup>
+            <igWpf:ButtonGroup >
+                <igWpf:ToggleButtonTool x:Name="_bulletsTool" Click="BulletsTool_Click" Tag="Bullet" SmallImage="/IgOutlook.Modules.Mail;component/Images/Bullets16.png" />
+                <igWpf:ToggleButtonTool x:Name="_numbersTool" Click="NumbersTool_Click" Tag="Decimal" SmallImage="/IgOutlook.Modules.Mail;component/Images/Numbering16.png" />
+            </igWpf:ButtonGroup>
+        </igWpf:ToolHorizontalWrapPanel>
+    </igWpf:RibbonGroup>
+    <igWpf:RibbonGroup Caption="{x:Static resources:ResourceStrings.MessageHomeTab_RibbonGroupCaption_Tags}">
+        <igWpf:ToggleButtonTool Caption="{x:Static resources:ResourceStrings.MessageHomeTab_RibbonGroupTags_ButtonTool_HighImportance}" Name="btnHighImportance" Checked="btnHighImportance_Checked"
+                                Command="{Binding HighImportanceCommand}" 
+                                CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"
+                                SmallImage="/IgOutlook.Modules.Mail;component/Images/HighImportance16.png"/>
+        <igWpf:ToggleButtonTool Caption="{x:Static resources:ResourceStrings.MessageHomeTab_RibbonGroupTags_ButtonTool_LowImportance}"  Name="btnLowImportance" Checked="btnLowImportance_Checked" 
+                                Command="{Binding LowImportanceCommand}"
+                                CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"
+                                SmallImage="/IgOutlook.Modules.Mail;component/Images/LowImportance16.png"/>
+    </igWpf:RibbonGroup>
+
+</inf:RibbonTabItem>

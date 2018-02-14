@@ -1,0 +1,711 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:ig="http://schemas.infragistics.com/xaml" xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives" xmlns:igLocal="http://schemas.infragistics.com/xaml">
+
+    <!-- *********************************  RESOURCES  ********************************* -->
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Theme.Colors.xaml" />
+        <ResourceDictionary Source="Styles.WPF.xaml" />
+        <ResourceDictionary Source="Office2013.xamMenu.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- ********************************** SPREADSHEET SPECIFIC COLORS ********************************** -->
+    <Color x:Key="ThemeColor1">#FF217346</Color>
+    <Color x:Key="ThemeColor2">#FF9FD5B7</Color>
+    <Color x:Key="ThemeColor3">#FFD3F0E0</Color>
+
+    <!-- ********************************** BRUSHES ********************************** -->
+    <!--  XamSpreadsheet Brushes -->
+    <SolidColorBrush x:Key="XamSpreadsheetBackgroundBrush" Color="{StaticResource Color_009}" />
+    <SolidColorBrush x:Key="XamSpreadsheetBorderBrush" Color="{StaticResource Color_005}" />
+    <SolidColorBrush x:Key="SheetPaneSplitterBackgroundBrush" Color="{StaticResource Color_006}" />
+    <SolidColorBrush x:Key="SheetScrollBarBackgroundBrush" Color="{StaticResource Color_006}" />
+    <SolidColorBrush x:Key="SheetTabDropIndicatorBackgroundBrush" Color="{StaticResource Color_001}" />
+    <SolidColorBrush x:Key="SplitterBackgroundBrush" Color="{StaticResource Color_005}" />
+
+    <!-- SelectAll Button Brushes -->
+    <SolidColorBrush x:Key="SheetSelectAllButtonBackgroundBrush" Color="{StaticResource Color_009}" />
+    <SolidColorBrush x:Key="SheetSelectAllTriangleBackgroundBrush" Color="{StaticResource Color_006}" />
+    <SolidColorBrush x:Key="SheetSelectAllTriangleHoverBackgroundBrush" Color="{StaticResource Color_004}" />
+    <SolidColorBrush x:Key="SheetSelectAllTriangleSelectedBackgroundBrush" Color="{StaticResource ThemeColor1}" />
+
+    <!-- TabArea Button Brushes -->
+    <SolidColorBrush x:Key="TabAreaAddButtonHoverForegroundBrush" Color="{StaticResource ThemeColor1}" />
+    <SolidColorBrush x:Key="TabAreaAddButtonDisabledForegroundBrush" Color="{StaticResource Color_005}" />
+    <SolidColorBrush x:Key="TabAreaScrollButtonForegroundBrush" Color="{StaticResource ThemeColor1}" />
+    <SolidColorBrush x:Key="TabAreaScrollButtonDisabledForegroundBrush" Color="{StaticResource Color_005}" />
+
+    <!-- SheetTabItem Brushes -->
+    <SolidColorBrush x:Key="SheetTabItemBackgroundBrush" Color="{StaticResource Color_046}" />
+    <SolidColorBrush x:Key="SheetTabItemHoverBackgroundBrush" Color="{StaticResource Color_046}" />
+    <SolidColorBrush x:Key="SheetTabItemSelectedBackgroundBrush" Color="{StaticResource Color_009}" />
+    <SolidColorBrush x:Key="SheetTabItemBorderBrush" Color="{StaticResource Color_005}" />
+    <SolidColorBrush x:Key="SheetTabItemSelectedBorderBrush" Color="{StaticResource Color_005}" />
+    <SolidColorBrush x:Key="SheetTabItemSelectedBottomBorderBrush" Color="{StaticResource ThemeColor1}" />
+    <SolidColorBrush x:Key="SheetTabItemSelectedTextForegroundBrsuh" Color="{StaticResource ThemeColor1}" />
+
+    <!-- ********************************** Converters **********************************-->
+    <igPrim:ValueConverterGroup x:Key="isEnabledToSplitterExtent">
+        <igPrim:FixedValueConverter>
+            <igPrim:FixedValueConverter.SourceValue>
+                <sys:Boolean>true</sys:Boolean>
+            </igPrim:FixedValueConverter.SourceValue>
+            <igPrim:FixedValueConverter.DestinationValue>
+                <sys:Double>3</sys:Double>
+            </igPrim:FixedValueConverter.DestinationValue>
+        </igPrim:FixedValueConverter>
+        <igPrim:FixedValueConverter>
+            <igPrim:FixedValueConverter.DestinationValue>
+                <sys:Double>1</sys:Double>
+            </igPrim:FixedValueConverter.DestinationValue>
+        </igPrim:FixedValueConverter>
+    </igPrim:ValueConverterGroup>
+
+    <igPrim:ValueConverterGroup x:Key="notBoolToVisibility">
+        <!-- when true then collapse the item, otherwise leave it visible -->
+        <igPrim:FixedValueConverter>
+            <igPrim:FixedValueConverter.SourceValue>
+                <sys:Boolean>True</sys:Boolean>
+            </igPrim:FixedValueConverter.SourceValue>
+            <igPrim:FixedValueConverter.DestinationValue>
+                <Visibility>Collapsed</Visibility>
+            </igPrim:FixedValueConverter.DestinationValue>
+        </igPrim:FixedValueConverter>
+    </igPrim:ValueConverterGroup>
+
+    <ig:AlphaColorConverter Opacity="0" x:Key="transparentConverter" />
+    <ig:CalculatedForegroundConverter x:Key="calculatedForegroundConverter" />
+    <igPrim:InverseBooleanConverter x:Key="inverseBooleanConverter" />
+    <BooleanToVisibilityConverter x:Key="boolToVis" />
+    <ig:ColorBlendConverter x:Key="colorConverter" />
+
+    <!-- *********************************  STRING RESOURCES  ********************************* -->
+    <igPrim:SpreadsheetResourceString x:Key="toolTipFormulaBarNameBox" ResourceName="ToolTip_FormulaBarNameBox" />
+    <igPrim:SpreadsheetResourceString x:Key="toolTipFormulaBarCancelButton" ResourceName="ToolTip_FormulaBarCancelButton" />
+    <igPrim:SpreadsheetResourceString x:Key="toolTipFormulaBarEnterButton" ResourceName="ToolTip_FormulaBarEnterButton" />
+    <igPrim:SpreadsheetResourceString x:Key="toolTipFormulaBarTextEditor" ResourceName="ToolTip_FormulaBarTextEditor" />
+
+    <!-- *********************************  TransparentButton Style  ********************************* -->
+    <Style x:Key="TransparentButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Foreground" Value="{StaticResource GlyphBackgroundBrush}" />
+        <Setter Property="Padding" Value="0,0,0,2" />
+        <Setter Property="MinHeight" Value="22" />
+        <Setter Property="MinWidth" Value="22" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="contentPresenter" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="contentPresenter" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0" To="0.3" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="contentPresenter" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="FocusStates">
+                                <VisualState x:Name="Focused" />
+                                <VisualState x:Name="Unfocused" />
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Rectangle Fill="{StaticResource TransparentBrush}" Margin="-6,0" />
+                        <ContentPresenter Opacity="0.7" x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ********************************** GridSplitter Style **********************************-->
+    <Style x:Key="GridSplitterStyle" TargetType="{x:Type GridSplitter}">
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="Width" Value="28" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="GridSplitter">
+                    <Grid Background="{StaticResource TransparentBrush}">
+                        <Path Fill="{StaticResource SplitterBackgroundBrush}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Data="M 0,0 2,0 2,2 0,2 M 0,4 2,4 2,6 0,6 M 0,8 2,8 2,10 0,10" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- *********************************  FormulaBarTextBox Style  ********************************* -->
+    <ControlTemplate x:Key="FormulaBarExpanderToggleButton" TargetType="{x:Type ToggleButton}">
+        <Grid>
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CheckStates">
+                    <VisualState x:Name="Checked">
+                        <Storyboard>
+                            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.001" Storyboard.TargetName="Unchecked_Arrow" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                                    <DiscreteObjectKeyFrame.Value>
+                                        <Visibility>Collapsed</Visibility>
+                                    </DiscreteObjectKeyFrame.Value>
+                                </DiscreteObjectKeyFrame>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.001" Storyboard.TargetName="Checked_Arrow" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                                    <DiscreteObjectKeyFrame.Value>
+                                        <Visibility>Visible</Visibility>
+                                    </DiscreteObjectKeyFrame.Value>
+                                </DiscreteObjectKeyFrame>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.001" Storyboard.TargetName="Checked_Arrow" Storyboard.TargetProperty="OpacityMask">
+                                <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                                    <DiscreteObjectKeyFrame.Value>
+                                        <SolidColorBrush>#FF000000</SolidColorBrush>
+                                    </DiscreteObjectKeyFrame.Value>
+                                </DiscreteObjectKeyFrame>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Unchecked" />
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <Rectangle Margin="0,0,0,0" x:Name="Rectangle" Fill="{StaticResource TransparentBrush}" />
+            <Grid x:Name="Unchecked_Arrow" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="1,0,2,0" VerticalAlignment="Center" Height="5" Width="7">
+                <Rectangle Height="1" Width="2" Margin="0,0,0,0" Fill="{StaticResource GlyphBackgroundBrush}" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                <Rectangle Height="1" Width="2" Margin="0,0,0,0" Fill="{StaticResource GlyphBackgroundBrush}" VerticalAlignment="Top" HorizontalAlignment="Right" />
+                <Rectangle Height="1" Width="3" Margin="0,1,0,0" Fill="{StaticResource GlyphBackgroundBrush}" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                <Rectangle Height="1" Width="3" Margin="0,1,0,0" Fill="{StaticResource GlyphBackgroundBrush}" VerticalAlignment="Top" HorizontalAlignment="Right" />
+                <Rectangle Height="1" Width="5" Margin="1,2,0,0" Fill="{StaticResource GlyphBackgroundBrush}" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                <Rectangle Height="1" Width="3" Margin="2,3,0,0" Fill="{StaticResource GlyphBackgroundBrush}" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                <Rectangle Height="1" Width="1" Margin="3,4,0,0" Fill="{StaticResource GlyphBackgroundBrush}" VerticalAlignment="Top" HorizontalAlignment="Left" />
+            </Grid>
+            <Grid x:Name="Checked_Arrow" Visibility="Collapsed" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="1,0,2,0" VerticalAlignment="Center" Height="5" Width="7">
+                <Rectangle Height="1" Width="1" Margin="3,0,0,0" Fill="{StaticResource GlyphBackgroundBrush}" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                <Rectangle Height="1" Width="3" Margin="2,1,0,0" Fill="{StaticResource GlyphBackgroundBrush}" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                <Rectangle Height="1" Width="5" Margin="1,2,0,0" Fill="{StaticResource GlyphBackgroundBrush}" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                <Rectangle Height="1" Width="3" Margin="0,3,0,0" Fill="{StaticResource GlyphBackgroundBrush}" VerticalAlignment="Top" HorizontalAlignment="Right" />
+                <Rectangle Height="1" Width="3" Margin="0,3,0,0" Fill="{StaticResource GlyphBackgroundBrush}" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                <Rectangle Height="1" Width="2" Margin="0,4,0,0" Fill="{StaticResource GlyphBackgroundBrush}" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                <Rectangle Height="1" Width="2" Margin="0,4,0,0" Fill="{StaticResource GlyphBackgroundBrush}" VerticalAlignment="Top" HorizontalAlignment="Right" />
+            </Grid>
+        </Grid>
+    </ControlTemplate>
+
+    <!-- *********************************  FormulaBarNameBox Style  ********************************* -->
+    <Style TargetType="igPrim:FormulaBarNameBox">
+        <Setter Property="Background" Value="{StaticResource TransparentBrush}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="igPrim:FormulaBarNameBox">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" igPrim:XamlHelper.SnapsToDevicePixels="True">
+                        <ComboBox x:Name="NameBoxCombo" IsEditable="True" Style="{StaticResource ComboBoxStyle}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- *********************************  FormulaBarTextEditor Style  ********************************* -->
+    <Style TargetType="igPrim:FormulaBarTextEditor">
+        <Setter Property="Background" Value="{StaticResource TextBoxBackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource TextBoxBorderBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="MinHeight" Value="22" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="igPrim:FormulaBarTextEditor">
+                    <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" igPrim:XamlHelper.SnapsToDevicePixels="True">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <igPrim:FormulaBarTextEditorControl x:Name="FormulaTextBox" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Foreground="{TemplateBinding Foreground}" MinHeight="{TemplateBinding MinHeight}" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                                <igPrim:FormulaBarTextEditorControl.Resources>
+                                    <!--Border colors-->
+                                    <Color x:Key="BorderMediumColor">#FF888888</Color>
+                                    <!-- Styles -->
+                                    <Style TargetType="{x:Type ScrollViewer}">
+                                        <Setter Property="OverridesDefaultStyle" Value="True" />
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition />
+                                                            <ColumnDefinition Width="Auto" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto" />
+                                                            <RowDefinition />
+                                                            <RowDefinition Height="Auto" />
+                                                        </Grid.RowDefinitions>
+                                                        <Border BorderThickness="0,1,1,1" Grid.Row="0" Grid.RowSpan="2">
+                                                            <Border.BorderBrush>
+                                                                <SolidColorBrush Color="{DynamicResource BorderMediumColor}" />
+                                                            </Border.BorderBrush>
+                                                            <ScrollContentPresenter />
+                                                        </Border>
+                                                        <!-- Button for toggling the height of the textbox. -->
+                                                        <ToggleButton x:Name="ExpanderButton" Grid.Column="1" igPrim:XamlHelper.Focusable="False" Width="17" Height="20" BorderThickness="1" BorderBrush="Transparent" Background="Transparent" VerticalAlignment="Top" Template="{StaticResource FormulaBarExpanderToggleButton}" />
+                                                        <ScrollBar x:Name="PART_VerticalScrollBar" Grid.Row="1" Grid.Column="1" Value="{TemplateBinding VerticalOffset}" Maximum="{TemplateBinding ScrollableHeight}" ViewportSize="{TemplateBinding ViewportHeight}" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" />
+                                                        <ScrollBar x:Name="PART_HorizontalScrollBar" Orientation="Horizontal" Grid.Row="2" Grid.Column="0" Value="{TemplateBinding HorizontalOffset}" Maximum="{TemplateBinding ScrollableWidth}" ViewportSize="{TemplateBinding ViewportWidth}" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" />
+                                                    </Grid>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </igPrim:FormulaBarTextEditorControl.Resources>
+                            </igPrim:FormulaBarTextEditorControl>
+                            <Thumb x:Name="ResizeThumb" Grid.Row="1" Height="4" Margin="0,-2,0,0" Cursor="SizeNS">
+                                <Thumb.Template>
+                                    <ControlTemplate>
+                                        <Border Background="{StaticResource TransparentBrush}" />
+                                    </ControlTemplate>
+                                </Thumb.Template>
+                            </Thumb>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- *********************************  FormulaBarControl Style  ********************************* -->
+    <Style TargetType="igPrim:FormulaBarControl">
+        <Setter Property="Background" Value="{StaticResource TransparentBrush}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="igPrim:FormulaBarControl">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" Margin="{TemplateBinding Margin}" igPrim:XamlHelper.SnapsToDevicePixels="True">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="125" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Name ComboBox -->
+                            <igPrim:FormulaBarNameBox x:Name="FormulaBarNameBox" Grid.Column="0" VerticalAlignment="Top" ToolTip="{Binding Source={StaticResource toolTipFormulaBarNameBox}, Path=Value}" IsEnabled="{Binding Path=IsInEditMode, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource inverseBooleanConverter}}" />
+
+                            <!-- Splitter -->
+                            <GridSplitter Style="{StaticResource GridSplitterStyle}" Grid.Column="1" Width="2" ResizeBehavior="PreviousAndCurrent" HorizontalAlignment="Center" VerticalAlignment="Top" Height="{Binding ElementName=FormulaBarNameBox, Path=ActualHeight}" Background="{StaticResource GlyphBackgroundBrush}" Margin="13,0,13,0" />
+
+                            <!-- OK/Cancel Buttons -->
+                            <Border BorderThickness="1" BorderBrush="{StaticResource ComboBoxBorderBrush}" Grid.Column="2" VerticalAlignment="Top" Height="{Binding ElementName=FormulaBarNameBox, Path=ActualHeight}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Button x:Name="CancelButton" igPrim:XamlHelper.Focusable="False" Grid.Column="0" BorderThickness="0" Margin="3,0,3,0" ToolTip="{Binding Source={StaticResource toolTipFormulaBarCancelButton}, Path=Value}" Style="{StaticResource TransparentButtonStyle}">
+                                        <ig:Commanding.Command>
+                                            <igPrim:SpreadsheetCommandSource CommandType="ExitEditModeAndDiscardChanges" EventName="Click" />
+                                        </ig:Commanding.Command>
+                                        <Button.Content>
+                                            <Path Width="8" Height="8" HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="{Binding Path=Foreground, ElementName=CancelButton}" StrokeThickness="2">
+                                                <Path.Data>
+                                                    <GeometryGroup>
+                                                        <LineGeometry StartPoint="0,0" EndPoint="8,8" />
+                                                        <LineGeometry StartPoint="8,0" EndPoint="0,8" />
+                                                    </GeometryGroup>
+                                                </Path.Data>
+                                            </Path>
+                                        </Button.Content>
+                                    </Button>
+                                    <Button x:Name="OKButton" igPrim:XamlHelper.Focusable="False" Grid.Column="1" BorderThickness="0" Margin="3,0,3,0" ToolTip="{Binding Source={StaticResource toolTipFormulaBarEnterButton}, Path=Value}" Style="{StaticResource TransparentButtonStyle}">
+                                        <ig:Commanding.Command>
+                                            <igPrim:SpreadsheetCommandSource CommandType="ExitEditModeAndUpdateActiveCell" EventName="Click" />
+                                        </ig:Commanding.Command>
+                                        <Path Height="8" Width="8" Stretch="Fill" Data="M 1145.607177734375,430 C1145.607177734375,430 1141.449951171875,435.0772705078125 1141.449951171875,435.0772705078125 1141.449951171875,435.0772705078125 1139.232177734375,433.0999755859375 1139.232177734375,433.0999755859375 1139.232177734375,433.0999755859375 1138,434.5538330078125 1138,434.5538330078125 1138,434.5538330078125 1141.482177734375,438 1141.482177734375,438 1141.482177734375,438 1141.96875,437.9375 1141.96875,437.9375 1141.96875,437.9375 1147,431.34619140625 1147,431.34619140625 1147,431.34619140625 1145.607177734375,430 1145.607177734375,430 z" Fill="{Binding Path=Foreground, ElementName=OKButton}" UseLayoutRounding="False" />
+                                    </Button>
+                                </Grid>
+                            </Border>
+
+                            <!-- Formula TextBox -->
+                            <igPrim:FormulaBarTextEditor x:Name="FormulaBarTextEditor" Grid.Column="3" Margin="4,0,0,0" ToolTip="{Binding Source={StaticResource toolTipFormulaBarTextEditor}, Path=Value}" />
+
+                            <!-- Button for toggling the height of the formula textbox. Place this button on top of the FormulaBarTextEditor and align it to the right so it looks like a dropdown button. -->
+                            <!--<ToggleButton Content="^" Grid.Column="3" Width="15" BorderThickness="1" BorderBrush="Transparent" Background="Transparent" HorizontalAlignment="Right" VerticalAlignment="Top"/>-->
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ********************************** XamSpreadsheet Style **********************************-->
+    <Style TargetType="igLocal:XamSpreadsheet">
+        <Setter Property="Background" Value="{StaticResource XamSpreadsheetBackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource XamSpreadsheetBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="ResourceProvider">
+            <Setter.Value>
+                <igPrim:SpreadsheetResourceProvider>
+                    <igPrim:SpreadsheetResourceProvider.ResourceOverrides>
+                        <ResourceDictionary>
+                            <SolidColorBrush x:Key="RowHeaderBackground" Color="{StaticResource Color_009}" />
+                            <SolidColorBrush x:Key="ColumnHeaderBackground" Color="{StaticResource Color_009}" />
+                            <SolidColorBrush x:Key="RowHeaderWithSelectedCellsBackground" Color="{StaticResource Color_006}" />
+                            <SolidColorBrush x:Key="ColumnHeaderWithSelectedCellsBackground" Color="{StaticResource Color_006}" />
+                            <SolidColorBrush x:Key="RowHeaderSelectedBackground" Color="{StaticResource ThemeColor3}" />
+                            <SolidColorBrush x:Key="ColumnHeaderSelectedBackground" Color="{StaticResource ThemeColor3}" />
+                            <SolidColorBrush x:Key="RowHeaderSelectedForeground" Color="{StaticResource ThemeColor1}" />
+                            <SolidColorBrush x:Key="RowHeaderWithSelectedCellsForeground" Color="{StaticResource ThemeColor1}" />
+                            <SolidColorBrush x:Key="ColumnHeaderWithSelectedCellsForeground" Color="{StaticResource ThemeColor1}" />
+                            <SolidColorBrush x:Key="ColumnHeaderSelectedForeground" Color="{StaticResource ThemeColor1}" />
+                            <SolidColorBrush x:Key="RowHeaderForeground" Color="{StaticResource Color_001}" />
+                            <SolidColorBrush x:Key="ColumnHeaderForeground" Color="{StaticResource Color_001}" />
+                            <SolidColorBrush x:Key="RowHeaderHotTrackForeground" Color="{StaticResource Color_001}" />
+                            <SolidColorBrush x:Key="ColumnHeaderHotTrackForeground" Color="{StaticResource Color_001}" />
+                            <SolidColorBrush x:Key="RowHeaderHotTrackBackground" Color="{StaticResource ThemeColor2}" />
+                            <SolidColorBrush x:Key="ColumnHeaderHotTrackBackground" Color="{StaticResource ThemeColor2}" />
+                            <SolidColorBrush x:Key="RowHeaderHotTrackSelectedForeground" Color="{StaticResource ThemeColor1}" />
+                            <SolidColorBrush x:Key="ColumnHeaderHotTrackSelectedForeground" Color="{StaticResource ThemeColor1}" />
+                            <SolidColorBrush x:Key="TabAreaSplitterForeground" Color="{StaticResource Color_005}" />
+                            <SolidColorBrush x:Key="TabAreaBorder" Color="{StaticResource Color_005}" />
+                            <SolidColorBrush x:Key="TabAreaBackground" Color="{StaticResource Color_008}" />
+                            <DataTemplate x:Key="TabDropIndicatorTemplate">
+                                <Grid>
+                                    <Path Fill="{StaticResource SheetTabDropIndicatorBackgroundBrush}" Data="M 0,0 4,4 8,0 Z" />
+                                </Grid>
+                            </DataTemplate>
+                        </ResourceDictionary>
+                    </igPrim:SpreadsheetResourceProvider.ResourceOverrides>
+                </igPrim:SpreadsheetResourceProvider>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="igLocal:XamSpreadsheet">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" igPrim:XamlHelper.SnapsToDevicePixels="True">
+                        <Border.Resources>
+                            <Style BasedOn="{StaticResource ScrollBarStyle}" TargetType="{x:Type ScrollBar}">
+                                <Setter Property="Background" Value="{StaticResource SheetScrollBarBackgroundBrush}" />
+                            </Style>
+                            <Style BasedOn="{StaticResource ScrollViewerStyle}" TargetType="{x:Type ScrollViewer}" />
+                        </Border.Resources>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <igPrim:FormulaBarControl x:Name="FormulaBar" Grid.Row="0" Margin="2,5,2,5" Visibility="{Binding Path=IsFormulaBarVisible, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource boolToVis}}" />
+                            <igPrim:SpreadsheetLayoutPanel x:Name="RootPanel" Grid.Row="1" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ********************************** SpreadsheetSelectAllButton Style **********************************-->
+    <Style TargetType="igPrim:SpreadsheetSelectAllButton">
+        <Setter Property="Padding" Value="4" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="igPrim:SpreadsheetSelectAllButton">
+                    <Border Background="{StaticResource SheetSelectAllButtonBackgroundBrush}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" igPrim:XamlHelper.SnapsToDevicePixels="True" Padding="{TemplateBinding Padding}">
+                        <Path x:Name="triangle" Data="M 0,1 1,1 1,0 Z" Height="12" Width="12" Stretch="UniformToFill" Fill="{StaticResource SheetSelectAllTriangleBackgroundBrush}" VerticalAlignment="Bottom" HorizontalAlignment="Right" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Fill" TargetName="triangle" Value="{StaticResource SheetSelectAllTriangleHoverBackgroundBrush}" />
+                        </Trigger>
+                        <Trigger Property="AreAllRowsAndColumnsSelected" Value="True">
+                            <Setter Property="Fill" TargetName="triangle" Value="{StaticResource SheetSelectAllTriangleSelectedBackgroundBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ********************************** PaneSplitter Style **********************************-->
+    <Style x:Key="PaneSplitterStyle" TargetType="Control">
+        <Setter Property="Background" Value="{StaticResource SheetPaneSplitterBackgroundBrush}" />
+        <Setter Property="Margin" Value="1,1,0,0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Control">
+                    <Border Background="{TemplateBinding Background}" MinWidth="{Binding IsEnabled, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource isEnabledToSplitterExtent}}" MinHeight="{Binding MinWidth, RelativeSource={RelativeSource Self}}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ********************************** SpreadsheetPaneSplitter Style **********************************-->
+    <Style TargetType="igPrim:SpreadsheetPaneSplitter" BasedOn="{StaticResource PaneSplitterStyle}" />
+
+    <!-- ********************************** SpreadsheetPaneSplitterIntersection Style **********************************-->
+    <Style TargetType="igPrim:SpreadsheetPaneSplitterIntersection" BasedOn="{StaticResource PaneSplitterStyle}" />
+
+    <!-- ********************************** TabAreaButton Style **********************************-->
+    <Style TargetType="ButtonBase" x:Key="TabAreaButtonStyle">
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="igPrim:XamlHelper.Focusable" Value="False" />
+        <Setter Property="Width" Value="28" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ButtonBase">
+                    <Grid Background="{StaticResource TransparentBrush}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ********************************** TabAreaAddButton Style **********************************-->
+    <Style TargetType="ButtonBase" x:Key="TabAreaAddButtonStyle" BasedOn="{StaticResource TabAreaButtonStyle}">
+        <Setter Property="Foreground" Value="{StaticResource GlyphBackgroundBrush}" />
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="false">
+                <Setter Property="Foreground" Value="{StaticResource TabAreaAddButtonDisabledForegroundBrush}" />
+                <Setter Property="Opacity" Value="0.6" />
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource TabAreaAddButtonHoverForegroundBrush}" />
+                <Setter Property="Opacity" Value="0.9" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- ********************************** TabAreaScrollButton Style **********************************-->
+    <Style TargetType="ButtonBase" x:Key="TabAreaScrollButtonStyle" BasedOn="{StaticResource TabAreaButtonStyle}">
+        <Setter Property="Foreground" Value="{StaticResource TabAreaScrollButtonForegroundBrush}" />
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="false">
+                <Setter Property="Foreground" Value="{StaticResource TabAreaScrollButtonDisabledForegroundBrush}" />
+                <Setter Property="Opacity" Value="0.6" />
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Opacity" Value="0.7" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- ********************************** TabAreaEllipsesButton Style **********************************-->
+    <Style TargetType="ButtonBase" x:Key="TabAreaEllipsesButtonStyle" BasedOn="{StaticResource TabAreaScrollButtonStyle}">
+        <Setter Property="Width" Value="27" />
+        <Setter Property="Margin" Value="0,5,0,0" />
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- ********************************** SpreadsheetTabItemArea Style **********************************-->
+    <Style TargetType="igPrim:SpreadsheetTabItemArea">
+        <Setter Property="Padding" Value="14,0,0,0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="igPrim:SpreadsheetTabItemArea">
+                    <Grid Background="{StaticResource TransparentBrush}" igPrim:XamlHelper.SnapsToDevicePixels="True">
+                        <Grid Margin="{TemplateBinding Padding}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <RepeatButton Grid.Column="0" x:Name="ScrollPrevious" Style="{StaticResource TabAreaScrollButtonStyle}">
+                                <ig:Commanding.Commands>
+                                    <ig:CommandSourceCollection>
+                                        <igPrim:SpreadsheetCommandSource CommandType="ScrollPreviousWorksheet" EventName="Click" DisallowedModifiers="Control" />
+                                        <igPrim:SpreadsheetCommandSource CommandType="ScrollToFirstWorksheet" EventName="Click" RequiredModifiers="Control" />
+                                    </ig:CommandSourceCollection>
+                                </ig:Commanding.Commands>
+                                <Grid>
+                                    <Rectangle StrokeThickness="0" Height="1" Width="1" Margin="0,0,0,6" Fill="{Binding Path=Foreground, ElementName=ScrollPrevious}" igPrim:XamlHelper.SnapsToDevicePixels="True" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                                    <Rectangle StrokeThickness="0" Height="1" Width="2" Margin="0,0,0,4" Fill="{Binding Path=Foreground, ElementName=ScrollPrevious}" igPrim:XamlHelper.SnapsToDevicePixels="True" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                                    <Rectangle StrokeThickness="0" Height="1" Width="3" Margin="0,0,0,2" Fill="{Binding Path=Foreground, ElementName=ScrollPrevious}" igPrim:XamlHelper.SnapsToDevicePixels="True" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                                    <Rectangle StrokeThickness="0" Height="1" Width="4" Margin="0,0,0,0" Fill="{Binding Path=Foreground, ElementName=ScrollPrevious}" igPrim:XamlHelper.SnapsToDevicePixels="True" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                                    <Rectangle StrokeThickness="0" Height="1" Width="3" Margin="0,2,0,0" Fill="{Binding Path=Foreground, ElementName=ScrollPrevious}" igPrim:XamlHelper.SnapsToDevicePixels="True" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                                    <Rectangle StrokeThickness="0" Height="1" Width="2" Margin="0,4,0,0" Fill="{Binding Path=Foreground, ElementName=ScrollPrevious}" igPrim:XamlHelper.SnapsToDevicePixels="True" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                                    <Rectangle StrokeThickness="0" Height="1" Width="1" Margin="0,6,0,0" Fill="{Binding Path=Foreground, ElementName=ScrollPrevious}" igPrim:XamlHelper.SnapsToDevicePixels="True" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                                </Grid>
+                            </RepeatButton>
+                            <RepeatButton Grid.Column="1" x:Name="ScrollNext" Style="{StaticResource TabAreaScrollButtonStyle}">
+                                <ig:Commanding.Commands>
+                                    <ig:CommandSourceCollection>
+                                        <igPrim:SpreadsheetCommandSource CommandType="ScrollNextWorksheet" EventName="Click" DisallowedModifiers="Control" />
+                                        <igPrim:SpreadsheetCommandSource CommandType="ScrollToLastWorksheet" EventName="Click" RequiredModifiers="Control" />
+                                    </ig:CommandSourceCollection>
+                                </ig:Commanding.Commands>
+                                <Grid>
+                                    <Rectangle StrokeThickness="0" Height="1" Width="1" Margin="0,0,0,6" Fill="{Binding Path=Foreground, ElementName=ScrollNext}" igPrim:XamlHelper.SnapsToDevicePixels="True" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                    <Rectangle StrokeThickness="0" Height="1" Width="2" Margin="0,0,0,4" Fill="{Binding Path=Foreground, ElementName=ScrollNext}" igPrim:XamlHelper.SnapsToDevicePixels="True" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                    <Rectangle StrokeThickness="0" Height="1" Width="3" Margin="0,0,0,2" Fill="{Binding Path=Foreground, ElementName=ScrollNext}" igPrim:XamlHelper.SnapsToDevicePixels="True" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                    <Rectangle StrokeThickness="0" Height="1" Width="4" Margin="0,0,0,0" Fill="{Binding Path=Foreground, ElementName=ScrollNext}" igPrim:XamlHelper.SnapsToDevicePixels="True" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                    <Rectangle StrokeThickness="0" Height="1" Width="3" Margin="0,2,0,0" Fill="{Binding Path=Foreground, ElementName=ScrollNext}" igPrim:XamlHelper.SnapsToDevicePixels="True" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                    <Rectangle StrokeThickness="0" Height="1" Width="2" Margin="0,4,0,0" Fill="{Binding Path=Foreground, ElementName=ScrollNext}" igPrim:XamlHelper.SnapsToDevicePixels="True" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                    <Rectangle StrokeThickness="0" Height="1" Width="1" Margin="0,6,0,0" Fill="{Binding Path=Foreground, ElementName=ScrollNext}" igPrim:XamlHelper.SnapsToDevicePixels="True" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                </Grid>
+                            </RepeatButton>
+                            <Button x:Name="ActivatePrevious" Grid.Column="2" Style="{StaticResource TabAreaEllipsesButtonStyle}">
+                                <ig:Commanding.Command>
+                                    <igPrim:SpreadsheetCommandSource CommandType="ActivatePreviousOutOfViewWorksheet" EventName="Click" />
+                                </ig:Commanding.Command>
+                                <Path Fill="{Binding Path=Foreground, ElementName=ActivatePrevious}" igPrim:XamlHelper.SnapsToDevicePixels="True" Data="M 0,0 2,0 2,2 0,2 M 4,0 6,0 6,2 4,2 M 8,0 10,0 10,2 8,2" />
+                            </Button>
+                            <Button x:Name="ActivateNext" Grid.Column="4" Style="{StaticResource TabAreaEllipsesButtonStyle}">
+                                <ig:Commanding.Command>
+                                    <igPrim:SpreadsheetCommandSource CommandType="ActivateNextOutOfViewWorksheet" EventName="Click" />
+                                </ig:Commanding.Command>
+                                <Path Fill="{Binding Path=Foreground, ElementName=ActivateNext}" igPrim:XamlHelper.SnapsToDevicePixels="True" Data="M 0,0 2,0 2,2 0,2 M 4,0 6,0 6,2 4,2 M 8,0 10,0 10,2 8,2" />
+                            </Button>
+                            <Button x:Name="AddSheet" Grid.Column="5" Style="{StaticResource TabAreaAddButtonStyle}">
+                                <ig:Commanding.Command>
+                                    <igPrim:SpreadsheetCommandSource CommandType="AddNewWorksheet" EventName="Click" />
+                                </ig:Commanding.Command>
+                                <Grid>
+                                    <Ellipse Width="16" Height="16" Stroke="{Binding Path=Foreground, ElementName=AddSheet}" StrokeThickness="1" />
+                                    <Rectangle Height="8" Width="2" Fill="{Binding Path=Foreground, ElementName=AddSheet}" igPrim:XamlHelper.SnapsToDevicePixels="True" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    <Rectangle Height="2" Width="8" Fill="{Binding Path=Foreground, ElementName=AddSheet}" igPrim:XamlHelper.SnapsToDevicePixels="True" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Grid>
+                            </Button>
+                            <igPrim:SpreadsheetTabItemPanel Grid.Column="3" x:Name="TabItemPanel" />
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ********************************** SpreadsheetTabItem Style **********************************-->
+    <Style TargetType="igPrim:SpreadsheetTabItem">
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="Padding" Value="10,0,10,0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="igPrim:SpreadsheetTabItem">
+                    <Grid Background="{StaticResource TransparentBrush}">
+                        <Grid.Resources>
+                            <Style x:Key="SheetTabItemTextBoxStyle" TargetType="TextBox" BasedOn="{StaticResource TextBoxStyle}">
+                                <Setter Property="MinHeight" Value="0" />
+                                <Setter Property="FontSize" Value="13" />
+                            </Style>
+                        </Grid.Resources>
+                        <Border x:Name="background" Margin="0,1,0,0" Background="{StaticResource SheetTabItemBackgroundBrush}" />
+                        <Border x:Name="normalBorder" igPrim:XamlHelper.SnapsToDevicePixels="True" BorderThickness="1,0,1,0" BorderBrush="{StaticResource SheetTabItemBorderBrush}" Margin="0,4,0,4" />
+                        <Border x:Name="selectedSideBorder" igPrim:XamlHelper.SnapsToDevicePixels="True" Visibility="Collapsed" BorderThickness="1,0,1,0" BorderBrush="{StaticResource SheetTabItemSelectedBorderBrush}" Margin="0,0,0,5" />
+                        <Border x:Name="selectedBottomBorder" igPrim:XamlHelper.SnapsToDevicePixels="True" Visibility="Collapsed" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SheetTabItemSelectedBottomBorderBrush}" Margin="0,0,0,3" />
+
+                        <Grid Margin="3,3,3,3" x:Name="TextGrid">
+                            <Grid x:Name="CustomColorBackground" Visibility="Collapsed">
+                                <Grid.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" Opacity="0.5">
+                                        <GradientStop Color="{Binding Path=CustomColor, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource transparentConverter}, FallbackValue=Transparent}" Offset="0" />
+                                        <GradientStop Color="{Binding Path=CustomColor, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource colorConverter}, FallbackValue=Transparent}" Offset="1" />
+                                    </LinearGradientBrush>
+                                </Grid.Background>
+                            </Grid>
+                            <TextBlock x:Name="normalText" FontSize="13" Margin="0,1,0,3" Padding="{TemplateBinding Padding}" Foreground="{StaticResource ForegroundBrush}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Text="{TemplateBinding WorksheetName}" />
+                            <TextBlock x:Name="boldText" FontSize="13" Margin="0,1,0,3" FontWeight="Bold" Visibility="Hidden" Padding="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Text="{TemplateBinding WorksheetName}" />
+
+                            <!-- Note the negative padding is to counteract the default margins that the TextBoxView has on itself -->
+                            <TextBox x:Name="TextBox" Visibility="Collapsed" BorderThickness="0" FontWeight="Bold" Padding="-2,0,-2,0" Margin="{TemplateBinding Padding}" Style="{StaticResource SheetTabItemTextBoxStyle}" />
+                        </Grid>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="IsSelected" Value="False" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="background" Property="Background" Value="{StaticResource SheetTabItemHoverBackgroundBrush}" />
+                            <Setter TargetName="boldText" Property="Foreground" Value="{StaticResource SheetTabItemSelectedTextForegroundBrsuh}" />
+                            <Setter TargetName="boldText" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="normalText" Property="Visibility" Value="Hidden" />
+                        </MultiTrigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsActive" Value="False" />
+                                <Condition Property="IsSelected" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="background" Property="Background" Value="{StaticResource SheetTabItemSelectedBackgroundBrush}" />
+                            <Setter TargetName="boldText" Property="Foreground" Value="{StaticResource SheetTabItemSelectedTextForegroundBrsuh}" />
+                        </MultiTrigger>
+
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="background" Property="Margin" Value="0,0,0,3" />
+                            <Setter TargetName="TextGrid" Property="Margin" Value="3,4,3,6" />
+                            <Setter TargetName="boldText" Property="Margin" Value="0,0,0,0" />
+                            <Setter TargetName="boldText" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="normalText" Property="Margin" Value="0,0,0,0" />
+                            <Setter TargetName="normalText" Property="Visibility" Value="Hidden" />
+                            <Setter TargetName="selectedSideBorder" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="selectedBottomBorder" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="normalBorder" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+
+                        <Trigger Property="IsActive" Value="True">
+                            <Setter TargetName="background" Property="Margin" Value="0,0,0,3" />
+                            <Setter TargetName="background" Property="Background" Value="{StaticResource SheetTabItemSelectedBackgroundBrush}" />
+                            <Setter TargetName="boldText" Property="Foreground" Value="{StaticResource SheetTabItemSelectedTextForegroundBrsuh}" />
+                        </Trigger>
+
+                        <!-- if there's a custom color and its selected then we'll use a half-opaque gradient of that color -->
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="HasCustomColor" Value="True" />
+                                <Condition Property="IsSelected" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="CustomColorBackground" Property="Visibility" Value="Visible" />
+                        </MultiTrigger>
+
+                        <!-- if there's a custom color and the tab is not selected then we'll use that  background behind the text so we also need to calculate the foreground -->
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="HasCustomColor" Value="True" />
+                                <Condition Property="IsSelected" Value="False" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="TextGrid" Property="Background" Value="{Binding Path=CustomColor, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource colorConverter}}" />
+                            <Setter TargetName="normalText" Property="Foreground" Value="{Binding Path=CustomColor, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource calculatedForegroundConverter}}" />
+                            <Setter TargetName="boldText" Property="Foreground" Value="{Binding ElementName=normalText, Path=Foreground}" />
+                        </MultiTrigger>
+
+                        <Trigger Property="IsEditing" Value="True">
+                            <Setter TargetName="boldText" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="normalText" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="TextBox" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ********************************** SpreadsheetTabItemAreaSplitter Style **********************************-->
+    <Style TargetType="igPrim:SpreadsheetTabItemAreaSplitter">
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="Width" Value="28" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="igPrim:SpreadsheetTabItemAreaSplitter">
+                    <Grid Background="{StaticResource TransparentBrush}">
+                        <Path Fill="{StaticResource SplitterBackgroundBrush}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Data="M 0,0 2,0 2,2 0,2 M 0,4 2,4 2,6 0,6 M 0,8 2,8 2,10 0,10" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

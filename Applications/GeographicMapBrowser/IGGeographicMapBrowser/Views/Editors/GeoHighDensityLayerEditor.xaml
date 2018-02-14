@@ -1,0 +1,72 @@
+﻿<views:GeoMapLayerEditor 
+    x:Class="IGShowcase.GeographicMapBrowser.Views.GeoHighDensityLayerEditor" 
+    mc:Ignorable="d"  d:DesignWidth="640" d:DesignHeight="480" 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="clr-namespace:IGExtensions.Common.Converters;assembly=IGExtensions.Common" 
+    xmlns:exCommon="clr-namespace:IGExtensions.Common.Controls;assembly=IGExtensions.Common" 
+    xmlns:views="clr-namespace:IGShowcase.GeographicMapBrowser.Views" >
+    <views:GeoMapLayerEditor.Resources>
+        <converters:VisibilityToBoolConverter x:Key="VisibilityToBoolConverter"/>
+   
+    </views:GeoMapLayerEditor.Resources>
+    <Grid x:Name="LayoutRoot" Background="White">
+       
+        <ScrollViewer HorizontalAlignment="Stretch"  MinWidth="250">
+            <StackPanel Margin="0,0,5,0" >
+
+                <Grid  Visibility="Collapsed">
+                    <TextBlock Text="Visibility:" Margin="0,0,0,0"  VerticalAlignment="Center" HorizontalAlignment="Left" />
+                    <CheckBox Margin="0,0,0,0"  IsChecked="{Binding Path=SeriesView.Visibility, Converter={StaticResource VisibilityToBoolConverter}, Mode=TwoWay}" 
+                              Content="" HorizontalAlignment="Right"/>
+                </Grid>
+                <!-- Series Common Properties ====================================================== -->
+                <exCommon:PropertyValueEditor
+                    PropertyName="{Binding Path=PropertyStrings.Opacity, Source={StaticResource AssetsLocalizer}}" 
+                    PropertyToolTip="{Binding Path=PropertyStrings.OpacityToolTip, Source={StaticResource AssetsLocalizer}}" 
+                    PropertyValueMin="0" PropertyValueMax="1" PropertyValueFormat="0 %"
+                    PropertyValue="{Binding Path=SeriesView.Opacity, Mode=TwoWay}" Style="{StaticResource MetroPropertyValueEditorStyle}" >
+                </exCommon:PropertyValueEditor>
+                <exCommon:PropertyValueEditor
+                    PropertyName="{Binding Path=PropertyStrings.Resolution, Source={StaticResource AssetsLocalizer}}" 
+                    PropertyToolTip="{Binding Path=PropertyStrings.ResolutionToolTip, Source={StaticResource AssetsLocalizer}}" 
+                    PropertyValueMin="1" PropertyValueMax="10" PropertyValueFormat="0"
+                    PropertyValue="{Binding Path=SeriesView.Resolution, Mode=TwoWay}" Style="{StaticResource MetroPropertyValueEditorStyle}">
+                </exCommon:PropertyValueEditor>
+                <!-- Series Specific Properties ====================================================== -->
+                <Rectangle Visibility="Collapsed" Height="1" Fill="Black" Margin="5,3,5,3" HorizontalAlignment="Stretch" />
+                <exCommon:PropertyRangeEditor    
+                    PropertyName="{Binding Path=PropertyStrings.DensityValueScale, Source={StaticResource AssetsLocalizer}}" 
+                    PropertyToolTip="{Binding Path=PropertyStrings.DensityValueScaleToolTip, Source={StaticResource AssetsLocalizer}}" 
+                    PropertyValueAbsoluteMin="0" 
+                    PropertyValueAbsoluteMax="50" PropertyValueFormat="0" 
+                    PropertyValueRangeMin="{Binding Path=SeriesView.HeatMinimum, Mode=TwoWay}"
+                    PropertyValueRangeMax="{Binding Path=SeriesView.HeatMaximum, Mode=TwoWay}" Style="{StaticResource MetroPropertyRangeEditorStyle}"  >
+                </exCommon:PropertyRangeEditor>
+                
+                <exCommon:PropertyBrushColorEditor 
+                    PropertyName="{Binding Path=PropertyStrings.DensityMinimumColor, Source={StaticResource AssetsLocalizer}}" 
+                    PropertyToolTip="{Binding Path=PropertyStrings.DensityMinimumColorToolTip, Source={StaticResource AssetsLocalizer}}"  HorizontalAlignment="Stretch" 
+                    PropertyColor="{Binding Path=ActualSeriesView.HeatMinimumColor, Mode=TwoWay}"
+                    OpacitySliderVisibility="Collapsed"/>
+                <exCommon:PropertyBrushColorEditor 
+                    PropertyName="{Binding Path=PropertyStrings.DensityMaximumColor, Source={StaticResource AssetsLocalizer}}" 
+                    PropertyToolTip="{Binding Path=PropertyStrings.DensityMaximumColorToolTip, Source={StaticResource AssetsLocalizer}}" HorizontalAlignment="Stretch" 
+                    PropertyColor="{Binding Path=SeriesView.HeatMaximumColor, Mode=TwoWay}"
+                    OpacitySliderVisibility="Collapsed"/>
+                <exCommon:PropertyValueEditor
+                    PropertyName="{Binding Path=PropertyStrings.DensityPointExtent, Source={StaticResource AssetsLocalizer}}" 
+                    PropertyToolTip="{Binding Path=PropertyStrings.DensityPointExtentToolTip, Source={StaticResource AssetsLocalizer}}" 
+                    PropertyValueMin="1" PropertyValueMax="5" PropertyValueFormat="0"
+                    PropertyValue="{Binding Path=SeriesView.PointExtent, Mode=TwoWay}" Style="{StaticResource MetroPropertyValueEditorStyle}">
+                </exCommon:PropertyValueEditor>
+
+            </StackPanel>
+           
+        </ScrollViewer>
+            
+            
+    </Grid>
+</views:GeoMapLayerEditor >

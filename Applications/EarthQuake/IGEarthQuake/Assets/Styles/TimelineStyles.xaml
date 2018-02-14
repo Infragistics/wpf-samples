@@ -1,0 +1,1998 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d"
+	xmlns:ig="http://schemas.infragistics.com/xaml"
+	xmlns:common="clr-namespace:IGExtensions.Common.Controls;assembly=IGExtensions.Common">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/IGShowcase.EarthQuake;component/Assets/Styles/AppBrushes.xaml"/>
+        <ResourceDictionary Source="/IGShowcase.EarthQuake;component/Assets/Styles/AppThemes.xaml" />
+        <!--<ResourceDictionary Source="/IGShowcase.EarthQuake;component/Theme.Colors.xaml"/>-->
+        <!--<ResourceDictionary Source="/IGShowcase.EarthQuake;component/Assets/Styles/AppThemes.xaml"/>-->
+
+    </ResourceDictionary.MergedDictionaries>
+
+
+    <!-- Sky Styles -->
+    <LinearGradientBrush x:Key="skyBrush" 
+						 StartPoint="0.0, 0.5" 
+						 EndPoint="1.0, 0.5"
+						 SpreadMethod="Repeat">
+        <GradientStop Offset="0.1" Color="#FFE6E6E6" />
+		 <GradientStop Offset="0.249" Color="#FFE6E6E6" />
+        <GradientStop Offset="0.25" Color="#FFEEEEEE"/>
+		<GradientStop Offset="0.399" Color="#FFEEEEEE"/>
+        <GradientStop Offset="0.4" Color="#FFF8F8F8" />
+        <GradientStop Offset="0.6" Color="#FFF8F8F8" />
+		<GradientStop Offset="0.601" Color="#FFF8F8F8" />
+        <GradientStop Offset="0.75" Color="#FFF8F8F8" />
+		 <GradientStop Offset="0.751" Color="#FFEEEEEE" />
+        <GradientStop Offset="0.9" Color="#FFEEEEEE" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="skyTopBrush" EndPoint="0.5,1" StartPoint="0.5,0.1">
+        <GradientStop Color="#FF3C95D8" Offset="0"/>
+        <GradientStop Color="#8C58ACEB" Offset="0.228"/>
+        <GradientStop Color="#0058ACEB" Offset="1"/>
+    </LinearGradientBrush>
+
+    <!-- Zoom bar -->
+    <Style x:Key="EarthQuakeZoombarStyle" TargetType="ig:XamZoombar">
+        <Setter Property="SmallChange" Value="0.05" />
+        <Setter Property="LargeChange" Value="0.05" />
+        <Setter Property="MinWidth" Value="20"/>
+        <Setter Property="MinHeight" Value="20"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ig:XamZoombar">
+                    <Grid>
+                        <Grid.Resources>
+                            <SolidColorBrush x:Key="ScrollBrush" Color="Black"/>
+                            <SolidColorBrush x:Key="ScaleBrush" Color="Orange"/>
+                            <SolidColorBrush x:Key="ScrollbarBrush" Color="Gainsboro"/>
+                            <SolidColorBrush x:Key="ThumbScrollbarBrush" Color="Black"/>
+                            <LinearGradientBrush x:Key="BaseBrush" EndPoint="0.5,0" StartPoint="0.5,1">
+                                <GradientStop Color="#FFF4F6F7" Offset="0"/>
+                                <GradientStop Color="#FFF0F4F7" Offset="0.344"/>
+                                <GradientStop Color="#FFDFE3E6" Offset="1"/>
+                                <GradientStop Color="#FFE9EEF4" Offset="0.527"/>
+                            </LinearGradientBrush>
+                            <LinearGradientBrush x:Key="BaseOverlayBrush" EndPoint="0,1" StartPoint="0,0">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="#FFffffff" Offset="0"/>
+                                        <GradientStop Color="#ccffffff" Offset="0.3700000047683716"/>
+                                        <GradientStop Color="#a5ffffff" Offset="0.6299999952316284"/>
+                                        <GradientStop Color="#72ffffff" Offset="1"/>
+                                    </GradientStopCollection>
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                            <LinearGradientBrush x:Key="BaseInnerBorderBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="#FFffffff" Offset="0"/>
+                                        <GradientStop Color="#99FFFFFF" Offset="1"/>
+                                    </GradientStopCollection>
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                            <LinearGradientBrush x:Key="LightInnerStrokeBrush" EndPoint="0,1" StartPoint="0,0">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="#58ffffff" Offset="0"/>
+                                        <GradientStop Color="#a5ffffff" Offset="1"/>
+                                    </GradientStopCollection>
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                            <LinearGradientBrush x:Key="MediumInnerStrokeBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="#FFf4f5f7" Offset="0"/>
+                                        <GradientStop Color="#FF849aaa" Offset="1"/>
+                                    </GradientStopCollection>
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                            <LinearGradientBrush x:Key="DarkInnerStrokeBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="#FFd7dce1" Offset="0"/>
+                                        <GradientStop Color="#FF718597" Offset="1"/>
+                                    </GradientStopCollection>
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                            <LinearGradientBrush x:Key="StrokeBrush" EndPoint="0.5,1" StartPoint="0.5,0" Opacity="0.38">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="#FFA3AEB9" Offset="0"/>
+                                        <GradientStop Color="#FF8399A9" Offset="0.375"/>
+                                        <GradientStop Color="#FF718597" Offset="0.375"/>
+                                        <GradientStop Color="#FF617584" Offset="1"/>
+                                    </GradientStopCollection>
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                            <LinearGradientBrush x:Key="ScrollElementBackgroundBrush" EndPoint="0,1" StartPoint="0,0">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="#FFcccccc" Offset="0"/>
+                                        <GradientStop Color="#FF989898" Offset="0.6678000092506409"/>
+                                        <GradientStop Color="#FF6A6A6A" Offset="0.9944000244140625"/>
+                                        <GradientStop Color="#FF6a6a6a" Offset="1"/>
+                                    </GradientStopCollection>
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                            <LinearGradientBrush x:Key="RootBackgroundBrush" EndPoint="0,1" StartPoint="0,0">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="#FFc8cfd5" Offset="0"/>
+                                        <GradientStop Color="#FF5a6978" Offset="1"/>
+                                    </GradientStopCollection>
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                            <LinearGradientBrush x:Key="ThumbBackgroundBrush" EndPoint="0,1" StartPoint="0,0">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="#d8ffffff" Offset="1"/>
+                                        <GradientStop Color="#3fffffff" Offset="0"/>
+                                    </GradientStopCollection>
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                            <LinearGradientBrush x:Key="ThumbElementBorderBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="#00ffffff" Offset="0"/>
+                                        <GradientStop Color="White" Offset="1"/>
+                                    </GradientStopCollection>
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                            <LinearGradientBrush x:Key="ScaleElementBrush" EndPoint="0,1" StartPoint="0,0">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="#FFFBFBFC" Offset="0"/>
+                                        <GradientStop Color="#FFE0E3E6" Offset="0.708"/>
+                                    </GradientStopCollection>
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                            <LinearGradientBrush x:Key="ScaleElementOuterBorderBrush" EndPoint="0,1" StartPoint="0,0">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="#FFDCE0E4" Offset="0"/>
+                                        <GradientStop Color="#FFB3BDC6" Offset="1"/>
+                                    </GradientStopCollection>
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                            <LinearGradientBrush x:Key="ScaleElementInnerBorderBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="#FFffffff" Offset="1"/>
+                                        <GradientStop Color="#00ffffff" Offset="0"/>
+                                    </GradientStopCollection>
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                            <LinearGradientBrush x:Key="VerticalBaseBrush" EndPoint="1,0" StartPoint="0,0">
+                                <GradientStop Color="#FFF4F6F7" Offset="1"/>
+                                <GradientStop Color="#FFF0F4F7" Offset="0.604"/>
+                                <GradientStop Color="#FFDFE3E6" Offset="0"/>
+                                <GradientStop Color="#FFE9EEF4" Offset="0.38"/>
+                            </LinearGradientBrush>
+                            <LinearGradientBrush x:Key="VerticalBaseOverlayBrush" EndPoint="0,0" StartPoint="1,0">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="#FFffffff" Offset="0"/>
+                                        <GradientStop Color="#ccffffff" Offset="0.3700000047683716"/>
+                                        <GradientStop Color="#a5ffffff" Offset="0.6299999952316284"/>
+                                        <GradientStop Color="#72ffffff" Offset="1"/>
+                                    </GradientStopCollection>
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                            <LinearGradientBrush x:Key="VerticalBaseInnerBorderBrush" EndPoint="0,0" StartPoint="1 ,0">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="#FFffffff" Offset="1"/>
+                                        <GradientStop Color="#FFffffff" Offset="0.5"/>
+                                        <GradientStop Color="#00ffffff" Offset="0"/>
+                                    </GradientStopCollection>
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                            <LinearGradientBrush x:Key="VerticalLightInnerStrokeBrush" EndPoint="0,0" StartPoint="1,0">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="#58ffffff" Offset="0"/>
+                                        <GradientStop Color="#a5ffffff" Offset="1"/>
+                                    </GradientStopCollection>
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                            <LinearGradientBrush x:Key="VerticalMediumInnerStrokeBrush" EndPoint="0,0" StartPoint="1,0">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="#FFf4f5f7" Offset="0"/>
+                                        <GradientStop Color="#FF849aaa" Offset="1"/>
+                                    </GradientStopCollection>
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                            <LinearGradientBrush x:Key="VerticalDarkInnerStrokeBrush" EndPoint="0,0" StartPoint="1,0">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="#FFd7dce1" Offset="0"/>
+                                        <GradientStop Color="#FF718597" Offset="1"/>
+                                    </GradientStopCollection>
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                            <LinearGradientBrush x:Key="VerticalStrokeBrush" EndPoint="0,0" StartPoint="1,0" Opacity="0.38">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="#FFA3AEB9" Offset="0"/>
+                                        <GradientStop Color="#FF8399A9" Offset="0.375"/>
+                                        <GradientStop Color="#FF718597" Offset="0.375"/>
+                                        <GradientStop Color="#FF617584" Offset="1"/>
+                                    </GradientStopCollection>
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                            <LinearGradientBrush x:Key="VerticalScrollElementBackgroundBrush" EndPoint="0,0" StartPoint="1,0">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="#FFcccccc" Offset="0"/>
+                                        <GradientStop Color="#FF989898" Offset="0.6678000092506409"/>
+                                        <GradientStop Color="#FF6A6A6A" Offset="0.9944000244140625"/>
+                                        <GradientStop Color="#FF6a6a6a" Offset="1"/>
+                                    </GradientStopCollection>
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                            <LinearGradientBrush x:Key="VerticalRootBackgroundBrush" EndPoint="0,0" StartPoint="1,0">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="#FFc8cfd5" Offset="0"/>
+                                        <GradientStop Color="#FF5a6978" Offset="1"/>
+                                    </GradientStopCollection>
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                            <LinearGradientBrush x:Key="VerticalThumbBackgroundBrush" EndPoint="0,0" StartPoint="1,0">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="#d8ffffff" Offset="0"/>
+                                        <GradientStop Color="#3fffffff" Offset="1"/>
+                                    </GradientStopCollection>
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                            <LinearGradientBrush x:Key="VerticalThumbElementBorderBrush" EndPoint="0,0" StartPoint="1,0">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="#00ffffff" Offset="1"/>
+                                        <GradientStop Color="#ffffffff" Offset="0"/>
+                                    </GradientStopCollection>
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                            <LinearGradientBrush x:Key="VerticalScaleElementBrush" EndPoint="0,0" StartPoint="1,0">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="#FFFBFBFC" Offset=".7"/>
+                                        <GradientStop Color="#FFE0E3E6" Offset="0"/>
+                                    </GradientStopCollection>
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                            <LinearGradientBrush x:Key="VerticalScaleElementOuterBorderBrush" EndPoint="0,0" StartPoint="1,0">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="#FFDCE0E4" Offset="1"/>
+                                        <GradientStop Color="#FFC1C9D0" Offset="0"/>
+                                    </GradientStopCollection>
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                            <LinearGradientBrush x:Key="VerticalScaleElementInnerBorderBrush" EndPoint="0,0" StartPoint="1,0">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="#FFffffff" Offset="0"/>
+                                        <GradientStop Color="#00ffffff" Offset="1"/>
+                                    </GradientStopCollection>
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                            <Style x:Key="ZoomBarScrollBtnRight" TargetType="ContentControl">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ContentControl">
+                                            <Grid>
+                                                <VisualStateManager.VisualStateGroups>
+                                                    <VisualStateGroup x:Name="FocusStates">
+                                                        <VisualState x:Name="Focused"/>
+                                                        <VisualState x:Name="Unfocused"/>
+                                                    </VisualStateGroup>
+                                                    <VisualStateGroup x:Name="CommonStates">
+                                                        <VisualStateGroup.Transitions>
+                                                            <VisualTransition GeneratedDuration="00:00:00.1000000"/>
+                                                            <VisualTransition GeneratedDuration="00:00:00.1000000" To="MouseOver"/>
+                                                            <VisualTransition GeneratedDuration="00:00:00.1000000" To="Pressed"/>
+                                                        </VisualStateGroup.Transitions>
+                                                        <VisualState x:Name="Normal"/>
+                                                        <VisualState x:Name="MouseOver">
+                                                            <Storyboard>
+                                                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="border" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                                                    <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0.5"/>
+                                                                </DoubleAnimationUsingKeyFrames>
+                                                            </Storyboard>
+                                                        </VisualState>
+                                                        <VisualState x:Name="Pressed">
+                                                            <Storyboard>
+                                                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="border" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                                                    <EasingDoubleKeyFrame KeyTime="00:00:00" Value="1"/>
+                                                                </DoubleAnimationUsingKeyFrames>
+                                                            </Storyboard>
+                                                        </VisualState>
+                                                        <VisualState x:Name="Disabled"/>
+                                                    </VisualStateGroup>
+                                                </VisualStateManager.VisualStateGroups>
+                                                <Grid Margin="0,2,2,2">
+                                                    <Border x:Name="border" Opacity="0" Background="#33FFFFFF" BorderThickness="1" CornerRadius="0,8,8,0"/>
+                                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                                </Grid>
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Padding" Value="5,3"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                            </Style>
+                            <Style x:Key="ZoomBarScrollBtnLeft" TargetType="ContentControl">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ContentControl">
+                                            <Grid>
+                                                <VisualStateManager.VisualStateGroups>
+                                                    <VisualStateGroup x:Name="FocusStates">
+                                                        <VisualState x:Name="Focused"/>
+                                                        <VisualState x:Name="Unfocused"/>
+                                                    </VisualStateGroup>
+                                                    <VisualStateGroup x:Name="CommonStates">
+                                                        <VisualStateGroup.Transitions>
+                                                            <VisualTransition GeneratedDuration="00:00:00.1000000"/>
+                                                            <VisualTransition GeneratedDuration="00:00:00.1000000" To="MouseOver"/>
+                                                            <VisualTransition GeneratedDuration="00:00:00.1000000" To="Pressed"/>
+                                                        </VisualStateGroup.Transitions>
+                                                        <VisualState x:Name="Normal"/>
+                                                        <VisualState x:Name="MouseOver">
+                                                        	<Storyboard>
+                                                        		<DoubleAnimation Duration="0" To="0.5" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="border" d:IsOptimized="True"/>
+                                                        	</Storyboard>
+                                                        </VisualState>
+                                                        <VisualState x:Name="Pressed">
+                                                            <Storyboard>
+                                                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="border" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                                                    <EasingDoubleKeyFrame KeyTime="00:00:00" Value="1"/>
+                                                                </DoubleAnimationUsingKeyFrames>
+                                                            </Storyboard>
+                                                        </VisualState>
+                                                        <VisualState x:Name="Disabled"/>
+                                                    </VisualStateGroup>
+                                                </VisualStateManager.VisualStateGroups>
+                                                <Grid Margin="2,2,0,2">
+                                                    <Border x:Name="border" Background="#33FFFFFF" BorderThickness="1" CornerRadius="8,0,0,8" Opacity="0"/>
+                                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                                </Grid>
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Padding" Value="5,3"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                            </Style>
+                            <Style x:Key="ZoomBarScrollBtnTop" TargetType="ContentControl">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ContentControl">
+                                            <Grid>
+                                                <VisualStateManager.VisualStateGroups>
+                                                    <VisualStateGroup x:Name="FocusStates">
+                                                        <VisualState x:Name="Focused"/>
+                                                        <VisualState x:Name="Unfocused"/>
+                                                    </VisualStateGroup>
+                                                    <VisualStateGroup x:Name="CommonStates">
+                                                        <VisualStateGroup.Transitions>
+                                                            <VisualTransition GeneratedDuration="00:00:00.1000000"/>
+                                                            <VisualTransition GeneratedDuration="00:00:00.1000000" To="MouseOver"/>
+                                                            <VisualTransition GeneratedDuration="00:00:00.1000000" To="Pressed"/>
+                                                        </VisualStateGroup.Transitions>
+                                                        <VisualState x:Name="Normal"/>
+                                                        <VisualState x:Name="MouseOver">
+                                                            <Storyboard>
+                                                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="border" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                                                    <EasingDoubleKeyFrame KeyTime="00:00:00" Value="1"/>
+                                                                </DoubleAnimationUsingKeyFrames>
+                                                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="border1" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                                                    <EasingDoubleKeyFrame KeyTime="00:00:00" Value="1"/>
+                                                                </DoubleAnimationUsingKeyFrames>
+                                                            </Storyboard>
+                                                        </VisualState>
+                                                        <VisualState x:Name="Pressed">
+                                                            <Storyboard>
+                                                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="border" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                                                    <EasingDoubleKeyFrame KeyTime="00:00:00" Value="1"/>
+                                                                </DoubleAnimationUsingKeyFrames>
+                                                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="border1" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                                                    <EasingDoubleKeyFrame KeyTime="00:00:00" Value="1"/>
+                                                                </DoubleAnimationUsingKeyFrames>
+                                                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="border2" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                                                    <EasingDoubleKeyFrame KeyTime="00:00:00" Value="1"/>
+                                                                </DoubleAnimationUsingKeyFrames>
+                                                            </Storyboard>
+                                                        </VisualState>
+                                                        <VisualState x:Name="Disabled"/>
+                                                    </VisualStateGroup>
+                                                </VisualStateManager.VisualStateGroups>
+                                                <Grid Margin="2,2,2,0">
+                                                    <Border x:Name="border" Opacity="0" Background="{StaticResource ScaleElementBrush}" BorderBrush="{StaticResource StrokeBrush}" BorderThickness="1" CornerRadius="2,2,0,0">
+                                                        <Border x:Name="border2" Opacity="0" Background="{StaticResource MediumInnerStrokeBrush}" BorderThickness="1" CornerRadius="2,2,0,0"/>
+                                                    </Border>
+                                                    <Border x:Name="border1" Margin="1" Opacity="0" BorderBrush="{StaticResource BaseInnerBorderBrush}" BorderThickness="1" CornerRadius="2,2,0,0"/>
+                                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                                </Grid>
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Padding" Value="3,5"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                            </Style>
+                            <Style x:Key="ZoomBarScrollBtnBottom" TargetType="ContentControl">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ContentControl">
+                                            <Grid>
+                                                <VisualStateManager.VisualStateGroups>
+                                                    <VisualStateGroup x:Name="FocusStates">
+                                                        <VisualState x:Name="Focused"/>
+                                                        <VisualState x:Name="Unfocused"/>
+                                                    </VisualStateGroup>
+                                                    <VisualStateGroup x:Name="CommonStates">
+                                                        <VisualStateGroup.Transitions>
+                                                            <VisualTransition GeneratedDuration="00:00:00.1000000"/>
+                                                            <VisualTransition GeneratedDuration="00:00:00.1000000" To="MouseOver"/>
+                                                            <VisualTransition GeneratedDuration="00:00:00.1000000" To="Pressed"/>
+                                                        </VisualStateGroup.Transitions>
+                                                        <VisualState x:Name="Normal"/>
+                                                        <VisualState x:Name="MouseOver">
+                                                            <Storyboard>
+                                                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="border" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                                                    <EasingDoubleKeyFrame KeyTime="00:00:00" Value="1"/>
+                                                                </DoubleAnimationUsingKeyFrames>
+                                                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="border1" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                                                    <EasingDoubleKeyFrame KeyTime="00:00:00" Value="1"/>
+                                                                </DoubleAnimationUsingKeyFrames>
+                                                            </Storyboard>
+                                                        </VisualState>
+                                                        <VisualState x:Name="Pressed">
+                                                            <Storyboard>
+                                                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="border" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                                                    <EasingDoubleKeyFrame KeyTime="00:00:00" Value="1"/>
+                                                                </DoubleAnimationUsingKeyFrames>
+                                                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="border1" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                                                    <EasingDoubleKeyFrame KeyTime="00:00:00" Value="1"/>
+                                                                </DoubleAnimationUsingKeyFrames>
+                                                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="border2" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                                                    <EasingDoubleKeyFrame KeyTime="00:00:00" Value="1"/>
+                                                                </DoubleAnimationUsingKeyFrames>
+                                                            </Storyboard>
+                                                        </VisualState>
+                                                        <VisualState x:Name="Disabled"/>
+                                                    </VisualStateGroup>
+                                                </VisualStateManager.VisualStateGroups>
+                                                <Grid Margin="2,0,2,2">
+                                                    <Border x:Name="border" Opacity="0" Background="{StaticResource ScaleElementBrush}" BorderBrush="{StaticResource StrokeBrush}" BorderThickness="1" CornerRadius="0,0,2,2">
+                                                        <Border x:Name="border2" Opacity="0" Background="{StaticResource MediumInnerStrokeBrush}" BorderThickness="1" CornerRadius="0,0,2,2"/>
+                                                    </Border>
+                                                    <Border x:Name="border1" Margin="1,1,100,1" Opacity="0" BorderBrush="{StaticResource BaseInnerBorderBrush}" BorderThickness="1" CornerRadius="0,0,2,2"/>
+                                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                                </Grid>
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Padding" Value="3,5"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                            </Style>
+                        </Grid.Resources>
+                        <Canvas x:Name="HorizontalRootCanvasElement">
+                            <Grid x:Name="HorizontalScrollbarElement">
+                                <Rectangle Stroke="Black" RadiusX="10" RadiusY="10">
+                                    <Rectangle.Fill>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <GradientStop Color="#4CFFFFFF" Offset="0"/>
+                                            <GradientStop Color="#99666666" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <Border BorderBrush="Black" BorderThickness="1" CornerRadius="10,0,0,10" Width="24" HorizontalAlignment="Left">
+                                    <Border.Background>
+                                        <LinearGradientBrush EndPoint="0.5,0" StartPoint="0.5,1">
+                                            <GradientStop Color="#FF333333" Offset="0"/>
+                                            <GradientStop Color="#FF545454" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Border CornerRadius="8,2,2,8" Margin="2">
+                                        <Border.Background>
+                                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                <GradientStop Color="#FF7C7C7C" Offset="0"/>
+                                                <GradientStop Color="#007C7C7C" Offset="0.606"/>
+                                            </LinearGradientBrush>
+                                        </Border.Background>
+                                    </Border>
+                                </Border>
+                                <Border HorizontalAlignment="Right" Width="24" BorderBrush="Black" BorderThickness="1" CornerRadius="0,10,10,0">
+                                    <Border.Background>
+                                        <LinearGradientBrush EndPoint="0.5,0" StartPoint="0.5,1">
+                                            <GradientStop Color="#FF333333" Offset="0"/>
+                                            <GradientStop Color="#FF545454" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Border Margin="2" CornerRadius="2,8,8,2">
+                                        <Border.Background>
+                                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                <GradientStop Color="#FF7C7C7C" Offset="0"/>
+                                                <GradientStop Color="#007C7C7C" Offset="0.606"/>
+                                            </LinearGradientBrush>
+                                        </Border.Background>
+                                    </Border>
+                                </Border>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="24"/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="24"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border x:Name="HorizontalTrackElement" Margin="0,2,0,1" Grid.Column="1" Background="Transparent" BorderThickness="1,0,1,1" CornerRadius="2">
+                                        <Border Margin="0,1,0,0" BorderThickness="1" CornerRadius="2">
+                                            <Border BorderThickness="1" CornerRadius="0,0,1,1"/>
+                                        </Border>
+                                    </Border>
+                                    <Grid Cursor="Hand">
+                                        <ContentControl x:Name="HorizontalScrollLeftElement" Style="{StaticResource ZoomBarScrollBtnLeft}">
+                                            <Grid
+												Height="25"
+												Width="8"
+												Background="{x:Null}"
+												HorizontalAlignment="Center"
+												VerticalAlignment="Center">
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="22"
+													Width="8"
+													Stretch="Fill"
+													Opacity="0.5"
+													Data="M 8,0 C8,0 0,12 0,12 0,12 8,22 8,22 8,22 8,0 8,0 z"
+													Fill="#333333" />
+                                                <Path
+													Margin="0,4,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="21"
+													Width="7"
+													Stretch="Fill"
+													Opacity="0.4"
+													Data="M 7,4 C7,4 0,14 0,14 0,14 7,25 7,25 7,25 7,4 7,4 z"
+													Fill="#ffffff" />
+                                                <Path
+													Margin="1,3,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="20"
+													Width="6"
+													Stretch="Fill"
+													Opacity="1"
+													Data="M 7,3 C7,3 1,13 1,13 1,13 7,23 7,23 7,23 7,3 7,3 z"
+													Fill="#666666" />
+                                            </Grid>
+
+                                        </ContentControl>
+                                    </Grid>
+                                    <Grid Cursor="Hand" Grid.Column="2">
+                                        <ContentControl x:Name="HorizontalScrollRightElement" Style="{StaticResource ZoomBarScrollBtnRight}">
+                                            <Grid
+												Height="25"
+												Width="8"
+												Background="{x:Null}"
+												HorizontalAlignment="Center"
+												VerticalAlignment="Center">
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="22"
+													Width="8"
+													Stretch="Fill"
+													Opacity="0.5"
+													Data="M 0,0 C0,0 8,12 8,12 8,12 0,22 0,22 0,22 0,0 0,0 z"
+													Fill="#333333" />
+                                                <Path
+													Margin="1,4,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="21"
+													Width="7"
+													Stretch="Fill"
+													Opacity="0.4"
+													Data="M 1,4 C1,4 8,14 8,14 8,14 1,25 1,25 1,25 1,4 1,4 z"
+													Fill="#ffffff" />
+                                                <Path
+													Margin="1,3,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="20"
+													Width="6"
+													Stretch="Fill"
+													Opacity="1"
+													Data="M 1,3 C1,3 7,13 7,13 7,13 1,23 1,23 1,23 1,3 1,3 z"
+													Fill="#666666" />
+                                            </Grid>
+
+                                        </ContentControl>
+                                    </Grid>
+                                </Grid>
+                                <Grid x:Name="HorizontalPreviewElement" Margin="24,6,24,6">
+                                    <ContentPresenter Content="{TemplateBinding HorizontalPreviewContent}" VerticalAlignment="Center" Margin="0,8,0,0"/>
+                                </Grid>
+                            </Grid>
+                            <ContentControl x:Name="HorizontalThumbElement" Cursor="Hand" Style="{TemplateBinding HorizontalThumbStyle}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Canvas.Left="50" Height="74" Canvas.Top="3" Width="200">
+                                <Grid>
+                                    <Border VerticalAlignment="Stretch" Margin="8,5,8,0" CornerRadius="2,2,0,0">
+                                        <Border.Background>
+                                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                <GradientStop Color="#66FFFFFF" Offset="0"/>
+                                                <GradientStop Color="#0CFFFFFF" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </Border.Background>
+                                    </Border>
+                                    <Rectangle Fill="#66333333" Stroke="Black" Height="5" VerticalAlignment="Top" Margin="0,2,0,0"/>
+                                    <Rectangle Fill="#CC333333" Stroke="Black" Height="5" Margin="0,0,0,2" VerticalAlignment="Bottom"/>
+                                </Grid>
+                            </ContentControl>
+                            <ContentControl x:Name="HorizontalScaleLeftElement" Cursor="SizeWE" Style="{TemplateBinding HorizontalScaleLeftStyle}" Width="31" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Canvas.Left="40" Height="74" Canvas.Top="3" d:IsHidden="True">
+                                <Border Margin="0,2" BorderBrush="Black" BorderThickness="1" CornerRadius="10,0,0,10">
+                                    <Border.Background>
+                                        <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                            <LinearGradientBrush.GradientStops>
+                                                <GradientStopCollection>
+                                                    <GradientStop Color="#FF545454" Offset="0"/>
+                                                    <GradientStop Color="#FF343434" Offset="1"/>
+                                                </GradientStopCollection>
+                                            </LinearGradientBrush.GradientStops>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Border CornerRadius="8,2,2,8" Margin="2">
+                                        <Border.Background>
+                                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                <GradientStop Color="#FF7C7C7C" Offset="0"/>
+                                                <GradientStop Color="#007C7C7C" Offset="0.566"/>
+                                            </LinearGradientBrush>
+                                        </Border.Background>
+                                        <Grid
+											Height="24"
+											Width="14"
+											Background="{x:Null}"
+											HorizontalAlignment="Center"
+											VerticalAlignment="Center">
+                                            <Grid
+												Width="4"
+												Height="4"
+												Opacity="1"
+												Margin="0,0,0,0"
+												HorizontalAlignment="Left"
+												VerticalAlignment="Top">
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.5"
+													Data="M 0,0 C0,0 4,0 4,0 4,0 2,2 2,2 2,2 0,4 0,4 0,4 0,0 0,0 z"
+													Fill="#333333" />
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.2"
+													Data="M 2,2 C2,2 4,0 4,0 4,0 4,4 4,4 4,4 0,4 0,4 0,4 2,2 2,2 z"
+													Fill="#ffffff" />
+                                                <Rectangle
+													Opacity="1"
+													HorizontalAlignment="Stretch"
+													VerticalAlignment="Stretch"
+													Margin="1,1,1,1"
+													Fill="#666666" />
+                                            </Grid>
+                                            <Grid
+												Width="4"
+												Height="4"
+												Opacity="1"
+												Margin="5,0,0,0"
+												HorizontalAlignment="Left"
+												VerticalAlignment="Top">
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.5"
+													Data="M 0,0 C0,0 4,0 4,0 4,0 2,2 2,2 2,2 0,4 0,4 0,4 0,0 0,0 z"
+													Fill="#333333" />
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.2"
+													Data="M 2,2 C2,2 4,0 4,0 4,0 4,4 4,4 4,4 0,4 0,4 0,4 2,2 2,2 z"
+													Fill="#ffffff" />
+                                                <Rectangle
+													Opacity="1"
+													HorizontalAlignment="Stretch"
+													VerticalAlignment="Stretch"
+													Margin="1,1,1,1"
+													Fill="#666666" />
+                                            </Grid>
+                                            <Grid
+												Width="4"
+												Height="4"
+												Opacity="1"
+												Margin="10,0,0,0"
+												HorizontalAlignment="Left"
+												VerticalAlignment="Top">
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.5"
+													Data="M 0,0 C0,0 4,0 4,0 4,0 2,2 2,2 2,2 0,4 0,4 0,4 0,0 0,0 z"
+													Fill="#333333" />
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.2"
+													Data="M 2,2 C2,2 4,0 4,0 4,0 4,4 4,4 4,4 0,4 0,4 0,4 2,2 2,2 z"
+													Fill="#ffffff" />
+                                                <Rectangle
+													Opacity="1"
+													HorizontalAlignment="Stretch"
+													VerticalAlignment="Stretch"
+													Margin="1,1,1,1"
+													Fill="#666666" />
+                                            </Grid>
+                                            <Grid
+												Width="4"
+												Height="4"
+												Opacity="1"
+												Margin="0,5,0,0"
+												HorizontalAlignment="Left"
+												VerticalAlignment="Top">
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.5"
+													Data="M 0,0 C0,0 4,0 4,0 4,0 2,2 2,2 2,2 0,4 0,4 0,4 0,0 0,0 z"
+													Fill="#333333" />
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.2"
+													Data="M 2,2 C2,2 4,0 4,0 4,0 4,4 4,4 4,4 0,4 0,4 0,4 2,2 2,2 z"
+													Fill="#ffffff" />
+                                                <Rectangle
+													Opacity="1"
+													HorizontalAlignment="Stretch"
+													VerticalAlignment="Stretch"
+													Margin="1,1,1,1"
+													Fill="#666666" />
+                                            </Grid>
+                                            <Grid
+												Width="4"
+												Height="4"
+												Opacity="1"
+												Margin="5,5,0,0"
+												HorizontalAlignment="Left"
+												VerticalAlignment="Top">
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.5"
+													Data="M 0,0 C0,0 4,0 4,0 4,0 2,2 2,2 2,2 0,4 0,4 0,4 0,0 0,0 z"
+													Fill="#333333" />
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.2"
+													Data="M 2,2 C2,2 4,0 4,0 4,0 4,4 4,4 4,4 0,4 0,4 0,4 2,2 2,2 z"
+													Fill="#ffffff" />
+                                                <Rectangle
+													Opacity="1"
+													HorizontalAlignment="Stretch"
+													VerticalAlignment="Stretch"
+													Margin="1,1,1,1"
+													Fill="#666666" />
+                                            </Grid>
+                                            <Grid
+												Width="4"
+												Height="4"
+												Opacity="1"
+												Margin="10,5,0,0"
+												HorizontalAlignment="Left"
+												VerticalAlignment="Top">
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.5"
+													Data="M 0,0 C0,0 4,0 4,0 4,0 2,2 2,2 2,2 0,4 0,4 0,4 0,0 0,0 z"
+													Fill="#333333" />
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.2"
+													Data="M 2,2 C2,2 4,0 4,0 4,0 4,4 4,4 4,4 0,4 0,4 0,4 2,2 2,2 z"
+													Fill="#ffffff" />
+                                                <Rectangle
+													Opacity="1"
+													HorizontalAlignment="Stretch"
+													VerticalAlignment="Stretch"
+													Margin="1,1,1,1"
+													Fill="#666666" />
+                                            </Grid>
+                                            <Grid
+												Width="4"
+												Height="4"
+												Opacity="1"
+												Margin="0,10,0,0"
+												HorizontalAlignment="Left"
+												VerticalAlignment="Top">
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.5"
+													Data="M 0,0 C0,0 4,0 4,0 4,0 2,2 2,2 2,2 0,4 0,4 0,4 0,0 0,0 z"
+													Fill="#333333" />
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.2"
+													Data="M 2,2 C2,2 4,0 4,0 4,0 4,4 4,4 4,4 0,4 0,4 0,4 2,2 2,2 z"
+													Fill="#ffffff" />
+                                                <Rectangle
+													Opacity="1"
+													HorizontalAlignment="Stretch"
+													VerticalAlignment="Stretch"
+													Margin="1,1,1,1"
+													Fill="#666666" />
+                                            </Grid>
+                                            <Grid
+												Width="4"
+												Height="4"
+												Opacity="1"
+												Margin="5,10,0,0"
+												HorizontalAlignment="Left"
+												VerticalAlignment="Top">
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.5"
+													Data="M 0,0 C0,0 4,0 4,0 4,0 2,2 2,2 2,2 0,4 0,4 0,4 0,0 0,0 z"
+													Fill="#333333" />
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.2"
+													Data="M 2,2 C2,2 4,0 4,0 4,0 4,4 4,4 4,4 0,4 0,4 0,4 2,2 2,2 z"
+													Fill="#ffffff" />
+                                                <Rectangle
+													Opacity="1"
+													HorizontalAlignment="Stretch"
+													VerticalAlignment="Stretch"
+													Margin="1,1,1,1"
+													Fill="#666666" />
+                                            </Grid>
+                                            <Grid
+												Width="4"
+												Height="4"
+												Opacity="1"
+												Margin="10,10,0,0"
+												HorizontalAlignment="Left"
+												VerticalAlignment="Top">
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.5"
+													Data="M 0,0 C0,0 4,0 4,0 4,0 2,2 2,2 2,2 0,4 0,4 0,4 0,0 0,0 z"
+													Fill="#333333" />
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.2"
+													Data="M 2,2 C2,2 4,0 4,0 4,0 4,4 4,4 4,4 0,4 0,4 0,4 2,2 2,2 z"
+													Fill="#ffffff" />
+                                                <Rectangle
+													Opacity="1"
+													HorizontalAlignment="Stretch"
+													VerticalAlignment="Stretch"
+													Margin="1,1,1,1"
+													Fill="#666666" />
+                                            </Grid>
+                                            <Grid
+												Width="4"
+												Height="4"
+												Opacity="1"
+												Margin="0,15,0,0"
+												HorizontalAlignment="Left"
+												VerticalAlignment="Top">
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.5"
+													Data="M 0,0 C0,0 4,0 4,0 4,0 2,2 2,2 2,2 0,4 0,4 0,4 0,0 0,0 z"
+													Fill="#333333" />
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.2"
+													Data="M 2,2 C2,2 4,0 4,0 4,0 4,4 4,4 4,4 0,4 0,4 0,4 2,2 2,2 z"
+													Fill="#ffffff" />
+                                                <Rectangle
+													Opacity="1"
+													HorizontalAlignment="Stretch"
+													VerticalAlignment="Stretch"
+													Margin="1,1,1,1"
+													Fill="#666666" />
+                                            </Grid>
+                                            <Grid
+												Width="4"
+												Height="4"
+												Opacity="1"
+												Margin="5,15,0,0"
+												HorizontalAlignment="Left"
+												VerticalAlignment="Top">
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.5"
+													Data="M 0,0 C0,0 4,0 4,0 4,0 2,2 2,2 2,2 0,4 0,4 0,4 0,0 0,0 z"
+													Fill="#333333" />
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.2"
+													Data="M 2,2 C2,2 4,0 4,0 4,0 4,4 4,4 4,4 0,4 0,4 0,4 2,2 2,2 z"
+													Fill="#ffffff" />
+                                                <Rectangle
+													Opacity="1"
+													HorizontalAlignment="Stretch"
+													VerticalAlignment="Stretch"
+													Margin="1,1,1,1"
+													Fill="#666666" />
+                                            </Grid>
+                                            <Grid
+												Width="4"
+												Height="4"
+												Opacity="1"
+												Margin="10,15,0,0"
+												HorizontalAlignment="Left"
+												VerticalAlignment="Top">
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.5"
+													Data="M 0,0 C0,0 4,0 4,0 4,0 2,2 2,2 2,2 0,4 0,4 0,4 0,0 0,0 z"
+													Fill="#333333" />
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.2"
+													Data="M 2,2 C2,2 4,0 4,0 4,0 4,4 4,4 4,4 0,4 0,4 0,4 2,2 2,2 z"
+													Fill="#ffffff" />
+                                                <Rectangle
+													Opacity="1"
+													HorizontalAlignment="Stretch"
+													VerticalAlignment="Stretch"
+													Margin="1,1,1,1"
+													Fill="#666666" />
+                                            </Grid>
+                                            <Grid
+												Width="4"
+												Height="4"
+												Opacity="1"
+												Margin="0,20,0,0"
+												HorizontalAlignment="Left"
+												VerticalAlignment="Top">
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.5"
+													Data="M 0,0 C0,0 4,0 4,0 4,0 2,2 2,2 2,2 0,4 0,4 0,4 0,0 0,0 z"
+													Fill="#333333" />
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.2"
+													Data="M 2,2 C2,2 4,0 4,0 4,0 4,4 4,4 4,4 0,4 0,4 0,4 2,2 2,2 z"
+													Fill="#ffffff" />
+                                                <Rectangle
+													Opacity="1"
+													HorizontalAlignment="Stretch"
+													VerticalAlignment="Stretch"
+													Margin="1,1,1,1"
+													Fill="#666666" />
+                                            </Grid>
+                                            <Grid
+												Width="4"
+												Height="4"
+												Opacity="1"
+												Margin="5,20,0,0"
+												HorizontalAlignment="Left"
+												VerticalAlignment="Top">
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.5"
+													Data="M 0,0 C0,0 4,0 4,0 4,0 2,2 2,2 2,2 0,4 0,4 0,4 0,0 0,0 z"
+													Fill="#333333" />
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.2"
+													Data="M 2,2 C2,2 4,0 4,0 4,0 4,4 4,4 4,4 0,4 0,4 0,4 2,2 2,2 z"
+													Fill="#ffffff" />
+                                                <Rectangle
+													Opacity="1"
+													HorizontalAlignment="Stretch"
+													VerticalAlignment="Stretch"
+													Margin="1,1,1,1"
+													Fill="#666666" />
+                                            </Grid>
+                                            <Grid
+												Width="4"
+												Height="4"
+												Opacity="1"
+												Margin="10,20,0,0"
+												HorizontalAlignment="Left"
+												VerticalAlignment="Top">
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.5"
+													Data="M 0,0 C0,0 4,0 4,0 4,0 2,2 2,2 2,2 0,4 0,4 0,4 0,0 0,0 z"
+													Fill="#333333" />
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.2"
+													Data="M 2,2 C2,2 4,0 4,0 4,0 4,4 4,4 4,4 0,4 0,4 0,4 2,2 2,2 z"
+													Fill="#ffffff" />
+                                                <Rectangle
+													Opacity="1"
+													HorizontalAlignment="Stretch"
+													VerticalAlignment="Stretch"
+													Margin="1,1,1,1"
+													Fill="#666666" />
+                                            </Grid>
+                                        </Grid>
+                                    </Border>
+                                </Border>
+                            </ContentControl>
+                            <ContentControl x:Name="HorizontalScaleRightElement" Cursor="SizeWE" Style="{TemplateBinding HorizontalScaleRightStyle}" Width="31" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Canvas.Left="245" Height="74" Canvas.Top="3">
+                                <Border Margin="0,2" BorderBrush="Black" CornerRadius="0,10,10,0" BorderThickness="1">
+                                    <Border.Background>
+                                        <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                            <LinearGradientBrush.GradientStops>
+                                                <GradientStopCollection>
+                                                    <GradientStop Color="#FF545454" Offset="0"/>
+                                                    <GradientStop Color="#FF343434" Offset="1"/>
+                                                </GradientStopCollection>
+                                            </LinearGradientBrush.GradientStops>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Border CornerRadius="2,8,8,2" Margin="2">
+                                        <Border.Background>
+                                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                <GradientStop Color="#FF7C7C7C" Offset="0"/>
+                                                <GradientStop Color="#007C7C7C" Offset="0.557"/>
+                                            </LinearGradientBrush>
+                                        </Border.Background>
+                                        <Grid
+											Height="24"
+											Width="14"
+											Background="{x:Null}"
+											HorizontalAlignment="Center"
+											VerticalAlignment="Center">
+                                            <Grid
+												Width="4"
+												Height="4"
+												Opacity="1"
+												Margin="0,0,0,0"
+												HorizontalAlignment="Left"
+												VerticalAlignment="Top">
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.5"
+													Data="M 0,0 C0,0 4,0 4,0 4,0 2,2 2,2 2,2 0,4 0,4 0,4 0,0 0,0 z"
+													Fill="#333333" />
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.2"
+													Data="M 2,2 C2,2 4,0 4,0 4,0 4,4 4,4 4,4 0,4 0,4 0,4 2,2 2,2 z"
+													Fill="#ffffff" />
+                                                <Rectangle
+													Opacity="1"
+													HorizontalAlignment="Stretch"
+													VerticalAlignment="Stretch"
+													Margin="1,1,1,1"
+													Fill="#666666" />
+                                            </Grid>
+                                            <Grid
+												Width="4"
+												Height="4"
+												Opacity="1"
+												Margin="5,0,0,0"
+												HorizontalAlignment="Left"
+												VerticalAlignment="Top">
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.5"
+													Data="M 0,0 C0,0 4,0 4,0 4,0 2,2 2,2 2,2 0,4 0,4 0,4 0,0 0,0 z"
+													Fill="#333333" />
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.2"
+													Data="M 2,2 C2,2 4,0 4,0 4,0 4,4 4,4 4,4 0,4 0,4 0,4 2,2 2,2 z"
+													Fill="#ffffff" />
+                                                <Rectangle
+													Opacity="1"
+													HorizontalAlignment="Stretch"
+													VerticalAlignment="Stretch"
+													Margin="1,1,1,1"
+													Fill="#666666" />
+                                            </Grid>
+                                            <Grid
+												Width="4"
+												Height="4"
+												Opacity="1"
+												Margin="10,0,0,0"
+												HorizontalAlignment="Left"
+												VerticalAlignment="Top">
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.5"
+													Data="M 0,0 C0,0 4,0 4,0 4,0 2,2 2,2 2,2 0,4 0,4 0,4 0,0 0,0 z"
+													Fill="#333333" />
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.2"
+													Data="M 2,2 C2,2 4,0 4,0 4,0 4,4 4,4 4,4 0,4 0,4 0,4 2,2 2,2 z"
+													Fill="#ffffff" />
+                                                <Rectangle
+													Opacity="1"
+													HorizontalAlignment="Stretch"
+													VerticalAlignment="Stretch"
+													Margin="1,1,1,1"
+													Fill="#666666" />
+                                            </Grid>
+                                            <Grid
+												Width="4"
+												Height="4"
+												Opacity="1"
+												Margin="0,5,0,0"
+												HorizontalAlignment="Left"
+												VerticalAlignment="Top">
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.5"
+													Data="M 0,0 C0,0 4,0 4,0 4,0 2,2 2,2 2,2 0,4 0,4 0,4 0,0 0,0 z"
+													Fill="#333333" />
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.2"
+													Data="M 2,2 C2,2 4,0 4,0 4,0 4,4 4,4 4,4 0,4 0,4 0,4 2,2 2,2 z"
+													Fill="#ffffff" />
+                                                <Rectangle
+													Opacity="1"
+													HorizontalAlignment="Stretch"
+													VerticalAlignment="Stretch"
+													Margin="1,1,1,1"
+													Fill="#666666" />
+                                            </Grid>
+                                            <Grid
+												Width="4"
+												Height="4"
+												Opacity="1"
+												Margin="5,5,0,0"
+												HorizontalAlignment="Left"
+												VerticalAlignment="Top">
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.5"
+													Data="M 0,0 C0,0 4,0 4,0 4,0 2,2 2,2 2,2 0,4 0,4 0,4 0,0 0,0 z"
+													Fill="#333333" />
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.2"
+													Data="M 2,2 C2,2 4,0 4,0 4,0 4,4 4,4 4,4 0,4 0,4 0,4 2,2 2,2 z"
+													Fill="#ffffff" />
+                                                <Rectangle
+													Opacity="1"
+													HorizontalAlignment="Stretch"
+													VerticalAlignment="Stretch"
+													Margin="1,1,1,1"
+													Fill="#666666" />
+                                            </Grid>
+                                            <Grid
+												Width="4"
+												Height="4"
+												Opacity="1"
+												Margin="10,5,0,0"
+												HorizontalAlignment="Left"
+												VerticalAlignment="Top">
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.5"
+													Data="M 0,0 C0,0 4,0 4,0 4,0 2,2 2,2 2,2 0,4 0,4 0,4 0,0 0,0 z"
+													Fill="#333333" />
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.2"
+													Data="M 2,2 C2,2 4,0 4,0 4,0 4,4 4,4 4,4 0,4 0,4 0,4 2,2 2,2 z"
+													Fill="#ffffff" />
+                                                <Rectangle
+													Opacity="1"
+													HorizontalAlignment="Stretch"
+													VerticalAlignment="Stretch"
+													Margin="1,1,1,1"
+													Fill="#666666" />
+                                            </Grid>
+                                            <Grid
+												Width="4"
+												Height="4"
+												Opacity="1"
+												Margin="0,10,0,0"
+												HorizontalAlignment="Left"
+												VerticalAlignment="Top">
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.5"
+													Data="M 0,0 C0,0 4,0 4,0 4,0 2,2 2,2 2,2 0,4 0,4 0,4 0,0 0,0 z"
+													Fill="#333333" />
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.2"
+													Data="M 2,2 C2,2 4,0 4,0 4,0 4,4 4,4 4,4 0,4 0,4 0,4 2,2 2,2 z"
+													Fill="#ffffff" />
+                                                <Rectangle
+													Opacity="1"
+													HorizontalAlignment="Stretch"
+													VerticalAlignment="Stretch"
+													Margin="1,1,1,1"
+													Fill="#666666" />
+                                            </Grid>
+                                            <Grid
+												Width="4"
+												Height="4"
+												Opacity="1"
+												Margin="5,10,0,0"
+												HorizontalAlignment="Left"
+												VerticalAlignment="Top">
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.5"
+													Data="M 0,0 C0,0 4,0 4,0 4,0 2,2 2,2 2,2 0,4 0,4 0,4 0,0 0,0 z"
+													Fill="#333333" />
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.2"
+													Data="M 2,2 C2,2 4,0 4,0 4,0 4,4 4,4 4,4 0,4 0,4 0,4 2,2 2,2 z"
+													Fill="#ffffff" />
+                                                <Rectangle
+													Opacity="1"
+													HorizontalAlignment="Stretch"
+													VerticalAlignment="Stretch"
+													Margin="1,1,1,1"
+													Fill="#666666" />
+                                            </Grid>
+                                            <Grid
+												Width="4"
+												Height="4"
+												Opacity="1"
+												Margin="10,10,0,0"
+												HorizontalAlignment="Left"
+												VerticalAlignment="Top">
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.5"
+													Data="M 0,0 C0,0 4,0 4,0 4,0 2,2 2,2 2,2 0,4 0,4 0,4 0,0 0,0 z"
+													Fill="#333333" />
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.2"
+													Data="M 2,2 C2,2 4,0 4,0 4,0 4,4 4,4 4,4 0,4 0,4 0,4 2,2 2,2 z"
+													Fill="#ffffff" />
+                                                <Rectangle
+													Opacity="1"
+													HorizontalAlignment="Stretch"
+													VerticalAlignment="Stretch"
+													Margin="1,1,1,1"
+													Fill="#666666" />
+                                            </Grid>
+                                            <Grid
+												Width="4"
+												Height="4"
+												Opacity="1"
+												Margin="0,15,0,0"
+												HorizontalAlignment="Left"
+												VerticalAlignment="Top">
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.5"
+													Data="M 0,0 C0,0 4,0 4,0 4,0 2,2 2,2 2,2 0,4 0,4 0,4 0,0 0,0 z"
+													Fill="#333333" />
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.2"
+													Data="M 2,2 C2,2 4,0 4,0 4,0 4,4 4,4 4,4 0,4 0,4 0,4 2,2 2,2 z"
+													Fill="#ffffff" />
+                                                <Rectangle
+													Opacity="1"
+													HorizontalAlignment="Stretch"
+													VerticalAlignment="Stretch"
+													Margin="1,1,1,1"
+													Fill="#666666" />
+                                            </Grid>
+                                            <Grid
+												Width="4"
+												Height="4"
+												Opacity="1"
+												Margin="5,15,0,0"
+												HorizontalAlignment="Left"
+												VerticalAlignment="Top">
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.5"
+													Data="M 0,0 C0,0 4,0 4,0 4,0 2,2 2,2 2,2 0,4 0,4 0,4 0,0 0,0 z"
+													Fill="#333333" />
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.2"
+													Data="M 2,2 C2,2 4,0 4,0 4,0 4,4 4,4 4,4 0,4 0,4 0,4 2,2 2,2 z"
+													Fill="#ffffff" />
+                                                <Rectangle
+													Opacity="1"
+													HorizontalAlignment="Stretch"
+													VerticalAlignment="Stretch"
+													Margin="1,1,1,1"
+													Fill="#666666" />
+                                            </Grid>
+                                            <Grid
+												Width="4"
+												Height="4"
+												Opacity="1"
+												Margin="10,15,0,0"
+												HorizontalAlignment="Left"
+												VerticalAlignment="Top">
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.5"
+													Data="M 0,0 C0,0 4,0 4,0 4,0 2,2 2,2 2,2 0,4 0,4 0,4 0,0 0,0 z"
+													Fill="#333333" />
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.2"
+													Data="M 2,2 C2,2 4,0 4,0 4,0 4,4 4,4 4,4 0,4 0,4 0,4 2,2 2,2 z"
+													Fill="#ffffff" />
+                                                <Rectangle
+													Opacity="1"
+													HorizontalAlignment="Stretch"
+													VerticalAlignment="Stretch"
+													Margin="1,1,1,1"
+													Fill="#666666" />
+                                            </Grid>
+                                            <Grid
+												Width="4"
+												Height="4"
+												Opacity="1"
+												Margin="0,20,0,0"
+												HorizontalAlignment="Left"
+												VerticalAlignment="Top">
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.5"
+													Data="M 0,0 C0,0 4,0 4,0 4,0 2,2 2,2 2,2 0,4 0,4 0,4 0,0 0,0 z"
+													Fill="#333333" />
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.2"
+													Data="M 2,2 C2,2 4,0 4,0 4,0 4,4 4,4 4,4 0,4 0,4 0,4 2,2 2,2 z"
+													Fill="#ffffff" />
+                                                <Rectangle
+													Opacity="1"
+													HorizontalAlignment="Stretch"
+													VerticalAlignment="Stretch"
+													Margin="1,1,1,1"
+													Fill="#666666" />
+                                            </Grid>
+                                            <Grid
+												Width="4"
+												Height="4"
+												Opacity="1"
+												Margin="5,20,0,0"
+												HorizontalAlignment="Left"
+												VerticalAlignment="Top">
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.5"
+													Data="M 0,0 C0,0 4,0 4,0 4,0 2,2 2,2 2,2 0,4 0,4 0,4 0,0 0,0 z"
+													Fill="#333333" />
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.2"
+													Data="M 2,2 C2,2 4,0 4,0 4,0 4,4 4,4 4,4 0,4 0,4 0,4 2,2 2,2 z"
+													Fill="#ffffff" />
+                                                <Rectangle
+													Opacity="1"
+													HorizontalAlignment="Stretch"
+													VerticalAlignment="Stretch"
+													Margin="1,1,1,1"
+													Fill="#666666" />
+                                            </Grid>
+                                            <Grid
+												Width="4"
+												Height="4"
+												Opacity="1"
+												Margin="10,20,0,0"
+												HorizontalAlignment="Left"
+												VerticalAlignment="Top">
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.5"
+													Data="M 0,0 C0,0 4,0 4,0 4,0 2,2 2,2 2,2 0,4 0,4 0,4 0,0 0,0 z"
+													Fill="#333333" />
+                                                <Path
+													Margin="0,0,0,0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Height="4"
+													Width="4"
+													Stretch="Fill"
+													Opacity="0.2"
+													Data="M 2,2 C2,2 4,0 4,0 4,0 4,4 4,4 4,4 0,4 0,4 0,4 2,2 2,2 z"
+													Fill="#ffffff" />
+                                                <Rectangle
+													Opacity="1"
+													HorizontalAlignment="Stretch"
+													VerticalAlignment="Stretch"
+													Margin="1,1,1,1"
+													Fill="#666666" />
+                                            </Grid>
+                                        </Grid>
+
+                                    </Border>
+                                </Border>
+                            </ContentControl>
+                        </Canvas>
+                        <Canvas x:Name="VerticalRootCanvasElement" Visibility="Collapsed" Background="{TemplateBinding Background}">
+                            <Grid x:Name="VerticalScrollbarElement">
+                                <Border Background="{StaticResource VerticalBaseBrush}" BorderBrush="{StaticResource VerticalStrokeBrush}" BorderThickness="1" CornerRadius="2">
+                                    <Border BorderBrush="{StaticResource VerticalBaseInnerBorderBrush}" BorderThickness="1,1,0,1" CornerRadius="2"/>
+                                </Border>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Border Margin="1,0" Grid.Row="1" BorderThickness="1,1,0,1" CornerRadius="2,0,0,2">
+                                        <Border BorderThickness="1,1,0,1" CornerRadius="2,0,0,2">
+                                            <Border x:Name="VerticalTrackElement" Background="Transparent" BorderThickness="1,1,0,1" CornerRadius="1,0,0,1"/>
+                                        </Border>
+                                    </Border>
+                                    <Grid Cursor="Hand">
+                                        <ContentControl x:Name="VerticalScrollTopElement" Style="{StaticResource ZoomBarScrollBtnTop}">
+                                            <Grid Height="5" MaxHeight="9" MaxWidth="22" MinHeight="3" MinWidth="6" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False">
+                                                <Path Fill="#5a6978" Stretch="Fill" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center" Opacity="1" Data="M 44,22 C44,22 0,22 0,22 0,22 22.3,0 22.3,0 22.3,0 44,22 44,22 z"/>
+                                            </Grid>
+                                        </ContentControl>
+                                    </Grid>
+                                    <Grid Cursor="Hand" Grid.Row="2">
+                                        <ContentControl x:Name="VerticalScrollBottomElement" Style="{StaticResource ZoomBarScrollBtnBottom}">
+                                            <Grid Height="5" MaxHeight="9" MaxWidth="22" MinHeight="3" MinWidth="6" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False">
+                                                <Path Fill="#5a6978" Stretch="Fill" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center" Opacity="1" Data="M 44,0 C44,0 0,0 0,0 0,0 22.3,22 22.3,22 22.3,22 44,0 44,0 z"/>
+                                            </Grid>
+                                        </ContentControl>
+                                    </Grid>
+                                </Grid>
+                                <Grid x:Name="VerticalPreviewElement" Margin="6,24,6,24">
+                                    <ContentPresenter Content="{TemplateBinding VerticalPreviewContent}"/>
+                                </Grid>
+                            </Grid>
+                            <ContentControl x:Name="VerticalThumbElement" Cursor="Hand" Style="{TemplateBinding VerticalThumbStyle}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                                <Grid>
+                                    <Border Margin="2,0" BorderBrush="{StaticResource VerticalScaleElementOuterBorderBrush}" BorderThickness="1,0">
+                                        <Border BorderBrush="{StaticResource VerticalScaleElementBrush}" BorderThickness="2,0">
+                                            <Border Margin="0,4" Background="{StaticResource VerticalThumbBackgroundBrush}" BorderBrush="#FFC3CAD0" BorderThickness="1"/>
+                                        </Border>
+                                    </Border>
+                                    <Border Margin="3" BorderBrush="{StaticResource VerticalThumbElementBorderBrush}" BorderThickness="1"/>
+                                </Grid>
+                            </ContentControl>
+                            <ContentControl x:Name="VerticalScaleTopElement" Cursor="SizeNS" Height="8" Style="{TemplateBinding VerticalScaleTopStyle}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                                <Border Margin="2,0" Background="{StaticResource VerticalScaleElementBrush}" BorderBrush="{StaticResource VerticalScaleElementOuterBorderBrush}" BorderThickness="1,1,1,0" CornerRadius="2,2,0,0">
+                                    <Border BorderBrush="{StaticResource VerticalScaleElementInnerBorderBrush}" BorderThickness="1,1,1,0" CornerRadius="2,2,0,0">
+                                        <Grid Height="Auto" Margin="0,0,0,2" VerticalAlignment="Bottom" Width="6">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                            </Grid.RowDefinitions>
+                                            <Border Height="1" Margin="0,0,0,1" Background="#FF99A6B2" BorderBrush="#FFFFFFFF" BorderThickness="1,0,0,0"/>
+                                            <Border Height="1" Grid.Row="1" Background="#FF99A6B2" BorderBrush="#FFFFFFFF" BorderThickness="1,0,0,0"/>
+                                        </Grid>
+                                    </Border>
+                                </Border>
+                            </ContentControl>
+                            <ContentControl x:Name="VerticalScaleBottomElement" Cursor="SizeNS" Height="8" Style="{TemplateBinding VerticalScaleBottomStyle}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                                <Border Margin="2,0" Background="{StaticResource VerticalScaleElementBrush}" BorderBrush="{StaticResource VerticalScaleElementOuterBorderBrush}" BorderThickness="1,0,1,1" CornerRadius="0,0,2,2">
+                                    <Border BorderBrush="{StaticResource VerticalScaleElementInnerBorderBrush}" BorderThickness="1,0,1,1" CornerRadius="0,0,2,2">
+                                        <Grid Margin="0,2,0,0" VerticalAlignment="Top" Width="6">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                            </Grid.RowDefinitions>
+                                            <Border Height="1" Margin="0,0,0,1" Background="#FF99A6B2" BorderBrush="#FFFFFFFF" BorderThickness="1,0,0,0"/>
+                                            <Border Height="1" Grid.Row="1" Background="#FF99A6B2" BorderBrush="#FFFFFFFF" BorderThickness="1,0,0,0"/>
+                                        </Grid>
+                                    </Border>
+                                </Border>
+                            </ContentControl>
+                        </Canvas>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!-- Timeline: Event Title Line Style -->
+    <Style x:Key="EventTitleLineStyle" TargetType="Line">
+        <Setter Property="Margin" Value="0,5,0,0" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="Stroke" Value="#FFCCCCCC" />
+        <Setter Property="Visibility" Value="Visible" />
+        <Setter Property="Canvas.ZIndex" Value="-1" />
+    </Style>
+    <!--Timeline Axis -->
+    <Style x:Key="EarthquakeAxisStyle" TargetType="ig:DateTimeAxis">
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="ShowLabels" Value="False" />
+        <Setter Property="ShowMajorTickMarks" Value="False" />
+        <Setter Property="ThumbStyle">
+            <Setter.Value>
+                <Style TargetType="ig:AxisThumb">
+                    <Setter Property="Width" Value="40" />
+                    <Setter Property="Height" Value="40" />
+                    <Setter Property="Canvas.ZIndex" Value="0" />
+                    <Setter Property="Cursor" Value="Hand" />
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ig:AxisThumb">
+                                <Ellipse>
+                                    <Ellipse.Fill>
+                                        <RadialGradientBrush>
+                                            <GradientStop Color="Transparent" Offset="0"/>
+                                            <GradientStop Color="Transparent" Offset="0.583"/>
+                                            <GradientStop Color="#66FFFFFF" Offset="0.657"/>
+                                            <GradientStop Color="Transparent" Offset="0.749"/>
+                                            <GradientStop Color="Transparent" Offset="0.794"/>
+                                            <GradientStop Color="#4CFFFFFF" Offset="0.84"/>
+                                            <GradientStop Color="Transparent" Offset="0.917"/>
+                                            <GradientStop Color="#33FFFFFF" Offset="0.957"/>
+                                            <GradientStop Color="Transparent" Offset="1"/>
+                                        </RadialGradientBrush>
+                                    </Ellipse.Fill>
+                                </Ellipse>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="PaneStyle">
+            <Setter.Value>
+                <Style TargetType="ig:Mark">
+                    <Setter Property="Height" Value="6"/>
+                    <Setter Property="Stroke" Value="{StaticResource AppPrimaryBrush1}"/>
+                    <Setter Property="Fill" Value="{StaticResource AppPrimaryBrush1}"/>
+                    <!--<Setter Property="Fill">
+                        <Setter.Value>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="{StaticResource AppPrimaryColor1}" Offset="0"/>
+                                <GradientStop Color="{StaticResource AppPrimaryColor1}" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>-->
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+   
+    <!-- Timeline -->
+    <Style x:Key="EarthquakeTimelineStyle" TargetType="ig:XamTimeline">
+        <Setter Property="Background" Value="#FF1A4163"/>
+        <Setter Property="MinWidth" Value="120"/>
+        <Setter Property="MinHeight" Value="100"/>
+        <Setter Property="ZoombarStyle" Value="{StaticResource XamZoombarStyle}" />
+        <Setter Property="SceneStyle">
+            <Setter.Value>
+                <Style TargetType="ig:Scene">
+                    <Setter Property="IsTabStop" Value="False"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ig:Scene">
+                                <Grid>
+                                    <ig:StripesPanel x:Name="StripesPanelElement"/>
+                                    <ig:GridLinesPanel x:Name="GridLinesPanelElement"/>
+                                    <Grid Style="{TemplateBinding SceneGridStyle}">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="75"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <ig:EventTitlesPanel x:Name="TitlesPanelTopOrLeftElement" Position="TopOrLeft"  Grid.Row="1"/>
+                                        <ig:EventTitlesPanel x:Name="TitlesPanelBottomOrRightElement" Position="TopOrLeft" Grid.Row="1"/>
+                                        <!--<controls:TiledImage Grid.Row="3" Source="/IGShowcase.EarthQuake;component/Assets/Images/bottom.png" Height="166" HorizontalAlignment="Stretch"/>-->
+                                        <!--TileMode="Tile"-->
+                                        <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Grid.Row="3" Height="110" Fill="#FFB9B9B9">
+                                           <!-- <Rectangle.Fill>
+                                                <ImageBrush ImageSource="/IGShowcase.EarthQuake;component/Assets/Images/bottom.png"/>
+                                            </Rectangle.Fill>-->
+                                        </Rectangle>
+                                        <Grid x:Name="AxisPaneElement" Grid.Row="2" Margin="0,0,0,-20"/>
+                                    </Grid>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="LegendStyle">
+            <Setter.Value>
+                <Style TargetType="ig:TimelineLegend">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ig:XamTimeline">
+                    <Grid>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <ig:Title Style="{TemplateBinding TitleStyle}" Content="{TemplateBinding Title}"/>
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid Grid.RowSpan="2" Background="#FF7EC0F0">
+                                        <Border VerticalAlignment="Stretch">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="0*"/>
+                                                    <ColumnDefinition Width="31*"/>
+                                                    <ColumnDefinition Width="15*"/>
+                                                    <ColumnDefinition Width="36*"/>
+                                                    <ColumnDefinition Width="14*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <!--<Rectangle Fill="{TemplateBinding Background}" Grid.ColumnSpan="5" />-->
+                                                <Rectangle Fill="#ffEEEEEE" Grid.Column="0" />
+                                                <Rectangle Fill="#ffEEEEEE" Grid.Column="2" />
+                                                <Rectangle Fill="#ffEEEEEE" Grid.Column="5" />
+                                                <Rectangle Fill="#ffe6e6e6" Grid.Column="1" />
+                                                <Rectangle Fill="#fff8f8f8" Grid.Column="3" />
+
+                                                <Path Grid.Column="3" Data="M28.09,54.64C29.15,54.79 30.23,54.87 31.34,54.87 32.44,54.87 33.52,54.79 34.58,54.64L34.58,59.41C34.58,61.21 33.13,62.66 31.34,62.66 29.54,62.66 28.09,61.21 28.09,59.41z M45.62,49.97L48.00,54.17C48.88,55.73 48.33,57.72 46.77,58.60 45.21,59.48 43.23,58.93 42.34,57.37L39.99,53.20C42.02,52.39,43.91,51.30,45.62,49.97z M16.57,49.60C18.24,50.97,20.11,52.11,22.12,52.97L19.65,57.08C18.73,58.62 16.73,59.11 15.20,58.19 13.66,57.27 13.16,55.28 14.09,53.74z M53.03,40.08L57.29,42.53C58.84,43.43 59.37,45.41 58.48,46.97 57.58,48.52 55.60,49.06 54.04,48.16L49.83,45.73C51.14,44.02,52.22,42.12,53.03,40.08z M9.53,39.83C10.31,41.88,11.37,43.79,12.66,45.52L8.42,47.90C6.86,48.78 4.88,48.22 4.00,46.66 3.12,45.09 3.68,43.11 5.24,42.24z M54.38,28.08L59.41,28.08C61.21,28.08 62.66,29.53 62.66,31.33 62.66,33.12 61.21,34.57 59.41,34.57L54.44,34.57C54.57,33.59 54.64,32.58 54.64,31.56 54.64,30.38 54.55,29.22 54.38,28.08z M3.24,28.08L8.27,28.08C8.10,29.22 8.01,30.38 8.01,31.56 8.01,32.58 8.08,33.58 8.21,34.57L3.24,34.57C1.45,34.57 0,33.12 0,31.33 0,29.53 1.45,28.08 3.24,28.08z M55.78,14.34C56.93,14.33 58.06,14.93 58.66,16.00 59.53,17.56 58.98,19.54 57.41,20.42L52.97,22.91C52.16,20.88,51.07,18.98,49.75,17.28L54.24,14.76C54.73,14.48,55.26,14.35,55.78,14.34z M7.08,14.06C7.60,14.08,8.13,14.22,8.61,14.50L13.08,17.07C11.73,18.76,10.62,20.64,9.78,22.66L5.38,20.12C3.82,19.23 3.29,17.24 4.18,15.69 4.79,14.62 5.93,14.04 7.08,14.06z M31.34,11.78C42.26,11.78 51.11,20.64 51.11,31.56 51.11,42.48 42.26,51.33 31.34,51.33 20.42,51.33 11.55,42.48 11.55,31.56 11.55,20.64 20.42,11.78 31.34,11.78z M45.72,4.00C45.79,4.00 45.87,4.00 45.94,4.00 46.46,4.03 46.99,4.18 47.47,4.46 49.00,5.39 49.50,7.38 48.58,8.92L45.91,13.37C44.22,12.02,42.35,10.89,40.33,10.05L43.01,5.58C43.61,4.59,44.65,4.03,45.72,4.00z M17.44,3.64C18.59,3.62,19.72,4.21,20.33,5.29L22.90,9.83C20.86,10.62,18.95,11.70,17.24,13.01L14.68,8.48C13.79,6.92 14.34,4.94 15.90,4.06 16.39,3.78 16.92,3.65 17.44,3.64z M31.34,0C33.13,0,34.58,1.45,34.58,3.24L34.58,8.47C33.52,8.32 32.44,8.24 31.34,8.24 30.23,8.24 29.15,8.32 28.09,8.47L28.09,3.24C28.09,1.45,29.55,0,31.34,0z" Stretch="Uniform" Margin="0,10,0,0" VerticalAlignment="Top" Width="40" Height="40"  Fill="#FFB9B9B9" />
+
+                                                <Path Grid.Column="1"
+  Data="M18.41,19.33L18.84,23.42 22.45,25.39 18.69,27.06 17.94,31.10 15.18,28.05 11.10,28.58 13.17,25.02 11.40,21.30 15.42,22.16z M5.66,14.89L5.99,18.06 8.80,19.59 5.88,20.89 5.29,24.03 3.16,21.65 0,22.06 1.59,19.30 0.22,16.42 3.34,17.08z M22.33,0C37.05,3.55E-15 48.99,11.94 48.99,26.66 48.99,41.39 37.05,53.33 22.33,53.33 15.54,53.33 9.38,50.78 4.67,46.61 18.93,46.07 30.33,34.38 30.33,19.99 30.33,12.05 26.83,4.93 21.31,0.04 21.65,0.03 21.98,3.55E-15 22.33,0z"
+  Margin="0,10,0,0" VerticalAlignment="Top" Width="40" Height="40" Fill="#FFB9B9B9" Stretch="Uniform"/>
+
+                                                <Path Grid.Column="0"
+  Data="M34.71,17.92 L37.92,17.92 C39.07,17.92 40,18.85 40,20 L34.87,20.00 L34.86,19.58 C34.84,19.02 34.79,18.47 34.71,17.92 z M2.06,17.92 L5.27,17.92 C5.19,18.47 5.14,19.02 5.12,19.58 L5.11,20.00 L2.27E-13,20.00 C-5.36E-07,18.85 0.92,17.92 2.06,17.92 z M35.60,9.15 C36.34,9.14 37.06,9.53 37.44,10.21 C38.00,11.20 37.65,12.47 36.64,13.03 L33.81,14.62 C33.29,13.32 32.60,12.11 31.75,11.03 L34.62,9.42 C34.93,9.24 35.27,9.16 35.60,9.15 z M4.51,8.97 C4.85,8.98 5.18,9.07 5.49,9.25 L8.34,10.89 C7.48,11.97 6.77,13.17 6.24,14.46 L3.43,12.84 C2.43,12.27 2.10,11.00 2.66,10.01 C3.05,9.33 3.78,8.96 4.51,8.97 z M20.00,7.51 C26.75,7.51 32.27,12.82 32.61,19.49 L32.62,20.00 L7.37,20.00 L7.38,19.49 C7.72,12.82 13.25,7.51 20.00,7.51 z M29.18,2.55 C29.23,2.55 29.28,2.55 29.32,2.55 C29.65,2.57 29.99,2.66 30.30,2.84 C31.27,3.44 31.59,4.71 31.01,5.69 L29.30,8.53 C28.22,7.67 27.03,6.95 25.74,6.41 L27.45,3.56 C27.83,2.93 28.50,2.57 29.18,2.55 z M11.13,2.32 C11.86,2.31 12.58,2.68 12.97,3.37 L14.61,6.27 C13.31,6.77 12.09,7.46 11.00,8.30 L9.37,5.41 C8.80,4.41 9.15,3.15 10.15,2.59 C10.46,2.41 10.80,2.33 11.13,2.32 z M20.00,0 C21.14,-7.62E-09 22.07,0.92 22.07,2.06 L22.07,5.40 C21.39,5.31 20.70,5.26 20.00,5.26 C19.29,5.26 18.60,5.31 17.93,5.40 L17.93,2.06 C17.93,0.92 18.86,-7.62E-09 20.00,0 z"
+ Margin="0,10,0,0" VerticalAlignment="Top" Width="40" Height="40" Fill="#FFB9B9B9" Stretch="Uniform"/>
+
+                                                <Path Grid.Column="5"
+  Data="M34.71,17.92 L37.92,17.92 C39.07,17.92 40,18.85 40,20 L34.87,20.00 L34.86,19.58 C34.84,19.02 34.79,18.47 34.71,17.92 z M2.06,17.92 L5.27,17.92 C5.19,18.47 5.14,19.02 5.12,19.58 L5.11,20.00 L2.27E-13,20.00 C-5.36E-07,18.85 0.92,17.92 2.06,17.92 z M35.60,9.15 C36.34,9.14 37.06,9.53 37.44,10.21 C38.00,11.20 37.65,12.47 36.64,13.03 L33.81,14.62 C33.29,13.32 32.60,12.11 31.75,11.03 L34.62,9.42 C34.93,9.24 35.27,9.16 35.60,9.15 z M4.51,8.97 C4.85,8.98 5.18,9.07 5.49,9.25 L8.34,10.89 C7.48,11.97 6.77,13.17 6.24,14.46 L3.43,12.84 C2.43,12.27 2.10,11.00 2.66,10.01 C3.05,9.33 3.78,8.96 4.51,8.97 z M20.00,7.51 C26.75,7.51 32.27,12.82 32.61,19.49 L32.62,20.00 L7.37,20.00 L7.38,19.49 C7.72,12.82 13.25,7.51 20.00,7.51 z M29.18,2.55 C29.23,2.55 29.28,2.55 29.32,2.55 C29.65,2.57 29.99,2.66 30.30,2.84 C31.27,3.44 31.59,4.71 31.01,5.69 L29.30,8.53 C28.22,7.67 27.03,6.95 25.74,6.41 L27.45,3.56 C27.83,2.93 28.50,2.57 29.18,2.55 z M11.13,2.32 C11.86,2.31 12.58,2.68 12.97,3.37 L14.61,6.27 C13.31,6.77 12.09,7.46 11.00,8.30 L9.37,5.41 C8.80,4.41 9.15,3.15 10.15,2.59 C10.46,2.41 10.80,2.33 11.13,2.32 z M20.00,0 C21.14,-7.62E-09 22.07,0.92 22.07,2.06 L22.07,5.40 C21.39,5.31 20.70,5.26 20.00,5.26 C19.29,5.26 18.60,5.31 17.93,5.40 L17.93,2.06 C17.93,0.92 18.86,-7.62E-09 20.00,0 z"
+ Margin="0,10,0,0" VerticalAlignment="Top" Width="40" Height="40" Fill="#FFB9B9B9" Stretch="Uniform"/>
+
+                                                <Path Grid.Column="2"
+  Data="M34.71,17.92 L37.92,17.92 C39.07,17.92 40,18.85 40,20 L34.87,20.00 L34.86,19.58 C34.84,19.02 34.79,18.47 34.71,17.92 z M2.06,17.92 L5.27,17.92 C5.19,18.47 5.14,19.02 5.12,19.58 L5.11,20.00 L2.27E-13,20.00 C-5.36E-07,18.85 0.92,17.92 2.06,17.92 z M35.60,9.15 C36.34,9.14 37.06,9.53 37.44,10.21 C38.00,11.20 37.65,12.47 36.64,13.03 L33.81,14.62 C33.29,13.32 32.60,12.11 31.75,11.03 L34.62,9.42 C34.93,9.24 35.27,9.16 35.60,9.15 z M4.51,8.97 C4.85,8.98 5.18,9.07 5.49,9.25 L8.34,10.89 C7.48,11.97 6.77,13.17 6.24,14.46 L3.43,12.84 C2.43,12.27 2.10,11.00 2.66,10.01 C3.05,9.33 3.78,8.96 4.51,8.97 z M20.00,7.51 C26.75,7.51 32.27,12.82 32.61,19.49 L32.62,20.00 L7.37,20.00 L7.38,19.49 C7.72,12.82 13.25,7.51 20.00,7.51 z M29.18,2.55 C29.23,2.55 29.28,2.55 29.32,2.55 C29.65,2.57 29.99,2.66 30.30,2.84 C31.27,3.44 31.59,4.71 31.01,5.69 L29.30,8.53 C28.22,7.67 27.03,6.95 25.74,6.41 L27.45,3.56 C27.83,2.93 28.50,2.57 29.18,2.55 z M11.13,2.32 C11.86,2.31 12.58,2.68 12.97,3.37 L14.61,6.27 C13.31,6.77 12.09,7.46 11.00,8.30 L9.37,5.41 C8.80,4.41 9.15,3.15 10.15,2.59 C10.46,2.41 10.80,2.33 11.13,2.32 z M20.00,0 C21.14,-7.62E-09 22.07,0.92 22.07,2.06 L22.07,5.40 C21.39,5.31 20.70,5.26 20.00,5.26 C19.29,5.26 18.60,5.31 17.93,5.40 L17.93,2.06 C17.93,0.92 18.86,-7.62E-09 20.00,0 z"
+ Margin="0,10,0,0" VerticalAlignment="Top" Width="40" Height="40" Fill="#FFB9B9B9" Stretch="Uniform"/>
+                                            </Grid>
+                                        </Border>
+                                        <!--<common:TiledImage Source="/IGShowcase.EarthQuake;component/Assets/Images/stars.png"/>-->
+                                        <ig:Scene x:Name="SceneElement" Style="{TemplateBinding SceneStyle}"/>
+                                        <Canvas x:Name="DetailsPaneElement"/>
+                                    </Grid>
+                                    <Border  BorderThickness="1" BorderBrush="#FF565656" Height="70" Grid.Row="1" Margin="45,5,45,5"/>
+                                    <Grid x:Name="ZoombarPanelElement" Height="70" Grid.Row="1" Margin="15,5,15,5"/>
+                                </Grid>
+                                <ig:TimelineLegend x:Name="LegendElement" Margin="10,0,0,0" Style="{TemplateBinding LegendStyle}" Grid.Column="1" Title="{TemplateBinding LegendTitle}" BorderBrush="{x:Null}"/>
+                            </Grid>
+                        </Grid>
+                        <ig:MessageControl x:Name="MessageControlElement" Style="{TemplateBinding MessageControlStyle}" d:IsHidden="True"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+</ResourceDictionary>

@@ -1,0 +1,67 @@
+﻿<inf:RibbonTabItem x:Class="IgOutlook.Modules.Calendar.Menus.HomeTab"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:inf="clr-namespace:IgOutlook.Infrastructure;assembly=IgOutlook.Infrastructure"
+             xmlns:resources="clr-namespace:IgOutlook.Modules.Calendar.Resources"
+             xmlns:ig="http://schemas.infragistics.com/xaml"
+             xmlns:igWpf="http://schemas.infragistics.com/xaml/wpf"
+             xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+             Header="{x:Static resources:ResourceStrings.HomeTab_Header_Home}">
+    <inf:RibbonTabItem.Resources>
+        <resources:ResourceStrings x:Key="Strings"/>
+    </inf:RibbonTabItem.Resources>
+    <igWpf:RibbonGroup Caption="{Binding Source={StaticResource Strings}, Path=HomeTab_RibbonGroupCaption_New}">
+        <igWpf:ButtonTool Caption="{Binding Source={StaticResource Strings}, Path=HomeTab_RibbonGroupNew_ButtonTool_NewAppointment}" 
+                          Command="{Binding NewAppointmentCommand}"
+                          LargeImage="/IgOutlook.Modules.Calendar;component/Images/NewAppointment32.png" 
+                          SmallImage="/IgOutlook.Modules.Calendar;component/Images/NewAppointment16.png" igWpf:RibbonGroup.MaximumSize="ImageAndTextLarge"/>
+        <igWpf:ButtonTool Caption="{Binding Source={StaticResource Strings}, Path=HomeTab_RibbonGroupNew_ButtonTool_NewMeeting}" 
+                          Command="{Binding NewMeetingCommand}"
+                          LargeImage="/IgOutlook.Modules.Calendar;component/Images/NewMeetingRequest32.png" 
+                          SmallImage="/IgOutlook.Modules.Calendar;component/Images/NewMeetingRequest16.png" igWpf:RibbonGroup.MaximumSize="ImageAndTextLarge"/>
+    </igWpf:RibbonGroup>
+
+    <igWpf:RibbonGroup Caption="{Binding Source={StaticResource Strings}, Path=HomeTab_RibbonGroupCaption_Arrange}">
+        <igWpf:RadioButtonTool Caption="{Binding Source={StaticResource Strings}, Path=HomeTab_RibbonGroupArrange_ButtonTool_Day}" 
+                               IsChecked="{Binding IsDayViewSelected, Mode=OneWay}" 
+                               LargeImage="/IgOutlook.Modules.Calendar;component/Images/DailyView32.png" 
+                               SmallImage="/IgOutlook.Modules.Calendar;component/Images/DailyView16.png" igWpf:RibbonGroup.MaximumSize="ImageAndTextLarge">
+            <ig:Commanding.Command>
+                <igPrim:XamOutlookCalendarViewCommandSource CommandType="SwitchToDayView" EventName="Click" TargetName="ocv" />
+            </ig:Commanding.Command>
+        </igWpf:RadioButtonTool>
+        <igWpf:RadioButtonTool Caption="{Binding Source={StaticResource Strings}, Path=HomeTab_RibbonGroupArrange_ButtonTool_WorkWeek}" 
+                               IsChecked="{Binding IsWorkWeekSelected, Mode=OneWay}" 
+                               LargeImage="/IgOutlook.Modules.Calendar;component/Images/WorkWeek32.png" 
+                               SmallImage="/IgOutlook.Modules.Calendar;component/Images/WorkWeek16.png" igWpf:RibbonGroup.MaximumSize="ImageAndTextLarge">
+            <ig:Commanding.Command>
+                <igPrim:XamOutlookCalendarViewCommandSource CommandType="SwitchToWorkWeekView" EventName="Click" TargetName="ocv" />
+            </ig:Commanding.Command>
+        </igWpf:RadioButtonTool>
+        <igWpf:RadioButtonTool Caption="{Binding Source={StaticResource Strings}, Path=HomeTab_RibbonGroupArrange_ButtonTool_Week}"
+                               IsChecked="{Binding IsWeekViewSelected, Mode=OneWay}" 
+                               LargeImage="/IgOutlook.Modules.Calendar;component/Images/WeeklyView32.png" 
+                               SmallImage="/IgOutlook.Modules.Calendar;component/Images/WeeklyView16.png" igWpf:RibbonGroup.MaximumSize="ImageAndTextLarge">
+            <ig:Commanding.Command>
+                <igPrim:XamOutlookCalendarViewCommandSource CommandType="SwitchToFullWeekView" EventName="Click" TargetName="ocv" />
+            </ig:Commanding.Command>
+        </igWpf:RadioButtonTool>
+        <igWpf:RadioButtonTool Caption="{Binding Source={StaticResource Strings}, Path=HomeTab_RibbonGroupArrange_ButtonTool_Month}" 
+                               IsChecked="{Binding IsMonthViewSelected, Mode=OneWay}" 
+                               LargeImage="/IgOutlook.Modules.Calendar;component/Images/MonthlyView32.png" 
+                               SmallImage="/IgOutlook.Modules.Calendar;component/Images/MonthlyView16.png" igWpf:RibbonGroup.MaximumSize="ImageAndTextLarge">
+            <ig:Commanding.Command>
+                <igPrim:XamOutlookCalendarViewCommandSource CommandType="SwitchToMonthView" EventName="Click" TargetName="ocv" />
+            </ig:Commanding.Command>
+        </igWpf:RadioButtonTool>
+        <igWpf:RadioButtonTool Caption="{Binding Source={StaticResource Strings}, Path=HomeTab_RibbonGroupArrange_ButtonTool_ScheduleView}" 
+                               IsChecked="{Binding IsScheduleViewSelected, Mode=OneWay}" 
+                               LargeImage="/IgOutlook.Modules.Calendar;component/Images/CalendarHorizontal32.png" 
+                               SmallImage="/IgOutlook.Modules.Calendar;component/Images/CalendarHorizontal16.png" igWpf:RibbonGroup.MaximumSize="ImageAndTextLarge">
+            <ig:Commanding.Command>
+                <igPrim:XamOutlookCalendarViewCommandSource CommandType="SwitchToScheduleView" EventName="Click" TargetName="ocv" />
+            </ig:Commanding.Command>
+        </igWpf:RadioButtonTool>
+    </igWpf:RibbonGroup>
+   
+</inf:RibbonTabItem>

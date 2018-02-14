@@ -1,0 +1,123 @@
+﻿<UserControl 
+    x:Class="IGShowcase.GeographicMapBrowser.Views.MapImagerySelector"
+    mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="400"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:converters="clr-namespace:IGExtensions.Common.Converters;assembly=IGExtensions.Common" 
+    xmlns:igCommon="clr-namespace:IGExtensions.Common.Controls;assembly=IGExtensions.Common">
+    <UserControl.Resources>
+        <!--<imagery:GeoImageryGroups x:Key="ImageryGroups"/>-->
+        <converters:VisibilityToBoolConverter x:Key="VisibilityConverter" />
+        <converters:ImagePathConverter x:Key="ImagePathConverter" 
+                                       IsCultureSpecific="False"
+                                       ComponentName="IGExtensions.Common.Maps" 
+                                       ComponentAssetsPath="/assets/images/previews/" />
+        <Style x:Key="ImageryButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="MinHeight" Value="30"/>
+            <Setter Property="MinWidth" Value="30"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimation 
+                                                Storyboard.TargetProperty="Background.Color" Duration="0:0:0.3"
+                                                Storyboard.TargetName="ImageryBorder" To="DodgerBlue" AutoReverse="False"/>
+                                            <DoubleAnimation Storyboard.TargetName="ContentControl"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             To="1"
+                                                             Duration="0:0:2"
+                                                             AutoReverse="False" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ColorAnimation 
+                                                Storyboard.TargetProperty="Background.Color" Duration="0:0:0.3"
+                                                Storyboard.TargetName="ImageryBorder" To="DodgerBlue" AutoReverse="False"/>
+                                            <DoubleAnimation Storyboard.TargetName="ContentControl"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             To="0.7"
+                                                             Duration="0:0:2"
+                                                             AutoReverse="False" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled"/>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Border x:Name="ImageryBorder" Background="{TemplateBinding Background}">
+                                <ContentControl x:Name="ContentControl" Opacity="1"
+                                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                                Margin="{TemplateBinding Padding}" 
+                                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                                    <ContentPresenter x:Name="contentPresenter" />
+                                </ContentControl>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot">
+
+        <ScrollViewer x:Name="MapImageryItemsViewer" Grid.Row="1" VerticalAlignment="Stretch" >
+            <ItemsControl x:Name="MapImageryItemsPresenter" Margin="0" >
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical" Margin="{StaticResource PanelsElementsVertSmallMargin}">
+                            <TextBlock Text="{Binding Path=Name}" Style="{StaticResource TextBlockStyle}" />
+                            <ItemsControl ItemsSource="{Binding Path=ImageryViews}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <Button x:Name="ImageryButton" Style="{StaticResource ImageryButtonStyle}" Click="ImageryButton_Click" >
+                                                <ToolTipService.ToolTip>
+                                                    <Border>
+                                                        <StackPanel MaxWidth="250" >
+                                                            <TextBlock Text="{Binding Path=ImageryDisplayName}" Style="{StaticResource TextBlockStyle}" FontWeight="SemiBold"  />
+                                                            <Rectangle Margin="3" Width="245" Height="245" Opacity="0.95" >
+                                                                <Rectangle.Fill>
+                                                                    <ImageBrush Stretch="Uniform" ImageSource="{Binding Path=ImageryFileName, Converter={StaticResource ImagePathConverter}}" />
+                                                                </Rectangle.Fill>
+                                                            </Rectangle>
+                                                            <TextBlock Text="{Binding Path=ImageryDescription}" FontSize="11" TextWrapping="Wrap" Style="{StaticResource TextBlockStyle}" />
+                                                        </StackPanel>
+                                                    </Border>
+                                                </ToolTipService.ToolTip>
+                                                <Button.Content>
+                                                    <Rectangle x:Name="ImageryPreview" Margin="1" Width="50" Height="50" Opacity="1" >
+                                                        <Rectangle.Fill>
+                                                            <ImageBrush Stretch="Uniform" ImageSource="{Binding Path=ImageryFileName, Converter={StaticResource ImagePathConverter}}" />
+                                                        </Rectangle.Fill>
+                                                    </Rectangle>
+                                                </Button.Content>
+                                            </Button>
+                                         </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                       <igCommon:WrapPanel Margin="0" Width="180" HorizontalAlignment="Center"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical" Margin="2" HorizontalAlignment="Stretch" Height="1400" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

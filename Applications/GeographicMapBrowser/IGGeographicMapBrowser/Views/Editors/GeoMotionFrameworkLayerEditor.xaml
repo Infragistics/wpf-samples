@@ -1,0 +1,94 @@
+﻿<views:GeoMapLayerEditor 
+    x:Class="IGShowcase.GeographicMapBrowser.Views.GeoMotionFrameworkLayerEditor" 
+    mc:Ignorable="d"  d:DesignWidth="640" d:DesignHeight="480" 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="clr-namespace:IGShowcase.GeographicMapBrowser.Views" 
+     xmlns:ig="http://schemas.infragistics.com/xaml">
+    <views:GeoMapLayerEditor.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                 <ResourceDictionary Source="/IGExtensions.Common;component/Assets/Styles/CommonStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        
+        </ResourceDictionary>
+    </views:GeoMapLayerEditor.Resources>
+    <Grid x:Name="LayoutRoot" HorizontalAlignment="Stretch">
+
+        <ScrollViewer HorizontalAlignment="Stretch"  MinWidth="250">
+            <StackPanel Orientation="Vertical" >
+
+                <!-- Common Specific  -->
+                <!-- ====================================================== -->
+                <!--<exCommon:PropertyValueEditor
+                    PropertyName="{Binding Path=PropertyStrings.Opacity, Source={StaticResource AssetsLocalizer}}" 
+                    PropertyToolTip="{Binding Path=PropertyStrings.OpacityToolTip, Source={StaticResource AssetsLocalizer}}" 
+                    PropertyValueMin="0" PropertyValueMax="1" PropertyValueFormat="0 %"
+                    PropertyValue="{Binding Path=Opacity, Mode=TwoWay}" >
+                </exCommon:PropertyValueEditor>-->
+              
+                <Rectangle Visibility="Collapsed" Height="1" Fill="Black" Margin="5,3,5,3" HorizontalAlignment="Stretch" />
+                <!-- <exCommon:PropertyValueEditor
+                    PropertyName="Markers:" 
+                    PropertyValueMin="0" PropertyValueMax="1000" PropertyValueFormat="0"
+                    PropertyValue="{Binding Path=SeriesView.MaximumMarkers, Mode=TwoWay}" >
+                </exCommon:PropertyValueEditor>-->
+
+                <!-- Series Specific  -->
+                <!-- ====================================================== -->
+                <ig:XamDateTimeSlider 
+                            x:Name="MotionTimeSlider" Margin="10" 
+                    HorizontalAlignment="Stretch" MinWidth="200"
+                            IsEnabled="{Binding Path=DataViewSource.DataMotionFramework.MotionSlider.IsEnabled, Mode=OneWay}"
+                            Value="{Binding Path=DataViewSource.DataMotionFramework.MotionSlider.Value, Mode=TwoWay}"
+                            MinValue="{Binding Path=DataViewSource.DataMotionFramework.MotionSlider.MinValue, Mode=OneWay}"
+                            MaxValue="{Binding Path=DataViewSource.DataMotionFramework.MotionSlider.MaxValue, Mode=OneWay}"
+                    ThumbValueChanged="MotionTimeSlider_ThumbValueChanged"
+                            TrackClickAction="MoveToPoint" VerticalAlignment="Center" FontSize="10"
+                           IncreaseButtonVisibility="Collapsed" LargeChangeType="Hours" SmallChangeType="Hours"
+                    DecreaseButtonVisibility="Collapsed" Orientation="Horizontal" Style="{StaticResource SliderBaseStyle}" 
+                    SmallChange="5" Foreground="{StaticResource ForegroundBrush}" >
+                    <ig:XamDateTimeSlider.Thumb>
+                        <ig:XamSliderDateTimeThumb IsSnapToTickEnabled="False" BorderBrush="White" BorderThickness="1"/>
+                    </ig:XamDateTimeSlider.Thumb>
+                    <ig:XamDateTimeSlider.TickMarks>
+                            <!--make the Slider show only a few tickmark labels and avoid labels overlapping-->
+                        <ig:DateTimeSliderTickMarks FrequencyType="Hours" NumberOfTickMarks="2" UseFrequency="True" IncludeSliderEnds="True"/>
+                        <!--<ig:DateTimeSliderTickMarks FrequencyType="Hours" NumberOfTickMarks="2" UseFrequency="True" HorizontalTickMarksTemplate="{StaticResource SliderHorizontalTick}" />-->
+                    </ig:XamDateTimeSlider.TickMarks>
+                </ig:XamDateTimeSlider>
+
+
+                <ToggleButton x:Name="MotionToggleButton" Grid.Column="0" Margin="5,10,5,5" Foreground="White"
+                                      IsChecked="{Binding Path=DataViewSource.DataMotionFramework.IsMotionStarted, Mode=TwoWay}"
+                              Content="{Binding Path=AppStrings.Data_ToggleDataAnimation, Source={StaticResource AssetsLocalizer}}"
+							  VerticalAlignment="Center" />
+
+                <!--<exCommon:PropertyBrushColorEditor 
+                    PropertyName="{Binding Path=PropertyStrings.MarkerOutOfScaleColor, Source={StaticResource AssetsLocalizer}}" 
+                    PropertyToolTip="{Binding Path=PropertyStrings.MarkerOutOfScaleColorToolTip, Source={StaticResource AssetsLocalizer}}" 
+                    HorizontalAlignment="Stretch" BrushColor="{Binding Path=FillScaleFilterOutBrush, Mode=TwoWay}"/>
+                <exCommon:PropertyBrushColorEditor 
+                    PropertyName="{Binding Path=PropertyStrings.MarkerOutlineColor, Source={StaticResource AssetsLocalizer}}" 
+                    PropertyToolTip="{Binding Path=PropertyStrings.MarkerOutlineColorToolTip, Source={StaticResource AssetsLocalizer}}" 
+                    HorizontalAlignment="Stretch" BrushColor="{Binding Path=FillScaleOutlineBrush, Mode=TwoWay}"/>-->
+
+                <!-- WorldCities Specific -->
+                <!-- ====================================================== -->
+                <!--<exCommon:PropertyRangeEditor  
+                    x:Name="WorldCitiesPopulationFilter" 
+                    PropertyName="{Binding Path=AppStrings.DataFilter_Population, Source={StaticResource AssetsLocalizer}}" 
+                    PropertyValueFormat="#,##0,,.0 M" PropertyValueAbsoluteMin="0" PropertyValueAbsoluteMax="30000000" 
+                    PropertyValueRangeMin="{Binding Path=DataViewSource.FilterView.PopulationMin, Mode=TwoWay}"
+                    PropertyValueRangeMax="{Binding Path=DataViewSource.FilterView.PopulationMax, Mode=TwoWay}">
+                </exCommon:PropertyRangeEditor>-->
+ 
+            </StackPanel>
+           
+        </ScrollViewer>
+            
+            
+    </Grid>
+</views:GeoMapLayerEditor >

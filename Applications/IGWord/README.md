@@ -1,0 +1,3 @@
+﻿# Word-Inspired UI
+
+This sample application gives users a familiar Microsoft Word-inspired user interface built with Infragistics controls. Features of this app include visuals and styles inspired by MS Office software, patterns and practices from the Microsoft Prism library, and common design patterns and principals such as MVVM (Model-View-ViewModel), IoC (Inversion of Control), DI (dependency injection), event aggregation, commanding, navigation, and modular application development techniques.

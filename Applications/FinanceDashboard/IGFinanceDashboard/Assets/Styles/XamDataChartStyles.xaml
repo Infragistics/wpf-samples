@@ -1,0 +1,625 @@
+﻿    <ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:local="clr-namespace:IGShowcase.FinanceDashboard.Controls" 
+    xmlns:common="clr-namespace:IGExtensions.Common.Controls;assembly=IGExtensions.Common" 
+    xmlns:commonConverters="clr-namespace:IGExtensions.Common.Converters;assembly=IGExtensions.Common" 
+    xmlns:localConverters="clr-namespace:IGShowcase.FinanceDashboard.Converters">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/IGShowcase.FinanceDashboard;component/Assets/Styles/AppBrushes.xaml"/>
+        <ResourceDictionary Source="/IGShowcase.FinanceDashboard;component/Assets/Styles/AppStyles.xaml"/>
+       
+        <!--<ResourceDictionary Source="/IGShowcase.FinanceDashboard;component/Assets/Styles/GlobalStyles.xaml"/>-->
+    </ResourceDictionary.MergedDictionaries>
+   
+        <ig:StringFormatConverter x:Key="StringFormatConverter" />
+    <commonConverters:DateToStringConverter x:Key="DateToStringConverter"/>
+
+    <!--TODO-VD: make custom styles washable (or not) using the resource washer (common:ColorWasher.WashGroup.IsExcludedFromWash) -->
+
+    <SolidColorBrush x:Key="AxisForegroundBrush" Color="#CCCCCC" />
+
+    <!-- this brush should not be washable because there are wash colors that might make it difficult to see tooltip text -->
+    <SolidColorBrush x:Key="SeriesTooltipForeground" Color="#CCCCCC" />
+
+    <!-- this brush should not be washable because it would be difficult to see multiple financial series in one data chart -->
+    <SolidColorBrush x:Key="FinancialSeriesNegativeBrush" Color="#FF606160"  />
+    
+    <!-- this brush should not be washable because it would look odd if Financial outline was changing depending on wash color 
+    and Financial (Positive) brush and Negative brush were not-->
+    <SolidColorBrush x:Key="FinancialSeriesOutlineBrush" Color="#F888"  />
+
+    <!-- brush used for rendering series in XamZoombar -->
+    <SolidColorBrush x:Key="PriceSeriesZoombarBrush" Color="#FF33CC33"/>
+    <SolidColorBrush x:Key="VolumeSeriesHighlighBrush" Color="#FF33CC33"  />
+
+    <!-- brush used for Series Tooltip Style -->
+    <SolidColorBrush x:Key="TooltipBackground2" Color="#FF333333" Opacity="0.38"/>
+    <SolidColorBrush x:Key="TooltipBackground" Color="#FF000000" Opacity="0.58"/>
+    <SolidColorBrush x:Key="TooltipBorderBrush"  Color="#FF5E5E5E"/>
+    <SolidColorBrush x:Key="PointerTooltipBrush"  Color="#FF5E5E5E"/>
+    <SolidColorBrush x:Key="AxisBrush" Color="DimGray"></SolidColorBrush>
+
+    <DataTemplate x:Key="VolumeSeriesItemBadgeTemplate2">
+        <Border Visibility="Collapsed">
+        </Border>
+    </DataTemplate>
+    <DataTemplate x:Key="VolumeSeriesItemBadgeTemplate">
+        <Grid Width="19" Height="13" Margin="0,0,5,0">
+            <Rectangle VerticalAlignment="Center" HorizontalAlignment="Center" Effect="{Binding Series.Effect}" 
+                       Fill="{Binding Series.ActualBrush}" StrokeThickness="2"
+                       Stroke="Transparent" Opacity="0.6" StrokeLineJoin="Round"  Width="13" Height="13"/>
+            <Rectangle VerticalAlignment="Center" HorizontalAlignment="Center" Effect="{Binding Series.Effect}" 
+                       Fill="Transparent" StrokeThickness="2" 
+                       Stroke="{Binding Series.ActualBrush}" StrokeLineJoin="Round" Width="13" Height="13"/>
+            <ContentPresenter Width="11" Height="11" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0" ContentTemplate="{Binding Series.ActualMarkerTemplate}" Content="{Binding}"/>
+        </Grid>
+    </DataTemplate>
+    
+    <ControlTemplate x:Key="SeriesToolTipTemplate" TargetType="ContentControl">
+        <Grid>
+            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1">
+                <StackPanel Orientation="Horizontal" d:LayoutOverrides="Width, Height" Margin="12">
+                    <ContentPresenter Content="{Binding}" ContentTemplate="{Binding Path=Series.LegendItemBadgeTemplate}" 
+                                      Visibility="Collapsed" Margin="2,0,0,0"/>
+                    <ContentPresenter Margin="{TemplateBinding Padding}" Content="{TemplateBinding Content}" />
+                </StackPanel>
+            </Border>
+        </Grid>
+    </ControlTemplate>
+    <Style x:Key="SeriesToolTipStyle" TargetType="ContentControl">
+        <Setter Property="Background" Value="{StaticResource TooltipBackground}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource TooltipBorderBrush}"/>
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="FontSize" Value="14.667"/>
+        <Setter Property="FontFamily" Value="Segoe UI"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="Padding" Value="3"/>
+        <Setter Property="Opacity" Value="0.95"/>
+        <!--<Setter Property="Template" Value="{StaticResource SeriesToolTipTemplate}"/>-->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ContentControl">
+                    <Grid>
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" d:LayoutOverrides="Width, Height" Margin="{TemplateBinding Padding}">
+                                <ContentPresenter Content="{Binding}" ContentTemplate="{Binding Path=Series.LegendItemBadgeTemplate}" 
+                                                  Visibility="Collapsed" Margin="2,0,0,0"/>
+                                <ContentPresenter Margin="{TemplateBinding Padding}" Content="{TemplateBinding Content}" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <DataTemplate x:Key="ItemHighlightMarkerTemplate">
+        <Path Stretch="Fill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="{Binding Series.ActualBrush}" Stroke="white" StrokeThickness="0.5">
+            <Path.Data>
+                <PathGeometry>
+                    <PathGeometry.Figures>
+                        <PathFigure StartPoint="0,0">
+                            <PathFigure.Segments>
+                                <ArcSegment Size="4,4" RotationAngle="0" IsLargeArc="True" SweepDirection="Clockwise" Point="0,1"/>
+                                <ArcSegment Size="4,4" RotationAngle="0" IsLargeArc="False" SweepDirection="Clockwise" Point="0,0"/>
+                            </PathFigure.Segments>
+                        </PathFigure>
+                    </PathGeometry.Figures>
+                </PathGeometry>
+            </Path.Data>
+        </Path>
+        <!--<Grid>
+            <Ellipse Width="4" Height="4" Stretch="Fill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="{Binding Series.ActualBrush}" Stroke="Transparent" StrokeThickness="0.5" Opacity="0.5" ></Ellipse>
+            <Ellipse Width="4" Height="4" Stretch="Fill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Transparent" Stroke="{Binding Series.ActualBrush}" StrokeThickness="0.5" ></Ellipse>
+        </Grid>-->
+    </DataTemplate>
+    <DataTemplate x:Key="LegendItemFinancialPriceBadgeTemplate">
+        <Grid Width="19" Height="13" Margin="0,0,5,0">
+            <Grid Width="13" Height="13">
+                <Rectangle Fill="{StaticResource LegendItemFill}" Width="13" Height="13" Margin="0"/>
+                <Path x:Name="path" Height="12" Width="13" Stretch="Fill" Opacity="1" Data="M176,109 C176,109 206,79 206,79 C206,79 176,79 176,79 C176,79 176,109 176,109 z" Effect="{Binding Series.Effect}" 
+                      Fill="{Binding Series.ActualBrush}" HorizontalAlignment="Left" VerticalAlignment="Top" StrokeLineJoin="Round" UseLayoutRounding="False" 
+                      Stroke="{Binding Series.ActualOutline}" StrokeThickness="1"/>
+                <Path x:Name="path1" Height="12" Width="13" Stretch="Fill" Opacity="1" Data="M176,109 C176,109 206,109 206,109 C206,109 206,79 206,79 C206,79 176,109 176,109 z" Effect="{Binding Series.Effect}" 
+                      Fill="{Binding Series.NegativeBrush}" Margin="0" StrokeLineJoin="Round" UseLayoutRounding="False" HorizontalAlignment="Right" VerticalAlignment="Bottom" 
+                      Stroke="{Binding Series.ActualOutline}" StrokeThickness="1"/>
+            </Grid>
+            <ContentPresenter Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center" ContentTemplate="{Binding Series.ActualMarkerTemplate}" Content="{Binding}"/>
+        </Grid>
+    </DataTemplate>
+    <localConverters:PositiveNegativeBrushValueConverter x:Key="BrushValueConverter"
+                                                            StockPositiveChangeColor="{StaticResource GreenText}"
+                                                            StockNegativeChangeColor="{StaticResource RedText}" />
+    <!--<localConverters:BrushValueConverter x:Key="SeriesBrushValueConverter"
+                                                            PositiveValueBrush="{Binding Path=Series.Brush}"
+                                                            NegativeValueBrush="{Binding Path=Series.NegativeBrush}" />-->
+    <local:SeriesTemplateSelector x:Key="StockZoomChartTypeTemplateSelector">
+        <local:SeriesTemplateSelector.LineChartTemplate>
+            <DataTemplate>
+                <ig:LineSeries ItemsSource="{Binding Path=FilteredData, Mode=OneWay}" 
+                               Title="{Binding Path=Details.Name, Mode=OneWay}"
+                               ValueMemberPath="Close"
+                               Brush="{Binding Path=Brush}" 
+                               YAxis="{Binding ElementName=yStockValue}"
+                               Thickness="2"
+                               MarkerType="None"
+                               BorderBrush="Transparent" 
+                               Canvas.ZIndex="{Binding Path=LayoutIndex, Mode=OneWay}"
+                               FontFamily="Segoe UI"
+                               TrendLineBrush="{Binding Path=Brush}"
+                               TrendLineDashArray="1 2" TrendLineThickness="2"
+                               TrendLinePeriod="5" TrendLineType="None"
+                               TransitionDuration="0:0:1" TransitionInDuration="0:0:2"
+                               IsTransitionInEnabled="True" IsHighlightingEnabled="True">
+                    <ig:LineSeries.CacheMode>
+                        <BitmapCache />
+                    </ig:LineSeries.CacheMode>
+                </ig:LineSeries>
+            </DataTemplate>
+        </local:SeriesTemplateSelector.LineChartTemplate>
+    </local:SeriesTemplateSelector>
+    <local:AxisTemplateSelector x:Key="StockZoomChartTypeYAxisTemplateSelector">
+        <local:AxisTemplateSelector.SingleSeriesTemplate>
+            <DataTemplate>
+                <ig:NumericYAxis x:Name="yStockValue" IsLogarithmic="False" Label="{}{:c1}" MajorStroke="Transparent"
+                                 Strip="Transparent" MinorStroke="Transparent" Stroke="Transparent">
+                    <ig:NumericYAxis.LabelSettings>
+                        <ig:AxisLabelSettings Foreground="{StaticResource AxisForegroundBrush}"
+                                                  FontFamily="Segoe UI" Visibility="Collapsed"
+                                                  FontSize="12" Margin="0,6,0,6"
+                                                  Location="OutsideRight"
+                                                  Padding="0,0,0,0"
+                                                  Extent="60" />
+                    </ig:NumericYAxis.LabelSettings>
+                </ig:NumericYAxis>
+            </DataTemplate>
+        </local:AxisTemplateSelector.SingleSeriesTemplate>
+        <!-- Category Y Axis: Multiple Series Width="1024"-->
+        <local:AxisTemplateSelector.MultipleSeriesTemplate>
+            <DataTemplate>
+                <ig:NumericYAxis x:Name="yStockValue" IsLogarithmic="False" Label="{}{:c1}" MajorStroke="Transparent"
+                                 Strip="Transparent" MinorStroke="Transparent" Stroke="Transparent">
+                    <ig:NumericYAxis.LabelSettings>
+                        <ig:AxisLabelSettings Foreground="{StaticResource AxisForegroundBrush}"
+                                                  FontFamily="Segoe UI" Visibility="Collapsed"
+                                                  FontSize="12" Margin="0,6,0,6"
+                                                  Location="OutsideRight"
+                                                  Padding="0,0,0,0"
+                                                  Extent="60" />
+                    </ig:NumericYAxis.LabelSettings>
+                </ig:NumericYAxis>
+            </DataTemplate>
+        </local:AxisTemplateSelector.MultipleSeriesTemplate>
+    </local:AxisTemplateSelector>
+
+    <local:SeriesTemplateSelector x:Key="StockValueChartTypeTemplateSelector">
+        <!-- Chart type: Line Series -->
+        <local:SeriesTemplateSelector.LineChartTemplate>
+            <DataTemplate>
+                <ig:LineSeries ItemsSource="{Binding Path=FilteredData, Mode=OneWay}" 
+                               Title="{Binding Path=Details.Name, Mode=OneWay}"
+                               ValueMemberPath="Close"
+                               Brush="{Binding Path=Brush}" 
+                               YAxis="{Binding ElementName=yStockValue}"
+                               Thickness="2"
+                               MarkerType="None"
+                               BorderBrush="Transparent" 
+                               Canvas.ZIndex="{Binding Path=LayoutIndex, Mode=OneWay}"
+                               FontFamily="Segoe UI"
+                               TrendLineBrush="{Binding Path=Brush}"
+                               TrendLineDashArray="1 2" TrendLineThickness="2"
+                               TrendLinePeriod="5" TrendLineType="None"
+                               TransitionDuration="0:0:1" TransitionInDuration="0:0:2"
+                               IsTransitionInEnabled="True" IsHighlightingEnabled="True">
+                    <ig:LineSeries.CacheMode>
+                        <BitmapCache />
+                    </ig:LineSeries.CacheMode>
+                    <ig:LineSeries.ToolTip>
+                        <StackPanel Orientation="Vertical" MinWidth="150">
+                            <TextBlock HorizontalAlignment="Left" Text="{Binding Path=Series.Title}" Style="{StaticResource TooltipText}" Foreground="{Binding Path=Series.ActualBrush}"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
+                                <TextBlock HorizontalAlignment="Right" Text="{Binding Path=Item.Date, Converter={StaticResource DateToStringConverter}}" Style="{StaticResource TooltipText}" Foreground="{StaticResource SeriesTooltipForeground}"/>
+                                <TextBlock HorizontalAlignment="Right" Text="{Binding Path=Item.Close, Converter={StaticResource StringFormatConverter}, ConverterParameter='\{0:C2}'}" Margin="4,0,0,0" Style="{StaticResource TooltipText}" Foreground="{StaticResource SeriesTooltipForeground}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </ig:LineSeries.ToolTip>
+                </ig:LineSeries>
+            </DataTemplate>
+        </local:SeriesTemplateSelector.LineChartTemplate>
+        <!-- Chart type: Area -->
+        <local:SeriesTemplateSelector.AreaChartTemplate>
+            <DataTemplate>
+                <ig:AreaSeries ItemsSource="{Binding Path=FilteredData, Mode=OneWay}"
+                               Title="{Binding Path=Details.Name, Mode=OneWay}"
+                               ValueMemberPath="Close"
+                               Brush="{Binding Path=Outline}"
+                               YAxis="{Binding ElementName=yStockValue}"
+                               MarkerType="None"
+                               Thickness="2"
+                               Outline="{Binding Path=Brush}"
+                               Canvas.ZIndex="{Binding Path=LayoutIndex, Mode=OneWay}"
+                               FontFamily="Segoe UI"
+                               TrendLineBrush="{Binding Path=Brush}"
+                               TrendLineDashArray="1 2" TrendLineThickness="2"
+                               TrendLinePeriod="5" TrendLineType="None"
+                               TransitionDuration="0:0:1" TransitionInDuration="0:0:2"
+                               IsTransitionInEnabled="True" IsHighlightingEnabled="True">
+                    <ig:AreaSeries.CacheMode>
+                        <BitmapCache />
+                    </ig:AreaSeries.CacheMode>
+                    <ig:AreaSeries.TransitionEasingFunction>
+                        <CubicEase EasingMode="EaseOut" />
+                    </ig:AreaSeries.TransitionEasingFunction>
+                    <ig:AreaSeries.ToolTip>
+                        <StackPanel Orientation="Vertical" MinWidth="150">
+                            <TextBlock HorizontalAlignment="Left" Text="{Binding Path=Series.Title}" Style="{StaticResource TooltipText}" Foreground="{Binding Path=Series.Outline}"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
+                                <TextBlock HorizontalAlignment="Right" Text="{Binding Path=Item.Date, Converter={StaticResource DateToStringConverter}}" Style="{StaticResource TooltipText}" Foreground="{StaticResource SeriesTooltipForeground}"/>
+                                <TextBlock HorizontalAlignment="Right" Text="{Binding Path=Item.Close, Converter={StaticResource StringFormatConverter}, ConverterParameter='\{0:C2}'}" Margin="4,0,0,0" Style="{StaticResource TooltipText}" Foreground="{StaticResource SeriesTooltipForeground}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </ig:AreaSeries.ToolTip>
+                </ig:AreaSeries>
+            </DataTemplate>
+        </local:SeriesTemplateSelector.AreaChartTemplate>
+        <!-- Chart type: Range Area -->
+        <local:SeriesTemplateSelector.RangeAreaChartTemplate>
+            <DataTemplate>
+                <ig:RangeAreaSeries ItemsSource="{Binding Path=FilteredData, Mode=OneWay}"  
+                                   Title="{Binding Path=Details.Name, Mode=OneWay}"
+                                   HighMemberPath="High"
+                                   LowMemberPath="Low"
+                                   Brush="{Binding Path=Outline}"
+                                   YAxis="{Binding ElementName=yStockValue}"
+                                   MarkerType="None"
+                                   Thickness="2"
+                                   Outline="{Binding Path=Brush}"
+                                   Canvas.ZIndex="{Binding Path=LayoutIndex, Mode=OneWay}"
+                                   FontFamily="Segoe UI"
+                                   TransitionDuration="0:0:1" TransitionInDuration="0:0:2"
+                                    IsTransitionInEnabled="True" IsHighlightingEnabled="True">
+                    <ig:RangeAreaSeries.CacheMode>
+                        <BitmapCache />
+                    </ig:RangeAreaSeries.CacheMode>
+                    <ig:RangeAreaSeries.TransitionEasingFunction>
+                        <CubicEase EasingMode="EaseOut" />
+                    </ig:RangeAreaSeries.TransitionEasingFunction>
+                    <ig:RangeAreaSeries.ToolTip>
+                        <StackPanel Orientation="Vertical" MinWidth="150">
+                            <TextBlock HorizontalAlignment="Left" Text="{Binding Path=Series.Title}" Style="{StaticResource TooltipText}" Foreground="{Binding Path=Series.Outline}"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
+                                <TextBlock VerticalAlignment="Center" Text="{Binding Path=Item.Date, Converter={StaticResource DateToStringConverter}}" Style="{StaticResource TooltipText}" Margin="0,0,4,0" Foreground="{StaticResource SeriesTooltipForeground}"/>
+                                <StackPanel Orientation="Vertical">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock HorizontalAlignment="Right" Text="{Binding Path=Item.High, Converter={StaticResource StringFormatConverter}, ConverterParameter='\{0:C2}'}" Margin="0,0,2,0" Style="{StaticResource TooltipText}" Foreground="{StaticResource SeriesTooltipForeground}"/>
+                                        <TextBlock HorizontalAlignment="Right" Text="&#x25B2;" Foreground="{StaticResource SeriesTooltipForeground}" Margin="0,0,4,0" Style="{StaticResource TooltipText}" ></TextBlock>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock HorizontalAlignment="Right" Text="{Binding Path=Item.Low, Converter={StaticResource StringFormatConverter}, ConverterParameter='\{0:C2}'}" Margin="0,0,2,0" Style="{StaticResource TooltipText}" Foreground="{StaticResource SeriesTooltipForeground}"/>
+                                        <TextBlock HorizontalAlignment="Right" Text="&#x25BC;" Foreground="{StaticResource SeriesTooltipForeground}" Margin="0,0,4,0" Style="{StaticResource TooltipText}" ></TextBlock>
+                                    </StackPanel>
+                                </StackPanel>
+                           </StackPanel>
+                        </StackPanel>
+                    </ig:RangeAreaSeries.ToolTip>
+                </ig:RangeAreaSeries>
+            </DataTemplate>
+        </local:SeriesTemplateSelector.RangeAreaChartTemplate>
+        <!-- Chart type: Step Area -->
+        <local:SeriesTemplateSelector.StepAreaChartTemplate>
+            <DataTemplate>
+                <ig:StepAreaSeries ItemsSource="{Binding Path=FilteredData, Mode=OneWay}" 
+                                   Title="{Binding Path=Details.Name, Mode=OneWay}"
+                                   ValueMemberPath="Close"
+                                   Brush="{Binding Path=Outline}"
+                                   YAxis="{Binding ElementName=yStockValue}"
+                                   MarkerType="None"
+                                   Thickness="2"
+                                   Outline="{Binding Path=Brush}"
+                                   Canvas.ZIndex="{Binding Path=LayoutIndex, Mode=OneWay}"
+                                   FontFamily="Segoe UI"
+                                   TrendLineBrush="{Binding Path=Brush}"
+                                   TrendLineDashArray="1 2" TrendLineThickness="2"
+                                   TrendLinePeriod="5" TrendLineType="None"
+                                   TransitionDuration="0:0:1" TransitionInDuration="0:0:2"
+                                   IsTransitionInEnabled="True" IsHighlightingEnabled="True">
+                    <ig:StepAreaSeries.CacheMode>
+                        <BitmapCache />
+                    </ig:StepAreaSeries.CacheMode>
+                    <ig:StepAreaSeries.TransitionEasingFunction>
+                        <CubicEase EasingMode="EaseOut" />
+                    </ig:StepAreaSeries.TransitionEasingFunction>
+                    <ig:StepAreaSeries.ToolTip>
+                        <StackPanel Orientation="Vertical" MinWidth="180">
+                            <TextBlock HorizontalAlignment="Left" Text="{Binding Path=Series.Title}" Style="{StaticResource TooltipText}" Foreground="{Binding Path=Series.Outline}"/>
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock HorizontalAlignment="Left" Text="{Binding Path=Item.Date, Converter={StaticResource DateToStringConverter}}" Style="{StaticResource TooltipText}" Foreground="{StaticResource SeriesTooltipForeground}"/>
+                                    <TextBlock HorizontalAlignment="Right" Text="{Binding Path=Item.Close, Converter={StaticResource StringFormatConverter}, ConverterParameter='\{0:C2}'}" Margin="4,0,4,0" Style="{StaticResource TooltipText}" Foreground="{StaticResource SeriesTooltipForeground}"/>
+                                    <TextBlock HorizontalAlignment="Right" Text="{Binding Path=Item.ChangePercent, Converter={StaticResource StringFormatConverter}, ConverterParameter='\{0:N2} %'}" Margin="0,0,0,0" 
+                                               Style="{StaticResource TooltipText}" Foreground="{Binding Path=Item.ChangePercent, Converter={StaticResource BrushValueConverter}}"/>
+                                </StackPanel>
+                             </StackPanel>
+                        </StackPanel>
+                    </ig:StepAreaSeries.ToolTip>
+                </ig:StepAreaSeries>
+            </DataTemplate>
+        </local:SeriesTemplateSelector.StepAreaChartTemplate>
+        <!-- Chart type: O-H-L-C -->
+        <local:SeriesTemplateSelector.OHLCChartTemplate>
+            <DataTemplate>
+                <ig:FinancialPriceSeries ItemsSource="{Binding Path=FilteredData, Mode=OneWay}" 
+                                         Title="{Binding Path=Details.Name, Mode=OneWay}"
+                                         Thickness="2"
+                                         DisplayType="OHLC"
+                                         HighMemberPath="High"
+                                         LowMemberPath="Low"
+                                         OpenMemberPath="Open"
+                                         CloseMemberPath="Close"
+                                         Brush="{Binding Path=Brush}"
+                                         Outline="{StaticResource FinancialSeriesOutlineBrush}"
+                                         NegativeBrush="{StaticResource FinancialSeriesNegativeBrush}"
+                                         LegendItemBadgeTemplate="{StaticResource LegendItemFinancialPriceBadgeTemplate}"
+                                         YAxis="{Binding ElementName=yStockValue}"
+                                         FontFamily="Segoe UI" Resolution="8" 
+                                         Canvas.ZIndex="{Binding Path=LayoutIndex, Mode=OneWay}"
+                                         TrendLineBrush="{Binding Path=Brush}"
+                                         TrendLineDashArray="1 2" TrendLineThickness="2"
+                                         TrendLinePeriod="5" TrendLineType="CumulativeAverage"
+                                         TransitionDuration="0:0:1" TransitionInDuration="0:0:2"
+                                         IsTransitionInEnabled="True" IsHighlightingEnabled="True">
+                    <ig:FinancialPriceSeries.CacheMode>
+                        <BitmapCache />
+                    </ig:FinancialPriceSeries.CacheMode>
+                    <ig:FinancialPriceSeries.ToolTip>
+                        <StackPanel Orientation="Vertical" MinWidth="160">
+                            <TextBlock HorizontalAlignment="Left" Text="{Binding Path=Series.Title}" Style="{StaticResource TooltipText}" Foreground="{Binding Path=Series.Brush}"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
+                                <StackPanel Orientation="Vertical">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock HorizontalAlignment="Right" Text="{Binding Path=Item.High, Converter={StaticResource StringFormatConverter}, ConverterParameter='\{0:C2}'}" Margin="0,0,2,0" Style="{StaticResource TooltipText}" Foreground="{StaticResource SeriesTooltipForeground}"/>
+                                        <TextBlock HorizontalAlignment="Right" Text="&#x25B2;" Style="{StaticResource TooltipText}" 
+                                                   Foreground="{Binding Path=Series.Brush}" Margin="0,0,4,0" ></TextBlock>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock HorizontalAlignment="Right" Text="{Binding Path=Item.Low, Converter={StaticResource StringFormatConverter}, ConverterParameter='\{0:C2}'}" Margin="0,0,2,0" Style="{StaticResource TooltipText}" Foreground="{StaticResource SeriesTooltipForeground}"/>
+                                        <TextBlock HorizontalAlignment="Right" Text="&#x25BC;" Style="{StaticResource TooltipText}" 
+                                                   Foreground="{Binding Path=Series.NegativeBrush}" Margin="0,0,4,0" ></TextBlock>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock HorizontalAlignment="Right" Text="{Binding Path=Item.Close, Converter={StaticResource StringFormatConverter}, ConverterParameter='\{0:C2}'}" Margin="0,0,4,0" Style="{StaticResource TooltipText}" Foreground="{StaticResource SeriesTooltipForeground}"/>
+                                        <TextBlock HorizontalAlignment="Right" Text="{Binding Path=Item.ChangePercent, Converter={StaticResource StringFormatConverter}, ConverterParameter='\{0:N2} %'}" Margin="0,0,0,0" Style="{StaticResource TooltipText}" 
+                                               Foreground="{Binding Path=Item.ChangePercent, Converter={StaticResource BrushValueConverter}}"/>
+                                    </StackPanel>
+                                    <TextBlock HorizontalAlignment="Left" Text="{Binding Path=Item.Date, Converter={StaticResource DateToStringConverter}}" Style="{StaticResource TooltipText}" Foreground="{StaticResource SeriesTooltipForeground}"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </ig:FinancialPriceSeries.ToolTip>
+                </ig:FinancialPriceSeries>
+            </DataTemplate>
+        </local:SeriesTemplateSelector.OHLCChartTemplate>
+        <!-- Chart type: CandelStick -->
+        <local:SeriesTemplateSelector.CandelStickTemplate>
+            <DataTemplate>
+                <ig:FinancialPriceSeries ItemsSource="{Binding Path=FilteredData, Mode=OneWay}" 
+                                         Title="{Binding Path=Details.Name, Mode=OneWay}"
+                                         DisplayType="Candlestick"
+                                         HighMemberPath="High" LowMemberPath="Low"
+                                         OpenMemberPath="Open" CloseMemberPath="Close"
+                                         Brush="{Binding Path=Brush}"
+                                         Outline="{StaticResource FinancialSeriesOutlineBrush}"
+                                         NegativeBrush="{StaticResource FinancialSeriesNegativeBrush}"
+                                         LegendItemBadgeTemplate="{StaticResource LegendItemFinancialPriceBadgeTemplate}"
+                                         YAxis="{Binding ElementName=yStockValue}"
+                                         Canvas.ZIndex="{Binding Path=LayoutIndex, Mode=OneWay}"
+                                         FontFamily="Segoe UI" Resolution="8"
+                                         TrendLineBrush="{Binding Path=Brush}"
+                                         TrendLineDashArray="1 2" TrendLineThickness="2"
+                                         TrendLinePeriod="5" TrendLineType="CumulativeAverage"
+                                         TransitionDuration="0:0:1" TransitionInDuration="0:0:2"
+                                         IsTransitionInEnabled="True" IsHighlightingEnabled="True">
+                    <ig:FinancialPriceSeries.CacheMode>
+                        <BitmapCache />
+                    </ig:FinancialPriceSeries.CacheMode>
+                    <ig:FinancialPriceSeries.ToolTip>
+                        <StackPanel Orientation="Vertical" MinWidth="160">
+                            <TextBlock HorizontalAlignment="Left" Text="{Binding Path=Series.Title}" Style="{StaticResource TooltipText}" Foreground="{Binding Path=Series.Brush}"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
+                                <StackPanel Orientation="Vertical">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock HorizontalAlignment="Right" Text="{Binding Path=Item.High, Converter={StaticResource StringFormatConverter}, ConverterParameter='\{0:C2}'}" Margin="0,0,2,0" Style="{StaticResource TooltipText}" Foreground="{StaticResource SeriesTooltipForeground}"/>
+                                        <TextBlock HorizontalAlignment="Right" Text="&#x25B2;" Style="{StaticResource TooltipText}" 
+                                                   Foreground="{Binding Path=Series.Brush}" Margin="0,0,4,0" ></TextBlock>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock HorizontalAlignment="Right" Text="{Binding Path=Item.Low, Converter={StaticResource StringFormatConverter}, ConverterParameter='\{0:C2}'}" Margin="0,0,2,0" Style="{StaticResource TooltipText}" Foreground="{StaticResource SeriesTooltipForeground}"/>
+                                        <TextBlock HorizontalAlignment="Right" Text="&#x25BC;" Style="{StaticResource TooltipText}" 
+                                                   Foreground="{Binding Path=Series.NegativeBrush}" Margin="0,0,4,0" ></TextBlock>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock HorizontalAlignment="Right" Text="{Binding Path=Item.Close, Converter={StaticResource StringFormatConverter}, ConverterParameter='\{0:C2}'}" Margin="0,0,4,0" Style="{StaticResource TooltipText}" Foreground="{StaticResource SeriesTooltipForeground}"/>
+                                        <TextBlock HorizontalAlignment="Right" Text="{Binding Path=Item.ChangePercent, Converter={StaticResource StringFormatConverter}, ConverterParameter='\{0:N2} %'}" Margin="0,0,0,0" Style="{StaticResource TooltipText}" 
+                                               Foreground="{Binding Path=Item.ChangePercent, Converter={StaticResource BrushValueConverter}}"/>
+                                    </StackPanel>
+                                    <TextBlock HorizontalAlignment="Left" Text="{Binding Path=Item.Date, Converter={StaticResource DateToStringConverter}}" Style="{StaticResource TooltipText}" Foreground="{StaticResource SeriesTooltipForeground}"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </ig:FinancialPriceSeries.ToolTip>
+                </ig:FinancialPriceSeries>
+            </DataTemplate>
+        </local:SeriesTemplateSelector.CandelStickTemplate>
+    </local:SeriesTemplateSelector>
+    <local:AxisTemplateSelector x:Key="StockValueChartTypeXAxisTemplateSelector">
+        <!-- Category X Axis: Single Series -->
+        <local:AxisTemplateSelector.SingleSeriesTemplate>
+            <DataTemplate>
+                <ig:CategoryXAxis ItemsSource="{Binding Path=FilteredData, Mode=OneWay}"
+                                  Label="{}{Date:d}" Margin="0,0,0,0" 
+                                  MajorStroke="Transparent" Strip="Transparent"
+                                  MinorStroke="Transparent" Stroke="{StaticResource AxisBrush}"
+                                  TickLength="4" TickStroke="{StaticResource AxisBrush}">
+                    <ig:CategoryXAxis.LabelSettings>
+                        <ig:AxisLabelSettings Visibility="Visible"
+                                                  Extent="35"
+                                                  Location="OutsideBottom" 
+                                                  VerticalAlignment="Center"
+                                                  Foreground="{StaticResource AxisForegroundBrush}"
+                                                  Padding="0,0,0,0"
+                                                  FontFamily="Segoe UI"
+                                                  FontSize="12" />
+                    </ig:CategoryXAxis.LabelSettings>
+                </ig:CategoryXAxis>
+            </DataTemplate>
+        </local:AxisTemplateSelector.SingleSeriesTemplate>
+        <!-- Category X Axis: Multiple Series -->
+        <local:AxisTemplateSelector.MultipleSeriesTemplate>
+            <DataTemplate>
+                <ig:CategoryXAxis ItemsSource="{Binding Path=FilteredData, Mode=OneWay}"
+                                  Label="{}{Date:d}" Margin="0,0,0,0" 
+                                  MajorStroke="Transparent" Strip="Transparent"
+                                  MinorStroke="Transparent" Stroke="{StaticResource AxisBrush}"
+                                  TickLength="4" TickStroke="{StaticResource AxisBrush}">
+                    <ig:CategoryXAxis.LabelSettings>
+                        <ig:AxisLabelSettings Visibility="Collapsed"
+                                                  Extent="35"
+                                                  Location="OutsideBottom"
+                                                  VerticalAlignment="Center" 
+                                                  Foreground="{StaticResource AxisForegroundBrush}"
+                                                  FontFamily="Segoe UI"
+                                                  FontSize="12" />
+                    </ig:CategoryXAxis.LabelSettings>
+                </ig:CategoryXAxis>
+            </DataTemplate>
+        </local:AxisTemplateSelector.MultipleSeriesTemplate>
+    </local:AxisTemplateSelector>
+    <!-- Category Y Axis: Single Series-->
+    <local:AxisTemplateSelector x:Key="StockValueChartTypeYAxisTemplateSelector">
+        <local:AxisTemplateSelector.SingleSeriesTemplate>
+            <DataTemplate>
+                <ig:NumericYAxis x:Name="yStockValue" IsLogarithmic="False" Label="{}{:c1}"
+                                 Strip="Transparent" MinorStroke="Transparent" Stroke="Transparent">
+                    <ig:NumericYAxis.LabelSettings>
+                        <ig:AxisLabelSettings Foreground="{StaticResource AxisForegroundBrush}"
+                                                  FontFamily="Segoe UI"
+                                                  FontSize="12" Margin="0,6,0,6"
+                                                  Location="OutsideRight"
+                                                  Padding="0,0,0,0"
+                                                  Extent="60" />
+                    </ig:NumericYAxis.LabelSettings>
+                </ig:NumericYAxis>
+            </DataTemplate>
+        </local:AxisTemplateSelector.SingleSeriesTemplate>
+        <!-- Category Y Axis: Multiple Series Width="1024"-->
+        <local:AxisTemplateSelector.MultipleSeriesTemplate>
+            <DataTemplate>
+                <ig:NumericYAxis x:Name="yStockValue" IsLogarithmic="False" Label="{}{:c1}" 
+                                 Strip="Transparent" MinorStroke="Transparent" Stroke="Transparent">
+                    <ig:NumericYAxis.LabelSettings>
+                        <ig:AxisLabelSettings Foreground="{StaticResource AxisForegroundBrush}"
+                                                  FontFamily="Segoe UI"
+                                                  FontSize="12" Margin="0,6,0,6"
+                                                  Location="OutsideRight"
+                                                  Padding="0,0,0,0"
+                                                  Extent="60" />
+                    </ig:NumericYAxis.LabelSettings>
+                </ig:NumericYAxis>
+            </DataTemplate>
+        </local:AxisTemplateSelector.MultipleSeriesTemplate>
+    </local:AxisTemplateSelector>
+
+    <Style x:Key="Series" TargetType="ig:Series">
+        <Setter Property="MinWidth" Value="8"/>
+        <Setter Property="Thickness" Value="1"/>
+        <Setter Property="MinHeight" Value="8"/>
+        <!-- do not set a default value for Outline, or else the XamDataChart.Outlines property will be ineffective. -->
+        <Setter Property="LegendItemTemplate" Value="{StaticResource LegendItemTemplate}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ig:Series">
+                    <Canvas x:Name="RootCanvas">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <!-- <Storyboard>
+                                        <DoubleAnimation
+											Storyboard.TargetName="RootCanvas"
+											Storyboard.TargetProperty="Opacity"
+											To="0.75"
+											Duration="0:0:0.4"/>
+                                    </Storyboard> -->
+                                </VisualState>
+                                <VisualState x:Name="MouseOver">
+                                    <!-- <Storyboard>
+                                        <DoubleAnimation
+											Storyboard.TargetName="RootCanvas"
+											Storyboard.TargetProperty="Opacity"
+											To="1.0"
+											Duration="0:0:0.2"/>
+                                    </Storyboard> -->
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Canvas>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+        
+    <Style x:Key="PointerToolTipStyle" TargetType="ig:PointerTooltip">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ig:PointerTooltip">
+                    <Canvas x:Name="PART_RootCanvas">
+                        <ContentControl 
+                            Canvas.Left="{Binding Path=ActualBoxTopLeftPosition.X, RelativeSource={RelativeSource TemplatedParent}}"
+                            Canvas.Top="{Binding Path=ActualBoxTopLeftPosition.Y, RelativeSource={RelativeSource TemplatedParent}}"
+                            x:Name="PART_CONTENT" Style="{TemplateBinding ToolTipStyle}">
+                            <ContentPresenter Content="{TemplateBinding Content}" />
+                        </ContentControl>
+
+                        <!--<Polygon
+                            x:Name="PART_POINTER"
+                            Fill="{StaticResource PointerTooltipBrush}"
+                            StrokeLineJoin="Bevel"
+                            Visibility="{TemplateBinding PointerVisibility}">
+                        </Polygon>-->
+
+                        <Polyline
+                            x:Name="PART_POINTEROUTLINE"
+                            StrokeLineJoin="Bevel"
+                            Stroke="{StaticResource PointerTooltipBrush}"
+                            Fill="{StaticResource PointerTooltipBrush}"
+                            StrokeThickness="1"
+                            Visibility="{TemplateBinding PointerVisibility}">
+                        </Polyline>
+                    </Canvas>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>        
+    <Style TargetType="ig:ItemToolTipLayer" BasedOn="{StaticResource Series}" >
+        <!--<Setter Property="LegendItemBadgeTemplate" Value="{StaticResource LegendItemMarkerlessRectBadgeTemplate}"/>-->
+        <!--<Setter Property="ToolTipStyle" Value="{StaticResource ToolTipNoBadgeStyle}" />-->
+        <Setter Property="PointerToolTipStyle" Value="{StaticResource PointerToolTipStyle}" />
+    </Style>
+
+    <Style TargetType="ig:CategoryToolTipLayer" BasedOn="{StaticResource Series}" >
+        <!--<Setter Property="LegendItemBadgeTemplate" Value="{StaticResource LegendItemMarkerlessRectBadgeTemplate}"/>-->
+        <!--<Setter Property="ToolTipStyle" Value="{StaticResource ToolTipNoBadgeStyle}" />-->
+        <Setter Property="PointerToolTipStyle" Value="{StaticResource PointerToolTipStyle}" />
+    </Style>
+
+    
+        
+</ResourceDictionary>
