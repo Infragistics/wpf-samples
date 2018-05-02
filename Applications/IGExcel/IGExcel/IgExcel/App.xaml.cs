@@ -1,4 +1,5 @@
-﻿using Microsoft.Practices.Unity;
+﻿using Infragistics.Themes;
+using Microsoft.Practices.Unity;
 using Prism.Mvvm;
 using System;
 using System.Globalization;
@@ -16,6 +17,8 @@ namespace IgExcel
             //System.Threading.Thread.CurrentThread.CurrentUICulture = System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("ja-JP");
 
             base.OnStartup(e);
+
+            ThemeManager.ApplicationTheme = new Office2013Theme();
 
             ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver((viewType) =>
             {
