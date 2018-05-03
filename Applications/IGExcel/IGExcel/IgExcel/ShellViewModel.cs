@@ -6,6 +6,7 @@ using Infragistics.Controls.Grids;
 using Infragistics.Controls.Grids.Primitives;
 using Infragistics.Documents.Core;
 using Infragistics.Documents.Excel;
+using Infragistics.Documents.Excel.ConditionalFormatting;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
@@ -640,6 +641,19 @@ namespace IgExcel
             {
                 LoadTemplate(templateName);
                 SetTitle(tempDocumentName);
+
+                if(templateName == "ProjectBudget" && this.Workbook != null)
+                {
+                    Worksheet sheet = this.Workbook.Worksheets[2];
+
+                    OperatorConditionalFormat format1 = sheet.ConditionalFormats.AddOperatorCondition("C5:C28", Infragistics.Documents.Excel.ConditionalFormatting.FormatConditionOperator.GreaterEqual);
+                    format1.SetOperand1(2500);
+                    format1.CellFormat.Font.ColorInfo = new WorkbookColorInfo(System.Drawing.Color.Red);
+
+                    OperatorConditionalFormat format2 = sheet.ConditionalFormats.AddOperatorCondition("C5:C28", Infragistics.Documents.Excel.ConditionalFormatting.FormatConditionOperator.Less);
+                    format2.SetOperand1(2500);
+                    format2.CellFormat.Font.ColorInfo = new WorkbookColorInfo(System.Drawing.Color.Green);
+                }
 
                 this.IsBackstageOpened = false;
                 this.IsSpreadSheetVisible = true;
