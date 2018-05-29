@@ -132,32 +132,32 @@
     <ManifestKeyFile>InfragisticsWPF.Samples.pfx</ManifestKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="IGExtensions.Common, Version=16.1.20161.1, Culture=neutral, PublicKeyToken=219917799f95fe1f, processorArchitecture=MSIL">
+    <Reference Include="IGExtensions.Common">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\References\IGExtensions.Common.dll</HintPath>
     </Reference>
-    <Reference Include="IGExtensions.Framework, Version=16.1.20161.1, Culture=neutral, PublicKeyToken=219917799f95fe1f, processorArchitecture=MSIL">
+    <Reference Include="IGExtensions.Framework">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\References\IGExtensions.Framework.dll</HintPath>
     </Reference>
-    <Reference Include="Infragistics.Themes.MetroTheme, Version=16.1.20161.1, Culture=neutral, PublicKeyToken=219917799f95fe1f, processorArchitecture=MSIL">
+    <Reference Include="Infragistics.Themes.MetroTheme">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\References\Infragistics.Themes.MetroTheme.dll</HintPath>
     </Reference>
-    <Reference Include="InfragisticsWPF, Version=17.2.20172.2029, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\packages\Infragistics.WPF.17.2.20172.2029\lib\InfragisticsWPF.dll</HintPath>
+    <Reference Include="InfragisticsWPF">
+      <HintPath>..\..\packages\Infragistics.WPF.18.1.99\lib\InfragisticsWPF.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="InfragisticsWPF.Controls.Interactions.XamDialogWindow, Version=17.2.20172.2029, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\packages\Infragistics.WPF.DialogWindow.17.2.20172.2029\lib\InfragisticsWPF.Controls.Interactions.XamDialogWindow.dll</HintPath>
+    <Reference Include="InfragisticsWPF.Controls.Interactions.XamDialogWindow">
+      <HintPath>..\..\packages\Infragistics.WPF.DialogWindow.18.1.99\lib\InfragisticsWPF.Controls.Interactions.XamDialogWindow.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="InfragisticsWPF.Controls.Timelines.XamTimeline, Version=17.2.20172.2029, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\packages\Infragistics.WPF.Timeline.17.2.20172.2029\lib\InfragisticsWPF.Controls.Timelines.XamTimeline.dll</HintPath>
+    <Reference Include="InfragisticsWPF.Controls.Timelines.XamTimeline">
+      <HintPath>..\..\packages\Infragistics.WPF.Timeline.18.1.99\lib\InfragisticsWPF.Controls.Timelines.XamTimeline.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="InfragisticsWPF.DataVisualization, Version=17.2.20172.2029, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\packages\Infragistics.WPF.DataVisualization.17.2.20172.2029\lib\InfragisticsWPF.DataVisualization.dll</HintPath>
+    <Reference Include="InfragisticsWPF.DataVisualization">
+      <HintPath>..\..\packages\Infragistics.WPF.DataVisualization.18.1.99\lib\InfragisticsWPF.DataVisualization.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PresentationFramework.Aero" />
@@ -303,9 +303,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <Resource Include="Fonts\segoeui_0.ttf" />
-    <None Include="..\Infragistics.Certificates\InfragisticsWPF.Samples.pfx">
-      <Link>InfragisticsWPF.Samples.pfx</Link>
-    </None>
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
@@ -364,6 +361,10 @@
     <Resource Include="Assets\SampleData\YoutubeData.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+taskkill /f /fi "pid gt 0" /im IGShowcase.MediaTimeline.exe</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
