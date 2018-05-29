@@ -1,0 +1,93 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:System="clr-namespace:System;assembly=mscorlib"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:behaviors="clr-namespace:IGExtensions.Common.Maps.Behaviors" 
+    xmlns:controls="clr-namespace:IGExtensions.Common.Maps.Controls" 
+    xmlns:Maps="clr-namespace:IGExtensions.Common.Maps" 
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    mc:Ignorable="d"
+    > 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/IGExtensions.Common;component/Assets/Styles/GlobalStyles.xaml" />
+        <ResourceDictionary Source="/IGExtensions.Common.Maps;component/Controls/GeoMapLocationPane.xaml" />
+        <ResourceDictionary Source="/IGExtensions.Common.Maps;component/Controls/GeoMapNavigationPane.xaml" />
+        <ResourceDictionary Source="/IGExtensions.Common.Maps;component/Controls/GeoMapMagnifier.xaml" />
+        <!--<ResourceDictionary Source="/IGExtensions.Common.Maps;component/Controls/PropertyValueEditor.xaml" />-->
+    </ResourceDictionary.MergedDictionaries>
+
+ 
+    <Style TargetType="controls:GeoMapLocationPane" BasedOn="{StaticResource GeoMapLocationPaneStyle}"/>
+    <Style TargetType="controls:GeoMapNavigationPane" BasedOn="{StaticResource GeoMapNavigationPaneStyle}" />
+    <Style TargetType="controls:GeoMapMagnifier" BasedOn="{StaticResource GeoMapMagnifierStyle}" />
+
+    <Style x:Key="seriesStyle" TargetType="ig:Series">
+        <Setter Property="MinWidth" Value="8"/>
+        <Setter Property="Thickness" Value="1"/>
+        <Setter Property="MinHeight" Value="8"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ig:Series">
+                    <Grid>
+                        <Canvas x:Name="RootCanvas" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="seriesStyleWithBackgroundImage" TargetType="ig:Series" BasedOn="{StaticResource seriesStyle}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ig:Series">
+                    <Grid>
+                        <Image x:Name="RootImage" />
+                        <Canvas x:Name="RootCanvas" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="Maps:GeographicFlightPolylineSeries" BasedOn="{StaticResource seriesStyle}" >
+    </Style>
+    <Style TargetType="Maps:FlightPolylineSeries" BasedOn="{StaticResource seriesStyleWithBackgroundImage}">
+        <Setter Property="ShapeFilterResolution" Value="1.0" />
+    </Style>
+
+    <Style TargetType="behaviors:GeoMarker">
+        <Setter Property="Width" Value="10"/>
+        <Setter Property="Height" Value="10"/>
+        <Setter Property="Background" Value="Red"/>
+        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="behaviors:GeoMarker">
+                    <ContentControl HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                        <Grid>
+                            <Ellipse Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" StrokeThickness="0.5"
+                                            Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}">
+                            </Ellipse>
+                            <Ellipse Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" StrokeThickness="0.5" >
+                                <Ellipse.Stroke>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="Transparent" Offset="0"/>
+                                        <GradientStop Color="White" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Ellipse.Stroke>
+                                <Ellipse.Fill>
+                                    <RadialGradientBrush RadiusY="0.582" RadiusX="0.582" Center="0.505,0.577" GradientOrigin="0.505,0.577">
+                                        <GradientStop Color="#cc000000" Offset="1"/>
+                                        <GradientStop Color="#00000000" Offset="0.695"/>
+                                    </RadialGradientBrush>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                        </Grid>
+                    </ContentControl>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+</ResourceDictionary>

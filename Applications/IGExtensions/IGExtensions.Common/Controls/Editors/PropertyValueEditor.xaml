@@ -1,0 +1,64 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:local="clr-namespace:IGExtensions.Common.Controls" 
+    xmlns:converters="clr-namespace:IGExtensions.Common.Converters;assembly=IGExtensions.Common" 
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    >
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/IGExtensions.Common;component/Assets/Styles/CommonStyles.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+        <!--<converters:StringFormatConverter x:Key="ddd" />
+    <converters:ValueFormatConverter x:Key="ValueFormatConverter" 
+                                     FormatParameter="{Binding Path=PropertyValueFormat, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:PropertyValueEditor}}" />
+    <ig:StringFormatConverter x:Key="StringFormatConverter"  Style="{StaticResource ToolTipStyle}" />-->
+
+    <Style TargetType="local:PropertyValueEditor" x:Key="PropertyValueEditorStyle">
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:PropertyValueEditor">
+                    <Grid   >
+                        <ToolTipService.ToolTip>
+                            <ToolTip Visibility="{Binding Path=PropertyToolTipVisibility, RelativeSource={RelativeSource TemplatedParent}}" >
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Path=PropertyName, RelativeSource={RelativeSource TemplatedParent}}"
+                                           Style="{StaticResource TooltipText}" FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding Path=PropertyToolTip, RelativeSource={RelativeSource TemplatedParent}}"
+                                           Style="{StaticResource TooltipText}"/>
+                                </StackPanel>
+                             </ToolTip>
+                        </ToolTipService.ToolTip>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0" Visibility="{Binding Path=PropertyNameVisibility, RelativeSource={RelativeSource TemplatedParent}}" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Margin="0,0,3,0" HorizontalAlignment="Left" VerticalAlignment="Center"  
+                                Text="{Binding Path=PropertyName, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <TextBlock Grid.Column="1" Margin="{TemplateBinding Padding}" HorizontalAlignment="Right"  VerticalAlignment="Center"   
+                                Text="{Binding Path=PropertyValueString, RelativeSource={RelativeSource TemplatedParent}}"/>
+                        </Grid>
+                      
+                        <ig:XamNumericSlider 
+                            Grid.Row="1" SmallChange="0.1" LargeChange="0.1" Margin="{TemplateBinding Padding}"
+                            IncreaseButtonVisibility="Collapsed" DecreaseButtonVisibility="Collapsed" 
+                            MinValue="{Binding Path=PropertyValueMin, RelativeSource={RelativeSource TemplatedParent}}" 
+                            MaxValue="{Binding Path=PropertyValueMax, RelativeSource={RelativeSource TemplatedParent}}" 
+                            Value="{Binding Path=PropertyValue, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" 
+                            HorizontalAlignment="Stretch" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="local:PropertyValueEditor" BasedOn="{StaticResource PropertyValueEditorStyle}"/>
+
+
+</ResourceDictionary>

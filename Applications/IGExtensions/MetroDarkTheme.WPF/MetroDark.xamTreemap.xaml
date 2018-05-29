@@ -1,0 +1,98 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:local="http://schemas.infragistics.com/xaml">
+
+  <!-- ********************************** THEME COLORS **********************************-->
+  <ResourceDictionary.MergedDictionaries>
+     <ResourceDictionary Source="Theme.Colors.xaml" />
+  </ResourceDictionary.MergedDictionaries>
+
+  <!-- ********************************** BRUSHES **********************************-->
+  <!-- Treemap Brushes -->
+  <SolidColorBrush x:Key="TreemapBackgroundBrush" Color="{StaticResource Color_008}" />
+  <SolidColorBrush x:Key="TreemapBorderBrush" Color="{StaticResource Color_006}" />
+
+  <!-- TreemapNode Brushes -->
+  <SolidColorBrush x:Key="TreemapNodeForegroundBrush" Color="{StaticResource Color_002}" />
+  <SolidColorBrush x:Key="TreemapNodeBorderBrush" Color="{StaticResource Color_006}" />
+  <SolidColorBrush x:Key="TreemapNodeBackgroundBrush" Color="{StaticResource Color_008}" />
+    
+     <!-- ToolTip Brushes -->
+  <SolidColorBrush x:Key="ForegroundBrush" Color="{StaticResource Color_002}" />
+  <SolidColorBrush x:Key="TooltipBackgroundBrush" Color="{StaticResource Color_009}" />
+  <SolidColorBrush x:Key="TooltipBorderBrush" Color="{StaticResource Color_006}" />
+ 
+    <!-- *********************************  ToolTipStyle  ********************************* -->
+  <Style x:Key="ToolTipStyle" TargetType="ContentControl">
+    <Setter Property="Background" Value="{StaticResource TooltipBackgroundBrush}" />
+    <Setter Property="BorderBrush" Value="{StaticResource TooltipBorderBrush}" />
+    <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+    <Setter Property="FontSize" Value="14" />
+    <Setter Property="FontFamily" Value="Segoe UI" />
+    <Setter Property="Padding" Value="10,7" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="HorizontalAlignment" Value="Left" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="ContentControl">
+          <Grid>
+            <Grid>
+              <Rectangle Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="{TemplateBinding BorderThickness}" />
+              <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}" Margin="{TemplateBinding Padding}" />
+            </Grid>
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+  <Style BasedOn="{StaticResource ToolTipStyle}" TargetType="ToolTip" />
+
+  <!-- *********************************  Treemap Style  ********************************* -->
+  <Style TargetType="local:XamTreemap" x:Key="XamTreemap">
+    <Setter Property="MinWidth" Value="10" />
+    <Setter Property="MinHeight" Value="10" />
+    <Setter Property="Background" Value="{StaticResource TreemapBackgroundBrush}" />
+    <Setter Property="BorderBrush" Value="{StaticResource TreemapBorderBrush}" />
+    <Setter Property="ToolTipStyle" Value="{StaticResource ToolTipStyle}"/>
+    <Setter Property="BorderThickness" Value="1,1,1,0" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="local:XamTreemap">
+          <ContentPresenter x:Name="RootElement" />
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+  <Style TargetType="local:XamTreemap" BasedOn="{StaticResource XamTreemap}" />
+
+  <!-- *********************************  TreemapNode Style  ********************************* -->
+  <Style TargetType="local:TreemapNode" x:Key="TreemapNode">
+    <Setter Property="Fill" Value="{StaticResource TreemapNodeBackgroundBrush}" />
+    <Setter Property="BorderBrush" Value="{StaticResource TreemapNodeBorderBrush}" />
+    <Setter Property="Foreground" Value="{StaticResource TreemapNodeForegroundBrush}" />
+    <Setter Property="FontSize" Value="14" />
+    <Setter Property="FontFamily" Value="Segoe UI" />
+    <Setter Property="HorizontalAlignment" Value="Center" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="Padding" Value="4" />
+    <Setter Property="Margin" Value="1" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="local:TreemapNode">
+          <Border BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Fill}" BorderBrush="{TemplateBinding BorderBrush}">
+            <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+              </Grid.RowDefinitions>
+              <TextBlock Text="{TemplateBinding Text}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" />
+              <local:NodesPanel x:Name="NodesPanel" Grid.Row="1" />
+            </Grid>
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+  <Style TargetType="local:TreemapNode" BasedOn="{StaticResource TreemapNode}" />
+</ResourceDictionary>

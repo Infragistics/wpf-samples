@@ -1,0 +1,115 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:local="clr-namespace:IGExtensions.Framework.Controls"
+    xmlns:converters="clr-namespace:IGExtensions.Framework.Converters">
+
+    <Color x:Key="Color011">#FF00AADE</Color>
+    <SolidColorBrush x:Key="NavigationWindowVisibleBorderBrush" Color="{StaticResource Color011}"/>
+    <SolidColorBrush x:Key="NavigationWindowBackground" Color="Transparent"/>
+    <SolidColorBrush x:Key="NavigationWindowTouchBackground" Color="Red" Opacity="0.5"/>
+
+    <converters:ThicknessConverter x:Key="ThicknessConverter" />
+    <Style x:Key="NavigationWindowBorderStyle" TargetType="local:NavigationWindowBorder">
+        <Setter Property="BorderThickness" Value="3"/>
+        <Setter Property="BorderBrush" Value="{StaticResource NavigationWindowVisibleBorderBrush}"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+    	<Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:NavigationWindowBorder">
+                    <Grid  HorizontalAlignment="{TemplateBinding HorizontalAlignment}" 
+                           VerticalAlignment="{TemplateBinding VerticalAlignment}" >
+
+                        <!--<Border x:Name="WindowTouchBorder" BorderBrush="Transparent" 
+                                BorderThickness="3">-->
+                            <Border x:Name="WindowVisibleBorder" BorderBrush="Transparent" 
+                                BorderThickness="0" Grid.RowSpan="2">
+                                <Grid x:Name="Grid" ShowGridLines="False">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition x:Name="row_Top" Height="Auto"/>
+                                        <RowDefinition x:Name="row_Middle" Height="*"/>
+                                        <RowDefinition x:Name="row_Bottom" Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition x:Name="col_Left" Width="Auto"/>
+                                        <ColumnDefinition x:Name="col_Middle" Width="*"/>
+                                        <ColumnDefinition x:Name="col_Right" Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Top Row -->
+                                    <Border x:Name="WindowTopLeftResizeElement"
+         Grid.Row="0" Grid.Column="0" BorderBrush="Transparent" BorderThickness="0,0,0,0" 
+         Width="{TemplateBinding Property=BorderThickness, ConverterParameter=Top, Converter={StaticResource ThicknessConverter}}" 
+         Height="{TemplateBinding Property=BorderThickness, ConverterParameter=Top, Converter={StaticResource ThicknessConverter}}"
+         Background="{TemplateBinding BorderBrush}"
+         Cursor="SizeNWSE"/>
+                        
+                                <Border x:Name="WindowTopMiddleResizeElement"
+         Grid.Row="0" Grid.Column="1" BorderBrush="Transparent" BorderThickness="0,0,0,0" 
+         Height="{TemplateBinding Property=BorderThickness, ConverterParameter=Top, Converter={StaticResource ThicknessConverter}}" 
+         Background="{TemplateBinding BorderBrush}"
+         Cursor="SizeNS" />
+                                    <Border x:Name="WindowTopRightResizeElement"
+         Grid.Row="0" Grid.Column="2" BorderBrush="Transparent" BorderThickness="0,0,0,0"
+         Width="{TemplateBinding Property=BorderThickness, ConverterParameter=Top, Converter={StaticResource ThicknessConverter}}" 
+         Height="{TemplateBinding Property=BorderThickness, ConverterParameter=Top, Converter={StaticResource ThicknessConverter}}" 
+         Background="{TemplateBinding BorderBrush}"
+         Cursor="SizeNESW" />
+
+                                    <!-- Middle Row -->
+                                    <Border x:Name="WindowMiddleLeftResizeElement"
+         Grid.Row="1" Grid.Column="0" BorderBrush="Transparent" BorderThickness="0,0,0,0"
+         Width="{TemplateBinding Property=BorderThickness, ConverterParameter=Left, Converter={StaticResource ThicknessConverter}}" 
+         Background="{TemplateBinding BorderBrush}"
+         Cursor="SizeWE" />
+                                    <Border x:Name="WindowMiddleRightResizeElement"
+         Grid.Row="1" Grid.Column="2" BorderBrush="Transparent" BorderThickness="0,0,0,0"
+         Width="{TemplateBinding Property=BorderThickness, ConverterParameter=Right, Converter={StaticResource ThicknessConverter}}" 
+         Background="{TemplateBinding BorderBrush}"
+         Cursor="SizeWE" />
+
+                                    <!-- Bottom Row -->
+                                    <Border x:Name="WindowBottomLeftResizeElement"
+         Grid.Row="2" Grid.Column="0" BorderBrush="Transparent" BorderThickness="0,0,0,0"
+         Width="{TemplateBinding Property=BorderThickness, ConverterParameter=Bottom, Converter={StaticResource ThicknessConverter}}" 
+         Height="{TemplateBinding Property=BorderThickness, ConverterParameter=Bottom, Converter={StaticResource ThicknessConverter}}" 
+         Background="{TemplateBinding BorderBrush}"
+         Cursor="SizeNESW" />
+                                    <Border x:Name="WindowBottomMiddleResizeElement"
+         Grid.Row="2" Grid.Column="1" BorderBrush="Transparent" BorderThickness="0,0,0,0"
+         Height="{TemplateBinding Property=BorderThickness, ConverterParameter=Bottom, Converter={StaticResource ThicknessConverter}}" 
+         Background="{TemplateBinding BorderBrush}"
+         Cursor="SizeNS" />
+                                    <Border x:Name="WindowBottomRightResizeElement"
+         Grid.Row="2" Grid.Column="2" BorderBrush="Transparent" BorderThickness="0,0,0,0"
+         Width="{TemplateBinding Property=BorderThickness, ConverterParameter=Bottom, Converter={StaticResource ThicknessConverter}}" 
+         Height="{TemplateBinding Property=BorderThickness, ConverterParameter=Bottom, Converter={StaticResource ThicknessConverter}}" 
+         Background="{TemplateBinding BorderBrush}"
+         Cursor="SizeNWSE" />
+
+                                <!--TODO change window resizing to touch-friendly experiance by increasing size of test target-->
+                                <Border x:Name="WindowTouchBorder" BorderBrush="red"  BorderThickness="0"
+                                        Grid.Row="1" Grid.Column="1" >
+                                    <ContentControl   Content="{TemplateBinding Content}">
+
+                                    </ContentControl>
+                                </Border>
+                               
+                                </Grid>
+
+                            </Border>
+                        <!--</Border>-->
+                         
+                    </Grid>
+    			</ControlTemplate>
+    		</Setter.Value>
+    	</Setter>
+    </Style>
+
+    <Style TargetType="local:NavigationWindowBorder" BasedOn="{StaticResource NavigationWindowBorderStyle}"/>
+
+
+</ResourceDictionary>

@@ -1,0 +1,63 @@
+﻿<ResourceDictionary  
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:local="clr-namespace:IGExtensions.Common.Controls" mc:Ignorable="d"
+   >
+
+    <Style TargetType="local:PageBusyIndicator">
+        <Setter Property="IndicatorOverlayBrush" Value="White" />
+        <Setter Property="IndicatorOverlayOpacity" Value="0.75" />
+        <Setter Property="IndicatorSize" Value="50" />
+        <Setter Property="Foreground" Value="DodgerBlue" />
+        <Setter Property="Background" Value="Transparent" />
+   
+
+        <!--<Setter Property="Content" Value="Link" />-->
+        <!--<Setter Property="FontSize" Value="11" Background="{TemplateBinding Background}"  />-->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:PageBusyIndicator">
+                    <!--<Popup x:Name="IndicatorPopup" >-->
+                    <Grid x:Name="IndicatorRoot"  >
+                        <Grid x:Name="IndicatorOverlay" 
+                              Background="{TemplateBinding IndicatorOverlayBrush}"
+                              Opacity="{TemplateBinding IndicatorOverlayOpacity}">
+                        </Grid>
+                        <Image x:Name="IndicatorImage" 
+                               Source="/IGExtensions.Common;component/Assets/Images/PageBusyIndicator.png"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               Stretch="Uniform" RenderTransformOrigin="0.5,0.5"
+                               Width="{TemplateBinding IndicatorSize}" 
+                               Height="{TemplateBinding IndicatorSize}">
+                            <Image.RenderTransform>
+                                <RotateTransform x:Name="rotateTransform" />
+                            </Image.RenderTransform>
+                            <Image.Triggers>
+                                <EventTrigger RoutedEvent="Image.Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation
+                                                Storyboard.TargetName="rotateTransform"
+                                                Storyboard.TargetProperty="Angle"
+                                                From="0"
+                                                To="360"
+                                                Duration="0:0:1.5"
+                                                RepeatBehavior="Forever" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Image.Triggers>
+                        </Image>
+                    </Grid>
+                    <!--</Popup>-->
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
+</ResourceDictionary>
+

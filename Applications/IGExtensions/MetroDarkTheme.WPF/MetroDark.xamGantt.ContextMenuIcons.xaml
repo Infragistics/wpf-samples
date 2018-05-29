@@ -1,0 +1,585 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:ig="http://schemas.infragistics.com/xaml"
+	xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+	xmlns:igSchedulePrim="http://schemas.infragistics.com/xaml/primitives"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- *********************************  RESOURCES  ********************************* -->
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Theme.Colors.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+  <!-- ========================== -->
+  <!--           Brushes          -->
+  <!-- ========================== -->
+  <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource Color_006}"/>
+  <SolidColorBrush x:Key="IconsDarkBackgroundBrush" Color="{StaticResource Color_005}"/>
+  <SolidColorBrush x:Key="IconsBackgroundBrush" Color="{StaticResource Color_004}"/>
+  <SolidColorBrush x:Key="IconsLIghtBackgroundBrush" Color="{StaticResource Color_002}"/>
+  <SolidColorBrush x:Key="IconsDarkestBackgroundBrush" Color="{StaticResource Color_009}"/>
+  <SolidColorBrush x:Key="AutomaticTaskBackgroundBrush" Color="{StaticResource Color_024}"/>
+  <SolidColorBrush x:Key="ManualMilestoneTaskBackgroundBrush" Color="{StaticResource Color_024}"/>
+  <SolidColorBrush x:Key="ManualMilestoneTaskBorderBrush" Color="{StaticResource Color_024}"/>
+   <SolidColorBrush x:Key="CheckIconForegroundBrush" Color="{StaticResource Color_024}"/>
+  <SolidColorBrush x:Key="CheckIconBorder" Color="{StaticResource Color_006}"/>
+    
+
+  <!-- ========================== -->
+  <!--         Converters         -->
+  <!-- ========================== -->
+  <igPrim:BoolToVisibilityConverter x:Key="boolToVisConverter" />
+
+  <igPrim:ValueConverterGroup x:Key="notBoolConverter">
+    <igPrim:FixedValueConverter>
+      <igPrim:FixedValueConverter.SourceValue>
+        <sys:Boolean>False</sys:Boolean>
+      </igPrim:FixedValueConverter.SourceValue>
+      <igPrim:FixedValueConverter.DestinationValue>
+        <sys:Boolean>True</sys:Boolean>
+      </igPrim:FixedValueConverter.DestinationValue>
+    </igPrim:FixedValueConverter>
+    <igPrim:FixedValueConverter>
+      <igPrim:FixedValueConverter.DestinationValue>
+        <sys:Boolean>False</sys:Boolean>
+      </igPrim:FixedValueConverter.DestinationValue>
+    </igPrim:FixedValueConverter>
+  </igPrim:ValueConverterGroup>
+
+
+    <!-- ========================== -->
+  <!--         Icon Images        -->
+  <!-- ========================== -->
+  <DataTemplate x:Key="MenuItemCheckmark">
+    <Grid Width="16" Height="16" Visibility="{Binding Path=IsChecked, Converter={StaticResource boolToVisConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ig:XamMenuItem}}">
+      <Border BorderBrush="{StaticResource CheckIconBorder}" BorderThickness="1"  CornerRadius="0" Margin="-2" />
+      <Path Data="M13.719,0 L13.719,1.6845949 6.141993,13.690754 5.6779532,13.690754 0,7.3103357 2.1220858,4.8776522 5.5236826,8.8722535 6.0300774,8.8722535 z" Fill="{StaticResource CheckIconForegroundBrush}" Stretch="Uniform" Margin="1"/>
+    </Grid>
+  </DataTemplate>
+  <DataTemplate x:Key="ManuallyScheduledImage">
+    <Grid Width="16" Height="16">
+      <Border BorderBrush="{StaticResource CheckIconBorder}" BorderThickness="1" Margin="-2" Visibility="{Binding Path=IsChecked, Converter={StaticResource boolToVisConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ig:XamMenuItem}}" />
+      <Path Width="13.917" Height="13.834" HorizontalAlignment="Right" VerticalAlignment="Top" Data="M5.4580078,0 L12.458008,7 L8.9567661,7 L8.9699965,7.0164671 L6.3750315,9.6115532 L6.3750315,13.83329 L4.8353086,13.83329 L-1.4582916,7.5396891 L-1.4582916,5.9999681 L2.9597096,5.9999681 L5.4580078,3.501554 z" Fill="{StaticResource IconsBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+      <Path Width="5" Height="5" HorizontalAlignment="Left" VerticalAlignment="Bottom" Data="M2.9999416,1.000062 L4.9999447,1.000062 L4.9999447,3.0000629 L1,6 L0,6 L0,5 z" Fill="{StaticResource IconsBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+	  <Path Visibility="{Binding Path=IsChecked, Converter={StaticResource boolToVisConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ig:XamMenuItem}}" Width="13.917" Height="13.834" HorizontalAlignment="Right" VerticalAlignment="Top" Data="M5.4580078,0 L12.458008,7 L8.9567661,7 L8.9699965,7.0164671 L6.3750315,9.6115532 L6.3750315,13.83329 L4.8353086,13.83329 L-1.4582916,7.5396891 L-1.4582916,5.9999681 L2.9597096,5.9999681 L5.4580078,3.501554 z" Fill="{StaticResource ManualMilestoneTaskBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+      <Path Visibility="{Binding Path=IsChecked, Converter={StaticResource boolToVisConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ig:XamMenuItem}}" Width="5" Height="5" HorizontalAlignment="Left" VerticalAlignment="Bottom" Data="M2.9999416,1.000062 L4.9999447,1.000062 L4.9999447,3.0000629 L1,6 L0,6 L0,5 z" Fill="{StaticResource ManualMilestoneTaskBorderBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+    
+	</Grid>
+  </DataTemplate>
+  <DataTemplate x:Key="AutoScheduledImage">
+    <Grid Width="16" Height="16">
+      <Border BorderBrush="{StaticResource CheckIconBorder}" BorderThickness="1" Margin="-2" Visibility="{Binding Path=IsChecked, Converter={StaticResource boolToVisConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ig:XamMenuItem}}" />
+      <Rectangle Height="6" Margin="0,1,5,0" VerticalAlignment="Top" Fill="{StaticResource IconsBackgroundBrush}" RadiusX="2" RadiusY="2" />
+      <Path Width="10" Height="9" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Bottom" Data="M4.0000048,0 L4.0005226,0.00038846888 L10.000005,4.5 L4.0005226,8.9996119 L4.0001631,9 L4.0000048,6 L0,6 L0,3 L4.0000048,3 z" Fill="{StaticResource IconsBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+	  <Rectangle Visibility="{Binding Path=IsChecked, Converter={StaticResource boolToVisConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ig:XamMenuItem}}" Height="6" Margin="0,1,5,0" VerticalAlignment="Top" Fill="{StaticResource AutomaticTaskBackgroundBrush}" RadiusX="2" RadiusY="2" />
+      <Path Visibility="{Binding Path=IsChecked, Converter={StaticResource boolToVisConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ig:XamMenuItem}}" Width="10" Height="9" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Bottom" Data="M4.0000048,0 L4.0005226,0.00038846888 L10.000005,4.5 L4.0005226,8.9996119 L4.0001631,9 L4.0000048,6 L0,6 L0,3 L4.0000048,3 z" Fill="{StaticResource AutomaticTaskBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+	</Grid>
+  </DataTemplate>
+  <DataTemplate x:Key="OutdentImage">
+    <Grid Width="16" Height="16">
+      <Path Width="13" HorizontalAlignment="Left" Margin="0,1" Data="M0,12 L13,12 L13,14 L0,14 z M0,8 L9,8 L9,10 L0,10 z M0,4 L9,4 L9,6 L0,6 z M0,0 L13,0 L13,2 L0,2 z" Fill="{StaticResource IconsBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+      <Path Width="6" Height="6" HorizontalAlignment="Left" Margin="10,5,0,5" Data="M4,0 L4,2.0000005 L6,2.0000005 L6,4 L4,4 L4,6 L0,2.984375 z" Fill="{StaticResource IconsDarkBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+    </Grid>
+  </DataTemplate>
+  <DataTemplate x:Key="IndentImage">
+    <Grid Width="16" Height="16">
+      <Path Margin="3,1,0,1" Data="M0,12 L13,12 L13,14 L0,14 z M4,8 L13,8 L13,10 L4,10 z M4,4 L13,4 L13,6 L4,6 z M0,0 L13,0 L13,2 L0,2 z" Fill="{StaticResource IconsBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+      <Path Width="6" Height="6" HorizontalAlignment="Left" Margin="0,5" Data="M1.9999995,0 L5.9999986,2.984375 L1.9999995,6 L1.9999995,4 L0,4 L0,2 L1.9999995,2 z" Fill="{StaticResource IconsDarkBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+    </Grid>
+  </DataTemplate>
+  <DataTemplate x:Key="ScrollToTaskImage">
+    <Grid Width="16" Height="16">
+      <Rectangle Width="16" Height="6" Margin="0,1,0,0" VerticalAlignment="Top" Fill="{StaticResource IconsDarkBackgroundBrush}" RadiusX="2" RadiusY="2" Stroke="{StaticResource IconsDarkBackgroundBrush}"/>
+      <Path Width="8.3" Height="11.6" HorizontalAlignment="Right" Margin="0,0,1,1" VerticalAlignment="Bottom" Data="M3.6400998,6.7200089 L4.6558118,16.920301 L7.0932269,15.516244 L8.7650433,18.344833 L11.171198,16.95467 L9.5306101,14.094374 L11.936788,12.701847 z" Fill="{StaticResource IconsBackgroundBrush}" Stretch="Fill"  UseLayoutRounding="False"/>
+    </Grid>
+  </DataTemplate>
+  <DataTemplate x:Key="LinkImage">
+    <Grid Width="16" Height="16">
+      <Path Data="F1 M 96.3831,33.3099C 98.149,35.0757 98.1167,37.9709 96.3073,39.7804L 96.3065,39.7796L 94.3569,41.7292C 94.5815,40.7079 94.4767,39.6287 94.0425,38.6614L 94.6192,38.0847L 94.6181,38.0836C 95.4677,37.2341 95.5508,35.8718 94.7199,35.041C 93.8988,34.2198 92.4924,34.225 91.6358,35.049L 88.8807,37.8041C 88.0679,38.6487 88.0567,39.9737 88.8579,40.796L 88.8593,40.7947L 89.6458,41.5813L 87.9548,43.2723L 87.1682,42.4858L 87.1718,42.4822C 85.4415,40.7136 85.425,37.8734 87.2221,36.0762L 87.2242,36.0784L 89.9186,33.3841L 89.9164,33.3819C 91.7221,31.5763 94.6173,31.544 96.3831,33.3099 Z M 82.9917,46.7013C 81.2258,44.9355 81.2581,42.0402 83.0675,40.2308L 83.0683,40.2316L 85.0179,38.282C 84.7933,39.3033 84.8981,40.3825 85.3323,41.3497L 84.7556,41.9265L 84.7567,41.9275C 83.9071,42.7771 83.824,44.1394 84.6549,44.9702C 85.476,45.7913 86.8824,45.7861 87.739,44.9622L 90.4941,42.2071C 91.3069,41.3624 91.3181,40.0375 90.5169,39.2151L 90.5155,39.2165L 89.729,38.4299L 91.42,36.7388L 92.2066,37.5254L 92.203,37.529C 93.9333,39.2976 93.9498,42.1378 92.1527,43.9349L 92.1506,43.9328L 89.4562,46.6271L 89.4584,46.6293C 87.6527,48.4349 84.7575,48.4671 82.9917,46.7013 Z " Fill="{StaticResource IconsBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+    </Grid>
+  </DataTemplate>
+  <DataTemplate x:Key="UnlinkImage">
+    <Grid Width="16" Height="16">
+      <Path Width="16" Height="16" Data="F1 M 114.75,33.0414L 115.321,33.7412C 116.481,35.5039 116.261,37.9248 114.674,39.5119L 114.673,39.5111L 114.216,39.9686L 110.833,39.9686L 113.011,37.7887C 113.824,36.9439 113.84,35.5643 113.052,34.7388C 112.227,33.9516 110.847,33.9679 110.003,34.7805L 107.732,37.0529L 107.732,33.6666L 108.28,33.118L 108.283,33.1134C 110.089,31.3078 112.984,31.2755 114.75,33.0414 Z M 108.234,45.9555L 108.231,45.9601C 106.426,47.7657 103.53,47.798 101.765,46.0321L 101.194,45.3323C 100.034,43.5696 100.253,41.1486 101.84,39.5616L 101.841,39.5624L 102.392,39.0116L 105.775,39.0116L 103.504,41.2848C 102.691,42.1296 102.675,43.5092 103.462,44.3347C 104.288,45.1219 105.667,45.1055 106.512,44.293L 108.689,42.1139L 108.689,45.5002L 108.234,45.9555 Z " Fill="{StaticResource IconsBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+      <Path Width="6" Height="6" HorizontalAlignment="Right" VerticalAlignment="Bottom" Data="M3,3 L5,3 L5.0000019,5 L3.0000019,5 z M0,0 L6,0 L6,2 L2,2 L2,6 L0,6 z" Fill="{StaticResource IconsDarkBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+      <Path Width="6" Height="6" HorizontalAlignment="Left" Margin="0,0,0,10" VerticalAlignment="Bottom" Data="M1,0.99999994 L3,0.99999994 L3,3 L1,3 z M4,0 L6,0 L6,6 L0,6 L0,4 L4,4 z" Fill="{StaticResource IconsDarkBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+    </Grid>
+  </DataTemplate>
+  <DataTemplate x:Key="CutImage">
+    <Grid Width="16" Height="16">
+      <Path Width="13" Height="15" Data="M 69.5113,40.0949C 69.5113,39.7349 69.8046,39.4283 70.1646,39.4283C 70.5113,39.4283 70.8046,39.7349 70.8046,40.0949C 70.8046,40.4683 70.5113,40.7749 70.1646,40.7749C 69.8046,40.7749 69.5113,40.4683 69.5113,40.0949 Z M 72.1113,44.4683C 72.1113,43.535 72.8313,42.7883 73.7379,42.7883C 74.6313,42.7883 75.3513,43.535 75.3513,44.4683C 75.3513,45.4016 74.6313,46.1483 73.7379,46.1483C 72.8313,46.1483 72.1113,45.4016 72.1113,44.4683 Z M 64.9646,44.4683C 64.9646,43.535 65.6846,42.7883 66.5779,42.7883C 67.4846,42.7883 68.2046,43.535 68.2046,44.4683C 68.2046,45.4016 67.4846,46.1483 66.5779,46.1483C 65.6846,46.1483 64.9646,45.4016 64.9646,44.4683 Z M 63.6579,44.4683C 63.6579,46.1349 64.9646,47.4949 66.5779,47.4949C 68.2046,47.4949 69.5113,46.1349 69.5113,44.4683C 69.5113,43.9749 69.3913,43.5216 69.1913,43.1083L 70.2313,41.7749L 71.1779,43.0016C 70.938,43.4283 70.8046,43.9349 70.8046,44.4683C 70.8046,46.1349 72.1113,47.4949 73.7379,47.4949C 75.3513,47.4949 76.6579,46.1349 76.6579,44.4683C 76.6579,42.8016 75.3513,41.4416 73.7379,41.4416C 73.4979,41.4416 73.2846,41.4683 73.0713,41.5216L 71.7113,39.8549L 74.938,35.6816C 74.938,35.6816 76.3379,34.3483 74.7113,32.495L 70.2313,38.0283L 65.7513,32.495C 64.1246,34.3483 65.5113,35.6816 65.5113,35.6816L 68.7379,39.8549L 67.3646,41.5483C 67.1113,41.4816 66.8579,41.4416 66.5779,41.4416C 64.9646,41.4416 63.6579,42.8016 63.6579,44.4683 Z "
+            Fill="{StaticResource IconsBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+    </Grid>
+  </DataTemplate>
+  <DataTemplate x:Key="CopyImage">
+    <Grid Width="16" Height="16">
+      <Path Data="M2.00001,8 L2.00001,9 L8,9 L8,8 z M2.00001,6 L2.00001,7 L8,7 L8,6 z M2.00001,4 L2.00001,5 L8,5 L8,4 z M2,2 L2,3 L8,3 L8,2 z M0,0 L8,0.000365 L10,2.0003 L10,11 L0,11 z" Fill="{StaticResource IconsBackgroundBrush}" Margin="6,0,0,5" Stretch="Fill" UseLayoutRounding="False"/>
+      <Path Data="M2.00001,8 L2.00001,9 L8,9 L8,8 z M0,0 L5,0 L5,2 L2,2 L2,3 L5,3 L5,4 L2.00001,4 L2.00001,5 L5,5 L5,6 L2.00001,6 L2.00001,7 L5,7 L10,7 L10,11 L0,11 z" Fill="{StaticResource IconsBackgroundBrush}" Margin="0,5,6,0" Stretch="Fill" UseLayoutRounding="False"/>
+    </Grid>
+  </DataTemplate>
+  <DataTemplate x:Key="PasteImage">
+    <Grid Width="16" Height="16">
+      <Path Width="5" Height="2" HorizontalAlignment="Left" Margin="3,0,0,0" VerticalAlignment="Top" Data="M0.99999994,0 L4,0 L4,0.99999994 L5,0.99999994 L5,2 L0,2 L0,0.99999994 L0.99999994,0.99999994 z" Fill="{StaticResource IconsBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+      <Path Width="11" Height="12" HorizontalAlignment="Left" Margin="0,1,0,0" VerticalAlignment="Top" Data="M0,0 L2,0 L2,2 L9,2 L9,0 L11,0 L11,3 L5,3 L5,12 L5.2452087E-06,12 z" Fill="{StaticResource IconsBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+      <Path Data="M2.00001,8 L2.00001,9 L8,9 L8,8 z M2.00001,6 L2.00001,7 L8,7 L8,6 z M2.00001,4 L2.00001,5 L8,5 L8,4 z M2,2 L2,3 L8,3 L8,2 z M0,0 L8,0.000365 L10,2.0003 L10,11 L0,11 z" Fill="{StaticResource IconsBackgroundBrush}" Margin="6,5,0,0" Stretch="Fill" UseLayoutRounding="False"/>
+    </Grid>
+  </DataTemplate>
+  <DataTemplate x:Key="Progress0Image">
+    <Grid Width="16" Height="16">
+      <Rectangle Width="16" Height="6" Margin="0,1,0,0" VerticalAlignment="Top" Fill="{StaticResource IconsBackgroundBrush}" RadiusX="2" RadiusY="2" Stroke="{StaticResource IconsDarkBackgroundBrush}"/>
+      <Path Width="4" Height="6" HorizontalAlignment="Left" Margin="4,0,0,1" VerticalAlignment="Bottom" Data="M3,1 L4,1 L4,5 L3,5 z M0,1 L1,1 L1,5 L3,5 L3,6 L1,6 L1,5 L0,5 z M1,0 L3,0 L3,1 L1,1 z" Fill="{StaticResource IconsBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+      <Path Width="4" Height="4" HorizontalAlignment="Right" Margin="0,0,3,2" VerticalAlignment="Bottom" Data="M3,3 L4,3 L4,4 L3,4 z M0,3 L1,3 L1,4 L0,4 z M1,2 L2,2 L2,3 L1,3 z M2,1 L3,1 L3,2 L2,2 z M3,0 L4,0 L4,1 L3,1 z M0,0 L1,0 L1,1 L0,1 z" Fill="{StaticResource IconsBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+    </Grid>
+  </DataTemplate>
+  <DataTemplate x:Key="Progress100Image">
+    <Grid Width="16" Height="16">
+      <Rectangle Width="16" Height="6" Margin="0,1,0,0" VerticalAlignment="Top" Fill="{StaticResource IconsBackgroundBrush}" RadiusX="2" RadiusY="2" Stroke="{StaticResource IconsDarkBackgroundBrush}"/>
+      <Path Width="4" Height="6" HorizontalAlignment="Left" Margin="2,0,0,1" VerticalAlignment="Bottom" Data="M3,1 L4,1 L4,5 L3,5 z M0,1 L1,1 L1,5 L3,5 L3,6 L1,6 L1,5 L0,5 z M1,0 L3,0 L3,1 L1,1 z" Fill="{StaticResource IconsBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+      <Path Width="1" Height="6" HorizontalAlignment="Left" Margin="0,0,0,1" VerticalAlignment="Bottom" Data="M1,0 L2,0 L2,6 L1,6 z" Fill="{StaticResource IconsBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+      <Path Width="4" Height="4" HorizontalAlignment="Right" Margin="0,0,-0.064,2" VerticalAlignment="Bottom" Data="M3,3 L4,3 L4,4 L3,4 z M0,3 L1,3 L1,4 L0,4 z M1,2 L2,2 L2,3 L1,3 z M2,1 L3,1 L3,2 L2,2 z M3,0 L4,0 L4,1 L3,1 z M0,0 L1,0 L1,1 L0,1 z" Fill="{StaticResource IconsBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+      <Path Width="4" Height="6" HorizontalAlignment="Left" Margin="7,0,0,1" VerticalAlignment="Bottom" Data="M3,1 L4,1 L4,5 L3,5 z M0,1 L1,1 L1,5 L3,5 L3,6 L1,6 L1,5 L0,5 z M1,0 L3,0 L3,1 L1,1 z" Fill="{StaticResource IconsBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+    </Grid>
+  </DataTemplate>
+  <DataTemplate x:Key="Progress50Image">
+    <Grid Width="16" Height="16">
+      <Rectangle Width="16" Height="6" Margin="0,1,0,0" VerticalAlignment="Top" Fill="{StaticResource IconsDarkBackgroundBrush}" RadiusX="2" RadiusY="2" Stroke="{StaticResource IconsDarkBackgroundBrush}"/>
+      <Path Width="4" Height="6" HorizontalAlignment="Left" Margin="6,0,0,1" VerticalAlignment="Bottom" Data="M3,1 L4,1 L4,5 L3,5 z M0,1 L1,1 L1,5 L3,5 L3,6 L1,6 L1,5 L0,5 z M1,0 L3,0 L3,1 L1,1 z" Fill="{StaticResource IconsBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+      <Path Width="4" Height="6" HorizontalAlignment="Left" Margin="1,0,3,1" VerticalAlignment="Bottom" Data="M1.0000011,5 L3.000001,5 L3.000001,6 L1.0000011,6 z M0,4 L1,4 L1,5 L0,5 z M3.0000012,3 L4.000001,3 L4.000001,5 L3.0000012,5 z M1.1622906E-06,0 L1.0000011,0 L4.000001,0 L4.000001,1 L1.0000011,1 L1.0000011,2 L3.000001,2 L3.000001,3 L1.0000011,3 L1.1622906E-06,3 z" Fill="{StaticResource IconsBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+      <Path Width="4" Height="4" HorizontalAlignment="Right" Margin="0,0,1,2" VerticalAlignment="Bottom" Data="M3,3 L4,3 L4,4 L3,4 z M0,3 L1,3 L1,4 L0,4 z M1,2 L2,2 L2,3 L1,3 z M2,1 L3,1 L3,2 L2,2 z M3,0 L4,0 L4,1 L3,1 z M0,0 L1,0 L1,1 L0,1 z" Fill="{StaticResource IconsBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+      <Path Width="8" Height="6" HorizontalAlignment="Left" Margin="0,1,0,0" VerticalAlignment="Top" Data="M2.5,0.5 L7.5,0.5 L7.5,5.5 L2.5,5.5 C1.3954304,5.5 0.5,4.6045694 0.5,3.5 L0.5,2.5 C0.5,1.3954303 1.3954304,0.49999994 2.5,0.5 z" Fill="{StaticResource IconsBackgroundBrush}" Stretch="Fill" Stroke="{StaticResource IconsDarkBackgroundBrush}" UseLayoutRounding="False"/>
+    </Grid>
+  </DataTemplate>
+  <DataTemplate x:Key="Progress75Image">
+    <Grid Width="16" Height="16">
+      <Rectangle Width="16" Height="6" Margin="0,1,0,0" VerticalAlignment="Top" Fill="{StaticResource IconsDarkBackgroundBrush}" RadiusX="2" RadiusY="2" Stroke="{StaticResource IconsDarkBackgroundBrush}"/>
+      <Path Width="4" Height="6" HorizontalAlignment="Left" Margin="6,0,0,1" VerticalAlignment="Bottom" Data="M1.0000011,5 L3.000001,5 L3.000001,6 L1.0000011,6 z M0,4 L1,4 L1,5 L0,5 z M3.0000012,3 L4.000001,3 L4.000001,5 L3.0000012,5 z M1.1622906E-06,0 L1.0000011,0 L4.000001,0 L4.000001,1 L1.0000011,1 L1.0000011,2 L3.000001,2 L3.000001,3 L1.0000011,3 L1.1622906E-06,3 z" Fill="{StaticResource IconsBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+      <Path Width="4" Height="4" HorizontalAlignment="Right" Margin="0,0,1,2" VerticalAlignment="Bottom" Data="M3,3 L4,3 L4,4 L3,4 z M0,3 L1,3 L1,4 L0,4 z M1,2 L2,2 L2,3 L1,3 z M2,1 L3,1 L3,2 L2,2 z M3,0 L4,0 L4,1 L3,1 z M0,0 L1,0 L1,1 L0,1 z" Fill="{StaticResource IconsBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+      <Path Width="4" Height="6" HorizontalAlignment="Left" Margin="1,0,0,1" VerticalAlignment="Bottom" Data="M1,3 L2,3 L2,6 L1,6 z M2,2 L3,2 L3,3 L2,3 z M0,0 L3,0 L4,0 L4,1 L4,2 L3,2 L3,1 L0,1 z" Fill="{StaticResource IconsBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+      <Path Height="6" Margin="0,1,4,0" VerticalAlignment="Top" Data="M2.5,0.5 L11.5,0.5 L11.5,5.5 L2.5,5.5 C1.3954304,5.5 0.5,4.6045694 0.5,3.5 L0.5,2.5 C0.5,1.3954306 1.3954304,0.50000006 2.5,0.5 z" Fill="{StaticResource IconsBackgroundBrush}" Stretch="Fill" Stroke="{StaticResource IconsDarkBackgroundBrush}" UseLayoutRounding="False"/>
+    </Grid>
+  </DataTemplate>
+  <DataTemplate x:Key="Progress25Image">
+    <Grid Width="16" Height="16">
+      <Rectangle Width="16" Height="6" Margin="0,1,0,0" VerticalAlignment="Top" Fill="{StaticResource IconsDarkBackgroundBrush}" RadiusX="2" RadiusY="2" Stroke="{StaticResource IconsDarkBackgroundBrush}"/>
+      <Path Width="4" Height="6" HorizontalAlignment="Left" Margin="6,0,0,1" VerticalAlignment="Bottom" Data="M1.0000011,5 L3.000001,5 L3.000001,6 L1.0000011,6 z M0,4 L1,4 L1,5 L0,5 z M3.0000012,3 L4.000001,3 L4.000001,5 L3.0000012,5 z M1.1622906E-06,0 L1.0000011,0 L4.000001,0 L4.000001,1 L1.0000011,1 L1.0000011,2 L3.000001,2 L3.000001,3 L1.0000011,3 L1.1622906E-06,3 z" Fill="{StaticResource IconsBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+      <Path Width="4" Height="4" HorizontalAlignment="Right" Margin="0,0,1,2" VerticalAlignment="Bottom" Data="M3,3 L4,3 L4,4 L3,4 z M0,3 L1,3 L1,4 L0,4 z M1,2 L2,2 L2,3 L1,3 z M2,1 L3,1 L3,2 L2,2 z M3,0 L4,0 L4,1 L3,1 z M0,0 L1,0 L1,1 L0,1 z" Fill="{StaticResource IconsBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+      <Path Width="4" Height="6" HorizontalAlignment="Left" Margin="1,0,0,1" VerticalAlignment="Bottom" Data="M0,4 L1,4 L1,5 L4,5 L4,6 L1,6 L0,6 L0,5 z M1,3 L3,3 L3,4 L1,4 z M3,1 L4,1 L4,3 L3,3 z M0,1 L1,1 L1,2 L0,2 z M1,0 L3,0 L3,1 L1,1 z" Fill="{StaticResource IconsBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+      <Path Width="4" Height="6" HorizontalAlignment="Left" Margin="0,1,0,0" VerticalAlignment="Top" Data="M2,0.5 C2.1682742,0.5 3.5,0.5 3.5,0.5 L3.5,5.5 C3.5,5.5 2.1682742,5.5 2,5.5 C1.1715729,5.5 0.5,4.6045694 0.5,3.5 L0.5,2.5 C0.5,1.3954304 1.1715729,0.5 2,0.5 z" Fill="{StaticResource IconsBackgroundBrush}" Stretch="Fill" Stroke="{StaticResource IconsDarkBackgroundBrush}" UseLayoutRounding="False"/>
+    </Grid>
+  </DataTemplate>
+  <DataTemplate x:Key="InsertColumnImage">
+    <Grid Width="16" Height="16">
+      <Path Width="6" Height="6" Margin="0,4,0,0" VerticalAlignment="Top" Data="M3,0 L6,4 L4,4 L4,6 L2,6 L2,4 L0,4 z" Fill="{StaticResource IconsBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+      <Rectangle Width="5" Height="6" HorizontalAlignment="Left" VerticalAlignment="Top" Fill="{StaticResource IconsBackgroundBrush}" Stroke="{StaticResource IconsDarkBackgroundBrush}"/>
+      <Rectangle Width="5" Height="6" HorizontalAlignment="Right" VerticalAlignment="Top" Fill="{StaticResource IconsBackgroundBrush}" Stroke="{StaticResource IconsDarkBackgroundBrush}"/>
+      <Rectangle Width="6" Height="6" Margin="5,0" VerticalAlignment="Bottom" Fill="{StaticResource IconsBackgroundBrush}" Stroke="{StaticResource IconsDarkBackgroundBrush}"/>
+    </Grid>
+  </DataTemplate>
+  <DataTemplate x:Key="HideColumnImage">
+    <Grid Width="16" Height="16">
+      <Rectangle Width="5" Height="5" HorizontalAlignment="Left" VerticalAlignment="Top" Fill="{StaticResource IconsBackgroundBrush}" Stroke="{StaticResource IconsDarkBackgroundBrush}"/>
+      <Rectangle Width="5" Height="5" HorizontalAlignment="Right" VerticalAlignment="Top" Fill="{StaticResource IconsBackgroundBrush}" Stroke="{StaticResource IconsDarkBackgroundBrush}"/>
+      <Rectangle Height="8" Margin="4,0" VerticalAlignment="Top" Fill="{StaticResource IconsBackgroundBrush}" Stroke="{StaticResource IconsDarkBackgroundBrush}"/>
+      <Path Width="7" Height="7" HorizontalAlignment="Left" Margin="0,0,1,0" VerticalAlignment="Bottom" Data="M0,0 L2,0 L2,1 L3,1 L3,2 L4,2 L4,1 L5,1 L5,0 L7,0 L7,2 L6,2 L6,3 L5,3 L5,3.9999998 L6,3.9999998 L6,5 L7,5 L7,7 L5,7 L5,6 L4,6 L4,5 L3,5 L3,6 L2,6 L2,7 L0,7 L0,5 L1,5 L1,3.9999998 L2,3.9999998 L2,3 L1,3 L1,2 L0,2 z" Fill="{StaticResource IconsBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+    </Grid>
+  </DataTemplate>
+  <DataTemplate x:Key="AutoFitColumnImage">
+    <Grid Width="16" Height="16">
+      <Path Data="M0,2.3841858E-07 L1,2.3841858E-07 L1,6 L0,6 z M15.000001,0 L16,0 L16,6 L15.000001,6 z M15.000001,8 L16,8 L16,16 L15.000001,16 z M0,8 L1,8 L1,16 L0,16 z" Fill="{StaticResource IconsDarkBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+      <Path Width="6" Height="6" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top" Data="M4,0 L4,2.0000005 L6,2.0000005 L6,4 L4,4 L4,6 L0,2.984375 z" Fill="{StaticResource IconsBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+      <Path Width="6" Height="6" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Top" Data="M1.9999995,0 L5.9999986,2.984375 L1.9999995,6 L1.9999995,4 L0,4 L0,2 L1.9999995,2 z" Fill="{StaticResource IconsBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+      <Rectangle Width="16" Height="6" Margin="0,0,0,2" VerticalAlignment="Bottom" Fill="{StaticResource IconsBackgroundBrush}" Stroke="{StaticResource IconsDarkBackgroundBrush}"/>
+    </Grid>
+  </DataTemplate>
+  <DataTemplate x:Key="CalculateProjectImage">
+    <Grid Width="16" Height="16">
+      <Rectangle Width="13" Height="15" Margin="0,0,3,0" VerticalAlignment="Top" Fill="{StaticResource IconsBackgroundBrush}" Stroke="{StaticResource IconsDarkBackgroundBrush}"/>
+      <Grid Width="7" Height="10" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+        <Rectangle Width="7" Height="10" Fill="{StaticResource IconsDarkBackgroundBrush}"/>
+        <Path Width="5" Height="8" Data="M2.0000002,7.0000005 L3.0000002,7.0000005 L3.0000002,8 L2.0000002,8 z M0,7.0000005 L1,7.0000005 L1,8 L0,8 z M4.0000005,6.9999995 L5.0000005,6.9999995 L5.0000005,7.9999995 L4.0000005,7.9999995 z M4.0000005,5 L5.0000005,5 L5.0000005,6 L4.0000005,6 z M2.0000002,5 L3.0000002,5 L3.0000002,6 L2.0000002,6 z M0,5 L1,5 L1,6 L0,6 z M4.0000005,3.0000002 L5.0000005,3.0000002 L5.0000005,4 L4.0000005,4 z M2.0000002,3.0000002 L3.0000002,3.0000002 L3.0000002,4 L2.0000002,4 z M0,3.0000002 L1,3.0000002 L1,4 L0,4 z M0,0 L5,0 L5,2 L0,2 z" Fill="{StaticResource IconsLIghtBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+      </Grid>
+      <Path Height="3" Margin="2,2,5,0" VerticalAlignment="Top" Data="M0,0 L2,0 L3,0 L9,0 L9,1 L3,1 L3,2 L2,2 L2,3 L0.99999994,3 L0.99999994,2 L0,2 L0,1.0000001 z" Fill="{StaticResource IconsDarkBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+      <Path Width="5" Height="3" Margin="4,6,7,6" VerticalAlignment="Top" Data="M0,0 L5,0 L5,1 L3.0000026,1 L3.0000026,2.0000002 L2.0000026,2.0000002 L2.0000026,3.0000002 L1.0000026,3.0000002 L1.0000026,2.0000002 L2.5331974E-06,2.0000002 L2.5331974E-06,1.0000005 z" Fill="{StaticResource IconsLIghtBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+      <Path Width="6" Height="3" HorizontalAlignment="Left" Margin="2,10,0,0" VerticalAlignment="Top" Data="M0.9999975,0 L2,0 L3,0 L5.9999976,0 L5.9999976,0.99999994 L3,0.99999994 L3,2 L2,2 L2,3 L0.99999994,3 L0.99999994,2 L0,2 L0,1.0000001 L0,8.9406932E-08 z" Fill="{StaticResource IconsDarkestBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+    </Grid>
+  </DataTemplate>
+  <DataTemplate x:Key="RespectLinksImage">
+    <Grid Width="16" Height="16">
+      <Path Data="F1 M 96.3831,33.3099C 98.149,35.0757 98.1167,37.9709 96.3073,39.7804L 96.3065,39.7796L 94.3569,41.7292C 94.5815,40.7079 94.4767,39.6287 94.0425,38.6614L 94.6192,38.0847L 94.6181,38.0836C 95.4677,37.2341 95.5508,35.8718 94.7199,35.041C 93.8988,34.2198 92.4924,34.225 91.6358,35.049L 88.8807,37.8041C 88.0679,38.6487 88.0567,39.9737 88.8579,40.796L 88.8593,40.7947L 89.6458,41.5813L 87.9548,43.2723L 87.1682,42.4858L 87.1718,42.4822C 85.4415,40.7136 85.425,37.8734 87.2221,36.0762L 87.2242,36.0784L 89.9186,33.3841L 89.9164,33.3819C 91.7221,31.5763 94.6173,31.544 96.3831,33.3099 Z M 82.9917,46.7013C 81.2258,44.9355 81.2581,42.0402 83.0675,40.2308L 83.0683,40.2316L 85.0179,38.282C 84.7933,39.3033 84.8981,40.3825 85.3323,41.3497L 84.7556,41.9265L 84.7567,41.9275C 83.9071,42.7771 83.824,44.1394 84.6549,44.9702C 85.476,45.7913 86.8824,45.7861 87.739,44.9622L 90.4941,42.2071C 91.3069,41.3624 91.3181,40.0375 90.5169,39.2151L 90.5155,39.2165L 89.729,38.4299L 91.42,36.7388L 92.2066,37.5254L 92.203,37.529C 93.9333,39.2976 93.9498,42.1378 92.1527,43.9349L 92.1506,43.9328L 89.4562,46.6271L 89.4584,46.6293C 87.6527,48.4349 84.7575,48.4671 82.9917,46.7013 Z " Fill="{StaticResource IconsBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False" Width="12" Height="12" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+      <Path Data="M17.582466,2.0999019 L17.201649,0.59214324 L7.8334432,9.5303679 L7.2139883,9.5303679 L3.0529327,5.6415148 L0.45705879,8.009798 L7.4027023,14.221309 L7.970346,14.221309 z" Fill="{StaticResource IconsBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False" Width="9" Height="9" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+    </Grid>
+  </DataTemplate>
+
+  <!-- ======================== -->
+  <!--     ResourceStrings      -->
+  <!-- ======================== -->
+  <igSchedulePrim:GanttResourceString x:Key="menuItemInsertColumnHeader" ResourceName="MenuItem_InsertColumn" />
+  <igSchedulePrim:GanttResourceString x:Key="menuItemHideColumnHeader" ResourceName="MenuItem_HideColumn" />
+  <igSchedulePrim:GanttResourceString x:Key="menuItemCalculateProjectHeader" ResourceName="MenuItem_CalculateProject" />
+  <igSchedulePrim:GanttResourceString x:Key="menuItemCurrentTableHeader" ResourceName="MenuItem_CurrentTable" />
+  <igSchedulePrim:GanttResourceString x:Key="menuItemDeleteLinkHeader" ResourceName="MenuItem_DeleteLink" />
+  <igSchedulePrim:GanttResourceString x:Key="menuItemScrollToPredecessorHeader" ResourceName="MenuItem_ScrollToPredecessor" />
+  <igSchedulePrim:GanttResourceString x:Key="menuItemScrollToSuccessorHeader" ResourceName="MenuItem_ScrollToSuccessor" />
+  <igSchedulePrim:GanttResourceString x:Key="menuItemManuallyScheduleHeader" ResourceName="MenuItem_ManuallyScheduled" />
+  <igSchedulePrim:GanttResourceString x:Key="menuItemAutoScheduleHeader" ResourceName="MenuItem_AutoSchedule" />
+  <igSchedulePrim:GanttResourceString x:Key="menuItemInactivateTaskHeader" ResourceName="MenuItem_InactivateTask" />
+  <igSchedulePrim:GanttResourceString x:Key="menuItemRespectLinksHeader" ResourceName="MenuItem_RespectLinks" />
+  <igSchedulePrim:GanttResourceString x:Key="menuItemScrollToTaskHeader" ResourceName="MenuItem_ScrollToTask" />
+  <igSchedulePrim:GanttResourceString x:Key="menuItemIndentHeader" ResourceName="MenuItem_Indent" />
+  <igSchedulePrim:GanttResourceString x:Key="menuItemOutdentHeader" ResourceName="MenuItem_Outdent" />
+  <igSchedulePrim:GanttResourceString x:Key="menuItemAddTaskHeader" ResourceName="MenuItem_AddTask" />
+  <igSchedulePrim:GanttResourceString x:Key="menuItemAddSiblingTaskHeader" ResourceName="MenuItem_AddSiblingTask" />
+  <igSchedulePrim:GanttResourceString x:Key="menuItemAddSubtaskHeader" ResourceName="MenuItem_AddSubtask" />
+  <igSchedulePrim:GanttResourceString x:Key="menuItemInsertTaskHeader" ResourceName="MenuItem_InsertTask" />
+  <igSchedulePrim:GanttResourceString x:Key="menuItemDeleteTaskHeader" ResourceName="MenuItem_DeleteTask" />
+
+  <!-- ========================== -->
+  <!-- Column Header Context Menu -->
+  <!-- ========================== -->
+  <!-- TODO - menu is inheriting foreground/bold/italics -->
+  <ig:XamContextMenu x:Key="ColumnHeader" Foreground="Black" FontWeight="Normal" FontStyle="Normal">
+      <ig:XamContextMenu.DataContext>
+          <igSchedulePrim:GanttMenuDataContext />
+      </ig:XamContextMenu.DataContext>
+      <ig:XamMenuItem Header="{Binding Source={StaticResource menuItemInsertColumnHeader}, Path=Value}" ItemsSource="{Binding Gantt.UnusedTaskColumns}" IsEnabled="{Binding HasChildren, RelativeSource={RelativeSource Self}}">
+      <ig:XamMenuItem.Icon>
+        <ContentPresenter ContentTemplate="{StaticResource InsertColumnImage}" />
+      </ig:XamMenuItem.Icon>
+      <ig:XamMenuItem.DefaultItemsContainer>
+        <DataTemplate>
+          <ig:XamMenuItem Header="{Binding DisplayNameResolved}" ig:Commanding.CommandTarget="{Binding Path=DataContext.Gantt, RelativeSource={RelativeSource AncestorType=FrameworkElement}, Mode=OneTime}" Tag="{Binding}">
+            <ig:Commanding.Command>
+              <igSchedulePrim:GanttCommandSource CommandType="InsertColumn" EventName="Click" ParameterBinding="{Binding Tag}" ParameterBindingDataContext="SourceElement" />
+            </ig:Commanding.Command>
+          </ig:XamMenuItem>
+        </DataTemplate>
+      </ig:XamMenuItem.DefaultItemsContainer>
+    </ig:XamMenuItem>
+    <ig:XamMenuItem Header="{Binding Source={StaticResource menuItemHideColumnHeader}, Path=Value}">
+      <ig:XamMenuItem.Icon>
+        <ContentPresenter ContentTemplate="{StaticResource HideColumnImage}" />
+      </ig:XamMenuItem.Icon>
+      <ig:Commanding.Command>
+        <igSchedulePrim:GanttCommandSource CommandType="HideColumn" EventName="Click" />
+      </ig:Commanding.Command>
+    </ig:XamMenuItem>
+  </ig:XamContextMenu>
+    
+
+  <!-- ============================== -->
+  <!-- RowSelectorHeader Context Menu -->
+  <!-- ============================== -->
+    <ig:XamContextMenu x:Key="RowSelectorHeader" Foreground="Black" FontWeight="Normal" FontStyle="Normal">
+        <ig:XamContextMenu.DataContext>
+          <igSchedulePrim:GanttMenuDataContext />
+      </ig:XamContextMenu.DataContext>
+      <ig:XamMenuItem Header="{Binding Source={StaticResource menuItemCalculateProjectHeader}, Path=Value}">
+      <ig:XamMenuItem.Icon>
+        <ContentPresenter ContentTemplate="{StaticResource CalculateProjectImage}" />
+      </ig:XamMenuItem.Icon>
+      <ig:Commanding.Command>
+        <igSchedulePrim:GanttCommandSource CommandType="CalculateProject" EventName="Click" ParameterBinding="{Binding Gantt}" />
+      </ig:Commanding.Command>
+    </ig:XamMenuItem>
+    <ig:XamMenuSeparator />
+    <ig:XamMenuItem Header="{Binding Source={StaticResource menuItemCurrentTableHeader}, Path=Value}" ItemsSource="{Binding Gantt.ViewProviderResolved.Tables}">
+      <ig:XamMenuItem.DefaultItemsContainer>
+        <DataTemplate>
+          <ig:XamMenuItem Header="{Binding Key}" Visibility="{Binding ShowInMenu, Converter={StaticResource boolToVisConverter}}" ig:Commanding.CommandTarget="{Binding Path=DataContext.Gantt, RelativeSource={RelativeSource AncestorType=FrameworkElement}, Mode=OneTime}" Tag="{Binding}">
+            <ig:Commanding.Command>
+              <igSchedulePrim:GanttCommandSource CommandType="ChangeViewTable" EventName="Click" ParameterBinding="{Binding Tag}" ParameterBindingDataContext="SourceElement" />
+            </ig:Commanding.Command>
+          </ig:XamMenuItem>
+        </DataTemplate>
+      </ig:XamMenuItem.DefaultItemsContainer>
+    </ig:XamMenuItem>
+  </ig:XamContextMenu>
+    
+
+  <!-- =========================== -->
+  <!-- TaskDependency Context Menu -->
+  <!-- =========================== -->
+  <ig:XamContextMenu x:Key="TaskDependency">
+      <ig:XamContextMenu.DataContext>
+          <igSchedulePrim:GanttMenuDataContext />
+      </ig:XamContextMenu.DataContext>
+    <ig:XamMenuItem Header="{Binding Source={StaticResource menuItemDeleteLinkHeader}, Path=Value}">
+      <ig:XamMenuItem.Icon>
+        <ContentPresenter ContentTemplate="{StaticResource UnlinkImage}" />
+      </ig:XamMenuItem.Icon>
+      <ig:Commanding.Command>
+        <igSchedulePrim:GanttCommandSource CommandType="DeleteLink" EventName="Click" ParameterBinding="{Binding TargetElement.Dependency}" />
+      </ig:Commanding.Command>
+    </ig:XamMenuItem>
+    <ig:XamMenuSeparator />
+    <ig:XamMenuItem Header="{Binding Source={StaticResource menuItemScrollToPredecessorHeader}, Path=Value}">
+      <ig:Commanding.Command>
+        <igSchedulePrim:GanttCommandSource CommandType="ScrollToTaskStart" EventName="Click" ParameterBinding="{Binding TargetElement.Dependency.From}" />
+      </ig:Commanding.Command>
+    </ig:XamMenuItem>
+    <ig:XamMenuItem Header="{Binding Source={StaticResource menuItemScrollToSuccessorHeader}, Path=Value}">
+      <ig:Commanding.Command>
+        <igSchedulePrim:GanttCommandSource CommandType="ScrollToTaskStart" EventName="Click" ParameterBinding="{Binding TargetElement.Dependency.To}" />
+      </ig:Commanding.Command>
+    </ig:XamMenuItem>
+  </ig:XamContextMenu>
+
+  <!-- ================= -->
+  <!-- Task Context Menu -->
+  <!-- ================= -->
+  <ig:XamContextMenu x:Key="Task">
+      <ig:XamContextMenu.DataContext>
+          <igSchedulePrim:GanttMenuDataContext />
+      </ig:XamContextMenu.DataContext>
+      <ig:XamMenuItem Header="{Binding Source={StaticResource menuItemManuallyScheduleHeader}, Path=Value}" IsChecked="{Binding Gantt.AreSelectedTasksManual, Mode=OneWay}">
+      <ig:XamMenuItem.Icon>
+        <ContentPresenter ContentTemplate="{StaticResource ManuallyScheduledImage}" />
+      </ig:XamMenuItem.Icon>
+      <ig:Commanding.Command>
+        <igSchedulePrim:GanttCommandSource CommandType="ChangeTaskToManual" EventName="Click" />
+      </ig:Commanding.Command>
+    </ig:XamMenuItem>
+    <ig:XamMenuItem Header="{Binding Source={StaticResource menuItemAutoScheduleHeader}, Path=Value}" IsChecked="{Binding Gantt.AreSelectedTasksManual, Converter={StaticResource notBoolConverter}, Mode=OneWay}">
+      <ig:XamMenuItem.Icon>
+        <ContentPresenter ContentTemplate="{StaticResource AutoScheduledImage}" />
+      </ig:XamMenuItem.Icon>
+      <ig:Commanding.Command>
+        <igSchedulePrim:GanttCommandSource CommandType="ChangeTaskToAutomatic" EventName="Click" />
+      </ig:Commanding.Command>
+    </ig:XamMenuItem>
+    <ig:XamMenuSeparator />
+    <ig:XamMenuItem Header="{Binding Source={StaticResource menuItemInactivateTaskHeader}, Path=Value}" IsChecked="{Binding Gantt.AreSelectedTasksActive, Converter={StaticResource notBoolConverter}, Mode=OneWay}">
+      <ig:Commanding.Command>
+        <igSchedulePrim:GanttCommandSource CommandType="ToggleTaskActive" EventName="Click" />
+      </ig:Commanding.Command>
+      <ig:XamMenuItem.Icon>
+        <ContentPresenter ContentTemplate="{StaticResource MenuItemCheckmark}" />
+      </ig:XamMenuItem.Icon>
+    </ig:XamMenuItem>
+      <ig:XamMenuSeparator />
+      <ig:XamMenuItem Header="{Binding Source={StaticResource menuItemRespectLinksHeader}, Path=Value}">
+          <ig:XamMenuItem.Icon>
+              <ContentPresenter ContentTemplate="{StaticResource RespectLinksImage}" />
+          </ig:XamMenuItem.Icon>
+          <ig:Commanding.Command>
+              <igSchedulePrim:GanttCommandSource CommandType="RespectLinks" EventName="Click" />
+          </ig:Commanding.Command>
+      </ig:XamMenuItem>
+  </ig:XamContextMenu>
+
+    
+  <!-- ===================== -->
+  <!-- Grid Row Context Menu -->
+  <!-- ===================== -->
+  <!-- TODO - menu is inheriting foreground/bold/italics -->
+  <ig:XamContextMenu x:Key="Row" Foreground="Black" FontWeight="Normal" FontStyle="Normal">
+      <ig:XamContextMenu.DataContext>
+          <igSchedulePrim:GanttMenuDataContext />
+      </ig:XamContextMenu.DataContext>
+      <ig:XamMenuItem Header="{Binding Source={StaticResource menuItemScrollToTaskHeader}, Path=Value}">
+      <ig:XamMenuItem.Icon>
+        <ContentPresenter ContentTemplate="{StaticResource ScrollToTaskImage}" />
+      </ig:XamMenuItem.Icon>
+      <ig:Commanding.Command>
+        <igSchedulePrim:GanttCommandSource CommandType="ScrollToTaskStart" EventName="Click" ParameterBinding="{Binding Task}" />
+      </ig:Commanding.Command>
+    </ig:XamMenuItem>
+    <ig:XamMenuSeparator />
+    <ig:XamMenuItem Header="{Binding Source={StaticResource menuItemIndentHeader}, Path=Value}">
+      <ig:XamMenuItem.Icon>
+        <ContentPresenter ContentTemplate="{StaticResource IndentImage}" />
+      </ig:XamMenuItem.Icon>
+      <ig:Commanding.Command>
+        <igSchedulePrim:GanttCommandSource CommandType="IndentTask" EventName="Click" />
+      </ig:Commanding.Command>
+    </ig:XamMenuItem>
+    <ig:XamMenuItem Header="{Binding Source={StaticResource menuItemOutdentHeader}, Path=Value}">
+      <ig:XamMenuItem.Icon>
+        <ContentPresenter ContentTemplate="{StaticResource OutdentImage}" />
+      </ig:XamMenuItem.Icon>
+      <ig:Commanding.Command>
+        <igSchedulePrim:GanttCommandSource CommandType="OutdentTask" EventName="Click" />
+      </ig:Commanding.Command>
+    </ig:XamMenuItem>
+    <ig:XamMenuSeparator />
+    <ig:XamMenuItem Header="{Binding Source={StaticResource menuItemAddTaskHeader}, Path=Value}">
+        <ig:XamMenuItem Header="{Binding Source={StaticResource menuItemAddSiblingTaskHeader}, Path=Value}">
+          <ig:Commanding.Command>
+            <igSchedulePrim:GanttCommandSource CommandType="AddTask" EventName="Click" />
+          </ig:Commanding.Command>
+        </ig:XamMenuItem>
+        <ig:XamMenuItem Header="{Binding Source={StaticResource menuItemAddSubtaskHeader}, Path=Value}">
+          <ig:Commanding.Command>
+            <igSchedulePrim:GanttCommandSource CommandType="AddSubtask" EventName="Click" />
+          </ig:Commanding.Command>
+        </ig:XamMenuItem>
+    </ig:XamMenuItem>
+    <ig:XamMenuItem Header="{Binding Source={StaticResource menuItemInsertTaskHeader}, Path=Value}">
+      <ig:Commanding.Command>
+        <igSchedulePrim:GanttCommandSource CommandType="InsertTask" EventName="Click" />
+      </ig:Commanding.Command>
+    </ig:XamMenuItem>
+    <ig:XamMenuItem Header="{Binding Source={StaticResource menuItemDeleteTaskHeader}, Path=Value}">
+      <ig:Commanding.Command>
+        <igSchedulePrim:GanttCommandSource CommandType="DeleteTask" EventName="Click" />
+      </ig:Commanding.Command>
+    </ig:XamMenuItem>
+    <ig:XamMenuItem Header="{Binding Source={StaticResource menuItemInactivateTaskHeader}, Path=Value}" IsChecked="{Binding Gantt.AreSelectedTasksActive, Converter={StaticResource notBoolConverter}, Mode=OneWay}">
+      <ig:Commanding.Command>
+        <igSchedulePrim:GanttCommandSource CommandType="ToggleTaskActive" EventName="Click" />
+      </ig:Commanding.Command>
+      <ig:XamMenuItem.Icon>
+        <ContentPresenter ContentTemplate="{StaticResource MenuItemCheckmark}" />
+      </ig:XamMenuItem.Icon>
+    </ig:XamMenuItem>
+    <ig:XamMenuSeparator />
+    <ig:XamMenuItem Header="{Binding Source={StaticResource menuItemManuallyScheduleHeader}, Path=Value}" IsChecked="{Binding Gantt.AreSelectedTasksManual, Mode=OneWay}">
+      <ig:Commanding.Command>
+        <igSchedulePrim:GanttCommandSource CommandType="ChangeTaskToManual" EventName="Click" />
+      </ig:Commanding.Command>
+      <ig:XamMenuItem.Icon>
+        <ContentPresenter ContentTemplate="{StaticResource ManuallyScheduledImage}" />
+      </ig:XamMenuItem.Icon>
+    </ig:XamMenuItem>
+    <ig:XamMenuItem Header="{Binding Source={StaticResource menuItemAutoScheduleHeader}, Path=Value}" IsChecked="{Binding Gantt.AreSelectedTasksManual, Converter={StaticResource notBoolConverter}, Mode=OneWay}">
+      <ig:Commanding.Command>
+        <igSchedulePrim:GanttCommandSource CommandType="ChangeTaskToAutomatic" EventName="Click" />
+      </ig:Commanding.Command>
+      <ig:XamMenuItem.Icon>
+        <ContentPresenter ContentTemplate="{StaticResource AutoScheduledImage}" />
+      </ig:XamMenuItem.Icon>
+    </ig:XamMenuItem>
+      <ig:XamMenuSeparator />
+      <ig:XamMenuItem Header="{Binding Source={StaticResource menuItemRespectLinksHeader}, Path=Value}">
+          <ig:XamMenuItem.Icon>
+              <ContentPresenter ContentTemplate="{StaticResource RespectLinksImage}" />
+          </ig:XamMenuItem.Icon>
+          <ig:Commanding.Command>
+              <igSchedulePrim:GanttCommandSource CommandType="RespectLinks" EventName="Click" />
+          </ig:Commanding.Command>
+      </ig:XamMenuItem>
+  </ig:XamContextMenu>
+
+    
+  <!-- ====================== -->
+  <!-- Grid Cell Context Menu -->
+  <!-- ====================== -->
+  <!-- TODO - menu is inheriting foreground/bold/italics -->
+  <ig:XamContextMenu x:Key="Cell" Foreground="Black" FontWeight="Normal" FontStyle="Normal">
+      <ig:XamContextMenu.DataContext>
+          <igSchedulePrim:GanttMenuDataContext />
+      </ig:XamContextMenu.DataContext>
+      <ig:XamMenuItem Header="{Binding Source={StaticResource menuItemScrollToTaskHeader}, Path=Value}">
+      <ig:XamMenuItem.Icon>
+        <ContentPresenter ContentTemplate="{StaticResource ScrollToTaskImage}" />
+      </ig:XamMenuItem.Icon>
+      <ig:Commanding.Command>
+        <igSchedulePrim:GanttCommandSource CommandType="ScrollToTaskStart" EventName="Click" ParameterBinding="{Binding Task}" />
+      </ig:Commanding.Command>
+    </ig:XamMenuItem>
+    <ig:XamMenuSeparator />
+    <ig:XamMenuItem Header="{Binding Source={StaticResource menuItemIndentHeader}, Path=Value}">
+      <ig:XamMenuItem.Icon>
+        <ContentPresenter ContentTemplate="{StaticResource IndentImage}" />
+      </ig:XamMenuItem.Icon>
+      <ig:Commanding.Command>
+        <igSchedulePrim:GanttCommandSource CommandType="IndentTask" EventName="Click" />
+      </ig:Commanding.Command>
+    </ig:XamMenuItem>
+    <ig:XamMenuItem Header="{Binding Source={StaticResource menuItemOutdentHeader}, Path=Value}">
+      <ig:XamMenuItem.Icon>
+        <ContentPresenter ContentTemplate="{StaticResource OutdentImage}" />
+      </ig:XamMenuItem.Icon>
+      <ig:Commanding.Command>
+        <igSchedulePrim:GanttCommandSource CommandType="OutdentTask" EventName="Click" />
+      </ig:Commanding.Command>
+    </ig:XamMenuItem>
+    <ig:XamMenuSeparator />
+    <ig:XamMenuItem Header="{Binding Source={StaticResource menuItemAddTaskHeader}, Path=Value}">
+        <ig:XamMenuItem Header="{Binding Source={StaticResource menuItemAddSiblingTaskHeader}, Path=Value}">
+          <ig:Commanding.Command>
+            <igSchedulePrim:GanttCommandSource CommandType="AddTask" EventName="Click" />
+          </ig:Commanding.Command>
+        </ig:XamMenuItem>
+        <ig:XamMenuItem Header="{Binding Source={StaticResource menuItemAddSubtaskHeader}, Path=Value}">
+          <ig:Commanding.Command>
+            <igSchedulePrim:GanttCommandSource CommandType="AddSubtask" EventName="Click" />
+          </ig:Commanding.Command>
+        </ig:XamMenuItem>
+    </ig:XamMenuItem>
+    <ig:XamMenuItem Header="{Binding Source={StaticResource menuItemInsertTaskHeader}, Path=Value}">
+      <ig:Commanding.Command>
+        <igSchedulePrim:GanttCommandSource CommandType="InsertTask" EventName="Click" />
+      </ig:Commanding.Command>
+    </ig:XamMenuItem>
+    <ig:XamMenuItem Header="{Binding Source={StaticResource menuItemDeleteTaskHeader}, Path=Value}">
+      <ig:Commanding.Command>
+        <igSchedulePrim:GanttCommandSource CommandType="DeleteTask" EventName="Click" />
+      </ig:Commanding.Command>
+    </ig:XamMenuItem>
+    <ig:XamMenuItem Header="{Binding Source={StaticResource menuItemInactivateTaskHeader}, Path=Value}" IsChecked="{Binding Gantt.AreSelectedTasksActive, Converter={StaticResource notBoolConverter}, Mode=OneWay}">
+      <ig:Commanding.Command>
+        <igSchedulePrim:GanttCommandSource CommandType="ToggleTaskActive" EventName="Click" />
+      </ig:Commanding.Command>
+      <ig:XamMenuItem.Icon>
+        <ContentPresenter ContentTemplate="{StaticResource MenuItemCheckmark}" />
+      </ig:XamMenuItem.Icon>
+    </ig:XamMenuItem>
+    <ig:XamMenuSeparator />
+    <ig:XamMenuItem Header="{Binding Source={StaticResource menuItemManuallyScheduleHeader}, Path=Value}" IsChecked="{Binding Gantt.AreSelectedTasksManual, Mode=OneWay}">
+      <ig:Commanding.Command>
+        <igSchedulePrim:GanttCommandSource CommandType="ChangeTaskToManual" EventName="Click" />
+      </ig:Commanding.Command>
+      <ig:XamMenuItem.Icon>
+        <ContentPresenter ContentTemplate="{StaticResource ManuallyScheduledImage}" />
+      </ig:XamMenuItem.Icon>
+    </ig:XamMenuItem>
+    <ig:XamMenuItem Header="{Binding Source={StaticResource menuItemAutoScheduleHeader}, Path=Value}" IsChecked="{Binding Gantt.AreSelectedTasksManual, Converter={StaticResource notBoolConverter}, Mode=OneWay}">
+      <ig:Commanding.Command>
+        <igSchedulePrim:GanttCommandSource CommandType="ChangeTaskToAutomatic" EventName="Click" />
+      </ig:Commanding.Command>
+      <ig:XamMenuItem.Icon>
+        <ContentPresenter ContentTemplate="{StaticResource AutoScheduledImage}" />
+      </ig:XamMenuItem.Icon>
+    </ig:XamMenuItem>
+    <ig:XamMenuSeparator />
+    <ig:XamMenuItem Header="{Binding Source={StaticResource menuItemRespectLinksHeader}, Path=Value}">
+        <ig:XamMenuItem.Icon>
+            <ContentPresenter ContentTemplate="{StaticResource RespectLinksImage}" />
+        </ig:XamMenuItem.Icon>
+        <ig:Commanding.Command>
+            <igSchedulePrim:GanttCommandSource CommandType="RespectLinks" EventName="Click" />
+        </ig:Commanding.Command>
+    </ig:XamMenuItem>
+  </ig:XamContextMenu>
+
+
+  <!-- ===================== -->
+  <!-- Grid Context Menu -->
+  <!-- ===================== -->
+  <!-- TODO - menu is inheriting foreground/bold/italics -->
+  <ig:XamContextMenu x:Key="Grid" Foreground="Black" FontWeight="Normal" FontStyle="Normal">
+    <ig:XamContextMenu.DataContext>
+      <igSchedulePrim:GanttMenuDataContext />
+    </ig:XamContextMenu.DataContext>
+    <ig:XamMenuItem Header="{Binding Source={StaticResource menuItemAddTaskHeader}, Path=Value}">
+      <ig:XamMenuItem Header="{Binding Source={StaticResource menuItemAddSiblingTaskHeader}, Path=Value}">
+        <ig:Commanding.Command>
+          <igSchedulePrim:GanttCommandSource CommandType="AddTask" EventName="Click" />
+        </ig:Commanding.Command>
+      </ig:XamMenuItem>
+      <ig:XamMenuItem Header="{Binding Source={StaticResource menuItemAddSubtaskHeader}, Path=Value}">
+        <ig:Commanding.Command>
+          <igSchedulePrim:GanttCommandSource CommandType="AddSubtask" EventName="Click" />
+        </ig:Commanding.Command>
+      </ig:XamMenuItem>
+    </ig:XamMenuItem>
+    <ig:XamMenuItem Header="{Binding Source={StaticResource menuItemInsertTaskHeader}, Path=Value}">
+      <ig:Commanding.Command>
+        <igSchedulePrim:GanttCommandSource CommandType="InsertTask" EventName="Click" />
+      </ig:Commanding.Command>
+    </ig:XamMenuItem>
+  </ig:XamContextMenu>
+
+</ResourceDictionary>

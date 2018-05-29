@@ -1,0 +1,212 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:converters="clr-namespace:IGExtensions.Common.Converters" xmlns:controls="clr-namespace:IGExtensions.Common.Controls" mc:Ignorable="d">
+
+    <ResourceDictionary.MergedDictionaries>
+        <!--<ResourceDictionary Source="/IGExtensions.Common;component/IG.ChartBrushes.xaml" />-->
+        <ResourceDictionary Source="/IGExtensions.Common;component/IG.ControlsStyles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- NOTE: all brushes specific to the OP control should be in this file. -->
+    <!-- NOTE: all style for MS controls should be in both of these files: 
+    \Infragistics.Styles\WPF\IG.ControlsStyles.xaml 
+    \Infragistics.Styles\SL\IG.ControlsStyles.xaml 
+    -->
+    <converters:VisibilityConverter x:Key="VisibilityConverter"/>
+
+    <LinearGradientBrush x:Key="BorderBackgroundBrush" StartPoint="0.0, 0.0" EndPoint="0.0, 1.0">
+        <GradientStop Color="#FFFFFFFF" Offset="0"/>
+        <GradientStop Color="#e0e2e8" Offset="1"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="GradientBorderBrush" StartPoint="0.0, 0.0" EndPoint="0.0, 1.0">
+        <GradientStop Color="#FFFFFFFF" Offset="0"/>
+        <GradientStop Color="#FFD6D6D6" Offset="1"/>
+    </LinearGradientBrush>
+
+    <Style x:Key="BorderStyle" TargetType="Border">
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="Background" Value="{StaticResource BorderBackgroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource GradientBorderBrush}"/>
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="0" Opacity="0.3"></DropShadowEffect>
+            </Setter.Value>
+        </Setter>
+    </Style>   
+
+    <SolidColorBrush x:Key="OptionsPanelGray0" Color="#FFE7E7E7" />
+    <SolidColorBrush x:Key="OptionsPanelGray1" Color="#FFC9C9C9" />
+    <SolidColorBrush x:Key="OptionsPanelGray2" Color="#FF9B9B9B" />
+    <SolidColorBrush x:Key="OptionsPanelGray4" Color="#FF3E3E3E" />
+    <SolidColorBrush x:Key="OptionsPanelCyan0" Color="#FF57C9F9" />
+    <SolidColorBrush x:Key="OptionsPanelCyan1" Color="#FF16A9E7" />
+    <SolidColorBrush x:Key="OptionsPanelCyan2" Color="#FF2788B1" />
+    <SolidColorBrush x:Key="OptionsPanelDisabledColor" Color="#FFABABAB" />
+    <!--<SolidColorBrush x:Key="ForegroundBrush" Color="#FF333333" />-->
+
+    <LinearGradientBrush x:Key="OptionsPanelButton_NormalState" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="#FF676767" />
+        <GradientStop Color="#FF3e3e3e" Offset="1" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="OptionsPanelButton_Hover" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="#FF3bb7eb" />
+        <GradientStop Color="#FF2686ae" Offset="1" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="OptionsPanelButton_Pressed" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="#FF3bb7eb" Offset="1" />
+        <GradientStop Color="#FF2686ae" />
+    </LinearGradientBrush>
+    <RadialGradientBrush x:Key="OptionsPanelButtonPressed_InnerGlow" Center="0.5,-0.5" GradientOrigin="0.5,-0.5" RadiusX="0.5" RadiusY="1">
+        <GradientStop Color="#FF1A5F7C" />
+        <GradientStop Color="#001A5F7C" Offset="0.9944440126419067" />
+    </RadialGradientBrush>
+    <LinearGradientBrush x:Key="OptionsPanelButton_Focused" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="#FF505050" />
+        <GradientStop Color="#FF333333" Offset="1" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="OptionsPanelButton_Disabled" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="#FFd3d3d3" />
+        <GradientStop Color="#FFa1a1a1" Offset="1" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="OptionsPanelHeaderBackground" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="#FFE6E6E6" Offset="1" />
+        <GradientStop Color="White" />
+    </LinearGradientBrush>
+    
+    <Style x:Key="OptionsPanelToggleButtonStyle" TargetType="ToggleButton">
+        <Setter Property="Padding" Value="3" />
+        <Setter Property="MinWidth" Value="16" />
+        <Setter Property="MinHeight" Value="16" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Grid>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="hover" d:IsOptimized="True" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="pressed" d:IsOptimized="True" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="disabled" d:IsOptimized="True" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="CheckStates">
+                                <VisualState x:Name="Checked">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="grid">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Collapsed</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="grid1">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Visible</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Unchecked" />
+                                <VisualState x:Name="Indeterminate" />
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="FocusStates">
+                                <VisualState x:Name="Focused">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="FocusVisualElement" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Unfocused" />
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Border x:Name="normal" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="0" BorderBrush="{StaticResource OptionsPanelGray4}" Background="{StaticResource OptionsPanelButton_NormalState}" />
+                        <Border x:Name="hover" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="0" BorderBrush="{StaticResource OptionsPanelCyan2}" Background="{StaticResource OptionsPanelButton_Hover}" Opacity="0" />
+                        <Border x:Name="pressed" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="0" BorderBrush="{StaticResource OptionsPanelCyan2}" Background="{StaticResource OptionsPanelButton_Pressed}" Opacity="0" />
+                        <Border x:Name="disabled" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="0" BorderBrush="{StaticResource OptionsPanelDisabledColor}" Background="{StaticResource OptionsPanelButton_Disabled}" Opacity="0" />
+                        <Rectangle x:Name="FocusVisualElement" IsHitTestVisible="false" Margin="0" Opacity="0" Stroke="#FF3AB5E9" StrokeThickness="1" />
+                        <Grid x:Name="grid1" Height="4" VerticalAlignment="Center" Width="10" Margin="3,6,3,0" Visibility="Collapsed">
+                            <Path Stretch="Fill" Opacity="1" Data="M1520,287 C1520,287 1520,290.875 1520,290.875 C1520,290.875 1530,290.875 1530,290.875 C1530,290.875 1530,287 1530,287 C1530,287 1520,287 1520,287 z" Fill="#33000000" UseLayoutRounding="False" />
+                            <Path Stretch="Fill" Opacity="1" Fill="#ffffff" UseLayoutRounding="False" Margin="1" Data="M1521,288 C1521,288 1521,289.875 1521,289.875 C1521,289.875 1529,289.875 1529,289.875 C1529,289.875 1529,288 1529,288 C1529,288 1521,288 1521,288 z" />
+                        </Grid>
+                        <Grid x:Name="grid" VerticalAlignment="Center">
+                            <Path Height="10" Width="10" Stretch="Fill" Opacity="1" Fill="#33000000" UseLayoutRounding="False" Data="M 1523,287 C1523,287 1520,287 1520,287 1520,287 1520,290.875 1520,290.875 1520,290.875 1523,290.875 1523,290.875 1523,290.875 1523,294 1523,294 1523,294 1525,294 1525,294 1525,294 1527,294 1527,294 1527,294 1527,290.875 1527,290.875 1527,290.875 1530,290.875 1530,290.875 1530,290.875 1530,287 1530,287 1530,287 1527,287 1527,287 1527,287 1527,284 1527,284 1527,284 1523,284 1523,284 1523,284 1523,287 1523,287 z" />
+                            <Path Height="8" Width="8" Stretch="Fill" Opacity="1" Fill="#ffffff" UseLayoutRounding="False" Margin="1" Data="M 1524,285 C1524,285 1524,288 1524,288 1524,288 1521,288 1521,288 1521,288 1521,289.875 1521,289.875 1521,289.875 1524,289.875 1524,289.875 1524,289.875 1524,293 1524,293 1524,293 1526,293 1526,293 1526,293 1526,289.875 1526,289.875 1526,289.875 1529,289.875 1529,289.875 1529,289.875 1529,288 1529,288 1529,288 1526,288 1526,288 1526,288 1526,285 1526,285 1526,285 1524,285 1524,285 z" />
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+  
+    <LinearGradientBrush x:Key="OptionsPanelBackground" EndPoint="0,1" StartPoint="0,0">
+        <GradientStop Color="#FFF3F3F3"/>
+        <GradientStop Color="#FFB1B1B1" Offset="1"/>
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="OptionsPanelBorderBrush" Color="#FFB1B1B1" />
+
+    <Style TargetType="controls:OptionsPanel">
+        <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
+        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:OptionsPanel">
+                    <Border x:Name="MovablePanel"                                  
+                                BorderBrush="Transparent"
+                                Background="Transparent">
+                        
+                        <Border Style="{StaticResource BorderStyle}" BorderBrush="{StaticResource OptionsPanelBorderBrush}" 
+                            BorderThickness="1" Background="{StaticResource OptionsPanelBackground}">
+                            <Grid Background="{StaticResource OptionsPanelHeaderBackground}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <!-- Header -->
+                                <Border Grid.ColumnSpan="2" Background="{StaticResource OptionsPanelHeaderBackground}" BorderBrush="{StaticResource OptionsPanelBorderBrush}" BorderThickness="0,0,0,1"/>
+                                <Border Background="Transparent" x:Name="optPanel" Margin="6,0">
+                                    <TextBlock x:Name="textBlock" Text="{TemplateBinding HeaderText}" TextWrapping="Wrap" Margin="0,0,12,0"  VerticalAlignment="Center"/>
+                                </Border>
+                                <!--<ToggleButton x:Name="btnState" Content="-" IsChecked="True" Width="20" Height="20" FontSize="10" FontWeight="ExtraBold" IsThreeState="False" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="3,0"/>-->
+                                <ToggleButton Grid.Column="1" x:Name="btnState" IsChecked="True" Height="16" FontSize="10" FontWeight="ExtraBold" IsThreeState="False" VerticalAlignment="Center" Margin="3,6,6,7" Style="{StaticResource OptionsPanelToggleButtonStyle}" Foreground="White" Padding="2,3,3,3" 
+                                          Visibility="{Binding Path=IsExpandable, Converter={StaticResource VisibilityConverter}, RelativeSource={RelativeSource AncestorType=controls:OptionsPanel}}"/>
+                                <!-- ContentPresenter -->
+                                <ScrollViewer x:Name="scrollContent" Grid.Row="1" Grid.ColumnSpan="2" Margin="6" Background="{StaticResource LightForegroundColor}"
+                                              VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                                    <!--<ScrollViewer.Resources>
+                                        <Style BasedOn="{StaticResource BodyStyle}" TargetType="TextBlock"/>
+                                    </ScrollViewer.Resources>-->
+                                    <ItemsPresenter Grid.Row="1" Margin="3"/>
+                                </ScrollViewer>
+                            </Grid>
+                        </Border>
+                    </Border>
+                  
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        
+    </Style>
+
+</ResourceDictionary>
