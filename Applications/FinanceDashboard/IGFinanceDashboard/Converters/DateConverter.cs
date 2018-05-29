@@ -11,7 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 
-namespace IGShowcase.FinanceDashboard.Converters
+namespace IGShowcase.FinanceDashboard
 {
     public class DateConverter : IValueConverter
     {

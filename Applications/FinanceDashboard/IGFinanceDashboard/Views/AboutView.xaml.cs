@@ -5,7 +5,7 @@ using IGExtensions.Common.Assets;
 using IGExtensions.Common.Assets.Resources;
 using Infragistics.Controls.Interactions;
 
-namespace IGShowcase.FinanceDashboard.Views
+namespace IGShowcase.FinanceDashboard
 {
     public partial class AboutView : UserControl
     {

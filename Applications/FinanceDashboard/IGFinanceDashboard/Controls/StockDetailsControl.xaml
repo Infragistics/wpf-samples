@@ -1,11 +1,11 @@
 ﻿<UserControl 
-    x:Class="IGShowcase.FinanceDashboard.Controls.StockDetailsControl"
+    x:Class="IGShowcase.FinanceDashboard.StockDetailsControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-    xmlns:local="clr-namespace:IGShowcase.FinanceDashboard.Converters" mc:Ignorable="d" d:DesignWidth="900"
-    xmlns:converters="clr-namespace:IGShowcase.FinanceDashboard.Converters"
+    xmlns:local="clr-namespace:IGShowcase.FinanceDashboard" mc:Ignorable="d" d:DesignWidth="900"
+    xmlns:converters="clr-namespace:IGShowcase.FinanceDashboard"
     d:DataContext="{d:DesignData Source=/IGShowcase.FinanceDashboard;component/Assets/Data/StocksDetailsData.xaml}" >
 
     <UserControl.Resources>
@@ -29,9 +29,9 @@
         <Grid Margin="10,8,10,8">
             <Grid.ColumnDefinitions>
                 <!-- Stock Symbol/Name/LU -->
-                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width=".4*" />
                 <!-- Stock Details -->
-                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width=".6*" />
             </Grid.ColumnDefinitions> 
 
             <StackPanel Grid.Column="0" Margin="0,0,10,0"
@@ -39,12 +39,12 @@
                 <TextBlock Text="{Binding Path=SelectedStock.Details.Name, Mode=OneWay}" Style="{StaticResource StockDetailsSymbolTextBlock}" />
                 <StackPanel Orientation="Horizontal" Margin="0,-5,0,-5">
                     <!-- Stock Trade Price -->
-                    <TextBlock Text="{Binding Path=SelectedStock.Details.LastTradeAmount, StringFormat='\{0:0.00}'}" 
-                           Style="{StaticResource StockDetailsTradeAmountTextBlock}" Margin="0,0,0,0"/>
+                    <TextBlock Text="{Binding Path=SelectedStock.Details.LastTradeAmount, StringFormat='\{0:0.0}'}" 
+                               Style="{StaticResource StockDetailsTradeAmountTextBlock}" Margin="0,0,0,0"/>
                     <!-- Stock % Change -->
                     <StackPanel Orientation="Horizontal" Margin="0,18,0,0">
                         <TextBlock Text="{Binding Path=SelectedStock.Details.Change, 
-                               Converter={StaticResource ValueSignConverter}, ConverterParameter='\{0:0.00}'}" 
+                               Converter={StaticResource ValueSignConverter}, ConverterParameter='\{0:0.0}'}" 
                                Style="{StaticResource StockDetailsChangeTextBlock}" Margin="5,0,0,0"
                                Foreground="{Binding Path=SelectedStock.Details.Change, Converter={StaticResource PositiveNegativeBrushValueConverter}}" />
                         <TextBlock Text=" (" Style="{StaticResource StockDetailsChangeTextBlock}" 
@@ -65,11 +65,11 @@
                     Margin="0,0,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" MinWidth="80" />
-                    <ColumnDefinition Width="Auto" MinWidth="100" />
+                    <ColumnDefinition Width="Auto" MinWidth="130" />
                     <ColumnDefinition Width="Auto" MinWidth="0" />
                     <ColumnDefinition Width="Auto" MinWidth="0" />
                     <ColumnDefinition Width="Auto" MinWidth="80" />
-                    <ColumnDefinition Width="Auto" MinWidth="55" />
+                    <ColumnDefinition Width="Auto" MinWidth="80" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -94,7 +94,7 @@
                             Style="{StaticResource StockDetailsLabelTextBlock}" />
                 <TextBlock Grid.Row="0" Visibility="Collapsed"
                             Grid.Column="3"
-                            Text="{Binding Path=MarketCapitalization, StringFormat='\{0:0.00}'}"
+                            Text="{Binding Path=MarketCapitalization, StringFormat='\{0:0.0}'}"
                             Style="{StaticResource StockDetailsDataTextBlock}" />
 
                 <TextBlock Grid.Row="0"
@@ -103,7 +103,7 @@
                             Style="{StaticResource StockDetailsLabelTextBlock}" />
                 <TextBlock Grid.Row="0"
                             Grid.Column="5"
-                            Text="{Binding Path=Ask, StringFormat='\{0:0.00}'}"
+                            Text="{Binding Path=Ask, StringFormat='\{0:0.0}'}"
                             Style="{StaticResource StockDetailsDataTextBlock}" />
 
                 <!-- Row 2 -->
@@ -122,7 +122,7 @@
                             Style="{StaticResource StockDetailsLabelTextBlock}" />
                 <TextBlock Grid.Row="1" Visibility="Collapsed"
                             Grid.Column="3"
-                            Text="{Binding Path=PERatio, StringFormat='\{0:0.00}'}"
+                            Text="{Binding Path=PERatio, StringFormat='\{0:0.0}'}"
                             Style="{StaticResource StockDetailsDataTextBlock}" />
 
                 <TextBlock Grid.Row="1"
@@ -131,7 +131,7 @@
                             Style="{StaticResource StockDetailsLabelTextBlock}" />
                 <TextBlock Grid.Row="1"
                             Grid.Column="5"
-                            Text="{Binding Path=Bid, StringFormat='\{0:0.00}'}"
+                            Text="{Binding Path=Bid, StringFormat='\{0:0.0}'}"
                             Style="{StaticResource StockDetailsDataTextBlock}" />
 
                 <!-- Row 3 -->
@@ -141,7 +141,7 @@
                             Style="{StaticResource StockDetailsLabelTextBlock}" />
                 <TextBlock Grid.Row="2"
                             Grid.Column="1"
-                            Text="{Binding Path=Open, StringFormat='\{0:0.00}'}"
+                            Text="{Binding Path=Open, StringFormat='\{0:0.0}'}"
                             Style="{StaticResource StockDetailsDataTextBlock}" />
 
                 <TextBlock Grid.Row="2" Visibility="Collapsed"
@@ -159,7 +159,7 @@
                             Style="{StaticResource StockDetailsLabelTextBlock}" />
                 <TextBlock Grid.Row="2"
                             Grid.Column="5"
-                            Text="{Binding Path=DailyHigh, StringFormat='\{0:0.00}'}"
+                            Text="{Binding Path=DailyHigh, StringFormat='\{0:0.0}'}"
                             Style="{StaticResource StockDetailsDataTextBlock}" />
                 <!-- Row 4 -->
                 <TextBlock Grid.Row="3"
@@ -177,7 +177,7 @@
                             Style="{StaticResource StockDetailsLabelTextBlock}" />
                 <TextBlock Grid.Row="3" Visibility="Collapsed"
                             Grid.Column="3"
-                            Text="{Binding Path=EarningsPerShare, StringFormat='\{0:0.00}'}"
+                            Text="{Binding Path=EarningsPerShare, StringFormat='\{0:0.0}'}"
                             Style="{StaticResource StockDetailsDataTextBlock}" />
 
                 <TextBlock Grid.Row="3"
@@ -186,7 +186,7 @@
                             Style="{StaticResource StockDetailsLabelTextBlock}" />
                 <TextBlock Grid.Row="3"
                             Grid.Column="5"
-                            Text="{Binding Path=DailyLow, StringFormat='\{0:0.00}'}"
+                            Text="{Binding Path=DailyLow, StringFormat='\{0:0.0}'}"
                             Style="{StaticResource StockDetailsDataTextBlock}" />
             </Grid>
 

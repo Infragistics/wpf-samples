@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace IGShowcase.FinanceDashboard.Converters
+namespace IGShowcase.FinanceDashboard
 {
     public class ValueSignConverter : IValueConverter
     {
@@ -85,8 +85,7 @@ namespace IGShowcase.FinanceDashboard.Converters
             this.PositiveValueBrush = new SolidColorBrush(Colors.Green);
             this.NegativeValueBrush = new SolidColorBrush(Colors.Red);
         }
-        //public Brush PositiveValueBrush { get; set; }
-        //public Brush NegativeValueBrush { get; set; }
+
         public Brush PositiveValueBrush
         {
             get { return (Brush)GetValue(PositiveValueBrushProperty); }

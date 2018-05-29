@@ -23,7 +23,7 @@ namespace IGShowcase.FinanceDashboard
         /// </summary>
         public App()
         {
-            ThemeManager.ApplicationTheme = new MetroDarkTheme();
+            //ThemeManager.ApplicationTheme = new MetroDarkTheme();
 
             this.Startup += ApplicationStartup;
             this.InitializeComponent();

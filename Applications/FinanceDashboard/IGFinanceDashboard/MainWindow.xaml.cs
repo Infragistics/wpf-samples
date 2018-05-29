@@ -3,7 +3,7 @@ using System.Windows.Media;
 using System.Windows.Navigation;
 using IGExtensions.Common.Controls;
 using IGShowcase.FinanceDashboard.Resources;
-using IGShowcase.FinanceDashboard.Views;
+using IGShowcase.FinanceDashboard;
 using Infragistics.Controls.Interactions;
 
 namespace IGShowcase.FinanceDashboard
@@ -17,12 +17,7 @@ namespace IGShowcase.FinanceDashboard
         {
             InitializeComponent();
         }
-      
-        private void NavShareButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
+        
         private void NavAppInfoDialogButton_Click(object sender, RoutedEventArgs e)
         {
             var winInfo = new AboutView();
@@ -65,14 +60,6 @@ namespace IGShowcase.FinanceDashboard
                 this.ResourceWasher.WashResources();
             }
         }
-        private void ContentFrame_NavigationFailed(object sender, NavigationFailedEventArgs e)
-        {
-
-        }
-
-
-          
-         
-       
+        
     }
 }
