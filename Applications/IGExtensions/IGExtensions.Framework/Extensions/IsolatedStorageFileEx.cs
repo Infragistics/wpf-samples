@@ -89,11 +89,7 @@ namespace System.IO.IsolatedStorage
         }
         public static IsolatedStorageFile GetIsolatedStorageFile()
         {
-#if SILVERLIGHT
-            return IsolatedStorageFile.GetUserStoreForApplication();
-#else
             return IsolatedStorageFile.GetUserStoreForAssembly();
-#endif
         }
     }
     public enum IsolatedStorageIncreaseRespond

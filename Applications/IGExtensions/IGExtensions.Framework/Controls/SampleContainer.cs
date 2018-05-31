@@ -101,8 +101,7 @@ namespace IGExtensions.Framework.Controls
         {
             OnSampleInitialized(EventArgs.Empty);
         }
-
-#if !SILVERLIGHT
+        
         protected virtual void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             // OnSampleUnloaded(EventArgs.Empty);
@@ -113,14 +112,6 @@ namespace IGExtensions.Framework.Controls
             OnNavigationService_Navigated(this, e);
             OnSampleInitialized(EventArgs.Empty);
         }
-#else
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            OnNavigationService_Navigated(this, e);
-            OnSampleInitialized(EventArgs.Empty);
-        }
-#endif
-
         
     }
 }

@@ -8,21 +8,6 @@ namespace IGExtensions.Framework.Tools
     
     public static partial class MathTool
     {
-#if SILVERLIGHT
-        public static Matrix Translated(this Matrix matrix, double offsetX, double offsetY)
-        {
-            return Multiply(matrix, MatrixFromTranslation(offsetX, offsetY));
-        }
-        public static Matrix Scaled(this Matrix matrix, double scaleX, double scaleY)
-        {
-            return Multiply(matrix, MatrixFromScale(scaleX, scaleY));
-        }
-        public static Matrix Rotated(this Matrix matrix, double angle)
-        {
-            return Multiply(matrix, MatrixFromRotation(angle));
-        }
-#endif
-
         public static Matrix MatrixFromTranslation(double translationX, double translationY)
         {
             return new Matrix(1.0, 0.0, /* 0 */

@@ -10,17 +10,10 @@ using System.Windows;
 
 namespace IGExtensions.Common.Services
 {
-#if SILVERLIGHT
-    ///<summary>
-    /// Represents a service for quarrying images from Yahoo pipes
-    ///</summary>
-    public sealed class FlickrImagesService : IApplicationService
-#else // if WPF
     /// <summary>
     /// Represents a service for quarrying images from Yahoo pipes
     /// </summary>
     public sealed class FlickrImagesService
-#endif
     {
         #region Private Memeber Variables
         private const string ServiceUrl = "http://pipes.yahooapis.com/pipes/pipe.run?_id=d7071fcba844771dea335d8445556992&_render=json&q={0}&loc={1}&max={2}";
@@ -59,26 +52,6 @@ namespace IGExtensions.Common.Services
             client.OpenReadAsync(uri, callback);
         }
 
-        #region IApplicationService Members
-
-#if SILVERLIGHT 
-        /// <summary>
-        /// Called by an application in order to initialize the application extension service.
-        /// </summary>
-        /// <param name="context">Provides information about the application state.</param>
-        public void StartService(ApplicationServiceContext context)
-        {
-        }
-
-        /// <summary>
-        /// Called by an application in order to stop the application extension service.
-        /// </summary>
-        public void StopService()
-        {
-        }
-#endif
-
-        #endregion
         #endregion Public Methods
 
         #region Private Methods

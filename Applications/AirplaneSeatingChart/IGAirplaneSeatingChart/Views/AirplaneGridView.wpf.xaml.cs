@@ -1,5 +1,4 @@
 ﻿using System.Windows.Controls;
-using Infragistics.Windows.DataPresenter.Events;
 
 namespace IGShowcase.AirplaneSeatingChart.Views
 {
@@ -12,10 +11,5 @@ namespace IGShowcase.AirplaneSeatingChart.Views
         {
             InitializeComponent();
         }
-        //private void OnFiledLayoutInitialized(object sender, FieldLayoutInitializedEventArgs e)
-        //{
-        //    var test = e;
-        //}
-
     }
 }

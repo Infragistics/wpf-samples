@@ -52,14 +52,10 @@ namespace System.Windows //IGExtensions.Framework.Controls
             width = width == 0 ? 1 : width;
             height = height == 0 ? 1 : height;
 
-#if SILVERLIGHT
-            bitmap = new WriteableBitmap(element, null);
-#else // WPF
-           var rtbmp = new RenderTargetBitmap(width, height, 96, 96, PixelFormats.Default);
-           rtbmp.Render(element);
-           //var bitmapSource = rtbmp;
-           bitmap = new WriteableBitmap(rtbmp);
-#endif
+            var rtbmp = new RenderTargetBitmap(width, height, 96, 96, PixelFormats.Default);
+            rtbmp.Render(element);
+            bitmap = new WriteableBitmap(rtbmp);
+
             return bitmap;
         }
         //public static IEnumerable<DependencyObject> Descendents(this DependencyObject root, int depth)

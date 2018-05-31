@@ -1,26 +1,12 @@
 using System;
 using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace IGExtensions.Framework.Controls
 {
-
-    
-#if SILVERLIGHT
-    public class NavigationWindow : System.Windows.Controls.ChildWindow 
-#else
     public class NavigationWindow : System.Windows.Window 
-#endif
     {
-
-#if SILVERLIGHT
-        public void ShowDialog()
-        {
-            this.Show();
-        }
-#else // WPF
         public NavigationWindow()
         {
             this.Loaded += OnWindowLoaded;
@@ -80,7 +66,6 @@ namespace IGExtensions.Framework.Controls
                     break;
             }
         } 
-#endif
 
         public void OnWindowCloseButtonClick(object sender, RoutedEventArgs e)
         {

@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using IGExtensions.Framework.Controls;              // NavigationPage 
-using IGShowcase.FinanceDashboard;       // StockViewModel
+using IGExtensions.Framework.Controls; // NavigationPage 
 using Infragistics.Controls.Charts;
 using Infragistics.Framework;
-using System.Windows.Data;
-using System.Collections.Concurrent;
 
 namespace IGShowcase.FinanceDashboard
 { 
@@ -29,28 +25,13 @@ namespace IGShowcase.FinanceDashboard
                 Logs.Error(error.Message);
                 throw error;
             }
-		    
-            _vm.PropertyChanged += OnViewModelPropertyChanged;
            
             // Add some default data 
             _vm.WatchListAddStock(new List<string> { "MSFT", "TSLA",  "INTC", });
                
             this.Loaded += OnNavigationPageLoaded;
 		}
-
-        //MT-remove
-        private void OnViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "IsInitialStockDetailsLoading")
-            {
-                this.BusyIndicator.Visibility = _vm.IsInitialStockDetailsLoading ? Visibility.Visible : Visibility.Collapsed;
-            }
-            else if (e.PropertyName == "SelectedStock" || e.PropertyName == "Tickers")
-            {
-            } 
-             
-        }
-		
+        		
 		#region Event Handlers
 
 		private void OnNavigationPageLoaded(object sender, RoutedEventArgs e)
@@ -68,6 +49,7 @@ namespace IGShowcase.FinanceDashboard
         string oldSeries; 
         private void Chart_SeriesAdded(object sender, ChartSeriesEventArgs args)
         {
+            // synconize visuals of price pane with zoom slider pane
             if (!args.Series.Name.Contains("FinancialPrice")) return;
 
             var newSeries = args.Series.GetType().Name;

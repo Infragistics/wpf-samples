@@ -1,10 +1,5 @@
 using System;
-#if SILVERLIGHT
-using System.Windows;
-using System.Windows.Browser;
-#else // WPF
 using System.Diagnostics;
-#endif
 
 namespace IGExtensions.Framework.Controls
 {
@@ -18,14 +13,7 @@ namespace IGExtensions.Framework.Controls
             CurrentNavigationPage = null;
             CurrentNavigationAddress = GetNavigationAddress();
             CurrentNavigationContext = string.Empty;
-#if SILVERLIGHT
-            CurrentNavigationHostSource = Application.Current.Host.Source;
-            CurrentNavigationHostAddress = GetNavigationHostAddress();
-            CurrentNavigationHostRoot = GetNavigationHostRoot();
-#else // WPF
-            // 
-#endif
-          }
+        }
         /// <summary>
         /// Gets URI of the host website of the current XAML application 
         /// </summary>
@@ -71,11 +59,7 @@ namespace IGExtensions.Framework.Controls
         /// </summary>
         public static string GetNavigationAddress()
         {
-#if SILVERLIGHT
-            return HtmlPage.Document.DocumentUri.ToString();
-#else // WPF
             return string.Empty;
-#endif
         }
         #region Properties
         /// <summary>
@@ -107,20 +91,14 @@ namespace IGExtensions.Framework.Controls
         }
         public static void Navigate(Uri navigateToUri, string target = "_blank")
         {
-            //return HtmlPage.Window.Navigate(navigateToUri, target);
-
             var website = navigateToUri.ToString(); //.ToLower();
             if (website == string.Empty) return;
 
             if (!website.StartsWith("http")) website = "http://" + website;
-            //if (!website.StartsWith("http://")) website = "http://" + website;
-
+           
             DebugManager.Log("NavigationFramework.Navigating to: " + website);
-#if SILVERLIGHT
-            HtmlPage.Window.Navigate(new Uri(website), target);
-#else // WPF
+
             Process.Start(website);
-#endif
         }
 
     

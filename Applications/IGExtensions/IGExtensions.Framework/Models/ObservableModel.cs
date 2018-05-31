@@ -49,17 +49,12 @@ namespace IGExtensions.Framework //.Extensions.Framework //System.ComponentModel
         }
         public void LogPropertyChange(string propertyName)
         {
-           //DebugManager.LogTrace("Persistence.Loading: " + type + "." + ea.PropertyPath + " = " + ea.LoadedValue);
             DebugManager.LogTrace("PropertyChanged: " + "." + propertyName);
-            //DebugManager.LogTrace("PropertyChanged: " + "." + propertyName + "            ( " + this.GetType() + ")");
-            //DebugManager.LogTrace("PropertyChanging: " + this.GetType() + "." + propertyName);
         }
         public void LogPropertyChange(object sender, string propertyName)
         {
             DebugManager.LogTrace("PropertyChanged: " + "." + propertyName);  
-            //DebugManager.LogTrace("PropertyChanged: " + "." + propertyName + "         ( " + this.GetType() + ")");
-            //DebugManager.LogTrace("PropertyChanging: " + this.GetType() + "(" + sender.GetType() + ")." + propertyName);
-        }
+         }
         public void LogPropertyChange(PropertyChangedEventArgs ea)
         {
             LogPropertyChange(ea.PropertyName);
@@ -70,31 +65,6 @@ namespace IGExtensions.Framework //.Extensions.Framework //System.ComponentModel
         }
         protected delegate void PropertyChangedDelegate(object sender, string propertyName);
 
-        //WPF
-        //public void OnAsyncPropertyChanged(string propertyName)
-        //{
-        //    if (PropertyChanged != null)
-        //    {
-        //        App.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
-        //           new ThreadStart(() =>
-        //           {
-        //              PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        //         }));
-        //    }
-        //}
-#if SILVERLIGHT
-        public void OnAsyncPropertyChanged(string propertyName)
-        {
-            PropertyChangedEventHandler handler = this.PropertyChanged;
-            if (handler == null) return;
-
-            Deployment.Current.Dispatcher.BeginInvoke(new PropertyChangedDelegate(OnPropertyChanged), this, propertyName);
-            //Deployment.Current.Dispatcher.BeginInvoke(() =>
-            //{
-            //    OnPropertyChanged(this, propertyName);
-            //});
-        }
-#endif
         #endregion
        
     }

@@ -1,12 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Collections.Generic;
-using System.IO;
 using System.Windows;
-using System.Windows.Markup;
-using System.Xml;
-using System.Xml.Linq;
-using IGExtensions.Common.Models;
 
 namespace IGShowcase.AirplaneSeatingChart.ViewModels
 {
@@ -14,8 +9,6 @@ namespace IGShowcase.AirplaneSeatingChart.ViewModels
     {
             public PlaneElementViewModel()
             {
-
-                 
                 this.Shape = new List<List<Point>>();
             }
             public PlaneElementViewModel(string id, List<List<Point>> shape)

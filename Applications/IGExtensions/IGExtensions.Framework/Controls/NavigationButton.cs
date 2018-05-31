@@ -4,12 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
-//using IGExtensions.Framework.Extensions;      // FrameworkElementEx.ApplyStyle()
-#if SILVERLIGHT
-using System.Windows.Browser;
-#else // WPF
 using System.Diagnostics;
-#endif
 
 namespace IGExtensions.Framework.Controls
 {
@@ -192,12 +187,8 @@ namespace IGExtensions.Framework.Controls
                     if (!website.StartsWith("http://")) website = "http://" + website;
 
                     DebugManager.Log("NavigationFramework.Navigating to website: " + website);
-#if SILVERLIGHT
-                    HtmlPage.Window.Navigate(new Uri(website), "_blank");
-#else // WPF
-                    Process.Start(website);
-#endif
 
+                    Process.Start(website);
                 }
             }
             

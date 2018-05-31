@@ -404,19 +404,8 @@ namespace Infragistics.Controls.Maps
        
         private static void OnImageryInitialized(object sender, EventArgs e)
         {
-            #if SILVERLIGHT
-            //Dispatcher.BeginInvoke(() => UpdateBingMaps(sender));
-            Deployment.Current.Dispatcher.BeginInvoke(() => UpdateBingMaps(sender)); // use in library
-
-            // Dispatcher.BeginInvoke(() => UpdateBingMaps(sender)); // use in application (on UI page)
-            #else // if WPF
-    
             Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background,
                new System.Threading.ThreadStart(() => UpdateBingMaps(sender))); // use in library/application
-             
-            #endif
-            //Deployment.Current.Dispatcher.BeginInvoke(new PropertyChangedDelegate(OnPropertyChanged), this, propertyName);
-          
         }
         private static void UpdateBingMaps(object sender)
         {

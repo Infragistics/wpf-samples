@@ -74,40 +74,6 @@ namespace System.Windows.Media.Imaging // IGExtensions.Framework.System
             return color;
         }
   
-
-#if SILVERLIGHT
-        //public static Color GetPixelColor(this BitmapSource bitmap, int x, int y)
-        //{
-        //    int index = ((y - 1) * bitmap.PixelWidth) + x;
-        //    var pixels = bitmap.GetPixels();
-        //    var color = GetPixelColor(index, pixels);
-        //    //if (index >= 0 && index < bitmap.Pixels.Length)
-        //    //{
-        //    //    int pixel = bitmap.Pixels[index];
-
-        //    //    var B = (byte)(pixel & 0xFF); pixel >>= 8;
-        //    //    var G = (byte)(pixel & 0xFF); pixel >>= 8;
-        //    //    var R = (byte)(pixel & 0xFF); pixel >>= 8;
-        //    //    var A = (byte)pixel; // alpha
-
-        //    //    color = Color.FromArgb(A, R, G, B);
-        //    //}
-        //    return color;
-        //}
-        //public static int[] GetPixels(this BitmapSource bitmap)
-        //{
-        //    return bitmap.Pixels;
-        //}
-        /// <summary>
-        /// Gets array of Pixels that builds this BitmapSource
-        /// </summary>
-        public static int[] GetPixels(this BitmapSource bitmap)
-        {
-            var wbm = new WriteableBitmap(bitmap);
-            return wbm.Pixels;
-        }
-
-#else // WPF
         /// <summary>
         /// Gets array of Pixels that builds this BitmapSource
         /// </summary>
@@ -149,7 +115,6 @@ namespace System.Windows.Media.Imaging // IGExtensions.Framework.System
         //    //return color;
         //}
 
-#endif
     }
 
 }

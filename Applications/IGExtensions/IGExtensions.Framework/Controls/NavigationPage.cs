@@ -151,14 +151,6 @@ namespace IGExtensions.Framework.Controls
             //OnPageInitialized(EventArgs.Empty);
         }
 
-#if SILVERLIGHT
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-            OnPageNavigated(e);
-        }
-#endif
-
         #endregion
     }
 }

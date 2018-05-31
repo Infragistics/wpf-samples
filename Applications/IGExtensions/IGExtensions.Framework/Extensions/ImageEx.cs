@@ -11,12 +11,8 @@ namespace System.Windows.Controls
         {
             BitmapSource bmp = null;
 
-#if SILVERLIGHT
-            if (image != null) bmp = new WriteableBitmap(image, null);
-            
-#else // WPF
             if (image != null) bmp = image.Source as BitmapSource;
-#endif
+
             return bmp;
         }
         /// <summary>

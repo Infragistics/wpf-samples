@@ -1,18 +1,11 @@
-#if SILVERLIGHT
-using System.Windows;
-using Infragistics;
-#else // WPF
-using System.Collections.ObjectModel;
 using System.Windows;
 using Infragistics.Windows.Themes;
-#endif
 
 namespace IGExtensions.Common.Controls
 {
     /// <summary>
     /// Represents an extension for the <see cref="ResourceWasher"/>
     /// <remarks>
-    /// SL: http://www.infragistics.com/products/silverlight/resource-washer
     /// WPF http://www.infragistics.com/products/wpf/resource-washer
     /// </remarks>
     /// </summary>

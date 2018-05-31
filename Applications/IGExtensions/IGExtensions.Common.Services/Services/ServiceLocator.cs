@@ -15,24 +15,7 @@ namespace IGExtensions.Common.Services
         /// <returns></returns>
         public static T GetInstance<T>() where T : class
         {
-            T instance = null;
-#if SILVERLIGHT
-            instance = Application.Current.Resources.Values.OfType<T>().FirstOrDefault();
-
-            //var lifetimeObjects = Application.Current.ApplicationLifetimeObjects;
-            //for (int i = 0; i < lifetimeObjects.Count; i++)
-            //{
-            //    instance = lifetimeObjects[i] as T;
-            //    if (instance != null)
-            //    {
-            //        break;
-            //        //return instance;
-            //    }
-            //}
-#else  // WPF
-           instance = Application.Current.Resources.Values.OfType<T>().FirstOrDefault();
-
-#endif
+            T instance = Application.Current.Resources.Values.OfType<T>().FirstOrDefault();
             return instance;
         }
     }

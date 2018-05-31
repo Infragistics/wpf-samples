@@ -51,22 +51,10 @@ namespace IGExtensions.Framework.Controls
 //            this.MainWindow.Show();
 //#endif
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
         public static UIElement MainVisual()
         {
-#if SILVERLIGHT
-            return Current.RootVisual;
-#else // if WPF
             return Current.MainWindow;
-#endif
-        }
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        //public FrameworkElement RootElement { get; set; }
+        }  
        
         #region Constructor
         /// <summary>
@@ -84,11 +72,7 @@ namespace IGExtensions.Framework.Controls
             // NOTE: comment out the following code when testing Japanese culture
             //this.InitializeCulture(SupportedCultures.ja);
 
-#if SILVERLIGHT
-            this.UnhandledException += this.OnAppUnhandledException;
-#else // if WPF
             this.DispatcherUnhandledException += this.OnAppUnhandledException;
-#endif
         } 
         #endregion
 
@@ -130,26 +114,6 @@ namespace IGExtensions.Framework.Controls
             //System.Windows.Browser.HtmlPage.Window.Eval("throw new Error(\"Unhandled Error in Silverlight Application " + message + stackTrace.ToString() + "\");");
         }
 
-#if SILVERLIGHT
-        private void OnAppUnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
-        {
-            // If the app is running outside of the debugger then report the exception using
-            // a ChildWindow control.
-            if (Debugger.IsAttached)
-            {
-                //System.Diagnostics.Debugger.Break();
-            }
-            // Allow the application to continue running after an exception has been thrown but not handled. 
-            // For production applications this error handling should be replaced with something that will 
-            // report the error to the website and stop the application.
-            e.Handled = true;
-
-            // report the exception to user for information purpose
-            ReportError(e.ExceptionObject);
-
-            // Deployment.Current.Dispatcher.BeginInvoke(delegate { ReportException(e.ExceptionObject); });
-        }
-#else // if WPF
         private void OnAppUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             // Allow the application to continue running after an exception has been thrown but not handled. 
@@ -158,10 +122,8 @@ namespace IGExtensions.Framework.Controls
             e.Handled = true;
             // report the exception to user for information purpose
             ReportError(e.Exception);
-            //OnUnhandledExceptionReported(e.Exception, e.Handled);
-
         }
-#endif
+
         //private void OnUnhandledExceptionReported(Exception ex, bool handled)
         //{
         //    // If the app is running outside of the debugger then report the exception using
@@ -373,22 +335,11 @@ namespace System.Windows
 
         #region Helper Methods
 
-#if SILVERLIGHT
-        /// <summary>
-        /// Returns main visual element for the current application, e.g. MainPage (SL) or MainWindow (WPF)
-        /// </summary>
-        public static FrameworkElement GetMainVisual(this Application app)
-        {
-            return app.RootVisual as FrameworkElement;
-        }
-#else // if WPF
         public static FrameworkElement GetMainVisual(this Application app)
         {
             return app.MainWindow;
         }
-
-#endif
-
+        
         #endregion
         #region Desinger Methods
         /// <summary>
@@ -404,12 +355,8 @@ namespace System.Windows
         {
             if (!_isInDesignMode.HasValue)
             {
-#if SILVERLIGHT
-                _isInDesignMode = DesignerProperties.IsInDesignTool;
-#else
-            var prop = DesignerProperties.IsInDesignModeProperty;
-            _isInDesignMode = (bool)DependencyPropertyDescriptor.FromProperty(prop, typeof(FrameworkElement)).Metadata.DefaultValue;
-#endif
+                var prop = DesignerProperties.IsInDesignModeProperty;
+                _isInDesignMode = (bool)DependencyPropertyDescriptor.FromProperty(prop, typeof(FrameworkElement)).Metadata.DefaultValue;
             }
 
             if (_isInDesignMode != null && _isInDesignMode.HasValue) return _isInDesignMode.Value;

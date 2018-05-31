@@ -103,11 +103,7 @@ namespace IGExtensions.Common.Assets.Resources
         public string GetActualSamplesLink(string genericSamplesLink)
         {
             var link = genericSamplesLink;
-#if SILVERLIGHT
-            link = genericSamplesLink.Replace("wpf", "silverlight");
-#else
             link = genericSamplesLink.Replace("silverlight", "wpf");
-#endif
             return link;
 
         }

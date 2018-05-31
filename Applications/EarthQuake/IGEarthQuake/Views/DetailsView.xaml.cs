@@ -2,8 +2,6 @@
 using System.Windows;
 using System.Windows.Data;
 using IGExtensions.Framework.Controls;
-using Infragistics.Controls.Maps;
-using IGShowcase.EarthQuake.ViewModels;
 using System;
 using System.Windows.Media;
 
@@ -11,8 +9,6 @@ namespace IGShowcase.EarthQuake.Views
 {
     public sealed partial class DetailsView  : UserControl  
 	{
-	    //private bool _isFirstTime;
-
         #region Constructors
         public DetailsView()
         {

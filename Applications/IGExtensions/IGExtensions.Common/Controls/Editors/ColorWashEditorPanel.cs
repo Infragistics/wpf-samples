@@ -3,13 +3,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using IGExtensions.Framework;
-using IGExtensions.Framework.Controls;      // FrameworkElementEx.ApplyStyle()
 
-#if SILVERLIGHT
-using Infragistics;
-#else // WPF
 using Infragistics.Windows.Themes;
-#endif
 
 namespace IGExtensions.Common.Controls
 {
@@ -20,10 +15,6 @@ namespace IGExtensions.Common.Controls
     [TemplatePart(Name = "WashColorSelector", Type = typeof(ColorPicker))]
     public class ColorWashEditorPanel : ObservableControl
     {
-
-        //public event EventHandler WashColorChanged;
-        //public event EventHandler WashModeChanged;
-
         public event ColorWashSettingsChangedEventHandler WashSettingsChanged;
         
         private ColorPicker _washColorSelector;
@@ -34,10 +25,6 @@ namespace IGExtensions.Common.Controls
         /// </summary>
         public ColorWashEditorPanel()
         {
-            //// add the generic style to the control's resources
-            //const string stylePath = "/IGExtensions.Common;component/Controls/Editors/ColorWashEditorPanel.xaml";
-            //this.ApplyStyle(stylePath);
-
             this.DefaultStyleKey = typeof(ColorWashEditorPanel);
           
             this.Loaded += OnColorWashEditorPanelLoaded;
@@ -77,7 +64,6 @@ namespace IGExtensions.Common.Controls
             if (_washColorSelector != null)
             {
                 _washColorSelector.InitializeSelection(washSettings.WashColor);
-                //_washColorSelector.SelectedColor = washSettings.WashColor;
             }
 
             this.WashMode = washSettings.WashMode;

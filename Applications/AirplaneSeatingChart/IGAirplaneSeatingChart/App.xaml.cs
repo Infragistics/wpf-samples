@@ -22,17 +22,10 @@ namespace IGShowcase.AirplaneSeatingChart
 
         private void OnAppStartup(object sender, StartupEventArgs e)
         { 
-
-#if SILVERLIGHT 
-            var mainPage = new MainPage();
-            this.RootVisual = mainPage;
-          
-#else  // WPF
             var mainWindow = new MainWindow();
             mainWindow.Language = XmlLanguage.GetLanguage(this.AppLanguage);
             this.MainWindow = mainWindow;
             this.MainWindow.Show();
-#endif
         }
   
     }

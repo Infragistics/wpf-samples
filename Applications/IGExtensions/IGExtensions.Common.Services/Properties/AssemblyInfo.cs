@@ -30,7 +30,6 @@ using AssemblyDesigner = IGExtensions.Framework.AssemblyDesigner;
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("7c021514-db92-4936-9ea8-6dad439962c1")]
 
-#if !SILVERLIGHT
 //[assembly: AllowPartiallyTrustedCallers()]
 [assembly: ThemeInfo(
     ResourceDictionaryLocation.None, //where theme specific resource dictionaries are located
@@ -40,14 +39,6 @@ using AssemblyDesigner = IGExtensions.Framework.AssemblyDesigner;
     //(used if a resource is not found in the page,
     // app, or any theme specific resource dictionaries)
 )]
-#endif
 
-// XmlnsDefinition for v13.1 release
-#if WINDOWS_PHONE
-//[assembly: XmlnsPrefix("clr-namespace:IGExtensions.Common;assembly=" + "IGExtensions.Common", "igExtensions")]
-//[assembly: XmlnsDefinition("clr-namespace:IGExtensions.Common;assembly=" + "IGExtensions.Common", "IGExtensions.Common")]
-#else
 [assembly: XmlnsPrefix("http://schemas.infragistics.com/xaml/extensions", "igExtensions")]
 [assembly: XmlnsDefinition("http://schemas.infragistics.com/xaml/extensions", "IGExtensions.Common.Data")]
-
-#endif

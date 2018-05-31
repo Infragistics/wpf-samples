@@ -42,17 +42,11 @@ namespace IGExtensions.Common.Services
         }
         public List<EarthQuakeData> Result { get; set; }
     }
-    #if SILVERLIGHT
-    ///<summary>
-    /// Represents a service for retrieving information about latest earth quakes from USGS
-    ///</summary>
-    public sealed class EarthQuakesService : ObservableModel, IApplicationService 
-#else // if WPF
+    
     /// <summary>
     /// Represents a service for retrieving information about latest earth quakes from USGS
     /// </summary>
     public sealed class EarthQuakesService : ObservableModel
-#endif
     {
         #region Constants
 
@@ -384,16 +378,6 @@ namespace IGExtensions.Common.Services
 
         #region Public Methods
 
-#if SILVERLIGHT
-        /// <summary>
-        /// Called by an application in order to initialize the application extension service.
-        /// </summary>
-        /// <param name="context">Provides information about the application state.</param>
-        public void StartService(ApplicationServiceContext context)
-        {
-            StartService();
-        }
-#endif
         /// <summary>
         /// Called by an application in order to initialize the application extension service.
         /// </summary>

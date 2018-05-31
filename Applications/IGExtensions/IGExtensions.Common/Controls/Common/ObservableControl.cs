@@ -8,12 +8,8 @@ namespace IGExtensions.Common.Controls
     /// </summary>
     public class ObservableControl : Control, INotifyPropertyChanged
     {
-
-#if SILVERLIGHT
-        protected bool IsLoaded;
-#else
         protected new bool IsLoaded;
-#endif
+
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using IGExtensions.Common.Assets;
-using IGExtensions.Common.Assets.Resources;
-using Infragistics.Controls.Interactions;
 
 namespace IGShowcase.FinanceDashboard
 {
@@ -11,9 +8,7 @@ namespace IGShowcase.FinanceDashboard
     {
         public AboutView()
         {
-            InitializeComponent();
-
- 
+            InitializeComponent(); 
         }
         public Size GetDesiredSize()
         {

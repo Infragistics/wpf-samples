@@ -29,7 +29,6 @@ using IGExtensions.Framework;           // provides AssemblyDesigner
 
 [assembly: System.Resources.NeutralResourcesLanguage("en")]
 
-#if !SILVERLIGHT
 //[assembly: AllowPartiallyTrustedCallers()]
 [assembly: ThemeInfo(
     ResourceDictionaryLocation.None, //where theme specific resource dictionaries are located
@@ -39,13 +38,7 @@ using IGExtensions.Framework;           // provides AssemblyDesigner
     //(used if a resource is not found in the page,
     // app, or any theme specific resource dictionaries)
 )]
-#endif
 
-// XmlnsDefinition for v13.1 release
-#if WINDOWS_PHONE
-//[assembly: XmlnsPrefix("clr-namespace:IGExtensions.Common;assembly=" + "IGExtensions.Common", "igExtensions")]
-//[assembly: XmlnsDefinition("clr-namespace:IGExtensions.Common;assembly=" + "IGExtensions.Common", "IGExtensions.Common")]
-#else
 [assembly: XmlnsPrefix("http://schemas.infragistics.com/xaml/extensions", "igExtensions")]
 [assembly: XmlnsDefinition("http://schemas.infragistics.com/xaml/extensions", "IGExtensions.Common.Maps")]
 [assembly: XmlnsDefinition("http://schemas.infragistics.com/xaml/extensions", "IGExtensions.Common.Maps.Behaviors")]
@@ -54,4 +47,3 @@ using IGExtensions.Framework;           // provides AssemblyDesigner
 [assembly: XmlnsDefinition("http://schemas.infragistics.com/xaml/extensions", "IGExtensions.Common.Maps.StyleSelectors")]
 [assembly: XmlnsDefinition("http://schemas.infragistics.com/xaml/extensions", "IGExtensions.Common.Maps.Assets.Resources")]
  
-#endif

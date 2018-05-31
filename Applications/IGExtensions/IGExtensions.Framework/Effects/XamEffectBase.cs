@@ -13,14 +13,7 @@ namespace IGExtensions.Framework.Effects
         {
             var shaderPath = "Effects/Shaders/" + GetType().Name + ".ps";
             var assemblyShortName = GetType().Assembly.ToString().Split(',')[0];
-
-#if WPF
             var uri = "pack://application:,,," + "/" + assemblyShortName + ";component/" + shaderPath;
-#endif
-
-#if SILVERLIGHT
-            var uri = "/" + assemblyShortName + ";component/" + shaderPath;
-#endif
 
             PixelShader = new PixelShader { UriSource = new Uri(uri, UriKind.RelativeOrAbsolute) };
         }
@@ -34,13 +27,7 @@ namespace IGExtensions.Framework.Effects
                     var filePath = "Effects/Noise.png";
                     var assemblyShortName = typeof(XamEffectBase).Assembly.ToString().Split(',')[0];
 
-#if WPF
                     var uri = "pack://application:,,," + "/" + assemblyShortName + ";component/" + filePath;
-#endif
-
-#if SILVERLIGHT
-                    var uri = "/" + assemblyShortName + ";component/" + filePath;
-#endif
 
                     _noiseBrush = new ImageBrush { ImageSource = new BitmapImage { UriSource = new Uri(uri, UriKind.Relative) } };
                 }

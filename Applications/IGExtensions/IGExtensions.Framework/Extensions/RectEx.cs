@@ -65,7 +65,7 @@ namespace System.Windows
             }
             return new Point(0.5 * (rect.Left + rect.Right), 0.5 * (rect.Bottom + rect.Top));
         }
-//#if SILVERLIGHT
+
         public static Point TopLeft(this Rect rect)
         {
             return new Point(rect.Left, rect.Top);
@@ -86,7 +86,6 @@ namespace System.Windows
         {
             return rect.ToPoints();
         } 
-//#endif
         #endregion
 
         public static void Normalize(this Rect rect, Rect boundingRect)

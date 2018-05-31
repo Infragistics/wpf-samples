@@ -30,7 +30,6 @@ using AssemblyDesigner = IGExtensions.Framework.AssemblyDesigner;
 
 [assembly: System.Resources.NeutralResourcesLanguage("en")]
 
-#if !SILVERLIGHT
 //[assembly: AllowPartiallyTrustedCallers()]
 [assembly: ThemeInfo(
     ResourceDictionaryLocation.None, //where theme specific resource dictionaries are located
@@ -40,7 +39,6 @@ using AssemblyDesigner = IGExtensions.Framework.AssemblyDesigner;
     //(used if a resource is not found in the page,
     // app, or any theme specific resource dictionaries)
 )]
-#endif
 
 // XmlnsDefinition for v13.1 release
 #if WINDOWS_PHONE
