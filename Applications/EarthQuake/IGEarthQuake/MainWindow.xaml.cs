@@ -68,8 +68,6 @@ namespace IGShowcase.EarthQuake
                 IsModal = true,
                 IsResizable = false,
                 Header = AppStrings.About,
-                //Style = Application.Current.Resources["AppDialogWindowStyle"] as Style
-                Style = Application.Current.Resources["XamDialogWindowStyle"] as Style
             };
             this.AppInfoContainer.Children.Add(win);
         }

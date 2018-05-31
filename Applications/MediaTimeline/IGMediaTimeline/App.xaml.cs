@@ -27,6 +27,7 @@ using System.Windows.Markup;
 using IGExtensions.Framework.Controls;
 using MediaTimeline.Assets.Resources;
 using MediaTimeline.Views;
+using Infragistics.Themes; // provides ThemeManager
 
 namespace MediaTimeline
 {
@@ -39,10 +40,18 @@ namespace MediaTimeline
 		/// </summary>
 		public App()
 		{
-			Startup += Application_Startup;
-
-          	//SetupLocalization();
 			InitializeComponent();
+
+            ThemeManager.ApplicationTheme = new MetroTheme();
+            // merge app resources that use colors and styles defined in the Metro Theme
+            this.Resources.MergeDictionary("/InfragisticsWPF.Themes.Metro;component/themes/theme.colors.xaml"); 
+            this.Resources.MergeDictionary("/IGExtensions.Common;component/Assets/Styles/CommonStyles.xaml"); 
+            this.Resources.MergeDictionary("/IGShowcase.MediaTimeline;component/Assets/Styles/AppBrushes.xaml");
+            this.Resources.MergeDictionary("/IGShowcase.MediaTimeline;component/Assets/Styles/AppStyles.xaml");
+            this.Resources.MergeDictionary("/IGShowcase.MediaTimeline;component/Styles.xaml");
+             
+			Startup += Application_Startup;
+             
             this.InitializeCulture(AppStrings.Language);
         }
 		#endregion Constructor

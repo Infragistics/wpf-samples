@@ -50,9 +50,6 @@ namespace IGShowcase.HospitalFloorPlan
                 IsModal = true,
                 IsResizable = false,
             };
-            var winStyle = Application.Current.Resources["XamDialogWindowStyle"] as Style;
-            if (winStyle != null)
-                win.Style = winStyle;
 
             this.AppInfoContainer.Children.Add(win);
         }
@@ -64,9 +61,6 @@ namespace IGShowcase.HospitalFloorPlan
                 IsModal = true,
                 ModalBackground = new SolidColorBrush(Colors.Transparent)
             };
-            var winStyle = Application.Current.Resources["XamDialogWindowStyle"] as Style;
-            if (winStyle != null)
-                win.Style = winStyle;
             
             this.AppWashContainer.Children.Add(win);
             win.WashSettingsChanged += OnColorWashSettingsChanged;

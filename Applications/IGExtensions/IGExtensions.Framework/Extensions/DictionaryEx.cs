@@ -1,16 +1,27 @@
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
 
-namespace System.Collections.Generic // IGExtensions.Framework.System
+namespace System.Windows
+{
+    public static class DictionaryUtil
+    {
+        public static void MergeDictionary(this ResourceDictionary resources, string path)
+        {
+            var url = new Uri(path, UriKind.RelativeOrAbsolute);
+            var mergeDictionary = new ResourceDictionary { Source = url };
+            resources.MergedDictionaries.Add(mergeDictionary); 
+        }
+    } 
+}
+
+namespace System.Collections.Generic
 {
     /// <summary>
     /// Represents an extension for IDictionary
     /// </summary>
     public static class DictionaryEx
     {
-
         public static List<string> GetKeyNames(this ResourceDictionary dictionary)
         {
             PropertyInfo prop = typeof(ResourceDictionary).GetProperty("Keys");

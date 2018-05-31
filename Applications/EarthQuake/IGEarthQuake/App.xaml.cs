@@ -25,6 +25,7 @@ using System.Windows.Markup;
 using IGShowcase.EarthQuake.Resources;
 using IGExtensions.Framework.Controls;
 using IGExtensions.Common.Services;
+using Infragistics.Themes; // provides ThemeManager
 
 namespace IGShowcase.EarthQuake
 {
@@ -36,13 +37,21 @@ namespace IGShowcase.EarthQuake
 		/// </summary>
 		public App()
 		{
-			this.Startup += ApplicationStartup;
+            this.Startup += ApplicationStartup;
             this.InitializeCulture(AppStrings.AppLanguage);
             
             // NOTE: comment out the following code when testing Japanese culture
             //this.InitializeCulture(SupportedCultures.ja);
 
             InitializeComponent();
+             
+            ThemeManager.ApplicationTheme = new MetroTheme();
+            // merge app resources that use colors and styles defined in the Metro Theme
+            this.Resources.MergeDictionary("/IGExtensions.Common;component/Assets/Styles/CommonStyles.xaml");
+            this.Resources.MergeDictionary("/IGShowcase.EarthQuake;component/Assets/Styles/AppBrushes.xaml");
+            this.Resources.MergeDictionary("/IGShowcase.EarthQuake;component/Assets/Styles/AppStyles.xaml");
+            this.Resources.MergeDictionary("/IGShowcase.EarthQuake;component/Assets/Styles/DetailsStyles.xaml");
+            this.Resources.MergeDictionary("/IGShowcase.EarthQuake;component/Assets/Styles/GeoMapStyles.xaml");
 		}
 		#endregion Constructors
 		#region Methods

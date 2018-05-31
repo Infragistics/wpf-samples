@@ -28,23 +28,17 @@ namespace MediaTimeline
                 Content = winInfo,
                 IsModal = true,
                 IsResizable = false,
-                Style = Application.Current.Resources["XamDialogWindowStyle"] as Style
             };
             this.AppInfoContainer.Children.Add(win);
         }
 
         private void NavColorWasherDialogButton_Click(object sender, RoutedEventArgs e)
         {
-            //var win = new ColorWashEditor { StartupPosition = StartupPosition.Center };
-            //win.Style = Application.Current.Resources["AppDialogWindowStyle"] as Style;
-            //this.AppWashContainer.Children.Add(win);
-            //win.WashSettingsChanged += OnColorWashSettingsChanged;
             var win = new ColorWashEditor
             {
                 StartupPosition = StartupPosition.Center,
                 IsModal = true,
                 ModalBackground = new SolidColorBrush(Colors.Transparent),
-                Style = Application.Current.Resources["XamDialogWindowStyle"] as Style,
             };
             this.AppWashContainer.Children.Add(win);
             win.WashSettingsChanged += OnColorWashSettingsChanged;

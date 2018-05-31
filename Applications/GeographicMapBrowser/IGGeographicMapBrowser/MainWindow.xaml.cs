@@ -40,7 +40,6 @@ namespace IGShowcase.GeographicMapBrowser
                 Header = "  About",
                 ModalBackground = new SolidColorBrush(Colors.White) { Opacity = 0.8 },
                 IsResizable = false,
-                //Style = Application.Current.Resources["AppDialogWindowStyle"] as Style
             };
             this.AppInfoContainer.Children.Add(win);
         }
@@ -54,9 +53,6 @@ namespace IGShowcase.GeographicMapBrowser
                 CloseButtonVisibility = Visibility.Visible,
                 HeaderIconVisibility = Visibility.Collapsed,
                 Header = "  Application Theme Washer",
-                //Style = Application.Current.Resources["XamDialogWindowStyle"] as Style,
-                //Style = Application.Current.Resources["XamDialogWindowStyleOverride"] as Style,
-                
             };
 
             this.AppWashContainer.Children.Add(win);

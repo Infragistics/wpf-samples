@@ -31,7 +31,6 @@ namespace IGShowcase.FinanceDashboard
                 ModalBackground = new SolidColorBrush(Colors.Black) { Opacity = 0.75},
                 IsResizable = false,
                 Header = AppStrings.AppView_About,
-                Style = Application.Current.Resources["AppDialogWindowStyle"] as Style
             };
             this.AppInfoContainer.Children.Add(win);
         }
@@ -42,7 +41,6 @@ namespace IGShowcase.FinanceDashboard
                 IsModal = true,
                 ModalBackground = new SolidColorBrush(Colors.Transparent),
                 StartupPosition = StartupPosition.Center,
-                Style = Application.Current.Resources["AppDialogWindowStyle"] as Style
             };
 
             this.AppWashContainer.Children.Add(win);

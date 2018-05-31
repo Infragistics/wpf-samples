@@ -29,8 +29,7 @@ namespace IGShowcase.AirplaneSeatingChart
                 Content = winInfo,
                 IsModal = true,
                 IsResizable = false,
-                Header = AppStrings.About,
-                Style = Application.Current.Resources["AppDialogWindowStyle"] as Style
+                Header = AppStrings.About, 
             };
             this.AppInfoContainer.Children.Add(win);
         }
@@ -43,7 +42,6 @@ namespace IGShowcase.AirplaneSeatingChart
                 IsModal = true,
                 ModalBackground = new SolidColorBrush(Colors.Transparent)
             };
-            win.Style = Application.Current.Resources["AppDialogWindowStyle"] as Style;
        
             this.AppWashContainer.Children.Add(win);
             win.WashSettingsChanged += OnColorWashSettingsChanged;

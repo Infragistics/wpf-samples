@@ -27,6 +27,7 @@ using System.Windows.Markup;
 using IGExtensions.Framework.Controls;  // NavigationApp with error handling and culture initialization
 using IGShowcase.HospitalFloorPlan.Assets.Resources;
 using IGShowcase.HospitalFloorPlan.Views;
+using Infragistics.Themes; // provides ThemeManager
 
 namespace IGShowcase.HospitalFloorPlan
 {
@@ -37,10 +38,17 @@ namespace IGShowcase.HospitalFloorPlan
 		/// Initializes a new instance of the <see cref="App"/> class.
 		/// </summary>
 		public App()
-		{
+		{ 
+            ThemeManager.ApplicationTheme = new MetroTheme();
+            // merge app resources that use colors and styles defined in the Metro Theme
+            this.Resources.MergeDictionary("/InfragisticsWPF.Themes.Metro;component/themes/theme.colors.xaml"); 
+            this.Resources.MergeDictionary("/IGExtensions.Common;component/Assets/Styles/CommonStyles.xaml");
+            this.Resources.MergeDictionary("/IGExtensions.Common;component/Assets/Styles/GlobalStyles.xaml");
+            this.Resources.MergeDictionary("/IGShowcase.HospitalFloorPlan;component/Assets/Styles/AppBrushes.xaml");
+            this.Resources.MergeDictionary("/IGShowcase.HospitalFloorPlan;component/Assets/Styles/AppStyles.xaml");
+             
 			Startup += ApplicationStartup;
-			 
-            this.InitializeComponent();
+			  
             this.InitializeCulture(Strings.Language);
 
             // NOTE: comment out the following code when testing Japanese culture

@@ -2,38 +2,23 @@
     x:Class="IGShowcase.EarthQuake.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:ig="http://schemas.infragistics.com/xaml" 
     xmlns:services="clr-namespace:IGExtensions.Common.Services;assembly=IGExtensions.Common.Services" 
-    xmlns:framework="clr-namespace:IGExtensions.Framework.Controls;assembly=IGExtensions.Framework" >
+    xmlns:framework="clr-namespace:IGExtensions.Framework.Controls;assembly=IGExtensions.Framework"  
+    xmlns:locResources="clr-namespace:IGShowcase.EarthQuake.Resources" 
+    xmlns:locConverters="clr-namespace:IGShowcase.EarthQuake.Converters">
     <framework:NavigationApp.Resources>
-		<ResourceDictionary>
-			<ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/IGExtensions.Common;component/Assets/Styles/CommonStyles.xaml" />
-
-                <!-- AppBasics contains converters and resource localizer -->
-                <ResourceDictionary Source="/IGShowcase.EarthQuake;component/Assets/Styles/AppBasics.xaml"/>
-                <ResourceDictionary Source="/IGShowcase.EarthQuake;component/Assets/Styles/AppBrushes.xaml"/>
-                <ResourceDictionary Source="/IGShowcase.EarthQuake;component/Assets/Styles/AppStyles.xaml"/>
-               
-                <!--NOTE: currently it is not possible to override metro theme colors because 
-                    NOTE: the Theme.colors.xaml resource is part of of MetroTheme assembly-->
-                <!--<ResourceDictionary Source="Theme.Colors.xaml"/>-->
-                <ResourceDictionary Source="/IGShowcase.EarthQuake;component/Assets/Styles/AppThemes.xaml"/>
-
-                <ResourceDictionary Source="/IGShowcase.EarthQuake;component/Assets/Styles/AppDialogStyles.xaml"/>
-                <ResourceDictionary Source="/IGShowcase.EarthQuake;component/Assets/Styles/DetailsStyles.xaml" />
-
-                <ResourceDictionary Source="/IGShowcase.EarthQuake;component/Assets/Styles/GeoMapStyles.xaml" />
-                <ResourceDictionary Source="/IGShowcase.EarthQuake;component/Assets/Styles/TimelineStyles.xaml" />
-
-                <!--<ResourceDictionary Source="/IGShowcase.EarthQuake;component/Assets/Styles/EarthQuakeStyles.xaml"/>-->
-                <!--<ResourceDictionary Source="/IGShowcase.EarthQuake;component/Assets/Styles/DetailsStyles.xaml"/>-->
-
-            </ResourceDictionary.MergedDictionaries>
+		<ResourceDictionary> 
 
             <services:EarthQuakesService x:Key="EarthQuakeService" />
             <services:FlickrImagesService x:Key="FlickrImageService"/>
-
-
+ 
+            <ig:StringFormatConverter x:Key="StringFormatConverter" /> 
+            
+            <locResources:AppLocalizer x:Key="AppLocalizer" /> 
+            <locConverters:MagnitudeColorConverter x:Key="MagnitudeColorConverter" />
+            
+            <!-- Note that app resources and theme are loaded in App.xaml.cs file-->
         </ResourceDictionary>
     </framework:NavigationApp.Resources>
 	
