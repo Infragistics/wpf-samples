@@ -179,6 +179,8 @@ namespace IGExtensions.Common.Controls
                 case IgComponents.RadialGauge: return "RadialGauge";
                 case IgComponents.LinearGauge: return "LinearGauge";
                 case IgComponents.GeographicMap: return "GeographicMap";
+                case IgComponents.FinancialChart: return "financial-chart-overview";
+                case IgComponents.ZoomSlider: return "financial-chart-pane-zoom";
                 //controls with standard names of help pages     
                 default:
                     return "xam" + component.ToString();
@@ -311,6 +313,7 @@ namespace IGExtensions.Common.Controls
         Editors,
         ExcelEngine,
         FormulaEditor,
+        FinancialChart,
         FunnelChart,
         Gantt,
         Gauge,
@@ -354,6 +357,7 @@ namespace IGExtensions.Common.Controls
         UndoRedo, 
         WordLibrary,
         Zoombar,
+        ZoomSlider,
     }
 
 }
