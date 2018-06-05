@@ -2,21 +2,16 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Net;
+using System.Linq; 
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
+using System.Windows.Controls; 
+using System.Windows.Input; 
 using IGExtensions.Framework;
 using IGExtensions.Common.Data;
 using IGExtensions.Common.Maps.StyleSelectors;
 using IGExtensions.Common.Models;
-using IGShowcase.EarthQuake.ViewModels;
 using IGExtensions.Framework.Controls;
+using IGShowcase.EarthQuake.ViewModels;
 using Infragistics;
 using Infragistics.Controls.Charts;
 using Infragistics.Controls.Editors;
@@ -45,14 +40,10 @@ namespace IGShowcase.EarthQuake.Views
             if (_mvm != null)
             {
                 _mvm.PropertyChanged += VmPropertyChanged;
-                //UpdateMagnitudeFilter();
-                //UpdateRegionMap(_mvm.Regions);
             }
             if (_tvm != null)
             {
                 _tvm.PropertyChanged += VmPropertyChanged;
-                //UpdateMagnitudeFilter();
-                //UpdateRegionMap(_tvm.Regions);
             }
             if (!NavigationApp.Current.IsInDesingMode())
             {
@@ -195,7 +186,6 @@ namespace IGShowcase.EarthQuake.Views
                     if (region.Name == shapeElement.ShapeName)
                     {
                         region.IsSelected = isSelected;
-                        //region.IsSelected = !region.IsSelected;
                     }
                 }
             }
@@ -206,7 +196,6 @@ namespace IGShowcase.EarthQuake.Views
                     if (region.Name == shapeElement.ShapeName)
                     {
                         region.IsSelected = isSelected;
-                        //region.IsSelected = !region.IsSelected;
                     }
                 }
             }

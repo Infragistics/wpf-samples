@@ -1,0 +1,42 @@
+﻿namespace IGExtensions.Common.Maps.Imagery
+{
+    public enum EsriMapImageryStyle
+    {
+        WorldStreetMap,
+        WorldTopographicMap,
+        WorldImageryMap,
+        WorldOceansMap,
+        WorldNationalGeographicMap,
+        WorldPhysicalMap,
+        WorldTerrainMap,
+        WorldDeLormesMap,
+        WorldLightGrayMap,
+        WorldShadedReliefMap,
+        WorldAdministrativeOverlay,
+        WorldTransportationOverlay,
+        WorldBoundariesDarkOverlay,
+        WorldBoundariesLightOverlay,
+        WorldLightGrayOverlay,
+        UsaRailNetworkOverlay,
+        UsaPopulationGrowth2015Overlay,
+        UsaUnemploymentRateOverlay,
+        UsaSocialVulnerabilityOverlay,
+        UsaRetailSpendingPotentialOverlay,
+        UsaPopulationChange2010Overlay,
+        UsaPopulationChange2000Overlay,
+        UsaPopulationDensityOverlay,
+        UsaPopulationByGenderOverlay,
+        UsaMedianHouseholdIncomeOverlay,
+        UsaMedianNetWorthOverlay,
+        UsaMedianHomeValueOverlay,
+        UsaMedianAgeOverlay,
+        UsaLaborForceParticipationOverlay,
+        UsaAverageHouseholdSizeOverlay,
+        UsaDiversityIndexOverlay,
+        UsaSoilSurveyOverlay,
+        UsaPopulationYoungerThan18Overlay,
+        UsaPopulationOlderThanAge64Overlay,
+        UsaOwnerOccupiedHousingOverlay,
+    }
+   
+}

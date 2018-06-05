@@ -12,9 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using IGShowcase.FinanceDashboard.ViewModels;
+using IGShowcase.FinanceDashboard;
 
-namespace IGShowcase.FinanceDashboard.Controls
+namespace IGShowcase.FinanceDashboard
 {
     /// <summary>
     /// Interaction logic for StockTickerControl.xaml
@@ -24,16 +24,16 @@ namespace IGShowcase.FinanceDashboard.Controls
         public StockDetailsControl()
         {
             InitializeComponent();
-            this.SelectedStock = new StockInfoViewModel();
+            this.SelectedStock = new StockTradeData();
         }
 
         public static readonly DependencyProperty SelectedStockProperty =
-        DependencyProperty.Register("SelectedStock", typeof(StockInfoViewModel), typeof(StockDetailsControl),
+        DependencyProperty.Register("SelectedStock", typeof(StockTradeData), typeof(StockDetailsControl),
           new PropertyMetadata(new PropertyChangedCallback(SelectedStock_Changed)));
 
-        public StockInfoViewModel SelectedStock
+        public StockTradeData SelectedStock
         {
-            get { return (StockInfoViewModel)GetValue(SelectedStockProperty); }
+            get { return (StockTradeData)GetValue(SelectedStockProperty); }
             set { SetValue(SelectedStockProperty, value); }
         }
         private static void SelectedStock_Changed(DependencyObject obj, DependencyPropertyChangedEventArgs e)

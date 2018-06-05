@@ -1,0 +1,592 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:ig="http://schemas.infragistics.com/xaml"
+                    xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d">
+
+  <!--The SILVERLIGHT and WPF versions of this theme file are identical. 
+        Their only difference is in the Merged Dictionaries. Silverlight uses Styles.SL.xaml, and WPF uses Styles.WPF.xaml -->
+
+  <!-- *********************************  RESOURCES  ********************************* -->
+  <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary Source="Theme.Colors.xaml" />
+    <ResourceDictionary Source="Styles.WPF.xaml" />
+  </ResourceDictionary.MergedDictionaries>
+
+  <!-- ********************************** BRUSHES **********************************-->
+  <!-- SyntaxEditor Brushes -->
+  <SolidColorBrush x:Key="EditorBackgroundBrush" Color="{StaticResource Color_009}" />
+  <SolidColorBrush x:Key="EditorViewBackgroundBrush" Color="{StaticResource Color_009}" />
+  <SolidColorBrush x:Key="EditorViewMarginBackgroundBrush" Color="{StaticResource Color_009}" />
+  <SolidColorBrush x:Key="EditorViewTextBackgroundBrush" Color="{StaticResource Color_009}" />
+  <SolidColorBrush x:Key="EditorViewRulerMarginCaretBrush" Color="{StaticResource Color_040}" />
+  <SolidColorBrush x:Key="EditorLineNumberForegroundBrush" Color="{StaticResource Color_024}" />
+
+  <!-- Thumb Brushes -->
+  <SolidColorBrush x:Key="ThumbBackgroundBrush" Color="{StaticResource Color_007}" />
+  <SolidColorBrush x:Key="ThumbBorderBrush" Color="{StaticResource Color_006}" />
+  <SolidColorBrush x:Key="ThumbHoverBackgroundBrush" Color="{StaticResource Color_006}" />
+  <SolidColorBrush x:Key="ThumbPressedBackgroundBrush" Color="{StaticResource Color_006}" />
+  <SolidColorBrush x:Key="ThumbFocusedBorderBrush" Color="{StaticResource Color_024}" />
+  <SolidColorBrush x:Key="ThumbDisabledBackgroundBrush" Color="{StaticResource Color_009}" />
+
+  <!-- Splitter Brushes -->
+  <SolidColorBrush x:Key="SplitterBackgroundBrush" Color="{StaticResource Color_007}" />
+  <SolidColorBrush x:Key="SplitterBorderBrush" Color="{StaticResource Color_006}" />
+
+  <!-- ClassificationMap Brushes -->
+  <SolidColorBrush x:Key="ClassificationMapCommentBrush" Color="{StaticResource Color_058}" />
+  <SolidColorBrush x:Key="ClassificationMapDateLiteralBrush" Color="{StaticResource Color_047}" />
+  <SolidColorBrush x:Key="ClassificationMapDiagnosticErrorBrush" Color="{StaticResource Color_002}" />
+  <SolidColorBrush x:Key="ClassificationMapDiagnosticInformationBrush" Color="{StaticResource Color_002}" />
+  <SolidColorBrush x:Key="ClassificationMapDiagnosticWarningBrush" Color="{StaticResource Color_002}" />
+  <SolidColorBrush x:Key="ClassificationMapDocCommentStartBrush" Color="{StaticResource Color_058}" />
+  <SolidColorBrush x:Key="ClassificationMapDocCommentTagBrush" Color="{StaticResource Color_058}" />
+  <SolidColorBrush x:Key="ClassificationMapDocCommentTextBrush" Color="{StaticResource Color_058}" />
+  <SolidColorBrush x:Key="ClassificationMapIdentifierBrush" Color="{StaticResource Color_002}" />
+  <SolidColorBrush x:Key="ClassificationMapKeywordBrush" Color="{StaticResource Color_037}" />
+  <SolidColorBrush x:Key="ClassificationMapNumericLiteralBrush" Color="{StaticResource Color_046}" />
+  <SolidColorBrush x:Key="ClassificationMapOperatorBrush" Color="{StaticResource Color_002}" />
+  <SolidColorBrush x:Key="ClassificationMapPreprocessorDirectiveBrush" Color="{StaticResource Color_041}" />
+  <SolidColorBrush x:Key="ClassificationMapPreprocessorDirectiveTextBrush" Color="{StaticResource Color_041}" />
+  <SolidColorBrush x:Key="ClassificationMapPunctuationBrush" Color="{StaticResource Color_002}" />
+  <SolidColorBrush x:Key="ClassificationMapStringLiteralBrush" Color="{StaticResource Color_047}" />
+  <SolidColorBrush x:Key="ClassificationMapUndefinedBrush" Color="{StaticResource Color_002}" />
+  <SolidColorBrush x:Key="ClassificationMapUnrecognizedBrush" Color="{StaticResource Color_002}" />
+  <SolidColorBrush x:Key="ClassificationMapWhitespaceBrush" Color="{StaticResource Color_002}" />
+
+  <!-- **************************************************************** SL-WPF SHARED RESOURCES *******************************************************************
+    *********************************************************************************************************************************************************************    -->
+
+  <!-- ********************************** ValueConverters **********************************-->
+  <igPrim:ValueConverterGroup x:Key="boolToVisibilityConverter">
+    <!-- if true sets visibility to Visible -->
+    <igPrim:FixedValueConverter>
+      <igPrim:FixedValueConverter.SourceValue>
+        <sys:Boolean>True</sys:Boolean>
+      </igPrim:FixedValueConverter.SourceValue>
+      <igPrim:FixedValueConverter.DestinationValue>
+        <Visibility>Visible</Visibility>
+      </igPrim:FixedValueConverter.DestinationValue>
+    </igPrim:FixedValueConverter>
+
+    <!-- if false sets visibility to Collapsed -->
+    <igPrim:FixedValueConverter>
+      <igPrim:FixedValueConverter.DestinationValue>
+        <Visibility>Collapsed</Visibility>
+      </igPrim:FixedValueConverter.DestinationValue>
+    </igPrim:FixedValueConverter>
+  </igPrim:ValueConverterGroup>
+
+  <!-- ********************************** Classification appearance map **********************************-->
+  <ig:ClassificationAppearanceMap x:Key="ClassificationMap">
+    <ig:ClassificationAppearanceMapInitializationEntry Classification="Comment">
+      <ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+        <ig:TextDocumentAppearance Foreground="{StaticResource ClassificationMapCommentBrush}" />
+      </ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+    </ig:ClassificationAppearanceMapInitializationEntry>
+    <ig:ClassificationAppearanceMapInitializationEntry Classification="DateLiteral">
+      <ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+        <ig:TextDocumentAppearance Foreground="{StaticResource ClassificationMapDateLiteralBrush}" />
+      </ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+    </ig:ClassificationAppearanceMapInitializationEntry>
+    <ig:ClassificationAppearanceMapInitializationEntry Classification="DiagnosticError">
+      <ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+        <ig:TextDocumentAppearance Foreground="{StaticResource ClassificationMapDiagnosticErrorBrush}" />
+      </ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+    </ig:ClassificationAppearanceMapInitializationEntry>
+    <ig:ClassificationAppearanceMapInitializationEntry Classification="DiagnosticInformation">
+      <ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+        <ig:TextDocumentAppearance Foreground="{StaticResource ClassificationMapDiagnosticInformationBrush}" />
+      </ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+    </ig:ClassificationAppearanceMapInitializationEntry>
+    <ig:ClassificationAppearanceMapInitializationEntry Classification="DiagnosticWarning">
+      <ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+        <ig:TextDocumentAppearance Foreground="{StaticResource ClassificationMapDiagnosticWarningBrush}" />
+      </ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+    </ig:ClassificationAppearanceMapInitializationEntry>
+    <ig:ClassificationAppearanceMapInitializationEntry Classification="DocCommentStart">
+      <ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+        <ig:TextDocumentAppearance Foreground="{StaticResource ClassificationMapDocCommentStartBrush}" />
+      </ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+    </ig:ClassificationAppearanceMapInitializationEntry>
+    <ig:ClassificationAppearanceMapInitializationEntry Classification="DocCommentTag">
+      <ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+        <ig:TextDocumentAppearance Foreground="{StaticResource ClassificationMapDocCommentTagBrush}" />
+      </ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+    </ig:ClassificationAppearanceMapInitializationEntry>
+    <ig:ClassificationAppearanceMapInitializationEntry Classification="DocCommentText">
+      <ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+        <ig:TextDocumentAppearance Foreground="{StaticResource ClassificationMapDocCommentTextBrush}" />
+      </ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+    </ig:ClassificationAppearanceMapInitializationEntry>
+    <ig:ClassificationAppearanceMapInitializationEntry Classification="Identifier">
+      <ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+        <ig:TextDocumentAppearance Foreground="{StaticResource ClassificationMapIdentifierBrush}" />
+      </ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+    </ig:ClassificationAppearanceMapInitializationEntry>
+    <ig:ClassificationAppearanceMapInitializationEntry Classification="Keyword">
+      <ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+        <ig:TextDocumentAppearance Foreground="{StaticResource ClassificationMapKeywordBrush}" />
+      </ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+    </ig:ClassificationAppearanceMapInitializationEntry>
+    <ig:ClassificationAppearanceMapInitializationEntry Classification="NumericLiteral">
+      <ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+        <ig:TextDocumentAppearance Foreground="{StaticResource ClassificationMapNumericLiteralBrush}" />
+      </ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+    </ig:ClassificationAppearanceMapInitializationEntry>
+    <ig:ClassificationAppearanceMapInitializationEntry Classification="Operator">
+      <ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+        <ig:TextDocumentAppearance Foreground="{StaticResource ClassificationMapOperatorBrush}" />
+      </ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+    </ig:ClassificationAppearanceMapInitializationEntry>
+    <ig:ClassificationAppearanceMapInitializationEntry Classification="PreprocessorDirective">
+      <ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+        <ig:TextDocumentAppearance Foreground="{StaticResource ClassificationMapPreprocessorDirectiveBrush}" />
+      </ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+    </ig:ClassificationAppearanceMapInitializationEntry>
+    <ig:ClassificationAppearanceMapInitializationEntry Classification="PreprocessorDirectiveText">
+      <ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+        <ig:TextDocumentAppearance Foreground="{StaticResource ClassificationMapPreprocessorDirectiveTextBrush}" />
+      </ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+    </ig:ClassificationAppearanceMapInitializationEntry>
+    <ig:ClassificationAppearanceMapInitializationEntry Classification="Punctuation">
+      <ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+        <ig:TextDocumentAppearance Foreground="{StaticResource ClassificationMapPunctuationBrush}" />
+      </ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+    </ig:ClassificationAppearanceMapInitializationEntry>
+    <ig:ClassificationAppearanceMapInitializationEntry Classification="StringLiteral">
+      <ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+        <ig:TextDocumentAppearance Foreground="{StaticResource ClassificationMapStringLiteralBrush}" />
+      </ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+    </ig:ClassificationAppearanceMapInitializationEntry>
+    <ig:ClassificationAppearanceMapInitializationEntry Classification="Undefined">
+      <ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+        <ig:TextDocumentAppearance Foreground="{StaticResource ClassificationMapUndefinedBrush}" />
+      </ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+    </ig:ClassificationAppearanceMapInitializationEntry>
+    <ig:ClassificationAppearanceMapInitializationEntry Classification="Unrecognized">
+      <ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+        <ig:TextDocumentAppearance Foreground="{StaticResource ClassificationMapUnrecognizedBrush}" />
+      </ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+    </ig:ClassificationAppearanceMapInitializationEntry>
+    <ig:ClassificationAppearanceMapInitializationEntry Classification="Whitespace">
+      <ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+        <ig:TextDocumentAppearance Foreground="{StaticResource ClassificationMapWhitespaceBrush}" />
+      </ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+    </ig:ClassificationAppearanceMapInitializationEntry>
+  </ig:ClassificationAppearanceMap>
+
+  <!-- ********************************** XamSyntaxEditor Style **********************************-->
+  <Style TargetType="ig:XamSyntaxEditor">
+    <Setter Property="Background" Value="{StaticResource EditorBackgroundBrush}" />
+    <Setter Property="LineNumberMarginBackground" Value="{StaticResource EditorBackgroundBrush}" />
+    <Setter Property="LineNumberMarginForeground" Value="{StaticResource EditorLineNumberForegroundBrush}" />
+    <Setter Property="RulerMarginBackground" Value="{StaticResource EditorBackgroundBrush}" />
+    <Setter Property="RulerMarginBorderBrush" Value="{StaticResource EditorBackgroundBrush}" />
+    <Setter Property="RulerMarginTickMarkBrush" Value="{StaticResource ForegroundBrush}" />
+    <Setter Property="RulerMarginCaretPositionHighlightBrush" Value="{StaticResource EditorViewRulerMarginCaretBrush}" />
+    <Setter Property="RulerMarginTextBrush" Value="{StaticResource ForegroundBrush}" />
+    <Setter Property="ClassificationAppearanceMap" Value="{StaticResource ClassificationMap}" />
+    <Setter Property="AllowDrop" Value="True" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="ig:XamSyntaxEditor">
+          <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" igPrim:XamlHelper.SnapsToDevicePixels="True">
+            <igPrim:EditorViewLayoutPanel x:Name="EditorViewLayoutPanel" />
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!-- ********************************** Thumb Style ********************************** -->
+  <Style x:Key="ThumbStyle" TargetType="Thumb">
+    <Setter Property="Background" Value="{StaticResource ThumbBackgroundBrush}" />
+    <Setter Property="BorderBrush" Value="{StaticResource ThumbBorderBrush}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="IsTabStop" Value="False" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="Thumb">
+          <Grid>
+            <VisualStateManager.VisualStateGroups>
+              <VisualStateGroup x:Name="CommonStates">
+                <VisualState x:Name="Normal" />
+                <VisualState x:Name="MouseOver">
+                  <Storyboard>
+                    <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="Background" Storyboard.TargetName="Background">
+                      <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ThumbHoverBackgroundBrush}" />
+                    </ObjectAnimationUsingKeyFrames>
+                  </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Pressed">
+                  <Storyboard>
+                    <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="Background" Storyboard.TargetName="Background">
+                      <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ThumbPressedBackgroundBrush}" />
+                    </ObjectAnimationUsingKeyFrames>
+                  </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Disabled">
+                  <Storyboard>
+                    <DoubleAnimation Duration="0" To=".6" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="DisabledVisualElement" />
+                  </Storyboard>
+                </VisualState>
+              </VisualStateGroup>
+              <VisualStateGroup x:Name="FocusStates">
+                <VisualState x:Name="Focused">
+                  <Storyboard>
+                    <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="FocusVisualElement" />
+                  </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Unfocused" />
+              </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <Border x:Name="Background" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="0" />
+            <Rectangle x:Name="DisabledVisualElement" Fill="{StaticResource ThumbDisabledBackgroundBrush}" IsHitTestVisible="false" Opacity="0" />
+            <Rectangle x:Name="FocusVisualElement" IsHitTestVisible="false" Margin="1" Opacity="0" Stroke="{StaticResource ThumbFocusedBorderBrush}" StrokeThickness="1" />
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!-- ********************************** EditorDocumentViewSplitter Style **********************************-->
+  <Style TargetType="igPrim:EditorDocumentViewSplitter">
+    <Setter Property="MinWidth" Value="16" />
+    <Setter Property="MinHeight" Value="16" />
+    <Setter Property="Background" Value="{StaticResource SplitterBackgroundBrush}" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="igPrim:EditorDocumentViewSplitter">
+          <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" igPrim:XamlHelper.SnapsToDevicePixels="True">
+            <VisualStateManager.VisualStateGroups>
+              <VisualStateGroup x:Name="OrientationStates">
+                <VisualState x:Name="Vertical">
+                  <Storyboard>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Thumb" Storyboard.TargetProperty="Cursor">
+                      <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                        <DiscreteObjectKeyFrame.Value>
+                          <Cursor>SizeWE</Cursor>
+                        </DiscreteObjectKeyFrame.Value>
+                      </DiscreteObjectKeyFrame>
+                    </ObjectAnimationUsingKeyFrames>
+                  </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Horizontal">
+                  <Storyboard>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Thumb" Storyboard.TargetProperty="Cursor">
+                      <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                        <DiscreteObjectKeyFrame.Value>
+                          <Cursor>SizeNS</Cursor>
+                        </DiscreteObjectKeyFrame.Value>
+                      </DiscreteObjectKeyFrame>
+                    </ObjectAnimationUsingKeyFrames>
+                  </Storyboard>
+                </VisualState>
+              </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <Thumb x:Name="Thumb" Background="{TemplateBinding Background}" MinWidth="{TemplateBinding MinWidth}" MinHeight="{TemplateBinding MinHeight}" BorderBrush="{StaticResource SplitterBorderBrush}" Style="{StaticResource ThumbStyle}" />
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!-- ********************************** EditorDocumentViewMiniSplitter Style **********************************-->
+  <Style TargetType="igPrim:EditorDocumentViewMiniSplitter">
+    <Setter Property="MinWidth" Value="16" />
+    <Setter Property="MinHeight" Value="16" />
+    <Setter Property="Background" Value="{StaticResource SplitterBackgroundBrush}" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="igPrim:EditorDocumentViewMiniSplitter">
+          <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" igPrim:XamlHelper.SnapsToDevicePixels="True">
+            <VisualStateManager.VisualStateGroups>
+              <VisualStateGroup x:Name="OrientationStates">
+                <VisualState x:Name="Vertical">
+                  <Storyboard>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Thumb" Storyboard.TargetProperty="Cursor">
+                      <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                        <DiscreteObjectKeyFrame.Value>
+                          <Cursor>SizeWE</Cursor>
+                        </DiscreteObjectKeyFrame.Value>
+                      </DiscreteObjectKeyFrame>
+                    </ObjectAnimationUsingKeyFrames>
+                  </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Horizontal">
+                  <Storyboard>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Thumb" Storyboard.TargetProperty="Cursor">
+                      <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                        <DiscreteObjectKeyFrame.Value>
+                          <Cursor>SizeNS</Cursor>
+                        </DiscreteObjectKeyFrame.Value>
+                      </DiscreteObjectKeyFrame>
+                    </ObjectAnimationUsingKeyFrames>
+                  </Storyboard>
+                </VisualState>
+              </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <Thumb x:Name="Thumb" MinWidth="{TemplateBinding MinWidth}" MinHeight="{TemplateBinding MinHeight}" Style="{StaticResource ThumbStyle}" />
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!-- ********************************** EditorDocumentViewScrollBarArea Style **********************************-->
+  <Style TargetType="igPrim:EditorDocumentViewScrollBarArea">
+    <Setter Property="MinWidth" Value="16" />
+    <Setter Property="MinHeight" Value="16" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="igPrim:EditorDocumentViewScrollBarArea">
+          <Grid>
+            <VisualStateManager.VisualStateGroups>
+              <VisualStateGroup x:Name="OrientationStates">
+                <VisualState x:Name="Vertical">
+                  <Storyboard>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MiniSplitter" Storyboard.TargetProperty="(Grid.Row)">
+                      <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                        <DiscreteObjectKeyFrame.Value>
+                          <sys:Int32>0</sys:Int32>
+                        </DiscreteObjectKeyFrame.Value>
+                      </DiscreteObjectKeyFrame>
+                    </ObjectAnimationUsingKeyFrames>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MiniSplitter" Storyboard.TargetProperty="(Grid.Column)">
+                      <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                        <DiscreteObjectKeyFrame.Value>
+                          <sys:Int32>1</sys:Int32>
+                        </DiscreteObjectKeyFrame.Value>
+                      </DiscreteObjectKeyFrame>
+                    </ObjectAnimationUsingKeyFrames>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ScrollBar" Storyboard.TargetProperty="(Grid.Row)">
+                      <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                        <DiscreteObjectKeyFrame.Value>
+                          <sys:Int32>1</sys:Int32>
+                        </DiscreteObjectKeyFrame.Value>
+                      </DiscreteObjectKeyFrame>
+                    </ObjectAnimationUsingKeyFrames>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ScrollBar" Storyboard.TargetProperty="(Grid.Column)">
+                      <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                        <DiscreteObjectKeyFrame.Value>
+                          <sys:Int32>1</sys:Int32>
+                        </DiscreteObjectKeyFrame.Value>
+                      </DiscreteObjectKeyFrame>
+                    </ObjectAnimationUsingKeyFrames>
+                  </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Horizontal">
+                  <Storyboard>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MiniSplitter" Storyboard.TargetProperty="(Grid.Row)">
+                      <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                        <DiscreteObjectKeyFrame.Value>
+                          <sys:Int32>1</sys:Int32>
+                        </DiscreteObjectKeyFrame.Value>
+                      </DiscreteObjectKeyFrame>
+                    </ObjectAnimationUsingKeyFrames>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MiniSplitter" Storyboard.TargetProperty="(Grid.Column)">
+                      <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                        <DiscreteObjectKeyFrame.Value>
+                          <sys:Int32>0</sys:Int32>
+                        </DiscreteObjectKeyFrame.Value>
+                      </DiscreteObjectKeyFrame>
+                    </ObjectAnimationUsingKeyFrames>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ScrollBar" Storyboard.TargetProperty="(Grid.Row)">
+                      <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                        <DiscreteObjectKeyFrame.Value>
+                          <sys:Int32>1</sys:Int32>
+                        </DiscreteObjectKeyFrame.Value>
+                      </DiscreteObjectKeyFrame>
+                    </ObjectAnimationUsingKeyFrames>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ScrollBar" Storyboard.TargetProperty="(Grid.Column)">
+                      <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                        <DiscreteObjectKeyFrame.Value>
+                          <sys:Int32>1</sys:Int32>
+                        </DiscreteObjectKeyFrame.Value>
+                      </DiscreteObjectKeyFrame>
+                    </ObjectAnimationUsingKeyFrames>
+                  </Storyboard>
+                </VisualState>
+              </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <igPrim:EditorDocumentViewMiniSplitter x:Name="MiniSplitter" Orientation="{TemplateBinding Orientation}" MinWidth="{TemplateBinding MinWidth}" MinHeight="{TemplateBinding MinHeight}" />
+            <ScrollBar x:Name="ScrollBar" Orientation="{TemplateBinding Orientation}" Style="{StaticResource ScrollBarStyle}" />
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!-- ********************************** EditorDocumentViewPresenter Style **********************************-->
+  <Style TargetType="igPrim:EditorDocumentViewPresenter">
+    <Setter Property="Background" Value="{StaticResource EditorViewBackgroundBrush}" />
+    <Setter Property="FontSize" Value="12" />
+    <Setter Property="FontFamily" Value="Consolas" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="igPrim:EditorDocumentViewPresenter">
+          <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" igPrim:XamlHelper.SnapsToDevicePixels="True">
+            <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+
+              <!-- LayoutTransformer control to support layout transforms in Silverlight-->
+              <igPrim:LayoutTransformer x:Name="TextAreaLayoutTransformer">
+                <igPrim:LayoutTransformer.LayoutTransform>
+                  <TransformGroup>
+                    <ScaleTransform x:Name="TextAreaScaleTransform" />
+                  </TransformGroup>
+                </igPrim:LayoutTransformer.LayoutTransform>
+
+                <Grid x:Name="TextAreaHostGrid">
+                  <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                  </Grid.RowDefinitions>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                  </Grid.ColumnDefinitions>
+
+                  <!-- Border to supply the IBeam cursor when the EditorDocumentViewTextArea is moved to the left
+										     (as the result of a horizontal scroll) via a RenderTransform. -->
+                  <Border Cursor="IBeam" Grid.Row="1" Grid.Column="1" Background="Transparent" />
+
+                  <!-- AdornmentLayers are automatically added to the EditorDocumentViewTextArea by the control as needed. -->
+                  <igPrim:EditorDocumentViewTextArea x:Name="TextArea" Grid.Row="1" Grid.Column="1" Cursor="IBeam" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{StaticResource EditorViewTextBackgroundBrush}" />
+
+                  <!-- Left Margin Area -->
+                  <igPrim:EditorDocumentViewMarginPanel x:Name="LeftMarginArea" Location="Left" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="0" Background="{StaticResource EditorViewMarginBackgroundBrush}" />
+
+                  <!-- Top Margin Area -->
+                  <igPrim:EditorDocumentViewMarginPanel x:Name="TopMarginArea" Location="Top" HorizontalAlignment="Stretch" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Background="{StaticResource EditorViewMarginBackgroundBrush}" />
+
+                  <!-- Right Margin Area -->
+                  <igPrim:EditorDocumentViewMarginPanel x:Name="RightMarginArea" Location="Right" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="2" Background="{StaticResource EditorViewMarginBackgroundBrush}" />
+
+                  <!-- Bottom Margin Area -->
+                  <igPrim:EditorDocumentViewMarginPanel x:Name="BottomMarginArea" Location="Bottom" HorizontalAlignment="Stretch" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Background="{StaticResource EditorViewMarginBackgroundBrush}" />
+                </Grid>
+              </igPrim:LayoutTransformer>
+
+              <Rectangle Grid.Row="1" Grid.Column="1" Margin="-1, 0, 0, 0" Fill="{StaticResource EditorViewBackgroundBrush}" />
+
+              <!-- Rectangle on top of the slider to hide the transparency -->
+              <Rectangle Grid.Row="0" Grid.Column="1" Fill="{StaticResource EditorViewBackgroundBrush}" />
+
+              <igPrim:EditorDocumentViewScrollBarArea x:Name="VerticalScrollBarArea" Grid.Row="0" Grid.Column="1" Orientation="Vertical" />
+
+              <!-- Rectangle on top of the slider to hide the transparency -->
+              <Rectangle Grid.Row="1" Grid.Column="0" Fill="{StaticResource EditorViewBackgroundBrush}" />
+
+              <igPrim:EditorDocumentViewScrollBarArea x:Name="HorizontalScrollBarArea" Grid.Row="1" Grid.Column="0" Orientation="Horizontal" />
+            </Grid>
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!-- ********************************** LineNumberMarginPresenter Style **********************************-->
+  <Style TargetType="igPrim:LineNumberMarginPresenter">
+    <Setter Property="MinWidth" Value="10" />
+    <Setter Property="VerticalAlignment" Value="Stretch" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="igPrim:LineNumberMarginPresenter">
+          <Grid x:Name="LineNumberGrid" />
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!-- ********************************** RulerMarginPresenter Style **********************************-->
+  <Style TargetType="igPrim:RulerMarginPresenter">
+    <Setter Property="MinWidth" Value="10" />
+    <Setter Property="VerticalAlignment" Value="Stretch" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="igPrim:RulerMarginPresenter">
+          <Grid x:Name="RulerGrid">
+            <Rectangle Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="1" />
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!-- ********************************** LayoutTransformer Style **********************************-->
+  <Style TargetType="igPrim:LayoutTransformer">
+    <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="igPrim:LayoutTransformer">
+          <Grid x:Name="TransformRoot" Background="{TemplateBinding Background}">
+            <ContentPresenter x:Name="Presenter" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" />
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!-- ********************************** SyntaxEditorCaretPresenter Style **********************************-->
+  <Style TargetType="igPrim:SyntaxEditorCaretPresenter">
+    <Setter Property="MinWidth" Value="1" />
+    <Setter Property="MinHeight" Value="13" />
+    <Setter Property="Foreground" Value="{Binding Caret.Brush, Mode=OneWay, RelativeSource={RelativeSource Self}}" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="igPrim:SyntaxEditorCaretPresenter">
+          <Rectangle x:Name="BackgroundRect" Fill="{TemplateBinding Foreground}" Visibility="{Binding Caret.IsVisible, Converter={StaticResource boolToVisibilityConverter}, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" Width="{Binding Caret.Width, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" Height="{Binding Caret.Height, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}">
+            <VisualStateManager.VisualStateGroups>
+              <VisualStateGroup x:Name="CommonStates">
+                <VisualState x:Name="InsertMode">
+                  <Storyboard x:Name="InsertAnimation" RepeatBehavior="Forever">
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="BackgroundRect" Storyboard.TargetProperty="Opacity">
+                      <SplineDoubleKeyFrame KeyTime="0:0:0" Value="0" />
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.25" Value="0" />
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.5" Value="1" />
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.75" Value="1" />
+                      <SplineDoubleKeyFrame KeyTime="0:0:1" Value="0" />
+                    </DoubleAnimationUsingKeyFrames>
+                  </Storyboard>
+                </VisualState>
+                <VisualState x:Name="OverwriteMode">
+                  <Storyboard x:Name="OverwriteAnimation" RepeatBehavior="Forever">
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="BackgroundRect" Storyboard.TargetProperty="Opacity">
+                      <SplineDoubleKeyFrame KeyTime="0:0:0" Value="0" />
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.25" Value="0" />
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.5" Value="0.5" />
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.75" Value="0.5" />
+                      <SplineDoubleKeyFrame KeyTime="0:0:1" Value="0" />
+                    </DoubleAnimationUsingKeyFrames>
+                  </Storyboard>
+                </VisualState>
+              </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+          </Rectangle>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+</ResourceDictionary>

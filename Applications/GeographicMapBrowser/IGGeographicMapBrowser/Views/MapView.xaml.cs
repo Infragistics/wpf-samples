@@ -23,6 +23,8 @@ namespace IGShowcase.GeographicMapBrowser
     {
         public MapView()
         {
+            var rd = App.Current.Resources;
+
             InitializeComponent();
 
             this.ViewModel = new MapViewModel(); 

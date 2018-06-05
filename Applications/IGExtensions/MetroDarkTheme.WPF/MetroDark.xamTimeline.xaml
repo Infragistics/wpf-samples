@@ -1,0 +1,682 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="http://schemas.infragistics.com/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d">
+
+    <!-- *********************************  COLORS  ********************************* -->
+    <ResourceDictionary.MergedDictionaries>
+      <ResourceDictionary Source="Theme.Colors.xaml" />
+      <ResourceDictionary Source="MetroDark.DataVisualization.xaml"/>
+      <ResourceDictionary Source="Styles.WPF.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- ********************************** BRUSHES **********************************-->
+
+
+    <!-- TimelineAxis Brushes -->
+  <SolidColorBrush x:Key="TimelineAxisMajorTickMarkBackgroundBrush" Color="{StaticResource Color_006}"/>
+  <SolidColorBrush x:Key="TimelineAxisMajorTickMarkBorderBrush" Color="{StaticResource Color_006}"/>
+  <SolidColorBrush x:Key="TimelineAxisMinorTickMarkBackgroundBrush" Color="{StaticResource Color_006}"/>
+  <SolidColorBrush x:Key="TimelineAxisMinorTickMarkBorderBrush" Color="{StaticResource Color_006}"/>
+  <SolidColorBrush x:Key="TimelineAxisMajorGridBackgroundBrush" Color="{StaticResource Color_006}"/>
+  <SolidColorBrush x:Key="TimelineAxisMajorGridBorderBrush" Color="{StaticResource Color_006}"/>
+  <SolidColorBrush x:Key="TimelineAxisMinorGridBackgroundBrush" Color="{StaticResource Color_006}"/>
+  <SolidColorBrush x:Key="TimelineAxisMinorGridBorderBrush" Color="{StaticResource Color_006}"/>
+  <SolidColorBrush x:Key="TimelineAxisPaneBackgroundBrush" Color="{StaticResource Color_004}"/>
+  <SolidColorBrush x:Key="TimelineAxisPaneBorderBrush" Color="{StaticResource Color_004}"/>
+
+  <!-- Legend Brushes -->
+  <SolidColorBrush x:Key="LegendBackgroundBrush" Color="{StaticResource Color_016}" />
+  <SolidColorBrush x:Key="LegendBorderBrush" Color="{StaticResource Color_016}"/>
+  <SolidColorBrush x:Key="LegendItemBackgroundBrush" Color="{StaticResource Color_006}"/>
+  <SolidColorBrush x:Key="LegendItemBorderBrush" Color="{StaticResource Color_016}"/>
+    <!-- Event Brushes -->
+    <SolidColorBrush x:Key="EventDetailsBackgroundBrush" Color="{StaticResource Color_009}"/>
+  <SolidColorBrush x:Key="EventDetailsBorderBrush" Color="{StaticResource Color_006}"/>
+    <SolidColorBrush x:Key="EventPointHollowFillBackgroundBrush" Color="{StaticResource Color_003}"/>
+  <SolidColorBrush x:Key="EventPointBackgroundBrush" Color="{StaticResource Color_006}"/>
+    <SolidColorBrush x:Key="EventPointBorderBrush" Color="{StaticResource Color_016}"/>
+    <SolidColorBrush x:Key="EventTitleBackgroundBrush" Color="{StaticResource Color_008}"/>
+  <SolidColorBrush x:Key="EventTitleBorderBrush" Color="{StaticResource Color_006}"/>
+  <SolidColorBrush x:Key="EventTitleTopLineBorderBrush" Color="{StaticResource Color_006}"/>
+  <SolidColorBrush x:Key="EventTitleBottomLineBorderBrush" Color="{StaticResource Color_006}"/>
+  <SolidColorBrush x:Key="EventSpanHollowFillBackgroundBrush" Color="{StaticResource Color_006}"/>
+  <SolidColorBrush x:Key="EventSpanBackgroundBrush" Color="{StaticResource Color_006}"/>
+
+    <SolidColorBrush x:Key="EventSpanBorderBrush" Color="{StaticResource Color_016}"/>
+
+  <!-- EventDetail ScrollViewer Brushes -->
+  <SolidColorBrush x:Key="EventDetailsScrollViewerCornerSquareBackgroundBrush" Color="{StaticResource Color_016}"/>
+
+    <!-- MessageControl Brushes -->
+    <SolidColorBrush x:Key="MessageControlBackgroundBrush" Color="{StaticResource Color_009}"/>
+  <!-- AxisThumb Brushes -->
+  <SolidColorBrush x:Key="AxisThumbBackgroundBrush" Color="{StaticResource Color_024}"/>
+  <SolidColorBrush x:Key="AxisThumbBorderBrush" Color="{StaticResource Color_024}"/>
+
+  <!-- Mark Brushes -->
+  <SolidColorBrush x:Key="MarkBackgroundBrush" Color="{StaticResource Color_006}"/>
+  <SolidColorBrush x:Key="MarkBorderBrush" Color="{StaticResource Color_006}"/>
+    <!-- ******************************************************** SL-WPF SHARED RESOURCES ***********************************************************
+    ***********************************************************************************************************************************************************************    -->
+
+    <!-- *********************************  EventDetailsScrollViewer Style  ********************************* -->
+    <Style x:Key="EventDetailsScrollViewerStyle" TargetType="ScrollViewer">
+      <Setter Property="HorizontalContentAlignment" Value="Left"/>
+      <Setter Property="VerticalContentAlignment" Value="Top"/>
+      <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+      <Setter Property="Padding" Value="8"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="ScrollViewer">
+            <Border>
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*"/>
+                  <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="*"/>
+                  <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Rectangle Grid.Column="1" Grid.Row="1" Fill="{StaticResource EventDetailsScrollViewerCornerSquareBackgroundBrush}" Opacity="0.5"/>
+                <ScrollContentPresenter x:Name="ScrollContentPresenter" Cursor="{TemplateBinding Cursor}" ContentTemplate="{TemplateBinding ContentTemplate}" Margin="{TemplateBinding Padding}"/>
+                <ScrollBar x:Name="VerticalScrollBar" Grid.Column="1" IsTabStop="False" Maximum="{TemplateBinding ScrollableHeight}" Minimum="0" Orientation="Vertical" Grid.Row="0" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{TemplateBinding VerticalOffset}" ViewportSize="{TemplateBinding ViewportHeight}" Style="{StaticResource ScrollBarStyle}"/>
+                <ScrollBar x:Name="HorizontalScrollBar" Grid.Column="0" IsTabStop="False" Maximum="{TemplateBinding ScrollableWidth}" Minimum="0" Orientation="Horizontal" Grid.Row="1" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Value="{TemplateBinding HorizontalOffset}" ViewportSize="{TemplateBinding ViewportWidth}" Style="{StaticResource ScrollBarStyle}"/>
+              </Grid>
+            </Border>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+  <!-- ******************************************************** SL-WPF SHARED RESOURCES ***********************************************************
+    ***********************************************************************************************************************************************************************    -->
+    <!-- *********************************  EventTitle Style  ********************************* -->
+    <Style x:Key="EventTitleStyle" TargetType="local:EventTitle">
+      <Setter Property="FontFamily" Value="Segoe UI"/>
+      <Setter Property="FontSize" Value="14.667"/>
+      <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+      <Setter Property="Background" Value="{StaticResource EventTitleBackgroundBrush}"/>
+      <Setter Property="BorderBrush" Value="{StaticResource EventTitleBorderBrush}"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="Padding" Value="8"/>
+      <Setter Property="MaxWidth" Value="180"/>
+      <Setter Property="MinWidth" Value="30"/>
+      <Setter Property="MinHeight" Value="30"/>
+      <Setter Property="IsTabStop" Value="False"/>
+      <Setter Property="PointStringFormat" Value="[{0}]"/>
+      <Setter Property="SpanStringFormat" Value="[{0}-{1}]"/>
+    </Style>
+
+  <!-- ********************************** EventTitleTop Style **********************************--> 
+    <Style x:Key="EventTitleTopStyle"  TargetType="local:EventTitle" BasedOn="{StaticResource EventTitleStyle}">
+      <Setter Property="LineStyle">
+        <Setter.Value>
+          <Style TargetType="Line">
+            <Setter Property="StrokeThickness" Value="1" />
+            <Setter Property="Stroke" Value="{StaticResource EventTitleTopLineBorderBrush}" />
+            <Setter Property="Canvas.ZIndex" Value="-1" />
+            <Setter Property="Margin" Value="0,3,0,0" />
+          </Style>
+        </Setter.Value>
+      </Setter>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:EventTitle">
+            <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}">
+              <Grid Margin="{TemplateBinding Padding}">
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="{TemplateBinding Title}" TextWrapping="Wrap" Grid.Row="1"/>
+                <TextBlock Text="{TemplateBinding FormattedText}" TextWrapping="Wrap" FontSize="13.333"/>
+              </Grid>
+            </Border>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+  <!-- ********************************** EventTitleBottom Style **********************************-->
+    <Style x:Key="EventTitleBottomStyle"  TargetType="local:EventTitle" BasedOn="{StaticResource EventTitleStyle}">
+      <Setter Property="LineStyle">
+        <Setter.Value>
+          <Style TargetType="Line">
+            <Setter Property="StrokeThickness" Value="1" />
+            <Setter Property="Stroke" Value="{StaticResource EventTitleBottomLineBorderBrush}" />
+            <Setter Property="Canvas.ZIndex" Value="-1" />
+            <Setter Property="Margin" Value="0,0,0,3" />
+          </Style>
+        </Setter.Value>
+      </Setter>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:EventTitle">
+            <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}">
+              <Grid Margin="{TemplateBinding Padding}">
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="*" />
+                  <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="{TemplateBinding FormattedText}" TextWrapping="Wrap" FontSize="13.333"/>
+                <TextBlock Text="{TemplateBinding Title}" TextWrapping="Wrap" Grid.Row="1"/>
+              </Grid>
+            </Border>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:EventTitle" BasedOn="{StaticResource EventTitleStyle}"/>
+
+    <!-- *********************************  EventDetails Style  ********************************* -->
+    <Style x:Key="EventDetailsStyle" TargetType="local:EventDetails">
+      <Setter Property="FontFamily" Value="Segoe UI"/>
+      <Setter Property="FontSize" Value="14.667"/>
+      <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+      <Setter Property="Background" Value="{StaticResource EventDetailsBackgroundBrush}"/>
+      <Setter Property="BorderBrush" Value="{StaticResource EventDetailsBorderBrush}"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="Padding" Value="6,4"/>
+      <Setter Property="MinWidth" Value="30"/>
+      <Setter Property="MinHeight" Value="30"/>
+      <Setter Property="HorizontalAlignment" Value="Stretch"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:EventDetails">
+            <Grid VerticalAlignment="{TemplateBinding VerticalAlignment}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}">
+              <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Style="{StaticResource EventDetailsScrollViewerStyle}" IsTabStop="False">
+                  <TextBlock Text="{TemplateBinding Details}" Foreground="{TemplateBinding Foreground}" TextWrapping="Wrap"/>
+                </ScrollViewer>
+              </Border>
+            </Grid>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:EventDetails" BasedOn="{StaticResource EventDetailsStyle}"/>
+
+    <!-- *********************************  EventPoint Style  ********************************* -->
+    <Style x:Key="EventPointStyle" TargetType="local:EventPoint">
+      <Setter Property="MinWidth" Value="30"/>
+      <Setter Property="MinHeight" Value="30"/>
+      <Setter Property="Fill" Value="{StaticResource EventPointBackgroundBrush}"/>
+      <Setter Property="HollowFill" Value="{StaticResource EventPointHollowFillBackgroundBrush}"/>
+      <Setter Property="Stroke" Value="{StaticResource EventPointBorderBrush}"/>
+      <Setter Property="IsTabStop" Value="False"/>
+      <Setter Property="Cursor" Value="Hand"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:EventPoint">
+            <Grid>
+              <Rectangle Fill="{StaticResource TransparentBrush}" Margin="-5"/>
+              <Ellipse Fill="{TemplateBinding Fill}" Stroke="{TemplateBinding Stroke}" StrokeThickness="0" Height="16" Width="16"/>
+            </Grid>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:EventPoint" BasedOn="{StaticResource EventPointStyle}"/>
+
+    <!-- *********************************  EventSpan Style  ********************************* -->
+    <Style x:Key="EventSpanStyle" TargetType="local:EventSpan">
+      <Setter Property="MinHeight" Value="40"/>
+      <Setter Property="Stroke" Value="{StaticResource EventSpanBorderBrush}"/>
+      <Setter Property="Fill" Value="{StaticResource EventSpanBackgroundBrush}"/>
+      <Setter Property="HollowFill" Value="{StaticResource EventSpanHollowFillBackgroundBrush}"/>
+      <Setter Property="Cursor" Value="Hand"/>
+      <Setter Property="IsTabStop" Value="False"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:EventSpan">
+            <Grid Margin="0,2,0,2">
+              <Rectangle Fill="{StaticResource TransparentBrush}" Margin="-5"/>
+              <Rectangle Fill="{TemplateBinding Fill}" Stroke="{TemplateBinding Stroke}" StrokeThickness="0" Height="12" VerticalAlignment="{TemplateBinding VerticalAlignment}"/>
+            </Grid>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+  <Style TargetType="local:EventSpan" BasedOn="{StaticResource EventSpanStyle}"/>
+
+  <!-- ********************************** EventSpanTop Style **********************************-->
+    <Style x:Key="EventSpanTopStyle" TargetType="local:EventSpan" BasedOn="{StaticResource EventSpanStyle}">
+      <Setter Property="VerticalAlignment" Value="Top" />
+      <Setter Property="MinHeight" Value="30"/>
+    </Style>
+  <!-- ********************************** EventSpanBottom Style **********************************-->
+    <Style x:Key="EventSpanBottomStyle" TargetType="local:EventSpan" BasedOn="{StaticResource EventSpanStyle}">
+      <Setter Property="VerticalAlignment" Value="Bottom" />
+      <Setter Property="MinHeight" Value="30"/>
+    </Style>
+
+
+    <!-- *********************************  MessageControl Style  ********************************* -->
+    <Style TargetType="local:MessageControl" x:Key="MessageControlStyle">
+      <Setter Property="FontFamily" Value="Segoe UI"/>
+      <Setter Property="FontSize" Value="14.667"/>
+      <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+      <Setter Property="Background" Value="{StaticResource MessageControlBackgroundBrush}"/>
+      <Setter Property="Padding" Value="6,4"/>
+      <Setter Property="MinWidth" Value="30"/>
+      <Setter Property="MinHeight" Value="30"/>
+      <Setter Property="IsTabStop" Value="False"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:MessageControl">
+            <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" >
+              <TextBlock Text="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{TemplateBinding Foreground}" TextWrapping="Wrap" Margin="{TemplateBinding Padding}"/>
+            </Border>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:MessageControl" BasedOn="{StaticResource MessageControlStyle}" />
+
+    <!-- *********************************  Timeline Style  ********************************* -->
+    <Style TargetType="local:XamTimeline" x:Key="XamTimelineStyle">
+      <Setter Property="Background" Value="{StaticResource TransparentBrush}"/>
+      <Setter Property="BorderBrush" Value="{StaticResource TransparentBrush}"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="Padding" Value="5"/>
+      <Setter Property="MinWidth" Value="120"/>
+      <Setter Property="MinHeight" Value="100"/>
+      <Setter Property="EventTitleTopStyle" Value="{StaticResource EventTitleTopStyle}" />
+      <Setter Property="EventTitleBottomStyle" Value="{StaticResource EventTitleBottomStyle}" />
+      <Setter Property="EventPointStyle" Value="{StaticResource EventPointStyle}" />
+      <Setter Property="EventDetailsTopStyle">
+          <Setter.Value>
+              <Style TargetType="local:EventDetails">
+                    <Setter Property="FontFamily" Value="Segoe UI"/>
+                    <Setter Property="FontSize" Value="14.667"/>
+                    <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+                    <Setter Property="Background" Value="{StaticResource EventDetailsBackgroundBrush}"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource EventDetailsBorderBrush}"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="Padding" Value="6,4"/>
+                    <Setter Property="MinWidth" Value="30"/>
+                    <Setter Property="MinHeight" Value="30"/>
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="local:EventDetails">
+                                <Grid VerticalAlignment="Bottom" HorizontalAlignment="Left">
+                                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                                        <ScrollViewer VerticalScrollBarVisibility="Auto" Style="{StaticResource EventDetailsScrollViewerStyle}" IsTabStop="False">
+                                            <TextBlock Text="{TemplateBinding Details}" Foreground="{TemplateBinding Foreground}" TextWrapping="Wrap"/>
+                                        </ScrollViewer>
+                                    </Border>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="EventDetailsBottomStyle">
+            <Setter.Value>
+                <Style TargetType="local:EventDetails">
+                  <Setter Property="FontFamily" Value="Segoe UI"/>
+                  <Setter Property="FontSize" Value="14.667"/>
+                  <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+                  <Setter Property="Background" Value="{StaticResource EventDetailsBackgroundBrush}"/>
+                  <Setter Property="BorderBrush" Value="{StaticResource EventDetailsBorderBrush}"/>
+                  <Setter Property="BorderThickness" Value="1"/>
+                  <Setter Property="Padding" Value="6,4"/>
+                    <Setter Property="MinWidth" Value="30"/>
+                    <Setter Property="MinHeight" Value="30"/>
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="local:EventDetails">
+                                <Grid VerticalAlignment="Top" HorizontalAlignment="Left">
+                                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                                        <ScrollViewer VerticalScrollBarVisibility="Auto" Style="{StaticResource EventDetailsScrollViewerStyle}" IsTabStop="False">
+                                            <TextBlock Text="{TemplateBinding Details}" Foreground="{TemplateBinding Foreground}" TextWrapping="Wrap"/>
+                                        </ScrollViewer>
+                                    </Border>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+      <Setter Property="EventSpanTopStyle" Value="{StaticResource EventSpanTopStyle}" />
+      <Setter Property="EventSpanBottomStyle" Value="{StaticResource EventSpanBottomStyle}" />
+      <Setter Property="MessageControlStyle" Value="{StaticResource MessageControlStyle}" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:XamTimeline">
+            <Grid>
+              <Grid>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto"/>
+                  <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <local:Title Content="{TemplateBinding Title}" Style="{TemplateBinding TitleStyle}"/>
+                <!-- Use a nested Grid to avoid possible clipping behavior resulting from ColumnSpan+Width=Auto -->
+                <Grid Grid.Row="1">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                  </Grid.ColumnDefinitions>
+                  <local:TimelineLegend x:Name="LegendElement" Title="{TemplateBinding LegendTitle}" Grid.Column="1" Margin="10,0,0,0"/>
+                  <Grid>
+                    <Grid.RowDefinitions>
+                      <RowDefinition Height="*"/>
+                      <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid>
+                      <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" >
+                        <Grid>
+                          <local:Scene x:Name="SceneElement" Foreground="{TemplateBinding Foreground}" Style="{TemplateBinding SceneStyle}" Grid.Column="0" Margin="5"/>
+                          <Canvas x:Name="DetailsPaneElement"/>
+                        </Grid>
+                      </Border>
+                    </Grid>
+                    <Grid x:Name="ZoombarPanelElement" Height="70" Grid.Row="1"/>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <local:MessageControl x:Name="MessageControlElement" Style="{TemplateBinding MessageControlStyle}"/>
+            </Grid>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:XamTimeline" BasedOn="{StaticResource XamTimelineStyle}" />
+
+    <!-- *********************************  Scene Style  ********************************* -->
+    <Style TargetType="local:Scene" x:Key="SceneStyle">
+      <Setter Property="IsTabStop" Value="False"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:Scene">
+            <Grid>
+              <local:StripesPanel x:Name="StripesPanelElement"/>
+              <local:GridLinesPanel x:Name="GridLinesPanelElement"/>
+              <Grid Style="{TemplateBinding SceneGridStyle}">
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="*"/>
+                  <RowDefinition Height="Auto"/>
+                  <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <local:EventTitlesPanel x:Name="TitlesPanelTopOrLeftElement" Position="TopOrLeft"/>
+                <Grid x:Name="AxisPaneElement" Grid.Row="1"/>
+                <local:EventTitlesPanel x:Name="TitlesPanelBottomOrRightElement" Position="BottomOrRight" Grid.Row="2"/>
+              </Grid>
+            </Grid>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:Scene" BasedOn="{StaticResource SceneStyle}" />
+
+    <!-- *********************************  TimelineAxis Style  ********************************* -->
+    <Style x:Key="TimelineAxisStyle" TargetType="local:TimelineAxis">
+      <Setter Property="IsTabStop" Value="False"/>
+      <Setter Property="MajorTickMarkStyle">
+        <Setter.Value>
+          <Style TargetType="local:Mark">
+            <Setter Property="Width" Value="2"/>
+            <Setter Property="Height" Value="12"/>
+            <Setter Property="Fill" Value="{StaticResource TimelineAxisMajorTickMarkBackgroundBrush}"/>
+            <Setter Property="Stroke" Value="{StaticResource TimelineAxisMajorTickMarkBorderBrush}"/>
+          </Style>
+        </Setter.Value>
+      </Setter>
+      <Setter Property="MinorTickMarkStyle">
+        <Setter.Value>
+          <Style TargetType="local:Mark">
+            <Setter Property="Width" Value="2"/>
+            <Setter Property="Height" Value="12"/>
+            <Setter Property="Fill" Value="{StaticResource TimelineAxisMinorTickMarkBackgroundBrush}"/>
+            <Setter Property="Stroke" Value="{StaticResource TimelineAxisMinorTickMarkBorderBrush}"/>
+          </Style>
+        </Setter.Value>
+      </Setter>
+      <Setter Property="MajorGridLineStyle">
+        <Setter.Value>
+          <Style TargetType="local:Mark">
+            <Setter Property="Width" Value="1"/>
+            <Setter Property="Fill" Value="{StaticResource TimelineAxisMajorGridBackgroundBrush}"/>
+            <Setter Property="Stroke" Value="{StaticResource TimelineAxisMajorGridBorderBrush}"/>
+          </Style>
+        </Setter.Value>
+      </Setter>
+      <Setter Property="MinorGridLineStyle">
+        <Setter.Value>
+          <Style TargetType="local:Mark">
+            <Setter Property="Width" Value="0.5"/>
+            <Setter Property="Fill" Value="{StaticResource TimelineAxisMinorGridBackgroundBrush}"/>
+            <Setter Property="Stroke" Value="{StaticResource TimelineAxisMinorGridBorderBrush}"/>
+          </Style>
+        </Setter.Value>
+      </Setter>
+      <Setter Property="PaneStyle">
+        <Setter.Value>
+          <Style TargetType="local:Mark">
+            <Setter Property="Fill" Value="{StaticResource TimelineAxisPaneBackgroundBrush}"/>
+            <Setter Property="Stroke" Value="{StaticResource TimelineAxisPaneBorderBrush}"/>
+            <Setter Property="Height" Value="5"/>
+            <Setter Property="Template">
+              <Setter.Value>
+                <ControlTemplate TargetType="local:Mark">
+                  <Rectangle Fill="{TemplateBinding Fill}" Stroke="{TemplateBinding Stroke}" />
+                </ControlTemplate>
+              </Setter.Value>
+            </Setter>
+          </Style>
+        </Setter.Value>
+      </Setter>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:TimelineAxis">
+            <Grid Background="{TemplateBinding Background}">
+              <local:AxisPane x:Name="AxisPaneElement"/>
+              <Canvas x:Name="ThumbCanvasElement"/>
+            </Grid>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <!--NumericTimeAxis-->
+    <Style TargetType="local:NumericTimeAxis" BasedOn="{StaticResource TimelineAxisStyle}"/>
+    <!--DateTimeAxis-->
+    <Style TargetType="local:DateTimeAxis" BasedOn="{StaticResource TimelineAxisStyle}"/>
+
+    <!-- *********************************  PreviewAxis Style  ********************************* -->
+    <Style TargetType="local:PreviewAxis" x:Key="PreviewAxisStyle">
+      <Setter Property="IsTabStop" Value="False"/>
+      <Setter Property="IsHitTestVisible" Value="False"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:PreviewAxis">
+            <Grid Background="{TemplateBinding Background}">
+              <local:AxisPane x:Name="AxisPaneElement"/>
+            </Grid>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:PreviewAxis" BasedOn="{StaticResource PreviewAxisStyle}" />
+
+    <!-- *********************************  AxisPane Style  ********************************* -->
+    <Style TargetType="local:AxisPane" x:Key="AxisPaneStyle">
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:AxisPane">
+            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+              <Grid>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto"/>
+                  <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <local:TickMarksPanel x:Name="TickMarksPanelElement" VerticalAlignment="Center"/>
+                <local:Mark x:Name="PaneElement" VerticalAlignment="Center"/>
+                <local:AxisEventsPanel x:Name="AxisEventsPanelElement" Height="40" VerticalAlignment="Center"/>
+                <local:LabelsPanel x:Name="LabelsPanelElement" Grid.Row="1"/>
+              </Grid>
+            </Border>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:AxisPane" BasedOn="{StaticResource AxisPaneStyle}" />
+
+    <!-- *********************************  AxisThumb Style  ********************************* -->
+    <Style TargetType="local:AxisThumb" x:Key="AxisThumbStyle">
+      <Setter Property="Background" Value="{StaticResource AxisThumbBackgroundBrush}"/>
+      <Setter Property="BorderBrush" Value="{StaticResource AxisThumbBorderBrush}"/>
+      <Setter Property="Width" Value="25"/>
+      <Setter Property="Height" Value="25"/>
+      <Setter Property="Canvas.ZIndex" Value="1"/>
+      <Setter Property="Cursor" Value="Hand"/>
+      <Setter Property="IsTabStop" Value="False"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:AxisThumb">
+            <Grid>
+              <Rectangle Fill="{StaticResource TransparentBrush}" Margin="-5"/>
+              <Rectangle Stroke="{TemplateBinding BorderBrush}" Fill="{TemplateBinding Background}" />
+              <StackPanel Orientation="Horizontal" Height="11" Width="9" HorizontalAlignment="Center" >
+                <Border Width="3" Background="{StaticResource LightForegroundBrush}" Margin="0 0 3 0"/>
+                <Border Width="3" Background="{StaticResource LightForegroundBrush}" />
+              </StackPanel>
+            </Grid>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:AxisThumb" BasedOn="{StaticResource AxisThumbStyle}" />
+
+    <!-- *********************************  AxisLabel Style  ********************************* -->
+    <Style TargetType="local:AxisLabel" x:Key="AxisLabelStyle">
+      <Setter Property="IsTabStop" Value="False"/>
+      <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+      <Setter Property="FontFamily" Value="Segoe UI" />
+      <Setter Property="FontSize" Value="13.333" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:AxisLabel">
+            <TextBlock Foreground="{TemplateBinding Foreground}" x:Name="TextBlockElement" Text="{TemplateBinding FormattedText}"/>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:AxisLabel" BasedOn="{StaticResource AxisLabelStyle}" />
+
+    <!-- *********************************  Title Style  ********************************* -->
+    <Style TargetType="local:Title" x:Key="TitleStyle">
+      <Setter Property="FontFamily" Value="Segoe UI"/>
+      <Setter Property="FontSize" Value="14.667"/>
+      <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+      <Setter Property="Padding" Value="6,4"/>
+      <Setter Property="HorizontalContentAlignment" Value="Left"/>
+      <Setter Property="VerticalContentAlignment" Value="Top"/>
+      <Setter Property="IsTabStop" Value="False"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:Title">
+            <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" Cursor="{TemplateBinding Cursor}" Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:Title" BasedOn="{StaticResource TitleStyle}" />
+
+    <!-- *********************************  TimelineLegend Style  ********************************* -->
+    <Style TargetType="local:TimelineLegend" x:Key="TimelineLegendStyle">
+      <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+      <Setter Property="Background" Value="{StaticResource LegendBackgroundBrush}"/>
+      <Setter Property="BorderBrush" Value="{StaticResource LegendBorderBrush}"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="Padding" Value="0"/>
+      <Setter Property="VerticalAlignment" Value="Top"/>
+      <Setter Property="IsTabStop" Value="False"/>
+      <Setter Property="TitleStyle">
+        <Setter.Value>
+          <Style TargetType="local:Title">
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="14.667" />
+            <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+            <Setter Property="Margin" Value="0,5,0,10"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+          </Style>
+        </Setter.Value>
+      </Setter>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:TimelineLegend">
+            <Grid VerticalAlignment="{TemplateBinding VerticalAlignment}">
+              <Rectangle Stroke="{TemplateBinding BorderBrush}" Margin="0" Fill="{TemplateBinding Background}"/>
+              <Grid Margin="{TemplateBinding Padding}">
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto"/>
+                  <RowDefinition/>
+                </Grid.RowDefinitions>
+                <local:Title Content="{TemplateBinding Title}" Style="{TemplateBinding TitleStyle}"/>
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" IsTabStop="False" Style="{StaticResource EventDetailsScrollViewerStyle}">
+                  <StackPanel Grid.Column="1" x:Name="LegendItemsArea"/>
+                </ScrollViewer>
+              </Grid>
+            </Grid>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:TimelineLegend" BasedOn="{StaticResource TimelineLegendStyle}" />
+
+    <!-- *********************************  LegendItem Style  ********************************* -->
+    <Style TargetType="local:LegendItem" x:Key="LegendItemStyle">
+      <Setter Property="FontFamily" Value="Segoe UI" />
+      <Setter Property="FontSize" Value="14.667" />
+      <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+      <Setter Property="Fill" Value="{StaticResource LegendItemBackgroundBrush}"/>
+      <Setter Property="Stroke" Value="{StaticResource LegendItemBorderBrush}"/>
+      <Setter Property="IsTabStop" Value="False"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:LegendItem">
+            <StackPanel Orientation="Horizontal" Margin="0 0 0 8">
+              <Rectangle Stroke="{TemplateBinding Stroke}" Fill="{TemplateBinding Fill}" StrokeThickness="0" Width="12" Height="12" VerticalAlignment="Center"/>
+              <local:Title Content="{TemplateBinding Content}" Margin="10,0,0,0" Foreground="{TemplateBinding Foreground}" VerticalAlignment="Center"/>
+            </StackPanel>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:LegendItem" BasedOn="{StaticResource LegendItemStyle}" />
+
+    <!-- *********************************  Mark Style  ********************************* -->
+    <Style TargetType="local:Mark" x:Key="MarkStyle">
+      <Setter Property="Fill" Value="{StaticResource MarkBackgroundBrush}"/>
+      <Setter Property="Stroke" Value="{StaticResource MarkBorderBrush}"/>
+      <Setter Property="IsTabStop" Value="False"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:Mark">
+            <Rectangle Fill="{TemplateBinding Fill}" Stroke="{TemplateBinding Stroke}"/>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:Mark" BasedOn="{StaticResource MarkStyle}" />
+
+    <!-- *********************************  Stripe Style  ********************************* -->
+    <Style TargetType="local:Stripe" x:Key="StripeStyle">
+      <Setter Property="IsTabStop" Value="False"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:Stripe">
+            <Rectangle Fill="{TemplateBinding Fill}" Stroke="{TemplateBinding Stroke}" StrokeThickness="{TemplateBinding StrokeThickness}"/>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:Stripe" BasedOn="{StaticResource StripeStyle}" />
+</ResourceDictionary>

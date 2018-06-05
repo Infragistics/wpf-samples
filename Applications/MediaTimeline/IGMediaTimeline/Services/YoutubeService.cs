@@ -102,8 +102,12 @@ namespace MediaTimeline.Services
                     var statistics = (RootStatsObject)serializer.ReadObject(stream);
                     for (int i = 0; i < statistics.items.Count; i++)
                     {
+                        var viewCount = 0;
+                        if (statistics.items[i].statistics.viewCount != null)
+                            viewCount = int.Parse(statistics.items[i].statistics.viewCount);
+
                         var video = videos.Where(x => x.Id == statistics.items[i].id).FirstOrDefault();
-                        video.ViewsCount = int.Parse(statistics.items[i].statistics.viewCount);
+                        video.ViewsCount = viewCount;
                     }
 
                     numResultsLoaded += processedData.items.Count;

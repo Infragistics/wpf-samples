@@ -1,0 +1,55 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:local="clr-namespace:IGExtensions.Common.Controls" 
+    xmlns:resources="clr-namespace:IGExtensions.Common.Assets.Resources" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/IGExtensions.Common;component/Assets/Styles/CommonBrushes.xaml" />
+        <ResourceDictionary Source="/IGExtensions.Common;component/Assets/Styles/GlobalStyles.xaml" />
+        <!--<ResourceDictionary Source="/IGExtensions.Common;component/IG.ControlsStyles.xaml" />-->
+    </ResourceDictionary.MergedDictionaries>
+    
+    <resources:ColorWashEditorStrings x:Key="Strings" />
+
+    <Style TargetType="local:ColorWashEditorPanel" x:Key="ColorWashEditorPanelStyle">
+    	<Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="White" />
+        <Setter Property="Width" Value="auto" />
+        <Setter Property="Height" Value="auto" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:ColorWashEditorPanel">
+                    <Grid x:Name="ControlRoot" Background="{TemplateBinding Background}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+                        <!--WashModeSelector-->
+                        <StackPanel Orientation="Vertical" Grid.Row="0">
+                            <TextBlock Visibility="Collapsed" Text="{Binding Path=WashModeSelector, Source={StaticResource Strings}}" Margin="2,12,2,2" HorizontalAlignment="Stretch" TextAlignment="Center" FontFamily="Segoe UI" FontSize="14.667" />
+                                <!--TODO: VD add ComboBox (dark) style that matches with the rest of this ColorWashEditorPanel-->
+                            <!--Style="{StaticResource IGComboBoxStyle}" ItemContainerStyle="{StaticResource IGComboBoxItemStyle}"-->
+                            <ComboBox Visibility="Collapsed" x:Name="WashModeSelector" SelectedIndex="0" Margin="12" VerticalAlignment="Center" HorizontalAlignment="Stretch" >
+                                    <ComboBoxItem Content="SoftLightBlend"/>
+                                    <ComboBoxItem Content="HueSaturationReplacement"/>
+                                    </ComboBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical" Grid.Row="1" >
+                            <TextBlock Visibility="Collapsed" Text="{Binding Path=WashColorSelector, Source={StaticResource Strings}}" Margin="2,12,2,2" HorizontalAlignment="Stretch" TextAlignment="Center" FontFamily="Segoe UI" FontSize="14.667" />
+                                <!--WashColorSelector-->
+                            <local:ColorPicker  x:Name="WashColorSelector" Background="{x:Null}" BorderBrush="{x:Null}"
+                                                HorizontalAlignment="Center"
+                                                ColorOpacitySliderVisibility="Collapsed"/>
+                        </StackPanel>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+      
+    <Style TargetType="local:ColorWashEditorPanel" BasedOn="{StaticResource ColorWashEditorPanelStyle}"/>
+  
+</ResourceDictionary>

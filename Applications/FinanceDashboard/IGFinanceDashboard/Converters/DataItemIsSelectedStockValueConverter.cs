@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows.Data;
-using IGShowcase.FinanceDashboard.ViewModels;
+using IGShowcase.FinanceDashboard;
 
-namespace IGShowcase.FinanceDashboard.Converters
+namespace IGShowcase.FinanceDashboard
 {
 	public class DataItemIsSelectedStockValueConverter : IValueConverter
 	{
@@ -18,7 +18,7 @@ namespace IGShowcase.FinanceDashboard.Converters
 		/// </returns>
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			var sivm = value as StockInfoViewModel;
+			var sivm = value as StockTradeData;
 
 			if (sivm == null) return false;
 			if (sivm.Parent == null) return false;

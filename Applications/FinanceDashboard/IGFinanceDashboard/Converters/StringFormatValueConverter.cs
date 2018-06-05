@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Data;
 
-namespace IGShowcase.FinanceDashboard.Converters
+namespace IGShowcase.FinanceDashboard
 {
     public class StringFormatValueConverter : IValueConverter
     {

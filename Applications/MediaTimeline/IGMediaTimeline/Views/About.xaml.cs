@@ -13,11 +13,6 @@ namespace MediaTimeline.Views
         public About()
         {
             InitializeComponent();
-#if SILVERLIGHT
-            var htmlViewer = new NavigationSampleLink { Component =  InfragisticsComponents.HtmlViewer};
-            htmlViewer.Foreground = App.Current.Resources["ForegroundDark"] as Brush;
-            ComponentListPanel.Children.Add(htmlViewer);
-#endif
         }
 
         public Size GetDesiredSize()

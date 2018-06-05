@@ -5,18 +5,15 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
-using System.Windows.Threading;
-using IGExtensions.Common.Maps;
+using System.Windows.Threading; 
 using IGExtensions.Common.Maps.Imagery;
-using IGExtensions.Common.Models;
-using IGExtensions.Common.Services;
+using IGExtensions.Common.Models; 
 using IGExtensions.Framework.Extensions;
+using IGExtensions.Framework.Controls; // provides NavigationPage
 using IGShowcase.EarthQuake.ViewModels;
-using IGExtensions.Framework.Controls;
 using Infragistics.Controls.Charts;
 using Infragistics.Controls.Editors;
-using Infragistics.Controls.Maps;
-using BingMapsImageryStyle = IGExtensions.Common.Maps.Imagery.BingMapsImageryStyle;
+using Infragistics.Controls.Maps; 
 
 namespace IGShowcase.EarthQuake.Views
 {
@@ -130,13 +127,8 @@ namespace IGShowcase.EarthQuake.Views
         
         private void OnImageryInitialized(object sender, EventArgs e)
         {
-
-#if SILVERLIGHT
-            Dispatcher.BeginInvoke(() => UpdateBingMaps(sender));
-#else // if WPF
-            Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background,
+            Dispatcher.BeginInvoke(DispatcherPriority.Background,
                (Action)(() => UpdateBingMaps(sender)));
-#endif
         }
         private void UpdateBingMaps(object sender)
         {

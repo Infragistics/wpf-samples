@@ -1,0 +1,152 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:igSchedulePrim="http://schemas.infragistics.com/xaml/primitives"
+	xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <!-- *********************************  RESOURCES  ********************************* -->
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Theme.Colors.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+      
+    <!-- ========================== -->
+    <!--           Brushes          -->
+    <!-- ========================== -->
+    <SolidColorBrush x:Key="QuestionMarkBackgroundBrush" Color="{StaticResource Color_004}"/>
+	<SolidColorBrush x:Key="IconsBackgroundBrush" Color="{StaticResource Color_004}"/>
+    <SolidColorBrush x:Key="AutomaticTaskBorderBrush" Color="{StaticResource Color_016}"/>
+    <SolidColorBrush x:Key="AutomaticTaskBackgroundBrush" Color="{StaticResource Color_004}"/>
+	<SolidColorBrush x:Key="ManualMilestoneTaskBackgroundBrush" Color="{StaticResource Color_004}"/>
+    <SolidColorBrush x:Key="ManualMilestoneTaskBorderBrush" Color="{StaticResource Color_016}"/>
+    <SolidColorBrush x:Key="InactiveAutomaticTaskBorderBrush" Color="{StaticResource Color_016}"/>
+    <SolidColorBrush x:Key="InactiveAutomaticTaskBackgroundBrush" Color="{StaticResource Color_005}" Opacity="0.7"/>
+    <SolidColorBrush x:Key="InactiveManualMilestoneTaskBackgroundBrush" Color="{StaticResource Color_005}" Opacity="0.7"/>
+    <SolidColorBrush x:Key="InactiveManualMilestoneTaskBorderBrush" Color="{StaticResource Color_016}"/>
+
+    <!-- ======================== -->
+    <!--     ResourceStrings      -->
+    <!-- ======================== -->
+    <igSchedulePrim:GanttResourceString x:Key="taskModeAuto" ResourceName="ProjectTaskMode_Automatic" />
+    <igSchedulePrim:GanttResourceString x:Key="taskModeManual" ResourceName="ProjectTaskMode_Manual" />
+    <igSchedulePrim:GanttResourceString x:Key="tooltipManual" ResourceName="ProjectTaskModeToolTip_Manual" />
+    <igSchedulePrim:GanttResourceString x:Key="tooltipManualPlaceholder" ResourceName="ProjectTaskModeToolTip_ManualPlaceholder" />
+    <igSchedulePrim:GanttResourceString x:Key="tooltipAuto" ResourceName="ProjectTaskModeToolTip_Auto" />
+
+
+    <!-- ======================== -->
+    <!--     ValueConverters      -->
+    <!-- ======================== -->
+    <igPrim:BoolToVisibilityConverter x:Key="boolToVisibility" />
+    <igPrim:ValueConverterGroup x:Key="notBoolToVisibility">
+        <!-- when true then collapse the item, otherwise leave it visible -->
+        <igPrim:FixedValueConverter>
+            <igPrim:FixedValueConverter.SourceValue>
+                <sys:Boolean>True</sys:Boolean>
+            </igPrim:FixedValueConverter.SourceValue>
+            <igPrim:FixedValueConverter.DestinationValue>
+                <Visibility>Collapsed</Visibility>
+            </igPrim:FixedValueConverter.DestinationValue>
+        </igPrim:FixedValueConverter>
+    </igPrim:ValueConverterGroup>
+
+    <!-- ========================== -->
+    <!--         Icon Images        -->
+    <!-- ========================== -->
+    <DataTemplate x:Key="ManuallyScheduledImage">
+        <Grid Width="16" Height="16">
+            <Path Width="13.917" Height="13.834" HorizontalAlignment="Right" VerticalAlignment="Top" Data="M5.4580078,0 L12.458008,7 L8.9567661,7 L8.9699965,7.0164671 L6.3750315,9.6115532 L6.3750315,13.83329 L4.8353086,13.83329 L-1.4582916,7.5396891 L-1.4582916,5.9999681 L2.9597096,5.9999681 L5.4580078,3.501554 z" Fill="{StaticResource ManualMilestoneTaskBackgroundBrush}" Stretch="Fill" Stroke="{StaticResource ManualMilestoneTaskBorderBrush}" UseLayoutRounding="False"/>
+            <Path Width="5" Height="5" HorizontalAlignment="Left" VerticalAlignment="Bottom" Data="M2.9999416,1.000062 L4.9999447,1.000062 L4.9999447,3.0000629 L1,6 L0,6 L0,5 z" Fill="{StaticResource ManualMilestoneTaskBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+        </Grid>
+    </DataTemplate>
+    <DataTemplate x:Key="ManuallyScheduledPlaceholderImage">
+        <Grid Width="16" Height="16">
+        	<Path Width="13.917" Height="13.834" HorizontalAlignment="Right" VerticalAlignment="Top" Data="M5.4580078,0 L12.458008,7 L8.9567661,7 L8.9699965,7.0164671 L6.3750315,9.6115532 L6.3750315,13.83329 L4.8353086,13.83329 L-1.4582916,7.5396891 L-1.4582916,5.9999681 L2.9597096,5.9999681 L5.4580078,3.501554 z" Fill="{StaticResource ManualMilestoneTaskBackgroundBrush}" Stretch="Fill" Stroke="{StaticResource ManualMilestoneTaskBorderBrush}" UseLayoutRounding="False"/>
+        	<Path Width="5" Height="5" HorizontalAlignment="Left" VerticalAlignment="Bottom" Data="M2.9999416,1.000062 L4.9999447,1.000062 L4.9999447,3.0000629 L1,6 L0,6 L0,5 z" Fill="{StaticResource ManualMilestoneTaskBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+        	<Path Data="M1.4140625,7.6954165 L2.9921875,7.6954165 L2.9921875,8.7266665 L1.4140625,8.7266665 z M2.3984375,2.7891665 C3.0416665,2.7891665 3.552083,2.9312158 3.9296875,3.2153139 C4.3072915,3.4994125 4.4960938,3.870852 4.4960938,4.3296328 C4.4960938,4.5928574 4.4576821,4.8254724 4.3808594,5.0274782 C4.3040361,5.2294846 4.1953125,5.404767 4.0546875,5.5533266 C3.9140623,5.7019272 3.7454424,5.8348718 3.5488281,5.9521608 C3.3522134,6.0694504 3.1302083,6.1763124 2.8828125,6.272748 L2.8828125,7.1641665 L1.5078125,7.1641665 L1.5078125,5.8466005 C1.6927083,5.79704 1.860026,5.7461877 2.0097656,5.6940432 C2.1595051,5.6418991 2.3164063,5.5571518 2.4804688,5.4398012 C2.6341145,5.3354721 2.7545571,5.2142053 2.8417969,5.0760012 C2.9290364,4.9377975 2.9726563,4.7813339 2.9726563,4.6066103 C2.9726563,4.3458276 2.8886719,4.1600161 2.7207031,4.0491762 C2.5527344,3.9383364 2.3164063,3.8829165 2.0117188,3.8829165 C1.8242188,3.8829165 1.6126301,3.9232812 1.3769531,4.0040102 C1.141276,4.0847397 0.92578125,4.1889062 0.73046869,4.3165102 L0.57421881,4.3165102 L0.57421881,3.125104 C0.74088538,3.0547915 0.99739581,2.9812241 1.34375,2.9044008 C1.690104,2.8275781 2.0416665,2.7891665 2.3984375,2.7891665 z" HorizontalAlignment="Right" Height="5.938" RenderTransformOrigin="0.5,0.5" Stretch="Fill" UseLayoutRounding="False" VerticalAlignment="Bottom" Width="3.922" Fill="{StaticResource QuestionMarkBackgroundBrush}"/>
+        </Grid>
+    </DataTemplate>
+    <DataTemplate x:Key="AutoScheduledImage">
+        <Grid Width="16" Height="16">
+            <Rectangle Height="6" Margin="0,1,5,0" VerticalAlignment="Top" Fill="{StaticResource AutomaticTaskBackgroundBrush}" RadiusX="2" RadiusY="2" Stroke="{StaticResource AutomaticTaskBorderBrush}"/>
+            <Path Width="10" Height="9" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Bottom" Data="M4.0000048,0 L4.0005226,0.00038846888 L10.000005,4.5 L4.0005226,8.9996119 L4.0001631,9 L4.0000048,6 L0,6 L0,3 L4.0000048,3 z" Fill="{StaticResource IconsBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="InactiveManuallyScheduledImage">
+        <Grid Width="16" Height="16">
+            <Path Width="13.917" Height="13.834" HorizontalAlignment="Right" VerticalAlignment="Top" Data="M5.4580078,0 L12.458008,7 L8.9567661,7 L8.9699965,7.0164671 L6.3750315,9.6115532 L6.3750315,13.83329 L4.8353086,13.83329 L-1.4582916,7.5396891 L-1.4582916,5.9999681 L2.9597096,5.9999681 L5.4580078,3.501554 z" Fill="{StaticResource InactiveManualMilestoneTaskBackgroundBrush}" Stretch="Fill" Stroke="{StaticResource InactiveManualMilestoneTaskBorderBrush}" UseLayoutRounding="False"/>
+            <Path Width="5" Height="5" HorizontalAlignment="Left" VerticalAlignment="Bottom" Data="M2.9999416,1.000062 L4.9999447,1.000062 L4.9999447,3.0000629 L1,6 L0,6 L0,5 z" Fill="{StaticResource InactiveManualMilestoneTaskBackgroundBrush}"  Stretch="Fill" UseLayoutRounding="False"/>
+        </Grid>
+    </DataTemplate>
+    <DataTemplate x:Key="InactiveManuallyScheduledPlaceholderImage">
+        <Grid Width="16" Height="16">
+            <Path Width="13.917" Height="13.834" HorizontalAlignment="Right" VerticalAlignment="Top" Data="M5.4580078,0 L12.458008,7 L8.9567661,7 L8.9699965,7.0164671 L6.3750315,9.6115532 L6.3750315,13.83329 L4.8353086,13.83329 L-1.4582916,7.5396891 L-1.4582916,5.9999681 L2.9597096,5.9999681 L5.4580078,3.501554 z" Fill="{StaticResource InactiveManualMilestoneTaskBackgroundBrush}" Stretch="Fill" Stroke="{StaticResource InactiveManualMilestoneTaskBorderBrush}" UseLayoutRounding="False"/>
+            <Path Width="5" Height="5" HorizontalAlignment="Left" VerticalAlignment="Bottom" Data="M2.9999416,1.000062 L4.9999447,1.000062 L4.9999447,3.0000629 L1,6 L0,6 L0,5 z" Fill="{StaticResource InactiveManualMilestoneTaskBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+            <Path Data="M1.4140625,7.6954165 L2.9921875,7.6954165 L2.9921875,8.7266665 L1.4140625,8.7266665 z M2.3984375,2.7891665 C3.0416665,2.7891665 3.552083,2.9312158 3.9296875,3.2153139 C4.3072915,3.4994125 4.4960938,3.870852 4.4960938,4.3296328 C4.4960938,4.5928574 4.4576821,4.8254724 4.3808594,5.0274782 C4.3040361,5.2294846 4.1953125,5.404767 4.0546875,5.5533266 C3.9140623,5.7019272 3.7454424,5.8348718 3.5488281,5.9521608 C3.3522134,6.0694504 3.1302083,6.1763124 2.8828125,6.272748 L2.8828125,7.1641665 L1.5078125,7.1641665 L1.5078125,5.8466005 C1.6927083,5.79704 1.860026,5.7461877 2.0097656,5.6940432 C2.1595051,5.6418991 2.3164063,5.5571518 2.4804688,5.4398012 C2.6341145,5.3354721 2.7545571,5.2142053 2.8417969,5.0760012 C2.9290364,4.9377975 2.9726563,4.7813339 2.9726563,4.6066103 C2.9726563,4.3458276 2.8886719,4.1600161 2.7207031,4.0491762 C2.5527344,3.9383364 2.3164063,3.8829165 2.0117188,3.8829165 C1.8242188,3.8829165 1.6126301,3.9232812 1.3769531,4.0040102 C1.141276,4.0847397 0.92578125,4.1889062 0.73046869,4.3165102 L0.57421881,4.3165102 L0.57421881,3.125104 C0.74088538,3.0547915 0.99739581,2.9812241 1.34375,2.9044008 C1.690104,2.8275781 2.0416665,2.7891665 2.3984375,2.7891665 z" HorizontalAlignment="Right" Height="5.938" RenderTransformOrigin="0.5,0.5" Stretch="Fill" UseLayoutRounding="False" VerticalAlignment="Bottom" Width="3.922" Fill="{StaticResource InactiveManualMilestoneTaskBackgroundBrush}"/>
+        </Grid>
+    </DataTemplate>
+    <DataTemplate x:Key="InactiveAutoScheduledImage">
+        <Grid Width="16" Height="16">
+            <Rectangle Height="6" Margin="0,1,5,0" VerticalAlignment="Top" Fill="{StaticResource InactiveAutomaticTaskBackgroundBrush}" RadiusX="2" RadiusY="2" Stroke="{StaticResource InactiveAutomaticTaskBorderBrush}"/>
+            <Path Width="10" Height="9" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Bottom" Data="M4.0000048,0 L4.0005226,0.00038846888 L10.000005,4.5 L4.0005226,8.9996119 L4.0001631,9 L4.0000048,6 L0,6 L0,3 L4.0000048,3 z" Stroke="{StaticResource InactiveAutomaticTaskBorderBrush}" Fill="{StaticResource InactiveAutomaticTaskBackgroundBrush}" Stretch="Fill" UseLayoutRounding="False"/>
+        </Grid>
+    </DataTemplate>
+
+
+    <!-- ========================== -->
+    <!--     ResourceSet Values     -->
+    <!-- ========================== -->
+    <DataTemplate x:Key="DisplayManuallyScheduled">
+        <ContentPresenter ContentTemplate="{StaticResource ManuallyScheduledImage}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="DisplayManuallyScheduledPlaceholder">
+        <ContentPresenter ContentTemplate="{StaticResource ManuallyScheduledPlaceholderImage}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="DisplayAutomaticallyScheduled">
+        <ContentPresenter ContentTemplate="{StaticResource AutoScheduledImage}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="DisplayInactiveManuallyScheduled">
+        <ContentPresenter ContentTemplate="{StaticResource InactiveManuallyScheduledImage}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="DisplayInactiveManuallyScheduledPlaceholder">
+        <ContentPresenter ContentTemplate="{StaticResource InactiveManuallyScheduledPlaceholderImage}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="DisplayInactiveAutomaticallyScheduled">
+        <ContentPresenter ContentTemplate="{StaticResource InactiveAutoScheduledImage}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="EditManuallyScheduled">
+        <StackPanel Orientation="Horizontal">
+            <ContentPresenter ContentTemplate="{StaticResource ManuallyScheduledImage}" VerticalAlignment="Center"/>
+            <TextBlock Margin="5,0,0,0" Text="{Binding Source={StaticResource taskModeManual}, Path=Value}" VerticalAlignment="Center"/>
+        </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate x:Key="EditInactiveManuallyScheduled">
+        <StackPanel Orientation="Horizontal">
+            <ContentPresenter ContentTemplate="{StaticResource InactiveManuallyScheduledImage}" VerticalAlignment="Center"/>
+            <TextBlock Margin="5,0,0,0" Text="{Binding Source={StaticResource taskModeManual}, Path=Value}" VerticalAlignment="Center"/>
+        </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate x:Key="EditAutomaticallyScheduled">
+        <StackPanel Orientation="Horizontal">
+            <ContentPresenter ContentTemplate="{StaticResource AutoScheduledImage}" VerticalAlignment="Center" />
+            <TextBlock Margin="5,0,0,0" Text="{Binding Source={StaticResource taskModeAuto}, Path=Value}" VerticalAlignment="Center" />
+        </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate x:Key="EditInactiveAutomaticallyScheduled">
+        <StackPanel Orientation="Horizontal">
+            <ContentPresenter ContentTemplate="{StaticResource InactiveAutoScheduledImage}" VerticalAlignment="Center" />
+            <TextBlock Margin="5,0,0,0" Text="{Binding Source={StaticResource taskModeAuto}, Path=Value}" VerticalAlignment="Center" />
+        </StackPanel>
+    </DataTemplate>
+
+</ResourceDictionary>

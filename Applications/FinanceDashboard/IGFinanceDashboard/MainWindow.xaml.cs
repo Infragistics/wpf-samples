@@ -3,7 +3,7 @@ using System.Windows.Media;
 using System.Windows.Navigation;
 using IGExtensions.Common.Controls;
 using IGShowcase.FinanceDashboard.Resources;
-using IGShowcase.FinanceDashboard.Views;
+using IGShowcase.FinanceDashboard;
 using Infragistics.Controls.Interactions;
 
 namespace IGShowcase.FinanceDashboard
@@ -17,12 +17,7 @@ namespace IGShowcase.FinanceDashboard
         {
             InitializeComponent();
         }
-      
-        private void NavShareButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
+        
         private void NavAppInfoDialogButton_Click(object sender, RoutedEventArgs e)
         {
             var winInfo = new AboutView();
@@ -36,7 +31,6 @@ namespace IGShowcase.FinanceDashboard
                 ModalBackground = new SolidColorBrush(Colors.Black) { Opacity = 0.75},
                 IsResizable = false,
                 Header = AppStrings.AppView_About,
-                Style = Application.Current.Resources["AppDialogWindowStyle"] as Style
             };
             this.AppInfoContainer.Children.Add(win);
         }
@@ -47,7 +41,6 @@ namespace IGShowcase.FinanceDashboard
                 IsModal = true,
                 ModalBackground = new SolidColorBrush(Colors.Transparent),
                 StartupPosition = StartupPosition.Center,
-                Style = Application.Current.Resources["AppDialogWindowStyle"] as Style
             };
 
             this.AppWashContainer.Children.Add(win);
@@ -65,14 +58,6 @@ namespace IGShowcase.FinanceDashboard
                 this.ResourceWasher.WashResources();
             }
         }
-        private void ContentFrame_NavigationFailed(object sender, NavigationFailedEventArgs e)
-        {
-
-        }
-
-
-          
-         
-       
+        
     }
 }

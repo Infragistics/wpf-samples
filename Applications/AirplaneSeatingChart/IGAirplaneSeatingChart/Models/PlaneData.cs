@@ -138,9 +138,6 @@ namespace IGShowcase.AirplaneSeatingChart.Models
 		{
 		    var planeData = new PlaneData();
 
-#if SILVERLIGHT 
-            planeData = (PlaneData)(XamlReader.Load(Resources.PlaneData.Xaml));
-#else  // WPF
             using (var sr = new StringReader(Resources.PlaneData.Xaml))
             {
                 using (var xmlReader = XmlReader.Create(sr))
@@ -148,7 +145,7 @@ namespace IGShowcase.AirplaneSeatingChart.Models
                     planeData = (PlaneData)(XamlReader.Load(xmlReader));
                 }
             }
-#endif
+
             planeData.AddAllClass();
             planeData.PopulateCustomerSatisfaction();
             return planeData;

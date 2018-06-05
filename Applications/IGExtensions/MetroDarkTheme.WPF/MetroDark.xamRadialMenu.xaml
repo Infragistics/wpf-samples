@@ -1,0 +1,339 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+                    xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives" 
+                    xmlns:igLocal="http://schemas.infragistics.com/xaml" 
+                    xmlns:igLocalPrim="http://schemas.infragistics.com/xaml/primitives" 
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                    xmlns:PresentationOptions="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options" 
+                    mc:Ignorable="PresentationOptions d">
+
+  <!-- *********************************  RESOURCES  ********************************* -->
+  <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary Source="Theme.Colors.xaml" />
+    <ResourceDictionary Source="Styles.WPF.xaml" />
+  </ResourceDictionary.MergedDictionaries>
+
+  <Color x:Key="NumericGaugeTrackStartColor">#00B9B9B9</Color>
+  <Color x:Key="NumericGaugeTrackEndColor">#FFB9B9B9</Color>
+
+  <!-- ********************************** BRUSHES **********************************-->
+  <!-- RadialMenu Brushes -->
+  <SolidColorBrush x:Key="OuterRingBackgroundBrush" Color="{StaticResource Color_024}" />
+  <SolidColorBrush x:Key="OuterRingBorderBrush" Color="{StaticResource Color_006}" />
+  <SolidColorBrush x:Key="RadialMenuBackgroundBrush" Color="{StaticResource Color_009}" />
+  <SolidColorBrush x:Key="RadialMenuForegroundBrush" Color="{StaticResource Color_002}" />
+  <SolidColorBrush x:Key="CenterButtonBackgroundBrush" Color="{StaticResource Color_009}" />
+  <SolidColorBrush x:Key="CenterButtonBorderBrush" Color="{StaticResource Color_006}" />
+  <SolidColorBrush x:Key="CenterButtonHoverBackgroundBrush" Color="{StaticResource Color_006}" />
+  <SolidColorBrush x:Key="CenterButtonHoverBorderBrush" Color="{StaticResource Color_004}" />
+
+  <!-- RadialMenuItem Brushes -->
+  <SolidColorBrush x:Key="DrillDownButtonBackgroundBrush" Color="{StaticResource Color_009}" />
+  <SolidColorBrush x:Key="DrillDownButtonBorderBrush" Color="{StaticResource Color_006}" />
+  <SolidColorBrush x:Key="DrillDownButtonForegroundBrush" Color="{StaticResource Color_003}" />
+  <SolidColorBrush x:Key="DrillDownButtonHoverBackgroundBrush" Color="{StaticResource Color_006}" />
+  <SolidColorBrush x:Key="DrillDownButtonHoverBorderBrush" Color="{StaticResource Color_004}" />
+  <SolidColorBrush x:Key="DrillDownButtonHoverForegroundBrush" Color="{StaticResource Color_002}" />
+  <SolidColorBrush x:Key="RadialMenuItemBorderBrush" Color="{StaticResource Color_006}" />
+  <SolidColorBrush x:Key="RadialMenuItemInnerBorderBrush" Color="{StaticResource Color_024}" />
+  <SolidColorBrush x:Key="RadialMenuItemInnerCheckedBorderBrush" Color="{StaticResource Color_023}" />
+
+  <!-- NumericGauge Brushes -->
+  <SolidColorBrush x:Key="NumericGaugeTickBackgroundBrush" Color="{StaticResource Color_006}" />
+  <SolidColorBrush x:Key="NumericGaugeValueNeedleBackgroundBrush" Color="{StaticResource Color_006}" />
+  <SolidColorBrush x:Key="NumericGaugePendingValueNeedleBackgroundBrush" Color="{StaticResource Color_005}" />
+
+  <!-- Tooltip Brushes -->
+  <SolidColorBrush x:Key="TooltipBackgroundBrush" Color="{StaticResource Color_009}" />
+  <SolidColorBrush x:Key="TooltipBorderBrush" Color="{StaticResource Color_006}" />
+
+  <!-- ********************************** TextBlock Style **********************************-->
+
+  <!-- ********************************** BackButton Template **********************************-->
+  <DataTemplate x:Key="BackButtonTemplate">
+    <Path HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType=Control}}" StrokeThickness="3" Data="M 8.5,0 2,6.5 8.5,13 M 2,6.5 20,6.5" StrokeLineJoin="Miter" />
+  </DataTemplate>
+
+  <!-- ********************************** ToolTip Style **********************************-->
+  <Style TargetType="ContentControl" x:Key="ToolTipContentControlStyle">
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="Padding" Value="11,8" />
+    <Setter Property="igPrim:XamlHelper.SnapsToDevicePixels" Value="True" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="ContentControl">
+          <Border Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Padding="{TemplateBinding Padding}">
+            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!-- ********************************** RadialMenu Style **********************************-->
+  <Style TargetType="igLocal:XamRadialMenu">
+    <Setter Property="IsTabStop" Value="false" />
+    <Setter Property="FontSize" Value="14" />
+    <Setter Property="CenterButtonBackTemplate" Value="{StaticResource BackButtonTemplate}" />
+    <Setter Property="CenterButtonStrokeThickness" Value="1" />
+    <Setter Property="CenterButtonStroke" Value="{StaticResource CenterButtonBorderBrush}" />
+    <Setter Property="CenterButtonFill" Value="{StaticResource CenterButtonBackgroundBrush}" />
+    <Setter Property="CenterButtonClosedStroke" Value="{StaticResource CenterButtonBorderBrush}" />
+    <Setter Property="CenterButtonClosedFill" Value="{StaticResource CenterButtonBackgroundBrush}" />
+    <Setter Property="CenterButtonHotTrackStroke" Value="{StaticResource CenterButtonHoverBorderBrush}" />
+    <Setter Property="CenterButtonHotTrackFill" Value="{StaticResource CenterButtonHoverBackgroundBrush}" />
+    <Setter Property="Foreground" Value="{StaticResource RadialMenuForegroundBrush}" />
+    <Setter Property="MenuBackground" Value="{StaticResource RadialMenuBackgroundBrush}" />
+    <Setter Property="OuterRingFill" Value="{StaticResource OuterRingBackgroundBrush}" />
+    <Setter Property="OuterRingStroke" Value="{StaticResource OuterRingBorderBrush}" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="igLocal:XamRadialMenu">
+          <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
+            <Grid x:Name="RootPanel" />
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+    <Setter Property="KeyTipTemplate">
+      <Setter.Value>
+        <DataTemplate>
+          <ContentControl Style="{StaticResource ToolTipContentControlStyle}" Foreground="{StaticResource ForegroundBrush}" Content="{Binding}" Background="{StaticResource TooltipBackgroundBrush}" BorderThickness="2" BorderBrush="{StaticResource TooltipBorderBrush}" />
+        </DataTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!-- ********************************** RadialMenuItem Template **********************************-->
+  <ControlTemplate x:Key="MenuItemTemplate" TargetType="igLocal:RadialMenuItem">
+    <Grid x:Name="RootVisual">
+      <VisualStateManager.VisualStateGroups>
+        <VisualStateGroup x:Name="CommonStates">
+          <VisualState x:Name="Normal" />
+          <VisualState x:Name="Disabled">
+            <Storyboard>
+              <DoubleAnimation Duration="0" To="0.3" Storyboard.TargetName="RootVisual" Storyboard.TargetProperty="(UIElement.Opacity)" />
+            </Storyboard>
+          </VisualState>
+        </VisualStateGroup>
+      </VisualStateManager.VisualStateGroups>
+      <Grid.RowDefinitions>
+        <RowDefinition />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+      <Grid HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}">
+        <ContentPresenter Content="{TemplateBinding Icon}" />
+        <ContentPresenter Content="{TemplateBinding IconOverlayValue}" ContentTemplate="{TemplateBinding IconOverlay}" />
+      </Grid>
+      <ContentPresenter x:Name="Content" Grid.Row="1" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+    </Grid>
+  </ControlTemplate>
+
+  <!-- ********************************** ToolTip Template **********************************-->
+  <DataTemplate x:Key="ItemToolTipTemplate">
+    <ContentControl Style="{StaticResource ToolTipContentControlStyle}" Foreground="{StaticResource ForegroundBrush}" Content="{Binding ToolTip}" IsTabStop="False" igPrim:XamlHelper.Focusable="False" Background="{StaticResource TooltipBackgroundBrush}" BorderThickness="2" BorderBrush="{StaticResource TooltipBorderBrush}" />
+  </DataTemplate>
+
+  <!-- ********************************** RadialMenuItem Base Style **********************************-->
+  <Style TargetType="igLocal:RadialMenuItem" x:Key="MenuItemStyleBase">
+    <Setter Property="IsTabStop" Value="False" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="IconOverlay">
+      <Setter.Value>
+        <!-- leave this empty datatemplate -->
+        <DataTemplate />
+      </Setter.Value>
+    </Setter>
+    <Setter Property="Template" Value="{StaticResource MenuItemTemplate}" />
+  </Style>
+
+  <!-- ********************************** RadialMenuItem Style **********************************-->
+  <Style TargetType="igLocal:RadialMenuItem" x:Key="MenuItemStyle" BasedOn="{StaticResource MenuItemStyleBase}">
+    <Setter Property="OuterRingButtonFill" Value="{StaticResource DrillDownButtonBackgroundBrush}" />
+    <Setter Property="OuterRingButtonStroke" Value="{StaticResource DrillDownButtonBorderBrush}" />
+    <Setter Property="OuterRingButtonForeground" Value="{StaticResource DrillDownButtonForegroundBrush}" />
+    <Setter Property="OuterRingButtonHotTrackFill" Value="{StaticResource DrillDownButtonHoverBackgroundBrush}" />
+    <Setter Property="OuterRingButtonHotTrackStroke" Value="{StaticResource DrillDownButtonHoverBorderBrush}" />
+    <Setter Property="OuterRingButtonHotTrackForeground" Value="{StaticResource DrillDownButtonHoverForegroundBrush}" />
+    <Setter Property="HighlightBrush" Value="{StaticResource RadialMenuItemInnerBorderBrush}" />
+    <Setter Property="CheckedHighlightBrush" Value="{StaticResource RadialMenuItemInnerCheckedBorderBrush}" />
+    <Setter Property="ToolTipTemplate" Value="{StaticResource ItemToolTipTemplate}" />
+  </Style>
+
+  <Style TargetType="igLocal:RadialMenuItem" BasedOn="{StaticResource MenuItemStyle}" />
+
+  <!-- ********************************** RadialMenuColorItem Style **********************************-->
+  <Style TargetType="igLocal:RadialMenuColorItem" BasedOn="{StaticResource MenuItemStyle}">
+    <Setter Property="IconOverlay">
+      <Setter.Value>
+        <DataTemplate>
+          <Grid MinWidth="20" MinHeight="20">
+            <Rectangle Height="5" VerticalAlignment="Bottom">
+              <Rectangle.Fill>
+                <SolidColorBrush Color="{Binding}" />
+              </Rectangle.Fill>
+            </Rectangle>
+          </Grid>
+        </DataTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!-- ********************************** RadialMenuColorWell Style **********************************-->
+  <Style TargetType="igLocal:RadialMenuColorWell" BasedOn="{StaticResource MenuItemStyleBase}">
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate />
+      </Setter.Value>
+    </Setter>
+    <Setter Property="ToolTipTemplate">
+      <Setter.Value>
+        <DataTemplate>
+          <ContentControl Style="{StaticResource ToolTipContentControlStyle}" Foreground="{Binding Item.OuterRingButtonForeground}" Content="{Binding ToolTip}" IsTabStop="False" igPrim:XamlHelper.Focusable="False" Background="{Binding Item.OuterRingButtonFill}" BorderThickness="2" BorderBrush="{StaticResource RadialMenuItemBorderBrush}" />
+        </DataTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!-- ********************************** RadialMenuNumericGauge Style **********************************-->
+  <Style TargetType="igLocal:RadialMenuNumericGauge">
+    <Setter Property="IsTabStop" Value="False" />
+    <Setter Property="FontSize" Value="14" />
+    <Setter Property="ToolTipTemplate" Value="{StaticResource ItemToolTipTemplate}" />
+    <Setter Property="TrackStartColor" Value="{StaticResource NumericGaugeTrackStartColor}" />
+    <Setter Property="TrackEndColor" Value="{StaticResource NumericGaugeTrackEndColor}" />
+    <Setter Property="TickBrush" Value="{StaticResource NumericGaugeTickBackgroundBrush}" />
+    <Setter Property="ValueNeedleBrush" Value="{StaticResource NumericGaugeValueNeedleBackgroundBrush}" />
+    <Setter Property="PendingValueNeedleBrush" Value="{StaticResource NumericGaugePendingValueNeedleBackgroundBrush}" />
+  </Style>
+
+  <!-- ********************************** RadialMenuNumericItem Style **********************************-->
+  <Style TargetType="igLocal:RadialMenuNumericItem" BasedOn="{StaticResource MenuItemStyle}">
+    <Setter Property="IconOverlay">
+      <Setter.Value>
+        <DataTemplate>
+          <Grid MinWidth="20" MinHeight="20">
+            <TextBlock Text="{Binding}" VerticalAlignment="Top" HorizontalAlignment="Right">
+              <TextBlock.RenderTransform>
+                <TranslateTransform X="8" Y="-8" />
+              </TextBlock.RenderTransform>
+            </TextBlock>
+          </Grid>
+        </DataTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!-- ********************************** RadialMenuListBoxItem Style **********************************-->
+  <Style TargetType="igLocalPrim:RadialMenuListBoxItem">
+    <Setter Property="Background" Value="{StaticResource TransparentBrush}" />
+    <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+    <Setter Property="Padding" Value="16,8" />
+    <Setter Property="FontSize" Value="18" />
+    <Setter Property="FontFamily" Value="Segoe UI" />
+    <Setter Property="MinHeight" Value="34" />
+    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="igLocalPrim:RadialMenuListBoxItem">
+          <Border x:Name="LayoutRoot1" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+            <VisualStateManager.VisualStateGroups>
+              <VisualStateGroup x:Name="CommonStates">
+                <VisualState x:Name="Normal" />
+                <VisualState x:Name="MouseOver">
+                  <Storyboard>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="BgHover">
+                      <DiscreteObjectKeyFrame KeyTime="0">
+                        <DiscreteObjectKeyFrame.Value>
+                          <Visibility>Visible</Visibility>
+                        </DiscreteObjectKeyFrame.Value>
+                      </DiscreteObjectKeyFrame>
+                    </ObjectAnimationUsingKeyFrames>
+                  </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Disabled" />
+              </VisualStateGroup>
+              <VisualStateGroup x:Name="SelectionStates">
+                <VisualState x:Name="Unselected" />
+                <VisualState x:Name="Selected">
+                  <Storyboard>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="BgSelected">
+                      <DiscreteObjectKeyFrame KeyTime="0">
+                        <DiscreteObjectKeyFrame.Value>
+                          <Visibility>Visible</Visibility>
+                        </DiscreteObjectKeyFrame.Value>
+                      </DiscreteObjectKeyFrame>
+                    </ObjectAnimationUsingKeyFrames>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+                      <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LightForegroundBrush}" />
+                    </ObjectAnimationUsingKeyFrames>
+                  </Storyboard>
+                </VisualState>
+                <VisualState x:Name="SelectedUnfocused">
+                  <Storyboard>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="BgSelected">
+                      <DiscreteObjectKeyFrame KeyTime="0">
+                        <DiscreteObjectKeyFrame.Value>
+                          <Visibility>Visible</Visibility>
+                        </DiscreteObjectKeyFrame.Value>
+                      </DiscreteObjectKeyFrame>
+                    </ObjectAnimationUsingKeyFrames>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+                      <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LightForegroundBrush}" />
+                    </ObjectAnimationUsingKeyFrames>
+                  </Storyboard>
+                </VisualState>
+              </VisualStateGroup>
+              <VisualStateGroup x:Name="FocusStates">
+                <VisualState x:Name="Focused" />
+                <VisualState x:Name="Unfocused" />
+              </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <Grid x:Name="InnerGrid">
+              <Border x:Name="BgSelected" Background="{StaticResource ListBoxItemSelectedBackgroundBrush}" BorderThickness="0" Visibility="Collapsed" />
+              <Border x:Name="BgHover" Background="{StaticResource ListBoxItemHoverBackgroundBrush}" BorderBrush="{StaticResource ListBoxItemHoverBorderBrush}" BorderThickness="1" Visibility="Collapsed" />
+              <ContentControl x:Name="ContentPresenter" igPrim:XamlHelper.Focusable="False" IsTabStop="false" Foreground="{TemplateBinding Foreground}" Margin="{TemplateBinding Padding}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+              </ContentControl>
+            </Grid>
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!-- ********************************** RadialMenuList Style **********************************-->
+  <Style TargetType="igLocal:RadialMenuList" BasedOn="{StaticResource MenuItemStyle}" />
+
+  <!-- ********************************** RadialMenuListBox Style **********************************-->
+  <Style TargetType="igLocalPrim:RadialMenuListBox">
+    <Setter Property="Background" Value="{StaticResource ListBoxBackgroundBrush}" />
+    <Setter Property="BorderBrush" Value="{StaticResource ListBoxBorderBrush}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="FontSize" Value="14" />
+    <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+    <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+    <Setter Property="igPrim:XamlHelper.CanContentScroll" Value="True" />
+    <Setter Property="ItemsPanel">
+      <Setter.Value>
+        <ItemsPanelTemplate>
+          <VirtualizingStackPanel />
+        </ItemsPanelTemplate>
+      </Setter.Value>
+    </Setter>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="igLocalPrim:RadialMenuListBox">
+          <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+            <ScrollViewer x:Name="ScrollViewer" igPrim:XamlHelper.Focusable="False" IsTabStop="False" Padding="{TemplateBinding Padding}" Style="{StaticResource ScrollViewerStyle}">
+              <ItemsPresenter />
+            </ScrollViewer>
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+</ResourceDictionary>
