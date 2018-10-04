@@ -1,0 +1,35 @@
+﻿<Window x:Class="CascadingComboBox.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewmodels="clr-namespace:CascadingComboBox.ViewModels"
+        xmlns:ig="http://infragistics.com/DataPresenter" 
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+
+    <Window.DataContext>
+        <viewmodels:MainWindowViewModel />
+    </Window.DataContext>
+    
+    <Grid>
+
+        <ig:XamDataGrid DataSource="{Binding Customers}">
+            <ig:XamDataGrid.FieldLayoutSettings>
+                <ig:FieldLayoutSettings AutoGenerateFields="False"/>
+            </ig:XamDataGrid.FieldLayoutSettings>
+            <ig:XamDataGrid.FieldLayouts>
+                <ig:FieldLayout>
+                    <ig:TextField Name="Name" />
+                    <ig:ComboBoxField Name="City" ItemsSource="{ig:FieldBinding Cities}" />
+                    <ig:ComboBoxField Name="ZipCode" >
+                        <ig:ComboBoxField.CellBindings>
+                            <ig:CellBinding Target="Editor" Property="ItemsSource" Binding="{Binding DataItem.ZipCodes}" />
+                        </ig:ComboBoxField.CellBindings>
+                    </ig:ComboBoxField>
+                </ig:FieldLayout>            
+            </ig:XamDataGrid.FieldLayouts>
+        </ig:XamDataGrid>
+
+    </Grid>
+</Window>
