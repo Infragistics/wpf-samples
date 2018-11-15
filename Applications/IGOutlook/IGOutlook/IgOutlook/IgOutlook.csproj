@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\runtime.win10-x86.Microsoft.DotNet.Framework.NativeImageCompiler.0.0.1-prerelease-00002\build\net462\runtime.win10-x86.microsoft.dotnet.framework.nativeimagecompiler.props" Condition="Exists('..\..\packages\runtime.win10-x86.Microsoft.DotNet.Framework.NativeImageCompiler.0.0.1-prerelease-00002\build\net462\runtime.win10-x86.microsoft.dotnet.framework.nativeimagecompiler.props')" />
+  <Import Project="..\..\packages\runtime.win10-x64.Microsoft.DotNet.Framework.NativeImageCompiler.0.0.1-prerelease-00002\build\net462\runtime.win10-x64.microsoft.dotnet.framework.nativeimagecompiler.props" Condition="Exists('..\..\packages\runtime.win10-x64.Microsoft.DotNet.Framework.NativeImageCompiler.0.0.1-prerelease-00002\build\net462\runtime.win10-x64.microsoft.dotnet.framework.nativeimagecompiler.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
@@ -10,7 +12,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>IgOutlook</RootNamespace>
     <AssemblyName>IgOutlook</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -42,6 +44,8 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>IgLogo.ico</ApplicationIcon>
@@ -63,6 +67,26 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="InfragisticsWPF, Version=17.2.20172.2029, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
@@ -370,6 +394,15 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\runtime.win10-x64.Microsoft.DotNet.Framework.NativeImageCompiler.0.0.1-prerelease-00002\build\net462\runtime.win10-x64.microsoft.dotnet.framework.nativeimagecompiler.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\runtime.win10-x64.Microsoft.DotNet.Framework.NativeImageCompiler.0.0.1-prerelease-00002\build\net462\runtime.win10-x64.microsoft.dotnet.framework.nativeimagecompiler.props'))" />
+    <Error Condition="!Exists('..\..\packages\runtime.win10-x86.Microsoft.DotNet.Framework.NativeImageCompiler.0.0.1-prerelease-00002\build\net462\runtime.win10-x86.microsoft.dotnet.framework.nativeimagecompiler.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\runtime.win10-x86.Microsoft.DotNet.Framework.NativeImageCompiler.0.0.1-prerelease-00002\build\net462\runtime.win10-x86.microsoft.dotnet.framework.nativeimagecompiler.props'))" />
+    <Error Condition="!Exists('..\..\packages\Microsoft.DotNet.Framework.NativeImageCompiler.0.0.1-prerelease-00002\build\net462\Microsoft.DotNet.Framework.NativeImageCompiler.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.DotNet.Framework.NativeImageCompiler.0.0.1-prerelease-00002\build\net462\Microsoft.DotNet.Framework.NativeImageCompiler.targets'))" />
+  </Target>
+  <Import Project="..\..\packages\Microsoft.DotNet.Framework.NativeImageCompiler.0.0.1-prerelease-00002\build\net462\Microsoft.DotNet.Framework.NativeImageCompiler.targets" Condition="Exists('..\..\packages\Microsoft.DotNet.Framework.NativeImageCompiler.0.0.1-prerelease-00002\build\net462\Microsoft.DotNet.Framework.NativeImageCompiler.targets')" />
   <!--<Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
