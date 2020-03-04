@@ -1,0 +1,119 @@
+﻿<Window x:Class="ConditionalFormatting_DataValueChanged.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:igWpf="http://schemas.infragistics.com/xaml/wpf"
+        xmlns:vm="clr-namespace:ConditionalFormatting_DataValueChanged.ViewModels"
+        Title="MainWindow" Height="720" Width="1080" >
+
+    <Window.DataContext>
+        <vm:MainWindowViewModel />
+    </Window.DataContext>
+
+    <Window.Resources>
+        <SolidColorBrush x:Key="GreenBrush" Color="#4eb862" />
+        <SolidColorBrush x:Key="RedBrush" Color="#d31642" />
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal">
+            <CheckBox Content="Dark Mode" IsChecked="True" Click="DarkMode_Clicked" VerticalAlignment="Center" Margin="20, 10, 10, 10"/>
+            <CheckBox Content="Grouped" IsChecked="True" Click="IsGrouped_Click" VerticalAlignment="Center" Margin="10"/>
+            <Label Margin="10">
+                <StackPanel>
+                    <TextBlock Text="{Binding Value, ElementName=_numOfRecords, StringFormat=Records: {0}}" Margin="5,0,0,5"/>
+                    <Slider x:Name="_numOfRecords" Width="300" Value="{Binding NumberOfRecords, Delay=250}" Minimum="0" Maximum="10000" TickFrequency="5" IsSnapToTickEnabled="True"
+                        IsEnabled="{Binding CanUpdatePrices}"/>
+                </StackPanel>
+            </Label>
+            <Label Margin="10">
+                <StackPanel>
+                    <TextBlock Text="{Binding Value, ElementName=_frequency, StringFormat=Frequency: {0}}" Margin="5,0,0,5" />
+                    <Slider x:Name="_frequency" Width="150" Value="{Binding Frequency}" Minimum="50" Maximum="3000" IsSnapToTickEnabled="True" TickFrequency="5"
+                        IsEnabled="{Binding CanUpdatePrices}"/>
+                </StackPanel>
+            </Label>
+            <Button Content="Live Prices" Command="{Binding LivePricesCommand}" Margin="10" Width="100"/>
+            <Button Content="Live All Prices" Command="{Binding LiveAllPricesCommand}" Margin="10" Width="100"/>
+            <Button Content="Stop" Command="{Binding StopTimerCommand}" Margin="10" Width="100"/>
+        </StackPanel>
+
+        <igWpf:XamDataGrid x:Name="_grid" Grid.Row="1" DataSource="{Binding Path=FinancialData}" IsGroupByAreaExpanded="True" 
+                        DataValueChanged="DataValueChanged">
+            <igWpf:XamDataGrid.FieldLayoutSettings>
+                <igWpf:FieldLayoutSettings AllowClipboardOperations="None" AutoGenerateFields="False" AllowDelete="True" />
+            </igWpf:XamDataGrid.FieldLayoutSettings>
+            <igWpf:XamDataGrid.FieldSettings>
+                <igWpf:FieldSettings AllowEdit="False" AllowGroupBy="True" FilterClearButtonVisibility="Visible" ExpandGroupByRecordsByDefault="True"
+                                  AutoSizeOptions="DataCells" AutoSizeScope="RecordsInView" Width="Auto" />
+            </igWpf:XamDataGrid.FieldSettings>
+            <igWpf:XamDataGrid.FieldLayouts>
+                <igWpf:FieldLayout Key="FinancialDataItem">
+                    <igWpf:FieldLayout.SortedFields>
+                        <igWpf:FieldSortDescription Direction="Descending" FieldName="Category" IsGroupBy="True" />
+                        <igWpf:FieldSortDescription Direction="Descending" FieldName="Type" IsGroupBy="True" />
+                        <igWpf:FieldSortDescription Direction="Descending" FieldName="Contract" IsGroupBy="True" />
+                    </igWpf:FieldLayout.SortedFields>
+                    <igWpf:FieldLayout.FieldSettings>
+                        <igWpf:FieldSettings AllowGroupBy="True" />
+                    </igWpf:FieldLayout.FieldSettings>
+                    <igWpf:TextField Name="Category" Width="75"/>
+                    <igWpf:TextField Name="Type" Width="100"/>
+                    <igWpf:TextField Name="Contract" Width="75"/>
+                    <igWpf:TextField Name="Settlement" Width="95"/>
+                    <igWpf:TextField Name="Region" Width="100"/>
+                    <igWpf:TextField Name="Country" Width="95"/>
+                    <igWpf:CurrencyField Label="Open Price" Name="OpenPrice" Width="75"/>
+                    <igWpf:CurrencyField Label="Price" Name="Price" Width="100" >
+                        <igWpf:CurrencyField.Settings>
+                            <igWpf:FieldSettings DataValueChangedHistoryLimit="2" DataValueChangedNotificationsActive="True" AllowCellVirtualization="False" />
+                        </igWpf:CurrencyField.Settings>
+                    </igWpf:CurrencyField>
+                    <igWpf:NumericField Name="Change" Width="100">
+                        <igWpf:NumericField.Settings>
+                            <igWpf:FieldSettings DataValueChangedHistoryLimit="2" DataValueChangedNotificationsActive="True" AllowCellVirtualization="False"/>
+                        </igWpf:NumericField.Settings>
+                    </igWpf:NumericField>
+                    <igWpf:NumericField Label="Change %" Name="ChangePercent" Width="100">
+                        <igWpf:NumericField.Settings>
+                            <igWpf:FieldSettings DataValueChangedHistoryLimit="2" DataValueChangedNotificationsActive="True" AllowCellVirtualization="False"/>
+                        </igWpf:NumericField.Settings>
+                    </igWpf:NumericField>
+                    <igWpf:CurrencyField Label="Buy" Name="Buy" Width="75"/>
+                    <igWpf:CurrencyField Label="Sell" Name="Sell" Width="75"/>
+                    <igWpf:NumericField Name="Spread" Width="75"/>
+                    <igWpf:NumericField Name="Volume" Width="75"/>
+                    <igWpf:CurrencyField Label="High D" Name="HighD" Width="75"/>
+                    <igWpf:CurrencyField Label="Low D" Name="LowD" Width="75"/>
+                    <igWpf:CurrencyField Label="High Y" Name="HighY" Width="75"/>
+                    <igWpf:CurrencyField Label="Low Y" Name="LowY" Width="75"/>
+                    <igWpf:CurrencyField Label="Start Y" Name="StartY" Width="75"/>
+                    <igWpf:TextField Label="Ind Grou" Name="IndGrou" Width="75"/>
+                    <igWpf:TextField Label="Ind Sect" Name="IndSect" Width="150"/>
+                    <igWpf:TextField Label="Ind Subg" Name="IndSubg" Width="75"/>
+                    <igWpf:TextField Label="Sec Type" Name="SecType" Width="75"/>
+                    <igWpf:TextField Label="Issuer N" Name="IssuerN" Width="175"/>
+                    <igWpf:TextField Name="Moodys" Width="75"/>
+                    <igWpf:TextField Name="Fitch" Width="75"/>
+                    <igWpf:TextField Label="DBRS" Name="DBRS" Width="75"/>
+                    <igWpf:TextField Label="CollatT" Name="CollatT" Width="100"/>
+                    <igWpf:TextField Name="Security" Width="75"/>
+                    <igWpf:TextField Name="Curncy" Width="75"/>
+                    <igWpf:TextField Name="Sector" Width="75"/>
+                    <igWpf:NumericField Label="CUSIP" Name="CUSIP" Width="75"/>
+                    <igWpf:TextField Name="Ticker" Width="75"/>
+                    <igWpf:NumericField Name="Cpn" Width="75"/>
+                    <igWpf:TextField Name="Maturity" Width="75"/>
+                    <igWpf:NumericField Label="ZV_SPREAD" Name="ZV_SPREAD" Width="75"/>
+                    <igWpf:NumericField Label="KRD_1YR" Name="KRD_1YR" Width="75"/>
+                    <igWpf:NumericField Label="KRD_3YR" Name="KRD_3YR" Width="75"/>
+                    <igWpf:NumericField Label="KRD_5YR" Name="KRD_5YR" Width="75"/>
+                </igWpf:FieldLayout>
+            </igWpf:XamDataGrid.FieldLayouts>
+        </igWpf:XamDataGrid>
+    </Grid>
+</Window>
