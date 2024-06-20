@@ -1,0 +1,48 @@
+﻿<framework:SampleContainer x:Class="IGTagCloud.Samples.Organization.TagCloudInteraction"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGTagCloud.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGTagCloud;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:TagCloudStrings x:Key="TagCloudStrings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid>
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamTagCloud  x:Name="dataTagCloud"
+                         HorizontalAlignment="Stretch"
+                         VerticalAlignment="Stretch"
+                         HorizontalContentAlignment="Center"
+                         VerticalContentAlignment="Center"
+                         FontSize="28"
+                         ItemsSource="{Binding Path=Tags}"
+                         DisplayMemberPath="Content"
+                         WeightMemberPath="Weight"
+                         NavigateUriMemberPath="NavigateUri"
+                         XamTagCloudItemClicked="dataTagCloud_XamTagCloudItemClicked"/>
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel HeaderText="{Binding Path=XWM_MenuExpansion, Source={StaticResource TagCloudStrings}}"
+                               MinWidth="300" HorizontalAlignment="Right">
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}"/>
+            </controls:OptionsPanel.Resources>
+            <TextBlock x:Name="SelectedTag"  HorizontalAlignment="Left" Text="{Binding Source={StaticResource TagCloudStrings},
+                Path=XTC_Interaction_SelectATag}" Style="{StaticResource OptionsPanelTitleStyle}" Margin="{StaticResource OptionsElementsMargin}"/>
+            <TextBlock x:Name="SelectedTagUri"/>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

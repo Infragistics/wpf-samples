@@ -1,0 +1,82 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Display.Series.CustomSeries"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="CustomSeries Page"
+      xmlns:custom="clr-namespace:IGDataChart.Samples.ChartData.ChartSeries"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:System="clr-namespace:System;assembly=mscorlib">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <!-- loads generic style for custom series from resource dictionary: -->
+                <ResourceDictionary Source="/IGDataChart;component/Samples/ChartData/ChartSeries/ContourAreaSeries.xaml" />
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.Resources>
+            <ig:AxisLabelSettings x:Key="xAxisLabelSettings" Location="OutsideTop" Extent="30" VerticalAlignment="Center" />
+            <ig:AxisLabelSettings x:Key="yAxisLabelSettings" Location="OutsideLeft" Extent="40" HorizontalAlignment="Center" />
+
+            <System:Double x:Key="ContourShapeFillOpacity">0.7</System:Double>
+            <ig:BrushCollection x:Key="ContourShapeBrushes">
+                <SolidColorBrush Color="{StaticResource Color_021}" Opacity="{StaticResource ContourShapeFillOpacity}"/>
+                <SolidColorBrush Color="{StaticResource Color_027}" Opacity="{StaticResource ContourShapeFillOpacity}"/>
+                <SolidColorBrush Color="{StaticResource Color_026}" Opacity="{StaticResource ContourShapeFillOpacity}"/>
+            </ig:BrushCollection>
+            <ig:BrushCollection x:Key="ContourMarkerBrushes">
+                <SolidColorBrush Color="{StaticResource Color_021}"/>
+                <SolidColorBrush Color="{StaticResource Color_027}" />
+                <SolidColorBrush Color="{StaticResource Color_026}" />
+            </ig:BrushCollection>
+            <ig:BrushCollection x:Key="ContourOutlines">
+                <SolidColorBrush Color="{StaticResource Color_021}" />
+                <SolidColorBrush Color="{StaticResource Color_027}" />
+                <SolidColorBrush Color="{StaticResource Color_026}" />
+            </ig:BrushCollection>
+            <custom:ContourDataSample x:Key="data" />
+        </Grid.Resources>
+        <ig:XamDataChart x:Name="DataChart" Margin="0,0,10,0"
+                         Brushes="{StaticResource ContourShapeBrushes}"
+                         MarkerBrushes="{StaticResource ContourMarkerBrushes}"
+                         MarkerOutlines="{StaticResource ContourOutlines}"
+                         HorizontalZoomable="True" 
+                         VerticalZoomable="True" >
+            <ig:XamDataChart.Axes>
+                <ig:NumericXAxis Name="xAxis" MinimumValue="0" MaximumValue="150" Interval="10">
+                </ig:NumericXAxis>
+                <ig:NumericYAxis Name="yAxis" MinimumValue="0" MaximumValue="120" Interval="10">
+                </ig:NumericYAxis>
+            </ig:XamDataChart.Axes>
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ========================================================================== -->
+            <!-- creates an instance of custom series: ContourAreaSeries -->
+            <ig:XamDataChart.Series>
+                <custom:ContourAreaSeries x:Name="customSeries"
+                                          Title="ContourAreaSeries"
+                                          ToolTip="{}{Series.Title}: {Item.Value}"
+                                          ItemsSource="{StaticResource data}"
+                                          XAxis="{Binding ElementName=xAxis}"
+                                          YAxis="{Binding ElementName=yAxis}">
+                </custom:ContourAreaSeries>
+            </ig:XamDataChart.Series>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+        </ig:XamDataChart>
+    </Grid>
+</igFramework:SampleContainer>
+

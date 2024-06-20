@@ -1,0 +1,192 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Layers.FinalValueLayer"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="CalloutLayer Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+      xmlns:converters="clr-namespace:IGDataChart.Converters"
+      xmlns:root="clr-namespace:IGDataChart.Samples"
+      xmlns:local="clr-namespace:IGDataChart.Samples.Layers"
+      xmlns:resources="clr-namespace:IGDataChart.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="ig:LineSeries"  >
+                <Setter Property="IsTransitionInEnabled" Value="False"/>
+                <Setter Property="IsHighlightingEnabled" Value="True"/>
+                <Setter Property="ShowDefaultTooltip" Value="True"/>
+                <Setter Property="MarkerType" Value="Circle"/>
+                <Setter Property="Thickness" Value="2"/>
+            </Style>
+            <local:PopulationViewModel x:Key="VM" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White" DataContext="{StaticResource VM}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions> 
+        <ig:XamDataChart HorizontalZoomable="True" 
+                         VerticalZoomable="True" >
+            <ig:XamDataChart.Axes>
+                <ig:CategoryXAxis x:Name="XAxis"  Interval="1"
+                                  ItemsSource="{Binding USA}" 
+                                  Label="{}{Year}">
+                </ig:CategoryXAxis>
+                <ig:NumericYAxis x:Name="YAxis" Label="{}{} M"
+                                 Title="{Binding XWDC_WorldData_Types_Population, Source={StaticResource Strings}}">
+                    <ig:NumericYAxis.LabelSettings>
+                        <ig:AxisLabelSettings Location="OutsideRight" Margin="5 0 5 0" />
+                    </ig:NumericYAxis.LabelSettings>
+                </ig:NumericYAxis>
+            </ig:XamDataChart.Axes>
+            <ig:XamDataChart.Series>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:LineSeries ValueMemberPath="ValueInMln" 
+                               DataContext="{Binding USA}" 
+                               ItemsSource="{Binding}"
+                               Title="{Binding Country}"
+                               XAxis="{Binding ElementName=XAxis}"
+                               YAxis="{Binding ElementName=YAxis}" >
+                </ig:LineSeries>
+                <ig:LineSeries ValueMemberPath="ValueInMln" 
+                               DataContext="{Binding RUS}" 
+                               ItemsSource="{Binding}"
+                               Title="{Binding Country}"
+                               XAxis="{Binding ElementName=XAxis}"
+                               YAxis="{Binding ElementName=YAxis}" >
+                </ig:LineSeries>      
+                <!-- this single FinalValue Layer is using ItemsSource of multiple series: --> 
+                <ig:FinalValueLayer x:Name="finalValue"
+                                    AxisAnnotationInterpolatedValuePrecision="0" 
+                                    FinalValueSelectionMode="FinalVisibleInterpolated" 
+                                    AxisAnnotationBackground="#0A7DEC" 
+                                    AxisAnnotationOutline="#0A7DEC"
+                                    AxisAnnotationTextColor="White" >                    
+                </ig:FinalValueLayer>
+                
+                                    <!--AxisAnnotationBackground="#60ABF4" 
+                                    AxisAnnotationOutline="Gray"
+                                    AxisAnnotationTextColor="Black"
+                                    AxisAnnotationStrokeThickness="1"
+                                    AxisAnnotationPadding="10"
+                                    FinalValueSelectionMode="Auto"
+                                    Padding="10"-->
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+        <ig:XamDataChart HorizontalZoomable="True" Grid.Row="1"
+                         VerticalZoomable="True" >
+            <ig:XamDataChart.Axes>
+                <ig:CategoryXAxis x:Name="XAxis2"  Interval="1"
+                                  ItemsSource="{Binding USA}" 
+                                  Label="{}{Year}">
+                </ig:CategoryXAxis>
+                <ig:NumericYAxis x:Name="YAxis2" Label="{}{} M"
+                                 Title="{Binding XWDC_WorldData_Types_Population, Source={StaticResource Strings}}">
+                    <ig:NumericYAxis.LabelSettings>
+                        <ig:AxisLabelSettings Location="OutsideRight" Margin="5 0 5 0" />
+                    </ig:NumericYAxis.LabelSettings>
+                </ig:NumericYAxis>
+            </ig:XamDataChart.Axes>
+            <ig:XamDataChart.Series>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:LineSeries ValueMemberPath="ValueInMln" x:Name="SeriesUSA"
+                               DataContext="{Binding USA}" 
+                               ItemsSource="{Binding}"
+                               Title="{Binding Country}"
+                               XAxis="{Binding ElementName=XAxis2}"
+                               YAxis="{Binding ElementName=YAxis2}" >
+                </ig:LineSeries>
+                <ig:LineSeries ValueMemberPath="ValueInMln" x:Name="SeriesRUS"
+                               DataContext="{Binding RUS}" 
+                               ItemsSource="{Binding}"
+                               Title="{Binding Country}"
+                               XAxis="{Binding ElementName=XAxis2}"
+                               YAxis="{Binding ElementName=YAxis2}" >
+                </ig:LineSeries>     
+                <!-- these two FinalValue Layers are using ItemsSource for each series: -->
+                <ig:FinalValueLayer AxisAnnotationInterpolatedValuePrecision="0" 
+                                    FinalValueSelectionMode="FinalVisibleInterpolated" 
+                                    TargetSeries="{Binding ElementName=SeriesUSA}">                    
+                </ig:FinalValueLayer>
+                <ig:FinalValueLayer AxisAnnotationInterpolatedValuePrecision="0" 
+                                    FinalValueSelectionMode="FinalVisibleInterpolated" 
+                                    TargetSeries="{Binding ElementName=SeriesRUS}">                    
+                </ig:FinalValueLayer> 
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+        
+        
+        
+        <!--<controls:OptionsPanel HeaderText="{Binding XWDC_DataChart_Options, Source={StaticResource Strings}}"
+                               VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10" >
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+                <Style TargetType="Slider" BasedOn="{StaticResource IGSliderStyle}" >
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+                <converters:ColorToBrushConverter x:Key="ColorConv" />
+            </controls:OptionsPanel.Resources>
+            <Grid Grid.Column="1" Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="0" Text="{Binding XWDC_Brush, Source={StaticResource Strings}}" />
+                <ig:XamColorPicker Grid.Row="0" Grid.Column="2" Width="100" x:Name="brushPicker" VerticalAlignment="Center"
+                                   SelectedColor="{Binding ElementName=finalValue, Path=AxisAnnotationBackground, Mode=TwoWay, Converter={StaticResource ColorConv}}" />
+
+                <TextBlock Grid.Row="1" Text="{Binding XWDC_TextColor, Source={StaticResource Strings}}" />
+                <ig:XamColorPicker Grid.Row="1" Grid.Column="2" Width="100" x:Name="foregroundPicker" VerticalAlignment="Center"
+                                   SelectedColor="{Binding ElementName=finalValue, Path=AxisAnnotationTextColor, Mode=TwoWay, Converter={StaticResource ColorConv}}" />
+
+                <TextBlock Grid.Row="2" Text="{Binding XWDC_Outline, Source={StaticResource Strings}}" />
+                <ig:XamColorPicker Grid.Row="2" Grid.Column="2" Width="100" x:Name="outlinePicker" VerticalAlignment="Center"
+                                   SelectedColor="{Binding ElementName=finalValue, Path=AxisAnnotationOutline, Mode=TwoWay, Converter={StaticResource ColorConv}}" />
+
+                <TextBlock Grid.Row="3" Text="{Binding XWDC_Thickness, Source={StaticResource Strings}}" />
+                <Slider Grid.Row="3" Grid.Column="2" Width="100" x:Name="thicknessSlider"
+                        Minimum="1" Maximum="5" Value="{Binding ElementName=finalValue, Path=AxisAnnotationStrokeThickness, Mode=TwoWay}" />
+                
+                
+                <TextBlock Grid.Row="4" Text="Selection Mode" />
+                <igFramework:EnumComboBox Grid.Row="4" Grid.Column="2" Style="{StaticResource IGComboBoxStyle}" 
+                                    ItemType="ig:FinalValueSelectionMode"  
+                                    SelectedItem="{Binding FinalValueSelectionMode, ElementName=finalValue, Mode=TwoWay}" />
+
+            </Grid>
+
+        </controls:OptionsPanel>-->
+    </Grid>
+</igFramework:SampleContainer>

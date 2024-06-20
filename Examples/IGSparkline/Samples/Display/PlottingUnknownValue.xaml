@@ -1,0 +1,117 @@
+﻿<framework:SampleContainer x:Class="IGSparkline.Samples.Display.PlottingUnknownValue"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+    xmlns:resCommon="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared"
+    xmlns:res="clr-namespace:IGSparkline.Resources"
+    xmlns:data="clr-namespace:IGSparkline.Model" 
+    mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSparkline;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <resCommon:CommonStrings x:Key="CommonStrings"/>
+            <res:SparklineStrings x:Key="SparklineStrings"/>
+            <data:TestData x:Key="testdata"/>
+
+            <!-- Brush for items -->
+            <!--<LinearGradientBrush x:Key="itemBrush" EndPoint="0.55,0.97" StartPoint="0.55,0.04">
+                <GradientStop Color="#FF7D7D7D" Offset="0" />
+                <GradientStop Color="#FF515151" Offset="0.94" />
+                <GradientStop Color="#FF4F4F4F" Offset="0.99" />
+            </LinearGradientBrush>-->
+
+            <!-- Style for items-->
+            <Style x:Key="itemsBorder" TargetType="Border">
+                <Setter Property="Width" Value="30"/>
+                <Setter Property="Height" Value="30"/>
+                <Setter Property="Margin" Value="10,0,10,0"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="BorderBrush" Value="#FFBBBBBB"/>
+                <!--<Setter Property="Background" Value="{StaticResource itemBrush}"/>-->
+                <Setter Property="CornerRadius" Value="2"/>
+                <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+            </Style>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Width="Auto">
+        <StackPanel>
+            <StackPanel Name="sp1" Orientation="Vertical" Margin="5" Width="500" HorizontalAlignment="Left">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" BorderThickness="1" Margin="3">
+                        <!-- #BEGIN SNIPPET# -->
+                        <ig:XamSparkline 
+                            Name="xamSparkline1" 
+                            ItemsSource="{StaticResource testdata}"
+                            ValueMemberPath="Value"
+                            Width="450" Height="200"
+                            HorizontalAlignment="Stretch" 
+                            VerticalAlignment="Top"
+                            LineThickness="1">
+                        </ig:XamSparkline>
+                        <!-- #END SNIPPET# -->
+                    </Border>
+
+                    <StackPanel x:Name="sp2" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" Margin="3"></StackPanel>
+                </Grid>
+            </StackPanel>
+        </StackPanel>
+
+        <controls:OptionsPanel HeaderText="{Binding XW_Options, Source={StaticResource CommonStrings}}" HorizontalAlignment="Right">
+            <StackPanel>
+                <!-- Chart types -->
+                <TextBlock Text="{Binding XSL_ChartTypes, Source={StaticResource SparklineStrings}}" HorizontalAlignment="Stretch" Margin="3" />
+                <ComboBox 
+                    x:Name="ComboBoxChartType" Margin="3"
+                    HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Center"
+                    SelectionChanged="ComboBoxChartType_SelectionChanged">
+                    <ComboBoxItem Content="{Binding XSL_LineChart, Source={StaticResource SparklineStrings}}" IsSelected="True"/>
+                    <ComboBoxItem Content="{Binding XSL_AreaChart, Source={StaticResource SparklineStrings}}"/>
+                </ComboBox>
+                <!-- Markers -->
+                <CheckBox Name="checkBoxMarkers" Height="22"  
+                          IsThreeState="False" 
+                          Content="{Binding XSL_All_Markers, Source={StaticResource SparklineStrings}}" 
+                          Click="checkBoxMarkers_Click"  Margin="3"/>
+
+                <!-- Unknown Value Plotting Selection Option -->
+                <RadioButton x:Name="radioButton_DontPlot" Margin="3" 
+                             Content="{Binding XSL_Dont_Plot, Source={StaticResource SparklineStrings}}" IsThreeState="False" IsChecked="True"
+                             Click="OnRadioButtonDontPlot_click"/>
+                <RadioButton x:Name="radioButton_Interpolate" Margin="3"
+                             Content="{Binding XSL_Interpolate, Source={StaticResource SparklineStrings}}" IsThreeState="False"
+                             Click="OnRadioButtonInterpolate_click"/>
+                <TextBlock Text="{Binding XSL_Select_Item_To_Make_Null, Source={StaticResource SparklineStrings}}" Margin="3,9,3,3"/>
+
+                <!-- Option selection of a data point to make null (unknown value) -->
+                <ComboBox
+                    x:Name="ComboBoxNullValue"
+                    HorizontalAlignment="Stretch"
+                    Margin="3"
+                    VerticalAlignment="Center"
+                    Tag="{Binding RelativeSource={RelativeSource self}, Path=SelectedItem}"
+                    SelectionChanged="ComboBoxNullValue_SelectionChanged"
+                    ItemsSource="{Binding Source={StaticResource testdata}}" 
+                    SelectedValuePath="Value" 
+                    DisplayMemberPath="Label">
+                </ComboBox>
+
+                <Button Content="{Binding XSL_Reload_Data, Source={StaticResource SparklineStrings}}" Margin="3" Click="ReloadButton_Click"/>
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

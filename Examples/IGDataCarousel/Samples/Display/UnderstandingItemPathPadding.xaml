@@ -1,0 +1,181 @@
+﻿<igFramework:SampleContainer x:Class="IGDataCarousel.Samples.Display.UnderstandingItemPathPadding"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="UnderstandingItemPathPadding Page"
+      Loaded="Page_Loaded"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:igWindows="http://infragistics.com/Windows"
+      xmlns:res="clr-namespace:IGDataCarousel.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataCarousel;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DataCarouselStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <Grid>
+        <Grid HorizontalAlignment="Left"
+              Margin="5,5,0,0"
+              VerticalAlignment="Top"
+              Width="Auto"
+              Height="125.5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+        </Grid>
+        <!-- #BEGIN SNIPPET# -->
+        <igDP:XamDataCarousel Grid.Row="2"
+                              x:Name="XamDataCarousel1"
+                              Theme="RoyalLight"
+                              GroupByAreaLocation="None">
+            <igDP:XamDataCarousel.ViewSettings>
+                <igWindows:CarouselViewSettings ItemPathAutoPad="True"
+                                                ItemPathPadding="5,5,5,5"
+                                                IsListContinuous="True"
+                                                ItemPathHorizontalAlignment="Stretch"
+                                                ItemPathVerticalAlignment="Stretch"
+                                                ItemSize="150,150"
+                                                OpacityEffectStopDirection="Vertical"
+                                                ScalingEffectStopDirection="Vertical"
+                                                UseOpacity="True">
+                    <igWindows:CarouselViewSettings.ItemPathRenderPen>
+                        <Pen Brush="#FFEDE8E8" />
+                    </igWindows:CarouselViewSettings.ItemPathRenderPen>
+                    <igWindows:CarouselViewSettings.OpacityEffectStops>
+                        <igWindows:OpacityEffectStop Offset="0"
+                                                     Value="0.5" />
+                        <igWindows:OpacityEffectStop Offset="0.5"
+                                                     Value="1" />
+                        <igWindows:OpacityEffectStop Offset="1"
+                                                     Value="0.5" />
+                    </igWindows:CarouselViewSettings.OpacityEffectStops>
+                    <igWindows:CarouselViewSettings.ScalingEffectStops>
+                        <igWindows:ScalingEffectStop />
+                        <igWindows:ScalingEffectStop Offset="1"
+                                                     Value="2" />
+                    </igWindows:CarouselViewSettings.ScalingEffectStops>
+                </igWindows:CarouselViewSettings>
+            </igDP:XamDataCarousel.ViewSettings>
+        </igDP:XamDataCarousel>
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource CommonStrings}, Path=ConfigurationPanel_Header_Options}"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Top"
+                               Margin="50">
+            <Grid HorizontalAlignment="Stretch"
+                  Margin="0,0,0,20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <CheckBox 
+                          IsChecked="{Binding ViewSettings.ItemPathAutoPad, ElementName=XamDataCarousel1}"
+                          Grid.Row="0"
+                          Content="{Binding DataCarousel_UnderstandingItemPathPadding_CheckBox, Source={StaticResource Strings}}"
+                          d:LayoutOverrides="Height"
+                          Margin="5,0,0,30"
+                          Grid.RowSpan="1"
+                          Foreground="Black"
+                          VerticalAlignment="Top" />
+                <StackPanel Orientation="Horizontal"
+                            Margin="0,0,0,0"
+                            Grid.Row="2"
+                            Grid.RowSpan="1"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                    <Slider x:Name="sliderLeft"
+                            Minimum="0"
+                            Maximum="50"
+                            ValueChanged="OnItemPathPaddingChanged"
+                            Margin="0,0,15,0"
+                            Width="50"
+                            HorizontalAlignment="Left" />
+                    <Slider Minimum="0"
+                            x:Name="sliderRight"
+                            Maximum="300"
+                            ValueChanged="OnItemPathPaddingChanged"
+                            Width="50"
+                            RenderTransformOrigin="0.5,0.5"
+                            HorizontalAlignment="Right"
+                            Margin="15,0,0,0">
+                        <Slider.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="-1"
+                                                ScaleY="1" />
+                                <SkewTransform AngleX="0"
+                                               AngleY="0" />
+                                <RotateTransform Angle="0" />
+                                <TranslateTransform X="0"
+                                                    Y="0" />
+                            </TransformGroup>
+                        </Slider.RenderTransform>
+                    </Slider>
+                </StackPanel>
+                <StackPanel Orientation="Vertical"
+                            HorizontalAlignment="Center"
+                            Grid.Row="1"
+                            Grid.RowSpan="1"
+                            Margin="0,0,0,0">
+                    <Slider Minimum="0"
+                            x:Name="sliderTop"
+                            Maximum="300"
+                            ValueChanged="OnItemPathPaddingChanged"
+                            Margin="0,0,0,20"
+                            Width="50"
+                            RenderTransformOrigin="0.5,0.5"
+                            HorizontalAlignment="Stretch">
+                        <Slider.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="1"
+                                                ScaleY="1" />
+                                <SkewTransform AngleX="0"
+                                               AngleY="0" />
+                                <RotateTransform Angle="90" />
+                                <TranslateTransform X="0"
+                                                    Y="0" />
+                            </TransformGroup>
+                        </Slider.RenderTransform>
+                    </Slider>
+                </StackPanel>
+                <StackPanel Orientation="Vertical"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Grid.Row="3"
+                            Grid.RowSpan="1">
+                    <Slider Minimum="0"
+                            x:Name="sliderBottom"
+                            Maximum="300"
+                            ValueChanged="OnItemPathPaddingChanged"
+                            Width="50"
+                            VerticalAlignment="Stretch"
+                            RenderTransformOrigin="0.5,0.5"
+                            HorizontalAlignment="Center"
+                            Margin="0,20,0,0">
+                        <Slider.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="1"
+                                                ScaleY="1" />
+                                <SkewTransform AngleX="0"
+                                               AngleY="0" />
+                                <RotateTransform Angle="-90" />
+                                <TranslateTransform X="0"
+                                                    Y="0" />
+                            </TransformGroup>
+                        </Slider.RenderTransform>
+                    </Slider>
+                </StackPanel>
+            </Grid>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

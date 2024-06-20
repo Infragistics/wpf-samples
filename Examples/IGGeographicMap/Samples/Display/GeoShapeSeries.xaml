@@ -1,0 +1,79 @@
+﻿<framework:SampleContainer 
+    x:Class="IGGeographicMap.Samples.GeoShapeSeries"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700"
+      Title="Shape Series"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:providers="clr-namespace:Infragistics.Samples.Shared.DataProviders;assembly=Infragistics.Samples.Shared" 
+      xmlns:resources="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared">
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGeographicMap;component/Assets/GlobalExtended.xaml" />
+                
+                
+            </ResourceDictionary.MergedDictionaries>
+
+            <resources:ModelStrings x:Key="ModelStrings" />
+            <SolidColorBrush x:Key="mapBackground" Color="{StaticResource Color_002}" />
+            <ig:BrushCollection x:Key="shapeBrushes">
+               <SolidColorBrush Color="{StaticResource Color_020}" />
+                <SolidColorBrush Color="{StaticResource Color_021}" />
+                <SolidColorBrush Color="{StaticResource Color_022}" />
+            </ig:BrushCollection>
+            <ig:RandomFillStyleSelector x:Key="shapeStyleSelector" Brushes="{StaticResource shapeBrushes}" />
+            <DropShadowEffect x:Key="ShadowEffect" ShadowDepth="1" BlurRadius="10" Opacity="0.85"/>
+ 
+            <!-- ShapefileConverter loads shapes from shape files (SHP) and -->
+            <!-- stores them in the Points property as List<List<Point>> object type -->
+             <ig:ShapefileConverter x:Key="shapeFileSource" 
+                ShapefileSource="/Infragistics.Samples.Services;component/shapefiles/world/world_countries_reg.shp"
+                 DatabaseSource="/Infragistics.Samples.Services;component/shapefiles/world/world_countries_reg.dbf" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+         <ig:XamGeographicMap x:Name="GeoMap"
+                             Zoomable="True" 
+                             OverviewPlusDetailPaneVisibility="Collapsed">
+            <ig:XamGeographicMap.BackgroundContent>
+                <ig:OpenStreetMapImagery Opacity="0" />
+            </ig:XamGeographicMap.BackgroundContent>
+            <ig:XamGeographicMap.Series>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <!-- ShapeSeries with items loaded from shape files (SHP)  -->
+                <ig:GeographicShapeSeries ItemsSource="{StaticResource shapeFileSource}" 
+                                          ShapeStyleSelector="{StaticResource shapeStyleSelector}"
+                                          ShapeMemberPath="Points" MarkerCollisionAvoidance="Fade" >
+                    <!-- custom marker with bindings to data loaded from database file (DBF) -->
+                    <ig:GeographicShapeSeries.MarkerTemplate>
+                        <DataTemplate>
+                        <TextBlock Text="{Binding Path=Item.Fields[ISO_3_CODE]}" Width="50" Height="30"
+                                           Foreground="White" FontWeight="Bold"
+                                           Effect="{StaticResource ShadowEffect}"/>
+                         </DataTemplate>
+                    </ig:GeographicShapeSeries.MarkerTemplate>
+                    <!-- custom tooltip with bindings to data loaded from database file (DBF) -->
+                    <ig:GeographicShapeSeries.ToolTip>
+                            <StackPanel Margin="4">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock Text="{Binding Path=XWM_Country, Source={StaticResource ModelStrings}}" FontWeight="Bold" Margin="2" />
+                                    <TextBlock Text="{Binding Path=Item.Fields[NAME]}" Margin="4,2,2,2" />
+                                </StackPanel>
+                            </StackPanel>
+                    </ig:GeographicShapeSeries.ToolTip>
+                </ig:GeographicShapeSeries>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+
+            </ig:XamGeographicMap.Series>
+        </ig:XamGeographicMap>
+        <TextBlock x:Name="MapDataSource" Text="{Binding Path=XW_Source_USNA, Source={StaticResource CommonStrings}}" Style="{StaticResource SourceDataTextBoxStyle}" />
+       
+    </Grid> 
+</framework:SampleContainer>

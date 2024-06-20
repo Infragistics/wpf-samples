@@ -1,0 +1,75 @@
+﻿<framework:SampleContainer x:Class="IGPivotGrid.Samples.Data.ExcelExport"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="ExcelExport Page"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:local="clr-namespace:IGPivotGrid.Samples.Controls"
+      xmlns:res="clr-namespace:IGPivotGrid.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGPivotGrid;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+
+            <local:SampleFlatDataSourceSellerVsProduct x:Key="FlatDataSource" />
+            <res:PivotGridStrings x:Key="Strings" />
+
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White" Width="Auto">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <!-- #BEGIN SNIPPET# -->
+        <Button Content="{Binding Path=XPG_Export_To_Excel, Source={StaticResource Strings}}"
+                Click="ExportToExcel"
+                HorizontalAlignment="Left"
+                Margin="0,0,5,5"
+                BorderThickness="0"
+                Width="200" VerticalAlignment="Top"
+                Style="{StaticResource IGGenericButton}"/>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="220,4,0,0" Grid.ColumnSpan="2" >
+            <CheckBox x:Name="rowHeadersCheckBox"
+                      Content="{Binding Path=XPG_Export_Row_Headers, Source={StaticResource Strings}}"
+                      IsChecked="True"
+                      Margin="0 0 20 0"
+                      VerticalAlignment="Center"
+                      Style="{StaticResource IGCheckBoxStyle}"/>
+            <CheckBox x:Name="columnHeadersCheckBox"
+                      Content="{Binding Path=XPG_Export_Column_Headers, Source={StaticResource Strings}}"
+                      IsChecked="True"
+                      VerticalAlignment="Center"
+                      Style="{StaticResource IGCheckBoxStyle}"/>
+        </StackPanel>
+
+        <ig:XamPivotGrid x:Name="pivotGrid"
+                         DataSource="{StaticResource FlatDataSource}"
+                         Grid.Row="1" />
+
+        <ig:Expander Grid.Column="1"
+                     Grid.Row="1">
+            <ig:XamPivotDataSelector x:Name="dataSelector"
+                                     DataSource="{StaticResource FlatDataSource}" />
+        </ig:Expander>
+        <!-- #END SNIPPET# -->
+
+        <local:PivotGridBusyIndicator x:Name="isBusyIndicator"
+                                      Grid.Row="1"
+                                      Grid.ColumnSpan="2"
+                                      Visibility="Collapsed" />
+    </Grid>
+</framework:SampleContainer>

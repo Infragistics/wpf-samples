@@ -1,0 +1,223 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Navigation.ChartToolBar"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="ChartToolBar Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:custom="clr-namespace:IGDataChart.Controls"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+      xmlns:resources="clr-namespace:IGDataChart.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataChart;component/Controls/ChartToolbarPanel.xaml" />
+                
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <SolidColorBrush x:Key="StripeBrush" Color="#33000000"/>
+            <ig:SizeScale x:Key="BubbleSizeScale" IsLogarithmic="False" MaximumValue="60" MinimumValue="10" />
+            <ig:ValueBrushScale x:Key="BubbleValueBrushScale" IsLogarithmic="False" MaximumValue="200" MinimumValue="5">
+                <ig:ValueBrushScale.Brushes>
+                    <ig:BrushCollection>
+                        <SolidColorBrush Color="{StaticResource Color_021}" />
+                        <SolidColorBrush Color="{StaticResource Color_021}" />
+                        <SolidColorBrush Color="{StaticResource Color_026}" />
+                        <SolidColorBrush Color="{StaticResource Color_026}" />
+                    </ig:BrushCollection>
+                </ig:ValueBrushScale.Brushes>
+            </ig:ValueBrushScale>
+            <resources:DataChartStrings x:Key="Strings" />
+
+            <SolidColorBrush x:Key="MarkerBrush" Color="LightGray" Opacity=".8">
+            </SolidColorBrush>
+            <models:BubbleDataRandomSample x:Key="bubbleDataSample">
+                <models:BubbleDataRandomSample.Settings>
+                    <models:BubbleDataSettings DataPoints="40" XMin="20" XMax="180" YMin="20" YMax="180" RadiusMin="10" RadiusMax="180" />
+                </models:BubbleDataRandomSample.Settings>
+            </models:BubbleDataRandomSample>
+
+            <!-- ChartToolbarPanel Style -->
+            <!-- ========================================================================== -->
+            <Style x:Key="ChartToolbarPanelStyle" TargetType="custom:ChartToolbarPanel">
+                <Setter Property="Height" Value="Auto" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="custom:ChartToolbarPanel">
+                            <Grid Margin="0">
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel Orientation="Vertical">
+                                        <ToggleButton x:Name="ZoomMode" Style="{StaticResource ChartZoomToggleButton}" Width="26" Height="26">
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip >
+                                                    <TextBlock Text="{Binding XWDC_ChartToolBar_Operation_ZoomMode, Source={StaticResource Strings}}" />
+                                                </ToolTip>
+                                            </ToolTipService.ToolTip>
+                                        </ToggleButton>
+                                        <Rectangle Height="1" Fill="{StaticResource SeparatorBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="2" />
+                                        <Button x:Name="ZoomIn" Style="{StaticResource ChartZoomInButton}">
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip >
+                                                    <TextBlock Text="{Binding XWDC_ChartToolBar_Operation_ZoomIn, Source={StaticResource Strings}}" />
+                                                </ToolTip>
+                                            </ToolTipService.ToolTip>
+                                        </Button>
+                                        <Button x:Name="ZoomOut" Style="{StaticResource ChartZoomOutButton}">
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip >
+                                                    <TextBlock Text="{Binding XWDC_ChartToolBar_Operation_ZoomOut, Source={StaticResource Strings}}" />
+                                                </ToolTip>
+                                            </ToolTipService.ToolTip>
+                                        </Button>
+                                        <Button x:Name="FitHorizontally" Style="{StaticResource ChartFitHorizontallyButton}">
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip >
+                                                    <TextBlock Text="{Binding XWDC_ChartToolBar_Operation_FitHorizontally, Source={StaticResource Strings}}" />
+                                                </ToolTip>
+                                            </ToolTipService.ToolTip>
+                                        </Button>
+                                        <Button x:Name="FitVertically" Style="{StaticResource ChartFitVerticallyButton}">
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip >
+                                                    <TextBlock Text="{Binding XWDC_ChartToolBar_Operation_FitVertically, Source={StaticResource Strings}}" />
+                                                </ToolTip>
+                                            </ToolTipService.ToolTip>
+                                        </Button>
+                                        <Button x:Name="FitBoth" Style="{StaticResource ChartFitBothButton}">
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip >
+                                                    <TextBlock Text="{Binding XWDC_ChartToolBar_Operation_FitBoth, Source={StaticResource Strings}}" />
+                                                </ToolTip>
+                                            </ToolTipService.ToolTip>
+                                        </Button>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Vertical">
+                                        <ToggleButton x:Name="PanMode" Style="{StaticResource ChartPanToggleButton}" Width="26" Height="26">
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip >
+                                                    <TextBlock Text="{Binding XWDC_ChartToolBar_Operation_PanMode, Source={StaticResource Strings}}" />
+                                                </ToolTip>
+                                            </ToolTipService.ToolTip>
+                                        </ToggleButton>
+                                        <Rectangle Height="1" Fill="{StaticResource SeparatorBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="2" />
+                                        <Button x:Name="PanUp" Style="{StaticResource ChartPanUpButton}">
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip >
+                                                    <TextBlock Text="{Binding XWDC_ChartToolBar_Operation_PanUp, Source={StaticResource Strings}}" />
+                                                </ToolTip>
+                                            </ToolTipService.ToolTip>
+                                        </Button>
+                                        <Button x:Name="PanDown" Style="{StaticResource ChartPanDownButton}">
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip >
+                                                    <TextBlock Text="{Binding XWDC_ChartToolBar_Operation_PanDown, Source={StaticResource Strings}}" />
+                                                </ToolTip>
+                                            </ToolTipService.ToolTip>
+                                        </Button>
+                                        <Button x:Name="PanLeft" Style="{StaticResource ChartPanLeftButton}">
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip >
+                                                    <TextBlock Text="{Binding XWDC_ChartToolBar_Operation_PanLeft, Source={StaticResource Strings}}" />
+                                                </ToolTip>
+                                            </ToolTipService.ToolTip>
+                                        </Button>
+                                        <Button x:Name="PanRight" Style="{StaticResource ChartPanRightButton}">
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip >
+                                                    <TextBlock Text="{Binding XWDC_ChartToolBar_Operation_PanRight, Source={StaticResource Strings}}" />
+                                                </ToolTip>
+                                            </ToolTipService.ToolTip>
+                                        </Button>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Vertical">
+                                        <ToggleButton x:Name="CrosshairVisibility" Style="{StaticResource ChartCrosshairToggleButton}" Width="26" Height="26">
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip >
+                                                    <TextBlock Text="{Binding XWDC_ChartToolBar_Operation_CrosshairVisibility, Source={StaticResource Strings}}" />
+                                                </ToolTip>
+                                            </ToolTipService.ToolTip>
+                                        </ToggleButton>
+                                        <Rectangle Height="1" Fill="{StaticResource SeparatorBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="2" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Vertical">
+                                        <ToggleButton x:Name="GridVisibility" Style="{StaticResource ChartGridToggleButton}" Width="26" Height="26">
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip >
+                                                    <TextBlock Text="{Binding XWDC_ChartToolBar_Operation_GridVisibility, Source={StaticResource Strings}}" />
+                                                </ToolTip>
+                                            </ToolTipService.ToolTip>
+                                        </ToggleButton>
+                                        <Rectangle Height="1" Fill="{StaticResource SeparatorBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="2" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Vertical">
+                                        <ToggleButton x:Name="LegendVisibility" Style="{StaticResource ChartLegendToggleButton}" Width="26" Height="26">
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip >
+                                                    <TextBlock Text="{Binding XWDC_ChartToolBar_Operation_LegendVisibility, Source={StaticResource Strings}}" />
+                                                </ToolTip>
+                                            </ToolTipService.ToolTip>
+                                        </ToggleButton>
+                                        <Rectangle Height="1" Fill="{StaticResource SeparatorBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="2" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <!-- ========================================================================== -->
+            
+            <Style TargetType="{x:Type ig:ScaleLegend}">
+                <Setter Property="Background" Value="{StaticResource LegendBackgroundBrush}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource LegendBorderBrush}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+                <Setter Property="FontWeight" Value="{StaticResource FontSemiBold}"/>
+            </Style>
+
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <Grid x:Name="LayoutRoot" Background="White">
+        <ig:XamDataChart x:Name="DataChart" Margin="0" HorizontalZoomable="True" VerticalZoomable="True" 
+                         VerticalZoombarVisibility="Visible" HorizontalZoombarVisibility="Visible">
+            <ig:XamDataChart.Axes>
+                <ig:NumericXAxis x:Name="numericXAxis" MinimumValue="0" MaximumValue="200" Interval="20">
+                </ig:NumericXAxis>
+                <ig:NumericYAxis x:Name="numericYAxis" MinimumValue="0" MaximumValue="200" Interval="20" >
+                </ig:NumericYAxis>
+            </ig:XamDataChart.Axes>
+            <ig:XamDataChart.Series>
+                <ig:BubbleSeries
+                    RadiusScale="{StaticResource BubbleSizeScale}"
+                    Legend="{Binding ElementName=ScaleLegend}"
+                    XAxis="{Binding ElementName=numericXAxis}"
+                    YAxis="{Binding ElementName=numericYAxis}"
+                    ItemsSource="{StaticResource bubbleDataSample}"
+                    XMemberPath="X" YMemberPath="Y" 
+                    RadiusMemberPath="Radius" MarkerOutline="Transparent"
+                    FillMemberPath="Radius" LabelMemberPath="Label"
+                    FillScale="{StaticResource BubbleValueBrushScale}">
+                </ig:BubbleSeries>
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+        <ig:ScaleLegend x:Name="ScaleLegend" Content="{Binding XWDC_LegendTypes_ScaleLegend, Source={StaticResource Strings}}" 
+                        Height="150" Width="120" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,40,0" />
+        <controls:OptionsPanel HeaderText="{Binding XWDC_ChartToolBar_ChartToolBar, Source={StaticResource Strings}}" 
+                               HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,0,0,0">
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ========================================================================== -->
+            <custom:ChartToolbarPanel DataChart="{Binding ElementName=DataChart}"
+                                      Style="{StaticResource ChartToolbarPanelStyle}">
+            </custom:ChartToolbarPanel>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

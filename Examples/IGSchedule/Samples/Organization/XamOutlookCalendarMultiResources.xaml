@@ -1,0 +1,82 @@
+﻿<igFramework:SampleContainer
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="XamOutlookCalendarMultiResources"
+      x:Class="IGSchedule.Samples.Organization.XamOutlookCalendarMultiResources"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:data="clr-namespace:IGSchedule.DataSource"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGSchedule.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <res:ScheduleStrings x:Key="resStrings" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSchedule;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <igFramework:SampleContainer.DataContext>
+        <data:ScheduleData />
+    </igFramework:SampleContainer.DataContext>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <controls:OptionsPanel VerticalAlignment="Top" Margin="0" HeaderText="{Binding Source={StaticResource CommonStrings}, Path=ConfigurationPanel_Header_Options}" IsMovable="False" Grid.Column="1" Grid.Row="1" UseLayoutRounding="True">
+            <TextBlock Text="{Binding Resources, Source={StaticResource resStrings}}" Margin="{StaticResource OptionsTextTopBottomMargin}" />
+            <Border >
+                <StackPanel>
+                    <CheckBox x:Name="CheckConA" Content="{Binding ConfA, Source={StaticResource resStrings}}" Click="CheckBox_Clicked" Tag="ra" Margin="{StaticResource OptionsElementsMargin}"/>
+                    <CheckBox x:Name="CheckConB" Content="{Binding ConfB, Source={StaticResource resStrings}}" Click="CheckBox_Clicked" Tag="rb" Margin="{StaticResource OptionsElementsMargin}"/>
+                    <CheckBox x:Name="CheckConC" Content="{Binding ConfC, Source={StaticResource resStrings}}" Click="CheckBox_Clicked" Tag="rc" Margin="{StaticResource OptionsElementsMargin}"/>
+                    <CheckBox x:Name="CheckConD" Content="{Binding ConfD, Source={StaticResource resStrings}}" Click="CheckBox_Clicked" Tag="rd" Margin="{StaticResource OptionsElementsMargin}"/>
+                </StackPanel>
+            </Border>
+            <TextBlock Text="{Binding GroupSelection, Source={StaticResource resStrings}}" Margin="{StaticResource OptionsTextTopBottomMargin}" />
+            <CheckBox x:Name="groupCheck" Content="{Binding OneGroup, Source={StaticResource resStrings}}" Margin="{StaticResource OptionsElementsMargin}"/>
+            <TextBlock Text="{Binding CalendarDisplayMode, Source={StaticResource resStrings}}" Margin="{StaticResource OptionsTextTopBottomMargin}" />
+            <ComboBox x:Name="cboCalendarDisplayMode" SelectionChanged="cboCalendarDisplayMode_SelectionChanged" Grid.Column="1">
+                <ComboBoxItem Content="{Binding CDM_Overlay, Source={StaticResource resStrings}}" />
+                <ComboBoxItem Content="{Binding CDM_Separate, Source={StaticResource resStrings}}" />
+                <ComboBoxItem Content="{Binding CDM_Merged, Source={StaticResource resStrings}}" />
+            </ComboBox>
+        </controls:OptionsPanel>
+
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamOutlookCalendarView
+            x:Name="outlookView"
+            Grid.Column="0" Grid.RowSpan="2"
+            DateNavigator="{Binding ElementName=dateNavigator}"
+            DataManager="{Binding ElementName=dataManager}"
+            ShowCalendarCloseButton="False" />
+        <ig:XamDateNavigator
+            x:Name="dateNavigator"
+            DataManager="{Binding ElementName=dataManager}"
+            Grid.Column="1"
+            Grid.Row="0" Margin="2,5,2,2" />
+        <!-- #END SNIPPET# -->
+
+        <ig:XamScheduleDataManager x:Name="dataManager">
+            <ig:XamScheduleDataManager.DataConnector>
+                <ig:ListScheduleDataConnector
+                    ResourceItemsSource="{Binding Resources}"
+                    ResourceCalendarItemsSource="{Binding Calendars}"
+                    AppointmentItemsSource="{Binding Appointments}" />
+            </ig:XamScheduleDataManager.DataConnector>
+        </ig:XamScheduleDataManager>
+    </Grid>
+</igFramework:SampleContainer>

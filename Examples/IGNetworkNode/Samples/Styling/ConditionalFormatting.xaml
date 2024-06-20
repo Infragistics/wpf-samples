@@ -1,0 +1,70 @@
+﻿<framework:SampleContainer x:Class="IGNetworkNode.Samples.Styling.ConditionalFormatting" 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:common="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared" 
+    xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGNetworkNode.Resources"                         
+    mc:Ignorable="d" d:DesignHeight="400" d:DesignWidth="700">
+
+    <!-- ========================================================================== -->
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGNetworkNode;component/Assets/Global.xaml" />
+                
+                
+            </ResourceDictionary.MergedDictionaries>
+            <common:CommonStrings x:Key="CommonStrings"/>
+            <res:NetworkNodeStrings x:Key="Strings"/>
+            <models:NetworkNodeAttendanceData x:Key="SampleData" />
+            
+            <SolidColorBrush x:Key="NodeBrush1" Color="{StaticResource Color_020}" />
+            <SolidColorBrush x:Key="NodeBrush2" Color="{StaticResource Color_021}" />
+            <SolidColorBrush x:Key="NodeBrush3" Color="{StaticResource Color_022}" />
+            <SolidColorBrush x:Key="NodeBrush4" Color="{StaticResource Color_023}" />
+
+            <Style x:Key="RootNodeStyle" TargetType="ig:NetworkNodeNodeControl">
+                <Setter Property="Background" Value="{StaticResource NodeBrush1}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource NodeBrush1}"/>
+                <Setter Property="Foreground" Value="{StaticResource ForegroundDarkBrush}"/>
+            </Style>
+            <Style x:Key="CompanyNodeStyle" TargetType="ig:NetworkNodeNodeControl">
+                <Setter Property="Background" Value="{StaticResource NodeBrush2}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource NodeBrush2}"/>
+                <Setter Property="Foreground" Value="{StaticResource ForegroundDarkBrush}"/>
+            </Style>
+            <Style x:Key="SpeakerNodeStyle" TargetType="ig:NetworkNodeNodeControl">
+                <Setter Property="Background" Value="{StaticResource NodeBrush3}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource NodeBrush3}"/>
+                <Setter Property="Foreground" Value="{StaticResource ForegroundDarkBrush}"/>
+            </Style>
+            <Style x:Key="AttendeeNodeStyle" TargetType="ig:NetworkNodeNodeControl">
+                <Setter Property="Background" Value="{StaticResource NodeBrush4}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource NodeBrush4}"/>
+                <Setter Property="Foreground" Value="{StaticResource ForegroundDarkBrush}"/>
+            </Style>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+    <!-- ========================================================================== -->
+    <Grid x:Name="LayoutRoot" Width="Auto" >
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamNetworkNode x:Name="xnn"
+                           ItemsSource="{Binding Nodes, Source={StaticResource SampleData}}"
+                           NodeControlAttachedEvent="xnn_NodeControlAttachedEvent">
+            <ig:XamNetworkNode.GlobalNodeLayouts>
+                <ig:NetworkNodeNodeLayout
+                    TargetTypeName="NodeModel"
+                    DisplayMemberPath="Label"
+                    ConnectionsMemberPath="Connections"
+                    ConnectionTargetMemberPath="Target"
+                    ConnectionWeightMemberPath="Weight"
+                    />
+            </ig:XamNetworkNode.GlobalNodeLayouts>
+        </ig:XamNetworkNode>
+        <!-- #END SNIPPET# -->
+    </Grid>
+</framework:SampleContainer>

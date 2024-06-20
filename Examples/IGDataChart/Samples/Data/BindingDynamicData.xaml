@@ -1,0 +1,126 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Data.BindingDynamicData"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="BindingDynamicData Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+      xmlns:local="clr-namespace:IGDataChart.Samples.Data" >
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <ig:StringFormatConverter x:Key="StringFormatConverter" /> 
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+    	
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ========================================================================== -->
+        <!-- Refer to code behind to see how dynamic data binding works with DataChart-->
+        <Grid.DataContext>
+            <local:DynamicDataCollection />
+        </Grid.DataContext>
+        <!-- ========================================================================== -->
+        <!-- #END SNIPPET# -->
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <ig:XamDataChart x:Name="PriceChart" 
+                             Title="{Binding XWDC_BindingLiveData_PriceTitle, Source={StaticResource Strings}}" 
+                             TitleHorizontalAlignment="Center"
+                             VerticalZoomable="True" HorizontalZoomable="True" >
+                <ig:SyncManager.SyncSettings>
+                    <ig:SyncSettings SyncChannel="syncDynamicCharts"
+                                     SynchronizeHorizontally="True"
+                                     SynchronizeVertically="False" />
+                </ig:SyncManager.SyncSettings>
+                <ig:XamDataChart.Axes>
+                    <ig:CategoryXAxis x:Name="DateXAxis"  ItemsSource="{Binding}" 
+                                      Label="{Binding XDC_AxisLabelsFormat_DateYearMonth, Source={StaticResource Strings}}"/>
+                    <ig:NumericYAxis x:Name="PriceYAxis"  Label="{}{0:C0}"/>
+                </ig:XamDataChart.Axes>
+                <ig:XamDataChart.Series>
+                    <ig:FinancialPriceSeries DisplayType="Candlestick" ItemsSource="{Binding}" 
+                                             OpenMemberPath="Open" CloseMemberPath="Close" HighMemberPath="High" LowMemberPath="Low" 
+                                             VolumeMemberPath="Volume" 
+                                             IsHighlightingEnabled="True" IsTransitionInEnabled="True"
+                                             XAxis="{Binding ElementName=DateXAxis}" 
+                                             YAxis="{Binding ElementName=PriceYAxis}">
+                    </ig:FinancialPriceSeries>
+                </ig:XamDataChart.Series>
+            </ig:XamDataChart>
+
+            <ig:XamDataChart x:Name="VolumeChart" Margin="0,20,0,0" Grid.Row="1" 
+                             VerticalZoomable="True" HorizontalZoomable="True">
+                <ig:SyncManager.SyncSettings>
+                    <ig:SyncSettings SyncChannel="syncDynamicCharts"
+                                     SynchronizeHorizontally="True"
+                                     SynchronizeVertically="False" />
+                </ig:SyncManager.SyncSettings>
+                <ig:XamDataChart.Axes>
+                    <ig:CategoryXAxis x:Name="VolumeXAxis" ItemsSource="{Binding}" 
+                                      Label="{Binding XDC_AxisLabelsFormat_DateYearMonth, Source={StaticResource Strings}}"/>
+                    <ig:NumericYAxis x:Name="VolumeYAxis" />
+                </ig:XamDataChart.Axes>
+                <ig:XamDataChart.Series>
+                    <ig:AreaSeries Thickness="1" ValueMemberPath="Volume" 
+                                         Title="{Binding XWDC_BindingLiveData_StockVolume, Source={StaticResource Strings}}" 
+                                         ItemsSource="{Binding}" 
+                                         IsHighlightingEnabled="True" IsTransitionInEnabled="True"
+                                         XAxis="{Binding ElementName=VolumeXAxis}" 
+                                         YAxis="{Binding ElementName=VolumeYAxis}" >
+                    </ig:AreaSeries>
+                </ig:XamDataChart.Series>
+            </ig:XamDataChart>
+        </Grid>
+        <controls:OptionsPanel HeaderText="{Binding XWDC_BindingDynamicData_DataSettings, Source={StaticResource Strings}}"
+                               Margin="5" HorizontalAlignment="Right" VerticalAlignment="Top">
+        	<controls:OptionsPanel.Resources>
+        		<Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}"/>
+			</controls:OptionsPanel.Resources>
+
+            <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}" >
+                <TextBlock Text="{Binding XWDC_BindingDynamicData_Points, Source={StaticResource Strings}}" VerticalAlignment="Bottom" Width="80" />
+                <Slider x:Name="SldPoints" Value="100" Minimum="10" Maximum="1000" Width="80"  SmallChange="1" LargeChange="1" />
+                <TextBlock Text="{Binding ElementName=SldPoints, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}" VerticalAlignment="Bottom" Width="30" Margin="{StaticResource OptionsTextLeftMargin}"/>
+            </StackPanel>
+
+            <TextBlock Text="{Binding XWDC_BindingDynamicData_PriceSettings, Source={StaticResource Strings}}"  Style="{StaticResource OptionsPanelTitleStyle}" Margin="{StaticResource OptionsElementsMargin}" />
+            <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}" >
+                <TextBlock Text="{Binding XWDC_BindingDynamicData_StartValue, Source={StaticResource Strings}}" VerticalAlignment="Bottom" Width="80"></TextBlock>
+                <Slider x:Name="SldPriceStart" Value="1000" Minimum="1000" Maximum="4000" Width="80"  SmallChange="10" LargeChange="10" />
+                <TextBlock Text="{Binding ElementName=SldPriceStart, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}" VerticalAlignment="Bottom" Width="30" Margin="{StaticResource OptionsTextLeftMargin}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}" >
+                <TextBlock Text="{Binding XWDC_BindingDynamicData_RangeValue, Source={StaticResource Strings}}" VerticalAlignment="Bottom" Width="80" />
+                <Slider x:Name="SldPriceRange" Value="50" Minimum="10" Maximum="100" Width="80"  SmallChange="1" LargeChange="1" />
+                <TextBlock Text="{Binding ElementName=SldPriceRange, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}" VerticalAlignment="Bottom" Width="30" Margin="{StaticResource OptionsTextLeftMargin}"/>
+            </StackPanel>
+
+            <TextBlock Text="{Binding XWDC_BindingDynamicData_VolumeSettings, Source={StaticResource Strings}}"  Style="{StaticResource OptionsPanelTitleStyle}" Margin="{StaticResource OptionsTextMargin}"/>
+            <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}" >
+                <TextBlock Text="{Binding XWDC_BindingDynamicData_StartValue, Source={StaticResource Strings}}" VerticalAlignment="Bottom" Width="80" />
+                <Slider x:Name="SldVolumeStart" Value="5000" Minimum="2000" Maximum="9000" Width="80"  SmallChange="1" LargeChange="1" />
+                <TextBlock Text="{Binding ElementName=SldVolumeStart, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}" VerticalAlignment="Bottom" Width="30" Margin="{StaticResource OptionsTextLeftMargin}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}" >
+                <TextBlock Text="{Binding XWDC_BindingDynamicData_RangeValue, Source={StaticResource Strings}}" VerticalAlignment="Bottom" Width="80" />
+                <Slider x:Name="SldVolumeRange" Value="70" Minimum="10" Maximum="100" Width="80"  SmallChange="1" LargeChange="1" />
+                <TextBlock Text="{Binding ElementName=SldVolumeRange, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}" VerticalAlignment="Bottom" Width="30" Margin="{StaticResource OptionsTextLeftMargin}"/>
+            </StackPanel>
+
+            <Button x:Name="BtnBindData" Content="{Binding XWDC_BindingDynamicData_BindDynamicData, Source={StaticResource Strings}}"/>
+        </controls:OptionsPanel >
+    </Grid>
+</igFramework:SampleContainer>

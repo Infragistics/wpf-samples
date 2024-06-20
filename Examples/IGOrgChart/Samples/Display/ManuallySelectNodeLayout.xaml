@@ -1,0 +1,53 @@
+﻿<framework:SampleContainer x:Class="IGOrgChart.Samples.Display.ManuallySelectNodeLayout"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:data="clr-namespace:IGOrgChart.Samples.Display"
+    mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700" >
+
+    <framework:SampleContainer.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGOrgChart;component/Assets/Global.xaml" />
+                
+                
+            </ResourceDictionary.MergedDictionaries>
+
+            <SolidColorBrush x:Key="NodeBackgroundBrush1" Color="{StaticResource Color_024}"/>
+            <SolidColorBrush x:Key="NodeBorderBrush1" Color="#FFC6396A"/>
+        </ResourceDictionary>
+	</framework:SampleContainer.Resources>
+
+	<Grid x:Name="LayoutRoot" Width="Auto">    
+    
+		<!-- #BEGIN SNIPPET# -->
+		<ig:XamOrgChart x:Name="OrgChart" 
+                        NodeLayoutAssigned="OrgChart_NodeLayoutAssigned" 
+                        ItemsSource="{Binding Classes}" 
+                        NodeArrangementStrategy="Stagger" DisplayMemberPath="ClassName">
+			<!--Set the data context of the OrgChart-->
+			<ig:XamOrgChart.DataContext>
+				<data:SampleClassModel />
+			</ig:XamOrgChart.DataContext>
+			<ig:XamOrgChart.NodeStyle>
+                <Style TargetType="ig:OrgChartNodeControl">
+                    <Setter Property="Background" Value="{StaticResource NodeBackgroundBrush1}" />
+                    <Setter Property="BorderBrush" Value="{StaticResource NodeBorderBrush1}" />
+                    <Setter Property="Foreground" Value="{StaticResource ActiveForegroundBrush}" />
+                </Style>
+            </ig:XamOrgChart.NodeStyle>
+			<ig:XamOrgChart.NodeLayouts>
+				<!--Hierarchical Node Layouts-->
+				<ig:OrgChartNodeLayout Key="Methods" />
+				<ig:OrgChartNodeLayout Key="Interfaces" />
+				<ig:OrgChartNodeLayout Key="Properties" />
+			</ig:XamOrgChart.NodeLayouts>
+
+		</ig:XamOrgChart>
+        <!-- #END SNIPPET# -->
+
+	</Grid>
+</framework:SampleContainer>

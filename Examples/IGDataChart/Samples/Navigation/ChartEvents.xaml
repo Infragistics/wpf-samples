@@ -1,0 +1,220 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Navigation.ChartEvents"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="ChartEvents Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+      xmlns:resources="clr-namespace:IGDataChart.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+        
+      </ResourceDictionary.MergedDictionaries>
+            <resources:DataChartStrings x:Key="Strings" />
+            
+            <Style TargetType="{x:Type ig:Legend}">
+                <Setter Property="Background" Value="{StaticResource LegendBackgroundBrush}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource LegendBorderBrush}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+            </Style>
+            
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*" />
+            <RowDefinition Height="2*" />
+        </Grid.RowDefinitions>
+
+        <ig:XamDock Grid.Row="0">
+
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ========================================================================== -->
+            <!-- View code behind for implementation of XamDataChart events -->
+            <ig:XamDataChart x:Name="DataChart"
+                             GridMode="BeforeSeries"
+                             HorizontalZoombarVisibility="Visible"
+                             VerticalZoombarVisibility="Visible"
+                             HorizontalZoomable="True"
+                             VerticalZoomable="True"
+                             Loaded="DataChart_Loaded"
+                             WindowRectChanged="DataChart_WindowRectChanged"
+                             MouseEnter="DataChart_MouseEnter"
+                             MouseLeave="DataChart_MouseLeave" 
+                             MouseLeftButtonDown="DataChart_MouseLeftButtonDown"
+                             MouseLeftButtonUp="DataChart_MouseLeftButtonUp"
+                             MouseRightButtonDown="DataChart_MouseRightButtonDown"
+                             MouseRightButtonUp="DataChart_MouseRightButtonUp">
+                <ig:XamDataChart.DataContext>
+                    <models:StockMarketDataCollection />
+                </ig:XamDataChart.DataContext>
+
+                <ig:XamDataChart.Axes>
+                    <!-- View code behind for implementation of CategoryXAxis events -->
+                    <ig:CategoryXAxis x:Name="xmXAxis" Canvas.ZIndex="1"
+                                      ItemsSource="{Binding}"
+                                      MouseEnter="XAxis_MouseEnter"
+                                      MouseLeave="XAxis_MouseLeave"
+                                      MouseLeftButtonUp="XAxis_MouseLeftButtonUp"
+                                      MouseLeftButtonDown="XAxis_MouseLeftButtonDown"
+                                      Stroke="Black"
+                                      Loaded="XAxis_Loaded"
+                                      SizeChanged="XAxis_SizeChanged"
+                                      RangeChanged="XAxis_RangeChanged">
+                        <ig:CategoryXAxis.LabelSettings>
+                            <ig:AxisLabelSettings Extent="20"
+                                                  Location="OutsideBottom"
+                                                  VerticalAlignment="Center" />
+                        </ig:CategoryXAxis.LabelSettings>
+                        <ig:CategoryXAxis.Label>
+                            <DataTemplate x:Name="xAxisLabelTemplate">
+                                <!-- View code behind for implementation of CategoryXAxis Labels events -->
+                                <TextBlock x:Name="xAxisLabel"
+                                           FontFamily="{Binding Axis.LabelSettings.FontFamily}"
+                                           Text="{Binding Item.Index}"
+                                           MouseLeftButtonDown="XAxisLabel_MouseLeftButtonDown"
+                                           MouseLeftButtonUp="XAxisLabel_MouseLeftButtonUp"
+                                           MouseEnter="XAxisLabel_MouseEnter"
+                                           MouseLeave="XAxisLabel_MouseLeave" />
+                            </DataTemplate>
+                        </ig:CategoryXAxis.Label>
+                    </ig:CategoryXAxis>
+                    <!-- View code behind for implementation of NumericYAxis events -->
+                    <ig:NumericYAxis x:Name="xmYAxis" Canvas.ZIndex="1"
+                                     Loaded="YAxis_Loaded"
+                                     MouseEnter="YAxis_MouseEnter"
+                                     MouseLeave="YAxis_MouseLeave"
+                                     Stroke="Black"
+                                     MouseLeftButtonUp="YAxis_MouseLeftButtonUp"
+                                     MouseLeftButtonDown="YAxis_MouseLeftButtonDown"
+                                     SizeChanged="YAxis_SizeChanged"
+                                     RangeChanged="YAxis_RangeChanged" Strip="#26E2E2E2">
+                        <ig:NumericYAxis.LabelSettings>
+                            <ig:AxisLabelSettings Extent="40" Location="OutsideLeft" Visibility="Visible" />
+                        </ig:NumericYAxis.LabelSettings>
+                        <ig:NumericYAxis.Label>
+                            <DataTemplate x:Name="YAxisLabelTemplate">
+                                <!--View code behind for implementation of NumericYAxis Labels events-->
+                                <TextBlock x:Name="YAxisLabel"
+                                           Text="{Binding Item}"
+                                           Width="40"
+                                           MouseLeftButtonDown="YAxisLabel_MouseLeftButtonDown"
+                                           MouseLeftButtonUp="YAxisLabel_MouseLeftButtonUp"
+                                           MouseEnter="YAxisLabel_MouseEnter"
+                                           MouseLeave="YAxisLabel_MouseLeave" />
+                            </DataTemplate>
+                        </ig:NumericYAxis.Label>
+                    </ig:NumericYAxis>
+                </ig:XamDataChart.Axes>
+                <ig:XamDataChart.Series>
+                    <!--View code behind for implementation of AreaSeries events-->
+                    <ig:AreaSeries Legend="{Binding ElementName=xmLegend}"
+                                   Title="{Binding XWDC_ChartEvents_Series, Source={StaticResource Strings}}"
+                                   ItemsSource="{Binding}"
+                                   Thickness="1"
+                                   ValueMemberPath="Volume"
+                                   XAxis="{Binding ElementName=xmXAxis}"
+                                   YAxis="{Binding ElementName=xmYAxis}"
+                                   Loaded="Series_Loaded"
+                                   MouseEnter="Series_MouseEnter"
+                                   MouseLeave="Series_MouseLeave"
+                                   MouseLeftButtonDown="Series_MouseLeftButtonDown"
+                                   MouseLeftButtonUp="Series_MouseLeftButtonUp" 
+                                   MouseRightButtonDown="Series_MouseRightButtonDown"
+                                   MouseRightButtonUp="Series_MouseRightButtonUp"
+                                   IsHighlightingEnabled="True" IsTransitionInEnabled="True" >
+                        <ig:AreaSeries.MarkerTemplate>
+                            <DataTemplate>
+                                <!--View code behind for implementation of events for Marker -->
+                                <Ellipse Stretch="Fill"
+                                         HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Stretch"
+                                         Fill="{Binding ActualItemBrush}"
+                                         Stroke="{Binding Series.ActualMarkerOutline}"
+                                         StrokeThickness="2"
+                                         MinWidth="14"
+                                         MinHeight="14"
+                                         MouseEnter="Marker_MouseEnter"
+                                         MouseLeave="Marker_MouseLeave"
+                                         MouseLeftButtonDown="Marker_MouseLeftButtonDown"
+                                         MouseLeftButtonUp="Marker_MouseLeftButtonUp" />
+                            </DataTemplate>
+                        </ig:AreaSeries.MarkerTemplate>
+                    </ig:AreaSeries>
+                </ig:XamDataChart.Series>
+
+            </ig:XamDataChart>
+
+            <!--View code behind for implementation of events for Legend -->
+            <ig:Legend x:Name="xmLegend"
+                       Content="{Binding XWDC_ChartEvents_Legend, Source={StaticResource Strings}}"
+                       Margin="55,17,40,10" 
+                       ig:XamDock.Edge="InsideTop"
+                       ig:XamDock.HorizontalDockAlignment="Left"
+                       MouseEnter="Legend_MouseEnter"
+                       MouseLeave="Legend_MouseLeave"
+                       MouseLeftButtonDown="Legend_MouseLeftButtonDown"
+                       MouseLeftButtonUp="Legend_MouseLeftButtonUp">
+            </ig:Legend>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+
+        </ig:XamDock>
+        <Grid Margin="0,20,0,0" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" MinHeight="35"/>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid VerticalAlignment="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding XWDC_ChartEvents_EventHistory, Source={StaticResource Strings}}"
+                           VerticalAlignment="Center" Grid.Column="0" Style="{StaticResource SamplesTitleStyle}"/>
+                <Button Content="{Binding XWDC_ChartEvents_ClearEvents, Source={StaticResource Strings}}"
+                        HorizontalAlignment="Right" Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Click="Button_Click"
+
+                        Cursor="Hand" 
+                        Style="{StaticResource IGGenericButton}"/>
+            </Grid>
+
+            <ScrollViewer x:Name="svOutput" Grid.Row="1" HorizontalAlignment="Stretch" Margin="0" Padding="0" Style="{StaticResource IGScrollViewerStyle}">
+                <TextBox x:Name="evtOutput" Height="auto" Text="" IsReadOnly="True" Foreground="{StaticResource ForegroundBrush}"
+                         Background="Transparent" BorderBrush="Transparent" Margin="0" Padding="0"/>
+            </ScrollViewer>
+        </Grid>
+
+        <controls:OptionsPanel VerticalAlignment="Top" HorizontalAlignment="Right" Margin="15,22,30,15"
+                               HeaderText="{Binding XWDC_ChartEvents_TrackEvents, Source={StaticResource Strings}}">
+            <CheckBox x:Name="chbDataChartEvents" Content="{Binding XWDC_ChartEvents_DataChartEvents, Source={StaticResource Strings}}"
+                      IsChecked="True" Margin="{StaticResource OptionsElementsMargin}"/>
+            <CheckBox x:Name="chbLegendEvents" Content="{Binding XWDC_ChartEvents_LegendEvents, Source={StaticResource Strings}}"
+                      IsChecked="True" Margin="{StaticResource OptionsElementsMargin}"/>
+            <CheckBox x:Name="chbMarkerEvents" Content="{Binding XWDC_ChartEvents_MarkerEvents, Source={StaticResource Strings}}"
+                      IsChecked="True" Margin="{StaticResource OptionsElementsMargin}"/>
+            <CheckBox x:Name="chbSeriesEvents" Content="{Binding XWDC_ChartEvents_SeriesEvents, Source={StaticResource Strings}}"
+                      IsChecked="True" Margin="{StaticResource OptionsElementsMargin}"/>
+            <CheckBox x:Name="chbXAxisEvents" Content="{Binding XWDC_ChartEvents_XAxisEvents, Source={StaticResource Strings}}"
+                      IsChecked="True" Margin="{StaticResource OptionsElementsMargin}"/>
+            <CheckBox x:Name="chbYAxisEvents" Content="{Binding XWDC_ChartEvents_YAxisEvents, Source={StaticResource Strings}}"
+                      IsChecked="True" Margin="{StaticResource OptionsElementsMargin}"/>
+            <CheckBox x:Name="chbLabelEvents" Content="{Binding XWDC_ChartEvents_LabelEvents, Source={StaticResource Strings}}"
+                      IsChecked="True"/>
+        </controls:OptionsPanel>
+
+    </Grid>
+</igFramework:SampleContainer>

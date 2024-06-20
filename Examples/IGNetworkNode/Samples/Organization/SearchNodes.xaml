@@ -1,0 +1,74 @@
+﻿<framework:SampleContainer x:Class="IGNetworkNode.Samples.Organization.SearchNodes" 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGNetworkNode.Resources"                         
+    mc:Ignorable="d" d:DesignHeight="400" d:DesignWidth="700">
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGNetworkNode;component/Assets/Global.xaml" />
+                
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:NetworkNodeStrings x:Key="Strings"/>
+            <models:NetworkNodeCompanyData x:Key="SampleData" />
+            <!-- #BEGIN SNIPPET# -->
+            <!--This is the style, which is going to be applied to the 
+                nodes that are in the search results.-->
+				
+    <SolidColorBrush x:Key="HighlightedBackground" Color="{StaticResource Color_021}" />
+    <SolidColorBrush x:Key="HighlightedBorderBrush" Color="{StaticResource Color_021}" />
+
+            <Style x:Key="HighlightedStyle" TargetType="ig:NetworkNodeNodeControl">
+                <Setter Property="Background" Value="{StaticResource HighlightedBackground}" />
+                <Setter Property="BorderBrush" Value="{StaticResource HighlightedBorderBrush}" />
+                <Setter Property="Foreground" Value="{StaticResource ForegroundDarkBrush}" />
+            </Style>
+            <!-- #END SNIPPET# -->
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid>
+        <!-- #BEGIN SNIPPET# -->
+        <!--The Network Node and the sample data source.-->
+        <ig:XamNetworkNode x:Name="xnn"
+                           ItemsSource="{Binding Nodes, Source={StaticResource SampleData}}">
+            <ig:XamNetworkNode.GlobalNodeLayouts>
+                <ig:NetworkNodeNodeLayout
+                    TargetTypeName="NodeModel"
+                    DisplayMemberPath="Label"
+                    ToolTipMemberPath="ToolTip"
+                    ConnectionsMemberPath="Connections"
+                    ConnectionTargetMemberPath="Target"
+                    ConnectionWeightMemberPath="Weight" />
+            </ig:XamNetworkNode.GlobalNodeLayouts>
+        </ig:XamNetworkNode>
+        <!-- #END SNIPPET# -->
+
+        <controls:OptionsPanel HeaderText="{Binding Search, Source={StaticResource Strings}}"
+                               HorizontalAlignment="Right">
+            <StackPanel Width="170">
+                <!-- #BEGIN SNIPPET# -->
+                <!--The search box.-->
+                <TextBox x:Name="TextBoxSearchText" TextChanged="TextBox_TextChanged" Margin="{StaticResource OptionsElementsMargin}"/>
+                <!-- #END SNIPPET# -->
+                <TextBlock Text="{Binding SearchResults, Source={StaticResource Strings}}" Margin="{StaticResource OptionsElementsMargin}" />
+                <ListBox x:Name="ListBoxSearchResults" Height="150" BorderBrush="{StaticResource ListBoxBorderBrush}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock DataContext="{Binding Data}" Text="{Binding Label}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+        </controls:OptionsPanel>
+
+    </Grid>
+</framework:SampleContainer>
+

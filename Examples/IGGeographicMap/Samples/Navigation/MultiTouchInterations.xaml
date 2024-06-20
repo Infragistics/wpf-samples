@@ -1,0 +1,56 @@
+﻿<framework:SampleContainer 
+    x:Class="IGGeographicMap.Samples.MultiTouchInterations"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+      xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared" 
+      xmlns:resources="clr-namespace:IGGeographicMap.Resources" 
+    xmlns:providers="clr-namespace:Infragistics.Samples.Shared.DataProviders;assembly=Infragistics.Samples.Shared">
+ 
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGeographicMap;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <resources:AssetsLocalizer x:Key="AssetsLocalizer" />        
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ==========================================================================  -->
+        <!-- XamGeographicMap with enabled multi-touch interactions and crosshair tooltips -->
+        <ig:XamGeographicMap x:Name="GeoMap" Grid.Row="1"
+                             Background="{StaticResource MapOpenStreetBackground}" 
+                             PlotAreaBackground="Transparent"
+                             CrosshairVisibility="Visible"
+                             IsDragCrosshairEnabled="True"
+                             Zoomable="True"
+                             OverviewPlusDetailPaneVisibility="Visible" >
+        </ig:XamGeographicMap>
+        <!-- ========================================================================== -->
+        <!-- #END SNIPPET# -->
+        <TextBlock x:Name="OpenSourceCopyright" Grid.Row="1" Text="{Binding Path=XW_OpenSourceCopyright, Source={StaticResource CommonStrings}}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Style="{StaticResource SourceTextblockStyle}"  />
+        <StackPanel Orientation="Vertical" Visibility="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Stretch">
+            <CheckBox x:Name="ShowCrosshairLinesCheckBox" 
+                  Click="ShowCrosshairLinesCheckBox_Click"
+                  IsChecked="True"  Margin="2" 
+                  Content="{Binding Path=MapStrings.XWGM_MultiTouch_ShowCrosshairLines, Source={StaticResource AssetsLocalizer}}" >
+            </CheckBox>
+            <CheckBox x:Name="ShowCrosshairTootlipsOnDragCheckBox" 
+                  Click="ShowCrosshairTootlipsOnDragCheckBox_Click"
+                  IsChecked="True"  Margin="2" 
+                  Content="{Binding Path=MapStrings.XWGM_MultiTouch_ShowCrosshairTooltips, Source={StaticResource AssetsLocalizer}}" >
+            </CheckBox>
+        </StackPanel>
+    </Grid>
+</framework:SampleContainer>
+
+    

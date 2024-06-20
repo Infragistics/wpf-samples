@@ -1,0 +1,159 @@
+﻿<igFramework:SampleContainer x:Class="IGCarouselListBox.Samples.EditingAndSelection.ConfigureCarouselViewSettings"
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:igWindows="http://infragistics.com/Windows" 
+                             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d">
+    	
+    <Grid>
+        <Grid.Resources>
+            <XmlDataProvider x:Key="BookData"
+                             XPath="/Books">
+                <x:XData>
+                    <Books xmlns="">
+                        <Book ISBN="0-7356-0562-9"
+                              Stock="in">
+                            <Title>XML in Action</Title>
+                            <Summary>XML Web Technology</Summary>
+                        </Book>
+                        <Book ISBN="0-7356-1377-X"
+                              Stock="in">
+                            <Title>Introducing Microsoft .NET</Title>
+                            <Summary>Overview of .NET Technology</Summary>
+                        </Book>
+                        <Book ISBN="0-7356-1448-2"
+                              Stock="out">
+                            <Title>Microsoft C# Language Specifications</Title>
+                            <Summary>The C# language definition</Summary>
+                        </Book>
+                        <Book ISBN="0-7356-1370-2"
+                              Stock="in">
+                            <Title>Programming Microsoft Windows With C#</Title>
+                            <Summary>C# Programming using the .NET Framework</Summary>
+                        </Book>
+                        <Book ISBN="0-7356-1288-9"
+                              Stock="out">
+                            <Title>Inside C#</Title>
+                            <Summary>C# Language Programming</Summary>
+                        </Book>
+                        <Book ISBN="0-7356-1448-2"
+                              Stock="out">
+                            <Title>Microsoft C# Language Specifications</Title>
+                            <Summary>The C# language definition</Summary>
+                        </Book>
+                        <Book ISBN="0-7356-1370-2"
+                              Stock="in">
+                            <Title>Programming Microsoft Windows With C#</Title>
+                            <Summary>C# Programming using the .NET Framework</Summary>
+                        </Book>
+                        <Book ISBN="0-7356-1377-X"
+                              Stock="in">
+                            <Title>Introducing Microsoft .NET</Title>
+                            <Summary>Overview of .NET Technology</Summary>
+                        </Book>
+                        <Book ISBN="0-7356-1448-2"
+                              Stock="out">
+                            <Title>Microsoft C# Language Specifications</Title>
+                            <Summary>The C# language definition</Summary>
+                        </Book>
+                    </Books>
+                </x:XData>
+            </XmlDataProvider>
+            <DataTemplate x:Key="SimpleDataTemplate">
+                <Grid Height="80"
+                      Width="200">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Path Height="Auto"
+                          Width="Auto"
+                          Stretch="Fill"
+                          Opacity="1"
+                          Data="M 220.375,105 C220.375,105 4.625,105 4.625,105 2.0706787109375,105 0,102.9293212890625 0,100.375 0,100.375 0,4.625 0,4.625 0,2.0706787109375 2.0706787109375,0 4.625,0 4.625,0 220.375,0 220.375,0 222.9293212890625,0 225,2.0706787109375 225,4.625 225,4.625 225,100.375 225,100.375 225,102.9293212890625 222.9293212890625,105 220.375,105 z"
+                          Margin="0,0,0,0"
+                          Grid.RowSpan="2"/>
+                    <TextBlock Text="{Binding XPath=Title}"
+                               HorizontalAlignment="Left"
+                               Margin="20,0,0,0"
+                               VerticalAlignment="Center"
+                               Width="Auto"
+                               Height="Auto"
+                               FontSize="11"
+                               FontWeight="Bold"
+                               TextWrapping="Wrap" />
+                    <TextBlock Text="{Binding XPath=Summary}"
+                               HorizontalAlignment="Left"
+                               Margin="20,0,0,0"
+                               VerticalAlignment="Center"
+                               Width="Auto"
+                               Height="Auto"
+                               Grid.Row="1"
+                               FontSize="10"
+                               TextWrapping="Wrap" />
+                </Grid>
+            </DataTemplate>
+        </Grid.Resources>
+        <!-- #BEGIN SNIPPET# -->
+        <igWindows:XamCarouselListBox ItemsSource="{Binding Source={StaticResource BookData}, XPath=Book}"
+                                      ItemTemplate="{StaticResource SimpleDataTemplate}" >
+            <igWindows:XamCarouselListBox.ViewSettings>
+                <igWindows:CarouselViewSettings ItemsPerPage="7"
+                                                ReserveSpaceForReflections="True"
+                                                IsNavigatorVisible="True"
+                                                RotateItemsWithPathTangent="False"
+                                                ItemSize="220,100"
+                                                ShouldScrollItemsIntoInitialPosition="True"
+                                                IsListContinuous="True"
+                                                UseOpacity="True"
+                                                UseZOrder="True"
+                                                ItemPath="{Binding ElementName=customPath, Mode=OneWay}"
+                                                ItemPathAutoPad="False"
+                                                ItemPathPadding="80,0,80,150">
+                    <igWindows:CarouselViewSettings.ItemPathRenderPen>
+                        <Pen Brush="Black"
+                             Thickness="0" />
+                    </igWindows:CarouselViewSettings.ItemPathRenderPen>
+                    <igWindows:CarouselViewSettings.OpacityEffectStops>
+                        <igWindows:OpacityEffectStopCollection>
+                            <igWindows:OpacityEffectStop />
+                            <igWindows:OpacityEffectStop Offset="0.4"
+                                                         Value="0.3" />
+                            <igWindows:OpacityEffectStop Offset="0.5"
+                                                         Value="1" />
+                            <igWindows:OpacityEffectStop Offset="0.6"
+                                                         Value="0.3" />
+                            <igWindows:OpacityEffectStop Offset="1" />
+                        </igWindows:OpacityEffectStopCollection>
+                    </igWindows:CarouselViewSettings.OpacityEffectStops>
+                    <igWindows:CarouselViewSettings.ScalingEffectStops>
+                        <igWindows:ScalingEffectStopCollection>
+                            <igWindows:ScalingEffectStop />
+                            <igWindows:ScalingEffectStop Offset="0.4"
+                                                         Value=".5" />
+                            <igWindows:ScalingEffectStop Offset="0.5"
+                                                         Value="1.3" />
+                            <igWindows:ScalingEffectStop Offset="0.6"
+                                                         Value=".5" />
+                            <igWindows:ScalingEffectStop Offset="1" />
+                        </igWindows:ScalingEffectStopCollection>
+                    </igWindows:CarouselViewSettings.ScalingEffectStops>
+                    <igWindows:CarouselViewSettings.ZOrderEffectStops>
+                        <igWindows:ZOrderEffectStop />
+                        <igWindows:ZOrderEffectStop Offset="0.5"
+                                                    Value="1" />
+                        <igWindows:ZOrderEffectStop Offset="1" />
+                    </igWindows:CarouselViewSettings.ZOrderEffectStops>
+                </igWindows:CarouselViewSettings>
+            </igWindows:XamCarouselListBox.ViewSettings>
+        </igWindows:XamCarouselListBox>
+        <!-- #END SNIPPET# -->
+        <Path Visibility="Hidden"
+              Fill="{x:Null}"
+              Stretch="Fill"
+              Stroke="#FF000000"
+              Margin="58.5,23.5,76.5,50.813"
+              x:Name="customPath"
+              Data="M-85,57 L-47.291667,174.20304 96,211" />
+    </Grid>
+</igFramework:SampleContainer>

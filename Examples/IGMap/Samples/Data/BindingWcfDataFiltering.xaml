@@ -1,0 +1,126 @@
+﻿<igFramework:SampleContainer x:Class="IGMap.Samples.Data.BindingWcfDataFiltering"
+             xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:ig="http://schemas.infragistics.com/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:resources="clr-namespace:IGMap.Resources"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:providers="clr-namespace:Infragistics.Samples.Shared.DataProviders;assembly=Infragistics.Samples.Shared" 
+             xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+             xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared" 
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="400" >
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGMap;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+           <converters:GetImagePathConverter x:Key="GetImageConverter" />
+            <Style x:Key="ThumbnailWorldStyle" TargetType="Path">
+                <Setter Property="Fill">
+                    <Setter.Value>
+                        <ImageBrush ImageSource="{Binding Source='Maps/tinyWorld.png', Converter={StaticResource GetImageConverter}}" />
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="MapStyle" TargetType="ig:MapLayer">
+                <Setter Property="Foreground" Value="#863215" />
+                <Setter Property="FillMode" Value="Choropleth" />
+                <Setter Property="ShadowFill" Value="#40000000" />
+                <Setter Property="Stroke" Value="#66FFFFFF" />
+                <Setter Property="StrokeThickness" Value="1" />
+                <Setter Property="Brushes" Value="#FDB934 #DF5120" />
+                <Setter Property="ShadowOffset" Value="1,1" />
+            </Style>
+            <resources:MapStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <Grid x:Name="LayoutRoot" Margin="5">
+        <!-- #BEGIN SNIPPET# -->
+		<ig:XamMap x:Name="theMap"
+		           Background="Transparent"
+		           WindowZoomMaximum="30" 
+		           HorizontalContentAlignment="Stretch">
+			<ig:XamMap.Layers>
+				<!-- the DataMapping set on the Layer draws from the layer's DataSource, the WCF service. -->
+				<ig:MapLayer LayerName="statesLayer"
+				             DataMapping="Name=CountryCode;"
+				             Style="{StaticResource MapStyle}"
+				             ToolTip="{}{Country} {Value:n0}">
+					<!-- Note: The ShapefileReader's DataMapping loads data from the .dbf file -->
+                    <ig:MapLayer.Reader>
+                        <ig:ShapeFileReader DataMapping="Name=CODE; Country=CNTRY_NAME; Caption=CODE; ">
+                            <ig:ShapeFileReader.Uri>
+                                <Binding Path="ShapeFileAbsolutePath">
+                                    <Binding.Source>
+                                        <providers:ShapeFileProvider ShapeFileRelativePath="/world" />
+                                    </Binding.Source>
+                                </Binding>
+                            </ig:ShapeFileReader.Uri>
+                        </ig:ShapeFileReader>
+                    </ig:MapLayer.Reader>
+                    <ig:MapLayer.ValueScale>
+						<ig:LinearScale />
+					</ig:MapLayer.ValueScale>
+				</ig:MapLayer>
+			</ig:XamMap.Layers>
+			<ig:MapNavigationPane  Margin="15"
+			                      ig:XamDock.HorizontalDockAlignment="Right"
+			                      ig:XamDock.Edge="InsideTop" />
+			<ig:MapThumbnailPane Width="200"
+			                     Height="100"
+			                     HorizontalAlignment="Center"
+			                     Margin="0,0,0,0"
+			                     Background="Transparent"
+			                     ig:XamDock.Edge="InsideBottom"
+			                     Visibility="Collapsed" />
+			<TextBlock x:Name="mapTitle"
+			           Grid.Row="1"
+			           ig:XamDock.Edge="InsideRight"
+			           ig:XamDock.HorizontalDockAlignment="Right"
+			           ig:XamDock.VerticalDockAlignment="Bottom"
+			           Margin="5,5,15,5"
+			           FontSize="12"
+			           FontWeight="Normal"
+			           Foreground="#FF999999"
+			           Text="{Binding Path=XWM_WorldData_NoCategorySelectedLabel, Source={StaticResource Strings}}"
+			           TextAlignment="Right" />
+			<ig:MapColorSwatchPane x:Name="mapSwatchPane"
+			                       Width="250"
+			                       Height="50"
+			                       Margin="15"
+			                       DisplayMode="Sample"
+			                       ig:XamDock.Edge="InsideRight"
+			                       ig:XamDock.HorizontalDockAlignment="Right"
+			                       ig:XamDock.VerticalDockAlignment="Bottom"
+			                       LayerName="statesLayer" />
+		</ig:XamMap>
+        <!-- #END SNIPPET# -->
+		<TextBlock x:Name="accessingDataMessage"
+		           Grid.RowSpan="2"
+		           HorizontalAlignment="Center"
+		           VerticalAlignment="Center"
+		           Foreground="Black"
+		           Text="{Binding Path=XWM_WorldData_AccessingLabel, Source={StaticResource Strings}}" />
+        <controls:OptionsPanel x:Name="OptionsPanel" HeaderText="{Binding Path=XWM_WorldData_SampleTitleLabel, Source={StaticResource Strings}}" 
+                               VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,15,15,15">
+            <StackPanel>
+                <TextBlock HorizontalAlignment="Left" FontWeight="Bold" Text="{Binding Path=XWM_WorldData_DataTypeLabel, Source={StaticResource Strings}}" Margin="0,0,0,5"></TextBlock>
+                <ListBox x:Name="lbDataSources" VerticalAlignment="Stretch" Margin="0" Background="Transparent" BorderThickness="0" 
+                         >
+                    <ListBoxItem Content="{Binding Path=XWM_WorldData_Types_BirthLabel, Source={StaticResource Strings}}" Tag="Birth Rate" />
+                    <ListBoxItem Content="{Binding Path=XWM_WorldData_Types_ElectricLabel, Source={StaticResource Strings}}" Tag="Electricity Production" />
+                    <ListBoxItem Content="{Binding Path=XWM_WorldData_Types_InternetLabel, Source={StaticResource Strings}}" Tag="Internet Users" />
+                    <ListBoxItem Content="{Binding Path=XWM_WorldData_Types_MedianAgeLabel, Source={StaticResource Strings}}" Tag="Median Age" />
+                    <ListBoxItem Content="{Binding Path=XWM_WorldData_Types_OilLabel, Source={StaticResource Strings}}" Tag="Oil Production" />
+                    <ListBoxItem Content="{Binding Path=XWM_WorldData_Types_PopLabel, Source={StaticResource Strings}}" Tag="Population" />
+                    <ListBoxItem Content="{Binding Path=XWM_WorldData_Types_DebtLabel, Source={StaticResource Strings}}" Tag="Public Debt" />
+                    <ListBoxItem Content="{Binding Path=XWM_WorldData_Types_TVLabel, Source={StaticResource Strings}}" Tag="Televisions" />
+                    <ListBoxItem Content="{Binding Path=XWM_WorldData_Types_UnEmployLabel, Source={StaticResource Strings}}" Tag="Unemployment Rate" />
+                </ListBox>
+            </StackPanel>
+        </controls:OptionsPanel>
+        <TextBlock HorizontalAlignment="Left" Margin="5" VerticalAlignment="Bottom" FontSize="12" FontWeight="Normal" Foreground="#FF999999" Text="{Binding Path=XWM_WorldData_CIASourceLabel, Source={StaticResource Strings}}" />
+	</Grid>
+</igFramework:SampleContainer>

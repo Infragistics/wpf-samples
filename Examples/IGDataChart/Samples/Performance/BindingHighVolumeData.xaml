@@ -1,0 +1,144 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Performance.BindingHighVolumeData"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="BindingHighVolumeData Page"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:resources="clr-namespace:IGDataChart.Resources" >
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <ig:StringFormatConverter x:Key="StringFormatConverter" />
+            <resources:DataChartStrings x:Key="DataChartStrings" /> 
+            <DataTemplate x:Key="LegendItemDataTemplate">
+                <Grid />
+            </DataTemplate>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ================================================================================================== -->
+        <ig:XamDataChart x:Name="DataChart" Grid.Row="0"
+                         VerticalZoomable="True" VerticalZoombarVisibility="Collapsed"
+                         HorizontalZoomable="True" HorizontalZoombarVisibility="Collapsed">
+            <ig:XamDataChart.Axes>
+                <ig:CategoryXAxis x:Name="xAxis" ItemsSource="{Binding}" Label="{}{Index:0,0}">
+                    <ig:CategoryXAxis.LabelSettings>
+                        <ig:AxisLabelSettings Location="OutsideTop" Extent="45" VerticalAlignment="Center" Visibility="Visible" />
+                    </ig:CategoryXAxis.LabelSettings>
+                </ig:CategoryXAxis>
+                <ig:NumericYAxis x:Name="yAxis">
+                    <ig:NumericYAxis.LabelSettings>
+                        <ig:AxisLabelSettings Location="OutsideLeft" Extent="50" VerticalAlignment="Center" Visibility="Visible" />
+                    </ig:NumericYAxis.LabelSettings>
+                </ig:NumericYAxis>
+            </ig:XamDataChart.Axes>
+            <ig:XamDataChart.Series>
+                <ig:LineSeries Title="{Binding XWDC_BindingHighVolumeData_HighVolumeData, Source={StaticResource DataChartStrings}}"
+                               LegendItemBadgeTemplate="{StaticResource LegendItemDataTemplate}"
+                               XAxis="{Binding ElementName=xAxis}"
+                               YAxis="{Binding ElementName=yAxis}"
+                               ValueMemberPath="Value" Thickness="2"
+                               ItemsSource="{Binding}" MarkerType="None">
+                    <ig:LineSeries.ToolTip>
+                        <StackPanel>
+                            <TextBlock Margin="2" Text="{Binding Series.Title}" FontWeight="Bold" VerticalAlignment="Center" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="2" Text="{Binding XW_Value, Source={StaticResource CommonStrings}}" VerticalAlignment="Center"></TextBlock>
+                                <TextBlock Margin="2" Text="{Binding Item.Value, StringFormat='0,0'}" VerticalAlignment="Center" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="2" Text="Item" VerticalAlignment="Center"></TextBlock>
+                                <TextBlock Margin="2" Text="{Binding Item.Index, StringFormat='0,0'}" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </StackPanel>
+                    </ig:LineSeries.ToolTip>
+                </ig:LineSeries>
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+        <!-- ================================================================================================== -->
+        <!-- #END SNIPPET# -->
+
+        <Grid Grid.Column="0" Grid.Row="1" Margin="0,20,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <Grid.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}"/>
+            </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="0" Margin="{StaticResource OptionsTextRightMargin}">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="{StaticResource OptionsElementsMargin}">
+                        <TextBlock Text="{Binding XW_DataPoints, Source={StaticResource CommonStrings}}"/>
+                        <TextBlock x:Name="DataPointsCountTextBlock" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                    <Slider Margin="{StaticResource OptionsElementsMargin}" x:Name="DataPointsCountSlider" Value="50000" Minimum="50000" Maximum="1000000" SmallChange="50000" LargeChange="50000"
+                            VerticalAlignment="Center" HorizontalAlignment="Stretch" Style="{StaticResource IGSliderStyle}"/>
+                </StackPanel>
+                <StackPanel>
+                    <Button Margin="{StaticResource OptionsElementsMargin}" Content="{Binding XWDC_BindingHighVolumeData_BindHighVolumeData, Source={StaticResource DataChartStrings}}"  Click="OnButtonClick" Style="{StaticResource IGGenericButton}"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock Text="{Binding XWDC_BindingHighVolumeData_CompletedInSeconds, Source={StaticResource DataChartStrings}}" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="DataBindingTimeSpanTextBlock" Text="" Width="50" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+            <ig:XamDataChart x:Name="PerformanceHistoryChart" Grid.Row="0" Grid.Column="1" VerticalAlignment="Stretch" VerticalZoomable="False" VerticalZoombarVisibility="Collapsed" HorizontalZoomable="False" HorizontalZoombarVisibility="Collapsed">
+                <ig:XamDataChart.Axes>
+                    <ig:CategoryXAxis TickLength="0" x:Name="xAxis2" Interval="1" Label="{}{Label}" ItemsSource="{Binding}">
+                        <ig:CategoryXAxis.LabelSettings>
+                            <ig:AxisLabelSettings Location="OutsideBottom" Angle="90" Visibility="Visible" Extent="60" VerticalAlignment="Bottom" HorizontalAlignment="Right" />
+                        </ig:CategoryXAxis.LabelSettings>
+                    </ig:CategoryXAxis>
+                    <ig:NumericYAxis x:Name="yAxis2" Label="{}{:F3}" MinimumValue="0" Interval="0.25" MaximumValue="1">
+                        <ig:NumericYAxis.LabelSettings>
+                            <ig:AxisLabelSettings Location="OutsideRight" Extent="60" HorizontalAlignment="Center" />
+                        </ig:NumericYAxis.LabelSettings>
+                    </ig:NumericYAxis>
+                </ig:XamDataChart.Axes>
+                <ig:XamDataChart.Series>
+                    <ig:ColumnSeries Title="{Binding XWDC_BindingHighVolumeData_PerformanceHistory, Source={StaticResource DataChartStrings}}"
+                                     LegendItemBadgeTemplate="{StaticResource LegendItemDataTemplate}"
+                                     XAxis="{Binding ElementName=xAxis2}"
+                                     YAxis="{Binding ElementName=yAxis2}"
+                                     ValueMemberPath="TimeSpan.TotalSeconds"
+                                     Thickness=".5"
+                                     ItemsSource="{Binding}" MarkerType="None">
+                        <ig:ColumnSeries.ToolTip>
+                            <StackPanel>
+                                <TextBlock Margin="2" Text="{Binding Series.Title}" FontWeight="Bold" VerticalAlignment="Center" />
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Margin="2" Text="{Binding XW_DataPoints, Source={StaticResource CommonStrings}}" VerticalAlignment="Center"></TextBlock>
+                                    <TextBlock Margin="2" Text="{Binding Item.Label}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Margin="2" Text="{Binding XW_BindingTime, Source={StaticResource CommonStrings}}" VerticalAlignment="Center"></TextBlock>
+                                    <TextBlock Margin="2" Text="{Binding Item.TimeSpan.TotalSeconds, Converter={StaticResource StringFormatConverter}, ConverterParameter='0,0.000'}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                                </StackPanel>
+                            </StackPanel>
+                        </ig:ColumnSeries.ToolTip>
+                    </ig:ColumnSeries>
+                </ig:XamDataChart.Series>
+            </ig:XamDataChart>
+        </Grid>
+    </Grid>
+
+</igFramework:SampleContainer>

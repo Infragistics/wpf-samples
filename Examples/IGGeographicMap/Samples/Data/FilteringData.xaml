@@ -1,0 +1,142 @@
+﻿<framework:SampleContainer x:Class="IGGeographicMap.Samples.Data.FilteringData"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:providers="clr-namespace:Infragistics.Samples.Shared.DataProviders;assembly=Infragistics.Samples.Shared"
+      xmlns:sharedResources="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared" 
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+      xmlns:strings="clr-namespace:IGGeographicMap.Resources">
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGeographicMap;component/Assets/GlobalExtended.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <ig:StringFormatConverter x:Key="StringFormatConverter" />
+            <strings:MapStrings x:Key="MapStrings" />
+            <sharedResources:ModelStrings x:Key="ModelStrings" />
+            <DropShadowEffect x:Key="ShadowEffect" Color="White" ShadowDepth="1" BlurRadius="5" Opacity="0.5" />
+            <SolidColorBrush x:Key="MarkerStroke" Color="{StaticResource Color_013}"/>
+            <SolidColorBrush x:Key="MarkerBackground" Color="{StaticResource Color_046}"/>
+            <DataTemplate x:Key="EarthQuakeMarker">
+                <Ellipse Fill="{StaticResource MarkerBackground}" Effect="{StaticResource ShadowEffect}" 
+                         Stroke="{StaticResource MarkerStroke}" StrokeThickness="0.5" Width="8" Height="8" />
+            </DataTemplate>
+            <!-- ShapeFileProvider provides absolute path to a shape file -->
+            <!--<providers:ShapeFileProvider x:Key="ShapeFileProvider"
+                                         ShapeFileRelativePath="/world/world_earthquakes_usgs.shp"
+                                         ShapeDatabaseRelativePath="world/world_earthquakes_usgs.dbf"/>-->
+            <!-- ShapefileConverter loads shapes from shape files (SHP) and -->
+            <!-- stores them in the Points property as List<List<Point>> object type -->
+            <!--<ig:ShapefileConverter x:Key="shapeFileSource"
+                                   CollectionChanged="OnShapefileCollectionChanged"
+                                   ShapefileSource="{Binding Path=ShapeFileAbsolutePath, Source={StaticResource ShapeFileProvider}}"
+                                   DatabaseSource="{Binding Path=ShapeDatabaseAbsolutePath, Source={StaticResource ShapeFileProvider}}" />-->
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+ 
+    <Grid x:Name="LayoutRoot" Opacity="1">
+    
+        <ig:XamGeographicMap x:Name="GeoMap"  
+                             PlotAreaBackground="{StaticResource GeoMapSbPlotAreaBackgroundBrush}"
+                             OverviewPlusDetailPaneVisibility="Collapsed"
+                             Zoomable="True"  >
+            <ig:XamGeographicMap.BackgroundContent>
+                <ig:OpenStreetMapImagery Opacity="1" />
+            </ig:XamGeographicMap.BackgroundContent>
+            <ig:XamGeographicMap.Series>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <!-- ShapeSeries with items filtered using CollectionViewSource and EarthQuakeFilter -->
+                <ig:GeographicSymbolSeries x:Name="EarthQuakeSeries"   
+                                           ItemsSource="{Binding Path=EarthQuakeFilteredData.View}"  
+                                           LatitudeMemberPath="EarthQuakeData.Latitude"
+                                           LongitudeMemberPath="EarthQuakeData.Longitude"
+                                           MarkerCollisionAvoidance="None" 
+                                           MarkerTemplate="{StaticResource EarthQuakeMarker}" >
+                    <!-- custom tooltip with bindings to filtered EarthQuake items-->
+                    <ig:GeographicSymbolSeries.ToolTip>
+                            <StackPanel Margin="4">
+                                <TextBlock Text="{Binding Path=XWM_Earthquake, Source={StaticResource ModelStrings}}" FontWeight="Bold" Foreground="{StaticResource ForegroundBrush}"/>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock Text="{Binding Path=XWM_Magnitude, Source={StaticResource ModelStrings}}" />
+                                    <TextBlock Text="{Binding Path=Item.EarthQuakeData.Magnitude, StringFormat=0.0}" Foreground="{StaticResource ForegroundBrush}" Margin="4,2,2,2" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock Text="{Binding Path=XWM_Depth, Source={StaticResource ModelStrings}}" />
+                                    <TextBlock Text="{Binding Path=Item.EarthQuakeData.Depth, StringFormat=0.0}" Foreground="{StaticResource ForegroundBrush}" Margin="4,2,2,2" />
+                                </StackPanel>
+                            </StackPanel>
+                    </ig:GeographicSymbolSeries.ToolTip>
+                </ig:GeographicSymbolSeries>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamGeographicMap.Series>
+        </ig:XamGeographicMap>
+        <TextBlock x:Name="OpenSourceCopyright" Text="{Binding Path=XW_OpenSourceCopyright, Source={StaticResource CommonStrings}}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Style="{StaticResource SourceTextblockStyle}"  />
+        <controls:OptionsPanel HeaderText="{Binding Path=XWGM_FilteringData, Source={StaticResource MapStrings}}"
+                               Margin="5" VerticalAlignment="Top" HorizontalAlignment="Right">
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}"/>
+            </controls:OptionsPanel.Resources>
+
+            <StackPanel Orientation="Vertical"  >
+
+                <!--EarthQuake Magnitude Filter -->
+                <TextBlock Text="{Binding Path=XWGM_EarthQuakeMagnitudeFilter, Source={StaticResource MapStrings}}" Style="{StaticResource OptionsPanelTitleStyle}" Margin="{StaticResource OptionsElementsMargin}"/>
+                <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}">
+                    <TextBlock Text="{Binding Path=XWGM_MinimumValue, Source={StaticResource MapStrings}}" VerticalAlignment="Center"  />
+                    <TextBlock Text=":" VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding ElementName=MagnitudeMinimumValueSlider, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0.00'}" Width="35" VerticalAlignment="Center" HorizontalAlignment="Right"  />
+                </StackPanel>
+                <Slider x:Name="MagnitudeMinimumValueSlider" Value="{Binding Path=EarthQuakeFilter.EarthQuakeMinMagnitude, Mode=TwoWay}" 
+                        Minimum="5" Maximum="6" SmallChange="0.25" LargeChange="0.25" VerticalAlignment="Stretch"  Margin="{StaticResource OptionsElementsMargin}"/>
+
+                <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}">
+                    <TextBlock Text="{Binding Path=XWGM_MaximumValue, Source={StaticResource MapStrings}}" VerticalAlignment="Center"  />
+                    <TextBlock Text=":" VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding ElementName=MagnitudeMaximumValueSlider, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0.00'}" Width="35" VerticalAlignment="Center" HorizontalAlignment="Right"  />
+                </StackPanel>
+                <Slider x:Name="MagnitudeMaximumValueSlider" Value="{Binding Path=EarthQuakeFilter.EarthQuakeMaxMagnitude, Mode=TwoWay}" 
+                        Minimum="6" Maximum="10" SmallChange="0.25" LargeChange="0.25" VerticalAlignment="Stretch" Margin="{StaticResource OptionsElementsMargin}" />
+
+                <!--EarthQuake Depth Filter -->
+                <TextBlock Text="{Binding Path=XWGM_EarthQuakeDepthFilter, Source={StaticResource MapStrings}}" Style="{StaticResource OptionsPanelTitleStyle}"/>
+                <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}">
+                    <TextBlock Text="{Binding Path=XWGM_MinimumValue, Source={StaticResource MapStrings}}" VerticalAlignment="Center"  />
+                    <TextBlock Text=":" VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding ElementName=DepthMinimumValueSlider, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}" Width="35" VerticalAlignment="Center" HorizontalAlignment="Right"  />
+                </StackPanel>
+                <Slider x:Name="DepthMinimumValueSlider" Value="{Binding Path=EarthQuakeFilter.EarthQuakeMinDepth, Mode=TwoWay}" 
+                        Minimum="0" Maximum="100" SmallChange="10" LargeChange="10" VerticalAlignment="Stretch" Margin="{StaticResource OptionsElementsMargin}" />
+
+                <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}">
+                    <TextBlock Text="{Binding Path=XWGM_MaximumValue, Source={StaticResource MapStrings}}" VerticalAlignment="Center"  />
+                    <TextBlock Text=":" VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding ElementName=DepthMaximumValueSlider, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}" Width="35" VerticalAlignment="Center" HorizontalAlignment="Right"  />
+                </StackPanel>
+                <Slider x:Name="DepthMaximumValueSlider" Value="{Binding Path=EarthQuakeFilter.EarthQuakeMaxDepth, Mode=TwoWay}" 
+                        Minimum="100" Maximum="1000" SmallChange="10" LargeChange="10" VerticalAlignment="Stretch" Margin="{StaticResource OptionsElementsMargin}" />
+
+                <!--EarthQuakes Count -->
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding Path=XWGM_EarthQuakesCount, Source={StaticResource MapStrings}}" Style="{StaticResource OptionsPanelTitleStyle}" VerticalAlignment="Center"  />
+                    <TextBlock Text=":" VerticalAlignment="Center" Style="{StaticResource OptionsPanelTitleStyle}"  />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="{Binding Path=EarthQuakeFilteredData.View.Count}" VerticalAlignment="Center"  />
+                    <TextBlock Text="/" VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding Path=EarthQuakeData.Count}" Width="35" VerticalAlignment="Center" HorizontalAlignment="Right"  />
+                </StackPanel>
+                
+            </StackPanel>
+        </controls:OptionsPanel>
+
+        <TextBlock x:Name="MapDataSource" Text="{Binding Path=XW_Source_USNA, Source={StaticResource CommonStrings}}" Style="{StaticResource SourceDataTextBoxStyle}"  />
+    
+    </Grid>
+</framework:SampleContainer>

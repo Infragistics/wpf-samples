@@ -1,0 +1,613 @@
+﻿<framework:SampleContainer x:Class="IGInputs.Samples.Style.xamInputsStyling"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="xamInputsStyling"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+      xmlns:res="clr-namespace:IGInputs.Resources"
+      xmlns:System="clr-namespace:System;assembly=mscorlib">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGInputs;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <res:InputStrings x:Key="Strings"/>
+            <!-- #BEGIN SNIPPET# -->
+            <Style x:Key="spinButtonStyle1" TargetType="RepeatButton">
+                <Setter Property="Opacity" Value="0.75"/>
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Offset="0" Color="#FFF2F2F2"/>
+                            <GradientStop Offset="1" Color="#FFE1E1E1"/>
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="BorderBrush" Value="#FFCCCCCC"/>
+                <Setter Property="Padding" Value="6,1"/>
+                <Setter Property="Margin" Value="2"/>
+                <Setter Property="IsTabStop" Value="False"/>
+                <Setter Property="igPrim:XamlHelper.Focusable" Value="False"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="RepeatButton">
+                            <Grid>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal"/>
+                                        <VisualState x:Name="MouseOver">
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="0" Storyboard.TargetName="BackgroundAnimation" Storyboard.TargetProperty="Opacity" To="1"/>
+                                                <ColorAnimation Duration="0" Storyboard.TargetName="BackgroundGradient" Storyboard.TargetProperty="(Rectangle.Fill).(GradientBrush.GradientStops)[1].(GradientStop.Color)" To="#F2FFFFFF"/>
+                                                <ColorAnimation Duration="0" Storyboard.TargetName="BackgroundGradient" Storyboard.TargetProperty="(Rectangle.Fill).(GradientBrush.GradientStops)[2].(GradientStop.Color)" To="#CCFFFFFF"/>
+                                                <ColorAnimation Duration="0" Storyboard.TargetName="BackgroundGradient" Storyboard.TargetProperty="(Rectangle.Fill).(GradientBrush.GradientStops)[3].(GradientStop.Color)" To="#7FFFFFFF"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <Storyboard>
+                                                <ColorAnimation Duration="0" Storyboard.TargetName="Background" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="#FFCCCCCC"/>
+                                                <DoubleAnimation Duration="0" Storyboard.TargetName="BackgroundAnimation" Storyboard.TargetProperty="Opacity" To="1"/>
+                                                <ColorAnimation Duration="0" Storyboard.TargetName="BackgroundGradient" Storyboard.TargetProperty="(Rectangle.Fill).(GradientBrush.GradientStops)[0].(GradientStop.Color)" To="#D8FFFFFF"/>
+                                                <ColorAnimation Duration="0" Storyboard.TargetName="BackgroundGradient" Storyboard.TargetProperty="(Rectangle.Fill).(GradientBrush.GradientStops)[1].(GradientStop.Color)" To="#C6FFFFFF"/>
+                                                <ColorAnimation Duration="0" Storyboard.TargetName="BackgroundGradient" Storyboard.TargetProperty="(Rectangle.Fill).(GradientBrush.GradientStops)[2].(GradientStop.Color)" To="#8CFFFFFF"/>
+                                                <ColorAnimation Duration="0" Storyboard.TargetName="BackgroundGradient" Storyboard.TargetProperty="(Rectangle.Fill).(GradientBrush.GradientStops)[3].(GradientStop.Color)" To="#3FFFFFFF"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Disabled">
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="0" Storyboard.TargetName="DisabledVisualElement" Storyboard.TargetProperty="Opacity" To=".55"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="FocusStates">
+                                        <VisualState x:Name="Focused">
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="0" Storyboard.TargetName="FocusVisualElement" Storyboard.TargetProperty="Opacity" To="1"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Unfocused" />
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Border x:Name="Background" Background="White" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
+                                    <Grid Background="{TemplateBinding Background}"  Margin="1">
+                                        <Border Opacity="0"  x:Name="BackgroundAnimation" Background="#FFCCCCCC" />
+                                        <Rectangle x:Name="BackgroundGradient" >
+                                            <Rectangle.Fill>
+                                                <LinearGradientBrush StartPoint=".7,0" EndPoint=".7,1">
+                                                    <GradientStop Color="#FFFFFFFF" Offset="0" />
+                                                    <GradientStop Color="#F9FFFFFF" Offset="0.375" />
+                                                    <GradientStop Color="#E5FFFFFF" Offset="0.625" />
+                                                    <GradientStop Color="#C6FFFFFF" Offset="1" />
+                                                </LinearGradientBrush>
+                                            </Rectangle.Fill>
+                                        </Rectangle>
+                                    </Grid>
+                                </Border>
+                                <ContentPresenter
+                              x:Name="contentPresenter"
+                              Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              Margin="{TemplateBinding Padding}"/>
+                                <Rectangle x:Name="DisabledVisualElement" Fill="#FFFFFFFF" Opacity="0" IsHitTestVisible="false" />
+                                <Rectangle x:Name="FocusVisualElement" Margin="1" Stroke="#FFCCCCCC" StrokeThickness="1" Opacity="0" IsHitTestVisible="false" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <DataTemplate x:Key="IncreaseGlyphKey1">
+                <Path Data="M4,0 L6,0 6,6 6,6 6,6 0,6 0,4 4,4 4,0 z" Fill="#FF666666" Margin="0,4,0,0" HorizontalAlignment="Center" RenderTransformOrigin="0.5,0.5" Stretch="Fill" Height="8" Width="8">
+                    <Path.RenderTransform>
+                        <TransformGroup>
+                            <RotateTransform Angle="225"/>
+                        </TransformGroup>
+                    </Path.RenderTransform>
+                </Path>
+            </DataTemplate>
+            <DataTemplate x:Key="DecreaseGlyphKey1">
+                <Path Data="M4,0 L6,0 6,6 6,6 6,6 0,6 0,4 4,4 4,0 z" Fill="#FF666666" Margin="0,0,0,4" HorizontalAlignment="Center" RenderTransformOrigin="0.5,0.5" Stretch="Fill" Height="8" Width="8">
+                <Path.RenderTransform>
+                    <TransformGroup>
+                        <RotateTransform Angle="45"/>
+                    </TransformGroup>
+                </Path.RenderTransform>
+                </Path>
+            </DataTemplate>
+            <Style x:Key="maskedInputTextBoxStyle1" TargetType="TextBox">
+                <Setter Property="FontFamily" Value="Trebuchet MS"/>
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="BorderThickness" Value="0"/>
+            </Style>
+            <igPrim:HorizontalToTextAlignmentConverter x:Key="horizToTextAlignmentConverter"/>
+            
+            
+            <Style x:Key="MaskedInputStyle1" TargetType="ig:XamMaskedInput">
+                <Setter Property="Background" Value="#FFF5F5F5"/>
+                <Setter Property="Foreground" Value="#FF666666" />
+                <Setter Property="igPrim:XamlHelper.SnapsToDevicePixels" Value="True"/>
+                <Setter Property="SpinButtonStyle" Value="{StaticResource spinButtonStyle1}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="BorderBrush" Value="#FFCCCCCC"/>
+                  
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ig:XamMaskedInput">
+                            <Border x:Name="MainBorder" Padding="4" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid x:Name="PART_SpinButtons" Grid.Column="1" Margin="0,1" Visibility="{TemplateBinding SpinButtonVisibilityResolved}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="35"/>
+                                            <ColumnDefinition Width="35"/>
+                                        </Grid.ColumnDefinitions>
+                                        <RepeatButton x:Name="spinUp" ContentTemplate="{StaticResource IncreaseGlyphKey1}" Style="{TemplateBinding SpinButtonStyle}">
+                                            <ig:Commanding.Command>
+                                                <igPrim:MaskedInputCommandSource CommandId="SpinUp" EventName="Click"/>
+                                            </ig:Commanding.Command>
+                                        </RepeatButton>
+                                        <RepeatButton x:Name="spinDown" ContentTemplate="{StaticResource DecreaseGlyphKey1}" Grid.Column="1" Style="{TemplateBinding SpinButtonStyle}">
+                                            <ig:Commanding.Command>
+                                                <igPrim:MaskedInputCommandSource CommandId="SpinDown" EventName="Click"/>
+                                            </ig:Commanding.Command>
+                                        </RepeatButton>
+                                    </Grid>
+                                    <igPrim:MaskedInputTextBox x:Name="PART_InputTextBox" Foreground="{TemplateBinding Foreground}" VerticalAlignment="Center" HorizontalAlignment="Stretch" InputMethod.PreferredImeState="{TemplateBinding InputMethod.PreferredImeState}" Style="{StaticResource maskedInputTextBoxStyle1}" TextAlignment="Center"/>
+                                </Grid>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="XamMaskedInputStyle1" BasedOn="{StaticResource MaskedInputStyle1}" TargetType="ig:XamMaskedInput">
+            </Style>
+            <!-- #END SNIPPET# -->
+            <!--XamMaskedInputStyle1 end-->
+            
+            <!--XamMaskedInputStyle2 start-->
+            <Style x:Key="spinButtonStyle2" TargetType="RepeatButton">
+                <Setter Property="Opacity" Value="1"/>
+                <Setter Property="Padding" Value="6,1"/>
+                <Setter Property="Margin" Value="2,1"/>
+                <Setter Property="MinWidth" Value="50"/>
+                <Setter Property="IsTabStop" Value="False"/>
+                <Setter Property="igPrim:XamlHelper.Focusable" Value="False"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="RepeatButton">
+                            <Grid>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal"/>
+                                        <VisualState x:Name="MouseOver">
+                                            <Storyboard>
+                                                <ColorAnimation Duration="0" Storyboard.TargetName="Background" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="#FFC1EBFD"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed"/>
+                                        <VisualState x:Name="Disabled">
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="0" Storyboard.TargetName="DisabledVisualElement" Storyboard.TargetProperty="Opacity" To=".55"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="FocusStates">
+                                        <VisualState x:Name="Focused">
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="0" Storyboard.TargetName="FocusVisualElement" Storyboard.TargetProperty="Opacity" To="1"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Unfocused" />
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Border x:Name="Background" Background="White">
+                                    <Grid Margin="1">
+                                    </Grid>
+                                </Border>
+                                <ContentPresenter
+                              x:Name="contentPresenter"
+                              Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              Margin="{TemplateBinding Padding}"/>
+                                <Rectangle x:Name="DisabledVisualElement" Fill="#FFFFFFFF" Opacity="0" IsHitTestVisible="false"/>
+                                <Rectangle x:Name="FocusVisualElement" Stroke="#FF236D8C" StrokeThickness="1" Opacity="0" IsHitTestVisible="false"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            
+            <DataTemplate x:Key="IncreaseGlyphKey2">
+                <StackPanel Orientation="Horizontal">
+                    <Path Data="M3.6503527,0 L7.3014121,4.9320217 3.6395947E-23,4.9313147 z" Fill="#FF2CBDF9" Height="7" Width="13" HorizontalAlignment="Left" Stretch="Fill"/>
+                    <!--<TextBlock Margin="3,0,0,0" Text="{Binding Source={StaticResource Strings}, Path=up}" FontSize="10" Foreground="#FF6600CC" HorizontalAlignment="Right"/>-->
+                </StackPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="DecreaseGlyphKey2">
+                <StackPanel Orientation="Horizontal">
+                    <Path Data="M3.6501466,3.3087225E-23 L7.3009999,4.9319999 0,4.9312927 z" Fill="#FF2CBDF9" Height="7" Width="13" Stretch="Fill" RenderTransformOrigin="0.5,0.5">
+                        <Path.RenderTransform>
+                            <TransformGroup>
+                                <RotateTransform Angle="180"/>
+                            </TransformGroup>
+                        </Path.RenderTransform>
+                    </Path>
+                    <!--<TextBlock Margin="3,0,0,0" Text="{Binding Source={StaticResource Strings}, Path=down}" FontSize="10" Foreground="#FF6600CC" HorizontalAlignment="Right"/>-->
+                </StackPanel>
+            </DataTemplate>
+            <Style x:Key="maskedInputTextBoxStyle2" TargetType="TextBox">
+                <Setter Property="FontFamily" Value="Trebuchet MS"/>
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="BorderThickness" Value="0"/>
+            </Style>
+            <Style x:Key="MaskedInputStyle2" TargetType="ig:XamMaskedInput">
+                <Setter Property="Background" Value="#FF2CBDF9"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="igPrim:XamlHelper.SnapsToDevicePixels" Value="True"/>
+                <Setter Property="SpinButtonStyle" Value="{StaticResource spinButtonStyle2}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ig:XamMaskedInput">
+                            <Border x:Name="MainBorder" Background="{TemplateBinding Background}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid x:Name="PART_SpinButtons" Grid.Column="1" Margin="0,1" Visibility="{TemplateBinding SpinButtonVisibilityResolved}">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="1"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <RepeatButton x:Name="spinUp" ContentTemplate="{StaticResource IncreaseGlyphKey2}" Style="{TemplateBinding SpinButtonStyle}">
+                                            <ig:Commanding.Command>
+                                                <igPrim:MaskedInputCommandSource CommandId="SpinUp" EventName="Click"/>
+                                            </ig:Commanding.Command>
+                                        </RepeatButton>
+                                        <RepeatButton x:Name="spinDown" ContentTemplate="{StaticResource DecreaseGlyphKey2}" Grid.Row="2" Style="{TemplateBinding SpinButtonStyle}">
+                                            <ig:Commanding.Command>
+                                                <igPrim:MaskedInputCommandSource CommandId="SpinDown" EventName="Click"/>
+                                            </ig:Commanding.Command>
+                                        </RepeatButton>
+                                    </Grid>
+                                    <igPrim:MaskedInputTextBox x:Name="PART_InputTextBox" Foreground="{TemplateBinding Foreground}" VerticalAlignment="Center" HorizontalAlignment="Stretch" InputMethod.PreferredImeState="{TemplateBinding InputMethod.PreferredImeState}" Style="{StaticResource maskedInputTextBoxStyle2}" TextAlignment="Center"/>
+                                </Grid>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="XamMaskedInputStyle2" BasedOn="{StaticResource MaskedInputStyle2}" TargetType="ig:XamMaskedInput">
+            </Style>
+            <!--XamMaskedInputStyle2 end-->
+            
+            <!--XamDateTimeInputStyle1 start-->
+            
+            <Style x:Key="XamCalendarStyle1" TargetType="ig:XamCalendar">
+                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                <Setter Property="Foreground" Value="#FF2CBDF9"/>
+                <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                <Setter Property="igPrim:XamlHelper.Focusable" Value="True"/>
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ig:XamCalendar">
+                            <Border BorderBrush="#FF2CBDF9" BorderThickness="1" Background="#FFFFFFFF" Padding="{TemplateBinding Padding}" igPrim:XamlHelper.SnapsToDevicePixels="True">
+                                <Grid x:Name="RootPanel" igPrim:XamlHelper.SnapsToDevicePixels="{TemplateBinding igPrim:XamlHelper.SnapsToDevicePixels}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Button Content="{TemplateBinding TodayButtonCaption}" Foreground="#FF2CBDF9" IsTabStop="False" Grid.Row="1" Style="{TemplateBinding TodayButtonStyleResolved}" Visibility="{TemplateBinding TodayButtonVisibility}">
+                                        <ig:Commanding.Command>
+                                            <igPrim:CalendarCommandSource CommandType="Today" EventName="Click"/>
+                                        </ig:Commanding.Command>
+                                    </Button>
+                                    <igPrim:CalendarItemGroupPanel HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                </Grid>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="spinButtonStyle3" TargetType="RepeatButton">
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Padding" Value="3,1"/>
+                <Setter Property="IsTabStop" Value="False"/>
+                <Setter Property="igPrim:XamlHelper.Focusable" Value="False"/>
+            </Style>
+            <SolidColorBrush x:Key="DropdownBtnPressedOuterBorderFillKey" Color="Transparent"/>
+            <SolidColorBrush x:Key="DropdownBtnNormalOuterBorderFillKey" Color="Transparent"/>
+            <igPrim:ValueConverterGroup x:Key="defaultBtnOuterBorderConverter">
+                <igPrim:FixedValueConverter DestinationValue="{StaticResource DropdownBtnPressedOuterBorderFillKey}">
+                    <igPrim:FixedValueConverter.SourceValue>
+                        <System:Boolean>True</System:Boolean>
+                    </igPrim:FixedValueConverter.SourceValue>
+                </igPrim:FixedValueConverter>
+                <igPrim:FixedValueConverter DestinationValue="{StaticResource DropdownBtnNormalOuterBorderFillKey}">
+                    <igPrim:FixedValueConverter.SourceValue>
+                        <System:Boolean>False</System:Boolean>
+                    </igPrim:FixedValueConverter.SourceValue>
+                </igPrim:FixedValueConverter>
+            </igPrim:ValueConverterGroup>
+            <LinearGradientBrush x:Key="DropdownBtnPressedCenterFillKey" EndPoint="0.5,1" StartPoint="0.5,0">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFFFFFFF"  Offset="0"/>
+                        <GradientStop Color="#FFFFFFFF" Offset="1"/>
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="DropdownBtnNormalCenterFillKey" EndPoint="0.5,1" StartPoint="0.5,0">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFFFFFFF" Offset="0"/>
+                        <GradientStop Color="#FFFFFFFF" Offset="1"/>
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <igPrim:ValueConverterGroup x:Key="defaultBtnCenterConverter">
+                <igPrim:FixedValueConverter DestinationValue="{StaticResource DropdownBtnPressedCenterFillKey}">
+                    <igPrim:FixedValueConverter.SourceValue>
+                        <System:Boolean>True</System:Boolean>
+                    </igPrim:FixedValueConverter.SourceValue>
+                </igPrim:FixedValueConverter>
+                <igPrim:FixedValueConverter DestinationValue="{StaticResource DropdownBtnNormalCenterFillKey}">
+                    <igPrim:FixedValueConverter.SourceValue>
+                        <System:Boolean>False</System:Boolean>
+                    </igPrim:FixedValueConverter.SourceValue>
+                </igPrim:FixedValueConverter>
+            </igPrim:ValueConverterGroup>
+            <LinearGradientBrush x:Key="DropdownBtnPressedInnerBorderFillKey" EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FF2CBDF9" Offset="1"/>
+                <GradientStop Color="#FF2CBDF9" Offset="0"/>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="DropdownBtnNormalInnerBorderFillKey" StartPoint="0.5,0" EndPoint="0.5,1">
+                <GradientStop Color="#FFCCCCCC" Offset="1"/>
+                <GradientStop Color="#FFCCCCCC" Offset="0"/>
+            </LinearGradientBrush>
+            <igPrim:ValueConverterGroup x:Key="defaultBtnInnerBorderConverter">
+                <igPrim:FixedValueConverter DestinationValue="{StaticResource DropdownBtnPressedInnerBorderFillKey}">
+                    <igPrim:FixedValueConverter.SourceValue>
+                        <System:Boolean>True</System:Boolean>
+                    </igPrim:FixedValueConverter.SourceValue>
+                </igPrim:FixedValueConverter>
+                <igPrim:FixedValueConverter DestinationValue="{StaticResource DropdownBtnNormalInnerBorderFillKey}">
+                    <igPrim:FixedValueConverter.SourceValue>
+                        <System:Boolean>False</System:Boolean>
+                    </igPrim:FixedValueConverter.SourceValue>
+                </igPrim:FixedValueConverter>
+            </igPrim:ValueConverterGroup>
+            <SolidColorBrush x:Key="DropdownBtnGlyphNormalForegroundFillKey" Color="#FF2CBDF9"/>
+            <igPrim:FixedValueConverter x:Key="enabledToOpacity">
+                <igPrim:FixedValueConverter.DestinationValue>
+                    <System:Double>0.25</System:Double>
+                </igPrim:FixedValueConverter.DestinationValue>
+                <igPrim:FixedValueConverter.SourceValue>
+                    <System:Boolean>False</System:Boolean>
+                </igPrim:FixedValueConverter.SourceValue>
+            </igPrim:FixedValueConverter>
+            <LinearGradientBrush x:Key="DropdownBtnHottrackCenterFillKey" EndPoint="0.5,1" StartPoint="0.5,0">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FF2CBDF9" Offset="0"/>
+                        <GradientStop Color="#FF2CBDF9" Offset="1"/>
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <SolidColorBrush x:Key="DropdownBtnHottrackOuterBorderFillKey" Color="Transparent"/>
+            <LinearGradientBrush x:Key="DropdownBtnHottrackInnerBorderFillKey" EndPoint="0.5,1" StartPoint="0.5,0">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FF2CBDF9" Offset="0"/>
+                        <GradientStop Color="#FF2CBDF9" Offset="1"/>
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <SolidColorBrush x:Key="DropdownBtnGlyphHottrackForegroundFillKey" Color="#FFFFFFFF"/>
+            <Style x:Key="DropDownButtonStyle" TargetType="ToggleButton">
+                <Setter Property="MinWidth" Value="0"/>
+                <Setter Property="MinHeight" Value="0"/>
+                <Setter Property="Width" Value="Auto"/>
+                <Setter Property="Height" Value="Auto"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="igPrim:XamlHelper.Focusable" Value="False"/>
+                <Setter Property="IsTabStop" Value="False"/>
+                <Setter Property="ClickMode" Value="Press"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ToggleButton">
+                            <Grid Background="{TemplateBinding Background}" igPrim:XamlHelper.SnapsToDevicePixels="True">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal"/>
+                                        <VisualState x:Name="MouseOver">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="OuterBorder">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource DropdownBtnHottrackCenterFillKey}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="OuterBorder">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource DropdownBtnHottrackOuterBorderFillKey}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="InnerBorder">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource DropdownBtnHottrackInnerBorderFillKey}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill" Storyboard.TargetName="glyph">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource DropdownBtnGlyphHottrackForegroundFillKey}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed"/>
+                                        <VisualState x:Name="Disabled"/>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Grid x:Name="ComboEditorDropdown" Background="Transparent" Grid.Column="1" HorizontalAlignment="Right" Margin="1" Width="16">
+                                    <Border x:Name="OuterBorder" BorderBrush="{Binding IsChecked, Converter={StaticResource defaultBtnOuterBorderConverter}, RelativeSource={RelativeSource TemplatedParent}}" BorderThickness="1" Background="{Binding IsChecked, Converter={StaticResource defaultBtnCenterConverter}, RelativeSource={RelativeSource TemplatedParent}}" CornerRadius="1" igPrim:XamlHelper.SnapsToDevicePixels="True"/>
+                                    <Border x:Name="InnerBorder" BorderBrush="{Binding IsChecked, Converter={StaticResource defaultBtnInnerBorderConverter}, RelativeSource={RelativeSource TemplatedParent}}" BorderThickness="1" CornerRadius="1" Margin="1,1,1,1" igPrim:XamlHelper.SnapsToDevicePixels="True"/>
+                                </Grid>
+                                <Grid x:Name="glyphArrow" Grid.Column="1" HorizontalAlignment="Center" Height="6" Margin="0,0,1,0" VerticalAlignment="Center" Width="9">
+                                    <Path x:Name="glyph" Data="M4,0 L6,0 6,6 6,6 6,6 0,6 0,4 4,4 4,0 z" Fill="{StaticResource DropdownBtnGlyphNormalForegroundFillKey}" HorizontalAlignment="Stretch" Height="6" Margin="0,-5,-6,0" Opacity="{Binding IsEnabled, Converter={StaticResource enabledToOpacity}, RelativeSource={RelativeSource TemplatedParent}}" RenderTransformOrigin="0,0" Stretch="Fill" igPrim:XamlHelper.SnapsToDevicePixels="True" Width="6">
+                                        <Path.RenderTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform ScaleY="1" ScaleX="1"/>
+                                                <SkewTransform AngleY="0" AngleX="0"/>
+                                                <RotateTransform Angle="45"/>
+                                                <TranslateTransform X="0" Y="0"/>
+                                            </TransformGroup>
+                                        </Path.RenderTransform>
+                                    </Path>
+                                </Grid>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <DataTemplate x:Key="IncreaseGlyphKey">
+                <Path Data="M 0,3 C0,3 0,4 0,4 0,4 3,4 3,4 3,4 3,3 3,3 3,3 4,3 4,3 4,3 4,4 4,4 4,4 7,4 7,4 7,4 7,3 7,3 7,3 6,3 6,3 6,3 6,2 6,2 6,2 5,2 5,2 5,2 5,1 5,1 5,1 4,1 4,1 4,1 4,0 4,0 4,0 3,0 3,0 3,0 3,1 3,1 3,1 2,1 2,1 2,1 2,2 2,2 2,2 1,2 1,2 1,2 1,3 1,3 1,3 0,3 0,3 z" Fill="Black" Height="4" Width="7"/>
+            </DataTemplate>
+            <DataTemplate x:Key="DecreaseGlyphKey">
+                <Path Data="M 0,1 C0,1 0,0 0,0 0,0 3,0 3,0 3,0 3,1 3,1 3,1 4,1 4,1 4,1 4,0 4,0 4,0 7,0 7,0 7,0 7,1 7,1 7,1 6,1 6,1 6,1 6,2 6,2 6,2 5,2 5,2 5,2 5,3 5,3 5,3 4,3 4,3 4,3 4,4 4,4 4,4 3,4 3,4 3,4 3,3 3,3 3,3 2,3 2,3 2,3 2,2 2,2 2,2 1,2 1,2 1,2 1,1 1,1 1,1 0,1 0,1 z" Fill="Black" Height="4" Width="7"/>
+            </DataTemplate>
+            <Style x:Key="maskedInputTextBoxStyle3" TargetType="TextBox">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="BorderThickness" Value="0"/>
+            </Style>
+            <igPrim:ValueConverterGroup x:Key="horizToTextAlignmentConverter1">
+                <igPrim:FixedValueConverter>
+                    <igPrim:FixedValueConverter.DestinationValue>
+                        <TextAlignment>Left</TextAlignment>
+                    </igPrim:FixedValueConverter.DestinationValue>
+                    <igPrim:FixedValueConverter.SourceValue>
+                        <HorizontalAlignment>Left</HorizontalAlignment>
+                    </igPrim:FixedValueConverter.SourceValue>
+                </igPrim:FixedValueConverter>
+                <igPrim:FixedValueConverter>
+                    <igPrim:FixedValueConverter.DestinationValue>
+                        <TextAlignment>Center</TextAlignment>
+                    </igPrim:FixedValueConverter.DestinationValue>
+                    <igPrim:FixedValueConverter.SourceValue>
+                        <HorizontalAlignment>Center</HorizontalAlignment>
+                    </igPrim:FixedValueConverter.SourceValue>
+                </igPrim:FixedValueConverter>
+                <igPrim:FixedValueConverter>
+                    <igPrim:FixedValueConverter.DestinationValue>
+                        <TextAlignment>Right</TextAlignment>
+                    </igPrim:FixedValueConverter.DestinationValue>
+                    <igPrim:FixedValueConverter.SourceValue>
+                        <HorizontalAlignment>Right</HorizontalAlignment>
+                    </igPrim:FixedValueConverter.SourceValue>
+                </igPrim:FixedValueConverter>
+                <igPrim:FixedValueConverter>
+                    <igPrim:FixedValueConverter.DestinationValue>
+                        <TextAlignment>Left</TextAlignment>
+                    </igPrim:FixedValueConverter.DestinationValue>
+                    <igPrim:FixedValueConverter.SourceValue>
+                        <HorizontalAlignment>Stretch</HorizontalAlignment>
+                    </igPrim:FixedValueConverter.SourceValue>
+                </igPrim:FixedValueConverter>
+            </igPrim:ValueConverterGroup>
+            <igPrim:ValueConverterGroup x:Key="complementConverter">
+                <igPrim:FixedValueConverter>
+                    <igPrim:FixedValueConverter.DestinationValue>
+                        <System:Boolean>False</System:Boolean>
+                    </igPrim:FixedValueConverter.DestinationValue>
+                    <igPrim:FixedValueConverter.SourceValue>
+                        <System:Boolean>True</System:Boolean>
+                    </igPrim:FixedValueConverter.SourceValue>
+                </igPrim:FixedValueConverter>
+                <igPrim:FixedValueConverter>
+                    <igPrim:FixedValueConverter.DestinationValue>
+                        <System:Boolean>True</System:Boolean>
+                    </igPrim:FixedValueConverter.DestinationValue>
+                    <igPrim:FixedValueConverter.SourceValue>
+                        <System:Boolean>False</System:Boolean>
+                    </igPrim:FixedValueConverter.SourceValue>
+                </igPrim:FixedValueConverter>
+            </igPrim:ValueConverterGroup>
+            <igPrim:SystemResourceProvider x:Key="SRP"/>
+            
+            <Style x:Key="XamDateTimeInputStyle1" TargetType="ig:XamDateTimeInput">
+                <Setter Property="igPrim:XamlHelper.SnapsToDevicePixels" Value="True"/>
+                <Setter Property="SpinButtonStyle" Value="{StaticResource spinButtonStyle3}"/>
+                <Setter Property="DropDownButtonStyle" Value="{StaticResource DropDownButtonStyle}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Background" Value="#FFFFFFFF"/>
+                <Setter Property="Foreground" Value="#FF2CBDF9"/>
+                <Setter Property="BorderBrush" Value="#FFCCCCCC"/>
+                <Setter Property="Width" Value="200"/>
+                <Setter Property="Height" Value="50"/>
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ig:XamDateTimeInput">
+                            <Border x:Name="MainBorder"  BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="2">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid x:Name="PART_SpinButtons" Grid.Column="1" Margin="0,1" Visibility="{TemplateBinding SpinButtonVisibilityResolved}">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="1"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <RepeatButton x:Name="spinUp" ContentTemplate="{StaticResource IncreaseGlyphKey}" Style="{TemplateBinding SpinButtonStyle}">
+                                            <ig:Commanding.Command>
+                                                <igPrim:MaskedInputCommandSource CommandId="SpinUp" EventName="Click"/>
+                                            </ig:Commanding.Command>
+                                        </RepeatButton>
+                                        <RepeatButton x:Name="spinDown" ContentTemplate="{StaticResource DecreaseGlyphKey}" Grid.Row="2" Style="{TemplateBinding SpinButtonStyle}">
+                                            <ig:Commanding.Command>
+                                                <igPrim:MaskedInputCommandSource CommandId="SpinDown" EventName="Click"/>
+                                            </ig:Commanding.Command>
+                                        </RepeatButton>
+                                    </Grid>
+                                    <igPrim:MaskedInputTextBox x:Name="PART_InputTextBox" Foreground="{TemplateBinding Foreground}" HorizontalAlignment="Stretch" VerticalAlignment="Center" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" InputMethod.PreferredImeState="{TemplateBinding InputMethod.PreferredImeState}" Style="{StaticResource maskedInputTextBoxStyle3}" TextAlignment="{Binding HorizontalContentAlignment, Converter={StaticResource horizToTextAlignmentConverter1}, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                    <ToggleButton x:Name="PART_DropDownButton" ClickMode="Press" Grid.Column="2" igPrim:XamlHelper.Focusable="False" IsTabStop="False" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" IsEnabled="{Binding IsReadOnly, Converter={StaticResource complementConverter}, RelativeSource={RelativeSource TemplatedParent}}" Grid.RowSpan="3" Style="{TemplateBinding DropDownButtonStyle}" Visibility="{TemplateBinding DropDownButtonVisibility}"/>
+                                    <Popup x:Name="PART_Popup">
+                                        <Border>
+                                            <ig:XamCalendar Style="{StaticResource XamCalendarStyle1}" x:Name="PART_Calendar" MinCalendarMode="{TemplateBinding ComputedMinCalendarMode}" MinDate="{TemplateBinding ComputedMinDate}" MaxDate="{TemplateBinding ComputedMaxDate}" SelectionMode="SingleDate" SelectedDate="{Binding DateValue, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                        </Border>
+                                    </Popup>
+                                </Grid>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <!--XamDateTimeInputStyle1 end-->
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+    <Grid x:Name="LayoutRoot">
+        <StackPanel>
+            <ig:XamDateTimeInput Margin="20,20,20,20" DropDownButtonDisplayMode="Always" Style="{StaticResource XamDateTimeInputStyle1}"/>
+            <ig:XamMaskedInput Margin="20,20,20,20" Mask="nnnn" SpinButtonDisplayMode="Always" Width="200" Height="40" Style="{StaticResource XamMaskedInputStyle1}" />
+            <ig:XamNumericInput Margin="20,20,20,20" ClipMode="Raw" DataMode="IncludeBoth" SpinButtonDisplayMode="Always" Width="200" Height="60" Style="{StaticResource XamMaskedInputStyle2}" />
+        </StackPanel>
+    </Grid>
+</framework:SampleContainer>

@@ -1,0 +1,152 @@
+﻿<framework:SampleContainer x:Class="IGSpreadsheet.Samples.Display.Configuring"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+    xmlns:igRibbon="http://infragistics.com/Ribbon"
+    xmlns:igEditors="http://infragistics.com/Editors"
+    xmlns:res="clr-namespace:IGSpreadsheet.Resources"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    mc:Ignorable="d"
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="Configuring Page">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSpreadsheet;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:SpreadsheetStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <igRibbon:XamRibbon Grid.Row="0" Theme="RoyalLight" ApplicationMenuMode="Office2007"
+            ig:Commanding.CommandTarget="{Binding ElementName=xamSpreadsheet1}">
+
+            <igRibbon:XamRibbon.ApplicationMenu>
+                <igRibbon:ApplicationMenu Caption="{Binding Source={StaticResource Strings}, Path=btnFile}">
+                    <igRibbon:ButtonTool Caption="{Binding Source={StaticResource Strings}, Path=btnReloadFile}" Tag="Reload" Click="ButtonTool_Click"
+                                         LargeImage="/IGSpreadsheet;component/Images/Open_Large.png"/>
+                </igRibbon:ApplicationMenu>
+            </igRibbon:XamRibbon.ApplicationMenu>
+
+            <igRibbon:XamRibbon.Tabs>
+                
+                <igRibbon:RibbonTabItem Header="{Binding Source={StaticResource Strings}, Path=btnView}">
+
+                    <igRibbon:RibbonGroup Caption="{Binding Source={StaticResource Strings}, Path=btnShow}">
+                        <!-- #BEGIN SNIPPET# -->
+                        <igRibbon:CheckBoxTool
+                            Caption="{Binding Source={StaticResource Strings}, Path=btnFormulaBar}"
+                            IsChecked="{Binding ElementName=xamSpreadsheet1, Path=IsFormulaBarVisible}" />
+                        <igRibbon:CheckBoxTool
+                            Caption="{Binding Source={StaticResource Strings}, Path=btnGridlines}"
+                            IsChecked="{Binding ElementName=xamSpreadsheet1, Path=Workbook.WindowOptions.SelectedWorksheet.DisplayOptions.ShowGridlines}" />
+                        <igRibbon:CheckBoxTool
+                            Caption="{Binding Source={StaticResource Strings}, Path=btnHeadings}"
+                            IsChecked="{Binding ElementName=xamSpreadsheet1, Path=Workbook.WindowOptions.SelectedWorksheet.DisplayOptions.ShowRowAndColumnHeaders}" />
+                        <!-- #END SNIPPET# -->
+                    </igRibbon:RibbonGroup>
+
+                    <igRibbon:RibbonGroup Caption="{Binding Source={StaticResource Strings}, Path=btnZoom}">
+                        <StackPanel>
+                            <!-- #BEGIN SNIPPET# -->
+                            <Label MinWidth="100" HorizontalContentAlignment="Center"
+                                Content="{Binding ElementName=xamSpreadsheet1, Path=Workbook.WindowOptions.SelectedWorksheet.DisplayOptions.MagnificationInNormalView}" />
+                            <Slider Minimum="10" Maximum="400" MinWidth="100" TickFrequency="10" IsSnapToTickEnabled="True"
+                                Value="{Binding ElementName=xamSpreadsheet1, Path=Workbook.WindowOptions.SelectedWorksheet.DisplayOptions.MagnificationInNormalView}" />
+                            <!-- #END SNIPPET# -->
+                        </StackPanel>
+                        <!-- #BEGIN SNIPPET# -->
+                        <igRibbon:ButtonTool Caption="100%"
+                            igRibbon:RibbonGroup.MaximumSize="ImageAndTextLarge"
+                            LargeImage="/IGSpreadsheet;component/Images/Zoom32x32.png">
+                            <ig:Commanding.Command>
+                                <igPrim:SpreadsheetCommandSource EventName="Click" CommandType="ZoomTo100" />
+                            </ig:Commanding.Command>
+                        </igRibbon:ButtonTool>
+                        <igRibbon:ButtonTool Caption="{Binding Source={StaticResource Strings}, Path=btnZoomToSelection}"
+                            igRibbon:RibbonGroup.MaximumSize="ImageAndTextLarge"
+                            LargeImage="/IGSpreadsheet;component/Images/ZoomToSel-32x32.png">
+                            <ig:Commanding.Command>
+                                <igPrim:SpreadsheetCommandSource EventName="Click" CommandType="ZoomToSelection" />
+                            </ig:Commanding.Command>
+                        </igRibbon:ButtonTool>
+                        <!-- #END SNIPPET# -->
+                    </igRibbon:RibbonGroup>
+
+                    <igRibbon:RibbonGroup Caption="{Binding Source={StaticResource Strings}, Path=btnSheet}">
+
+                        <igRibbon:MenuTool UseLargeImages="True"
+                            Caption="{Binding Source={StaticResource Strings}, Path=btnFreezePanes}"
+                            LargeImage="/IGSpreadsheet;component/Images/FreezePanes_32x32.png">
+
+                            <!-- #BEGIN SNIPPET# -->
+                            <igRibbon:ButtonTool LargeImage="/IGSpreadsheet;component/Images/FreezePanes_32x32.png">
+                                <igRibbon:ButtonTool.Style>
+                                    <Style TargetType="{x:Type igRibbon:ButtonTool}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=xamSpreadsheet1, Path=Workbook.WindowOptions.SelectedWorksheet.DisplayOptions.PanesAreFrozen}" Value="True">
+                                                <Setter Property="Caption" Value="{Binding Source={StaticResource Strings}, Path=btnUnfreezePanes}" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding ElementName=xamSpreadsheet1, Path=Workbook.WindowOptions.SelectedWorksheet.DisplayOptions.PanesAreFrozen}" Value="False">
+                                                <Setter Property="Caption" Value="{Binding Source={StaticResource Strings}, Path=btnFreezePanes}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </igRibbon:ButtonTool.Style>
+                                <ig:Commanding.Command>
+                                    <igPrim:SpreadsheetCommandSource EventName="Click" CommandType="ToggleFreezePanes" />
+                                </ig:Commanding.Command>
+                            </igRibbon:ButtonTool>
+
+                            <igRibbon:ButtonTool
+                                Caption="{Binding Source={StaticResource Strings}, Path=btnFreezeTopRow}" Tag="FreezeRow"
+                                LargeImage="/IGSpreadsheet;component/Images/FreezeTopRow_32x32.png">
+                                <ig:Commanding.Command>
+                                    <igPrim:SpreadsheetCommandSource EventName="Click" CommandType="FreezeFirstRow" />
+                                </ig:Commanding.Command>
+                            </igRibbon:ButtonTool>
+
+                            <igRibbon:ButtonTool
+                                Caption="{Binding Source={StaticResource Strings}, Path=btnFreezeFirstColumn}" Tag="FreezeColumn"
+                                LargeImage="/IGSpreadsheet;component/Images/FreezeFirstColumn_32x32.png">
+                                <ig:Commanding.Command>
+                                    <igPrim:SpreadsheetCommandSource EventName="Click" CommandType="FreezeFirstColumn" />
+                                </ig:Commanding.Command>
+                            </igRibbon:ButtonTool>
+                            <!-- #END SNIPPET# -->
+                            
+                        </igRibbon:MenuTool>
+
+                        <!-- #BEGIN SNIPPET# -->
+                        <igRibbon:ButtonTool
+                            Caption="{Binding Source={StaticResource Strings}, Path=btnSplit}"
+                            SmallImage="/IGSpreadsheet;component/Images/Split.png">
+                            <ig:Commanding.Command>
+                                <igPrim:SpreadsheetCommandSource EventName="Click" CommandType="ToggleSplitPanes" />
+                            </ig:Commanding.Command>
+                        </igRibbon:ButtonTool>
+                        <!-- #END SNIPPET# -->
+
+                    </igRibbon:RibbonGroup>
+
+                </igRibbon:RibbonTabItem>
+            </igRibbon:XamRibbon.Tabs>
+        </igRibbon:XamRibbon>
+
+        <ig:XamSpreadsheet Grid.Row="1" x:Name="xamSpreadsheet1" />
+
+    </Grid>
+</framework:SampleContainer>

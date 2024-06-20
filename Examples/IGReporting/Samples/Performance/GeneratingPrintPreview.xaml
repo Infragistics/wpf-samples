@@ -1,0 +1,83 @@
+﻿<igFramework:SampleContainer x:Class="IGReporting.Samples.Performance.GeneratingPrintPreview"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="GeneratingPrintPreview"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:igRep="http://infragistics.com/Reporting"
+      xmlns:res="clr-namespace:IGReporting.Resources"
+      xmlns:igWPF="http://schemas.infragistics.com/xaml/wpf">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <res:ReportingStrings x:Key="ReportingStrings" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGReporting;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/IGReporting;component/Assets/ReportProgressControlStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+          <igWPF:XamTabControl Grid.Row="1" Theme="RoyalLight">
+            <igWPF:TabItemEx Header="{Binding Source={StaticResource ReportingStrings}, Path=CompositionWalkthrough_PrintPreview_TabControl_DataHeader}">
+                <igDP:XamDataGrid
+                    x:Name="XamDataGrid1"
+                    Theme="RoyalLight"
+                    Background="#FFFFFF"
+                    IsGroupByAreaExpanded="False">
+                    <!--
+                    Using the properties of the Field object, you can define custom
+                    header labels and also control the visibility of Fields within a
+                    FieldLayout
+                    -->
+                    <igDP:XamDataGrid.FieldLayouts>
+                        <igDP:FieldLayout>
+                            <igDP:FieldLayout.Fields>
+                                <igDP:Field Name="Title" Label="Title"/>
+                                <igDP:Field Name="Running_x0020_Time" Label="Running Time"/>
+                                <igDP:Field Name="Release_x0020_Date" Label="Release Date"/>
+                                <igDP:Field Name="MPAA_x0020_Rating" Label="MPAA Rating"/>
+                                <igDP:Field Name="Critics_x0020_Rating" Label="Critics Rating"/>
+                                <igDP:Field Name="Cumulative_x0020_Gross" Label="Cumulative Gross"/>
+                            </igDP:FieldLayout.Fields>
+                        </igDP:FieldLayout>
+                    </igDP:XamDataGrid.FieldLayouts>
+                </igDP:XamDataGrid>
+            </igWPF:TabItemEx>
+            <!-- #BEGIN SNIPPET# -->
+            <igWPF:TabItemEx x:Name="tbiPreview" Header="{Binding Source={StaticResource ReportingStrings}, Path=CompositionWalkthrough_PrintPreview_TabControl_PreviewHeader}">
+                <igRep:XamReportPreview x:Name="XamReportPreview1">
+                </igRep:XamReportPreview>
+            </igWPF:TabItemEx>
+            <!-- #END SNIPPET# -->
+        </igWPF:XamTabControl>
+
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource ReportingStrings}, Path=Reporting_ProgressArea_Header}" IsMovable="False" Margin="0,10,0,10">
+            <StackPanel Orientation="Horizontal">
+                <Button
+                    x:Name="btnPrint"
+                    Click="btnPreview_Click"
+                    Margin="0, 0, 10, 0"
+                    Tag="{Binding Source={StaticResource ReportingStrings}, Path=CompositionWalkthrough_PrintPreview_ConfigArea_ButtonText_GeneratePreview}"
+                    Style="{DynamicResource IconButtonStyle}"
+                    VerticalAlignment="Top">
+                    <Path Data="{StaticResource PrintIcon}" Width="12" Height="11" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=ContentControl}}" Stretch="Fill" Margin="0,0,-2,0"/>
+                </Button>
+                <igRep:ReportProgressControl x:Name="progressInfo" Width="300"/>
+            </StackPanel>
+        </controls:OptionsPanel>
+
+    </Grid>
+</igFramework:SampleContainer>
+

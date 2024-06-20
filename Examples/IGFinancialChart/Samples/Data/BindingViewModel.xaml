@@ -1,0 +1,48 @@
+﻿<igFramework:SampleContainer x:Class="IGFinancialChart.Samples.Data.BindingViewModel"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:IGFinancialChart.Samples"
+        xmlns:ig="http://schemas.infragistics.com/xaml"
+        xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+        mc:Ignorable="d">
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGFinancialChart;component/Assets/Global.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/> 
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ========================================================================== -->
+        <Grid.DataContext>
+            <local:StockViewModel />
+        </Grid.DataContext>
+        
+        <ig:XamFinancialChart Grid.Row="1" x:Name="Chart"  
+                              ChartType="Candle" 
+                              ZoomSliderType="Candle"
+                              IsLegendVisible="True"
+                              ItemsSource="{Binding SelectedStock}"  />
+        <!-- ========================================================================== -->
+        <!-- #END SNIPPET# -->
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal"  >
+
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="{Binding SelectStocks, Source={StaticResource Strings}}" Margin="5" VerticalAlignment="Center" />
+                <ComboBox SelectedItem="{Binding SelectedStock, Mode=TwoWay}" VerticalContentAlignment="Center"
+                          ItemsSource="{Binding AllStocks}"
+                          DisplayMemberPath="Symbols" Width="120" />
+            </StackPanel>
+              
+        </StackPanel>
+            
+    </Grid>
+</igFramework:SampleContainer>

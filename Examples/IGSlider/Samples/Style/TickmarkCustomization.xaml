@@ -1,0 +1,136 @@
+﻿<framework:SampleContainer x:Class="IGSlider.Samples.Style.TickmarkCustomization"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGSlider.Resources"
+      xmlns:System="clr-namespace:System;assembly=mscorlib">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSlider;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>            
+            <res:SliderStrings x:Key="Strings" />
+<LinearGradientBrush x:Key="TrackFillBackground" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="#FF3AB5E9" />
+        <GradientStop Color="#FF2380A8" Offset="1" />
+    </LinearGradientBrush>
+            <SolidColorBrush x:Key="TickBrush" Color="#FF8F8F8F"/>
+            <DataTemplate x:Key="HorizontalTick">
+                <Rectangle Fill="#FF3e3e3e" Height="25" Width="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </DataTemplate>
+            <DataTemplate x:Key="VerticalTick">
+                <Rectangle Fill="{StaticResource TickBrush}" Height="1" Margin="0,0,10,0" Width="5"/>
+            </DataTemplate>
+            <LinearGradientBrush x:Key="HorizontalRepeatBtnFill" EndPoint="0.81,0.80" StartPoint="0.81,0.03">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFfcfbfb" Offset="0"/>
+                        <GradientStop Color="#FFced7de" Offset="0.726"/>
+                        <GradientStop Color="#FFced7de" Offset="0.97"/>
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="StrokeBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FFA5AAB5" Offset="0.36"/>
+                <GradientStop Color="#FF6B8294" Offset="0.36"/>
+            </LinearGradientBrush>
+            
+            <Style x:Key="XamNumericRangeSliderStyle"  TargetType="ig:XamNumericRangeSlider">
+                <Setter Property="MaxValue" Value="100"/>
+                <Setter Property="MinValue" Value="0"/>
+                <Setter Property="SmallChange" Value="1"/>
+                <Setter Property="LargeChange" Value="10"/>
+                <Setter Property="TrackClickAction" Value="None"/>
+            </Style>
+            <DataTemplate x:Key="HorizontalTick2">
+                <Rectangle Fill="#FF919191" Height="14" Width="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </DataTemplate>
+            <DataTemplate x:Key="HorizontalTick3">
+                <Rectangle Fill="#FF2380A8" Height="14" Width="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </DataTemplate>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="115" />
+        </Grid.RowDefinitions>
+        <ig:XamDataChart x:Name="dataChart"  Grid.Row="0">
+            <ig:XamDataChart.Axes>
+                <ig:NumericXAxis x:Name="numericXAxis" MinimumValue="100" MaximumValue="1000" Interval="100"/>
+                <ig:NumericYAxis x:Name="numericYAxis" MinimumValue="1000" MaximumValue="10000" Interval="1000"/>
+            </ig:XamDataChart.Axes>
+            <ig:XamDataChart.Series>
+                <ig:BubbleSeries
+                    XAxis="{Binding ElementName=numericXAxis}"
+                    YAxis="{Binding ElementName=numericYAxis}"
+                    XMemberPath="X"
+                    YMemberPath="Y"
+                    LabelMemberPath="Label"
+                    RadiusMemberPath="Index"
+                    MarkerType="Circle">
+                    <ig:BubbleSeries.FillScale>
+                        <ig:CustomPaletteBrushScale>
+                            <ig:CustomPaletteBrushScale.Brushes>
+                                <ig:BrushCollection>
+                                    <SolidColorBrush Color="#FF7446B9"/>
+                                    <SolidColorBrush Color="#FF855DC3"/>
+                                    <SolidColorBrush Color="#FF9F7FCF"/>
+                                    <SolidColorBrush Color="#FFB59DDB"/>
+                                    <SolidColorBrush Color="#FFCFBFE7"/>
+                                </ig:BrushCollection>
+                            </ig:CustomPaletteBrushScale.Brushes>
+                        </ig:CustomPaletteBrushScale>
+                    </ig:BubbleSeries.FillScale>
+                </ig:BubbleSeries>
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+
+
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamNumericRangeSlider x:Name="dataSlider" MinValue="0" MaxValue="100" Grid.Row="1"
+                                  Margin="10,0" DecreaseButtonVisibility="Collapsed" IncreaseButtonVisibility="Collapsed" >
+            <ig:XamNumericRangeSlider.TickMarks>
+                <ig:SliderTickMarks TickMarksFrequency="5" HorizontalTickMarksTemplate="{StaticResource HorizontalTick2}" NumberOfTickMarks="10">
+                    <ig:SliderTickMarks.TickMarksValues>
+                        <System:Double>5</System:Double>
+                        <System:Double>15</System:Double>
+                        <System:Double>25</System:Double>
+                        <System:Double>35</System:Double>
+                        <System:Double>45</System:Double>
+                        <System:Double>55</System:Double>
+                        <System:Double>65</System:Double>
+                    </ig:SliderTickMarks.TickMarksValues>
+                </ig:SliderTickMarks>
+                <ig:SliderTickMarks HorizontalTickMarksTemplate="{StaticResource HorizontalTick3}">
+                    <ig:SliderTickMarks.TickMarksValues>
+                        <System:Double>72</System:Double>
+                        <System:Double>74</System:Double>
+                        <System:Double>76</System:Double>
+                        <System:Double>78</System:Double>
+                        <System:Double>82</System:Double>
+                        <System:Double>84</System:Double>
+                        <System:Double>86</System:Double>
+                        <System:Double>88</System:Double>
+                        <System:Double>92</System:Double>
+                        <System:Double>94</System:Double>
+                        <System:Double>96</System:Double>
+                        <System:Double>98</System:Double>
+                    </ig:SliderTickMarks.TickMarksValues>
+                </ig:SliderTickMarks>
+                <ig:SliderTickMarks NumberOfTickMarks="20" TickMarksFrequency="10" HorizontalTickMarksTemplate="{StaticResource HorizontalTick}"/>
+            </ig:XamNumericRangeSlider.TickMarks>
+            <ig:XamSliderNumericThumb Value="50"/>
+        </ig:XamNumericRangeSlider>
+        <!-- #END SNIPPET# -->
+    </Grid>
+</framework:SampleContainer>

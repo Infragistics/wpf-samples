@@ -1,0 +1,149 @@
+﻿<framework:SampleContainer x:Class="IGRadialMenu.Samples.Styling.Theming"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGRadialMenu.Resources"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:locConv="clr-namespace:IGRadialMenu.Converters"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="Theming Page">
+    
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGRadialMenu;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:RadialMenuStrings x:Key="Strings" />
+            <locConv:FontConverter x:Key="FontConverter" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+   
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ================================================================================================== -->
+        <!-- Note theme are changed in code-behind -->
+        <controls:ThemeSelector x:Name="ThemeSelector" 
+                                HorizontalAlignment="Right"
+                                SelectionChanged="OnSelectionChanged"/>
+        <!-- ================================================================================================== -->
+        <!-- #END SNIPPET# -->
+
+        <Grid x:Name="LayoutRoot" Grid.Row="1"> 
+
+            <ig:XamRichTextEditor x:Name="xamRichTextEditor1" Grid.Row="1"
+                BorderThickness="1" BorderBrush="{StaticResource RichTextEditorBorderBrush}"
+                SelectionChanged="xamRichTextEditor1_SelectionChanged">
+                <ig:XamRichTextEditor.ClipboardSerializationProviders>
+                    <ig:HtmlSerializationProvider />
+                </ig:XamRichTextEditor.ClipboardSerializationProviders>
+            </ig:XamRichTextEditor>
+
+            <ig:PlainTextDocumentAdapter
+                Document="{Binding ElementName=xamRichTextEditor1, Path=Document}"
+                Value="{Binding Source={StaticResource Strings}, Path=Lorem, Mode=OneWay}" />
+
+
+            <ig:XamRadialMenu x:Name="rMenu" 
+                              Width="250" 
+                              Height="250" Grid.Row="1" 
+                              IsOpen="True" MinWedgeCount="1"
+                              HorizontalAlignment="Center" 
+                              VerticalAlignment="Bottom">
+
+                <ig:RadialMenuItem
+                    x:Name="btnBold"
+                    Header="{Binding Source={StaticResource CommonStrings}, Path=Bold}"
+                    Command="{x:Static EditingCommands.ToggleBold}"
+                    CommandTarget="{Binding ElementName=xamRichTextEditor1}">
+                    <ig:RadialMenuItem.Icon>
+                        <Image Source="/IGRadialMenu;component/Images/Bold.png" Width="16" Height="16" />
+                    </ig:RadialMenuItem.Icon>
+                </ig:RadialMenuItem>
+
+                <ig:RadialMenuItem
+                    x:Name="btnItalic"
+                    Header="{Binding Source={StaticResource CommonStrings}, Path=Italic}"
+                    Command="{x:Static EditingCommands.ToggleItalic}"
+                    CommandTarget="{Binding ElementName=xamRichTextEditor1}">
+                    <ig:RadialMenuItem.Icon>
+                        <Image Source="/IGRadialMenu;component/Images/Italic.png" Width="16" Height="16" />
+                    </ig:RadialMenuItem.Icon>
+                </ig:RadialMenuItem>
+
+                <ig:RadialMenuColorItem
+                    x:Name="btnUndo"
+                    Header="{Binding Source={StaticResource CommonStrings}, Path=Undo}"
+                    Command="{x:Static ApplicationCommands.Undo}"
+                    CommandTarget="{Binding ElementName=xamRichTextEditor1}">
+                    <ig:RadialMenuColorItem.Icon>
+                        <Image Source="/IGRadialMenu;component/Images/Undo.png" Width="16" Height="16" />
+                    </ig:RadialMenuColorItem.Icon>
+                </ig:RadialMenuColorItem>
+
+                <ig:RadialMenuColorItem
+                    x:Name="btnRedo"
+                    Header="{Binding Source={StaticResource CommonStrings}, Path=Redo}"
+                    Command="{x:Static ApplicationCommands.Redo}"
+                    CommandTarget="{Binding ElementName=xamRichTextEditor1}">
+                    <ig:RadialMenuColorItem.Icon>
+                        <Image Source="/IGRadialMenu;component/Images/Redo.png" Width="16" Height="16" />
+                    </ig:RadialMenuColorItem.Icon>
+                </ig:RadialMenuColorItem>
+
+                <ig:RadialMenuNumericItem
+                    x:Name="fontNumericItem" Value="12"
+                    Header="{Binding Source={StaticResource Strings}, Path=FontSize}"
+                    Click="RadialMenuNumericItem_Click"
+                    ValueChanged="RadialMenuNumericItem_ValueChanged">
+                    <ig:RadialMenuNumericItem.Icon>
+                        <Image Source="/IGRadialMenu;component/Images/Size.png" Width="16" Height="16" />
+                    </ig:RadialMenuNumericItem.Icon>
+                    <ig:RadialMenuNumericGauge
+                        Ticks="8 9 10 11 12 13 14 16 18 20 22 24 26 28 36 48 72"
+                        Value="{Binding ElementName=fontNumericItem, Path=Value, Mode=TwoWay}" />
+                </ig:RadialMenuNumericItem>
+
+                <ig:RadialMenuList
+                    x:Name="fontSubMenu"
+                    Header="{Binding Source={StaticResource Strings}, Path=Font}"
+                    SelectedValueChanged="fontSubMenu_SelectedValueChanged"
+                    BorderBrush="Black" BorderThickness="2">
+                    <ig:RadialMenuList.Items>
+                        <sys:String>Arial</sys:String>
+                        <sys:String>Calibri</sys:String>
+                        <sys:String>Consolas</sys:String>
+                        <sys:String>Comic Sans MS</sys:String>
+                        <sys:String>Courier New</sys:String>
+                        <sys:String>Segoe UI</sys:String>
+                        <sys:String>Tahoma</sys:String>
+                        <sys:String>Times New Roman</sys:String>
+                        <sys:String>Verdana</sys:String>
+                    </ig:RadialMenuList.Items>
+                    <ig:RadialMenuList.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" FontFamily="{Binding Converter={StaticResource FontConverter}}" />
+                        </DataTemplate>
+                    </ig:RadialMenuList.ItemTemplate>
+                    <ig:RadialMenuList.Icon>
+                        <Image Source="/IGRadialMenu;component/Images/Font.png" Width="16" Height="16" />
+                    </ig:RadialMenuList.Icon>
+                </ig:RadialMenuList>
+
+            </ig:XamRadialMenu>
+            
+        </Grid>
+        
+       
+
+    </Grid>
+</framework:SampleContainer>

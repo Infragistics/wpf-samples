@@ -1,0 +1,330 @@
+﻿<framework:SampleContainer x:Class="IGSpreadsheet.Samples.Editing.ContentEditing"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+    xmlns:igRibbon="http://infragistics.com/Ribbon"
+    xmlns:igEditors="http://infragistics.com/Editors"
+    xmlns:res="clr-namespace:IGSpreadsheet.Resources"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:conv="clr-namespace:IGSpreadsheet.Converters"
+    mc:Ignorable="d"
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="UndoRedo Page">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSpreadsheet;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:SpreadsheetStrings x:Key="Strings" />
+            <conv:ContentEditingConverter x:Key="CEConv" />
+            <conv:AlignmentConv x:Key="AlignConverter" />
+            <conv:TwipsConverter x:Key="TwipsConv" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <igRibbon:XamRibbon Grid.Row="0" Theme="RoyalLight" ApplicationMenuMode="Office2007"
+            ig:Commanding.CommandTarget="{Binding ElementName=xamSpreadsheet1}">
+
+            <igRibbon:XamRibbon.ApplicationMenu>
+                <igRibbon:ApplicationMenu Caption="{Binding Source={StaticResource Strings}, Path=btnFile}">
+                    <igRibbon:ButtonTool Caption="{Binding Source={StaticResource Strings}, Path=btnReloadFile}" Tag="Reload" Click="ButtonTool_Click"
+                                         LargeImage="/IGSpreadsheet;component/Images/Open_Large.png"/>
+                </igRibbon:ApplicationMenu>
+            </igRibbon:XamRibbon.ApplicationMenu>
+
+            <igRibbon:XamRibbon.QuickAccessToolbar>
+                <igRibbon:QuickAccessToolbar>
+                    <igRibbon:QatPlaceholderTool TargetId="undoTool" ToolTip="{Binding Path=Undo, Source={StaticResource CommonStrings}}" />
+                    <igRibbon:QatPlaceholderTool TargetId="redoTool" ToolTip="{Binding Path=Redo, Source={StaticResource CommonStrings}}" />
+                </igRibbon:QuickAccessToolbar>
+            </igRibbon:XamRibbon.QuickAccessToolbar>
+
+            <igRibbon:XamRibbon.Tabs>
+                <igRibbon:RibbonTabItem Header="{Binding Source={StaticResource Strings}, Path=btnHome}">
+
+                    <igRibbon:RibbonGroup Caption="UndoRedo" Visibility="Collapsed">
+                        <!-- #BEGIN SNIPPET# -->
+                        <igRibbon:ButtonTool Tag="Undo" Id="undoTool"
+                            Caption="{Binding Path=Undo, Source={StaticResource CommonStrings}}"
+                            SmallImage="/IGSpreadsheet;component/Images/EditUndo.png" Command="ApplicationCommands.Undo" />
+                        <igRibbon:ButtonTool Tag="Redo" Id="redoTool"
+                            Caption="{Binding Path=Redo, Source={StaticResource CommonStrings}}"
+                            SmallImage="/IGSpreadsheet;component/Images/EditRedo.png" Command="ApplicationCommands.Redo" />
+                        <!-- #END SNIPPET# -->
+                    </igRibbon:RibbonGroup>
+
+                    <igRibbon:RibbonGroup Caption="{Binding Source={StaticResource Strings}, Path=btnClipboard}">
+                        <igRibbon:ToolVerticalWrapPanel>
+                            <igRibbon:ButtonTool Caption="{Binding Path=Paste, Source={StaticResource CommonStrings}}"
+                                igRibbon:RibbonGroup.MaximumSize="ImageAndTextLarge"
+                                SmallImage="/IGSpreadsheet;component/Images/Paste_16x16.png"
+                                LargeImage="/IGSpreadsheet;component/Images/Paste_32x32.png">
+                                <ig:Commanding.Command>
+                                    <igPrim:SpreadsheetCommandSource EventName="Click" CommandType="Paste" />
+                                </ig:Commanding.Command>
+                            </igRibbon:ButtonTool>
+                            <igRibbon:ButtonTool Caption="{Binding Path=Cut, Source={StaticResource CommonStrings}}"
+                                SmallImage="/IGSpreadsheet;component/Images/EditCut.png">
+                                <ig:Commanding.Command>
+                                    <igPrim:SpreadsheetCommandSource EventName="Click" CommandType="Cut" />
+                                </ig:Commanding.Command>
+                            </igRibbon:ButtonTool>
+                            <igRibbon:ButtonTool Caption="{Binding Path=Copy, Source={StaticResource CommonStrings}}"
+                                SmallImage="/IGSpreadsheet;component/Images/EditCopy.png">
+                                <ig:Commanding.Command>
+                                    <igPrim:SpreadsheetCommandSource EventName="Click" CommandType="Copy" />
+                                </ig:Commanding.Command>
+                            </igRibbon:ButtonTool>
+                        </igRibbon:ToolVerticalWrapPanel>
+                    </igRibbon:RibbonGroup>
+
+                    <igRibbon:RibbonGroup Caption="{Binding Source={StaticResource Strings}, Path=btnFont}">
+                        <igRibbon:ToolHorizontalWrapPanel>
+                            <igRibbon:ButtonGroup>
+                                <igRibbon:ComboEditorTool
+                                    x:Name="fontFamilyCombo"
+                                    DropDownResizeMode="VerticalOnly"
+                                    IsEditable="False"
+                                    Margin="5,0,5,0"
+                                    EditAreaWidth="120"
+                                    Value="{Binding ElementName=xamSpreadsheet1, Path=ActiveSelectionCellRangeFormat.Font.Name}"
+                                    ValueType="{x:Type sys:String}">
+                                    <igRibbon:ComboEditorTool.ComboBoxStyle>
+                                        <Style TargetType="ComboBox">
+                                            <Setter Property="ItemTemplate">
+                                                <Setter.Value>
+                                                    <DataTemplate DataType="FontFamily">
+                                                        <TextBlock FontFamily="{Binding}" FontSize="12" Text="{Binding Path=Source}" />
+                                                    </DataTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </igRibbon:ComboEditorTool.ComboBoxStyle>
+                                </igRibbon:ComboEditorTool>
+                                
+                                
+                                <igRibbon:ComboEditorTool
+                                    x:Name="fontSizeCombo"
+                                    DropDownResizeMode="VerticalOnly"
+                                    IsEditable="False"
+                                    Margin="0,0,5,0"
+                                    EditAreaWidth="50"
+                                    Value="{Binding
+                                        ElementName=xamSpreadsheet1,
+                                        Path=ActiveSelectionCellRangeFormat.Font.Height,
+                                        Converter={StaticResource TwipsConv}}"
+                                    ValueType="sys:Double">
+                                    <igRibbon:ComboEditorTool.ComboBoxStyle>
+                                        <Style TargetType="ComboBox">
+                                            <Setter Property="ItemTemplate">
+                                                <Setter.Value>
+                                                    <DataTemplate DataType="sys:Double">
+                                                        <TextBlock Text="{Binding}" />
+                                                    </DataTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </igRibbon:ComboEditorTool.ComboBoxStyle>
+                                    <igRibbon:ComboEditorTool.ItemsProvider>
+                                        <igEditors:ComboBoxItemsProvider>
+                                            <sys:Double>8</sys:Double>
+                                            <sys:Double>9</sys:Double>
+                                            <sys:Double>10</sys:Double>
+                                            <sys:Double>11</sys:Double>
+                                            <sys:Double>12</sys:Double>
+                                            <sys:Double>14</sys:Double>
+                                            <sys:Double>16</sys:Double>
+                                            <sys:Double>18</sys:Double>
+                                            <sys:Double>20</sys:Double>
+                                            <sys:Double>22</sys:Double>
+                                            <sys:Double>24</sys:Double>
+                                            <sys:Double>26</sys:Double>
+                                            <sys:Double>28</sys:Double>
+                                            <sys:Double>36</sys:Double>
+                                            <sys:Double>48</sys:Double>
+                                            <sys:Double>72</sys:Double>
+                                        </igEditors:ComboBoxItemsProvider>
+                                    </igRibbon:ComboEditorTool.ItemsProvider>
+                                </igRibbon:ComboEditorTool>
+                                <igRibbon:ButtonTool SmallImage="/IGSpreadsheet;component/Images/FontInc.png">
+                                    <ig:Commanding.Command>
+                                        <igPrim:SpreadsheetCommandSource EventName="Click" CommandType="IncreaseFontSize" />
+                                    </ig:Commanding.Command>
+                                </igRibbon:ButtonTool>
+                                <igRibbon:ButtonTool SmallImage="/IGSpreadsheet;component/Images/FontDec.png">
+                                    <ig:Commanding.Command>
+                                        <igPrim:SpreadsheetCommandSource EventName="Click" CommandType="DecreaseFontSize" />
+                                    </ig:Commanding.Command>
+                                </igRibbon:ButtonTool>
+                            </igRibbon:ButtonGroup>
+                            <igRibbon:ButtonGroup>
+                                <!-- #BEGIN SNIPPET# -->
+                                <igRibbon:ToggleButtonTool
+                                    Command="EditingCommands.ToggleBold"
+                                    SmallImage="/IGSpreadsheet;component/Images/Bold.png"
+                                    IsChecked="{Binding ElementName=xamSpreadsheet1, Path=ActiveSelectionCellRangeFormat.Font.Bold, Converter={StaticResource CEConv}, Mode=OneWay}" />
+                                <igRibbon:ToggleButtonTool
+                                    Command="EditingCommands.ToggleItalic"
+                                    SmallImage="/IGSpreadsheet;component/Images/Italic.png"
+                                    IsChecked="{Binding ElementName=xamSpreadsheet1, Path=ActiveSelectionCellRangeFormat.Font.Italic, Converter={StaticResource CEConv}, Mode=OneWay}" />
+                                <igRibbon:ToggleButtonTool
+                                    SmallImage="/IGSpreadsheet;component/Images/Underline.png"
+                                    IsChecked="{Binding ElementName=xamSpreadsheet1, Path=ActiveSelectionCellRangeFormat.Font.UnderlineStyle, Converter={StaticResource CEConv}, ConverterParameter=1, Mode=OneWay}">
+                                    <ig:Commanding.Command>
+                                        <igPrim:SpreadsheetCommandSource EventName="Click" CommandType="ToggleUnderline" />
+                                    </ig:Commanding.Command>
+                                </igRibbon:ToggleButtonTool>
+                                <igRibbon:ToggleButtonTool
+                                    SmallImage="/IGSpreadsheet;component/Images/DoubleUnderline.png"
+                                    IsChecked="{Binding ElementName=xamSpreadsheet1, Path=ActiveSelectionCellRangeFormat.Font.UnderlineStyle, Converter={StaticResource CEConv}, ConverterParameter=2, Mode=OneWay}">
+                                    <ig:Commanding.Command>
+                                        <igPrim:SpreadsheetCommandSource EventName="Click" CommandType="ToggleDoubleUnderline" />
+                                    </ig:Commanding.Command>
+                                </igRibbon:ToggleButtonTool>
+                                <igRibbon:ToggleButtonTool
+                                    SmallImage="/IGSpreadsheet;component/Images/Strikethrough.png"
+                                    IsChecked="{Binding ElementName=xamSpreadsheet1, Path=ActiveSelectionCellRangeFormat.Font.Strikeout, Converter={StaticResource CEConv}, Mode=OneWay}">
+                                    <ig:Commanding.Command>
+                                        <igPrim:SpreadsheetCommandSource EventName="Click" CommandType="ToggleStrikeThrough" />
+                                    </ig:Commanding.Command>
+                                </igRibbon:ToggleButtonTool>
+                                <!-- #END SNIPPET# -->
+                                <igRibbon:MenuTool
+                                    Caption="{Binding Source={StaticResource Strings}, Path=btnMergeCellsAndCenter}"
+                                    Margin="10,0,0,0"
+                                    igRibbon:RibbonGroup.MinimumSize="ImageAndTextNormal"
+                                    SmallImage="/IGSpreadsheet;component/Images/MergeCellsAndCenter.png">
+                                    <ig:Commanding.Command>
+                                        <igPrim:SpreadsheetCommandSource EventName="Click" CommandType="MergeCellsAndCenter" />
+                                    </ig:Commanding.Command>
+                                    <!-- #BEGIN SNIPPET# -->
+                                    <igRibbon:ButtonTool
+                                        Caption="{Binding Source={StaticResource Strings}, Path=btnMergeCellsAndCenter}"
+                                        SmallImage="/IGSpreadsheet;component/Images/MergeCellsAndCenter.png">
+                                        <ig:Commanding.Command>
+                                            <igPrim:SpreadsheetCommandSource EventName="Click" CommandType="MergeCellsAndCenter" />
+                                        </ig:Commanding.Command>
+                                    </igRibbon:ButtonTool>
+                                    <igRibbon:ButtonTool
+                                        Caption="{Binding Source={StaticResource Strings}, Path=btnMergeCellsAcross}"
+                                        SmallImage="/IGSpreadsheet;component/Images/MergeCellsAcross.png">
+                                        <ig:Commanding.Command>
+                                            <igPrim:SpreadsheetCommandSource EventName="Click" CommandType="MergeCellsAcross" />
+                                        </ig:Commanding.Command>
+                                    </igRibbon:ButtonTool>
+                                    <igRibbon:ButtonTool
+                                        Caption="{Binding Source={StaticResource Strings}, Path=btnMergeCells}"
+                                        SmallImage="/IGSpreadsheet;component/Images/MergeCells.png">
+                                        <ig:Commanding.Command>
+                                            <igPrim:SpreadsheetCommandSource EventName="Click" CommandType="MergeCells" />
+                                        </ig:Commanding.Command>
+                                    </igRibbon:ButtonTool>
+                                    <igRibbon:ButtonTool
+                                        Caption="{Binding Source={StaticResource Strings}, Path=btnUnmergeCells}"
+                                        SmallImage="/IGSpreadsheet;component/Images/UnmergeCells.png">
+                                        <ig:Commanding.Command>
+                                            <igPrim:SpreadsheetCommandSource EventName="Click" CommandType="UnmergeCells" />
+                                        </ig:Commanding.Command>
+                                    </igRibbon:ButtonTool>
+                                    <!-- #END SNIPPET# -->
+                                </igRibbon:MenuTool>
+                                <!-- #BEGIN SNIPPET# -->
+                                <igRibbon:ButtonTool SmallImage="/IGSpreadsheet;component/Images/IndentDec.png" Margin="10,0,0,0">
+                                    <ig:Commanding.Command>
+                                        <igPrim:SpreadsheetCommandSource EventName="Click" CommandType="DecreaseIndentation" />
+                                    </ig:Commanding.Command>
+                                </igRibbon:ButtonTool>
+                                <igRibbon:ButtonTool SmallImage="/IGSpreadsheet;component/Images/IndentInc.png" Margin="0,0,5,0">
+                                    <ig:Commanding.Command>
+                                        <igPrim:SpreadsheetCommandSource EventName="Click" CommandType="IncreaseIndentation" />
+                                    </ig:Commanding.Command>
+                                </igRibbon:ButtonTool>
+                                <!-- #END SNIPPET# -->
+                            </igRibbon:ButtonGroup>
+                        </igRibbon:ToolHorizontalWrapPanel>
+                    </igRibbon:RibbonGroup>
+
+                    <igRibbon:RibbonGroup Caption="{Binding Source={StaticResource Strings}, Path=btnAlignment}">
+                        <igRibbon:ToolHorizontalWrapPanel>
+                            <igRibbon:ButtonGroup>
+                                <!-- #BEGIN SNIPPET# -->
+                                <igRibbon:ToggleButtonTool
+                                    SmallImage="/IGSpreadsheet;component/Images/HAlignLeft.png"
+                                    Command="EditingCommands.AlignLeft"
+                                    IsChecked="{Binding ElementName=xamSpreadsheet1,
+                                        Path=ActiveSelectionCellRangeFormat.Alignment,
+                                        Converter={StaticResource AlignConverter},
+                                        ConverterParameter='Left'}" />
+                                <igRibbon:ToggleButtonTool
+                                    SmallImage="/IGSpreadsheet;component/Images/HAlignCenter.png"
+                                    Command="EditingCommands.AlignCenter"
+                                    IsChecked="{Binding ElementName=xamSpreadsheet1,
+                                        Path=ActiveSelectionCellRangeFormat.Alignment,
+                                        Converter={StaticResource AlignConverter},
+                                        ConverterParameter='Center'}" />
+                                <igRibbon:ToggleButtonTool
+                                    SmallImage="/IGSpreadsheet;component/Images/HAlignRight.png"
+                                    Command="EditingCommands.AlignRight"
+                                    IsChecked="{Binding ElementName=xamSpreadsheet1,
+                                        Path=ActiveSelectionCellRangeFormat.Alignment,
+                                        Converter={StaticResource AlignConverter},
+                                        ConverterParameter='Right'}" />
+                                <!-- #END SNIPPET# -->
+                            </igRibbon:ButtonGroup>
+                            <igRibbon:ButtonGroup>
+                                <!-- #BEGIN SNIPPET# -->
+                                <igRibbon:ToggleButtonTool
+                                    SmallImage="/IGSpreadsheet;component/Images/VAlignTop.png"
+                                    IsChecked="{Binding ElementName=xamSpreadsheet1,
+                                        Path=ActiveSelectionCellRangeFormat.VerticalAlignment,
+                                        Converter={StaticResource AlignConverter},
+                                        ConverterParameter='Top'}">
+                                    <ig:Commanding.Command>
+                                        <igPrim:SpreadsheetCommandSource EventName="Click" CommandType="AlignVerticalTop" />
+                                    </ig:Commanding.Command>
+                                </igRibbon:ToggleButtonTool>
+                                <igRibbon:ToggleButtonTool
+                                    SmallImage="/IGSpreadsheet;component/Images/VAlignCenter.png"
+                                    IsChecked="{Binding ElementName=xamSpreadsheet1,
+                                        Path=ActiveSelectionCellRangeFormat.VerticalAlignment,
+                                        Converter={StaticResource AlignConverter},
+                                        ConverterParameter='Center'}">
+                                    <ig:Commanding.Command>
+                                        <igPrim:SpreadsheetCommandSource EventName="Click" CommandType="AlignVerticalMiddle" />
+                                    </ig:Commanding.Command>
+                                </igRibbon:ToggleButtonTool>
+                                <igRibbon:ToggleButtonTool SmallImage="/IGSpreadsheet;component/Images/VAlignBottom.png"
+                                    IsChecked="{Binding ElementName=xamSpreadsheet1,
+                                        Path=ActiveSelectionCellRangeFormat.VerticalAlignment,
+                                        Converter={StaticResource AlignConverter},
+                                        ConverterParameter='Bottom'}">
+                                    <ig:Commanding.Command>
+                                        <igPrim:SpreadsheetCommandSource EventName="Click" CommandType="AlignVerticalBottom" />
+                                    </ig:Commanding.Command>
+                                </igRibbon:ToggleButtonTool>
+                                <!-- #END SNIPPET# -->
+                            </igRibbon:ButtonGroup>
+                        </igRibbon:ToolHorizontalWrapPanel>
+                    </igRibbon:RibbonGroup>
+                    
+                </igRibbon:RibbonTabItem>
+            </igRibbon:XamRibbon.Tabs>
+        </igRibbon:XamRibbon>
+
+        <ig:XamSpreadsheet Grid.Row="1" x:Name="xamSpreadsheet1" />
+        
+    </Grid>
+</framework:SampleContainer>

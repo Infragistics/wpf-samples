@@ -1,0 +1,232 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Display.Series.TrendlineRegression"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="TrendlineRegression Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:localConverters="clr-namespace:IGDataChart.Converters"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+      xmlns:resources="clr-namespace:IGDataChart.Resources"
+      xmlns:sharedConverters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared"
+      xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>   
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <ig:StringFormatConverter x:Key="StringFormatConverter" />
+            <resources:DataChartStrings x:Key="Strings" />
+            <localConverters:TrendLineTypeConverter x:Key="TrendLineTypeConverter" />
+            <localConverters:TrendLinePeriodVisibilityConverter x:Key="TrendLinePeriodVisibilityConverter" />
+            <sharedConverters:VisibilityConverter x:Key="TrendLineVisibilityConverter" />
+            <ig:BrushCollection x:Key="LineBrushes">
+                <SolidColorBrush Color="{StaticResource Color_021}"/>
+                <SolidColorBrush Color="{StaticResource Color_020}"/>
+                <SolidColorBrush Color="{StaticResource Color_022}"/>
+                <SolidColorBrush Color="{StaticResource Color_023}"/>
+                <SolidColorBrush Color="{StaticResource Color_024}"/>
+                <SolidColorBrush Color="{StaticResource Color_025}"/>
+                <SolidColorBrush Color="{StaticResource Color_026}"/>
+                <SolidColorBrush Color="{StaticResource Color_027}"/>
+                <SolidColorBrush Color="{StaticResource Color_028}"/>
+                <SolidColorBrush Color="{StaticResource Color_029}"/>
+            </ig:BrushCollection>
+            <models:LineDashCollection x:Key="LineDashes">
+                <sys:String>1 0</sys:String>
+                <sys:String>1 1</sys:String>
+                <sys:String>2 2</sys:String>
+                <sys:String>3 3</sys:String>
+                <sys:String>4 4</sys:String>
+                <sys:String>5 5</sys:String>
+                <sys:String>6 6</sys:String>
+            </models:LineDashCollection>
+            <models:LineCapCollection x:Key="LineDashCaps">
+                <PenLineCap>Flat</PenLineCap>
+                <PenLineCap>Square</PenLineCap>
+                <PenLineCap>Round</PenLineCap>
+                <PenLineCap>Triangle</PenLineCap>
+            </models:LineCapCollection>
+            <models:EnergyProductionModel x:Key="DataViewModel" />
+            <ig:AxisLabelSettings x:Key="AxisLabelSettings2" Extent="70" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.DataContext>
+            <models:StockMarketDataCollection>
+                <models:StockMarketDataCollection.Settings>
+                    <models:StockMarketSettings DataPoints="100" />
+                </models:StockMarketDataCollection.Settings>
+            </models:StockMarketDataCollection>
+        </Grid.DataContext>
+
+        <ig:XamDataChart x:Name="DataChart"
+                         HorizontalZoomable="True" 
+                         VerticalZoomable="True" >
+            <ig:XamDataChart.Axes>
+                <ig:CategoryXAxis x:Name="xmXAxis" ItemsSource="{Binding}" Label="{}{Index}"/>
+                <ig:NumericYAxis x:Name="xmYAxis"/>
+            </ig:XamDataChart.Axes>
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ========================================================================== -->
+            <ig:XamDataChart.Series>
+                <ig:FinancialPriceSeries
+                    DisplayType="Candlestick" ItemsSource="{Binding}"
+                    XAxis="{Binding ElementName=xmXAxis}"
+                    YAxis="{Binding ElementName=xmYAxis}"
+                    OpenMemberPath="Open" HighMemberPath="High" LowMemberPath="Low" CloseMemberPath="Close"
+                    TrendLineType="{Binding ElementName=cmbTrendLineType, Path=SelectedItem.Tag, Converter={StaticResource TrendLineTypeConverter}}"
+                    TrendLineBrush="{Binding ElementName=cmbTrendLineBrush, Path=SelectedItem}"
+                    TrendLineDashArray="{Binding ElementName=cmbTrendLineDash, Path=SelectedItem}"
+                    TrendLineDashCap="{Binding ElementName=cmbTrendLineDashCap, Path=SelectedItem}"
+                    TrendLinePeriod="{Binding ElementName=sldTrendLinePeriod, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}"
+                    TrendLineThickness="{Binding ElementName=sldTrendLineThickness, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0.0'}" 
+                    IsHighlightingEnabled="True" IsTransitionInEnabled="True">
+                </ig:FinancialPriceSeries>
+            </ig:XamDataChart.Series>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+        </ig:XamDataChart>
+        
+        <ig:XamDataChart x:Name="PointChart" 
+                         Visibility="Collapsed"
+                         HorizontalZoomable="False" 
+                         VerticalZoomable="False"  >
+            <ig:XamDataChart.Axes>
+                <ig:NumericYAxis x:Name="PointYAxis" />
+                <ig:CategoryXAxis x:Name="PointXAxis" ItemsSource="{Binding}" Label="{}{Index}"/>
+            </ig:XamDataChart.Axes>
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ========================================================================== -->
+            <ig:XamDataChart.Series>
+                <ig:PointSeries ItemsSource="{Binding}" ValueMemberPath="Close"
+                                TrendLineType="{Binding ElementName=cmbTrendLineType, Path=SelectedItem.Tag, Converter={StaticResource TrendLineTypeConverter}}"
+                                TrendLineBrush="{Binding ElementName=cmbTrendLineBrush, Path=SelectedItem}"
+                                TrendLineDashArray="{Binding ElementName=cmbTrendLineDash, Path=SelectedItem}"
+                                TrendLineDashCap="{Binding ElementName=cmbTrendLineDashCap, Path=SelectedItem}"
+                                TrendLinePeriod="{Binding ElementName=sldTrendLinePeriod, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}"
+                                TrendLineThickness="{Binding ElementName=sldTrendLineThickness, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0.0'}"
+                                Title="{Binding StringEnergyGas, Source={StaticResource DataViewModel}}"
+                                XAxis="{Binding ElementName=PointXAxis}" MarkerType="Circle"
+                                YAxis="{Binding ElementName=PointYAxis}">
+                </ig:PointSeries>
+            </ig:XamDataChart.Series>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+        </ig:XamDataChart>
+
+
+        <controls:OptionsPanel Margin="0" HeaderText="{Binding XWDC_TrendLines_Title, Source={StaticResource Strings}}"
+                               HorizontalAlignment="Right">
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}"/>
+                <Style TargetType="Slider" BasedOn="{StaticResource IGSliderStyle}" >
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+                <Style TargetType="ComboBox" BasedOn="{StaticResource IGComboBoxStyle}" >
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+            </controls:OptionsPanel.Resources>            
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="90"/>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="40"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock  Text="{Binding XWDC_TrendLines_Type, Source={StaticResource Strings}}" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                <ComboBox x:Name="cmbTrendLineType" Grid.Column="1" Grid.ColumnSpan="2" SelectedIndex="3" VerticalAlignment="Center">
+                    <ComboBoxItem Tag="None" Content="{Binding XWDC_TrendLines_Type_None, Source={StaticResource Strings}}" />
+                    <ComboBoxItem Tag="CubicFit" Content="{Binding XWDC_TrendLines_Type_CubicFit, Source={StaticResource Strings}}" />
+                    <ComboBoxItem Tag="CumulativeAverage" Content="{Binding XWDC_TrendLines_Type_CumulativeAverage, Source={StaticResource Strings}}" />
+                    <ComboBoxItem Tag="ExponentialAverage" Content="{Binding XWDC_TrendLines_Type_ExponentialAverage, Source={StaticResource Strings}}" />
+                    <ComboBoxItem Tag="ExponentialFit" Content="{Binding XWDC_TrendLines_Type_ExponentialFit, Source={StaticResource Strings}}" />
+                    <ComboBoxItem Tag="LinearFit" Content="{Binding XWDC_TrendLines_Type_LinearFit, Source={StaticResource Strings}}" />
+                    <ComboBoxItem Tag="LogarithmicFit" Content="{Binding XWDC_TrendLines_Type_LogarithmicFit, Source={StaticResource Strings}}" />
+                    <ComboBoxItem Tag="ModifiedAverage" Content="{Binding XWDC_TrendLines_Type_ModifiedAverage, Source={StaticResource Strings}}" />
+                    <ComboBoxItem Tag="PowerLawFit" Content="{Binding XWDC_TrendLines_Type_PowerLawFit, Source={StaticResource Strings}}" />
+                    <ComboBoxItem Tag="QuadraticFit" Content="{Binding XWDC_TrendLines_Type_QuadraticFit, Source={StaticResource Strings}}" />
+                    <ComboBoxItem Tag="QuarticFit" Content="{Binding XWDC_TrendLines_Type_QuarticFit, Source={StaticResource Strings}}" />
+                    <ComboBoxItem Tag="QuinticFit" Content="{Binding XWDC_TrendLines_Type_QuinticFit, Source={StaticResource Strings}}" />
+                    <ComboBoxItem Tag="SimpleAverage" Content="{Binding XWDC_TrendLines_Type_SimpleAverage, Source={StaticResource Strings}}" />
+                    <ComboBoxItem Tag="WeightedAverage" Content="{Binding XWDC_TrendLines_Type_WeightedAverage, Source={StaticResource Strings}}" />
+                </ComboBox>
+
+                <Grid Grid.Row="1" Grid.ColumnSpan="3" Visibility="{Binding SelectedItem.Tag, Converter={StaticResource TrendLinePeriodVisibilityConverter}, ElementName=cmbTrendLineType}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="90"/>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="30"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding XWDC_TrendLines_Period, Source={StaticResource Strings}}" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                    <Slider Grid.Column="1" x:Name="sldTrendLinePeriod" Value="8" Minimum="1" Maximum="100" />
+                    <TextBlock Grid.Column="2" Text="{Binding Value, ConverterParameter=0, Converter={StaticResource StringFormatConverter}, ElementName=sldTrendLinePeriod}" VerticalAlignment="Center" Margin="{StaticResource OptionsTextLeftMargin}"/>
+                </Grid>
+
+                <TextBlock Grid.Row="2" Text="{Binding XWDC_TrendLines_Brush, Source={StaticResource Strings}}" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                <ComboBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" x:Name="cmbTrendLineBrush" ItemsSource="{StaticResource LineBrushes}" SelectedIndex="0">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Background="Transparent">
+                                <Rectangle Fill="{Binding}" MinHeight="15" Width="200" HorizontalAlignment="Stretch" Margin="2" />
+                            </Grid>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <TextBlock Grid.Row="3" Text="{Binding XWDC_TrendLines_DashArray, Source={StaticResource Strings}}" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                <ComboBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" x:Name="cmbTrendLineDash" ItemsSource="{StaticResource LineDashes}" SelectedIndex="3">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid HorizontalAlignment="Stretch" Background="Transparent">
+                                <Line StrokeDashArray="{Binding}" StrokeThickness="2" Stroke="{StaticResource ForegroundBrush}" X1="0" Y1="5" X2="200" Y2="5" Margin="2" />
+                            </Grid>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <TextBlock Grid.Row="4" Text="{Binding XWDC_TrendLines_DashCap, Source={StaticResource Strings}}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <ComboBox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" x:Name="cmbTrendLineDashCap" ItemsSource="{StaticResource LineDashCaps}" SelectedIndex="2">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid HorizontalAlignment="Stretch" Background="Transparent">
+                                <Line StrokeDashCap="{Binding}" StrokeDashArray="3 3" StrokeThickness="5" Stroke="{StaticResource ForegroundBrush}" X1="0" Y1="5" X2="200" Y2="5" Margin="2" />
+                            </Grid>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <TextBlock Grid.Row="5" Text="{Binding XWDC_TrendLines_Thickness, Source={StaticResource Strings}}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <Slider Grid.Row="5" Grid.Column="1" x:Name="sldTrendLineThickness" Value="5" Minimum="0" SmallChange="0.5" LargeChange="0.5" Maximum="10"/>
+                <TextBlock Grid.Row="5" Grid.Column="2" Text="{Binding Value, ConverterParameter=0.0, Converter={StaticResource StringFormatConverter}, ElementName=sldTrendLineThickness}" VerticalAlignment="Center" Margin="{StaticResource OptionsTextLeftMargin}"/>
+
+                <!-- Select Chart Type -->
+                <TextBlock Grid.Row="6" Text="{Binding XDC_TrendLines_ChartTypes, Source={StaticResource Strings}}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <ComboBox Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" x:Name="cmbChartType">
+                    <ComboBoxItem Tag="CandleStickChart" 
+                                  Content="{Binding XWDC_ChartType_Candlestick, Source={StaticResource Strings}}" IsSelected="True" />
+                    <ComboBoxItem Tag="PointChart" 
+                                  Content="{Binding XWDC_ChartType_Point, Source={StaticResource Strings}}" />
+                </ComboBox>
+            </Grid>
+        </controls:OptionsPanel>
+
+    </Grid>
+
+</igFramework:SampleContainer>

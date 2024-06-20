@@ -1,0 +1,51 @@
+﻿<framework:SampleContainer x:Class="IGNetworkNode.Samples.Performance.HighVolumeData" 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:common="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGNetworkNode.Resources"                         
+    mc:Ignorable="d" d:DesignHeight="400" d:DesignWidth="700">
+
+    <!-- ========================================================================== -->
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGNetworkNode;component/Assets/Global.xaml" />
+                
+                
+            </ResourceDictionary.MergedDictionaries>
+            <common:CommonStrings x:Key="CommonStrings"/>
+            <res:NetworkNodeStrings x:Key="Strings"/>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+    <!-- ========================================================================== -->
+
+    <Grid x:Name="LayoutRoot" Width="Auto" >
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamNetworkNode x:Name="xnn">
+            <ig:XamNetworkNode.GlobalNodeLayouts>
+                <ig:NetworkNodeNodeLayout
+                    TargetTypeName="NodeModel"
+                    DisplayMemberPath="Label"
+                    ToolTipMemberPath="ToolTip"
+                    ConnectionsMemberPath="Connections"
+                    ConnectionTargetMemberPath="Target"
+                    ConnectionWeightMemberPath="Weight"
+                    />
+            </ig:XamNetworkNode.GlobalNodeLayouts>
+        </ig:XamNetworkNode>
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource CommonStrings}, Path=ConfigurationPanel_Header_Options}"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Top">
+            <StackPanel>
+                <Button Content="{Binding Source={StaticResource Strings}, Path=LoadData}"
+                        Click="Load_Button_Click" />
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

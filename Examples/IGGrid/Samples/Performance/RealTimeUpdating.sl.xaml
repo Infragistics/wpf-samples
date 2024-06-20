@@ -1,0 +1,127 @@
+﻿<igFramework:SampleContainer x:Class="IGGrid.Samples.Performance.RealTimeUpdating"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="RealTimeUpdating Page"
+      xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:res="clr-namespace:IGGrid.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGrid;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamGrid.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:GridStrings x:Key="Strings" />
+            <converters:StringFormatConverter x:Key="FormatConverter" />
+            
+            <Style x:Key="CustomCellControlStyle" TargetType="ig:CellControl" BasedOn="{StaticResource CellControlStyle}">
+                <Setter Property="Foreground" Value="#FF52CC00" />
+            </Style>
+            <Style x:Key="LastMatchStyle" TargetType="ig:CellControl" BasedOn="{StaticResource CellControlStyle}">
+                <Setter Property="Foreground" Value="Red" />
+            </Style>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <!--#BEGIN SNIPPET#-->
+    <Grid x:Name="LayoutRoot" Background="White" Width="Auto" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="278"/>
+        </Grid.RowDefinitions>
+
+        <Grid Margin="0,3,0,0" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="64" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0" Margin="8,0,0,0" Height="40" VerticalAlignment="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock x:Name="LastMatchCaption1" Text="{Binding XWG_RealTime_LastMatch, Source={StaticResource Strings}}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Foreground="#FF999999" FontSize="10.667" VerticalAlignment="Bottom" />
+                <TextBlock x:Name="Price1" Text="{Binding SelectedStock.FormatedPrice}" Grid.Row="1" Foreground="#FF52CC00" FontSize="16" />
+            </Grid>
+
+            <Grid Grid.Column="1" Margin="8,0,0,0" Height="40" VerticalAlignment="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock x:Name="TodayActivityCaption1" Text="{Binding XWG_RealTime_TodaysActivities, Source={StaticResource Strings}}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Foreground="#FF999999" FontSize="10.667" VerticalAlignment="Bottom" />
+                <TextBlock x:Name="Orders1" Text="{Binding SelectedStock.Orders, Converter={StaticResource FormatConverter}, StringFormat=\{0:N0\}}" Grid.Row="1" FontSize="16" Foreground="#FF52CC00" />
+                <TextBlock x:Name="Volume1" Text="{Binding SelectedStock.FormatedVolume}" Grid.Column="1" Grid.Row="1" FontSize="16" Foreground="#FF52CC00" />
+            </Grid>
+            <ig:XamGrid x:Name="BuyOrdersDisplay" AutoGenerateColumns="false" ItemsSource="{Binding SelectedStock.BuyOrders}" Grid.Column="0" Grid.Row="1" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="0" >
+                <ig:XamGrid.Columns>
+                    <ig:TextColumn Key="Shares" FormatString="{}{0:N0}">
+                        <ig:TextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding XWG_RealTime_Shares, Source={StaticResource Strings}}" />
+                            </DataTemplate>
+                        </ig:TextColumn.HeaderTemplate>
+                    </ig:TextColumn>
+                    <ig:TextColumn Key="FormatedPrice">
+                        <ig:TextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding XWG_RealTime_Price, Source={StaticResource Strings}}" />
+                            </DataTemplate>
+                        </ig:TextColumn.HeaderTemplate>
+                    </ig:TextColumn>
+                </ig:XamGrid.Columns>
+                <ig:XamGrid.SortingSettings>
+                    <ig:SortingSettings AllowMultipleColumnSorting="False" ShowSortIndicator="True" />
+                </ig:XamGrid.SortingSettings>
+            </ig:XamGrid>
+            <ig:XamGrid x:Name="SellOrdersDisplay" AutoGenerateColumns="false" ItemsSource="{Binding SelectedStock.SellOrders}" Grid.Column="1" Grid.Row="1" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="0" >
+                <ig:XamGrid.Columns>
+                    <ig:TextColumn Key="Shares" FormatString="{}{0:N0}">
+                        <ig:TextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding XWG_RealTime_Shares, Source={StaticResource Strings}}" />
+                            </DataTemplate>
+                        </ig:TextColumn.HeaderTemplate>
+                    </ig:TextColumn>
+                    <ig:TextColumn Key="FormatedPrice">
+                        <ig:TextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding XWG_RealTime_Price, Source={StaticResource Strings}}" />
+                            </DataTemplate>
+                        </ig:TextColumn.HeaderTemplate>
+                    </ig:TextColumn>
+                </ig:XamGrid.Columns>
+                <ig:XamGrid.SortingSettings>
+                    <ig:SortingSettings AllowMultipleColumnSorting="False" ShowSortIndicator="True" />
+                </ig:XamGrid.SortingSettings>
+            </ig:XamGrid>
+            <TextBlock x:Name="txtSell" Text="{Binding XWG_RealTime_SellOrders, Source={StaticResource Strings}}" Grid.Column="1" FontSize="13.333" Foreground="#FF9B9B9B" Margin="8,3,7,2" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
+            <TextBlock x:Name="txtBuy" Text="{Binding XWG_RealTime_BuyOrders, Source={StaticResource Strings}}" FontSize="13.333" Foreground="#FF9B9B9B" Margin="8,2,5,2" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
+        </Grid>
+        <Rectangle Fill="#FFBBA379" StrokeThickness="0"/>
+        <StackPanel x:Name="stockNameAndPercentChange" HorizontalAlignment="Left" Margin="7,5,0,5" Orientation="Horizontal">
+            <TextBlock x:Name="textBlock" FontSize="15" Foreground="White" Text="{Binding XWG_MSFT, Source={StaticResource Strings}}" TextWrapping="Wrap" d:LayoutOverrides="Width, GridBox" VerticalAlignment="Center"/>
+            <TextBlock FontSize="12" Foreground="#CCFFFFFF" Text="{Binding SelectedStock.PercentChange}" d:LayoutOverrides="GridBox" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="8,2,0,0"/>
+        </StackPanel>
+    </Grid>
+    <!--#END SNIPPET#-->
+</igFramework:SampleContainer>

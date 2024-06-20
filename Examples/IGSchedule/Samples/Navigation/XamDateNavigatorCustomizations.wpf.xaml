@@ -1,0 +1,302 @@
+﻿<igFramework:SampleContainer
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="XamDateNavigatorCustomizations"
+      x:Class="IGSchedule.Samples.Navigation.XamDateNavigatorCustomizations"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:data="clr-namespace:IGSchedule.DataSource"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+      xmlns:localConverters="clr-namespace:IGSchedule.Converters"
+      xmlns:res="clr-namespace:IGSchedule.Resources"
+      xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <igPrim:ValueConverterGroup x:Key="boolToOccurrenceStyle">
+                <!-- if true sets style to a variance indicator -->
+                <igPrim:FixedValueConverter>
+                    <igPrim:FixedValueConverter.SourceValue>
+                        <sys:Boolean>True</sys:Boolean>
+                    </igPrim:FixedValueConverter.SourceValue>
+                    <igPrim:FixedValueConverter.DestinationValue>
+                        <Style TargetType="ContentControl">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ContentControl">
+                                        <Grid
+                                            Width="9"
+                                            Height="9">
+                                            <Path
+                                                Width="6"
+                                                Height="5"
+                                                HorizontalAlignment="Left"
+                                                Margin="0,4,0,0"
+                                                VerticalAlignment="Top"
+                                                Data="M 0,5 C0,5 0,6 0,6 0,6 1,6 1,6 1,6 1,8 1,8 1,8 2,8 2,8 2,8 2,9 2,9 2,9 5,9 5,9 5,9 5,8 5,8 5,8 6,8 6,8 6,8 6,7 6,7 6,7 5,7 5,7 5,7 5,8 5,8 5,8 2,8 2,8 2,8 2,6 2,6 2,6 3,6 3,6 3,6 3,5 3,5 3,5 2,5 2,5 2,5 2,4 2,4 2,4 1,4 1,4 1,4 1,5 1,5 1,5 0,5 0,5 z"
+                                                Fill="{TemplateBinding Foreground}"
+                                                Stretch="Fill" />
+                                            <Path
+                                                Width="6"
+                                                Height="5"
+                                                HorizontalAlignment="Left"
+                                                Margin="3,1,0,0"
+                                                VerticalAlignment="Top"
+                                                Data="M 9,5 C9,5 9,4 9,4 9,4 8,4 8,4 8,4 8,2 8,2 8,2 7,2 7,2 7,2 7,1 7,1 7,1 4,1 4,1 4,1 4,2 4,2 4,2 3,2 3,2 3,2 3,3 3,3 3,3 4,3 4,3 4,3 4,2 4,2 4,2 7,2 7,2 7,2 7,4 7,4 7,4 6,4 6,4 6,4 6,5 6,5 6,5 7,5 7,5 7,5 7,6 7,6 7,6 8,6 8,6 8,6 8,5 8,5 8,5 9,5 9,5 z"
+                                                Fill="{TemplateBinding Foreground}"
+                                                Stretch="Fill" />
+                                            <Path
+                                                Width="9"
+                                                Height="9"
+                                                HorizontalAlignment="Left"
+                                                Margin="0,0,0,0"
+                                                VerticalAlignment="Top"
+                                                Data="M 8,0 C8,0 9,0 9,0 9,0 9,1 9,1 9,1 8,1 8,1 8,1 8,0 8,0 zM 7,1 C7,1 8,1 8,1 8,1 8,2 8,2 8,2 7,2 7,2 7,2 7,1 7,1 zM 6,2 C6,2 7,2 7,2 7,2 7,3 7,3 7,3 6,3 6,3 6,3 6,2 6,2 zM 5,3 C5,3 6,3 6,3 6,3 6,4 6,4 6,4 5,4 5,4 5,4 5,3 5,3 zM 4,4 C4,4 5,4 5,4 5,4 5,5 5,5 5,5 4,5 4,5 4,5 4,4 4,4 zM 3,5 C3,5 4,5 4,5 4,5 4,6 4,6 4,6 3,6 3,6 3,6 3,5 3,5 zM 2,6 C2,6 3,6 3,6 3,6 3,7 3,7 3,7 2,7 2,7 2,7 2,6 2,6 zM 1,7 C1,7 2,7 2,7 2,7 2,8 2,8 2,8 1,8 1,8 1,8 1,7 1,7 zM 0,8 C0,8 1,8 1,8 1,8 1,9 1,9 1,9 0,9 0,9 0,9 0,8 0,8 z"
+                                                Fill="{TemplateBinding Foreground}"
+                                                Stretch="Fill" />
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </igPrim:FixedValueConverter.DestinationValue>
+                </igPrim:FixedValueConverter>
+
+                <!-- if false sets style to the occurrence indicator -->
+                <igPrim:FixedValueConverter>
+                    <igPrim:FixedValueConverter.DestinationValue>
+                        <Style TargetType="ContentControl">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ContentControl">
+                                        <Grid
+                                            Width="9"
+                                            Height="8"
+                                            x:Name="reccurence">
+                                            <Path
+                                                Width="6"
+                                                Height="5"
+                                                HorizontalAlignment="Left"
+                                                Margin="0,3,0,0"
+                                                VerticalAlignment="Top"
+                                                Data="M 0,4 C0,4 0,5 0,5 0,5 1,5 1,5 1,5 1,7 1,7 1,7 2,7 2,7 2,7 2,8 2,8 2,8 5,8 5,8 5,8 5,7 5,7 5,7 6,7 6,7 6,7 6,6 6,6 6,6 5,6 5,6 5,6 5,7 5,7 5,7 2,7 2,7 2,7 2,5 2,5 2,5 3,5 3,5 3,5 3,4 3,4 3,4 2,4 2,4 2,4 2,3 2,3 2,3 1,3 1,3 1,3 1,4 1,4 1,4 0,4 0,4 z"
+                                                Fill="{TemplateBinding Foreground}"
+                                                Stretch="Fill" />
+                                            <Path
+                                                Width="6"
+                                                Height="5"
+                                                HorizontalAlignment="Left"
+                                                Margin="3,0,0,0"
+                                                VerticalAlignment="Top"
+                                                Data="M 9,4 C9,4 9,3 9,3 9,3 8,3 8,3 8,3 8,1 8,1 8,1 7,1 7,1 7,1 7,0 7,0 7,0 4,0 4,0 4,0 4,1 4,1 4,1 3,1 3,1 3,1 3,2 3,2 3,2 4,2 4,2 4,2 4,1 4,1 4,1 7,1 7,1 7,1 7,3 7,3 7,3 6,3 6,3 6,3 6,4 6,4 6,4 7,4 7,4 7,4 7,5 7,5 7,5 8,5 8,5 8,5 8,4 8,4 8,4 9,4 9,4 z"
+                                                Fill="{TemplateBinding Foreground}"
+                                                Stretch="Fill" />
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </igPrim:FixedValueConverter.DestinationValue>
+                </igPrim:FixedValueConverter>
+            </igPrim:ValueConverterGroup>
+
+            <localConverters:BooleanInverter x:Key="boolInverter" />
+            <igPrim:BoolToVisibilityConverter x:Key="boolToVisibility" />
+            <!-- if true sets visibility to Visible -->
+
+            <LinearGradientBrush x:Key="reminderBrush" StartPoint="0.5,0" EndPoint="0.5,1">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Offset="0" Color="BlueViolet" />
+                        <GradientStop Offset="0.994" Color="Violet" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+
+            <DataTemplate x:Key="dateNavDayActivityToolTipTemplateExample1">
+                <StackPanel Orientation="Vertical" Margin="0,1,3,1">
+                    <StackPanel Orientation="Horizontal">
+                        <!-- Primary category indicator -->
+                        <Rectangle Width="20"
+                                   Margin="0,0,5,0"
+                                   Fill="{Binding Path=CategoryBackground}" />
+
+                        <!-- start -->
+                        <igPrim:RelativeDateRangePresenter
+                            ConvertDateTimeToLocal="{Binding Path=Activity.IsTimeZoneNeutral, Converter={StaticResource boolInverter}}"
+                            Start="{Binding Path=Activity.Start}"
+                            End="{Binding Path=Activity.End}"
+                            RelativeDate="{Binding Path=Date}"
+                            IncludeEnd="False"
+                            HorizontalAlignment="Right"
+                            SizeToWidestTime="True" />
+
+                        <!-- start/end separator -->
+                        <TextBlock Text="-" Margin="4,0,4,0" />
+
+                        <!-- end -->
+                        <igPrim:RelativeDateRangePresenter
+                            ConvertDateTimeToLocal="{Binding Path=Activity.IsTimeZoneNeutral, Converter={StaticResource boolInverter}}"
+                            Start="{Binding Path=Activity.Start}"
+                            End="{Binding Path=Activity.End}"
+                            RelativeDate="{Binding Path=Date}"
+                            IncludeStart="False"
+                            HorizontalAlignment="Right"
+                            SizeToWidestTime="{Binding Path=AlignEndTime}" />
+
+                        <!-- subject -->
+                        <TextBlock Text="{Binding Path=Activity.Subject}" Margin="7,0,4,0" />
+
+                        <!-- indicator panel -->
+                        <StackPanel
+                            igPrim:ActivityContentPanel.Area="Indicators"
+                            Orientation="Horizontal">
+
+                            <!-- Occurrence indicator -->
+                            <ContentControl Style="{Binding Path=Activity.IsVariance, Converter={StaticResource boolToOccurrenceStyle}}"
+                                            igPrim:XamlHelper.Focusable="False" Margin="2,3,2,2" Foreground="{StaticResource reminderBrush}"
+                                            Visibility="{Binding Path=Activity.IsOccurrence, Converter={StaticResource boolToVisibility}}" />
+
+                            <!-- Reminder indicator -->
+                            <Path Width="10"
+                                  Height="10"
+                                  Stretch="Fill"
+                                  Margin="2,3,2,2"
+                                  Data="M 4,2 C4,2 6,2 6,2 6,2 6,3 6,3 6,3 7,3 7,3 7,3 7,7 7,7 7,7 8,7 8,7 8,7 8,8 8,8 8,8 2,8 2,8 2,8 2,7 2,7 2,7 3,7 3,7 3,7 3,3 3,3 3,3 4,3 4,3 4,3 4,2 4,2 zM 4,1 C4,1 4,2 4,2 4,2 3,2 3,2 3,2 3,3 3,3 3,3 2,3 2,3 2,3 2,7 2,7 2,7 1,7 1,7 1,7 1,8 1,8 1,8 1,9 1,9 1,9 4,9 4,9 4,9 4,10 4,10 4,10 6,10 6,10 6,10 6,9 6,9 6,9 8,9 8,9 8,9 9,9 9,9 9,9 9,8 9,8 9,8 9,7 9,7 9,7 8,7 8,7 8,7 8,3 8,3 8,3 7,3 7,3 7,3 7,2 7,2 7,2 6,2 6,2 6,2 6,1 6,1 6,1 4,1 4,1 zM 9,3 C9,3 9,4 9,4 9,4 10,4 10,4 10,4 10,3 10,3 10,3 9,3 9,3 zM 8,0 C8,0 8,1 8,1 8,1 9,1 9,1 9,1 9,0 9,0 9,0 8,0 8,0 zM 0,3 C0,3 0,4 0,4 0,4 1,4 1,4 1,4 1,3 1,3 1,3 0,3 0,3 zM 1,0 C1,0 1,1 1,1 1,1 2,1 2,1 2,1 2,0 2,0 2,0 1,0 1,0 z"
+                                  Fill="{StaticResource reminderBrush}"
+                                  Visibility="{Binding Path=ReminderVisibility}" />
+
+                            <!-- Activity Category Bars -->
+                            <!--<igPrim:ActivityCategoryBarPanel Margin="2,0,0,0" Categories="{Binding Path=Categories }" />-->
+                        </StackPanel>
+                    </StackPanel>
+                    <TextBlock Text="{Binding Path=Activity.Description}" Margin="7,0,4,5" />
+                </StackPanel>
+            </DataTemplate>
+
+            <DataTemplate x:Key="dateNavDayToolTipTemplateExample1">
+                <Grid Margin="0,0,1,0">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Date Header -->
+                    <Border Margin="25,0,2,0"
+                            BorderThickness="0,0,0,1"
+                            BorderBrush="{Binding Path=(igPrim:CalendarBrushProvider.BrushProvider)[ToolTipBorder]}">
+
+                        <igPrim:ScheduleDateTimePresenter
+                            Margin="1"
+                            HorizontalAlignment="Left"
+                            DateTime="{Binding Path=Date}"
+                            FontWeight="Bold"
+                            FormatType="LongDate"
+                            igPrim:XamlHelper.SnapsToDevicePixels="{TemplateBinding igPrim:XamlHelper.SnapsToDevicePixels}"
+                            Foreground="#812CA8" />
+                    </Border>
+
+                    <!-- Activities -->
+                    <ItemsControl Grid.Row="1"
+                                  Margin="0,5,0,3"
+                                  ItemsSource="{Binding Path=ActivityToolTipInfos}"
+                                  ItemTemplate="{StaticResource dateNavDayActivityToolTipTemplateExample1}" />
+                </Grid>
+            </DataTemplate>
+            <res:ScheduleStrings x:Key="resStrings" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSchedule;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <igFramework:SampleContainer.DataContext>
+        <data:ScheduleData x:Name="Data" />
+    </igFramework:SampleContainer.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <!-- #BEGIN SNIPPET# -->
+        <GridSplitter Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" Width="4" />
+        <ig:XamScheduleDataManager x:Name="dataManager" CurrentUserId="own1">
+            <ig:XamScheduleDataManager.CalendarGroups>
+                <ig:CalendarGroup InitialCalendarIds="own1" />
+            </ig:XamScheduleDataManager.CalendarGroups>
+            <ig:XamScheduleDataManager.DataConnector>
+                <ig:ListScheduleDataConnector
+                    ResourceItemsSource="{Binding Resources}"
+                    ResourceCalendarItemsSource="{Binding Calendars}"
+                    AppointmentItemsSource="{Binding Appointments}"
+                    TaskItemsSource="{Binding Tasks}"
+                    JournalItemsSource="{Binding Journals}" />
+            </ig:XamScheduleDataManager.DataConnector>
+        </ig:XamScheduleDataManager>
+
+        <ig:XamDateNavigator x:Name="dateNavigator" Grid.Row="1"
+                             TodayButtonVisibility="{Binding Path=IsChecked, ElementName=chkTodayButtonVisibility, Converter={StaticResource boolToVisibility}, Mode=TwoWay}"
+                             DayOfWeekHeaderVisibility="{Binding Path=IsChecked, ElementName=chkDayOfWeekHeaderVisibility, Converter={StaticResource boolToVisibility}, Mode=TwoWay}"
+                             WeekNumberVisibility="{Binding Path=IsChecked, ElementName=chkWeekNumber, Converter={StaticResource boolToVisibility}, Mode=TwoWay}"
+                             ShowActivityToolTips="{Binding Path=IsChecked, ElementName=chkShowActivityToolTips, Mode=TwoWay}"
+                             DataManager="{Binding ElementName=dataManager}" Margin="0,0,5,0">
+        </ig:XamDateNavigator>
+        <ig:XamOutlookCalendarView x:Name="outlookView" Grid.Row="1" Grid.Column="1" DateNavigator="{Binding ElementName=dateNavigator}" DataManager="{Binding ElementName=dataManager}" />
+        <!-- #END SNIPPET# -->
+
+        <controls:OptionsPanel HeaderText="{Binding ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}" IsMovable="False" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel>
+                    <CheckBox x:Name="chkTodayButtonVisibility" Content="{Binding Source={StaticResource resStrings}, Path=TodayButtonVisibility}" Margin="{StaticResource OptionsElementsMargin}"/>
+                    <CheckBox x:Name="chkDayOfWeekHeaderVisibility" Content="{Binding Source={StaticResource resStrings}, Path=DayOfWeekHeaderVisibility}" Margin="{StaticResource OptionsElementsMargin}"/>
+                    <CheckBox x:Name="chkWeekNumber" Content="{Binding Source={StaticResource resStrings}, Path=WeekNumbersVisibility}" />
+                </StackPanel>
+
+                <StackPanel Margin="10 0">
+                    <TextBlock Text="{Binding Source={StaticResource resStrings}, Path=DaysOfWeekHeaderFormat}" Margin="{StaticResource OptionsTextTopBottomMargin}" />
+                    <ComboBox x:Name="DaysOfWeekHeaderFormat" SelectionChanged="DaysOfWeekHeaderFormat_SelectionChanged">
+                        <ComboBox.Items>
+                            <ComboBoxItem Content="{Binding Source={StaticResource resStrings}, Path=Abbreviated}" Tag="2" />
+                            <ComboBoxItem Content="{Binding Source={StaticResource resStrings}, Path=Full}" Tag="3" />
+                            <ComboBoxItem Content="{Binding Source={StaticResource resStrings}, Path=SingleCharacter}" Tag="0" />
+                            <ComboBoxItem Content="{Binding Source={StaticResource resStrings}, Path=TwoCharacters}" Tag="1" IsSelected="True" />
+                        </ComboBox.Items>
+                    </ComboBox>
+                </StackPanel>
+
+                <StackPanel Height="Auto" Margin="0,0,10,0">
+                    <TextBlock Text="{Binding  Source={StaticResource resStrings}, Path=HighlightCriteria}" Margin="{StaticResource OptionsTextTopBottomMargin}" />
+                    <RadioButton GroupName="HighlightCriteriaRadioButtons" Checked="HighlightCritiria_Changed" Tag="2" Content="{Binding  Source={StaticResource resStrings}, Path=HighlightAll}" Margin="{StaticResource OptionsElementsMargin}"/>
+                    <RadioButton GroupName="HighlightCriteriaRadioButtons" Checked="HighlightCritiria_Changed" Tag="3" Content="{Binding  Source={StaticResource resStrings}, Path=HighlightNone}" Margin="{StaticResource OptionsElementsMargin}"/>
+                    <RadioButton GroupName="HighlightCriteriaRadioButtons" Checked="HighlightCritiria_Changed" Tag="1" Content="{Binding  Source={StaticResource resStrings}, Path=HighlightWorkdays}" Margin="{StaticResource OptionsElementsMargin}"/>
+                    <RadioButton GroupName="HighlightCriteriaRadioButtons" Checked="HighlightCritiria_Changed" Tag="0" Content="{Binding  Source={StaticResource resStrings}, Path=HighlightDaysWithActivity}" IsChecked="True" />
+                </StackPanel>
+
+                <StackPanel>
+                    <CheckBox x:Name="chkShowActivityToolTips" Content="{Binding Source={StaticResource resStrings}, Path=ShowActivityTooltips}" Margin="{StaticResource OptionsElementsMargin}"/>
+                    <TextBlock Text="{Binding  Source={StaticResource resStrings}, Path=ActivityTooltipTemplate}" Margin="{StaticResource OptionsTextTopBottomMargin}"/>
+                    <ComboBox x:Name="ActivityTooltipTemplateCombo"
+                              SelectionChanged="ActivityTooltipTemplateCombo_SelectionChanged">
+                        <ComboBox.Items>
+                            <ComboBoxItem Content="{Binding  Source={StaticResource resStrings}, Path=Default}" Tag="Default" IsSelected="True" />
+                            <ComboBoxItem Content="{Binding  Source={StaticResource resStrings}, Path=Example1}" Tag="Example1" />
+                        </ComboBox.Items>
+                    </ComboBox>
+                </StackPanel>
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

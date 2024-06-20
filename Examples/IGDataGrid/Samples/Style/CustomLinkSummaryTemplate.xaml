@@ -1,0 +1,269 @@
+﻿<igFramework:SampleContainer x:Class="IGDataGrid.Samples.Style.CustomLinkSummaryTemplate"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="CustomLinkSummaryTemplate"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGDataGrid.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataGrid;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DataGridStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid>
+        <igDP:XamDataGrid Theme="RoyalLight"
+                          SnapsToDevicePixels="True"
+                          Grid.Row="1"
+                          x:Name="XamDataGrid1"
+                          Margin="3,10,3,0">
+            <igDP:XamDataGrid.Resources>
+                <Style TargetType="{x:Type igDP:SummaryResultsPresenter}">
+                    <Style.Resources>
+                        <DataTemplate DataType="{x:Type igDP:SummaryResult}">
+                            <igDP:SummaryResultPresenter SummaryResult="{Binding}" />
+                        </DataTemplate>
+                    </Style.Resources>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type igDP:SummaryResultsPresenter}">
+                                <Grid>
+                                    <ItemsControl x:Name="SummaryItems"
+                                                  Visibility="Collapsed"
+                                                  ItemsSource="{TemplateBinding SummaryResults}" />
+                                    <Button x:Name="btnSummary"
+                                            Content="{Binding Source={StaticResource Strings}, Path=Control_Summary}"
+                                            Tag="{Binding ElementName=SummaryItems, Path=Items}" />
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding Path=Items.Count, ElementName=SummaryItems}"
+                                                 Value="0">
+                                        <Setter TargetName="btnSummary"
+                                                Property="Visibility"
+                                                Value="Collapsed" />
+                                    </DataTrigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+                <SolidColorBrush x:Key="ButtonGroupNormalBorderFill"
+                                 Color="#FFB3BCBF" />
+                <LinearGradientBrush x:Key="ButtonGroupPressedCenterFill"
+                                     StartPoint="0.5,0"
+                                     EndPoint="0.5,1">
+                    <LinearGradientBrush.GradientStops>
+                        <GradientStopCollection>
+                            <GradientStop Color="#FFcc9666" Offset="0" />
+                            <GradientStop Color="#FFfcb16d" Offset="0.1" />
+                            <GradientStop Color="#FFffaa46" Offset="0.3" />
+                            <GradientStop Color="#FFff8d05" Offset="0.4" />
+                            <GradientStop Color="#FFffc450" Offset="0.8" />
+                            <GradientStop Color="#FFffb21b" Offset="0.9" />
+                            <GradientStop Color="#FFffb21b" Offset="1" />
+                        </GradientStopCollection>
+                    </LinearGradientBrush.GradientStops>
+                </LinearGradientBrush>
+                <!--igThemes:ResourceWasher.IsExcludedFromWash="True"-->
+                <LinearGradientBrush x:Key="ButtonGroupPressedBorderFill"
+                                     StartPoint="0.5,0"
+                                     EndPoint="0.5,1">
+                    <LinearGradientBrush.GradientStops>
+                        <GradientStopCollection>
+                            <GradientStop Color="#FF7b6645"
+                                          Offset="0" />
+                            <GradientStop Color="#FFa78e66"
+                                          Offset="1" />
+                        </GradientStopCollection>
+                    </LinearGradientBrush.GradientStops>
+                </LinearGradientBrush>
+                <!-- igThemes:ResourceWasher.IsExcludedFromWash="True" -->
+                <LinearGradientBrush x:Key="ButtonGroupHoverCenterFill"
+                                     StartPoint="0.5,0"
+                                     EndPoint="0.5,1">
+                    <LinearGradientBrush.GradientStops>
+                        <GradientStopCollection>
+                            <GradientStop Color="#FFfef7d5" Offset="0" />
+                            <GradientStop Color="#FFfae5a9" Offset="0.35499998927116394" />
+                            <GradientStop Color="#FFffcf49" Offset="0.35600000619888306" />
+                            <GradientStop Color="#FFffe59f" Offset="1" />
+                        </GradientStopCollection>
+                    </LinearGradientBrush.GradientStops>
+                </LinearGradientBrush>
+                <!--igThemes:ResourceWasher.IsExcludedFromWash="True"-->
+                <LinearGradientBrush x:Key="ButtonGroupHoverBorderFill"
+                                     StartPoint="0.5,0"
+                                     EndPoint="0.5,1">
+                    <LinearGradientBrush.GradientStops>
+                        <GradientStopCollection>
+                            <GradientStop Color="#FFfffbe8" Offset="0" />
+                            <GradientStop Color="#FFfcefca" Offset="0.3700000047683716" />
+                            <GradientStop Color="#FFffe28f" Offset="0.3709999918937683" />
+                            <GradientStop Color="#FFfff9cc" Offset="1" />
+                        </GradientStopCollection>
+                    </LinearGradientBrush.GradientStops>
+                </LinearGradientBrush>
+                <LinearGradientBrush x:Key="ButtonGroupNormalInnerBorderFill"
+                                     StartPoint="0.5,0"
+                                     EndPoint="0.5,1">
+                    <LinearGradientBrush.GradientStops>
+                        <GradientStopCollection>
+                            <GradientStop Color="#FFdfe6e6" Offset="0" />
+                            <GradientStop Color="#FFf1f3f4" Offset="0.3790000081062317" />
+                            <GradientStop Color="#FFeceeef" Offset="0.3799999952316284" />
+                            <GradientStop Color="#FFedf0f1" Offset="1" />
+                        </GradientStopCollection>
+                    </LinearGradientBrush.GradientStops>
+                </LinearGradientBrush>
+                <LinearGradientBrush x:Key="ButtonGroupNormalCenterFill"
+                                     StartPoint="0.5,0"
+                                     EndPoint="0.5,1">
+                    <LinearGradientBrush.GradientStops>
+                        <GradientStopCollection>
+                            <GradientStop Color="#FFd6dedf" Offset="0" />
+                            <GradientStop Color="#FFdbe2e4" Offset="0.37" />
+                            <GradientStop Color="#FFd2d9db" Offset="0.3701" />
+                            <GradientStop Color="#FFe0e5e7" Offset="1" />
+                        </GradientStopCollection>
+                    </LinearGradientBrush.GradientStops>
+                </LinearGradientBrush>
+                <Style BasedOn="{x:Null}"
+                       TargetType="{x:Type Button}">
+                    <EventSetter Event="Click"
+                                 Handler="btnSummary_Click" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Grid x:Name="ButtonGroupMiddle"
+                                      Width="Auto"
+                                      Height="Auto"
+                                      HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Stretch">
+                                    <Rectangle SnapsToDevicePixels="True"
+                                               Fill="{DynamicResource ButtonGroupNormalBorderFill}"
+                                               HorizontalAlignment="Stretch"
+                                               VerticalAlignment="Stretch"
+                                               Width="Auto"
+                                               Height="Auto"
+                                               RadiusX="2"
+                                               RadiusY="2" />
+                                    <Border HorizontalAlignment="Stretch"
+                                            x:Name="ButtonGroupMiddleBorderFill"
+                                            VerticalAlignment="Stretch"
+                                            Width="Auto"
+                                            Height="Auto"
+                                            Background="{DynamicResource ButtonGroupNormalInnerBorderFill}"
+                                            CornerRadius="2,2,2,2"
+                                            SnapsToDevicePixels="True"
+                                            Margin="1,1,1,1" />
+                                    <Rectangle HorizontalAlignment="Stretch"
+                                               Margin="2,2,2,2"
+                                               x:Name="ButtonGroupMiddleMiddleFill"
+                                               VerticalAlignment="Stretch"
+                                               Width="Auto"
+                                               Height="Auto"
+                                               SnapsToDevicePixels="True"
+                                               Fill="{DynamicResource ButtonGroupNormalCenterFill}"
+                                               RadiusX="2"
+                                               RadiusY="2" />
+                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                      RecognizesAccessKey="True"
+                                                      Margin="5,5,5,5" />
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsFocused"
+                                             Value="True" />
+                                    <Trigger Property="IsDefaulted"
+                                             Value="True" />
+                                    <Trigger Property="IsMouseOver"
+                                             Value="True">
+                                        <Setter Property="Fill"
+                                                TargetName="ButtonGroupMiddleMiddleFill"
+                                                Value="{DynamicResource ButtonGroupHoverCenterFill}" />
+                                        <Setter Property="Background"
+                                                TargetName="ButtonGroupMiddleBorderFill"
+                                                Value="{DynamicResource ButtonGroupHoverBorderFill}" />
+                                        <Setter Property="Width"
+                                                TargetName="ButtonGroupMiddleMiddleFill"
+                                                Value="Auto" />
+                                        <Setter Property="HorizontalAlignment"
+                                                TargetName="ButtonGroupMiddleMiddleFill"
+                                                Value="Stretch" />
+                                        <Setter Property="Margin"
+                                                TargetName="ButtonGroupMiddleMiddleFill"
+                                                Value="1,2,2,2" />
+                                    </Trigger>
+                                    <Trigger Property="IsPressed"
+                                             Value="True">
+                                        <Setter Property="Visibility"
+                                                TargetName="ButtonGroupMiddleMiddleFill"
+                                                Value="Collapsed" />
+                                        <Setter Property="Background"
+                                                TargetName="ButtonGroupMiddleBorderFill"
+                                                Value="{DynamicResource ButtonGroupPressedCenterFill}" />
+                                    </Trigger>
+                                    <Trigger Property="IsEnabled"
+                                             Value="False" />
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                    <Setter Property="VerticalAlignment" Value="Stretch" />
+                </Style>
+            </igDP:XamDataGrid.Resources>
+            <!-- #BEGIN SNIPPET# -->
+            <igDP:XamDataGrid.FieldSettings>
+                <!--Display summary on bottom of records and for data records only-->
+                <igDP:FieldSettings AllowGroupBy="False"
+                                    AllowSummaries="True"
+                                    SummaryDisplayArea="Bottom, DataRecordsOnly" />
+            </igDP:XamDataGrid.FieldSettings>
+            <igDP:XamDataGrid.FieldLayouts>
+                <igDP:FieldLayout>
+                    <!--Add a summary that calculates sum of 'Total Price' field-->
+                    <igDP:FieldLayout.SummaryDefinitions>
+                        <igDP:SummaryDefinition SourceFieldName="UnitPrice"
+                                                Calculator="Sum"
+                                                StringFormat="{}{0:n}"/>
+                        <igDP:SummaryDefinition SourceFieldName="Quantity"
+                                                Calculator="Sum"
+                                                StringFormat="{}{0:n}" />
+                        <igDP:SummaryDefinition SourceFieldName="Quantity"
+                                                Calculator="Count"
+                                                StringFormat="{}{0:n}" />
+                        <igDP:SummaryDefinition SourceFieldName="Quantity"
+                                                Calculator="Average"
+                                                StringFormat="{}{0:n}" />
+                        <igDP:SummaryDefinition SourceFieldName="Quantity"
+                                                Calculator="Maximum"
+                                                StringFormat="{}{0:n}" />
+                        <igDP:SummaryDefinition SourceFieldName="Quantity"
+                                                Calculator="Minimum"
+                                                StringFormat="{}{0:n}" />                    
+                    </igDP:FieldLayout.SummaryDefinitions>
+                </igDP:FieldLayout>
+            </igDP:XamDataGrid.FieldLayouts>
+            <!-- #END SNIPPET# -->
+        </igDP:XamDataGrid>
+
+        <controls:OptionsPanel x:Name="wndSummary" HeaderText="{Binding ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}" 
+                               Margin="20"
+                               HorizontalAlignment="Right">
+            <ItemsControl x:Name="SummaryItems">
+                <TextBlock Text="{Binding Source={StaticResource Strings}, Path=FakeWindow_InitialText}" />
+            </ItemsControl>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

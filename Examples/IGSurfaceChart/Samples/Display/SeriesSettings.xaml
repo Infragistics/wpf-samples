@@ -1,0 +1,226 @@
+﻿<igs:SampleContainer x:Class="IGSurfaceChart.Samples.Display.SeriesSettings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:igs="http://schemas.infragistics.com/xaml/samples"
+             xmlns:viewModel="clr-namespace:IGSurfaceChart.Samples.ViewModels"
+             xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+             xmlns:res="clr-namespace:IGSurfaceChart.Resources"
+             xmlns:ig="http://schemas.infragistics.com/xaml"
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="700">
+
+    <igs:SampleContainer.DataContext>
+        <viewModel:BasicViewModel />
+    </igs:SampleContainer.DataContext>
+
+    <igs:SampleContainer.Resources>
+        <ResourceDictionary>
+            <res:SurfaceChartStrings x:Key="ChartStrings" />
+            <Color x:Key="WireframeMaterialColor">#FFEEECE1</Color>
+
+            <Color x:Key="GradientColor1">#FF372855</Color>
+            <Color x:Key="GradientColor2">#FFC2185B</Color>
+            <Color x:Key="GradientColor3">#FFF85931</Color>
+            <Color x:Key="GradientColor4">#FFED9B03</Color>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSurfaceChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </igs:SampleContainer.Resources>
+
+    <Grid>
+        <ig:XamScatterSurface3D Name="SurfaceChart" 
+                                ItemsSource="{Binding Path=Formula6DataCollection}" 
+                                XMemberPath="X" YMemberPath="Y" ZMemberPath="Z" 
+                                CrosshairAxes="None" ToolTipVisibility="Hidden"
+                                WireframeThickness="{Binding ElementName=Thickness, Path=Value, Mode=TwoWay}">
+            <!-- #BEGIN SNIPPET# -->
+            <ig:XamScatterSurface3D.SeriesMaterial>
+                <DiffuseMaterial>
+                    <DiffuseMaterial.Brush>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" 
+                                             Opacity="{Binding ElementName=Opacity_Slider, Path=Value}">
+                            <GradientStop Color="{Binding ElementName=GradientColor1_Picker, Path=SelectedColorPreview, Mode=TwoWay}" Offset="0"/>
+                            <GradientStop Color="{Binding ElementName=GradientColor2_Picker, Path=SelectedColorPreview, Mode=TwoWay}" Offset="0.257"/>
+                            <GradientStop Color="{Binding ElementName=GradientColor3_Picker, Path=SelectedColorPreview, Mode=TwoWay}" Offset="0.497"/>
+                            <GradientStop Color="{Binding ElementName=GradientColor4_Picker, Path=SelectedColorPreview, Mode=TwoWay}" Offset="0.733"/>
+                        </LinearGradientBrush>
+                    </DiffuseMaterial.Brush>
+                </DiffuseMaterial>
+            </ig:XamScatterSurface3D.SeriesMaterial>
+            <ig:XamScatterSurface3D.WireframeMaterial>
+                <DiffuseMaterial>
+                    <DiffuseMaterial.Brush>
+                        <SolidColorBrush Color="{Binding ElementName=WireframeColor_Picker, Path=SelectedColorPreview}"
+                                         Opacity="{Binding ElementName=WireframeColor_Opacity, Path=Value}"/>
+                    </DiffuseMaterial.Brush>
+                </DiffuseMaterial>
+            </ig:XamScatterSurface3D.WireframeMaterial>
+            <!-- #END SNIPPET# -->
+            <ig:XamScatterSurface3D.XAxis>
+                <ig:LinearAxis Title="{Binding Source={StaticResource ChartStrings}, Path=XAxis}" />
+            </ig:XamScatterSurface3D.XAxis>
+            <ig:XamScatterSurface3D.YAxis>
+                <ig:LinearAxis Title="{Binding Source={StaticResource ChartStrings}, Path=YAxis}" />
+            </ig:XamScatterSurface3D.YAxis>
+            <ig:XamScatterSurface3D.ZAxis>
+                <ig:LinearAxis Title="{Binding Source={StaticResource ChartStrings}, Path=ZAxis}" />
+            </ig:XamScatterSurface3D.ZAxis>
+        </ig:XamScatterSurface3D>
+        
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource ChartStrings}, Path=Configurations}"
+                               HorizontalAlignment="Right" VerticalAlignment="Top">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="100"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="0"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="0"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="0"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="0"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <!--<RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>-->
+                </Grid.RowDefinitions>
+
+                <Label Style="{StaticResource HeaderLabelStyle}" Content="{Binding Source={StaticResource ChartStrings}, Path=SeriesConfiguration}" 
+                       Grid.Row="0" Grid.ColumnSpan="2" Margin="{StaticResource OptionsPanelHeaderLabelLeftMargin}" />
+                <Label Style="{StaticResource LabelStyle}" Content="{Binding Source={StaticResource ChartStrings}, Path=Opacity}"
+                       Grid.Row="1" Grid.ColumnSpan="2" Margin="{StaticResource OptionsElementsTopBottomMargin}"/>
+                <ig:XamNumericSlider Name="Opacity_Slider" Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Center"
+                                     MinValue="0" MaxValue="1" Width="190"
+                                     LargeChange="0.1" TrackClickAction="LargeChange" 
+                                     IncreaseButtonVisibility="Collapsed" DecreaseButtonVisibility="Collapsed">
+                    <ig:XamNumericSlider.Thumb>
+                        <ig:XamSliderNumericThumb ToolTipVisibility="Visible" Value="1">
+                            <ig:XamSliderNumericThumb.ToolTipTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Border x:Name="HorizontalThumbContent">
+                                            <Grid>
+                                                <TextBlock Text="{Binding StringFormat=N1}" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                            </Grid>
+                                        </Border>
+                                    </Grid>
+                                </DataTemplate>
+                            </ig:XamSliderNumericThumb.ToolTipTemplate>
+                        </ig:XamSliderNumericThumb>
+                    </ig:XamNumericSlider.Thumb>
+
+                    <ig:XamNumericSlider.TickMarks>
+                        <ig:SliderTickMarks TickMarksFrequency="0.2" UseFrequency="True" />
+                        <ig:SliderTickMarks TickMarksFrequency="0.2" UseFrequency="True" >
+                            <ig:SliderTickMarks.HorizontalTickMarksTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding StringFormat=N1}" Style="{StaticResource SliderLabelsTextBlockStyle}" />
+                                </DataTemplate>
+                            </ig:SliderTickMarks.HorizontalTickMarksTemplate>
+                        </ig:SliderTickMarks>
+                    </ig:XamNumericSlider.TickMarks>
+                </ig:XamNumericSlider>
+
+                <Label Style="{StaticResource HeaderLabelStyle}" Content="{Binding Source={StaticResource ChartStrings}, Path=SeriesMaterial}" 
+                       Grid.Row="4" Grid.ColumnSpan="2" />
+                <ig:XamColorPicker x:Name="GradientColor1_Picker" SelectedColor="{StaticResource GradientColor1}" 
+                                   VerticalAlignment="Center" Grid.Row="5" Grid.Column="0" Margin="{StaticResource OptionsElementsSeparationRight}"/>
+                <ig:XamColorPicker x:Name="GradientColor2_Picker" SelectedColor="{StaticResource GradientColor2}" 
+                                   VerticalAlignment="Center" Grid.Row="5" Grid.Column="1" Margin="{StaticResource OptionsElementsSeparationLeft}"/>
+                <ig:XamColorPicker x:Name="GradientColor3_Picker" SelectedColor="{StaticResource GradientColor3}" 
+                                   VerticalAlignment="Center" Grid.Row="7" Grid.Column="0" Margin="{StaticResource OptionsElementsSeparationRight}"/>
+                <ig:XamColorPicker x:Name="GradientColor4_Picker" SelectedColor="{StaticResource GradientColor4}" 
+                                   VerticalAlignment="Center" Grid.Row="7" Grid.Column="1" Margin="{StaticResource OptionsElementsSeparationLeft}"/>
+
+                <Label Style="{StaticResource HeaderLabelStyle}" Content="{Binding Source={StaticResource ChartStrings}, Path=WireframeMaterial}"
+                       Grid.Row="8" Grid.ColumnSpan="2"/>
+
+                <Label Style="{StaticResource LabelStyle}" Content="{Binding Source={StaticResource ChartStrings}, Path=Opacity}"
+                       Grid.Row="9" Grid.ColumnSpan="2" Margin="{StaticResource OptionsElementsTopBottomMargin}"/>
+                <ig:XamNumericSlider Name="WireframeColor_Opacity" Grid.Row="10" Grid.ColumnSpan="2"
+                                     MinValue="0" MaxValue="1" VerticalAlignment="Center" Width="190"
+                                     LargeChange="0.1" TrackClickAction="LargeChange" 
+                                     IncreaseButtonVisibility="Collapsed" DecreaseButtonVisibility="Collapsed">
+                    <ig:XamNumericSlider.Thumb>
+                        <ig:XamSliderNumericThumb ToolTipVisibility="Visible" Value="1">
+                            <ig:XamSliderNumericThumb.ToolTipTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Border x:Name="HorizontalThumbContent">
+                                            <Grid>
+                                                <TextBlock Text="{Binding StringFormat=N1}" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                            </Grid>
+                                        </Border>
+                                    </Grid>
+                                </DataTemplate>
+                            </ig:XamSliderNumericThumb.ToolTipTemplate>
+                        </ig:XamSliderNumericThumb>
+                    </ig:XamNumericSlider.Thumb>
+                    <ig:XamNumericSlider.TickMarks>
+                        <ig:SliderTickMarks TickMarksFrequency="0.2" UseFrequency="True" />
+                        <ig:SliderTickMarks TickMarksFrequency="0.2" UseFrequency="True" >
+                            <ig:SliderTickMarks.HorizontalTickMarksTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding StringFormat=N1}" Style="{StaticResource SliderLabelsTextBlockStyle}" />
+                                </DataTemplate>
+                            </ig:SliderTickMarks.HorizontalTickMarksTemplate>
+                        </ig:SliderTickMarks>
+                    </ig:XamNumericSlider.TickMarks>
+                </ig:XamNumericSlider>
+
+                <Label Style="{StaticResource LabelStyle}" Content="{Binding Source={StaticResource ChartStrings}, Path=Color}" 
+                       Grid.Row="12" Grid.ColumnSpan="2" Margin="{StaticResource OptionsElementsTopBottomMargin}"/>
+                <ig:XamColorPicker Name="WireframeColor_Picker" Grid.Row="13" Grid.ColumnSpan="2" VerticalAlignment="Center" SelectedColor="{StaticResource WireframeMaterialColor}"/>
+
+
+                <Label Style="{StaticResource LabelStyle}" Content="{Binding Source={StaticResource ChartStrings}, Path=Thickness}" 
+                       Grid.Row="15" Grid.ColumnSpan="2" Margin="{StaticResource OptionsElementsTopBottomMargin}"/>
+                <ig:XamNumericSlider Name="Thickness" Grid.Row="16" Grid.ColumnSpan="2" VerticalAlignment="Center" 
+                                     MinValue="0" MaxValue="0.020" Width="190" 
+                                     LargeChange="0.001" TrackClickAction="LargeChange" 
+                                     IncreaseButtonVisibility="Collapsed" DecreaseButtonVisibility="Collapsed">
+                    <ig:XamNumericSlider.Thumb>
+                        <ig:XamSliderNumericThumb ToolTipVisibility="Visible" Value="0.002">
+                            <ig:XamSliderNumericThumb.ToolTipTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Border x:Name="HorizontalThumbContent">
+                                            <Grid>
+                                                <TextBlock Text="{Binding StringFormat=N3}" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                            </Grid>
+                                        </Border>
+                                    </Grid>
+                                </DataTemplate>
+                            </ig:XamSliderNumericThumb.ToolTipTemplate>
+                        </ig:XamSliderNumericThumb>
+                    </ig:XamNumericSlider.Thumb>
+
+                    <ig:XamNumericSlider.TickMarks>
+                        <ig:SliderTickMarks TickMarksFrequency="0.005" UseFrequency="True" />
+                        <ig:SliderTickMarks TickMarksFrequency="0.005" UseFrequency="True" >
+                            <ig:SliderTickMarks.HorizontalTickMarksTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding StringFormat=N3}" Style="{StaticResource SliderLabelsTextBlockStyle}" />
+                                </DataTemplate>
+                            </ig:SliderTickMarks.HorizontalTickMarksTemplate>
+                        </ig:SliderTickMarks>
+                    </ig:XamNumericSlider.TickMarks>
+                </ig:XamNumericSlider>
+            </Grid>
+        </controls:OptionsPanel>
+    </Grid>
+</igs:SampleContainer>

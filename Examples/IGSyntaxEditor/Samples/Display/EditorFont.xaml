@@ -1,0 +1,112 @@
+﻿<framework:SampleContainer x:Class="IGSyntaxEditor.Samples.Display.EditorFont"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    mc:Ignorable="d"
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="Editor Font"
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:res="clr-namespace:IGSyntaxEditor.Resources"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                
+                <ResourceDictionary Source="/IGSyntaxEditor;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:SyntaxEditorStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamSyntaxEditor x:Name="xamSyntaxEditor1" 
+                            SplitOptions="SplittingNotAllowed" BorderThickness="1"/>
+        <!-- #END SNIPPET# -->
+        
+        <controls:OptionsPanel HeaderText="{Binding ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}" 
+                               HorizontalAlignment="Right" MinWidth="200">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Margin="{StaticResource BottomPaddingMid}">
+                    <CheckBox IsThreeState="False" Margin="{StaticResource OptionsElementsMargin}"
+                              IsChecked="{Binding ElementName=xamSyntaxEditor1, Path=Document.IsReadOnly, Mode=TwoWay}">
+                        <TextBlock Text="{Binding Source={StaticResource Strings}, Path=lblReadOnly}" />
+                    </CheckBox>
+                    <CheckBox IsThreeState="False" Margin="{StaticResource OptionsElementsMargin}"
+                              IsChecked="{Binding ElementName=xamSyntaxEditor1, Path=AcceptsTab, Mode=TwoWay}">
+                        <TextBlock Text="{Binding Source={StaticResource Strings}, Path=AcceptsTab}" />
+                    </CheckBox>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox x:Name="cbBold"  Click="cbBold_Click" Margin="{StaticResource OptionsElementsRightMarginLarge}">
+                            <TextBlock Text="{Binding Path=Bold, Source={StaticResource CommonStrings}}" />
+                        </CheckBox>
+                        <CheckBox x:Name="cbItalic" Click="cbItalic_Click">
+                            <TextBlock Text="{Binding Path=Italic, Source={StaticResource CommonStrings}}" />
+                        </CheckBox>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Margin="{StaticResource BottomPaddingMid}">
+                    <TextBlock Text="{Binding Path=Font, Source={StaticResource Strings}}" Margin="{StaticResource OptionsElementsMargin}"/>
+                    <ComboBox x:Name="comboFontFamily" SelectionChanged="comboFontFamily_SelectionChanged" MinWidth="120" Margin="{StaticResource OptionsElementsMargin}">
+                        <sys:String>Arial</sys:String>
+                        <sys:String>Calibri</sys:String>
+                        <sys:String>Consolas</sys:String>
+                        <sys:String>Courier New</sys:String>
+                        <sys:String>Garamond</sys:String>
+                        <sys:String>Lucida Console</sys:String>
+                        <sys:String>Lucida Sans</sys:String>
+                        <sys:String>Segoe UI</sys:String>
+                        <sys:String>Tahoma</sys:String>
+                        <sys:String>Time New Roman</sys:String>
+                    </ComboBox>
+                    <TextBlock Text="{Binding Path=lblFontSize, Source={StaticResource Strings}}" Margin="{StaticResource OptionsElementsMargin}" />
+                    <ComboBox x:Name="comboFontSize" SelectionChanged="comboFontSize_SelectionChanged">
+                        <sys:String>6</sys:String>
+                        <sys:String>8</sys:String>
+                        <sys:String>10</sys:String>
+                        <sys:String>12</sys:String>
+                        <sys:String>14</sys:String>
+                        <sys:String>16</sys:String>
+                        <sys:String>18</sys:String>
+                        <sys:String>24</sys:String>
+                        <sys:String>36</sys:String>
+                        <sys:String>48</sys:String>
+                    </ComboBox>
+                </StackPanel>
+
+                <StackPanel Margin="{StaticResource BottomPaddingMid}">
+                    <TextBlock Text="{Binding Path=lblBackgroundColor, Source={StaticResource Strings}}" Margin="{StaticResource OptionsElementsMargin}"/>
+                    <ComboBox x:Name="cbBColor" MinWidth="50" SelectionChanged="cbBColor_SelectionChanged" Margin="{StaticResource OptionsElementsMargin}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <Rectangle HorizontalAlignment="Stretch" MinWidth="160" Height="16" Margin="-2,1,0,0">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush Color="{Binding}" />
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <TextBlock Text="{Binding Path=lblZoomLevel, Source={StaticResource Strings}}" MinWidth="50" Margin="{StaticResource OptionsElementsMargin}"/>
+                    <Slider Value="{Binding ElementName=xamSyntaxEditor1, Path=ZoomLevel, Mode=TwoWay}" Minimum="0.2" Maximum="4.0" />
+                </StackPanel>
+
+                <StackPanel>
+                    <CheckBox IsChecked="{Binding ElementName=xamSyntaxEditor1, Path=AllowDrag, Mode=TwoWay}" Margin="{StaticResource OptionsElementsMargin}">
+                        <TextBlock Text="{Binding Source={StaticResource Strings}, Path=AllowDrag}" />
+                    </CheckBox>
+                    <CheckBox Margin="0,5,0,0" IsChecked="{Binding ElementName=xamSyntaxEditor1, Path=AllowDrop, Mode=TwoWay}">
+                        <TextBlock Text="{Binding Source={StaticResource Strings}, Path=AllowDrop}" />
+                    </CheckBox>
+                </StackPanel>
+
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

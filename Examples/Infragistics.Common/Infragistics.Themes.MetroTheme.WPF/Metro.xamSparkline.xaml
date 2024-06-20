@@ -1,0 +1,169 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="http://schemas.infragistics.com/xaml">
+
+    <!-- ********************************** THEME COLORS **********************************-->
+    <ResourceDictionary.MergedDictionaries>
+      <ResourceDictionary Source="Theme.Colors.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- ********************************** BRUSHES **********************************-->
+    <SolidColorBrush x:Key="ForegroundBrush" Color="{StaticResource Color_000}"/>
+    <SolidColorBrush x:Key="ForegroundBrushLite" Color="{StaticResource Color_002}"/>
+
+    <!-- Sparkline Brushes -->
+    <SolidColorBrush x:Key="SparklineLegendBackgroundBrush" Color="{StaticResource Color_009}"/>
+    <SolidColorBrush x:Key="SparklineLegendStrokeBrush" Color="{StaticResource Color_004}"/>
+    <SolidColorBrush x:Key="SparklineFirstMarkerBrush" Color="{StaticResource Color_040}"/>
+    <SolidColorBrush x:Key="SparklineChartBrush" Color="{StaticResource Color_024}"/>
+    <SolidColorBrush x:Key="SparklineMarkerBrush" Color="{StaticResource Color_002}"/>
+    <SolidColorBrush x:Key="SparklineHighMarkerBrush" Color="{StaticResource Color_037}"/>
+    <SolidColorBrush x:Key="SparklineLastMarkerBrush" Color="{StaticResource Color_043}"/>
+    <SolidColorBrush x:Key="SparklineLowMarkerBrush" Color="{StaticResource Color_046}"/>
+    <SolidColorBrush x:Key="SparklineNegativeMarkerBrush" Color="{StaticResource Color_049}"/>
+    <SolidColorBrush x:Key="SparklineNegativeBrush" Color="{StaticResource Color_028}"/>
+    <SolidColorBrush x:Key="SparklineNormalRangeFill" Color="{StaticResource Color_063}"/>
+    <SolidColorBrush x:Key="SparklineTrendLineBrush" Color="{StaticResource Color_002}"/>
+
+    <!-- AxisView Brushes -->
+    <SolidColorBrush x:Key="VAxisViewBorderBrush" Color="{StaticResource Color_004}"/>
+    <SolidColorBrush x:Key="HAxisViewBorderBrush" Color="{StaticResource Color_004}"/>
+
+    <!-- ********************************** STYLES **********************************-->
+
+    <Style x:Key="TextBlockTitleStyle" TargetType="TextBlock">
+      <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+      <Setter Property="FontSize" Value="14"/>
+      <Setter Property="FontFamily" Value="Segoe UI"/>
+      <Setter Property="Margin" Value="5,0"/>
+    </Style>
+
+    <Style x:Key="TextBlockContentStyle" TargetType="TextBlock">
+      <Setter Property="Foreground" Value="{StaticResource ForegroundBrushLite}"/>
+      <Setter Property="FontSize" Value="14"/>
+      <Setter Property="FontFamily" Value="Segoe UI"/>
+      <Setter Property="Margin" Value="0,0,5,0"/>
+    </Style>
+
+    <!-- **********************************  ToolTipTemplate Style  ********************************** -->
+    <DataTemplate x:Key="ToolTipTemplate">
+      <Border BorderBrush="{StaticResource SparklineLegendStrokeBrush}" BorderThickness="1" Background="{StaticResource SparklineLegendBackgroundBrush}">
+        <Grid Margin="5">
+          <Grid.Resources>
+            <local:SparklineSRProvider x:Key="SparklineSR" />
+          </Grid.Resources>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+          </Grid.ColumnDefinitions>
+          <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+          </Grid.RowDefinitions>
+          <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding First, Source={StaticResource SparklineSR}}" Style="{StaticResource TextBlockTitleStyle}"/>
+          <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding Last, Source={StaticResource SparklineSR}}" Style="{StaticResource TextBlockTitleStyle}"/>
+          <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding High, Source={StaticResource SparklineSR}}" Style="{StaticResource TextBlockTitleStyle}"/>
+          <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Low, Source={StaticResource SparklineSR}}" Style="{StaticResource TextBlockTitleStyle}"/>
+          <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding First}" Style="{StaticResource TextBlockContentStyle}"/>
+          <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Last}" Style="{StaticResource TextBlockContentStyle}"/>
+          <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding High}" Style="{StaticResource TextBlockContentStyle}"/>
+          <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding Low}" Style="{StaticResource TextBlockContentStyle}"/>
+        </Grid>
+      </Border>
+    </DataTemplate>
+
+    <!-- **********************************  XamSparkline Style  ********************************** -->
+    <Style TargetType="local:XamSparkline" x:Key="XamSparklineStyle">
+      <Setter Property="LineThickness" Value="2"/>
+      <Setter Property="Brush" Value="{StaticResource SparklineChartBrush}"/>
+      <Setter Property="MarkerBrush" Value="{StaticResource SparklineMarkerBrush}"/>
+      <Setter Property="NegativeMarkerBrush" Value="{StaticResource SparklineNegativeMarkerBrush}"/>
+      <Setter Property="FirstMarkerBrush" Value="{StaticResource SparklineFirstMarkerBrush}"/>
+      <Setter Property="LastMarkerBrush" Value="{StaticResource SparklineLastMarkerBrush}"/>
+      <Setter Property="HighMarkerBrush" Value="{StaticResource SparklineHighMarkerBrush}"/>
+      <Setter Property="LowMarkerBrush" Value="{StaticResource SparklineLowMarkerBrush}"/>
+      <Setter Property="NegativeBrush" Value="{StaticResource SparklineNegativeBrush}"/>
+      <Setter Property="NormalRangeFill" Value="{StaticResource SparklineNormalRangeFill}"/>
+      <Setter Property="TrendLineBrush" Value="{StaticResource SparklineTrendLineBrush}"/>
+      <Setter Property="ToolTip" Value="{StaticResource ToolTipTemplate}"/>
+      <Setter Property="Padding" Value="5"/>
+      <Setter Property="MinHeight" Value="15" />
+      <Setter Property="MinWidth" Value="20" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:XamSparkline">
+            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+              <Grid>
+                <Grid.RowDefinitions>
+                  <RowDefinition/>
+                  <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto"/>
+                  <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <local:VerticalAxisView Visibility="{TemplateBinding VerticalAxisVisibility}"
+                                        Width="Auto" Grid.Column="0" Grid.Row="0"/>
+                <local:HorizontalAxisView Visibility="{TemplateBinding HorizontalAxisVisibility}"
+                                         Height="Auto" Grid.Column="1" Grid.Row="1"/>
+                <local:XamSparklineView Grid.Row="0"
+                                        Grid.Column="1"
+                                        Background="{TemplateBinding Background}"
+                                        Margin="{TemplateBinding Padding}"/>
+              </Grid>
+            </Border>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:XamSparkline" BasedOn="{StaticResource XamSparklineStyle}" />
+
+    <!-- **********************************  XamSparklineView Style  ********************************** -->
+    <Style TargetType="local:XamSparklineView" x:Key="XamSparklineViewStyle">
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:XamSparklineView">
+            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+              <ContentPresenter x:Name="ContentArea"/>
+            </Border>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:XamSparklineView" BasedOn="{StaticResource XamSparklineViewStyle}" />
+
+    <!-- **********************************  Horizontal Axis Style  ********************************** -->
+    <Style TargetType="local:HorizontalAxisView">
+      <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:HorizontalAxisView">
+            <Border Background="{TemplateBinding Background}"
+                    BorderBrush="{StaticResource HAxisViewBorderBrush}"
+                    BorderThickness="0,1,0,0">
+              <ContentPresenter x:Name="HorizontalAxisContentArea" />
+            </Border>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+    <!-- **********************************  Vertical Axis Style  ********************************** -->
+    <Style TargetType="local:VerticalAxisView">
+      <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:VerticalAxisView">
+            <Border Background="{TemplateBinding Background}"
+                    BorderBrush="{StaticResource VAxisViewBorderBrush}"
+                    BorderThickness="0,0,1,0">
+              <ContentPresenter x:Name="VerticalAxisContentArea" />
+            </Border>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+</ResourceDictionary>

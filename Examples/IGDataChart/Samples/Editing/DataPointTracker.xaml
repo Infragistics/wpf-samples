@@ -1,0 +1,122 @@
+﻿<igFramework:SampleContainer 
+    x:Class="IGDataChart.Samples.Editing.DataPointTracker"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700"
+    Title="Data Point Tracker"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+    xmlns:modeles="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared">
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <modeles:CategoryDataRandomSample x:Key="randomData1" >
+                <modeles:CategoryDataRandomSample.Settings>
+                    <modeles:CategoryDataSettings DataPoints="30" DateInterval="0:15:00" />
+                </modeles:CategoryDataRandomSample.Settings>
+            </modeles:CategoryDataRandomSample>
+            <modeles:CategoryDataRandomSample x:Key="randomData2" >
+                <modeles:CategoryDataRandomSample.Settings>
+                    <modeles:CategoryDataSettings DataPoints="30" DateInterval="0:15:00"/>
+                </modeles:CategoryDataRandomSample.Settings>
+            </modeles:CategoryDataRandomSample>
+            <DataTemplate x:Key="DataTrackerTemplate">
+                <Ellipse Stretch="Fill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                         MinWidth="15" MinHeight="15"  StrokeThickness="0.5"
+                         Fill="{Binding Path=ActualItemBrush}" Stroke="{Binding Path=Series.ActualMarkerOutline}" >
+                </Ellipse>
+            </DataTemplate>
+          </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <ig:XamDataChart Name="DataChart" Padding="10,5,5,5"
+                         HorizontalZoomable="True" VerticalZoomable="True"
+                         OverviewPlusDetailPaneVisibility="Collapsed"
+                         OverviewPlusDetailPaneHorizontalAlignment="Left"
+                         OverviewPlusDetailPaneVerticalAlignment="Bottom">
+            <ig:XamDataChart.Axes>
+                <ig:CategoryXAxis x:Name="xAxis" ItemsSource="{StaticResource randomData1}" 
+                                  Label="{}{Date:hh:mm:ss}">
+                </ig:CategoryXAxis>
+                <ig:NumericYAxis x:Name="yAxis">
+                </ig:NumericYAxis>
+            </ig:XamDataChart.Axes>
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ========================================================================== -->
+            <ig:XamDataChart.Series>
+                 <ig:LineSeries x:Name="LineSeries1" ItemsSource="{StaticResource randomData1}"
+                               XAxis="{Binding ElementName=xAxis}"
+                               YAxis="{Binding ElementName=yAxis}"
+                               ValueMemberPath="Value" MarkerType="None" Thickness="2" 
+                               IsHighlightingEnabled="True" IsTransitionInEnabled="True" >
+                    <ig:LineSeries.ToolTip>
+                        <TextBlock Text="{Binding Path=Item.Value}" />
+                    </ig:LineSeries.ToolTip>
+                </ig:LineSeries>
+                <ig:LineSeries x:Name="LineSeries2" ItemsSource="{StaticResource randomData2}"
+                               XAxis="{Binding ElementName=xAxis}"
+                               YAxis="{Binding ElementName=yAxis}" 
+                               ValueMemberPath="Value" MarkerType="None" Thickness="2" 
+                               IsHighlightingEnabled="True" IsTransitionInEnabled="True">
+                    <ig:LineSeries.ToolTip>
+                        <TextBlock Text="{Binding Path=Item.Value}" />
+                    </ig:LineSeries.ToolTip>
+                </ig:LineSeries>
+                <ig:CategoryItemHighlightLayer x:Name="TackingLayer"
+                    Opacity="1" MarkerTemplate="{StaticResource DataTrackerTemplate}"
+                    UseInterpolation="True" TransitionDuration="0:00:00.1" Canvas.ZIndex="11" />
+                <ig:ItemToolTipLayer x:Name="ToolTipLayer"
+                    Canvas.ZIndex="12" UseInterpolation="True" TransitionDuration="0:00:00.1" />
+                <ig:CrosshairLayer x:Name="CrosshairLayer"
+                    Opacity="1" Thickness="1"  Canvas.ZIndex="15"
+                   UseInterpolation="True" TransitionDuration="0:00:00.1"/>
+             </ig:XamDataChart.Series>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+        </ig:XamDataChart>
+        <controls:OptionsPanel x:Name="OptionsPanel" HeaderText="{Binding Path=XWDC_DataChart_Options, Source={StaticResource Strings}}"
+                               VerticalAlignment="Top" HorizontalAlignment="Right" Margin="10" >
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+            </controls:OptionsPanel.Resources>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Row="0" Grid.ColumnSpan="3" Margin="{StaticResource OptionsElementsMargin}">
+                    <TextBlock Text="{Binding Path=XDC_TransitionDuration, Source={StaticResource Strings}}"  Margin="{StaticResource OptionsElementsMargin}"/>
+                    <Slider x:Name="TransitionDurationSlider" Minimum="0" Maximum="1000" Value="100" 
+                        ValueChanged="TransitionDurationSlider_ValueChanged" HorizontalAlignment="Stretch" />
+                </StackPanel>
+                
+                <TextBlock Grid.Row="1" Text="{Binding Path=XWDC_UseInterpolation, Source={StaticResource Strings}}" />
+                <CheckBox Grid.Row="1" Grid.Column="2" x:Name="UseInterpolationCheckBox" IsChecked="True" Click="UseInterpolationCheckBox_Click"/>
+
+                <TextBlock Grid.Row="2" Text="{Binding Path=XWDC_UseToolTips, Source={StaticResource Strings}}" />
+                <CheckBox Grid.Row="2" Grid.Column="2" x:Name="UseToolTipsCheckBox" IsChecked="True" Click="UseToolTipsCheckBox_Click"/>
+
+                <TextBlock Grid.Row="3" Text="{Binding Path=XWDC_UseCrosshairLines, Source={StaticResource Strings}}" />
+                <CheckBox Grid.Row="3" Grid.Column="2" x:Name="UseCrosshairCheckBox" IsChecked="True" Click="UseCrosshairCheckBox_Click" />
+
+            </Grid>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>
+

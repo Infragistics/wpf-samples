@@ -1,0 +1,115 @@
+﻿<framework:SampleContainer x:Class="IGBarcode.Samples.Data.BarcodeMaxiCode"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGBarcode.Resources"
+      xmlns:System="clr-namespace:System;assembly=mscorlib">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGBarcode;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:BarcodeStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid Margin="30,80,330,0" VerticalAlignment="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Border Height="220" Margin="5" BorderThickness="1" >
+
+                <!-- #BEGIN SNIPPET# -->
+                <ig:XamMaxiCodeBarcode x:Name="Barcode" Margin="5"
+                                       Data="{Binding SelectedItem, ElementName=ListBoxData}"
+                                       Mode="{Binding SelectedItem, ElementName=ComboBoxMode}"
+                                       Country="{Binding SelectedItem, ElementName=ComboBoxCountryCode}"
+                                       PostalCode="{Binding SelectedItem, ElementName=ComboBoxPostalCode}" />
+                <!-- #END SNIPPET# -->
+            </Border>
+
+            <!--<StackPanel Grid.Row="1" Margin="0,9,0,0" HorizontalAlignment="Center" Orientation="Horizontal" >
+                <TextBlock FontSize="12" FontWeight="Bold" Foreground="#FF474747" Text="{Binding XWB_BarcodeData, Source={StaticResource Strings}}" />
+                <TextBlock FontSize="12" FontWeight="Bold" Foreground="#FF474747" 
+                           Text="{Binding Data, ElementName=Barcode, StringFormat='\=\&quot;\{0\}\&quot;'}" />
+            </StackPanel>-->
+            <TextBlock Grid.Row="1" Margin="0,9,0,0" HorizontalAlignment="Center" MaxWidth="400" TextWrapping="Wrap">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0}=&quot;{1}&quot;">
+                        <Binding Source="{StaticResource Strings}" Path="XWB_BarcodeData" />
+                        <Binding Path="Data" ElementName="Barcode" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+            <!--<TextBlock Grid.Row="2" FontSize="12" FontWeight="Bold" Foreground="#FF474747" HorizontalAlignment="Center" Margin="0,9,0,0" 
+                       Text="{Binding Data, ElementName=Barcode, StringFormat='Barcode Data\=\&quot;\{0\}\&quot;'}" TextWrapping="Wrap" MaxWidth="400" />-->
+        </Grid>
+
+        <controls:OptionsPanel HeaderText="{Binding XWB_Settings, Source={StaticResource Strings}}" VerticalAlignment="Top" Margin="0" HorizontalAlignment="Right">
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}"/>
+            </controls:OptionsPanel.Resources>
+            <TextBlock Text="{Binding XWB_SampleData, Source={StaticResource Strings}}" Margin="{StaticResource OptionsTextTopBottomMargin}"/>
+            <ListBox x:Name="ListBoxData" Height="190" SelectedIndex="0" Margin="{StaticResource OptionsElementsMargin}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" TextWrapping="Wrap" Width="190" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+
+                <System:String>XamMaxiCodeBarcode</System:String>
+                <System:String>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</System:String>
+                <System:String>abc def ghi jkl mno pqrs tuv wxyz ABC DEF GHI JKL MNO PQRS TUV WXYZ ! " $% /() =? * |~ @ abc def ghi jkl mno pqrs tuv wxyz ABC DEF GHI JKL MNO PQRS TUV WXYZ</System:String>
+            </ListBox>
+            <TextBlock Text="{Binding XWB_Mode, Source={StaticResource Strings}}" Margin="{StaticResource OptionsTextTopBottomMargin}"/>
+            <ComboBox x:Name="ComboBoxMode" SelectionChanged="ComboBoxMode_SelectionChanged" Margin="{StaticResource OptionsElementsMargin}">
+                <ig:ModeIndicator>Mode2</ig:ModeIndicator>
+                <ig:ModeIndicator>Mode3</ig:ModeIndicator>
+                <ig:ModeIndicator>Mode4</ig:ModeIndicator>
+                <ig:ModeIndicator>Mode5</ig:ModeIndicator>
+                <ig:ModeIndicator>Mode6</ig:ModeIndicator>
+            </ComboBox>
+            <TextBlock Text="{Binding XWB_CountryCode, Source={StaticResource Strings}}" Margin="{StaticResource OptionsTextTopBottomMargin}"/>
+            <ComboBox x:Name="ComboBoxCountryCode" SelectedIndex="0" Margin="{StaticResource OptionsElementsMargin}">
+                <System:String>464</System:String>
+                <System:String>321</System:String>
+                <System:String>968</System:String>
+                <System:String>654</System:String>
+                <System:String>159</System:String>
+                <System:String>357</System:String>
+                <System:String>198</System:String>
+                <System:String>342</System:String>
+                <System:String>645</System:String>
+                <System:String>753</System:String>
+                <System:String>951</System:String>
+                <System:String>138</System:String>
+            </ComboBox>
+            <TextBlock Text="{Binding XWB_PostalCode, Source={StaticResource Strings}}" Margin="{StaticResource OptionsTextTopBottomMargin}"/>
+            <ComboBox x:Name="ComboBoxPostalCode" SelectedIndex="0" >
+                <System:String>454474</System:String>
+                <System:String>321464</System:String>
+                <System:String>96246</System:String>
+                <System:String>65446</System:String>
+                <System:String>1598</System:String>
+                <System:String>3574</System:String>
+                <System:String>148</System:String>
+                <System:String>342</System:String>
+                <System:String>66</System:String>
+                <System:String>75</System:String>
+                <System:String>4</System:String>
+                <System:String>1</System:String>
+            </ComboBox>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

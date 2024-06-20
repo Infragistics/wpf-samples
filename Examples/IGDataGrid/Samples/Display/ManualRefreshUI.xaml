@@ -1,0 +1,44 @@
+﻿<framework:SampleContainer x:Class="IGDataGrid.Samples.Display.ManualRefreshUI"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:igDP="http://infragistics.com/DataPresenter"
+    xmlns:res="clr-namespace:IGDataGrid.Resources"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="ManualRefreshUI Page">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataGrid;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DataGridStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- #BEGIN SNIPPET# -->
+        <igDP:XamDataGrid Grid.Row="0" x:Name="dataGrid" GroupByAreaLocation="None" Theme="RoyalLight">
+            <igDP:XamDataGrid.FieldLayouts>
+                <igDP:FieldLayout>
+                    <igDP:TextField Name="ISBN" Label="{Binding Source={StaticResource Strings}, Path=XDG_ISBN}" />
+                    <igDP:TextField Name="Author" Label="{Binding Source={StaticResource Strings}, Path=XDG_Author}" />
+                    <igDP:TextField Name="Title" Label="{Binding Source={StaticResource Strings}, Path=XDG_Title}" />
+                    <igDP:NumericField Name="Price" Label="{Binding Source={StaticResource Strings}, Path=XDG_Price}" />
+                </igDP:FieldLayout>
+            </igDP:XamDataGrid.FieldLayouts>
+        </igDP:XamDataGrid>
+        <!-- #END SNIPPET# -->
+        
+        <Button Grid.Row="1" Content="{Binding Source={StaticResource CommonStrings}, Path=Refresh}" Click="Button_Click" Margin="0,10,0,0" />
+    </Grid>
+</framework:SampleContainer>

@@ -1,0 +1,166 @@
+﻿<framework:SampleContainer x:Class="IGGeographicMap.Samples.Styling.MarkerBrushScale"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:ex="clr-namespace:Infragistics.Samples.Controls;assembly=Infragistics.Samples.Services"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:providers="clr-namespace:Infragistics.Samples.Shared.DataProviders;assembly=Infragistics.Samples.Shared"
+      xmlns:resources="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared" 
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+      xmlns:strings="clr-namespace:IGGeographicMap.Resources" >
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGeographicMap;component/Assets/Global.xaml" />
+                
+                
+            </ResourceDictionary.MergedDictionaries>
+            <ig:StringFormatConverter x:Key="StringFormatConverter" />
+            <strings:AssetsLocalizer x:Key="AssetsLocalizer" />
+            <strings:MapStrings x:Key="MapStrings" />
+            <ex:ColorsPaletteCollection x:Key="SymbolBrushPalettes">
+                <ex:ColorsPalette>
+                    <Color>#FF3F51B5</Color>
+                    <Color>#FF2E9CA6</Color>
+                    <Color>#FF9FB328</Color>
+                    <Color>#FFFF9800</Color>
+                    <Color>#FFF96232</Color>
+                    <Color>#FFC62828</Color>
+                </ex:ColorsPalette>
+                <ex:ColorsPalette>
+                    <Color>#FFDFCC41</Color>
+                    <Color>#FFE58220</Color>
+                    <Color>#FFA11A13</Color>
+                </ex:ColorsPalette>
+                <ex:ColorsPalette>
+                    <Color>#FF7EE874</Color>
+                    <Color>#FF409F37</Color>
+                    <Color>DarkGreen</Color>
+                </ex:ColorsPalette>
+                <ex:ColorsPalette>
+                    <Color>LightBlue</Color>
+                    <Color>DodgerBlue</Color>
+                    <Color>DarkBlue</Color>
+                </ex:ColorsPalette>
+                <ex:ColorsPalette>
+                    <Color>#FF9886D1</Color>
+                    <Color>#FF6F5BAF</Color>
+                    <Color>#FF2E1A6F</Color>
+                </ex:ColorsPalette>
+                <ex:ColorsPalette>
+                    <Color>#FFC986D1</Color>
+                    <Color>#FFA95CB1</Color>
+                    <Color>#FF621B6B</Color>
+                </ex:ColorsPalette>
+                <ex:ColorsPalette>
+                    <Color>#FFE8C87B</Color>
+                    <Color>#FFBF9E51</Color>
+                    <Color>#FF785A11</Color>
+                </ex:ColorsPalette>
+                <ex:ColorsPalette>
+                    <Color>LightGray</Color>
+                    <Color>DimGray</Color>
+                    <Color>Black</Color>
+                </ex:ColorsPalette>
+            </ex:ColorsPaletteCollection>
+     
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.Resources>
+            <resources:ModelStrings x:Key="ModelStrings" />         
+        </Grid.Resources>
+        <ig:XamGeographicMap x:Name="GeoMap"
+                             PlotAreaBackground="{StaticResource GeoMapSbPlotAreaBackgroundBrush}"
+                             OverviewPlusDetailPaneVisibility="Collapsed"
+                             Zoomable="True"  >
+            <ig:XamGeographicMap.Series>
+                <!--GeographicSymbolSeries with item source of locations of Earthquakes in the world -->
+                <ig:GeographicProportionalSymbolSeries x:Name="SymbolSeries" Thickness="0.5"
+                                           ItemsSource="{Binding}" 
+                                           LatitudeMemberPath="Fields[lat]"
+                                           LongitudeMemberPath="Fields[lon]"
+                                           RadiusMemberPath="Fields[magnitude]" 
+                                           FillMemberPath="Fields[magnitude]">
+                    <ig:GeographicProportionalSymbolSeries.RadiusScale>
+                        <ig:SizeScale MaximumValue="15" MinimumValue="10" IsLogarithmic="False"  />
+                    </ig:GeographicProportionalSymbolSeries.RadiusScale> 
+                    <!-- #BEGIN SNIPPET# -->
+                    <!-- ========================================================================== -->
+                    <!-- FillScale determines the fill of symbol based on a data column mapped to FillMemberPath -->
+                    <ig:GeographicProportionalSymbolSeries.FillScale>
+                        <ig:ValueBrushScale MaximumValue="10" MinimumValue="5" IsLogarithmic="False"   >
+                            <ig:ValueBrushScale.Brushes>
+                                <ig:BrushCollection>
+                                    <SolidColorBrush Color="#FF3F51B5"/>
+                                    <SolidColorBrush Color="#FF2E9CA6"/>
+                                    <SolidColorBrush Color="#FF9FB328"/>
+                                    <SolidColorBrush Color="#FFFF9800"/>
+                                    <SolidColorBrush Color="#FFF96232"/>
+                                    <SolidColorBrush Color="#FFC62828"/>
+                                </ig:BrushCollection>
+                            </ig:ValueBrushScale.Brushes>
+                        </ig:ValueBrushScale>
+                    </ig:GeographicProportionalSymbolSeries.FillScale>
+                    <!-- ================================================================================================== -->
+                    <!-- #END SNIPPET# -->
+                </ig:GeographicProportionalSymbolSeries>
+
+            </ig:XamGeographicMap.Series>
+        </ig:XamGeographicMap>
+        <TextBlock x:Name="MapDataSource" Text="{Binding Path=XW_Source_USGS, Source={StaticResource CommonStrings}}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Style="{StaticResource SourceTextblockStyle}"/>
+        <TextBlock x:Name="OpenSourceCopyright" Text="{Binding Path=XW_OpenSourceCopyright, Source={StaticResource CommonStrings}}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Style="{StaticResource SourceTextblockStyle}"  />
+        <Grid x:Name="MapLoadingContainer" Margin="0" Background="White" Canvas.ZIndex="1" Visibility="Collapsed" VerticalAlignment="Stretch">
+            <Border Background="Transparent" Opacity="0.7" CornerRadius="3" />
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                <TextBlock x:Name="MapLoadingStatus" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" Text="..." />
+            </StackPanel>
+        </Grid>
+
+        <controls:OptionsPanel HeaderText="{Binding Path=XWGM_GeoMarkerBrushScale, Source={StaticResource MapStrings}}"
+                               Margin="5" VerticalAlignment="Top" HorizontalAlignment="Right">
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}"/>
+            </controls:OptionsPanel.Resources>
+            <StackPanel Orientation="Vertical"  >           
+                <!-- Fill Scale -->
+                <StackPanel Orientation="Vertical" Grid.Row="3" Grid.ColumnSpan="2">
+                    <StackPanel Orientation="Vertical" Grid.Row="3" Grid.Column="0">
+                        <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}">
+                            <TextBlock Text="{Binding Path=CommonStrings.XW_Minimum, Source={StaticResource AssetsLocalizer}}" VerticalAlignment="Center" />
+                            <TextBlock Text=":" VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding ElementName=fillScaleMinSlider, Path=Value, StringFormat='0.0'}" Width="80" VerticalAlignment="Center" />
+                        </StackPanel>
+                        <Slider x:Name="fillScaleMinSlider" Margin="{StaticResource OptionsElementsMargin}" Minimum="5" Maximum="6" Value="5" HorizontalAlignment="Stretch" ValueChanged="fillScaleMinSlider_ValueChanged" />
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Grid.Row="3" Grid.Column="1" >
+                        <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}">
+                            <TextBlock Text="{Binding Path=CommonStrings.XW_Maximum, Source={StaticResource AssetsLocalizer}}" VerticalAlignment="Center" />
+                            <TextBlock Text=":" VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding ElementName=fillScaleMaxSlider, Path=Value, StringFormat='0.0'}" Width="80" VerticalAlignment="Center" />
+                        </StackPanel>
+                        <Slider x:Name="fillScaleMaxSlider" Margin="{StaticResource OptionsElementsMargin}" Minimum="6" Maximum="10" Value="8" HorizontalAlignment="Stretch" ValueChanged="fillScaleMaxSlider_ValueChanged" />
+                    </StackPanel>
+                </StackPanel>
+                <TextBlock Grid.Row="4" Text="{Binding Path=XWGM_BrushPalette, Source={StaticResource MapStrings}}" VerticalAlignment="Center"  Margin="{StaticResource OptionsElementsMargin}"/>
+                    <ComboBox x:Name="fillScaleBrushPaletteComboBox" SelectedIndex="0"  HorizontalAlignment="Stretch" 
+                          ItemsSource="{StaticResource SymbolBrushPalettes}" 
+                          SelectionChanged="fillScaleBrushPaletteComboBox_SelectionChanged" >
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <ex:ColorsPaletteViewer PaletteColors="{Binding}" HorizontalAlignment="Stretch" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                <CheckBox IsChecked="False" x:Name="BrushPaletteReversedCheckBox" Visibility="Collapsed"/>
+
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

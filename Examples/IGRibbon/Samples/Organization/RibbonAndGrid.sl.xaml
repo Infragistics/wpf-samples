@@ -1,0 +1,287 @@
+﻿<framework:SampleContainer x:Class="IGRibbon.Samples.Organization.RibbonAndGrid"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="AddTabsGroups"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGRibbon.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGRibbon;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamRibbonSB.xaml" />
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamGrid.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:RibbonStrings x:Key="RibbonStrings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Width="Auto" Background="White" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!--#BEGIN SNIPPET#-->
+        <ig:XamRibbon x:Name="MyRibbon" Grid.Row="0">
+            <!-- Application Menu -->
+            <ig:XamRibbon.ApplicationMenu>
+                <ig:XamRibbonApplicationMenu RecentItemsHeader="{Binding Source={StaticResource RibbonStrings}, Path=XWR_CommonTasksRecentItemsHeader}"
+                                             Image="{Binding Source='Ribbon/ApplicationMenuImage.png', Converter={StaticResource getImageConverter}}">
+                    <ig:ButtonTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_New}" MaximumSize="ImageAndTextLarge"
+                                   LargeImage="{Binding Source='Ribbon/New32.png', Converter={StaticResource getImageConverter}}"/>
+                    <ig:ButtonTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_OpenButton}" MaximumSize="ImageAndTextLarge"
+                                   LargeImage="{Binding Source='Ribbon/Open32.png', Converter={StaticResource getImageConverter}}"/>
+                    <ig:ButtonTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_SaveButton}" MaximumSize="ImageAndTextLarge"
+                                   LargeImage="{Binding Source='Ribbon/Save32.png', Converter={StaticResource getImageConverter}}"/>
+                    <ig:ButtonTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_CloseButton}" MaximumSize="ImageAndTextLarge"
+                                   LargeImage="{Binding Source='Ribbon/Close32.png', Converter={StaticResource getImageConverter}}"/>
+                    <ig:SeparatorTool></ig:SeparatorTool>
+                    <!-- Menu Tool to display Print Options -->
+                    <ig:MenuTool ApplicationSubmenuTitle="{Binding Source={StaticResource RibbonStrings}, Path=XWR_PrintingOptions}"
+                                 Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Print}" MaximumSize="ImageAndTextLarge"
+                                 SmallImage="{Binding Source='Ribbon/Printer16.png', Converter={StaticResource getImageConverter}}"
+                                 LargeImage="{Binding Source='Ribbon/Printer32.png', Converter={StaticResource getImageConverter}}">
+                        <ig:ButtonTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Print}" MaximumSize="ImageAndTextLarge"
+                                       SmallImage="{Binding Source='Ribbon/Printer16.png', Converter={StaticResource getImageConverter}}"
+                                       LargeImage="{Binding Source='Ribbon/Printer32.png', Converter={StaticResource getImageConverter}}"
+                                       Description="{Binding Source={StaticResource RibbonStrings}, Path=XWR_PrintDesc}" />
+                        <ig:ButtonTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_QuickPrint}" MaximumSize="ImageAndTextLarge"
+                                       SmallImage="{Binding Source='Ribbon/PrinterOK16.png', Converter={StaticResource getImageConverter}}"
+                                       LargeImage="{Binding Source='Ribbon/PrinterOK32.png', Converter={StaticResource getImageConverter}}"
+                                       Description="{Binding Source={StaticResource RibbonStrings}, Path=XWR_QuickPrintDesc}"/>
+                        <ig:ButtonTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_PrintPreview}" MaximumSize="ImageAndTextLarge"
+                                       SmallImage="{Binding Source='Ribbon/PrintPreview16.png', Converter={StaticResource getImageConverter}}"
+                                       LargeImage="{Binding Source='Ribbon/PrintPreview32.png', Converter={StaticResource getImageConverter}}"
+                                       Description="{Binding Source={StaticResource RibbonStrings}, Path=XWR_PrintPreviewDesc}"/>
+                    </ig:MenuTool>
+
+                    <!-- Add Items to the Recent Items section of the Application Menu -->
+                    <ig:XamRibbonApplicationMenu.RecentItems>
+                        <TextBlock Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_CommonTasks_Item1}"/>
+                        <TextBlock Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_CommonTasks_Item2}"/>
+                        <TextBlock Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_CommonTasks_Item3}"/>
+                    </ig:XamRibbonApplicationMenu.RecentItems>
+
+                    <!-- Add Item to the Footer toolbar section of the Application Menu -->
+                    <ig:XamRibbonApplicationMenu.Footer>
+                        <TextBlock Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_ExitButton}"/>
+                    </ig:XamRibbonApplicationMenu.Footer>
+                </ig:XamRibbonApplicationMenu>
+            </ig:XamRibbon.ApplicationMenu>
+
+            <!-- Quick Access Toolbar -->
+            <ig:XamRibbon.QuickAccessToolbar>
+                <ig:QuickAccessToolbar>
+                    <ig:QatPlaceholderTool TargetId="ADD_CONTACT_TOOL" TargetType="Tool"></ig:QatPlaceholderTool>
+                    <ig:QatPlaceholderTool TargetId="DELETE_CONTACT_TOOL" TargetType="Tool"></ig:QatPlaceholderTool>
+                </ig:QuickAccessToolbar>
+            </ig:XamRibbon.QuickAccessToolbar>
+
+            <ig:XamRibbon.Tabs>
+                <ig:XamRibbonTabItem KeyTip="H" Header="{Binding Source={StaticResource RibbonStrings}, Path=XWR_HomeTab}">
+                    <!-- Contacts Group -->
+                    <ig:XamRibbonGroup Id="CONTACT_GROUP" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Contacts}">
+                        <ig:ButtonTool Id="ADD_CONTACT_TOOL" IsQatCommonTool="False" Caption="{Binding Source={StaticResource RibbonStrings},
+                            Path=XWR_AddContact}" Click="AddContact_Click"
+                                       LargeImage="{Binding Source='Ribbon/UserAdd32.png', Converter={StaticResource getImageConverter}}"
+                                       SmallImage="{Binding Source='Ribbon/UserAdd16.png', Converter={StaticResource getImageConverter}}"
+                                       MaximumSize="ImageAndTextLarge" MinimumSize="ImageOnly"/>
+                        <ig:ButtonTool Id="DELETE_CONTACT_TOOL" IsQatCommonTool="False" Caption="{Binding Source={StaticResource RibbonStrings},
+                            Path=XWR_DeleteContact}" Click="DeleteContact_Click"
+                                       LargeImage="{Binding Source='Ribbon/UserDelete32.png', Converter={StaticResource getImageConverter}}"
+                                       SmallImage="{Binding Source='Ribbon/UserDelete16.png', Converter={StaticResource getImageConverter}}"
+                                       MaximumSize="ImageAndTextLarge" MinimumSize="ImageOnly"/>
+                        <ig:ButtonTool Id="EXPORT_CONTACTS_TOOL" IsQatCommonTool="False" Caption="{Binding Source={StaticResource RibbonStrings},
+                            Path=XWR_ExportContacts}" Click="ExportContact_Click"
+                                       LargeImage="{Binding Source='Ribbon/ExportContacts32.png', Converter={StaticResource getImageConverter}}"
+                                       SmallImage="{Binding Source='Ribbon/ExportContacts16.png', Converter={StaticResource getImageConverter}}"
+                                       MaximumSize="ImageAndTextLarge" MinimumSize="ImageOnly" />
+                    </ig:XamRibbonGroup>
+
+                    <ig:XamRibbonGroup Id="SETTINGS_GRIDGROUP" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_GridSettings}">
+
+                        <ig:MenuTool IsQatCommonTool="False" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Filtering}"
+                                     SmallImage="{Binding Source='Ribbon/Filtering16.png', Converter={StaticResource getImageConverter}}"
+                                     LargeImage="{Binding Source='Ribbon/Filtering32.png', Converter={StaticResource getImageConverter}}"
+                                     MaximumSize="ImageAndTextLarge">
+                            <ig:RadioButtonTool Id="FILTER_TOP" GroupName="FilterGroup" Caption="{Binding Source={StaticResource RibbonStrings},
+                                Path=XWR_FilterRowTop}" Checked="RadioButtonTool_Checked"
+                                                SmallImage="{Binding Source='Ribbon/Filtering16.png', Converter={StaticResource getImageConverter}}"
+                                                LargeImage="{Binding Source='Ribbon/Filtering32.png', Converter={StaticResource getImageConverter}}"
+                                                MaximumSize="ImageAndTextNormal"/>
+                            <ig:RadioButtonTool Id="FILTER_BOTTOM" GroupName="FilterGroup" Caption="{Binding Source={StaticResource RibbonStrings},
+                                Path=XWR_FilterRowBotton}" Checked="RadioButtonTool_Checked"
+                                                SmallImage="{Binding Source='Ribbon/Filtering16.png', Converter={StaticResource getImageConverter}}"
+                                                LargeImage="{Binding Source='Ribbon/Filtering32.png', Converter={StaticResource getImageConverter}}"
+                                                MaximumSize="ImageAndTextNormal"/>
+                            <ig:RadioButtonTool Id="FILTER_MENU" GroupName="FilterGroup" Caption="{Binding Source={StaticResource RibbonStrings},
+                                Path=XWR_FilterMenu}" Checked="RadioButtonTool_Checked"
+                                                SmallImage="{Binding Source='Ribbon/Filtering16.png', Converter={StaticResource getImageConverter}}"
+                                                LargeImage="{Binding Source='Ribbon/Filtering32.png', Converter={StaticResource getImageConverter}}"
+                                                MaximumSize="ImageAndTextNormal"/>
+                            <ig:RadioButtonTool Id="DISABLE_FILTER" GroupName="FilterGroup" Caption="{Binding Source={StaticResource RibbonStrings},
+                                Path=XWR_DisableFiltering}" Checked="RadioButtonTool_Checked"
+                                                SmallImage="{Binding Source='Ribbon/Filtering16.png', Converter={StaticResource getImageConverter}}"
+                                                LargeImage="{Binding Source='Ribbon/Filtering32.png', Converter={StaticResource getImageConverter}}"
+                                                MaximumSize="ImageAndTextNormal"/>
+                        </ig:MenuTool>
+
+                        <ig:MenuTool IsQatCommonTool="False" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Summaries}"
+                                     SmallImage="{Binding Source='Ribbon/Summaries16.png', Converter={StaticResource getImageConverter}}"
+                                     LargeImage="{Binding Source='Ribbon/Summaries32.png', Converter={StaticResource getImageConverter}}"
+                                     MaximumSize="ImageAndTextLarge">
+                            <ig:RadioButtonTool Id="SUMMARY_TOP" GroupName="SummaryGroup" Caption="{Binding Source={StaticResource RibbonStrings},
+                                Path=XWR_SummaryRowTop}"  Checked="RadioButtonTool_Checked"
+                                                SmallImage="{Binding Source='Ribbon/Summaries16.png', Converter={StaticResource getImageConverter}}"
+                                                LargeImage="{Binding Source='Ribbon/Summaries32.png', Converter={StaticResource getImageConverter}}"
+                                                MaximumSize="ImageAndTextNormal"/>
+                            <ig:RadioButtonTool Id="SUMMARY_BOTTOM" GroupName="SummaryGroup" Caption="{Binding Source={StaticResource RibbonStrings},
+                                Path=XWR_SummaryRowBottom}" Checked="RadioButtonTool_Checked"
+                                                SmallImage="{Binding Source='Ribbon/Summaries16.png', Converter={StaticResource getImageConverter}}"
+                                                LargeImage="{Binding Source='Ribbon/Summaries32.png', Converter={StaticResource getImageConverter}}"
+                                                MaximumSize="ImageAndTextNormal"/>
+                            <ig:RadioButtonTool Id="SUMMARY_BOTH" GroupName="SummaryGroup" Caption="{Binding Source={StaticResource RibbonStrings},
+                                Path=XWR_SummaryRowBoth}" Checked="RadioButtonTool_Checked"
+                                                SmallImage="{Binding Source='Ribbon/Summaries16.png', Converter={StaticResource getImageConverter}}"
+                                                LargeImage="{Binding Source='Ribbon/Summaries32.png', Converter={StaticResource getImageConverter}}"
+                                                MaximumSize="ImageAndTextNormal"/>
+                            <ig:RadioButtonTool Id="DISABLE_SUMMARY" GroupName="SummaryGroup" Caption="{Binding Source={StaticResource RibbonStrings},
+                                Path=XWR_DisableSummaries}" Checked="RadioButtonTool_Checked"
+                                                SmallImage="{Binding Source='Ribbon/Summaries16.png', Converter={StaticResource getImageConverter}}"
+                                                LargeImage="{Binding Source='Ribbon/Summaries32.png', Converter={StaticResource getImageConverter}}"
+                                                MaximumSize="ImageAndTextNormal"/>
+                        </ig:MenuTool>
+
+                        <ig:MenuTool IsQatCommonTool="False" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Paging}"
+                                     SmallImage="{Binding Source='Ribbon/Paging16.png', Converter={StaticResource getImageConverter}}"
+                                     LargeImage="{Binding Source='Ribbon/Paging32.png', Converter={StaticResource getImageConverter}}"
+                                     MaximumSize="ImageAndTextLarge">
+                            <ig:RadioButtonTool Id="PAGING_TOP" GroupName="PagingGroup" Caption="{Binding Source={StaticResource RibbonStrings},
+                                Path=XWR_PagerTop}"  Checked="RadioButtonTool_Checked"
+                                                SmallImage="{Binding Source='Ribbon/Paging16.png', Converter={StaticResource getImageConverter}}"
+                                                LargeImage="{Binding Source='Ribbon/Paging32.png', Converter={StaticResource getImageConverter}}"
+                                                MaximumSize="ImageAndTextNormal"/>
+                            <ig:RadioButtonTool Id="PAGING_BOTTOM" GroupName="PagingGroup" Caption="{Binding Source={StaticResource RibbonStrings},
+                                Path=XWR_PagerBottom}" Checked="RadioButtonTool_Checked"
+                                                SmallImage="{Binding Source='Ribbon/Paging16.png', Converter={StaticResource getImageConverter}}"
+                                                LargeImage="{Binding Source='Ribbon/Paging32.png', Converter={StaticResource getImageConverter}}"
+                                                MaximumSize="ImageAndTextNormal"/>
+                            <ig:RadioButtonTool Id="PAGING_BOTH" GroupName="PagingGroup" Caption="{Binding Source={StaticResource RibbonStrings},
+                                Path=XWR_PagerBoth}" Checked="RadioButtonTool_Checked"
+                                                SmallImage="{Binding Source='Ribbon/Paging16.png', Converter={StaticResource getImageConverter}}"
+                                                LargeImage="{Binding Source='Ribbon/Paging32.png', Converter={StaticResource getImageConverter}}"
+                                                MaximumSize="ImageAndTextNormal"/>
+                            <ig:RadioButtonTool Id="DISABLE_PAGING" GroupName="PagingGroup" Caption="{Binding Source={StaticResource RibbonStrings},
+                                Path=XWR_DisablePager}" Checked="RadioButtonTool_Checked"
+                                                SmallImage="{Binding Source='Ribbon/Paging16.png', Converter={StaticResource getImageConverter}}"
+                                                LargeImage="{Binding Source='Ribbon/Paging32.png', Converter={StaticResource getImageConverter}}"
+                                                MaximumSize="ImageAndTextNormal"/>
+                        </ig:MenuTool>
+
+                        <ig:CheckBoxTool Id="ENABLE_SORTING" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_EnableSorting}"
+                                         IsChecked="True" Checked="CheckBoxTool_Checked" Unchecked="CheckBoxTool_Unchecked"/>
+                        <ig:CheckBoxTool Id="ENABLE_EDITING" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_EnableEditing}"
+                                         Checked="CheckBoxTool_Checked" Unchecked="CheckBoxTool_Unchecked" />
+                        <ig:CheckBoxTool Id="ENABLE_ROWSELECTORS" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_EnableRowSelectors}"
+                                         Checked="CheckBoxTool_Checked" Unchecked="CheckBoxTool_Unchecked"/>
+
+                    </ig:XamRibbonGroup>
+                    <ig:XamRibbonGroup Id="SETTINGS_COLUMNGROUP" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_ColumnSettings}">
+                        <ig:CheckBoxTool Id="ENABLE_MOVING" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_EnableColumnMoving}"
+                                         Checked="CheckBoxTool_Checked" Unchecked="CheckBoxTool_Unchecked" />
+                        <ig:CheckBoxTool Id="ENABLE_FIXING" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_EnableColumnFixing}"
+                                         Checked="CheckBoxTool_Checked" Unchecked="CheckBoxTool_Unchecked" />
+                        <ig:CheckBoxTool Id="ENABLE_RESIZING" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_EnableColumnResizing}"
+                                         IsChecked="True" Checked="CheckBoxTool_Checked" Unchecked="CheckBoxTool_Unchecked"/>
+                    </ig:XamRibbonGroup>
+                </ig:XamRibbonTabItem>
+                <!-- Communicate Tab -->
+                <ig:XamRibbonTabItem KeyTip="CO" Header="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Communication}">
+                    <ig:XamRibbonGroup Id="COMMUNICATE_GROUP" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Communicate}">
+                        <ig:ButtonTool Id="SEND_EMAIL" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_SendEmail}"
+                                       LargeImage="{Binding Source='Ribbon/Email32.png', Converter={StaticResource getImageConverter}}"
+                                       SmallImage="{Binding Source='Ribbon/Email16.png', Converter={StaticResource getImageConverter}}"
+                                       MaximumSize="ImageAndTextLarge"/>
+                        <ig:ButtonTool Id="SEND_FAX" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_SendFax}"
+                                       LargeImage="{Binding Source='Ribbon/Fax32.png', Converter={StaticResource getImageConverter}}"
+                                       SmallImage="{Binding Source='Ribbon/Fax16.png', Converter={StaticResource getImageConverter}}"
+                                       MaximumSize="ImageAndTextLarge"/>
+                    </ig:XamRibbonGroup>
+                </ig:XamRibbonTabItem>
+                <!-- Charting Tab -->
+                <ig:XamRibbonTabItem KeyTip="CH" Header="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Chart}">
+                    <ig:XamRibbonGroup Id="CHARTING_GROUP" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Charting}">
+                        <ig:ButtonTool Id="PIE_CHART" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Pie}"
+                                       LargeImage="{Binding Source='Ribbon/ChartPie32.png', Converter={StaticResource getImageConverter}}"
+                                       SmallImage="{Binding Source='Ribbon/ChartPie24.png', Converter={StaticResource getImageConverter}}"
+                                       MaximumSize="ImageAndTextLarge"/>
+                        <ig:ButtonTool Id="LINE_CHART" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Line}"
+                                       LargeImage="{Binding Source='Ribbon/ChartLine32.png', Converter={StaticResource getImageConverter}}"
+                                       SmallImage="{Binding Source='Ribbon/ChartLine24.png', Converter={StaticResource getImageConverter}}"
+                                       MaximumSize="ImageAndTextLarge"/>
+                        <ig:ButtonTool Id="COLUMNCHART" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Column}"
+                                       LargeImage="{Binding Source='Ribbon/ChartColumn32.png', Converter={StaticResource getImageConverter}}"
+                                       SmallImage="{Binding Source='Ribbon/ChartColumn24.png', Converter={StaticResource getImageConverter}}"
+                                       MaximumSize="ImageAndTextLarge"/>
+                    </ig:XamRibbonGroup>
+                </ig:XamRibbonTabItem>
+            </ig:XamRibbon.Tabs>
+        </ig:XamRibbon>
+
+        <ig:XamGrid x:Name="MyDataGrid" Grid.Row="1" AutoGenerateColumns="false" ColumnWidth="*">
+            <ig:XamGrid.SelectionSettings>
+                <ig:SelectionSettings RowSelection="Single" CellClickAction="SelectRow"/>
+            </ig:XamGrid.SelectionSettings>
+            <ig:XamGrid.Columns>
+                <ig:TextColumn Key="CustomerID">
+                    <ig:TextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=XWG_Customers_CustomerID, Source={StaticResource RibbonStrings}}" />
+                        </DataTemplate>
+                    </ig:TextColumn.HeaderTemplate>
+                </ig:TextColumn>
+                <ig:TextColumn Key="Company">
+                    <ig:TextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=XWG_Customers_Company, Source={StaticResource RibbonStrings}}" />
+                        </DataTemplate>
+                    </ig:TextColumn.HeaderTemplate>
+                </ig:TextColumn>
+                <ig:TextColumn Key="ContactName">
+                    <ig:TextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=XWG_Customers_ContactName, Source={StaticResource RibbonStrings}}" />
+                        </DataTemplate>
+                    </ig:TextColumn.HeaderTemplate>
+                </ig:TextColumn>
+                <ig:TextColumn Key="ContactTitle">
+                    <ig:TextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=XWG_Customers_ContactTitle, Source={StaticResource RibbonStrings}}" />
+                        </DataTemplate>
+                    </ig:TextColumn.HeaderTemplate>
+                </ig:TextColumn>
+                <ig:TextColumn Key="Region">
+                    <ig:TextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=XWG_Customers_Region, Source={StaticResource RibbonStrings}}" />
+                        </DataTemplate>
+                    </ig:TextColumn.HeaderTemplate>
+                </ig:TextColumn>
+                <ig:TextColumn Key="Country">
+                    <ig:TextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=XWG_Customers_Country, Source={StaticResource RibbonStrings}}" />
+                        </DataTemplate>
+                    </ig:TextColumn.HeaderTemplate>
+                </ig:TextColumn>
+            </ig:XamGrid.Columns>
+        </ig:XamGrid>
+        <!--#END SNIPPET#-->
+    </Grid>
+</framework:SampleContainer>

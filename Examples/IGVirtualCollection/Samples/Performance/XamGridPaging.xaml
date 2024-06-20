@@ -1,0 +1,124 @@
+﻿<igFramework:SampleContainer x:Class="IGVirtualCollection.Samples.Performance.XamGridPaging"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="Paging with xamGrid"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:res="clr-namespace:IGVirtualCollection.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGVirtualCollection;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamGrid.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:VirtualCollectionStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White" Loaded="GridContainer_Loaded">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <!--#BEGIN SNIPPET#-->
+        <ig:XamGrid x:Name="XamGrid1" AutoGenerateColumns="False" KeyboardNavigation="AllLayouts" ColumnWidth="Auto" Grid.Column="0" Width="715">
+
+            <ig:XamGrid.PagerSettings>
+                <ig:PagerSettings AllowPaging="Bottom" />
+            </ig:XamGrid.PagerSettings>
+
+            <ig:XamGrid.Columns>
+
+                <ig:TextColumn Key="CustomerID">
+                    <ig:TextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Source={StaticResource Strings}, Path=ID}" />
+                        </DataTemplate>
+                    </ig:TextColumn.HeaderTemplate>
+                </ig:TextColumn>
+
+                <ig:TextColumn Key="ContactName">
+                    <ig:TextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Source={StaticResource Strings}, Path=Name}" />
+                        </DataTemplate>
+                    </ig:TextColumn.HeaderTemplate>
+                </ig:TextColumn>
+
+                <ig:TextColumn Key="AddressOne">
+                    <ig:TextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Source={StaticResource Strings}, Path=Address}" />
+                        </DataTemplate>
+                    </ig:TextColumn.HeaderTemplate>
+                </ig:TextColumn>
+
+                <ig:TextColumn Key="City">
+                    <ig:TextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Source={StaticResource Strings}, Path=City}" />
+                        </DataTemplate>
+                    </ig:TextColumn.HeaderTemplate>
+                </ig:TextColumn>
+
+                <ig:TextColumn Key="Country">
+                    <ig:TextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Source={StaticResource Strings}, Path=Country}" />
+                        </DataTemplate>
+                    </ig:TextColumn.HeaderTemplate>
+                </ig:TextColumn>
+
+                <ig:TextColumn Key="ContactTitle">
+                    <ig:TextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Source={StaticResource Strings}, Path=Title}" />
+                        </DataTemplate>
+                    </ig:TextColumn.HeaderTemplate>
+                </ig:TextColumn>
+
+            </ig:XamGrid.Columns>
+
+            <ig:XamGrid.SortingSettings>
+                <ig:SortingSettings AllowSorting="False" />
+            </ig:XamGrid.SortingSettings>
+
+        </ig:XamGrid>
+        <!--#END SNIPPET#-->
+
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource Strings}, Path=SideHeader}" Margin="100,100,0,0">
+            <TextBlock x:Name="ASizeTL" Text="{Binding Source={StaticResource Strings}, Path=ASizeTL}" />
+            <TextBox x:Name="ASizeTB" Margin="0,5,0,0" Width="150" MaxLength="5" HorizontalAlignment="Left" IsReadOnly="True" />
+            <TextBlock x:Name="LSizeTL" Margin="0,5,0,0" Text="{Binding Source={StaticResource Strings}, Path=PageSize}" />
+            <TextBox x:Name="LSizeTB" Margin="0,5,0,0" Width="150" MaxLength="5" HorizontalAlignment="Left" IsReadOnly="True" />
+            <TextBlock x:Name="StartTL" Margin="0,5,0,0" Text="{Binding Source={StaticResource Strings}, Path=StartTL}" />
+            <TextBox x:Name="StartTB" Margin="0,5,0,0" Width="150" MaxLength="5" HorizontalAlignment="Left" IsReadOnly="True" />
+            <TextBlock x:Name="VCCache" Margin="0,5,0,0" Text="{Binding Source={StaticResource Strings}, Path=VCCache}" />
+            <ig:XamNumericRangeSlider
+                x:Name="vcSlider"
+                MinValue="0"
+                MaxValue="100"
+                IsSelectionRangeEnabled="True"
+                IncreaseButtonVisibility="Collapsed"
+                DecreaseButtonVisibility="Collapsed"
+                VerticalAlignment="Bottom"
+                Margin="5"
+                Orientation="Horizontal"
+                Width="150"
+                Height="20"
+                IsEnabled="False">
+                <ig:XamSliderNumericThumb Value="30" />
+                <ig:XamSliderNumericThumb Value="55" />
+            </ig:XamNumericRangeSlider>
+            <Button Content="{Binding Source={StaticResource Strings}, Path=InvalidateCache}" Click="Button_Click" />
+        </controls:OptionsPanel>
+
+    </Grid>
+</igFramework:SampleContainer>

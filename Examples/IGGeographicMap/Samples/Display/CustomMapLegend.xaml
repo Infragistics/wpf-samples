@@ -1,0 +1,250 @@
+﻿<framework:SampleContainer x:Class="IGGeographicMap.Samples.CustomMapLegend"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="SymbolSeries Page"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:providers="clr-namespace:Infragistics.Samples.Shared.DataProviders;assembly=Infragistics.Samples.Shared" 
+      xmlns:models="clr-namespace:IGGeographicMap.Models" 
+      xmlns:strings="clr-namespace:IGGeographicMap.Resources" 
+      xmlns:sharedResources="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGeographicMap;component/Assets/GlobalExtended.xaml" />
+                
+                
+                
+            </ResourceDictionary.MergedDictionaries>
+            <strings:MapStrings x:Key="MapStrings" />
+
+            <sharedResources:ModelStrings x:Key="ModelStrings" />
+
+            <!-- custom view models with filtering of world cities based on their population  -->
+            <models:WorldCitiesViewModel x:Key="MinorCities">
+                <models:WorldCitiesViewModel.WorldCitiesFilter>
+                    <models:WorldCitiesFilter CityMinPopulation="0" CityMaxPopulation="1000000" />
+                </models:WorldCitiesViewModel.WorldCitiesFilter>
+            </models:WorldCitiesViewModel>
+            <models:WorldCitiesViewModel x:Key="MajorCities">
+                <models:WorldCitiesViewModel.WorldCitiesFilter>
+                    <models:WorldCitiesFilter CityMinPopulation="1000000" CityMaxPopulation="4000000" />
+                </models:WorldCitiesViewModel.WorldCitiesFilter>
+            </models:WorldCitiesViewModel>
+            <models:WorldCitiesViewModel x:Key="BiggestCities">
+                <models:WorldCitiesViewModel.WorldCitiesFilter> 
+                    <models:WorldCitiesFilter CityMinPopulation="4000000" CityMaxPopulation="50000000" />
+                </models:WorldCitiesViewModel.WorldCitiesFilter>
+            </models:WorldCitiesViewModel>
+            
+            <!-- ShapeFileProvider provides absolute path to a shape file -->
+            <providers:ShapeFileProvider x:Key="shapeCitiesProvider"
+                                         ShapeFileRelativePath="/world/world_cities.shp"
+                                         ShapeDatabaseRelativePath="world/world_cities.dbf"/>
+            <!-- ShapefileConverter loads shapes from shape files (SHP) and -->
+            <!-- stores them in the Points property as List<List<Point>> object type -->
+            <ig:ShapefileConverter x:Key="shapeCitiesSource"
+                                   ShapefileSource="{Binding Path=ShapeFileAbsolutePath, Source={StaticResource shapeCitiesProvider}}"
+                                   DatabaseSource="{Binding Path=ShapeDatabaseAbsolutePath, Source={StaticResource shapeCitiesProvider}}" />
+
+            <providers:ShapeFileProvider x:Key="shapeWorldProvider"
+                                         ShapeFileRelativePath="/world/world_countries_reg.shp"
+                                         ShapeDatabaseRelativePath="world/world_countries_reg.dbf"/>
+            <ig:ShapefileConverter x:Key="shapeWorldSource"
+                                   ShapefileSource="{Binding Path=ShapeFileAbsolutePath, Source={StaticResource shapeWorldProvider}}"
+                                   DatabaseSource="{Binding Path=ShapeDatabaseAbsolutePath, Source={StaticResource shapeWorldProvider}}" />
+            
+            <SolidColorBrush x:Key="MarkerOutline" Color="Black" />
+            <SolidColorBrush x:Key="MinorCitiesMarkerFill" Color="#FF0099FF" />
+            <SolidColorBrush x:Key="MajorCitiesMarkerFill" Color="#FFF96232" />
+            <SolidColorBrush x:Key="BiggestCitiesMarkerFill" Color="#FF7446B9" />
+            <SolidColorBrush x:Key="ShapeCountryOutline" Color="#72811D" />
+            <SolidColorBrush x:Key="ShapeCountryBrush" Color="#FF9FB328" />
+            <Style TargetType="Path" x:Key="ShapeCountryStyle">
+                <Setter Property="Fill" Value="{StaticResource ShapeCountryBrush}" />
+                <Setter Property="Stroke" Value="{StaticResource ShapeCountryOutline}" />
+                <Setter Property="Opacity" Value="1.0" />
+            </Style>
+
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <ig:XamGeographicMap x:Name="GeoMap"
+                             BackgroundContent="{x:Null}"
+                             Legend="{Binding ElementName=GeoMapLegend}"
+                             OverviewPlusDetailPaneVisibility="Collapsed"
+                             Zoomable="True">
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ==========================================================================  -->
+            <!-- Data Templates for Legend and Series-->
+            <ig:XamGeographicMap.Resources>
+                <!-- Templates for GeographicShapeSeries -->
+                <DataTemplate x:Key="ShapeSeriesMarkerTemplate">
+                    <Grid  Margin="0,0,0,0">
+                        <Grid Width="13" Height="13">
+                            <Rectangle Fill="{Binding Path=Series.ActualBrush}" Stroke="Black" Width="13" Height="13" Margin="0"/>
+                            <Path x:Name="path" Height="12" Width="13" Stretch="Fill" Opacity="1" Data="M176,109 C176,109 206,79 206,79 C206,79 176,79 176,79 C176,79 176,109 176,109 z" 
+                                  Fill="{Binding Path=Series.ActualBrush}" Effect="{Binding Path=Series.Effect}" HorizontalAlignment="Left" StrokeLineJoin="Round" VerticalAlignment="Top" UseLayoutRounding="False" 
+                                  Stroke="{Binding Path=Series.ActualOutline}" StrokeThickness="{Binding Path=Series.Thickness}"/>
+                            <Path x:Name="path1" Height="12" Width="13" Stretch="Fill" Opacity="1" Data="M176,109 C176,109 206,109 206,109 C206,109 206,79 206,79 C206,79 176,109 176,109 z" 
+                                  Fill="{Binding Path=Series.NegativeBrush}" Effect="{Binding Path=Series.Effect}" Margin="0" UseLayoutRounding="False" StrokeLineJoin="Round" HorizontalAlignment="Right" VerticalAlignment="Bottom" 
+                                  Stroke="{Binding Path=Series.ActualOutline}" StrokeThickness="{Binding Path=Series.Thickness}"/>
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+                <!-- Templates for GeographicSymbolSeries -->
+                <DataTemplate x:Key="SymbolSeriesMarkerTemplate" >
+                    <Ellipse Width="10" Height="10" 
+                             Fill="{Binding Path=Series.MarkerBrush}" 
+                             Stroke="{Binding Path=Series.MarkerOutline}" StrokeThickness="0.5" />
+                </DataTemplate>
+                
+                <!-- Templates for Legend -->
+                <DataTemplate x:Key="ShapeSeriesLegendItemBadgeTemplate" >
+                    <ContentPresenter Width="13" Height="13" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,5,0" 
+                                      ContentTemplate="{StaticResource ShapeSeriesMarkerTemplate}" Content="{Binding}">
+                    </ContentPresenter>
+                </DataTemplate>
+                <DataTemplate x:Key="ShapeSeriesLegendItemTemplate">
+                    <StackPanel Orientation="Horizontal" Margin="1" Visibility="{Binding Path=Series.Visibility}">
+                        <ContentPresenter Content="{Binding}" ContentTemplate="{StaticResource ShapeSeriesMarkerTemplate}" Margin="0,0,5,0" />
+                        <ContentPresenter Content="{Binding Path=Series.Title, TargetNullValue=Series Title}"/>
+                    </StackPanel>
+                </DataTemplate>
+                
+                <DataTemplate x:Key="SymbolSeriesLegendItemBadgeTemplate" >
+                    <ContentPresenter Width="13" Height="13" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0,5,0" 
+                                      ContentTemplate="{Binding Path=Series.ActualMarkerTemplate}" Content="{Binding}"/>
+                </DataTemplate>
+                <DataTemplate x:Key="SymbolSeriesLegendItemTemplate">
+                    <StackPanel Orientation="Horizontal" Margin="1" Visibility="{Binding Path=Series.Visibility}">
+                        <ContentPresenter Content="{Binding}" ContentTemplate="{StaticResource SymbolSeriesMarkerTemplate}" Margin="0,0,5,0" />
+                        <ContentPresenter Content="{Binding Path=Series.Title, TargetNullValue=Series Title}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ig:XamGeographicMap.Resources>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+            <ig:XamGeographicMap.Series>
+                <!-- ========================================================================== -->
+                <!-- GeographicShapeSeries with custom templates for marker and legend items that represent countries -->
+                <ig:GeographicShapeSeries x:Name="CountriesShapeSeries" 
+                                          Title="{Binding Path=XWGM_Countries, Source={StaticResource MapStrings}}"
+                                          Brush="{StaticResource ShapeCountryBrush}"
+                                          Outline="{StaticResource ShapeCountryOutline}"
+                                          ShapeStyle="{StaticResource ShapeCountryStyle}"
+                                          LegendItemTemplate="{StaticResource ShapeSeriesLegendItemTemplate}"
+                                          LegendItemBadgeTemplate="{StaticResource ShapeSeriesLegendItemBadgeTemplate}"
+                                          ItemsSource="{StaticResource shapeWorldSource}" 
+                                          ShapeMemberPath="Points" >
+                    <ig:GeographicShapeSeries.ToolTip>
+                        <Border Background="{StaticResource TooltipBackgroundBrush}" BorderBrush="{StaticResource TooltipBorderBrush}" BorderThickness="1">
+                            <TextBlock Text="{Binding Path=Item.Fields[NAME]}" Margin="4,2,2,2" />
+                        </Border>
+                    </ig:GeographicShapeSeries.ToolTip>
+                </ig:GeographicShapeSeries>
+                <!-- ========================================================================== -->
+                <!-- GeographicSymbolSeries with custom templates for marker and legend items that represent cities -->
+                <ig:GeographicSymbolSeries x:Name="MinorCitiesSymbolSeries" 
+                                           Title="{Binding Path=XWGM_MinorCities, Source={StaticResource MapStrings}}"
+                                           MarkerCollisionAvoidance="None" 
+                                           MarkerOutline="{StaticResource MinorCitiesMarkerFill}"
+                                           MarkerBrush="{StaticResource MinorCitiesMarkerFill}" 
+                                           MarkerTemplate="{StaticResource SymbolSeriesMarkerTemplate}"
+                                           LegendItemBadgeTemplate="{StaticResource SymbolSeriesLegendItemBadgeTemplate}"
+                                           LegendItemTemplate="{StaticResource SymbolSeriesLegendItemTemplate}"
+                                           ItemsSource="{Binding Path=WorldCitiesViewSource.View, Source={StaticResource MinorCities}}"
+                                           LatitudeMemberPath="Latitude"
+                                           LongitudeMemberPath="Longitude">
+                    <ig:GeographicSymbolSeries.ToolTip>
+                        <Border Background="{StaticResource TooltipBackgroundBrush}" BorderBrush="{StaticResource TooltipBorderBrush}" BorderThickness="1">
+                            <StackPanel Margin="4">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock Text="{Binding Path=Item.CityName}" Margin="2,2,2,2" />
+                                    <TextBlock Text=", " Margin="0,2,2,2" />
+                                    <TextBlock Text="{Binding Path=Item.CountryName}" Margin="2,2,2,2" />
+                                </StackPanel>
+                                <TextBlock Text="{Binding Path=Item.Population, StringFormat='\{0:#,0,,.###\} M'}" Margin="2,2,2,2" />
+                            </StackPanel>
+                        </Border>
+                    </ig:GeographicSymbolSeries.ToolTip>
+                </ig:GeographicSymbolSeries>
+                <!-- ========================================================================== -->
+                <ig:GeographicSymbolSeries x:Name="MajorCitiesSymbolSeries" 
+                                           Title="{Binding Path=XWGM_MajorCities, Source={StaticResource MapStrings}}"
+                                           MarkerCollisionAvoidance="None"
+                                           MarkerOutline="{StaticResource MajorCitiesMarkerFill}"
+                                           MarkerBrush="{StaticResource MajorCitiesMarkerFill}"
+                                           MarkerTemplate="{StaticResource SymbolSeriesMarkerTemplate}"
+                                           LegendItemBadgeTemplate="{StaticResource SymbolSeriesLegendItemBadgeTemplate}"
+                                           LegendItemTemplate="{StaticResource SymbolSeriesLegendItemTemplate}"
+                                           ItemsSource="{Binding Path=WorldCitiesViewSource.View, Source={StaticResource MajorCities}}"
+                                           LatitudeMemberPath="Latitude"
+                                           LongitudeMemberPath="Longitude">
+                    <ig:GeographicSymbolSeries.ToolTip>
+                        <Border Background="{StaticResource TooltipBackgroundBrush}" BorderBrush="{StaticResource TooltipBorderBrush}" BorderThickness="1">
+                            <StackPanel Margin="4">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock Text="{Binding Path=Item.CityName}" Margin="2,2,2,2" />
+                                    <TextBlock Text=", " Margin="0,2,2,2" />
+                                    <TextBlock Text="{Binding Path=Item.CountryName}" Margin="2,2,2,2" />
+                                </StackPanel>
+                                <TextBlock Text="{Binding Path=Item.Population, StringFormat='\{0:#,0,,.###\} M'}" Margin="2,2,2,2" />
+                            </StackPanel>
+                        </Border>
+                    </ig:GeographicSymbolSeries.ToolTip>
+                </ig:GeographicSymbolSeries>
+                <!-- ========================================================================== -->
+                <ig:GeographicSymbolSeries x:Name="BiggestCitiesSymbolSeries" 
+                                           Title="{Binding Path=XWGM_BiggestCities, Source={StaticResource MapStrings}}"
+                                           MarkerCollisionAvoidance="None"
+                                           MarkerOutline="{StaticResource BiggestCitiesMarkerFill}"
+                                           MarkerBrush="{StaticResource BiggestCitiesMarkerFill}"
+                                           MarkerTemplate="{StaticResource SymbolSeriesMarkerTemplate}"
+                                           LegendItemBadgeTemplate="{StaticResource SymbolSeriesLegendItemBadgeTemplate}"
+                                           LegendItemTemplate="{StaticResource SymbolSeriesLegendItemTemplate}"
+                                           ItemsSource="{Binding Path=WorldCitiesViewSource.View, Source={StaticResource BiggestCities}}"
+                                           LatitudeMemberPath="Latitude"
+                                           LongitudeMemberPath="Longitude">
+                    <ig:GeographicSymbolSeries.ToolTip>
+                        <Border BorderThickness="1" Background="{StaticResource TooltipBackgroundBrush}" BorderBrush="{StaticResource TooltipBorderBrush}">
+                            <StackPanel Margin="4">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock Text="{Binding Path=Item.CityName}" Margin="2,2,2,2" />
+                                    <TextBlock Text=", " Margin="0,2,2,2" />
+                                    <TextBlock Text="{Binding Path=Item.CountryName}" Margin="2,2,2,2" />
+                                </StackPanel>
+                                <TextBlock Text="{Binding Path=Item.Population, StringFormat='\{0:#,0,,.###\} M'}" Margin="2,2,2,2" />
+                            </StackPanel>
+                        </Border>
+                    </ig:GeographicSymbolSeries.ToolTip>
+                </ig:GeographicSymbolSeries>
+            </ig:XamGeographicMap.Series>
+        </ig:XamGeographicMap>
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ==========================================================================  -->
+        <ig:Legend x:Name="GeoMapLegend" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                   Margin="10" Background="{StaticResource LegendBackgroundBrush}" BorderThickness="1" BorderBrush="{StaticResource LegendBorderBrush}">
+            <ig:Legend.Content>
+                <TextBlock Text="{Binding Path=XWGM_MapLegend, Source={StaticResource MapStrings}}" 
+                           FontWeight="SemiBold" Foreground="{StaticResource ForegroundBrush}"/>
+            </ig:Legend.Content>
+        </ig:Legend>
+        <!-- ========================================================================== -->
+        <!-- #END SNIPPET# -->
+        <TextBlock x:Name="OpenSourceCopyright" Text="{Binding Path=XW_OpenSourceCopyright, Source={StaticResource CommonStrings}}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Style="{StaticResource SourceTextblockStyle}"  />
+        <TextBlock x:Name="MapDataSource" Text="{Binding Path=XW_Source_USNA, Source={StaticResource CommonStrings}}" Style="{StaticResource SourceDataTextBoxStyle}"  />
+        <Grid x:Name="MapLoadingContainer" Margin="0" Background="White" Canvas.ZIndex="1" Visibility="Collapsed" VerticalAlignment="Stretch">
+            <Border Background="Transparent" Opacity="0.7" CornerRadius="3" />
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                <TextBlock x:Name="MapLoadingStatus" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" Text="..." />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</framework:SampleContainer>

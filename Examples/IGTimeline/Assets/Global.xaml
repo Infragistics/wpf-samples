@@ -1,0 +1,70 @@
+<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:controls="clr-namespace:IGTimeline.Samples.Common" mc:Ignorable="d" 
+    xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared">
+ 
+    <ResourceDictionary.MergedDictionaries>
+        <!-- this loads IG styles for MS controls, e.g. Button, Slider etc. -->
+        <ResourceDictionary Source="/Infragistics.Samples.Shared;component/Assets/Global.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <converters:GetImageConverter x:Key="GetImageConverter" />
+
+    <Style x:Key="SoccerActionIconStyle" TargetType="controls:SoccerActionIcon">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:SoccerActionIcon">
+                    <Grid Height="Auto" HorizontalAlignment="Stretch" Width="Auto">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="ActionStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition GeneratedDuration="0" To="GoalState" />
+                                    <VisualTransition GeneratedDuration="0" To="RedCardState" />
+                                    <VisualTransition GeneratedDuration="0" To="YellowCardState" />
+                                    <VisualTransition GeneratedDuration="0" To="FoulState" />
+                                </VisualStateGroup.Transitions>
+                                <VisualState x:Name="GoalState">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="goal" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                            <SplineDoubleKeyFrame KeyTime="00:00:00" Value="1" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="RedCardState">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="redCard" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                            <SplineDoubleKeyFrame KeyTime="00:00:00" Value="1" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="YellowCardState">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="yellowCard" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                            <SplineDoubleKeyFrame KeyTime="00:00:00" Value="1" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="FoulState">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="foul" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                            <SplineDoubleKeyFrame KeyTime="00:00:00" Value="1" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Image x:Name="redCard" Height="160" HorizontalAlignment="Left" VerticalAlignment="Top" Width="144" Source="{Binding Source='Football/RedCardLarge.png', Converter={StaticResource GetImageConverter}}" Stretch="Fill" d:IsHidden="True" Opacity="0" />
+                        <Image x:Name="goal" Height="160" HorizontalAlignment="Left" VerticalAlignment="Top" Width="144" Source="{Binding Source='Football/GoalLarge.png', Converter={StaticResource GetImageConverter}}" Stretch="Fill" d:IsHidden="True" Opacity="0" />
+                        <Image x:Name="foul" Height="160" HorizontalAlignment="Left" VerticalAlignment="Top" Width="144" Source="{Binding Source='Football/FoulLarge.png', Converter={StaticResource GetImageConverter}}" Stretch="Fill" d:IsHidden="True" Opacity="0" />
+                        <Image x:Name="yellowCard" Height="160" HorizontalAlignment="Left" VerticalAlignment="Top" Width="144" Source="{Binding Source='Football/YellowCardLarge.png', Converter={StaticResource GetImageConverter}}" Stretch="Fill" d:IsHidden="True" Opacity="0" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style BasedOn="{StaticResource SoccerActionIconStyle}" TargetType="controls:SoccerActionIcon" />
+
+</ResourceDictionary>

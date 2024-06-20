@@ -1,0 +1,202 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Layers.SynchronizedLayers"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="Category Highlight Layer Page"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:resources="clr-namespace:IGDataChart.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                 
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <resources:DataChartStrings x:Key="Strings" />
+            <DropShadowEffect x:Key="SeriesEffect" ShadowDepth="1" BlurRadius="5"/>
+
+            <RadialGradientBrush x:Key="ScatterMarkerBrush">
+                <GradientStop Color="#FF71961B" Offset="1"/>
+                <GradientStop Color="White"/>
+            </RadialGradientBrush>
+            <models:CategoryDataRandomSample x:Key="CategoryData1"/>
+            <models:CategoryDataRandomSample x:Key="CategoryData2"/>
+            <models:CategoryDataRandomSample x:Key="CategoryData3"/>
+            <models:CategoryDataRandomSample x:Key="CategoryData4"/>
+
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot"
+          Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ========================================================================== -->
+        <ig:XamDataChart Grid.Row="0" x:Name="DataChart" HorizontalZoomable="True"
+                              CrosshairVisibility="Visible"
+                              Legend="{Binding ElementName=legend}"
+                              VerticalZoomable="True"
+                              ig:SyncManager.SyncSettings="channel1" >
+            <ig:XamDataChart.Axes>
+                <ig:CategoryXAxis x:Name="xmCategoryXAxis"
+                                  ItemsSource="{StaticResource CategoryData1}"
+                                  Label="{}{Category}">
+                    <ig:CategoryXAxis.LabelSettings>
+                        <ig:AxisLabelSettings x:Name="xmCategoryXAxisLabel" Extent="25" VerticalAlignment="Bottom" FontSize="11" />
+                    </ig:CategoryXAxis.LabelSettings>
+                </ig:CategoryXAxis>
+                <ig:NumericYAxis x:Name="xmNumericYAxis1">
+                    <ig:NumericYAxis.LabelSettings>
+                        <ig:AxisLabelSettings x:Name="xmNumericYAxisLabel" Extent="50" Location="OutsideLeft" />
+                    </ig:NumericYAxis.LabelSettings>
+                </ig:NumericYAxis>
+            </ig:XamDataChart.Axes>
+            <ig:XamDataChart.Series>
+                <ig:CategoryHighlightLayer 
+                    UseInterpolation="{Binding ElementName=useInterpolation, Path=IsChecked}"
+                    TransitionDuration="0:00:00.1"
+                    Brush="Black"
+                    Opacity=".3" />
+                <ig:ColumnSeries ItemsSource="{StaticResource CategoryData1}" 
+                                 ValueMemberPath="Value" 
+                                 XAxis="{Binding ElementName=xmCategoryXAxis}" 
+                                 YAxis="{Binding ElementName=xmNumericYAxis1}" >
+                    <ig:ColumnSeries.ToolTip>
+                        <TextBlock Text="{Binding Item.Value, StringFormat=\{0:n2\}}" />
+                    </ig:ColumnSeries.ToolTip>
+                </ig:ColumnSeries>
+                <ig:LineSeries ItemsSource="{StaticResource CategoryData2}" 
+                               ValueMemberPath="Value" MarkerType="Circle"
+                               XAxis="{Binding ElementName=xmCategoryXAxis}" 
+                               YAxis="{Binding ElementName=xmNumericYAxis1}">
+                    <ig:LineSeries.ToolTip>
+                        <TextBlock Text="{Binding Item.Value, StringFormat=\{0:n2\}}" />
+                    </ig:LineSeries.ToolTip>
+                </ig:LineSeries>
+                <ig:CrosshairLayer 
+                    Canvas.ZIndex="11"
+                    UseInterpolation="{Binding ElementName=useInterpolation, Path=IsChecked}"
+                    Thickness="3"
+                    Opacity=".4"
+                    TransitionDuration="0:00:00.1"
+                    VerticalLineVisibility="Collapsed" />
+                <ig:ItemToolTipLayer 
+                    Canvas.ZIndex="12"
+                    UseInterpolation="{Binding ElementName=useInterpolation, Path=IsChecked}"
+                    TransitionDuration="0:00:00.1" />
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+         <ig:XamDataChart Grid.Row="1" x:Name="DataChart2"  HorizontalZoomable="True"
+                              CrosshairVisibility="Visible"
+                              Legend="{Binding ElementName=legend}"
+                              VerticalZoomable="True"
+                              ig:SyncManager.SyncSettings="channel1" >
+            <ig:XamDataChart.Axes>
+                <ig:CategoryXAxis x:Name="xmCategoryXAxis2"
+                                  ItemsSource="{StaticResource CategoryData3}"
+                                  Label="{}{Category}">
+                    <ig:CategoryXAxis.LabelSettings>
+                        <ig:AxisLabelSettings x:Name="xmCategoryXAxisLabel2" Extent="25" VerticalAlignment="Bottom" FontSize="11" />
+                    </ig:CategoryXAxis.LabelSettings>
+                </ig:CategoryXAxis>
+                <ig:NumericYAxis x:Name="xmNumericYAxis2">
+                    <ig:NumericYAxis.LabelSettings>
+                        <ig:AxisLabelSettings x:Name="xmNumericYAxisLabel2" Extent="50" Location="OutsideLeft" />
+                    </ig:NumericYAxis.LabelSettings>
+                </ig:NumericYAxis>
+
+            </ig:XamDataChart.Axes>
+            <ig:XamDataChart.Series>
+                <ig:CategoryHighlightLayer 
+                    UseInterpolation="{Binding ElementName=useInterpolation, Path=IsChecked}"
+                    TransitionDuration="0:00:00.1"
+                    Brush="Black"
+                    Opacity=".3"
+                    />
+                <ig:ColumnSeries ItemsSource="{StaticResource CategoryData3}" 
+                                 ValueMemberPath="Value" 
+                                 XAxis="{Binding ElementName=xmCategoryXAxis2}" 
+                                 YAxis="{Binding ElementName=xmNumericYAxis2}">
+                    <ig:ColumnSeries.ToolTip>
+                        <TextBlock Text="{Binding Item.Value, StringFormat=\{0:n2\}}" />
+                    </ig:ColumnSeries.ToolTip>
+                </ig:ColumnSeries>
+                <ig:LineSeries ItemsSource="{StaticResource CategoryData4}" 
+                               ValueMemberPath="Value" MarkerType="Circle"
+                               XAxis="{Binding ElementName=xmCategoryXAxis2}" 
+                               YAxis="{Binding ElementName=xmNumericYAxis2}">
+                    <ig:LineSeries.ToolTip>
+                        <TextBlock Text="{Binding Item.Value, StringFormat=\{0:n2\}}" />
+                    </ig:LineSeries.ToolTip>
+                </ig:LineSeries>
+                <ig:CrosshairLayer 
+                    Canvas.ZIndex="11"
+                    UseInterpolation="{Binding ElementName=useInterpolation, Path=IsChecked}"
+                    Thickness="3"
+                    Opacity=".4"
+                    TransitionDuration="0:00:00.1"
+                    VerticalLineVisibility="Collapsed" />
+                <ig:ItemToolTipLayer 
+                    Canvas.ZIndex="12" 
+                    UseInterpolation="{Binding ElementName=useInterpolation, Path=IsChecked}"
+                    TransitionDuration="0:00:00.1" />
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+        <!-- ========================================================================== -->
+        <!-- #END SNIPPET# -->
+
+
+        <controls:OptionsPanel HeaderText="{Binding XWDC_DataChart_Options, Source={StaticResource Strings}}"
+                               VerticalAlignment="Top" HorizontalAlignment="Right" Margin="10" >
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+                <Style TargetType="Slider" BasedOn="{StaticResource IGSliderStyle}" >
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>                
+            </controls:OptionsPanel.Resources>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="4" Text="{Binding XDC_TransitionDuration, Source={StaticResource Strings}}" />
+                <Slider Grid.Row="4" Grid.Column="2" Width="100" x:Name="durationSlider" Minimum="0" Maximum="1000" Value="500" ValueChanged="durationSlider_ValueChanged_1" />
+                <TextBlock Grid.Row="5" Text="{Binding XWDC_ColumnPresent, Source={StaticResource Strings}}" />
+                <CheckBox Grid.Row="5" Grid.Column="2" x:Name="columnPresent" IsChecked="True" Checked="columnPresent_Checked_1" Unchecked="columnPresent_Unchecked_1"/>
+                <TextBlock Grid.Row="6" Text="{Binding XWDC_UseInterpolation, Source={StaticResource Strings}}" />
+                <CheckBox Grid.Row="6" Grid.Column="2" x:Name="useInterpolation" />
+            </Grid>
+
+        </controls:OptionsPanel>
+    </Grid>
+    </igFramework:SampleContainer>
+

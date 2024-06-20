@@ -1,0 +1,85 @@
+﻿<igFramework:SampleContainer x:Class="IGTimeline.Samples.DraggingEventEntries"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:resources="clr-namespace:IGTimeline.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGTimeline;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+
+            <resources:TimelineStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <Grid x:Name="LayoutRoot" Width="Auto">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="300" />
+        </Grid.ColumnDefinitions>
+
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamTimeline Grid.Column="0" x:Name="Timeline" Margin="0,0,5,0"  >
+            <ig:XamTimeline.LegendStyle>
+                <Style TargetType="ig:TimelineLegend">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                </Style>
+            </ig:XamTimeline.LegendStyle>
+            <ig:XamTimeline.Axis>
+                <ig:NumericTimeAxis ShowThumb="False" />
+            </ig:XamTimeline.Axis>
+            <ig:XamTimeline.Series>
+                <ig:NumericTimeSeries Position="BottomOrRight" />
+            </ig:XamTimeline.Series>
+            <!--Make the xamTimeline a DropTarget-->
+            <ig:DragDropManager.DropTarget>
+                <ig:DropTarget IsDropTarget="True" DropChannels="ChannelA" />
+            </ig:DragDropManager.DropTarget>
+        </ig:XamTimeline>
+        <!-- #END SNIPPET# -->
+        <Border x:Name="TimelineInfoBox" Background="Transparent" Visibility="Collapsed" Grid.Column="0" Margin="20" VerticalAlignment="Top" HorizontalAlignment="Center">
+            <TextBlock FontSize="20" Text="{Binding Path=XWT_DraggingEventEntries_DropItemsHere, Source={StaticResource Strings}}" Foreground="{StaticResource ForegroundBrush}" FontWeight="Bold" />
+        </Border>
+
+        <Grid Visibility="Visible" Grid.Column="2" Margin="5,0,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Border Background="#FFDDDDDD" BorderThickness="1 1 1 0" BorderBrush="#FFBBBBBB" >
+                <TextBlock Text="{Binding Path=XWT_DraggingEventEntries_DragAndDropSource, Source={StaticResource Strings}}" Margin="3" Foreground="{StaticResource ForegroundBrush}" />
+            </Border>
+            <ListBox x:Name="DataListBox" Padding="0" Grid.Row="1" VerticalAlignment="Stretch" Style="{StaticResource IGListBoxStyle}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <!-- #BEGIN SNIPPET# -->
+                        <Border Margin="0" HorizontalAlignment="Stretch">
+                            <TextBlock Text="{Binding Title}" Margin="6,2" />
+                            <ig:DragDropManager.DragSource>
+                                <ig:DragSource IsDraggable="True" DragChannels="ChannelA" DragStart="OnDragSourceDragStart" Drop="OnDragSourceDrop">
+                                    <!--Make the items of the ListBox a DragSource -->
+                                    <ig:DragSource.DragTemplate>
+                                        <DataTemplate>
+                                            <Border DataContext="{Binding Data}" BorderThickness="1" BorderBrush="#FFBBBBBB" Background="#FFDDDDDD" Padding="8 6">
+                                                <TextBlock Text="{Binding Title}" Foreground="{StaticResource ForegroundBrush}" />
+                                            </Border>
+                                        </DataTemplate>
+                                    </ig:DragSource.DragTemplate>
+                                </ig:DragSource>
+                            </ig:DragDropManager.DragSource>
+                        </Border>
+                        <!-- #END SNIPPET# -->
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+        </Grid>
+    </Grid>
+</igFramework:SampleContainer>

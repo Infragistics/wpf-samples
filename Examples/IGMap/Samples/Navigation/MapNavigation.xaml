@@ -1,0 +1,66 @@
+﻿<igFramework:SampleContainer 
+    x:Class="IGMap.Samples.World"
+    xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:providers="clr-namespace:Infragistics.Samples.Shared.DataProviders;assembly=Infragistics.Samples.Shared" 
+    xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared" 
+    mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="400" >
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGMap;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <converters:GetImagePathConverter x:Key="GetImageConverter" />
+            <Style x:Key="ThumbnailWorldStyle" TargetType="Path">
+                <Setter Property="Fill">
+                    <Setter.Value>
+                        <ImageBrush ImageSource="{Binding Source='Maps/tinyWorld.png', Converter={StaticResource GetImageConverter}}" />
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="MapThumbnailStyle" TargetType="ig:MapThumbnailPane" >
+                <Setter Property="WorldStyle" Value="{StaticResource ThumbnailWorldStyle}" />
+            </Style>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <Grid x:Name="LayoutRoot" Margin="5">
+        <!-- #BEGIN SNIPPET# -->
+		<ig:XamMap x:Name="Map"
+		           Margin="0,0,0,0"
+		           Background="Transparent"
+		           WindowZoomMaximum="30" Grid.Row="1" >
+            <ig:XamMap.Resources>
+                <providers:ShapeFileProvider x:Key="ShapeFileProvider" ShapeFileRelativePath="/world" />
+            </ig:XamMap.Resources>
+            <ig:XamMap.Layers>
+				<ig:MapLayer LayerName="statesLayer"
+				             Imported="OnWorldMapLayerImported" IsClickable="False"  
+				             ToolTip="{}{Name}">
+                    <ig:MapLayer.Reader>
+                        <ig:ShapeFileReader DataMapping="Name=CNTRY_NAME; Caption=CODE; Value=POP_CNTRY" 
+                                            Uri="{Binding Path=ShapeFileAbsolutePath, Source={StaticResource ShapeFileProvider}}">
+                        </ig:ShapeFileReader>
+                    </ig:MapLayer.Reader>
+				</ig:MapLayer>
+			</ig:XamMap.Layers>
+			<ig:MapThumbnailPane Width="200"
+			                     Height="100"
+			                     Margin="15"
+			                     Background="Transparent"
+			                     ig:XamDock.Edge="InsideBottom"
+                                 ig:XamDock.HorizontalDockAlignment="Left"
+			                     ig:XamDock.VerticalDockAlignment="Bottom"
+			                     Style="{StaticResource MapThumbnailStyle}" />
+			<ig:MapNavigationPane Margin="15"
+			                      ig:XamDock.HorizontalDockAlignment="Right"
+			                     ig:XamDock.VerticalDockAlignment="Bottom"
+			                     ig:XamDock.Edge="InsideRight" />
+		</ig:XamMap>
+        <!-- #END SNIPPET# -->
+	</Grid>
+</igFramework:SampleContainer>

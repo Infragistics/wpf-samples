@@ -1,0 +1,86 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Styling.StyleAxisLines"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="StyleAxisLines Page"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <models:ScatterDataRandomSample x:Key="Data" />
+            <SolidColorBrush x:Key="XAxisBrush" Opacity="0.9" Color="#FF333333" />
+            <SolidColorBrush x:Key="YAxisBrush" Opacity="0.9" Color="#FF333333" />
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ========================================================================== -->
+            <!-- custom style for x-axis -->
+            <Style x:Key="XAxisStyle" TargetType="ig:Axis">
+                <Setter Property="Stroke" Value="{StaticResource XAxisBrush}" />
+                <Setter Property="StrokeThickness" Value="4" />
+                <Setter Property="StrokeDashArray" Value="1 3" />
+                <Setter Property="MajorStroke" Value="{StaticResource XAxisBrush}" />
+                <Setter Property="MajorStrokeThickness" Value="1.0" />
+                <Setter Property="MajorStrokeDashArray" Value="1 3" />
+                <Setter Property="MinorStroke" Value="{StaticResource XAxisBrush}" />
+                <Setter Property="MinorStrokeThickness" Value="0.5" />
+                <Setter Property="MinorStrokeDashArray" Value="1 6" />
+            </Style>
+            <!-- custom style for y-axis -->
+            <Style x:Key="YAxisStyle" TargetType="ig:Axis">
+                <Setter Property="Stroke" Value="{StaticResource YAxisBrush}" />
+                <Setter Property="StrokeThickness" Value="4" />
+                <Setter Property="StrokeDashArray" Value="1 3" />
+                <Setter Property="MajorStroke" Value="{StaticResource YAxisBrush}" />
+                <Setter Property="MajorStrokeThickness" Value="1.0" />
+                <Setter Property="MajorStrokeDashArray" Value="1 3" />
+                <Setter Property="MinorStroke" Value="{StaticResource YAxisBrush}" />
+                <Setter Property="MinorStrokeThickness" Value="0.5" />
+                <Setter Property="MinorStrokeDashArray" Value="1 6" />
+            </Style>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" >
+
+        <ig:XamDataChart x:Name="DataChart1" Margin="0,0,10,0"
+                         VerticalZoombarVisibility="Collapsed"
+                         HorizontalZoombarVisibility="Collapsed"
+                         VerticalZoomable="True" HorizontalZoomable="True" >
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ========================================================================== -->
+            <ig:XamDataChart.Axes>
+                <ig:NumericXAxis x:Name="numericXAxis1" Style="{StaticResource XAxisStyle}"
+                                 MinimumValue="0" Interval="10" MaximumValue="100">
+                    <ig:NumericXAxis.LabelSettings>
+                        <ig:AxisLabelSettings Location="OutsideBottom" Visibility="Visible" />
+                    </ig:NumericXAxis.LabelSettings>
+                </ig:NumericXAxis>
+                <ig:NumericYAxis x:Name="numericYAxis1" Style="{StaticResource YAxisStyle}" >
+                    <ig:NumericYAxis.LabelSettings>
+                        <ig:AxisLabelSettings Location="OutsideBottom" Visibility="Visible"/>
+                    </ig:NumericYAxis.LabelSettings>
+                </ig:NumericYAxis>
+            </ig:XamDataChart.Axes>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+            <ig:XamDataChart.Series>
+                <ig:ScatterSeries XMemberPath="X" YMemberPath="Y"
+                                  ItemsSource="{StaticResource Data}"
+                                  XAxis="{Binding ElementName=numericXAxis1}"
+                                  YAxis="{Binding ElementName=numericYAxis1}">
+                </ig:ScatterSeries>
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+    </Grid>
+</igFramework:SampleContainer>

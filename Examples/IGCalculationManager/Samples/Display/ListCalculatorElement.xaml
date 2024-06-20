@@ -1,0 +1,90 @@
+﻿<framework:SampleContainer x:Class="IGCalculationManager.Samples.Display.ListCalculatorElement"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="ListCalculatorElement"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:res="clr-namespace:IGCalculationManager.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ig:XamCalculationManager x:Key="CalculationManager" />
+            <res:CalculationManagerStrings x:Key="CalculationManagerStrings" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGCalculationManager;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="172"/>
+            <RowDefinition Height="12"/>			
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <igDP:XamDataGrid Grid.Row="0" Grid.ColumnSpan="2" x:Name="dataGrid">
+            <igDP:XamDataGrid.FieldLayoutSettings>
+                <igDP:FieldLayoutSettings AutoGenerateFields="False"/>
+            </igDP:XamDataGrid.FieldLayoutSettings>
+            <igDP:XamDataGrid.FieldSettings>
+                <igDP:FieldSettings Width="*" />
+            </igDP:XamDataGrid.FieldSettings>
+            <igDP:XamDataGrid.FieldLayouts>
+                <igDP:FieldLayout>
+                    <igDP:Field Name="ItemDescription" Label="{Binding Path=XG_ItemDescription, Source={StaticResource CalculationManagerStrings}}" />
+                    <igDP:Field Name="Price" Label="{Binding Path=XG_Price, Source={StaticResource CalculationManagerStrings}}" />
+                    <igDP:Field Name="Shipping" Label="{Binding Path=XG_Shipping, Source={StaticResource CalculationManagerStrings}}" />
+                    <igDP:Field Name="Quantity" Label="{Binding Path=XG_Quantity, Source={StaticResource CalculationManagerStrings}}" />
+                </igDP:FieldLayout>
+            </igDP:XamDataGrid.FieldLayouts>
+        </igDP:XamDataGrid>
+        <!-- #BEGIN SNIPPET# -->
+        <ig:ListCalculatorElement x:Name="listCalcElement" CalculationManager="{StaticResource CalculationManager}"
+                                  ItemsSource="{Binding Path=AllShippingDetails}">
+            <ig:ListCalculatorElement.Calculator>
+                <ig:ListCalculator ReferenceId="AllShippingDetailsCalculator">
+                    <ig:ListCalculator.ItemCalculations>
+                        <ig:ItemCalculation TargetProperty="Shipping"
+                                            Formula="([Price] * [Quantity])"/>
+
+                        <ig:ItemCalculation ReferenceId="Total"
+                                            Formula="([Price] * [Quantity]) + [Shipping]"/>
+                    </ig:ListCalculator.ItemCalculations>
+
+                    <ig:ListCalculator.ListCalculations>
+                        <ig:ListCalculation ReferenceId="GrandTotal" Formula="Sum([Total])"/>
+                        <ig:ListCalculation ReferenceId="AverageQuantity" Formula="AVERAGE([Quantity])"></ig:ListCalculation>
+                    </ig:ListCalculator.ListCalculations>
+                </ig:ListCalculator>
+            </ig:ListCalculatorElement.Calculator>
+
+        </ig:ListCalculatorElement>
+        <!-- #END SNIPPET# -->
+        <TextBlock Style="{StaticResource SamplesTitleStyle}" TextWrapping="Wrap" Grid.Row="2" Grid.Column="0" Text="{Binding Source={StaticResource CalculationManagerStrings}, Path=XG_ResultFromListResult}" VerticalAlignment="Center" Margin="0,0,8,0"/>
+
+        <TextBlock Style="{StaticResource BodyStyle}" Grid.Row="2" Grid.Column="1" x:Name="Result1" Text="{Binding ElementName=listCalcElement,
+            Path=Calculator.ListResults[GrandTotal].Value}" VerticalAlignment="Center" Margin="0"/>
+
+        <TextBlock Style="{StaticResource BodyStyle}" Grid.Row="3" Grid.Column="0" Text="{Binding Source={StaticResource CalculationManagerStrings}, Path=XG_TotalFromReferenceID}" VerticalAlignment="Center"/>
+        <TextBlock Style="{StaticResource BodyStyle}" Grid.Row="3" Grid.Column="1" x:Name="Result2" ig:XamCalculationManager.CalculationManager="{StaticResource CalculationManager}" VerticalAlignment="Center">
+            <ig:XamCalculationManager.ControlSettings>
+                <ig:ControlCalculationSettings Formula="[AllShippingDetailsCalculator/GrandTotal]" />
+            </ig:XamCalculationManager.ControlSettings>
+        </TextBlock>
+
+        <TextBlock Style="{StaticResource BodyStyle}" Grid.Row="4" Grid.Column="0" Text="{Binding Source={StaticResource CalculationManagerStrings}, Path=XG_AverageResult}" VerticalAlignment="Center"/>
+        <TextBlock Style="{StaticResource BodyStyle}" Grid.Row="4" Grid.Column="1" x:Name="Result3" Text="{Binding ElementName=listCalcElement,
+            Path=Calculator.ListResults[AverageQuantity].Value}" VerticalAlignment="Center"/>
+    </Grid>
+</framework:SampleContainer>

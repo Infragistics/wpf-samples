@@ -1,0 +1,119 @@
+﻿<framework:SampleContainer x:Class="IGDockManager.Samples.Display.ButtonVisibility"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="ButtonVisibility"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:igDock="http://infragistics.com/DockManager"
+      xmlns:ipPrim="http://schemas.infragistics.com/xaml/primitives"
+      xmlns:locCtls="clr-namespace:IGDockManager.CustomControls"
+      xmlns:res="clr-namespace:IGDockManager.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDockManager;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/IGDockManager;component/CustomControls/Themes/generic.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DockManagerStrings x:Key="Strings" />
+            <ipPrim:BoolToVisibilityConverter x:Key="boolToVis" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <!-- #BEGIN SNIPPET# -->
+    <!-- Create a XamDockManager control-->
+    <igDock:XamDockManager x:Name="dockManager" Theme="RoyalLight">
+        <!-- Document Content ======================================================================== -->
+        <!-- Add a DocumentContentHost here which will assign the DocumentContentHost as the Content of the
+        XamDockManager.  XamDockManager displays its content inside the dock areas.  Then add a SplitPane
+        containing a TabGroupPane with several ContentPanes that represent document content. -->
+        <igDock:DocumentContentHost>
+            <igDock:SplitPane>
+                <igDock:TabGroupPane>
+                    <igDock:ContentPane x:Name="document1" Header="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_Page1_Header}">
+                        <locCtls:XdmStartPage Header="{Binding Source={StaticResource Strings}, Path=Docking_ButtonVisibility_Samp_XdmStartPage_Header}">
+                            <StackPanel>
+                                <CheckBox x:Name="chkClose" IsChecked="True"
+                                          Style="{StaticResource IGCheckBoxStyle}"
+                                          Content="{Binding Source={StaticResource Strings}, Path=Docking_ButtonVisibility_Samp_XdmStartPage_CloseButtonVisibility_Header}"
+                                          Margin="{StaticResource OptionsElementsMargin}"/>
+                                <CheckBox x:Name="chkPin" IsChecked="True" 
+                                          Style="{StaticResource IGCheckBoxStyle}"
+                                          Content="{Binding Source={StaticResource Strings}, Path=Docking_ButtonVisibility_Samp_XdmStartPage_PinButtonVisibility_Header}"
+                                          Margin="{StaticResource OptionsElementsMargin}"/>
+                                <CheckBox x:Name="chkWindow" IsChecked="True" 
+                                          Style="{StaticResource IGCheckBoxStyle}"
+                                          Content="{Binding Source={StaticResource Strings}, Path=Docking_ButtonVisibility_Samp_XdmStartPage_WindowPositionMenuVisibility_Header}" />
+                            </StackPanel>
+                        </locCtls:XdmStartPage>
+                    </igDock:ContentPane>
+                </igDock:TabGroupPane>
+            </igDock:SplitPane>
+        </igDock:DocumentContentHost>
+
+        <!-- Add panes to the XamDockManager's Panes collection -->
+        <igDock:XamDockManager.Panes>
+            <!-- Right Dock Area ====================================================================== -->
+            <!-- Add a SplitPane with a single ContentPane and set its initial location to DockedRight
+            The ContentPane will show up as 'pinned' since we have not set its IsPinned property which
+            defaults to true. -->
+            <igDock:SplitPane igDock:XamDockManager.InitialLocation="DockedRight"
+                              SplitterOrientation="Horizontal" Width="220">
+                <igDock:TabGroupPane>
+                    <igDock:ContentPane x:Name="rightEdgeDock" Header="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_RightEdge_Header1}"
+                                        Image="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_RightEdge_Image1}"
+                                        CloseButtonVisibility="{Binding ElementName=chkClose, Path=IsChecked, Converter={StaticResource boolToVis}}"
+                                        PinButtonVisibility="{Binding ElementName=chkPin, Path=IsChecked, Converter={StaticResource boolToVis}}"
+                                        WindowPositionMenuVisibility="{Binding ElementName=chkWindow, Path=IsChecked, Converter={StaticResource boolToVis}}"
+                                        >
+                        <locCtls:XdmSamplePaneContent Content=" "/>
+                    </igDock:ContentPane>
+                    <igDock:ContentPane x:Name="rightEdgeTeamDock" Header="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_RightEdge_Header2}"
+                                        Image="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_RightEdge_Image2}"
+                                        CloseButtonVisibility="{Binding ElementName=chkClose, Path=IsChecked, Converter={StaticResource boolToVis}}"
+                                        PinButtonVisibility="{Binding ElementName=chkPin, Path=IsChecked, Converter={StaticResource boolToVis}}"
+                                        WindowPositionMenuVisibility="{Binding ElementName=chkWindow, Path=IsChecked, Converter={StaticResource boolToVis}}"
+                                        >
+                        <locCtls:XdmSamplePaneContent Content=" "/>
+                    </igDock:ContentPane>
+                </igDock:TabGroupPane>
+                <igDock:ContentPane x:Name="rightEdgePropertiesDock" Header="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_RightEdge_Header3}"
+                                    Image="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_RightEdge_Image3}"
+                                    CloseButtonVisibility="{Binding ElementName=chkClose, Path=IsChecked, Converter={StaticResource boolToVis}}"
+                                    PinButtonVisibility="{Binding ElementName=chkPin, Path=IsChecked, Converter={StaticResource boolToVis}}"
+                                    WindowPositionMenuVisibility="{Binding ElementName=chkWindow, Path=IsChecked, Converter={StaticResource boolToVis}}"
+                                    >
+                    <locCtls:XdmSamplePaneContent Content=" "/>
+                </igDock:ContentPane>
+            </igDock:SplitPane>
+            <!-- Bottom Dock Area ===================================================================== -->
+            <!-- Add a SplitPane with a single TabGroupPane that contains multiple ContentPanes. -->
+            <igDock:SplitPane igDock:XamDockManager.InitialLocation="DockedBottom">
+                <!-- TabGroupPane containing 5 ContentPanes -->
+                <igDock:TabGroupPane>
+                    <igDock:ContentPane x:Name="bottomEdgeDock1" IsPinned="False" Header="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_BottomEdge_Header1}"
+                                        Image="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_BottomEdge_Image1}"
+                                        CloseButtonVisibility="{Binding ElementName=chkClose, Path=IsChecked, Converter={StaticResource boolToVis}}"
+                                        PinButtonVisibility="{Binding ElementName=chkPin, Path=IsChecked, Converter={StaticResource boolToVis}}"
+                                        WindowPositionMenuVisibility="{Binding ElementName=chkWindow, Path=IsChecked, Converter={StaticResource boolToVis}}"
+                                        >
+                        <locCtls:XdmSamplePaneContent Content=" "/>
+                    </igDock:ContentPane>
+                    <igDock:ContentPane x:Name="bottomEdgeDock2" Header="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_BottomEdge_Header2}"
+                                        Image="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_BottomEdge_Image2}"
+                                        CloseButtonVisibility="{Binding ElementName=chkClose, Path=IsChecked, Converter={StaticResource boolToVis}}"
+                                        PinButtonVisibility="{Binding ElementName=chkPin, Path=IsChecked, Converter={StaticResource boolToVis}}"
+                                        WindowPositionMenuVisibility="{Binding ElementName=chkWindow, Path=IsChecked, Converter={StaticResource boolToVis}}"
+                                        >
+                        <locCtls:XdmSamplePaneContent Content=" "/>
+                    </igDock:ContentPane>
+                </igDock:TabGroupPane>
+            </igDock:SplitPane>
+        </igDock:XamDockManager.Panes>
+    </igDock:XamDockManager>
+    <!-- #END SNIPPET# -->
+
+</framework:SampleContainer>

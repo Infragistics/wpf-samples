@@ -1,0 +1,94 @@
+﻿<igs:SampleContainer 
+    x:Class="IGSurfaceChart.Samples.Data.BindingShapefiles"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"  
+    xmlns:res="clr-namespace:IGSurfaceChart.Resources"
+    xmlns:igs="http://schemas.infragistics.com/xaml/samples" 
+    xmlns:ig="http://schemas.infragistics.com/xaml" 
+    xmlns:igx="clr-namespace:Infragistics.Samples.Shared.DataProviders;assembly=Infragistics.Samples.Shared"
+    xmlns:data="clr-namespace:IGSurfaceChart.Samples.Data"
+    mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="500">
+    <igs:SampleContainer.Resources>
+        <ResourceDictionary>
+            <Style TargetType="ig:LinearScale" x:Key="LinearScaleStyle" >
+                <!--<Setter Property="LabelFormat" Value="{}{0:N{precision}}" />-->
+                <Setter Property="LabelFontSize" Value="16" />
+                <Setter Property="TitleFontSize" Value="16" />
+            </Style>
+            
+            <res:SurfaceChartStrings x:Key="ChartStrings" />
+            <!-- ShapeFileProvider provides absolute path to a shape file Stretch="Fill" TileMode="Tile" -->
+            
+            <DiffuseMaterial x:Key="FloorMapMaterial">
+                <DiffuseMaterial.Brush>
+                    <ImageBrush 
+                    ImageSource="/Infragistics.Samples.Assets;component/Storage/en/images/Maps/geo_preview_bing_road.png">
+                    </ImageBrush>
+                </DiffuseMaterial.Brush>
+            </DiffuseMaterial>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSurfaceChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+ 
+          </ResourceDictionary>
+    </igs:SampleContainer.Resources>
+    
+    <Grid>
+        <!--<Grid.Background>
+            <ImageBrush Stretch="Fill" TileMode="Tile" 
+                    ImageSource="/Infragistics.Samples.Assets;component/Storage/en/images/Maps/geo_preview_bing_road.png">
+            </ImageBrush>
+        </Grid.Background>-->
+        <!--Fields: lon	lat	magnitude region depth datetime 
+        XMemberPath="Fields[lon]" 
+                                YMemberPath="Fields[lat]" 
+                                ZMemberPath="Fields[magnitude]"--> 
+        <!--#BEGIN SNIPPET#-->
+        <ig:XamScatterSurface3D x:Name="SurfaceChart" Background="Transparent"
+                                XMemberPath="Population" 
+                                YMemberPath="PublicDebt" ShowPointMarkers="True"
+                                ZMemberPath="GdpPerCapita"   ShowFloorProjection="True" 
+                                RimThickness="0" 
+                                SeriesColors="Transparent">
+            <ig:XamScatterSurface3D.PointMarkerMaterial>
+                <DiffuseMaterial>
+                    <DiffuseMaterial.Brush>
+                        <SolidColorBrush Color="Red" Opacity="0.75" />
+                    </DiffuseMaterial.Brush>
+                </DiffuseMaterial>
+            </ig:XamScatterSurface3D.PointMarkerMaterial>
+
+            <ig:XamScatterSurface3D.PointMarkerMesh>
+                <MeshGeometry3D Positions="-0.01 0.01 0.01, -0.01 -0.01 0.01, 
+                                            0.01 0.01 0.01, 0.01 -0.01 0.01,
+                                            0.01 0.01 -0.01, 0.01 -0.01 -0.01, 
+                                            -0.01 0.01 -0.01, -0.01 -0.01 -0.01"
+                                    TextureCoordinates="0 0, 0 1, 1 0, 1 1,
+                                                        0 0, 0 1, 1 0, 1 1"
+                                    TriangleIndices="0  1  2,  1  3  2,
+                                                     6  7  0,  7  1  0,
+                                                     4  6  2,  6  0  2,
+                                                     2  3  4,  3  5  4,
+                                                     3  1  5,  1  7  5,
+                                                     4  5  6,  5  7  6" />
+            </ig:XamScatterSurface3D.PointMarkerMesh>
+            <ig:XamScatterSurface3D.XAxis>
+                <ig:LinearScale Title="{Binding Source={StaticResource ChartStrings}, Path=XAxis}" 
+                                Style="{StaticResource LinearScaleStyle}"  />
+            </ig:XamScatterSurface3D.XAxis>
+            <ig:XamScatterSurface3D.YAxis>
+                <ig:LinearScale Title="{Binding Source={StaticResource ChartStrings}, Path=YAxis}" 
+                                Style="{StaticResource LinearScaleStyle}"  />
+            </ig:XamScatterSurface3D.YAxis>
+            <ig:XamScatterSurface3D.ZAxis>
+                <ig:LinearScale x:Name="ValueAxis" 
+                                Title="{Binding Source={StaticResource ChartStrings}, Path=ZAxis}" 
+                                Style="{StaticResource LinearScaleStyle}" />
+            </ig:XamScatterSurface3D.ZAxis>
+        </ig:XamScatterSurface3D>
+        <!--#END SNIPPET#-->
+    </Grid>
+</igs:SampleContainer>

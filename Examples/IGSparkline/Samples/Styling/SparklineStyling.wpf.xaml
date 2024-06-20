@@ -1,0 +1,208 @@
+﻿<framework:SampleContainer x:Class="IGSparkline.Samples.Styling.SparklineStyling"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+    xmlns:resCommon="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared"
+    xmlns:res="clr-namespace:IGSparkline.Resources"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:data="clr-namespace:IGSparkline.Model"
+    mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700"
+    Title="SparklineStyling Page">
+    
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSparkline;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Local Resources -->
+            <resCommon:CommonStrings x:Key="CommonStrings"/>
+            <res:SparklineStrings x:Key="SparklineStrings"/>
+            <data:TestData x:Key="testdata"/>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <StackPanel>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" MinHeight="30"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" MinHeight="30"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock x:Name="txt1" Grid.Row="0" Grid.Column="0" Text="{Binding XSL_Line, Source={StaticResource SparklineStrings}}" Margin="3"/>
+                
+                <!-- #BEGIN SNIPPET# -->
+                <ig:XamSparkline Grid.Row="1" Grid.Column="0" Margin="0,3,12,3"
+                    Name="xamSparkline1"
+                    ItemsSource="{StaticResource testdata}"
+                    DisplayType="Line"
+                    ValueMemberPath="Value" 
+                    Width="250" Height="125"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    MarkerVisibility="Visible"
+                    NormalRangeMinimum="{Binding Value, ElementName=sliderMINRange}"
+                    NormalRangeMaximum="{Binding Value, ElementName=sliderMAXRange}"
+                    MarkerSize="{Binding Value, ElementName=sliderMarkerSize}"
+                    LineThickness="{Binding Value, ElementName=sliderLineThickness}"
+                    >
+                    <ig:XamSparkline.NormalRangeFill>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" Opacity="0.5">
+                            <GradientStop Color="Purple" Offset="0.100"/>
+                            <GradientStop Color="White" Offset="0.500"/>
+                            <GradientStop Color="Purple" Offset="0.988"/>
+                        </LinearGradientBrush>
+                    </ig:XamSparkline.NormalRangeFill>
+
+                    <ig:XamSparkline.MarkerBrush>
+                        <SolidColorBrush x:Name="AnimateLineMarkers" Color="#0287D9"/>
+                    </ig:XamSparkline.MarkerBrush>
+                </ig:XamSparkline>
+                <!-- #END SNIPPET# -->
+                 
+
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding XSL_Area, Source={StaticResource SparklineStrings}}" Margin="3"/>
+                <ig:XamSparkline Grid.Row="1" Grid.Column="1" Margin="3" 
+                    Name="xamSparkline2" 
+                    ItemsSource="{Binding Source={StaticResource testdata}}"
+                    ValueMemberPath="Value"
+                    DisplayType="Area"
+                    Width="250" Height="125"
+                    HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Top"
+                    MarkerVisibility="Visible"
+                    NormalRangeMinimum="{Binding Value, ElementName=sliderMINRange}"
+                    NormalRangeMaximum="{Binding Value, ElementName=sliderMAXRange}"
+                    MarkerSize="{Binding Value, ElementName=sliderMarkerSize}"
+                    LineThickness="{Binding Value, ElementName=sliderLineThickness}"
+                    >
+                    <ig:XamSparkline.NormalRangeFill>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" Opacity="0.5">
+                            <GradientStop Color="Purple" Offset="0.100"/>
+                            <GradientStop Color="White" Offset="0.500"/>
+                            <GradientStop Color="Purple" Offset="0.988"/>
+                        </LinearGradientBrush>
+                    </ig:XamSparkline.NormalRangeFill>
+
+                    <ig:XamSparkline.MarkerBrush>
+                        <SolidColorBrush x:Name="AnimateAreaMarkers" Color="#0287D9"/>
+                    </ig:XamSparkline.MarkerBrush>
+                </ig:XamSparkline>
+               
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding XSL_Column, Source={StaticResource SparklineStrings}}" Margin="3"/>
+                <ig:XamSparkline Grid.Row="3" Grid.Column="0" Margin="0,3,12,3" 
+                    Name="xamSparkline3" 
+                    ItemsSource="{Binding Source={StaticResource testdata}}"
+                    ValueMemberPath="Value"
+                    DisplayType="Column"
+                    Width="250" Height="125"
+                    HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Top"
+                    MarkerVisibility="Visible"
+                    NormalRangeMinimum="{Binding Value, ElementName=sliderMINRange}"
+                    NormalRangeMaximum="{Binding Value, ElementName=sliderMAXRange}"
+                    MarkerSize="{Binding Value, ElementName=sliderMarkerSize}"
+                    LineThickness="{Binding Value, ElementName=sliderLineThickness}"
+                    >
+                    <ig:XamSparkline.NormalRangeFill>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" Opacity="0.5">
+                            <GradientStop Color="Purple" Offset="0.100"/>
+                            <GradientStop Color="White" Offset="0.500"/>
+                            <GradientStop Color="Purple" Offset="0.988"/>
+                        </LinearGradientBrush>
+                    </ig:XamSparkline.NormalRangeFill>
+
+                    <ig:XamSparkline.MarkerBrush>
+                        <SolidColorBrush x:Name="AnimateColumnMarkers" Color="#0287D9"/>
+                    </ig:XamSparkline.MarkerBrush>
+                </ig:XamSparkline>
+                 
+                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding XSL_WinLoss, Source={StaticResource SparklineStrings}}" Margin="3"/>
+                <ig:XamSparkline Grid.Row="3" Grid.Column="1" Margin="3"
+                    Name="xamSparkline4" 
+                    ItemsSource="{Binding Source={StaticResource testdata}}"
+                    ValueMemberPath="Value"
+                    DisplayType="WinLoss"
+                    Width="250" Height="125"
+                    HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Top"
+                    MarkerVisibility="Visible"
+                    NormalRangeMinimum="{Binding Value, ElementName=sliderMINRange}"
+                    NormalRangeMaximum="{Binding Value, ElementName=sliderMAXRange}"
+                    LineThickness="{Binding Value, ElementName=sliderLineThickness}"
+                    >
+                    <ig:XamSparkline.NormalRangeFill>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" Opacity="0.5">
+                            <GradientStop Color="Purple" Offset="0.100"/>
+                            <GradientStop Color="White" Offset="0.500"/>
+                            <GradientStop Color="Purple" Offset="0.988"/>
+                        </LinearGradientBrush>
+                    </ig:XamSparkline.NormalRangeFill>
+                </ig:XamSparkline> 
+            </Grid>
+        </StackPanel>
+
+        <controls:OptionsPanel HeaderText="{Binding XW_Options, Source={StaticResource CommonStrings}}" HorizontalAlignment="Right">
+            <StackPanel>
+                <!-- Line Thickness -->
+                <TextBlock Text="{Binding XSL_Line_Thickness, Source={StaticResource SparklineStrings}}" HorizontalAlignment="Stretch" Margin="3"/>
+                <Slider x:Name="sliderLineThickness" Value="1" Minimum="1" Maximum="50" HorizontalAlignment="Stretch" Margin="3"/>
+
+                <!-- Marker Size -->
+                <TextBlock Text="{Binding XSL_Marker_Size, Source={StaticResource SparklineStrings}}" HorizontalAlignment="Stretch" Margin="3"/>
+                <Slider x:Name="sliderMarkerSize" Value="3" Minimum="1" Maximum="10" HorizontalAlignment="Stretch" Margin="3"/>
+
+                <!-- Customized Normal Range -->
+                <TextBlock Text="{Binding XSL_Normal_Range, Source={StaticResource SparklineStrings}}" HorizontalAlignment="Stretch" Margin="3"/>
+                <CheckBox x:Name="checkBoxNormalRange" IsThreeState="False" Click="checkBoxNormalRange_Click"/>
+
+                <!-- Adjust the Normal Range -->
+                <TextBlock Text="{Binding XSL_AdjustRanges, Source={StaticResource SparklineStrings}}" HorizontalAlignment="Stretch" Margin="3"/>
+                <Slider Name="sliderMINRange" Value="1" Minimum="-2" Maximum="9" Margin="3"/>
+                <Slider Name="sliderMAXRange" Value="4" Minimum="-2" Maximum="9" Margin="3"/>
+
+                <!-- Start the Animation with Markers -->
+                <ToggleButton x:Name="buttonStart" Height="22" HorizontalAlignment="Stretch" Margin="5" 
+                              Content="{Binding XSL_Toggle_Markers, Source={StaticResource SparklineStrings}}"  
+                              Click="OnClickToggleMarkers" IsChecked="True">
+                    <ToggleButton.Triggers>
+                        <EventTrigger RoutedEvent="ToggleButton.Click">
+                            <BeginStoryboard>
+                                <Storyboard x:Name="MyStoryboard">
+                                    <ColorAnimation x:Name="LineAnimation"
+                                        Storyboard.TargetName="AnimateLineMarkers" 
+                                        Storyboard.TargetProperty="(SolidColorBrush.Color)"
+                                        From="#0287D9" To="#06C606" Duration="0:0:0.5" RepeatBehavior="4x"
+                                        AutoReverse="True"/>
+                                    <ColorAnimation x:Name="AreaAnimation"
+                                        Storyboard.TargetName="AnimateAreaMarkers" 
+                                        Storyboard.TargetProperty="(SolidColorBrush.Color)"
+                                        From="#0287D9" To="#06C606" Duration="0:0:0.5" RepeatBehavior="4x"
+                                        AutoReverse="True"/>
+                                    <ColorAnimation x:Name="ColorAnimation"
+                                        Storyboard.TargetName="AnimateColumnMarkers" 
+                                        Storyboard.TargetProperty="(SolidColorBrush.Color)"
+                                        From="#0287D9" To="#06C606" Duration="0:0:0.5" RepeatBehavior="4x"
+                                        AutoReverse="True"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        </ToggleButton.Triggers>
+                </ToggleButton>
+
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

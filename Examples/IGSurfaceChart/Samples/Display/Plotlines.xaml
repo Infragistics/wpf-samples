@@ -1,0 +1,256 @@
+﻿<igs:SampleContainer x:Class="IGSurfaceChart.Samples.Display.Plotlines"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:igs="http://schemas.infragistics.com/xaml/samples"
+             xmlns:viewModel="clr-namespace:IGSurfaceChart.Samples.ViewModels"
+             xmlns:res="clr-namespace:IGSurfaceChart.Resources"
+             xmlns:ig="http://schemas.infragistics.com/xaml"
+             xmlns:igEdit="http://infragistics.com/Editors"
+             xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+             xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared"  
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="700">
+
+    <igs:SampleContainer.DataContext>
+        <viewModel:BasicViewModel />
+    </igs:SampleContainer.DataContext>
+
+    <igs:SampleContainer.Resources>
+        <ResourceDictionary>
+            <res:SurfaceChartStrings x:Key="ChartStrings" />
+
+            <converters:ColorToSolidColorBrushConverter x:Key="ColorToSolidColorBrushConverter" />
+
+            <Color x:Key="AxisColor1">#FFC62828</Color>
+            <Color x:Key="AxisColor2">#FF439C47</Color>
+            <Color x:Key="AxisColor3">#FF3F51B5</Color>
+            <Color x:Key="GridStrokeColor">#FFE0E0E0</Color>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSurfaceChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </igs:SampleContainer.Resources>
+
+    <Grid>
+        <ig:XamScatterSurface3D Name="SurfaceChart" ItemsSource="{Binding Path=ConeFlipped}" 
+                                XMemberPath="X" YMemberPath="Y" ZMemberPath="Z"   
+                                ShowFloorProjection="False" FloorMaterial="{x:Null}">
+            <ig:XamScatterSurface3D.XAxis>
+                <!-- #BEGIN SNIPPET# -->
+                <ig:LinearAxis Title="{Binding Source={StaticResource ChartStrings}, Path=XAxis}" 
+                                GridStroke="{Binding ElementName=XGridStroke, Path=SelectedColorPreview, Converter={StaticResource ColorToSolidColorBrushConverter}}" 
+                                GridStrokeThickness="{Binding ElementName=XGridThickness, Path=Value}" 
+                                Stroke="{Binding ElementName=XAxisStroke, Path=SelectedColorPreview, Converter={StaticResource ColorToSolidColorBrushConverter}}" 
+                                StrokeThickness="{Binding ElementName=XAxisThickness, Path=Value}"
+                                Interval="{Binding ElementName=XInterval_Slider, Path=Value, Mode=TwoWay}"
+                                IsInverted="{Binding ElementName=InvertX_CheckBox, Path=IsChecked, Mode=TwoWay}"/>
+                <!-- #END SNIPPET# -->
+            </ig:XamScatterSurface3D.XAxis>
+            <ig:XamScatterSurface3D.YAxis>
+                <ig:LinearAxis Title="{Binding Source={StaticResource ChartStrings}, Path=YAxis}"
+                                GridStroke="{Binding ElementName=YGridStroke, Path=SelectedColorPreview, Converter={StaticResource ColorToSolidColorBrushConverter}}" 
+                                GridStrokeThickness="{Binding ElementName=YGridThickness, Path=Value}" 
+                                Stroke="{Binding ElementName=YAxisStroke, Path=SelectedColorPreview, Converter={StaticResource ColorToSolidColorBrushConverter}}" 
+                                StrokeThickness="{Binding ElementName=YAxisThickness, Path=Value}" 
+                                Interval="{Binding ElementName=YInterval_Slider, Path=Value, Mode=TwoWay}"
+                                IsInverted="{Binding ElementName=InvertY_CheckBox, Path=IsChecked, Mode=TwoWay}"/>
+            </ig:XamScatterSurface3D.YAxis>
+            <ig:XamScatterSurface3D.ZAxis>
+                <ig:LinearAxis Title="{Binding Source={StaticResource ChartStrings}, Path=ZAxis}"
+                                GridStroke="{Binding ElementName=ZGridStroke, Path=SelectedColorPreview, Converter={StaticResource ColorToSolidColorBrushConverter}}" 
+                                GridStrokeThickness="{Binding ElementName=ZGridThickness, Path=Value}"
+                                Stroke="{Binding ElementName=ZAxisStroke, Path=SelectedColorPreview, Converter={StaticResource ColorToSolidColorBrushConverter}}" 
+                                StrokeThickness="{Binding ElementName=ZAxisThickness, Path=Value}" 
+                                Interval="{Binding ElementName=ZInterval_Slider, Path=Value, Mode=TwoWay}"
+                                IsInverted="{Binding ElementName=InvertZ_CheckBox, Path=IsChecked, Mode=TwoWay}"/>
+            </ig:XamScatterSurface3D.ZAxis>
+        </ig:XamScatterSurface3D>
+
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource ChartStrings}, Path=Configurations}"
+                               HorizontalAlignment="Right" VerticalAlignment="Top">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="8"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="8"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition  Height="8"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="8"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="0"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition  Height="10"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition  Height="10"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition  Height="0"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="90" />
+                    <ColumnDefinition Width="90"/>
+                </Grid.ColumnDefinitions>
+                <Label Style="{StaticResource HeaderLabelStyle}" Content="{Binding Source={StaticResource ChartStrings}, Path=GridLinesSettings}"
+                       Grid.ColumnSpan="3" Grid.Row="0" Margin="{StaticResource OptionsPanelHeaderLabelLeftMargin}" />
+                <Label Style="{StaticResource LabelStyle}" Content="{Binding Source={StaticResource ChartStrings}, Path=Color}" Grid.Column="1" Grid.Row="1" Margin="{StaticResource OptionsTextTopBottomMargin}"/>
+                <Label Style="{StaticResource LabelStyle}" Content="{Binding Source={StaticResource ChartStrings}, Path=Thickness}" Grid.Column="2" Grid.Row="1" Margin="{StaticResource OptionsTextTopBottomMargin}"/>
+                
+                <Label Style="{StaticResource LabelStyle}" Content="{Binding Source={StaticResource ChartStrings}, Path=X}" Grid.Column="0" Grid.Row="2"/>
+                <ig:XamColorPicker Name="XGridStroke" SelectedColor="{StaticResource GridStrokeColor}" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="{StaticResource OptionsElementsSeparationRight}"/>
+                <igEdit:XamNumericEditor Name="XGridThickness" Value="1" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Margin="{StaticResource OptionsElementsSeparationLeft}"
+                                    SpinButtonDisplayMode="Always" Mask="{Binding Source={StaticResource ChartStrings}, Path=Mask_Thickness}" />
+
+                <Label Style="{StaticResource LabelStyle}" Content="{Binding Source={StaticResource ChartStrings}, Path=Y}" Grid.Column="0" Grid.Row="4"/>
+                <ig:XamColorPicker Name="YGridStroke" SelectedColor="{StaticResource GridStrokeColor}" Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Margin="{StaticResource OptionsElementsSeparationRight}"/>
+                <igEdit:XamNumericEditor Name="YGridThickness" Value="1" Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" Margin="{StaticResource OptionsElementsSeparationLeft}"
+                                    SpinButtonDisplayMode="Always" Mask="{Binding Source={StaticResource ChartStrings}, Path=Mask_Thickness}"/>
+
+                <Label Style="{StaticResource LabelStyle}" Content="{Binding Source={StaticResource ChartStrings}, Path=Z}" Grid.Column="0" Grid.Row="6"/>
+                <ig:XamColorPicker Name="ZGridStroke" SelectedColor="{StaticResource GridStrokeColor}" Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" Margin="{StaticResource OptionsElementsSeparationRight}"/>
+                <igEdit:XamNumericEditor Name="ZGridThickness" Value="1" Grid.Row="6" Grid.Column="2" VerticalAlignment="Center" Margin="{StaticResource OptionsElementsSeparationLeft}"
+                                    SpinButtonDisplayMode="Always" Mask="{Binding Source={StaticResource ChartStrings}, Path=Mask_Thickness}"/>
+
+                <Label Style="{StaticResource HeaderLabelStyle}" Content="{Binding Source={StaticResource ChartStrings}, Path=AxisLinesSettings}" 
+                       Grid.ColumnSpan="3" Grid.Row="7" />
+
+                <Label Style="{StaticResource LabelStyle}" Content="{Binding Source={StaticResource ChartStrings}, Path=Color}" Grid.Column="1" Grid.Row="8" Margin="{StaticResource OptionsTextTopBottomMargin}"/>
+                <Label Style="{StaticResource LabelStyle}" Content="{Binding Source={StaticResource ChartStrings}, Path=Thickness}" Grid.Column="2" Grid.Row="8" Margin="{StaticResource OptionsTextTopBottomMargin}"/>
+
+                <Label Style="{StaticResource LabelStyle}" Content="{Binding Source={StaticResource ChartStrings}, Path=X}" Grid.Column="0" Grid.Row="9"/>
+                <ig:XamColorPicker Name="XAxisStroke" SelectedColor="{StaticResource AxisColor1}" Grid.Row="9" Grid.Column="1" VerticalAlignment="Center" Margin="{StaticResource OptionsElementsSeparationRight}" />
+                <igEdit:XamNumericEditor Name="XAxisThickness" Value="4" Grid.Row="9" Grid.Column="2" VerticalAlignment="Center" Margin="{StaticResource OptionsElementsSeparationLeft}"
+                                    SpinButtonDisplayMode="Always" Mask="{Binding Source={StaticResource ChartStrings}, Path=Mask_Thickness}" />
+
+                <Label Style="{StaticResource LabelStyle}" Content="{Binding Source={StaticResource ChartStrings}, Path=Y}" Grid.Column="0" Grid.Row="11"/>
+                <ig:XamColorPicker Name="YAxisStroke" SelectedColor="{StaticResource AxisColor2}" Grid.Row="11" Grid.Column="1" VerticalAlignment="Center" Margin="{StaticResource OptionsElementsSeparationRight}"/>
+                <igEdit:XamNumericEditor Name="YAxisThickness" Value="4" Grid.Row="11" Grid.Column="2" VerticalAlignment="Center" Margin="{StaticResource OptionsElementsSeparationLeft}"
+                                    SpinButtonDisplayMode="Always" Mask="{Binding Source={StaticResource ChartStrings}, Path=Mask_Thickness}"/>
+
+                <Label Style="{StaticResource LabelStyle}" Content="{Binding Source={StaticResource ChartStrings}, Path=Z}" Grid.Column="0" Grid.Row="13"/>
+                <ig:XamColorPicker Name="ZAxisStroke" SelectedColor="{StaticResource AxisColor3}" Grid.Row="13" Grid.Column="1" VerticalAlignment="Center" Margin="{StaticResource OptionsElementsSeparationRight}"/>
+                <igEdit:XamNumericEditor Name="ZAxisThickness" Value="4" Grid.Row="13" Grid.Column="2" VerticalAlignment="Center" Margin="{StaticResource OptionsElementsSeparationLeft}"
+                                    SpinButtonDisplayMode="Always" Mask="{Binding Source={StaticResource ChartStrings}, Path=Mask_Thickness}"/>
+
+                <Label Style="{StaticResource HeaderLabelStyle}" Content="{Binding Source={StaticResource ChartStrings}, Path=LinesIntervals}" Grid.Row="15" Grid.ColumnSpan="3" />
+                <Label Style="{StaticResource LabelStyle}" Content="{Binding Source={StaticResource ChartStrings}, Path=X}" Grid.Column="0" Grid.Row="16"/>
+                <ig:XamNumericSlider Name="XInterval_Slider" Grid.Row="16" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center"
+                                     MinValue="0.2" MaxValue="4" Width="170"
+                                     LargeChange="0.2" TrackClickAction="LargeChange" 
+                                     IncreaseButtonVisibility="Collapsed" DecreaseButtonVisibility="Collapsed">
+                    <ig:XamNumericSlider.Thumb>
+                        <ig:XamSliderNumericThumb ToolTipVisibility="Visible" Value="0.5">
+                            <ig:XamSliderNumericThumb.ToolTipTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Border x:Name="HorizontalThumbContent">
+                                            <Grid>
+                                                <TextBlock Text="{Binding StringFormat=N1}" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                            </Grid>
+                                        </Border>
+                                    </Grid>
+                                </DataTemplate>
+                            </ig:XamSliderNumericThumb.ToolTipTemplate>
+                        </ig:XamSliderNumericThumb>
+                    </ig:XamNumericSlider.Thumb>
+                    <ig:XamNumericSlider.TickMarks>
+                        <ig:SliderTickMarks UseFrequency="False" NumberOfTickMarks="4" />
+                        <ig:SliderTickMarks UseFrequency="False" NumberOfTickMarks="4" >
+                            <ig:SliderTickMarks.HorizontalTickMarksTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding StringFormat=N1}" Style="{StaticResource SliderLabelsTextBlockStyle}" />
+                                </DataTemplate>
+                            </ig:SliderTickMarks.HorizontalTickMarksTemplate>
+                        </ig:SliderTickMarks>
+                    </ig:XamNumericSlider.TickMarks>
+                </ig:XamNumericSlider>
+
+                <Label Style="{StaticResource LabelStyle}" Content="{Binding Source={StaticResource ChartStrings}, Path=Y}" Grid.Column="0" Grid.Row="18"/>
+                <ig:XamNumericSlider Name="YInterval_Slider" Grid.Row="18" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center"
+                                     MinValue="0.2" MaxValue="4" Width="170"
+                                     LargeChange="0.2" TrackClickAction="LargeChange" 
+                                     IncreaseButtonVisibility="Collapsed" DecreaseButtonVisibility="Collapsed">
+                    <ig:XamNumericSlider.Thumb>
+                        <ig:XamSliderNumericThumb ToolTipVisibility="Visible" Value="0.5">
+                            <ig:XamSliderNumericThumb.ToolTipTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Border x:Name="HorizontalThumbContent">
+                                            <Grid>
+                                                <TextBlock Text="{Binding StringFormat=N1}" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                            </Grid>
+                                        </Border>
+                                    </Grid>
+                                </DataTemplate>
+                            </ig:XamSliderNumericThumb.ToolTipTemplate>
+                        </ig:XamSliderNumericThumb>
+                    </ig:XamNumericSlider.Thumb>
+                    <ig:XamNumericSlider.TickMarks>
+                        <ig:SliderTickMarks UseFrequency="False" NumberOfTickMarks="4"/>
+                        <ig:SliderTickMarks UseFrequency="False" NumberOfTickMarks="4">
+                            <ig:SliderTickMarks.HorizontalTickMarksTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding StringFormat=N1}" Style="{StaticResource SliderLabelsTextBlockStyle}" />
+                                </DataTemplate>
+                            </ig:SliderTickMarks.HorizontalTickMarksTemplate>
+                        </ig:SliderTickMarks>
+                    </ig:XamNumericSlider.TickMarks>
+                </ig:XamNumericSlider>
+
+                <Label Style="{StaticResource LabelStyle}" Content="{Binding Source={StaticResource ChartStrings}, Path=Z}" Grid.Column="0" Grid.Row="20"/>
+                <ig:XamNumericSlider Name="ZInterval_Slider" Grid.Row="20" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center"
+                                     MinValue="0.2" MaxValue="4" Width="170"
+                                     LargeChange="0.2" TrackClickAction="LargeChange" 
+                                     IncreaseButtonVisibility="Collapsed" DecreaseButtonVisibility="Collapsed">
+                    <ig:XamNumericSlider.Thumb>
+                        <ig:XamSliderNumericThumb ToolTipVisibility="Visible" Value="0.5">
+                            <ig:XamSliderNumericThumb.ToolTipTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Border x:Name="HorizontalThumbContent">
+                                            <Grid>
+                                                <TextBlock Text="{Binding StringFormat=N1}" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                            </Grid>
+                                        </Border>
+                                    </Grid>
+                                </DataTemplate>
+                            </ig:XamSliderNumericThumb.ToolTipTemplate>
+                        </ig:XamSliderNumericThumb>
+                    </ig:XamNumericSlider.Thumb>
+                    <ig:XamNumericSlider.TickMarks>
+                        <ig:SliderTickMarks UseFrequency="False" NumberOfTickMarks="4"/>
+                        <ig:SliderTickMarks UseFrequency="False" NumberOfTickMarks="4">
+                            <ig:SliderTickMarks.HorizontalTickMarksTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding StringFormat=N1}" Style="{StaticResource SliderLabelsTextBlockStyle}" />
+                                </DataTemplate>
+                            </ig:SliderTickMarks.HorizontalTickMarksTemplate>
+                        </ig:SliderTickMarks>
+                    </ig:XamNumericSlider.TickMarks>
+                </ig:XamNumericSlider>
+
+                <Label Style="{StaticResource HeaderLabelStyle}" Content="{Binding Source={StaticResource ChartStrings}, Path=InvertAxis}" Grid.Row="22" Grid.ColumnSpan="3" />
+                <StackPanel Orientation="Horizontal" Grid.ColumnSpan="3" Grid.Row="23">
+                    <Label Style="{StaticResource LabelStyle}" Content="{Binding Source={StaticResource ChartStrings}, Path=X}" />
+                    <CheckBox Name="InvertX_CheckBox" Margin="{StaticResource OptionsTextLeftMargin}" />
+                    <Label Style="{StaticResource LabelStyle}" Content="{Binding Source={StaticResource ChartStrings}, Path=Y}" Margin="{StaticResource OptionsTextLeftMargin}" />
+                    <CheckBox Name="InvertY_CheckBox" Margin="{StaticResource OptionsTextLeftMargin}" />
+                    <Label Style="{StaticResource LabelStyle}" Content="{Binding Source={StaticResource ChartStrings}, Path=Z}" Margin="{StaticResource OptionsTextLeftMargin}" />
+                    <CheckBox Name="InvertZ_CheckBox" Margin="{StaticResource OptionsTextLeftMargin}" />
+                </StackPanel>
+            </Grid>
+        </controls:OptionsPanel>
+    </Grid>
+</igs:SampleContainer>

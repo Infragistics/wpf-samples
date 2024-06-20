@@ -1,0 +1,223 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Layers.CalloutLayer"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="CalloutLayer Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+      xmlns:converters="clr-namespace:IGDataChart.Converters"
+      xmlns:local="clr-namespace:IGDataChart.Samples.Layers"
+      xmlns:resources="clr-namespace:IGDataChart.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            
+            <Style TargetType="ig:LineSeries"  >
+                <Setter Property="IsTransitionInEnabled" Value="False"/>
+                <Setter Property="IsHighlightingEnabled" Value="True"/>
+                <Setter Property="ShowDefaultTooltip" Value="True"/>
+                <Setter Property="MarkerType" Value="Circle"/>
+                <Setter Property="Thickness" Value="2"/>
+            </Style>
+            <local:PopulationViewModel x:Key="VM" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions> 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions> 
+        
+        <ig:XamDataChart x:Name="DataChart" Grid.Column="1"
+                         HorizontalZoomable="True" 
+                         VerticalZoomable="True"  
+                         DataContext="{StaticResource VM}" >
+            <ig:XamDataChart.Axes>
+                <ig:CategoryXAxis x:Name="XAxis" ItemsSource="{Binding USA}"
+                                  Label="{}{Year}"  Interval="1"/>
+                <ig:NumericYAxis x:Name="YAxis" MinimumValue="0" Label="{}{} M"
+                                 Title="{Binding XWDC_WorldData_Types_Population, Source={StaticResource Strings}}">
+                    <ig:NumericYAxis.LabelSettings>
+                        <ig:AxisLabelSettings Location="OutsideRight" Margin="5 0 5 0" />
+                    </ig:NumericYAxis.LabelSettings>
+                </ig:NumericYAxis>
+            </ig:XamDataChart.Axes>
+            <ig:XamDataChart.Series>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:LineSeries ValueMemberPath="ValueInMln"
+                               DataContext="{Binding USA}"
+                               ItemsSource="{Binding}"
+                               Title="{Binding Country}"
+                               XAxis="{Binding ElementName=XAxis}"
+                               YAxis="{Binding ElementName=YAxis}" >
+                </ig:LineSeries>
+                <ig:LineSeries ValueMemberPath="ValueInMln"
+                               DataContext="{Binding RUS}"
+                               ItemsSource="{Binding}"
+                               Title="{Binding Country}"
+                               XAxis="{Binding ElementName=XAxis}"
+                               YAxis="{Binding ElementName=YAxis}" >
+                </ig:LineSeries>      
+                <!-- this single callout layer is targeting ItemsSource of multiple series: -->
+                <ig:CalloutLayer 
+                    x:Name="AutoCallout" 
+                    IsAutoCalloutBehaviorEnabled="True"
+                    UseValueForAutoCalloutLabels="True"
+                    AutoCalloutLabelPrecision="1"
+                    XMemberPath="Index"
+                    YMemberPath="ValueInMln"
+                    LabelMemberPath="ChangePercentage"
+                    CalloutLeaderBrush="Gray"
+                    CalloutOutline="Gray"
+                    CalloutBackground="DodgerBlue"
+                    CalloutTextColor="White"
+                    CalloutStrokeThickness="1.5">
+                </ig:CalloutLayer>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+         
+        <ig:XamDataChart Grid.Row="1" Grid.Column="1"
+                         HorizontalZoomable="True" 
+                         VerticalZoomable="True"  
+                         DataContext="{StaticResource VM}">
+            <ig:XamDataChart.Axes>
+                <ig:CategoryXAxis x:Name="XAxis2" ItemsSource="{Binding USA}"
+                                  Label="{}{Year}"  Interval="1"/>
+                <ig:NumericYAxis x:Name="YAxis2" MinimumValue="0" Label="{}{} M"
+                                 Title="{Binding XWDC_WorldData_Types_Population, Source={StaticResource Strings}}">
+                    <ig:NumericYAxis.LabelSettings>
+                        <ig:AxisLabelSettings Location="OutsideRight" Margin="5 0 5 0" />
+                    </ig:NumericYAxis.LabelSettings>
+                </ig:NumericYAxis>
+            </ig:XamDataChart.Axes>
+            <ig:XamDataChart.Series>
+                <!-- #BEGIN SNIPPET# -->
+                <!--==========================================================================--> 
+                <ig:LineSeries ValueMemberPath="ValueInMln" x:Name="SeriesUSA"
+                               DataContext="{Binding USA}"
+                               ItemsSource="{Binding}"
+                               Title="{Binding Country}"
+                               XAxis="{Binding ElementName=XAxis2}"
+                               YAxis="{Binding ElementName=YAxis2}" >
+                </ig:LineSeries>
+                <ig:LineSeries ValueMemberPath="ValueInMln" x:Name="SeriesRUS"
+                               DataContext="{Binding RUS}"
+                               ItemsSource="{Binding}"
+                               Title="{Binding Country}"
+                               XAxis="{Binding ElementName=XAxis2}"
+                               YAxis="{Binding ElementName=YAxis2}" >
+                </ig:LineSeries>      
+                <!-- these two callout layers are targeting ItemsSource for each series: -->
+                <ig:CalloutLayer  
+                    CollisionChannel="MultipleCallouts"
+                    TargetSeries="{Binding ElementName=SeriesUSA}"
+                    ItemsSource="{Binding CalloutsUSA}"
+                    IsAutoCalloutBehaviorEnabled="False"
+                    UseValueForAutoCalloutLabels="False" 
+                    XMemberPath="DataItem.Index"
+                    YMemberPath="DataItem.ValueInMln"
+                    LabelMemberPath="Label"
+                    ContentMemberPath="Content"
+                    CalloutLeaderBrush="{Binding Brush, ElementName=SeriesUSA}"
+                    CalloutOutline="{Binding Brush, ElementName=SeriesUSA}"
+                    CalloutBackground="{Binding Brush, ElementName=SeriesUSA}"
+                    CalloutTextColor="White"
+                    CalloutStrokeThickness="1.5">
+                </ig:CalloutLayer>
+                <ig:CalloutLayer  
+                    CollisionChannel="MultipleCallouts"
+                    TargetSeries="{Binding ElementName=SeriesRUS}"
+                    ItemsSource="{Binding CalloutsRUS}"
+                    IsAutoCalloutBehaviorEnabled="False"
+                    UseValueForAutoCalloutLabels="False"
+                    AutoCalloutLabelPrecision="1"
+                    XMemberPath="DataItem.Index"
+                    YMemberPath="DataItem.ValueInMln"
+                    LabelMemberPath="Label"
+                    ContentMemberPath="Content"
+                    CalloutLeaderBrush="{Binding Brush, ElementName=SeriesUSA}"
+                    CalloutOutline="{Binding Brush, ElementName=SeriesUSA}"
+                    CalloutBackground="{Binding ElementName=SeriesRUS, Path=Brush}"
+                    CalloutTextColor="White"
+                    CalloutStrokeThickness="1.5">
+                </ig:CalloutLayer>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+      
+        <controls:OptionsPanel HeaderText="{Binding XWDC_DataChart_Options, Source={StaticResource Strings}}"
+                               VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 0 30 0"
+                               Grid.Column="0" Visibility="Collapsed">
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                </Style>
+                <Style TargetType="Slider" BasedOn="{StaticResource IGSliderStyle}" >
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                </Style>
+                <converters:ColorToBrushConverter x:Key="ColorConv" />
+                
+                <controls:BrushesList  x:Key="BrushesList"/>
+                <DataTemplate x:Key="BrushItemTemplate">
+                      <Border HorizontalAlignment="Stretch" 
+                              BorderBrush="Black" BorderThickness="0.5"
+                              Background="{Binding}" 
+                              MinHeight="18" MinWidth="100"/>     
+                </DataTemplate>
+            </controls:OptionsPanel.Resources>
+            <StackPanel  >
+ 
+                <!--<CheckBox Content="UseValueForAutoCalloutLabels"
+                         IsChecked="{Binding UseValueForAutoCalloutLabels, ElementName=Callout, Mode=TwoWay}" />
+                <CheckBox Content="IsAutoCalloutBehaviorEnabled"
+                         IsChecked="{Binding IsAutoCalloutBehaviorEnabled, ElementName=Callout, Mode=TwoWay}" />
+                
+                <TextBlock Text="{Binding XWDC_TextColor, Source={StaticResource Strings}}" />
+                <ComboBox ItemsSource="{StaticResource BrushesList}"
+                          ItemTemplate="{StaticResource BrushItemTemplate}"
+                          SelectedItem="{Binding CalloutTextColor, ElementName=Callout, Mode=TwoWay}"
+                          SelectedIndex="0">
+                </ComboBox>  
+                
+                <TextBlock Text="{Binding XWDC_Brush, Source={StaticResource Strings}}" />                
+                <ComboBox ItemsSource="{StaticResource BrushesList}"
+                          ItemTemplate="{StaticResource BrushItemTemplate}"
+                          SelectedItem="{Binding CalloutBackground, ElementName=Callout, Mode=TwoWay}"
+                          SelectedIndex="0">
+                </ComboBox>  
+                
+                <TextBlock Text="{Binding XWDC_Outline, Source={StaticResource Strings}}" />
+                <ComboBox ItemsSource="{StaticResource BrushesList}"
+                          ItemTemplate="{StaticResource BrushItemTemplate}"
+                          SelectedItem="{Binding CalloutOutline, ElementName=Callout, Mode=TwoWay}"
+                          SelectedIndex="0">
+                </ComboBox>   
+                <TextBlock Text="{Binding XWDC_Thickness, Source={StaticResource Strings}}" />
+                <Slider x:Name="ThicknessSlider" 
+                        Minimum="1" Maximum="5" SmallChange="1" LargeChange="1" 
+                        Value="{Binding ElementName=Callout, Path=CalloutStrokeThickness, Mode=TwoWay}"/>-->
+            </StackPanel>
+
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

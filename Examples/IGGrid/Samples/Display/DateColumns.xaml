@@ -1,0 +1,54 @@
+﻿<framework:SampleContainer x:Class="IGGrid.Samples.Display.DateColumns"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="DateColumns Page"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:commonRes="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGrid;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <commonRes:CommonStrings x:Key="CommonStrings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <ig:XamGrid x:Name="dataGrid" AutoGenerateColumns="False" ColumnWidth="*">
+            <ig:XamGrid.Columns>
+                <ig:TextColumn Key="FirstName"
+                               HeaderText="{Binding Path=XWG_Patient_FirstName, Source={StaticResource CommonStrings}}" />
+                <ig:TextColumn Key="LastName"
+                               HeaderText="{Binding Path=XWG_Patient_LastName, Source={StaticResource CommonStrings}}" />
+                <!-- #BEGIN SNIPPET# -->
+                <ig:DateColumn Key="DOB" EditorDisplayBehavior="Always"
+                               SelectedDateFormat="Long"
+                               HeaderText="{Binding Path=XWG_Patient_DOB, Source={StaticResource CommonStrings}}"/>
+                <!-- #END SNIPPET# -->
+                <ig:TextColumn Key="Gender"
+                               HeaderText="{Binding Path=XWG_Patient_Gender, Source={StaticResource CommonStrings}}" />
+                <!-- #BEGIN SNIPPET# -->
+                <ig:DateColumn Key="AdmittanceDate" EditorDisplayBehavior="Always"
+                               SelectedDateFormat="Short"
+                               HeaderText="{Binding Path=XWG_Patient_AdmittanceDate, Source={StaticResource CommonStrings}}"/>
+                <!-- #END SNIPPET# -->
+                <ig:TextColumn Key="Location"
+                               HeaderText="{Binding Path=XWG_Patient_Location, Source={StaticResource CommonStrings}}" />
+                <ig:TextColumn Key="Severity"
+                               HeaderText="{Binding Path=XWG_Patient_Severity, Source={StaticResource CommonStrings}}" />
+            </ig:XamGrid.Columns>
+            <ig:XamGrid.EditingSettings>
+                <ig:EditingSettings AllowEditing="Row" IsEnterKeyEditingEnabled="True" 
+                                    IsF2EditingEnabled="True" IsMouseActionEditingEnabled="SingleClick" 
+                                    IsOnCellActiveEditingEnabled="True" />
+            </ig:XamGrid.EditingSettings>
+        </ig:XamGrid>
+    </Grid>
+</framework:SampleContainer>

@@ -1,0 +1,56 @@
+﻿<framework:SampleContainer x:Class="IGGantt.Samples.Data.LoadingProjectXMLFile"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGGantt.Resources"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="LoadingProjectXMLFile Page">
+    
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                
+                <ResourceDictionary Source="/IGGantt;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <res:GanttStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+   
+    <Grid x:Name="LayoutRoot" Background="White">
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamGantt x:Name="gantt" />
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource Strings}, Path=PanelHeader}"
+                               HorizontalAlignment="Right"
+                               Margin="20"
+                               Width="275">
+                <StackPanel Orientation="Vertical" Margin="3">
+                    <Label x:Name="Lbl_FileNameLoaded" 
+                           Foreground="Gray"
+                           Height="24"
+                           Content="{Binding Source={StaticResource Strings},Path=BrowseFileToLoad}"/>
+                    <!-- #BEGIN SNIPPET# -->
+                    <Button x:Name="Btn_LoadXMLFile" 
+                            Content="{Binding Source={StaticResource Strings},Path=OpenProjectFile}"
+                            Click="Btn_LoadXMLFile_Click"
+                            Height="22"
+                            Margin="0,5"/>
+                    <!-- #END SNIPPET# -->
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Margin="3">
+                    <Label Foreground="Gray" Margin="0,0,0,5"
+                           Height="24"
+                           Content="{Binding Source={StaticResource Strings},Path=SelectSampleFile}" />
+                    <!-- #BEGIN SNIPPET# -->
+                    <ComboBox x:Name="Cmb_XMLFiles" SelectionChanged="Cmb_XMLFiles_SelectionChanged" />
+                    <!-- #END SNIPPET# -->
+                </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

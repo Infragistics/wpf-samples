@@ -1,0 +1,145 @@
+﻿<igFramework:SampleContainer x:Class="IGCarouselPanel.Samples.Display.ScalingEffects"
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:igWindows="http://infragistics.com/Windows"
+                             xmlns:d="http://schemas.microsoft.com/expression/blend/2006"
+                             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                             mc:Ignorable="d"
+                             xmlns:res="clr-namespace:IGCarouselPanel.Resources"
+                             xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+                             xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared">
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <res:CarouselPanelStrings x:Key="Strings" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGCarouselPanel;component/Assets/Global.xaml"/>
+                
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <Grid>
+        <Grid Width="Auto"
+              Height="Auto"
+              d:LayoutOverrides="Margin">
+            <Path Stretch="Fill"
+                  Opacity="1"
+                  Data="M 427.3742370605469,568.5416870117188 C427.3742370605469,481.8266906738281 566.6678466796875,411.53228759765625 738.5,411.53228759765625 910.3323364257812,411.53228759765625 1049.625732421875,481.8266906738281 1049.625732421875,568.5416870117188 1049.625732421875,655.2567138671875 907.8323364257812,695 736,695 564.1678466796875,695 427.3742370605469,655.2567138671875 427.3742370605469,568.5416870117188 zM 345,584.5 C345,690.2638549804688 515.6731567382812,828 733,828 950.326904296875,828 1132,690.2638549804688 1132,584.5 1132,478.7361145019531 955.826904296875,393 738.5,393 521.1731567382812,393 345,478.7361145019531 345,584.5 z"
+                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch"
+                  Width="Auto"
+                  Height="Auto"
+                  Margin="80,120,80,150">
+                <Path.Fill>
+                    <LinearGradientBrush EndPoint="0.496823379923761,1.02068965517241"
+                                         StartPoint="0.496823379923761,0.00229885057471264">
+                        <GradientStop Color="#00FFFFFF"
+                                      Offset="0" />
+                        <GradientStop Color="#7F999999"
+                                      Offset="0.99444401264190674" />
+                    </LinearGradientBrush>
+                </Path.Fill>
+            </Path>
+            <Path Visibility="Hidden"
+                  Fill="{x:Null}"
+                  Stretch="Fill"
+                  Stroke="#FF000000"
+                  x:Name="circlePath"
+                  Data="M769.95513,358.99985 C769.95513,358.99985 309.95497,347.99981 313.95517,495.00001 316.95531,605.24973 398.96368,631.02232 576.955,629.00052 664.95523,628.00092 846.95454,618.99974 844.95477,489 843.37649,386.40123 573.95505,399.00008 573.95505,399.00008"
+                  Margin="162.474,124.314,147.484,170.393" />
+            <!-- #BEGIN SNIPPET# -->
+            <igWindows:XamCarouselPanel HorizontalAlignment="Center"
+                                        Margin="0,0,0,0"
+                                        VerticalAlignment="Center"
+                                        x:Name="XamCarouselPanel1">
+                <igWindows:XamCarouselPanel.ViewSettings>
+                    <igWindows:CarouselViewSettings IsListContinuous="True"
+                                                    ItemPath="{Binding ElementName=circlePath, Mode=OneWay}"
+                                                    ItemsPerPage="8"
+                                                    OpacityEffectStopDirection="UseItemPath"
+                                                    ScalingEffectStopDirection="UseItemPath"
+                                                    UseOpacity="True"
+                                                    ItemPathPadding="50,0,50,152"
+                                                    ItemPathPrefixPercent="0"
+                                                    ItemPathSuffixPercent="0.15"
+                                                    ItemSize="128,128"
+                                                    ItemPathHorizontalAlignment="Stretch"
+                                                    ItemPathVerticalAlignment="Stretch">
+                        <igWindows:CarouselViewSettings.ItemPathRenderPen>
+                            <Pen Brush="#FF000000"
+                                 Thickness="0" />
+                        </igWindows:CarouselViewSettings.ItemPathRenderPen>
+                        <igWindows:CarouselViewSettings.OpacityEffectStops>
+                            <igWindows:OpacityEffectStopCollection>
+                                <igWindows:OpacityEffectStop Value="0" />
+                                <igWindows:OpacityEffectStop Offset="0.1" />
+                                <igWindows:OpacityEffectStop Offset="0.6"
+                                                             Value="1" />
+                                <igWindows:OpacityEffectStop Offset="1"
+                                                             Value="0.1" />
+                            </igWindows:OpacityEffectStopCollection>
+                        </igWindows:CarouselViewSettings.OpacityEffectStops>
+                        <igWindows:CarouselViewSettings.ScalingEffectStops>
+                            <igWindows:ScalingEffectStopCollection>
+                                <igWindows:ScalingEffectStop Value="0" />
+                                <igWindows:ScalingEffectStop Offset="0.45"
+                                                             Value="0.8" />
+                                <igWindows:ScalingEffectStop Offset="0.55"
+                                                             Value="2" />
+                                <igWindows:ScalingEffectStop Offset="0.65"
+                                                             Value="0.8" />
+                                <igWindows:ScalingEffectStop Offset="1"
+                                                             Value="0.2" />
+                            </igWindows:ScalingEffectStopCollection>
+                        </igWindows:CarouselViewSettings.ScalingEffectStops>
+                    </igWindows:CarouselViewSettings>
+                </igWindows:XamCarouselPanel.ViewSettings>
+                <Image Width="100"
+                       Height="100"
+                       Source="../../Resources/Accounting/Accountant 1 Search.png" />
+                <Image Width="100"
+                       Height="100"
+                       Source="../../Resources/Accounting/Accountant 3 Chat.png" />
+                <Image Width="100"
+                       Height="100"
+                       Source="../../Resources/Accounting/Bank 1 Configuration.png" />
+                <Image Width="100"
+                       Height="100"
+                       Source="../../Resources/Accounting/Bank 2.png" />
+                <Image Width="100"
+                       Height="100"
+                       Source="../../Resources/Accounting/Bank Teller 4.png" />
+                <Image Width="100"
+                       Height="100"
+                       Source="../../Resources/Accounting/Basket 2 Delete.png" />
+                <Image Width="100"
+                       Height="100"
+                       Source="../../Resources/Accounting/Cabinet 1 Progress.png" />
+                <Image Width="100"
+                       Height="100"
+                       Source="../../Resources/Accounting/Calculator.png" />
+                <Image Width="100"
+                       Height="100"
+                       Source="../../Resources/Accounting/Money Bag Add.png" />
+                <Image Width="100"
+                       Height="100"
+                       Source="../../Resources/Accounting/Piggy Bank Green.png" />
+                <Image Width="100"
+                       Height="100"
+                       Source="../../Resources/Accounting/Records 3 Configuration.png" />
+                <Image Width="100"
+                       Height="100"
+                       Source="../../Resources/Accounting/Sign Dollar 3.png" />
+            </igWindows:XamCarouselPanel>
+            <!-- #END SNIPPET# -->
+        </Grid>
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource CommonStrings}, Path=ConfigurationPanel_Header_Options}"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Top"
+                               Margin="50">
+            <Grid>
+                <CheckBox IsChecked="{Binding Path=(ViewSettings).UseScaling, ElementName=XamCarouselPanel1}"
+                          Content="{Binding Source={StaticResource Strings}, Path=CarouselPanel_ScalingEffects_CheckBox}" />
+            </Grid>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

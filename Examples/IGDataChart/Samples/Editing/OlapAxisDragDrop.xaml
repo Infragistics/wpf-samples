@@ -1,0 +1,229 @@
+﻿<framework:SampleContainer x:Class="IGDataChart.Samples.Editing.OlapAxisDragDrop"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="OlapAxisDragDrop Page"
+      xmlns:dataResources="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igOlap="http://schemas.infragistics.com/olap"
+      xmlns:res="clr-namespace:IGDataChart.Resources"
+      xmlns:local="clr-namespace:IGDataChart.Samples.Data"
+      xmlns:tools="clr-namespace:Infragistics.Samples.Shared.Tools;assembly=Infragistics.Samples.Shared">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <dataResources:ModelStrings x:Key="ModelStrings" />
+            <!-- Data Provider -->
+            <local:CarsSalesDataProvider x:Key="carsSalesDataProvider" />
+            <!-- Olap Flat Data Connection -->
+            <igOlap:FlatDataConnectionSettings x:Key="OlapFlatDataConnectionSettings"
+                                               ItemsSource="{Binding Data, Source={StaticResource carsSalesDataProvider}}" />
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ========================================================================== -->
+            <!-- Olap Flat Data Source -->
+            <igOlap:FlatDataSource x:Key="OlapFlatDataSource"
+                                   MeasureListLocation="Rows"
+                                   Cube="CarsSales"
+                                   Columns="[Car].[Car]"
+                                   Rows="[Sales Region].[Sales Region]"
+                                   Measures="SoldTotalUnits, SoldNewUnits, SoldUsedUnits"
+                                   ConnectionSettings="{StaticResource OlapFlatDataConnectionSettings}">
+                <!-- Olap Cubes Settings -->
+                <igOlap:FlatDataSource.CubesSettings>
+                    <igOlap:CubeMetadata
+                        DataTypeFullName="Infragistics.Samples.Shared.Models.CarsSales"
+                        DisplayName="{tools:ObjectValue DataObject={StaticResource ModelStrings}, PropertyName=XWM_CarsSales_CarsSales}">
+                        <igOlap:DimensionMetadata
+                            SourcePropertyName="SoldTotalUnits"
+                            DimensionType="Measure"
+                            DisplayName="{tools:ObjectValue DataObject={StaticResource ModelStrings}, PropertyName=XWM_CarsSales_SoldTotalUnits}"/>
+                        <igOlap:DimensionMetadata
+                            SourcePropertyName="SoldUsedUnits"
+                            DimensionType="Measure"
+                            DisplayName="{tools:ObjectValue DataObject={StaticResource ModelStrings}, PropertyName=XWM_CarsSales_SoldUsedUnits}"/>
+                        <igOlap:DimensionMetadata
+                            SourcePropertyName="SoldNewUnits"
+                            DimensionType="Measure"
+                            DisplayName="{tools:ObjectValue DataObject={StaticResource ModelStrings}, PropertyName=XWM_CarsSales_SoldNewUnits}"/>
+                        <igOlap:DimensionMetadata
+                            SourcePropertyName="Cost"
+                            DimensionType="Measure"
+                            DisplayName="{tools:ObjectValue DataObject={StaticResource ModelStrings}, PropertyName=XWM_CarsSales_Cost}"/>
+                        <igOlap:DimensionMetadata
+                            SourcePropertyName="Profit"
+                            DimensionType="Measure"
+                            DisplayName="{tools:ObjectValue DataObject={StaticResource ModelStrings}, PropertyName=XWM_CarsSales_Profit}"/>
+                        <igOlap:DimensionMetadata
+                            SourcePropertyName="SalesDate"
+                            DisplayName="{tools:ObjectValue DataObject={StaticResource ModelStrings}, PropertyName=XWM_CarsSales_SalesDate}"/>
+                        <igOlap:DimensionMetadata
+                            SourcePropertyName="SalesRegion"
+                            DisplayName="{tools:ObjectValue DataObject={StaticResource ModelStrings}, PropertyName=XWM_CarsSales_SalesRegion}"/>
+                        <igOlap:DimensionMetadata
+                            SourcePropertyName="Car"
+                            DisplayName="{tools:ObjectValue DataObject={StaticResource ModelStrings}, PropertyName=XWM_CarsSales_Car}"/>
+                    </igOlap:CubeMetadata>
+                </igOlap:FlatDataSource.CubesSettings>
+                <!-- Olap Data Hierarchy -->
+
+                <igOlap:FlatDataSource.HierarchyDescriptors>
+                    <igOlap:HierarchyDescriptor
+                        SourcePropertyName="Car" HierarchyName="Car"
+                        HierarchyDisplayName="{tools:ObjectValue DataObject={StaticResource ModelStrings}, PropertyName=XWM_CarsSales_Car}">
+                        <igOlap:HierarchyDescriptor.LevelDescriptors>
+                            <igOlap:HierarchyLevelDescriptor
+                                LevelName="Brands" LevelExpressionPath="Car.Brand"
+                                LevelDisplayName="{tools:ObjectValue DataObject={StaticResource ModelStrings}, PropertyName=XWM_CarsSales_CarBrand}"/>
+                            <igOlap:HierarchyLevelDescriptor
+                                LevelName="Models" LevelExpressionPath="Car.Model"
+                                LevelDisplayName="{tools:ObjectValue DataObject={StaticResource ModelStrings}, PropertyName=XWM_CarsSales_CarModel}"/>
+                            <igOlap:HierarchyLevelDescriptor
+                                LevelName="Years" LevelExpressionPath="Car.Year"
+                                LevelDisplayName="{tools:ObjectValue DataObject={StaticResource ModelStrings}, PropertyName=XWM_Years}"/>
+                        </igOlap:HierarchyDescriptor.LevelDescriptors>
+                    </igOlap:HierarchyDescriptor>
+                    <igOlap:HierarchyDescriptor
+                        SourcePropertyName="SalesRegion" HierarchyName="Sales Region"
+                        HierarchyDisplayName="{tools:ObjectValue DataObject={StaticResource ModelStrings}, PropertyName=XWM_CarsSales_SalesRegion}">
+                        <igOlap:HierarchyDescriptor.LevelDescriptors>
+                            <igOlap:HierarchyLevelDescriptor
+                                LevelName="Continents" LevelExpressionPath="SalesRegion.Continent"
+                                LevelDisplayName="{tools:ObjectValue DataObject={StaticResource ModelStrings}, PropertyName=XWM_Continent}"/>
+                            <igOlap:HierarchyLevelDescriptor
+                                LevelName="Countries" LevelExpressionPath="SalesRegion.Country"
+                                LevelDisplayName="{tools:ObjectValue DataObject={StaticResource ModelStrings}, PropertyName=XWM_Country}"/>
+                            <igOlap:HierarchyLevelDescriptor
+                                LevelName="Cities" LevelExpressionPath="SalesRegion.City"
+                                LevelDisplayName="{tools:ObjectValue DataObject={StaticResource ModelStrings}, PropertyName=XWM_City}"/>
+                        </igOlap:HierarchyDescriptor.LevelDescriptors>
+                    </igOlap:HierarchyDescriptor>
+                    <igOlap:HierarchyDescriptor
+                        SourcePropertyName="SalesDate" HierarchyName="Sales Date"
+                        HierarchyDisplayName="{tools:ObjectValue DataObject={StaticResource ModelStrings}, PropertyName=XWM_CarsSales_SalesDate}">
+                        <igOlap:HierarchyDescriptor.LevelDescriptors>
+                            <igOlap:HierarchyLevelDescriptor
+                                LevelName="{tools:ObjectValue DataObject={StaticResource ModelStrings}, PropertyName=XWM_AllPeriods}"/>
+                            <igOlap:HierarchyLevelDescriptor
+                                LevelName="Years" LevelExpressionPath="SalesDate.Year" DisplayFormat="{}{0:0000}"
+                                LevelDisplayName="{tools:ObjectValue DataObject={StaticResource ModelStrings}, PropertyName=XWM_Years}"/>
+                            <igOlap:HierarchyLevelDescriptor
+                                LevelName="Months" LevelExpressionPath="SalesDate.Month" DisplayFormat="{}{0:00}"
+                                LevelDisplayName="{tools:ObjectValue DataObject={StaticResource ModelStrings}, PropertyName=XWM_Month}"/>
+                            <igOlap:HierarchyLevelDescriptor
+                                LevelName="Days" LevelExpressionPath="SalesDate.Day" DisplayFormat="{}{0:00}"
+                                LevelDisplayName="{tools:ObjectValue DataObject={StaticResource ModelStrings}, PropertyName=XWM_Day}"/>
+                        </igOlap:HierarchyDescriptor.LevelDescriptors>
+                    </igOlap:HierarchyDescriptor>
+                    <igOlap:HierarchyDescriptor
+                        SourcePropertyName="Cost" HierarchyName="Cost"
+                        HierarchyDisplayName="{tools:ObjectValue DataObject={StaticResource ModelStrings}, PropertyName=XWM_CarsSales_Cost}">
+                        <igOlap:HierarchyDescriptor.LevelDescriptors>
+                            <igOlap:HierarchyLevelDescriptor LevelName="Cost"
+                                                             LevelDisplayName="{tools:ObjectValue DataObject={StaticResource ModelStrings}, PropertyName=XWM_CarsSales_Cost}" />
+                        </igOlap:HierarchyDescriptor.LevelDescriptors>
+                    </igOlap:HierarchyDescriptor>
+                    <igOlap:HierarchyDescriptor
+                        SourcePropertyName="Profit" HierarchyName="Profit"
+                        HierarchyDisplayName="{tools:ObjectValue DataObject={StaticResource ModelStrings}, PropertyName=XWM_CarsSales_Profit}">
+                        <igOlap:HierarchyDescriptor.LevelDescriptors>
+                            <igOlap:HierarchyLevelDescriptor LevelName="Profit"
+                                                             LevelDisplayName="{tools:ObjectValue DataObject={StaticResource ModelStrings}, PropertyName=XWM_CarsSales_Profit}" />
+                        </igOlap:HierarchyDescriptor.LevelDescriptors>
+                    </igOlap:HierarchyDescriptor>
+                    <igOlap:HierarchyDescriptor
+                        SourcePropertyName="SoldNewUnits" HierarchyName="SoldNewUnits"
+                        HierarchyDisplayName="{tools:ObjectValue DataObject={StaticResource ModelStrings}, PropertyName=XWM_CarsSales_SoldNewUnits}">
+                        <igOlap:HierarchyDescriptor.LevelDescriptors>
+                            <igOlap:HierarchyLevelDescriptor LevelName="SoldNewUnits"
+                                                             LevelDisplayName="{tools:ObjectValue DataObject={StaticResource ModelStrings}, PropertyName=XWM_CarsSales_SoldNewUnits}" />
+                        </igOlap:HierarchyDescriptor.LevelDescriptors>
+                    </igOlap:HierarchyDescriptor>
+                    <igOlap:HierarchyDescriptor
+                        SourcePropertyName="SoldTotalUnits" HierarchyName="SoldTotalUnits"
+                        HierarchyDisplayName="{tools:ObjectValue DataObject={StaticResource ModelStrings}, PropertyName=XWM_CarsSales_SoldTotalUnits}">
+                        <igOlap:HierarchyDescriptor.LevelDescriptors>
+                            <igOlap:HierarchyLevelDescriptor LevelName="SoldTotalUnits"
+                                                             LevelDisplayName="{tools:ObjectValue DataObject={StaticResource ModelStrings}, PropertyName=XWM_CarsSales_SoldTotalUnits}" />
+                        </igOlap:HierarchyDescriptor.LevelDescriptors>
+                    </igOlap:HierarchyDescriptor>
+                    <igOlap:HierarchyDescriptor
+                        SourcePropertyName="SoldUsedUnits" HierarchyName="SoldUsedUnits"
+                        HierarchyDisplayName="{tools:ObjectValue DataObject={StaticResource ModelStrings}, PropertyName=XWM_CarsSales_SoldUsedUnits}">
+                        <igOlap:HierarchyDescriptor.LevelDescriptors>
+                            <igOlap:HierarchyLevelDescriptor LevelName="SoldUsedUnits"
+                                                             LevelDisplayName="{tools:ObjectValue DataObject={StaticResource ModelStrings}, PropertyName=XWM_CarsSales_SoldUsedUnits}" />
+                        </igOlap:HierarchyDescriptor.LevelDescriptors>
+                    </igOlap:HierarchyDescriptor>
+                </igOlap:FlatDataSource.HierarchyDescriptors>
+            </igOlap:FlatDataSource>
+            <!-- ========================================================================== -->
+
+            <ig:AxisLabelSettings x:Key="AxisLabelSettings" Extent="70" />
+            <res:DataChartStrings x:Key="Strings" />
+            
+            <Style TargetType="{x:Type ig:Legend}">
+                <Setter Property="Background" Value="{StaticResource LegendBackgroundBrush}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource LegendBorderBrush}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+                <Setter Property="FontWeight" Value="{StaticResource FontSemiBold}"/>
+            </Style>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamDataChart Background="Transparent"
+                         OverviewPlusDetailPaneVisibility="Visible"
+                         OverviewPlusDetailPaneHorizontalAlignment="Right"
+                         OverviewPlusDetailPaneVerticalAlignment="Bottom"
+                         HorizontalZoomable="True"
+                         VerticalZoomable="True"
+                         DefaultInteraction="DragPan"
+                         x:Name="dataChart"
+                         Legend="{Binding ElementName=legend}">
+            <ig:DragDropManager.DropTarget>
+                <ig:DropTarget IsDropTarget="True" DropChannels="Measures,Rows,Columns" />
+            </ig:DragDropManager.DropTarget>
+
+            <ig:XamDataChart.Axes>
+                <ig:OlapXAxis x:Name="olapAxis"
+                              DataSource="{StaticResource OlapFlatDataSource}"
+                              OlapAxisSource="Columns"
+                              DefaultSeries="ColumnSeries"
+                              YAxis="{Binding ElementName=yAxis}">
+                </ig:OlapXAxis>
+
+                <ig:NumericYAxis x:Name="yAxis" MinimumValue="0" LabelSettings="{StaticResource AxisLabelSettings}"/>
+            </ig:XamDataChart.Axes>
+        </ig:XamDataChart>
+        <!-- #END SNIPPET# -->
+
+        <ig:Legend HorizontalAlignment="Right" VerticalAlignment="Top" x:Name="legend">
+            <TextBlock Text="{Binding XWDC_ChartEvents_Legend, Source={StaticResource Strings}}"/>
+        </ig:Legend>
+
+        <ig:Expander Grid.Column="1">
+            <ig:XamPivotDataSelector DataSource="{StaticResource OlapFlatDataSource}"
+                                     PivotItemDragStart="XamPivotDataSelector_PivotItemDragStart"/>
+        </ig:Expander>
+
+        <Border x:Name="busyBorder" Grid.ColumnSpan="2" Background="White" Opacity="0.6" Visibility="Collapsed">
+            <TextBlock x:Name="busyText" Text="{Binding XWDC_OlapAxisDragDrop_Loading, Source={StaticResource Strings}}"
+                       FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+    </Grid>
+</framework:SampleContainer>

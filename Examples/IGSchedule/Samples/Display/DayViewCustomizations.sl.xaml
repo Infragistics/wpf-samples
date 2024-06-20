@@ -1,0 +1,138 @@
+﻿<igFramework:SampleContainer
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="Customizations"
+      x:Class="IGSchedule.Samples.Display.DayViewCustomizations"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:data="clr-namespace:IGSchedule.DataSource"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+      xmlns:msc="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls"
+      xmlns:res="clr-namespace:IGSchedule.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <res:ScheduleStrings x:Key="resStrings" />
+            <igPrim:BoolToVisibilityConverter x:Key="boolToVisibilityConverter" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSchedule;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>        
+    </igFramework:SampleContainer.Resources>
+
+    <igFramework:SampleContainer.DataContext>
+        <data:ScheduleData x:Name="Data" />
+    </igFramework:SampleContainer.DataContext>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <!--#BEGIN SNIPPET#-->
+        <ig:XamDayView
+            x:Name="dayView" Grid.Row="1" Margin="0,10,0,0"
+            ShowWorkingHoursOnly="{Binding ElementName=chkWorkingHours, Path=IsChecked}"
+            CurrentTimeIndicatorVisibility="{Binding ElementName=chkCurTimeIndicator, Path=IsChecked, Converter={StaticResource boolToVisibilityConverter}, Mode=TwoWay}">
+            <ig:XamDayView.DataManager>
+                <ig:XamScheduleDataManager x:Name="dataManager" CurrentUserId="own1">
+                    <ig:XamScheduleDataManager.CalendarGroups>
+                        <ig:CalendarGroup InitialCalendarIds="own1,own2[cal1]" InitialSelectedCalendarId="own2[cal1]" />
+                        <ig:CalendarGroup InitialCalendarIds="own2[cal0],own3"/>
+                    </ig:XamScheduleDataManager.CalendarGroups>
+                    <ig:XamScheduleDataManager.DataConnector>
+                        <ig:ListScheduleDataConnector
+                            ResourceItemsSource="{Binding Resources}"
+                            ResourceCalendarItemsSource="{Binding Calendars}"
+                            AppointmentItemsSource="{Binding Appointments}"
+                            TaskItemsSource="{Binding Tasks}"
+                            JournalItemsSource="{Binding Journals}" />
+                    </ig:XamScheduleDataManager.DataConnector>
+                </ig:XamScheduleDataManager>
+            </ig:XamDayView.DataManager>
+        </ig:XamDayView>
+        <!--#END SNIPPET#-->
+
+              <controls:OptionsPanel HeaderText="{Binding ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}"
+                               Grid.Row="0" IsMovable="False">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel>
+                    <CheckBox x:Name="chkCurTimeIndicator" Content="{Binding CurTimeIndicator, Source={StaticResource resStrings}}" Margin="5,5,5,0" IsChecked="True" />
+                    <CheckBox x:Name="chkWorkingHours" Content="{Binding TimeslotVisibility, Source={StaticResource resStrings}}" Margin="5,5,5,0" IsChecked="True" />
+                    <Grid Margin="0,5,0,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="{Binding TimeslotsInterval, Source={StaticResource resStrings}}" TextAlignment="Left" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" />
+                        <ComboBox x:Name="cboTimeslotInterval" SelectionChanged="cboTimeslotInterval_SelectionChanged" Grid.Row="0" Grid.Column="1">
+                            <ComboBoxItem Content="10" />
+                            <ComboBoxItem Content="15" IsSelected="True" />
+                            <ComboBoxItem Content="20" />
+                            <ComboBoxItem Content="30" />
+                            <ComboBoxItem Content="60" />
+                            <ComboBoxItem Content="120" />
+                        </ComboBox>
+                        <TextBlock Text="{Binding DisplayMode, Source={StaticResource resStrings}}" TextAlignment="Left" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" />
+                        <ComboBox x:Name="cboDisplayMode" SelectionChanged="cboDisplayMode_SelectionChanged" Grid.Row="1" Grid.Column="1" Margin="0,3,0,0">
+                            <ComboBoxItem Content="{Binding DM_Standart, Source={StaticResource resStrings}}" IsSelected="True"/>
+                            <ComboBoxItem Content="{Binding DM_WorkWeek, Source={StaticResource resStrings}}" />
+                            <ComboBoxItem Content="{Binding DM_Week, Source={StaticResource resStrings}}" />
+                        </ComboBox>
+                    </Grid>
+                    <Border>
+                        <StackPanel Margin="5" Name="radioGroup1">
+                            <TextBlock Text="{Binding DialogsType, Source={StaticResource resStrings}}" />
+                            <RadioButton
+                                GroupName="GroupA"
+                                x:Name="rbDialogsSimple"
+                                Click="rbDialogsSimple_Click"
+                                IsChecked="True"
+                                Content="{Binding DialogsSimple, Source={StaticResource resStrings}}" />
+                            <RadioButton
+                                GroupName="GroupA"
+                                x:Name="rbDialogsAdvanced"
+                                Click="rbDialogsAdvanced_Click"
+                                Content="{Binding DialogsAdvanced, Source={StaticResource resStrings}}" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+                <StackPanel Margin="20,0,0,0">
+                    <TextBlock Text="{Binding OpenNewAppD, Source={StaticResource resStrings}}" />
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                        <CheckBox x:Name="cbAppClick" Content="{Binding Click, Source={StaticResource resStrings}}" Click="cbNewDialogCondition_Click" IsChecked="True" />
+                        <CheckBox x:Name="cbAppDouble" Content="{Binding DoubleClick, Source={StaticResource resStrings}}" Click="cbNewDialogCondition_Click" IsChecked="True" Margin="20,0,0,0" />
+                        <CheckBox x:Name="cbAppType" Content="{Binding Typing, Source={StaticResource resStrings}}" Click="cbNewDialogCondition_Click" Margin="20,0,0,0" IsChecked="True" />
+                    </StackPanel>
+                    <TextBlock Text="{Binding OpenNewTaskD, Source={StaticResource resStrings}}" />
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                        <CheckBox x:Name="cbTaskClick" Content="{Binding Click, Source={StaticResource resStrings}}" Click="cbNewDialogCondition_Click" />
+                        <CheckBox x:Name="cbTaskDouble" Content="{Binding DoubleClick, Source={StaticResource resStrings}}" Click="cbNewDialogCondition_Click" IsChecked="True" Margin="20,0,0,0" />
+                        <CheckBox x:Name="cbTaskType" Content="{Binding Typing, Source={StaticResource resStrings}}" Click="cbNewDialogCondition_Click" Margin="20,0,0,0" />
+                    </StackPanel>
+                    <TextBlock Text="{Binding OpenNewJourD, Source={StaticResource resStrings}}" />
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                        <CheckBox x:Name="cbJourClick" Content="{Binding Click, Source={StaticResource resStrings}}" Click="cbNewDialogCondition_Click" />
+                        <CheckBox x:Name="cbJourDouble" Content="{Binding DoubleClick, Source={StaticResource resStrings}}" Click="cbNewDialogCondition_Click" IsChecked="True" Margin="20,0,0,0" />
+                        <CheckBox x:Name="cbJourType" Content="{Binding Typing, Source={StaticResource resStrings}}" Click="cbNewDialogCondition_Click" Margin="20,0,0,0" />
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Margin="20,0,0,0">
+                    <TextBlock Text="{Binding ActiveDates, Source={StaticResource resStrings}}" />
+                    <msc:Calendar Name="dtPicker" SelectedDatesChanged="dtPicker_SelectedDatesChanged" SelectionMode="MultipleRange" />
+                </StackPanel>
+            </StackPanel>
+        </controls:OptionsPanel>
+
+    </Grid>
+</igFramework:SampleContainer>

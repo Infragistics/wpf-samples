@@ -1,0 +1,95 @@
+﻿<igFramework:SampleContainer
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="DayViewGroupResizing"
+      x:Class="IGSchedule.Samples.Display.DayViewGroupsResizing"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:data="clr-namespace:IGSchedule.DataSource"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+      xmlns:res="clr-namespace:IGSchedule.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <res:ScheduleStrings x:Key="resStrings" />
+            <igPrim:BoolToVisibilityConverter x:Key="boolToVisibilityConverter" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSchedule;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+        
+    </igFramework:SampleContainer.Resources>
+
+    <igFramework:SampleContainer.DataContext>
+        <data:ScheduleData x:Name="Data"/>
+    </igFramework:SampleContainer.DataContext>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <!--#BEGIN SNIPPET#-->
+        <ig:XamDayView x:Name="dayView"
+                       Grid.Row="1" Margin="0,10,0,0"
+                       MultiDayActivityAreaVisibility="{Binding ElementName=chkMultiDayActivityArea, Path=IsChecked, Converter={StaticResource boolToVisibilityConverter}, Mode=TwoWay}"
+                       AllowMultiDayActivityAreaResizing="{Binding ElementName=chkMultiDayActivityAreaResizing, Path=IsChecked, Mode=TwoWay}"
+                       AllowCalendarGroupResizing="{Binding ElementName=chkCalendarGroupResizing, Path=IsChecked, Mode=TwoWay}"
+                       ShowCalendarCloseButton="{Binding ElementName=chkShowColseButton, Path=IsChecked}"
+                       ShowCalendarOverlayButton="{Binding ElementName=chkShowOverlayButton, Path=IsChecked}"
+                       MultiDayActivityAreaHeight="{Binding ElementName=tbMultiDayActivityAreaSize, Path=Text, Mode=TwoWay}">
+            <ig:XamDayView.DataManager>
+                <ig:XamScheduleDataManager x:Name="dataManager" CurrentUserId="own1">
+                    <ig:XamScheduleDataManager.CalendarGroups>
+                        <ig:CalendarGroup InitialCalendarIds="own1,own2[cal1]" InitialSelectedCalendarId="own2[cal1]"/>
+                        <ig:CalendarGroup InitialCalendarIds="own2[cal0],own3"/>
+                    </ig:XamScheduleDataManager.CalendarGroups>
+                    <ig:XamScheduleDataManager.DataConnector>
+                        <ig:ListScheduleDataConnector
+                            ResourceItemsSource="{Binding Resources}"
+                            ResourceCalendarItemsSource="{Binding Calendars}"
+                            AppointmentItemsSource="{Binding Appointments}"/>
+                    </ig:XamScheduleDataManager.DataConnector>
+                </ig:XamScheduleDataManager>
+            </ig:XamDayView.DataManager>
+        </ig:XamDayView>
+        <!--#END SNIPPET#-->
+
+        <controls:OptionsPanel HeaderText="{Binding ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}" Grid.Row="0" IsMovable="False">
+            <StackPanel Orientation="Horizontal">
+                <Border Margin="10 0" >
+                    <StackPanel Margin="5">
+                        <CheckBox x:Name="chkShowColseButton" Content="{Binding ShowColseButton, Source={StaticResource resStrings}}" Margin="5,5,5,0" IsChecked="True"/>
+                        <CheckBox x:Name="chkShowOverlayButton" Content="{Binding ShowOverlayButton, Source={StaticResource resStrings}}" Margin="5,5,5,0" IsChecked="True"/>
+                        <CheckBox x:Name="chkCalendarGroupResizing" Content="{Binding CalendarGroupResizable, Source={StaticResource resStrings}}" Margin="5,5,5,0" IsChecked="True" />
+                        <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
+                            <TextBlock Text="{Binding CalendarDisplayMode, Source={StaticResource resStrings}}" VerticalAlignment="Center"></TextBlock>
+                            <ComboBox x:Name="cboCalendarDisplayMode" SelectionChanged="cboCalendarDisplayMode_SelectionChanged">
+                                <ComboBoxItem Content="{Binding CDM_Overlay, Source={StaticResource resStrings}}" IsSelected="True"/>
+                                <ComboBoxItem Content="{Binding CDM_Separate, Source={StaticResource resStrings}}"/>
+                                <ComboBoxItem Content="{Binding CDM_Merged, Source={StaticResource resStrings}}"/>
+                            </ComboBox>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+                <Border Margin="10 0" >
+                    <StackPanel Margin="5">
+                        <CheckBox x:Name="chkMultiDayActivityArea" Content="{Binding MultiDayActivityArea, Source={StaticResource resStrings}}" Margin="5,5,5,0" IsChecked="True" />
+                        <CheckBox x:Name="chkMultiDayActivityAreaResizing" Content="{Binding MultiDayActivityAreaResizable, Source={StaticResource resStrings}}" Margin="5,5,5,0" IsChecked="True" />
+                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                            <TextBlock Text="{Binding MultidayActivityAreaSize, Source={StaticResource resStrings}}" Margin="5,3,10,0" />
+                            <TextBox x:Name="tbMultiDayActivityAreaSize" Width="50" Text="NaN" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </controls:OptionsPanel>
+
+    </Grid>
+</igFramework:SampleContainer>

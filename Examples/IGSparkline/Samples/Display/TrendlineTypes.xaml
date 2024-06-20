@@ -1,0 +1,96 @@
+﻿<framework:SampleContainer x:Class="IGSparkline.Samples.Display.TrendlineTypes"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+    xmlns:resCommon="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared"
+    xmlns:res="clr-namespace:IGSparkline.Resources"
+    xmlns:data="clr-namespace:IGSparkline.Model" 
+    mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700"
+    Title="TrendlineTypes Page">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSparkline;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <resCommon:CommonStrings x:Key="CommonStrings"/>
+            <res:SparklineStrings x:Key="SparklineStrings"/>
+            <data:TestData x:Key="testdata"/>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <StackPanel Name="sp1" Orientation="Vertical" Margin="5" Width="450" HorizontalAlignment="Left">
+            <!-- #BEGIN SNIPPET# -->
+            <ig:XamSparkline 
+                Name="xamSparkline1" 
+                ItemsSource="{StaticResource testdata}"
+                ValueMemberPath="Value"
+                LabelMemberPath="Value"
+                DisplayType="Column"
+                BorderThickness="1"
+                Width="Auto" Height="250"
+                HorizontalAlignment="Stretch" 
+                VerticalAlignment="Top"
+                TrendLinePeriod="{Binding Value, ElementName=sliderTrendLinePeriod}"
+                TrendLineThickness="1"
+                TrendLineType="CubicFit"
+                LineThickness="1"/>
+            <!-- #END SNIPPET# -->
+        </StackPanel>
+
+        <controls:OptionsPanel HeaderText="{Binding XW_Options, Source={StaticResource CommonStrings}}" HorizontalAlignment="Right">
+            <StackPanel>
+                <!-- Chart types -->
+                <TextBlock Text="{Binding XSL_ChartTypes, Source={StaticResource SparklineStrings}}" HorizontalAlignment="Stretch" Margin="3" />
+                <ComboBox 
+                    x:Name="ComboBoxChartType" Margin="3,0,3,6"
+                    Width="120"
+                    HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Center"
+                    SelectionChanged="ComboBoxChartType_SelectionChanged">
+                    <ComboBoxItem Content="{Binding XSL_LineChart, Source={StaticResource SparklineStrings}}"/>
+                    <ComboBoxItem Content="{Binding XSL_AreaChart, Source={StaticResource SparklineStrings}}"/>
+                    <ComboBoxItem Content="{Binding XSL_ColumnChart, Source={StaticResource SparklineStrings}}" IsSelected="True"/>
+                    <ComboBoxItem Content="{Binding XSL_WinLossChart, Source={StaticResource SparklineStrings}}"/>
+                </ComboBox>
+
+                <!-- Trendline types -->
+                <TextBlock Text="{Binding XSL_TrendlineTypes, Source={StaticResource SparklineStrings}}" HorizontalAlignment="Stretch" Margin="3" />
+                <ComboBox x:Name="ComboBoxTrendlines" Margin="3,0,3,6" 
+                          Width="120"
+                          HorizontalAlignment="Stretch" 
+                          VerticalAlignment="Center"  
+                          SelectionChanged="ComboBoxTrendlines_SelectionChanged">
+                    <ComboBoxItem Content="{Binding XSL_CubicFit, Source={StaticResource SparklineStrings}}" IsSelected="True"/>
+                    <ComboBoxItem Content="{Binding XSL_CumulativeAverage, Source={StaticResource SparklineStrings}}"/>
+                    <ComboBoxItem Content="{Binding XSL_ExponentialAverage, Source={StaticResource SparklineStrings}}"/>
+                    <ComboBoxItem Content="{Binding XSL_ExponentialFit, Source={StaticResource SparklineStrings}}"/>
+                    <ComboBoxItem Content="{Binding XSL_LinearFit, Source={StaticResource SparklineStrings}}"/>
+                    <ComboBoxItem Content="{Binding XSL_LogarithmicFit, Source={StaticResource SparklineStrings}}"/>
+                    <ComboBoxItem Content="{Binding XSL_ModifiedAverage, Source={StaticResource SparklineStrings}}"/>
+                    <ComboBoxItem Content="{Binding XSL_None, Source={StaticResource SparklineStrings}}"/>
+                    <ComboBoxItem Content="{Binding XSL_PowerLawFit, Source={StaticResource SparklineStrings}}"/>
+                    <ComboBoxItem Content="{Binding XSL_QuadraticFit, Source={StaticResource SparklineStrings}}"/>
+                    <ComboBoxItem Content="{Binding XSL_QuarticFit, Source={StaticResource SparklineStrings}}"/>
+                    <ComboBoxItem Content="{Binding XSL_QuinticFit, Source={StaticResource SparklineStrings}}"/>
+                    <ComboBoxItem Content="{Binding XSL_SimpleAverage, Source={StaticResource SparklineStrings}}"/>
+                    <ComboBoxItem Content="{Binding XSL_WeightedAverage, Source={StaticResource SparklineStrings}}"/>
+                </ComboBox>
+
+                <!-- Trend Line Period -->
+                <TextBlock x:Name="textBoxTrendlinePeriod" Text="{Binding XSL_Trendline_Period, Source={StaticResource SparklineStrings}}" HorizontalAlignment="Stretch" Margin="3"/>
+                <Slider Name="sliderTrendLinePeriod" Value="7" Minimum="1" Maximum="10" HorizontalAlignment="Stretch" Margin="0,0,0,6" />
+                
+                <!-- Display the Period -->
+                <TextBlock x:Name="textBoxPeriodDisplay" HorizontalAlignment="Stretch" Margin="6,0,0,0"
+                           Text="{Binding Value, ElementName=sliderTrendLinePeriod, StringFormat='{}{0:0.0}'}"/>
+
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

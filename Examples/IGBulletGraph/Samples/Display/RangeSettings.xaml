@@ -1,0 +1,57 @@
+<framework:SampleContainer 
+    x:Class="IGBulletGraph.RangeSettings"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700" Title="SimpleData Page"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGBulletGraph.Resources" >
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGBulletGraph;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:BulletGraphStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>            
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions> 
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamBulletGraph MaxHeight="80"
+                           x:Name="gauge"
+                           MinimumValue="0"
+                           MaximumValue="3000" 
+                           Value="2100"
+                           Interval="500"
+                           MinorTickCount="4"
+                           TargetValue="2700"
+                           LabelFormat="{}${0}"
+                           Title="{Binding Path=TeamBudget, Source={StaticResource Strings}}"
+                           FontFamily="{StaticResource FontFamily}" FontSize="{StaticResource FontSize}" >
+            <ig:XamBulletGraph.Ranges>
+                <ig:XamLinearGraphRange StartValue="0"                                        
+                                        EndValue="1000" />
+                <ig:XamLinearGraphRange StartValue="1000"
+                                        EndValue="2000" />
+                <ig:XamLinearGraphRange StartValue="2000"
+                                        EndValue="3000"                                        
+                                        Outline="#FFFFFFFF"
+                                        StrokeThickness="2"
+                                        OuterStartExtent="1.05"
+                                        OuterEndExtent="1.05"/>
+            </ig:XamBulletGraph.Ranges>
+        </ig:XamBulletGraph>
+        <!-- #END SNIPPET# -->
+        <TextBlock Grid.Row="2"
+                   VerticalAlignment="Top"
+                   TextWrapping="Wrap" 
+                   Style="{StaticResource BodyStyle}"                   
+                   Text="{Binding Path=TeamBudgetDescription, Source={StaticResource Strings}}" />
+    </Grid>
+</framework:SampleContainer>

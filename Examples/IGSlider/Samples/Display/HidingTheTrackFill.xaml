@@ -1,0 +1,66 @@
+﻿<framework:SampleContainer x:Class="IGSlider.Samples.Display.HidingTheTrackFill"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGSlider.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <res:SliderStrings x:Key="Strings" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSlider;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid>
+        <Image Source="../../Images/Sunset.jpg"
+               Stretch="Uniform"
+               Width="400">
+            <Image.RenderTransform>
+                <RotateTransform CenterX="200"
+                                 CenterY="200"
+                                 x:Name="rotateTranform"
+                                 Angle="0" />
+            </Image.RenderTransform>
+        </Image>
+        <Grid Margin="140,0,140,20"
+              Height="60"
+              VerticalAlignment="Bottom">
+             <!-- #BEGIN SNIPPET# -->
+            <ig:XamNumericRangeSlider x:Name="HorizontalSlider"
+                                      MinValue="-120"
+                                      MaxValue="120"
+                                      Margin="20,0">
+                <ig:XamSliderNumericThumb Value="{Binding Angle, ElementName=rotateTranform, Mode=TwoWay}"
+                                          IsTrackFillVisible="{Binding IsChecked, ElementName=checkbox}">
+                    <!--<ig:XamSliderNumericThumb.TrackFillBrush>
+                        <LinearGradientBrush EndPoint="0.5,1"
+                                             StartPoint="0.5,0">
+                            <GradientStop Color="#FF3AB5E9" />
+                            <GradientStop Color="#FF2380A8" Offset="1" />
+                        </LinearGradientBrush>
+                    </ig:XamSliderNumericThumb.TrackFillBrush>-->
+                </ig:XamSliderNumericThumb>
+            </ig:XamNumericRangeSlider>
+            <!-- #END SNIPPET# -->
+        </Grid>
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource CommonStrings}, Path=ConfigurationPanel_Header_Options}"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Top"
+                               Margin="50">
+            <StackPanel Margin="10,0">
+                <CheckBox x:Name="checkbox"
+                          Content="{Binding Slider_IsTrackFillVisible_CheckboxLabel, Source={StaticResource Strings}}"
+                          IsChecked="True" />
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

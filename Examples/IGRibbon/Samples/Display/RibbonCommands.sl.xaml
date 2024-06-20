@@ -1,0 +1,78 @@
+﻿<framework:SampleContainer x:Class="IGRibbon.Samples.Display.RibbonCommands"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+    xmlns:local="clr-namespace:IGRibbon.Model"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:res="clr-namespace:IGRibbon.Resources"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="RibbonCommands Page">
+    
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGRibbon;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamRibbonSB.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:RibbonStrings x:Key="Strings" />
+            <local:ViewModel x:Key="vm" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top">
+        <ig:XamRibbon x:Name="igRibbon" Grid.ColumnSpan="2" Margin="10">
+
+            <ig:XamRibbon.QuickAccessToolbar>
+                <ig:QuickAccessToolbar>
+                    <ig:QatPlaceholderTool TargetId="1" />
+                </ig:QuickAccessToolbar>
+            </ig:XamRibbon.QuickAccessToolbar>
+
+            <ig:XamRibbon.Tabs>
+                <ig:XamRibbonTabItem Header="{Binding Source={StaticResource Strings}, Path=Command_CommandingTab}">
+                    <ig:XamRibbonGroup Caption="{Binding Source={StaticResource Strings}, Path=Command_Group1}">
+
+                        <ig:ButtonTool Caption="{Binding Source={StaticResource Strings}, Path=Command_Cmd1}" Id="1" MaximumSize="ImageAndTextLarge" 
+                                       LargeImage="{Binding Source='Ribbon/Select32.png', Converter={StaticResource getImageConverter}}" 
+                                       SmallImage="{Binding Source='Ribbon/Select16.png', Converter={StaticResource getImageConverter}}" 
+                                       Command="{Binding Command, Source={StaticResource vm}}">
+                            <ig:ButtonTool.CommandParameter>
+                                <sys:String>Test1</sys:String>
+                            </ig:ButtonTool.CommandParameter>
+                        </ig:ButtonTool>
+                    </ig:XamRibbonGroup>
+                    <ig:XamRibbonGroup Caption="{Binding Source={StaticResource Strings}, Path=Command_Group2}">
+                        <ig:ButtonTool Caption="{Binding Source={StaticResource Strings}, Path=Command_Cmd2}" Id="2" MaximumSize="ImageAndTextLarge" 
+                                       LargeImage="{Binding Source='Ribbon/Select32.png', Converter={StaticResource getImageConverter}}" 
+                                       SmallImage="{Binding Source='Ribbon/Select16.png', Converter={StaticResource getImageConverter}}" 
+                                       Command="{Binding Command, Source={StaticResource vm}}"
+                                       CommandParameter="Test2">
+                        </ig:ButtonTool>
+                    </ig:XamRibbonGroup>
+                    <ig:XamRibbonGroup Caption="{Binding Source={StaticResource Strings}, Path=Command_Group3}">
+                        <ig:ButtonTool Caption="{Binding Source={StaticResource Strings}, Path=Command_Cmd3}" Id="3" MaximumSize="ImageAndTextLarge"
+                                       LargeImage="{Binding Source='Ribbon/Select32.png', Converter={StaticResource getImageConverter}}" 
+                                       SmallImage="{Binding Source='Ribbon/Select16.png', Converter={StaticResource getImageConverter}}" 
+                                       Command="{Binding SecondCommand, Source={StaticResource vm}}"
+                                       CommandParameter="{Binding ButtonValue, Source={StaticResource vm}}">
+                        </ig:ButtonTool>
+                    </ig:XamRibbonGroup>
+                </ig:XamRibbonTabItem>
+            </ig:XamRibbon.Tabs>
+
+        </ig:XamRibbon>
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12" 
+                   Text="{Binding Source={StaticResource Strings}, Path=Command_Explanation_1}" />
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12" 
+                   Text="{Binding Source={StaticResource Strings}, Path=Command_Explanation_2}" />
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12" 
+                   Text="{Binding Source={StaticResource Strings}, Path=Command_Explanation_3}" />
+        <TextBlock x:Name="tbCommandParameter" Text="{Binding DisplayName, Source={StaticResource vm}}" Margin="20"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"
+                   TextWrapping="Wrap"/>
+    </StackPanel>
+</framework:SampleContainer>

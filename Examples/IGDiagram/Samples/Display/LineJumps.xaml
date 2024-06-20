@@ -1,0 +1,294 @@
+﻿<framework:SampleContainer x:Class="IGDiagram.Samples.Display.LineJumps"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:local="clr-namespace:IGDiagram.Samples.Display"
+    xmlns:res="clr-namespace:IGDiagram.Resources"
+    xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="LineJumps Page">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+
+                <ResourceDictionary Source="/IGDiagram;component/Assets/Global.xaml" />
+                
+
+                <ResourceDictionary>
+                    <res:DiagramStrings x:Key="diagramStrings" />
+                    <igPrim:BoolToVisibilityConverter x:Key="BoolToVisConv" />
+
+                    <GeometryGroup x:Key="GateOR">
+                        <PathGeometry>
+                            <PathFigure StartPoint="10,0" IsClosed="True">
+                                <ArcSegment Point="10,30" SweepDirection="Clockwise" Size="10,17" />
+                                <LineSegment Point="25,30" />
+                                <ArcSegment Point="50,15" IsLargeArc="False" Size="50,30" />
+                                <ArcSegment Point="25,0" IsLargeArc="False" Size="50,30" />
+                                <LineSegment Point="10,0" />
+                            </PathFigure>
+                        </PathGeometry>
+                        <LineGeometry StartPoint="0,7.5" EndPoint="14,7.5" />
+                        <LineGeometry StartPoint="0,22.5" EndPoint="14,22.5" />
+                        <LineGeometry StartPoint="50,15" EndPoint="60,15" />
+                    </GeometryGroup>
+
+                    <GeometryGroup x:Key="GateNOR">
+                        <PathGeometry>
+                            <PathFigure StartPoint="10,0" IsClosed="True">
+                                <ArcSegment Point="10,30" SweepDirection="Clockwise" Size="10,17" />
+                                <LineSegment Point="25,30" />
+                                <ArcSegment Point="50,15" IsLargeArc="False" Size="50,30" />
+                                <ArcSegment Point="25,0" IsLargeArc="False" Size="50,30" />
+                                <LineSegment Point="10,0" />
+                            </PathFigure>
+                        </PathGeometry>
+                        <LineGeometry StartPoint="0,7.5" EndPoint="14,7.5" />
+                        <LineGeometry StartPoint="0,22.5" EndPoint="14,22.5" />
+                        <EllipseGeometry Center="53,15" RadiusX="3" RadiusY="3" />
+                        <LineGeometry StartPoint="56,15" EndPoint="60,15" />
+                    </GeometryGroup>
+
+                    <GeometryGroup x:Key="GateAND">
+                        <PathGeometry>
+                            <PathFigure StartPoint="10,0" IsClosed="True">
+                                <LineSegment Point="10,30" />
+                                <LineSegment Point="35,30" />
+                                <ArcSegment Point="35,0" Size="15,15" />
+                                <LineSegment Point="30,0" />
+                            </PathFigure>
+                        </PathGeometry>
+                        <LineGeometry StartPoint="0,7.5" EndPoint="10,7.5" />
+                        <LineGeometry StartPoint="0,22.5" EndPoint="10,22.5" />
+                        <LineGeometry StartPoint="50,15" EndPoint="60,15" />
+                    </GeometryGroup>
+
+                    <GeometryGroup x:Key="GateNAND">
+                        <PathGeometry>
+                            <PathFigure StartPoint="10,0" IsClosed="True">
+                                <LineSegment Point="10,30" />
+                                <LineSegment Point="35,30" />
+                                <ArcSegment Point="35,0" Size="15,15" />
+                                <LineSegment Point="30,0" />
+                            </PathFigure>
+                        </PathGeometry>
+                        <LineGeometry StartPoint="0,7.5" EndPoint="10,7.5" />
+                        <LineGeometry StartPoint="0,22.5" EndPoint="10,22.5" />
+                        <EllipseGeometry Center="53,15" RadiusX="3" RadiusY="3" />
+                        <LineGeometry StartPoint="56,15" EndPoint="60,15" />
+                    </GeometryGroup>
+
+                    <GeometryGroup x:Key="GateXOR">
+                        <PathGeometry>
+                            <PathFigure StartPoint="10,0" IsClosed="True">
+                                <ArcSegment Point="10,30" Size="10,17" SweepDirection="Clockwise" />
+                                <LineSegment Point="25,30" />
+                                <ArcSegment Point="50,15" Size="50,30" IsLargeArc="False" />
+                                <ArcSegment Point="25,0" Size="50,30" IsLargeArc="False" />
+                                <LineSegment Point="10,0" />
+                            </PathFigure>
+                        </PathGeometry>
+                        <LineGeometry StartPoint="0,7.5" EndPoint="14,7.5" />
+                        <LineGeometry StartPoint="0,22.5" EndPoint="14,22.5" />
+                        <LineGeometry StartPoint="50,15" EndPoint="60,15" />
+                        <PathGeometry>
+                            <PathFigure IsFilled="False" StartPoint="5,0">
+                                <ArcSegment Point="5,30" SweepDirection="Clockwise" Size="10,17" />
+                            </PathFigure>
+                        </PathGeometry>
+                    </GeometryGroup>
+                    
+                    <GeometryGroup x:Key="GateXNOR">
+                        <PathGeometry>
+                            <PathFigure StartPoint="10,0" IsClosed="True">
+                                <ArcSegment Point="10,30" Size="10,17" SweepDirection="Clockwise" />
+                                <LineSegment Point="25,30" />
+                                <ArcSegment Point="50,15" Size="50,30" IsLargeArc="False" />
+                                <ArcSegment Point="25,0" Size="50,30" IsLargeArc="False" />
+                                <LineSegment Point="10,0" />
+                            </PathFigure>
+                        </PathGeometry>
+                        <LineGeometry StartPoint="0,7.5" EndPoint="14,7.5" />
+                        <LineGeometry StartPoint="0,22.5" EndPoint="14,22.5" />
+                        <EllipseGeometry Center="53,15" RadiusX="3" RadiusY="3" />
+                        <LineGeometry StartPoint="56,15" EndPoint="60,15" />
+                        <PathGeometry>
+                            <PathFigure IsFilled="False" StartPoint="5,0">
+                                <ArcSegment Point="5,30" SweepDirection="Clockwise" Size="10,17" />
+                            </PathFigure>
+                        </PathGeometry>
+                    </GeometryGroup>
+
+                    <GeometryGroup x:Key="GateNOT">
+                        <PathGeometry>
+                            <PathFigure StartPoint="10,0" IsClosed="True">
+                                <LineSegment Point="10,30" />
+                                <LineSegment Point="50,15" />
+                                <LineSegment Point="10,0" />
+                            </PathFigure>
+                        </PathGeometry>
+                        <LineGeometry StartPoint="0,15" EndPoint="10,15" />
+                        <EllipseGeometry Center="53,15" RadiusX="3" RadiusY="3" />
+                        <LineGeometry StartPoint="56,15" EndPoint="60,15" />
+                    </GeometryGroup>
+
+                    <ig:DiagramConnectionPointCollection x:Key="Conn1In1Out">
+                        <ig:DiagramConnectionPoint Position="0,.5" Name="In" />
+                        <ig:DiagramConnectionPoint Position="1,.5" Name="Out" />
+                    </ig:DiagramConnectionPointCollection>
+
+                    <ig:DiagramConnectionPointCollection x:Key="Conn2In1Out">
+                        <ig:DiagramConnectionPoint Position="0,.25" Name="upperIn" />
+                        <ig:DiagramConnectionPoint Position="0,.75" Name="lowerIn" />
+                        <ig:DiagramConnectionPoint Position="1,.5" Name="Out" />
+                    </ig:DiagramConnectionPointCollection>
+
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <ig:XamDiagram x:Name="xamDiagram1">
+            
+            <ig:DiagramNode Key="nodeIn1" Content="In 1" Position="20,85" ShapeType="None" Foreground="#5B9BD5" />
+            <ig:DiagramNode Key="nodeNot1" Position="100,80.5" Geometry="{StaticResource GateNOT}" ConnectionPoints="{StaticResource Conn1In1Out}" />
+            <ig:DiagramConnection StartNodeKey="nodeIn1" EndNodeKey="nodeNot1" EndNodeConnectionPointName="In"
+                                  StartCapType="None" EndCapType="None" />
+            <ig:DiagramNode Key="nodeAnd1" Position="180,88" Geometry="{StaticResource GateAND}" ConnectionPoints="{StaticResource Conn2In1Out}" />
+            <ig:DiagramConnection StartNodeKey="nodeNot1" StartNodeConnectionPointName="Out" EndNodeKey="nodeAnd1" EndNodeConnectionPointName="upperIn"
+                                  StartCapType="None" EndCapType="None" />
+
+            <ig:DiagramNode Key="nodeIn2" Content="In 2" Position="20,195" ShapeType="None" Foreground="#5B9BD5" />
+            <ig:DiagramNode Key="nodeNot2" Position="100,190.5" Geometry="{StaticResource GateNOT}" ConnectionPoints="{StaticResource Conn1In1Out}" />
+            <ig:DiagramConnection StartNodeKey="nodeIn2" EndNodeKey="nodeNot2" EndNodeConnectionPointName="In"
+                                  StartCapType="None" EndCapType="None" />
+            <ig:DiagramNode Key="nodeAnd2" Position="180,183" Geometry="{StaticResource GateAND}" ConnectionPoints="{StaticResource Conn2In1Out}" />
+            <ig:DiagramConnection StartNodeKey="nodeNot2" StartNodeConnectionPointName="Out" EndNodeKey="nodeAnd2" EndNodeConnectionPointName="lowerIn"
+                                  StartCapType="None" EndCapType="None" />
+
+            <ig:DiagramConnection StartNodeKey="nodeIn1" EndNodeKey="nodeAnd2" EndNodeConnectionPointName="upperIn" ConnectionType="Straight"
+                                  StartCapType="None" EndCapType="None" />
+            <ig:DiagramConnection StartNodeKey="nodeIn2" EndNodeKey="nodeAnd1" EndNodeConnectionPointName="lowerIn" ConnectionType="Straight"
+                                  StartCapType="None" EndCapType="None" />
+
+            <ig:DiagramNode Key="nodeOr" Position="280,135" Geometry="{StaticResource GateOR}" ConnectionPoints="{StaticResource Conn2In1Out}" />
+            <ig:DiagramConnection StartNodeKey="nodeAnd1" StartNodeConnectionPointName="Out" EndNodeKey="nodeOr" EndNodeConnectionPointName="upperIn"
+                                  StartCapType="None" EndCapType="None" />
+            <ig:DiagramConnection StartNodeKey="nodeAnd2" StartNodeConnectionPointName="Out" EndNodeKey="nodeOr" EndNodeConnectionPointName="lowerIn"
+                                  StartCapType="None" EndCapType="None" />
+
+            <ig:DiagramNode Key="nodeOut" Content="Out" Position="370,139.5" ShapeType="None" Foreground="#5B9BD5" />
+            <ig:DiagramConnection StartNodeKey="nodeOr" StartNodeConnectionPointName="Out" EndNodeKey="nodeOut" />
+            
+        </ig:XamDiagram>
+
+        <Expander ExpandDirection="Left" Grid.Column="1" IsExpanded="True"
+                  Header="{Binding Diagram_Toolbox_Upper, Source={StaticResource diagramStrings}}"
+                  Style="{StaticResource ToolBoxExpanderStyle}" >
+
+            <ig:XamDiagramToolbox x:Name="xamDiagramToolbox" Width="270" Loaded="XamDiagramToolbox_Loaded">
+                <ig:XamDiagramToolbox.CustomCategories>
+
+                    <ig:DiagramToolboxCategory Name="{Binding Source={StaticResource diagramStrings}, Path=DiagramToolbox_LogicGates}" IsExpanded="True">
+
+                        <ig:DiagramToolboxCategory.Items>
+
+                            <ig:DiagramToolboxItem Title="OR">
+                                <ig:DiagramToolboxItem.Item>
+                                    <ig:DiagramNode Width="40" Height="25"
+                                                    MaintainAspectRatio="True"
+                                                    ConnectionPoints="{StaticResource Conn2In1Out}" 
+                                                    Geometry="{StaticResource GateOR}" />
+                                </ig:DiagramToolboxItem.Item>
+                            </ig:DiagramToolboxItem>
+
+                            <ig:DiagramToolboxItem Title="NOR">
+                                <ig:DiagramToolboxItem.Item>
+                                    <ig:DiagramNode Width="40" Height="25"
+                                                    MaintainAspectRatio="True"
+                                                    ConnectionPoints="{StaticResource Conn2In1Out}" 
+                                                    Geometry="{StaticResource GateNOR}" />
+                                </ig:DiagramToolboxItem.Item>
+                            </ig:DiagramToolboxItem>
+
+                            <ig:DiagramToolboxItem Title="AND">
+                                <ig:DiagramToolboxItem.Item>
+                                    <ig:DiagramNode Width="40" Height="25"
+                                                    MaintainAspectRatio="True"
+                                                    ConnectionPoints="{StaticResource Conn2In1Out}" 
+                                                    Geometry="{StaticResource GateAND}"/>
+                                </ig:DiagramToolboxItem.Item>
+                            </ig:DiagramToolboxItem>
+
+                            <ig:DiagramToolboxItem Title="NAND">
+                                <ig:DiagramToolboxItem.Item>
+                                    <ig:DiagramNode Width="40" Height="25"
+                                                    MaintainAspectRatio="True"
+                                                    ConnectionPoints="{StaticResource Conn2In1Out}" 
+                                                    Geometry="{StaticResource GateNAND}"/>
+                                </ig:DiagramToolboxItem.Item>
+                            </ig:DiagramToolboxItem>
+
+                            <ig:DiagramToolboxItem Title="XOR">
+                                <ig:DiagramToolboxItem.Item>
+                                    <ig:DiagramNode Width="40" Height="25"
+                                                    MaintainAspectRatio="True"
+                                                    ConnectionPoints="{StaticResource Conn2In1Out}" 
+                                                    Geometry="{StaticResource GateXOR}"/>
+                                </ig:DiagramToolboxItem.Item>
+                            </ig:DiagramToolboxItem>
+
+                            <ig:DiagramToolboxItem Title="XNOR">
+                                <ig:DiagramToolboxItem.Item>
+                                    <ig:DiagramNode Width="40" Height="25"
+                                                    MaintainAspectRatio="True"
+                                                    ConnectionPoints="{StaticResource Conn2In1Out}" 
+                                                    Geometry="{StaticResource GateXNOR}"/>
+                                </ig:DiagramToolboxItem.Item>
+                            </ig:DiagramToolboxItem>
+
+                            <ig:DiagramToolboxItem Title="NOT">
+                                <ig:DiagramToolboxItem.Item>
+                                    <ig:DiagramNode Width="40" Height="25"
+                                                    MaintainAspectRatio="True"
+                                                    ConnectionPoints="{StaticResource Conn1In1Out}" 
+                                                    Geometry="{StaticResource GateNOT}"/>
+                                </ig:DiagramToolboxItem.Item>
+                            </ig:DiagramToolboxItem>
+
+                        </ig:DiagramToolboxCategory.Items>
+
+                    </ig:DiagramToolboxCategory>
+                </ig:XamDiagramToolbox.CustomCategories>
+            </ig:XamDiagramToolbox>
+
+        </Expander>
+
+        <controls:OptionsPanel HeaderText="{Binding Path=ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}"
+                               HorizontalAlignment="Left" Width="220"
+                               VerticalAlignment="Bottom">
+            <StackPanel Orientation="Horizontal">
+                <!-- #BEGIN SNIPPET# -->
+                <TextBlock Text="{Binding Source={StaticResource diagramStrings}, Path=lblSelectLineJumpType}" Margin="0,3,0,0" />
+                <controls:EnumValuesProvider
+                            EnumType="{x:Type ig:ConnectionLineJumps}" DisplayTemplate="ComboBox" 
+                            Value="{Binding ElementName=xamDiagram1, Path=ConnectionLineJumps, Mode=TwoWay}" />
+                <!-- #END SNIPPET# -->
+            </StackPanel>
+        </controls:OptionsPanel>
+
+    </Grid>
+</framework:SampleContainer>

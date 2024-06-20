@@ -1,0 +1,68 @@
+﻿<framework:SampleContainer x:Class="IGGeographicMap.Samples.Data.CreatingTriangulatedFiles"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared" 
+    xmlns:resources="clr-namespace:IGGeographicMap.Resources" mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700">
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGeographicMap;component/Assets/Global.xaml" />
+                
+                
+            </ResourceDictionary.MergedDictionaries>
+            <models:ColorCollection x:Key="ColorPalette">
+                <Color>LimeGreen</Color>
+                <Color>Yellow</Color>
+                <Color>Orange</Color>
+                <Color>Red</Color>
+            </models:ColorCollection>
+            <resources:MapStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+    <Grid x:Name="LayoutRoot" Background="White">
+   
+        <ig:XamGeographicMap x:Name="GeoMap" Visibility="Visible"
+                             PlotAreaBackground="{StaticResource GeoMapSbPlotAreaBackgroundBrush}" 
+                             OverviewPlusDetailPaneVisibility="Collapsed"
+                             Zoomable="True">
+            <!-- #BEGIN SNIPPET# -->
+            <!-- NOTE: shape files are converted to triangulated files in code-behind -->
+            <ig:XamGeographicMap.Series>
+                <ig:GeographicScatterAreaSeries ColorMemberPath="Value" Opacity="0.75"
+                                                LongitudeMemberPath="Point.X"
+                                                LatitudeMemberPath="Point.Y"
+                                                TriangleVertexMemberPath1="V1"
+                                                TriangleVertexMemberPath2="V2"
+                                                TriangleVertexMemberPath3="V3">
+                    <ig:GeographicScatterAreaSeries.ColorScale>
+                        <ig:CustomPaletteColorScale Palette="{StaticResource ColorPalette}"
+                                                    MinimumValue=".15"
+                                                    InterpolationMode="InterpolateRGB" />
+                    </ig:GeographicScatterAreaSeries.ColorScale>
+                </ig:GeographicScatterAreaSeries>
+            </ig:XamGeographicMap.Series>
+            <!-- #END SNIPPET# -->   
+        </ig:XamGeographicMap>
+        <TextBlock x:Name="OpenSourceCopyright" Text="{Binding Path=XW_OpenSourceCopyright, Source={StaticResource CommonStrings}}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Style="{StaticResource SourceTextblockStyle}"  />
+        <Grid x:Name="TriangulationStatusOverlay" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid Background="White" Opacity="0.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <TextBlock x:Name="TriangulationStatusTextBlock" Text="" FontWeight="Bold" Foreground="Gray" Opacity="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2" />
+        </Grid>
+        <controls:OptionsPanel x:Name="OptionsPanel" 
+                               HeaderText="{Binding Path=XWGM_CreatingTriangulation_Title, Source={StaticResource Strings}}" 
+                               Margin="5" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <StackPanel >
+                <Button x:Name="LoadShapeFileButton" Click="OnLoadShapeFileButtonClick"  Content="{Binding Path=XWGM_CreatingTriangulation_LoadShapeFile, Source={StaticResource Strings}}" Margin="{StaticResource OptionsElementsMargin}"/>
+                <Button x:Name="PerformTriangulationButton" Click="OnPerformTriangulationButtonClick" Content="{Binding Path=XWGM_CreatingTriangulation_PerformTriangulation, Source={StaticResource Strings}}" Margin="{StaticResource OptionsElementsMargin}"/>
+                <Button x:Name="SaveTriangulationFileButton" Click="OnSaveTriangulationFileButtonClick" Content="{Binding Path=XWGM_CreatingTriangulation_SaveTriangulationFile, Source={StaticResource Strings}}" Margin="{StaticResource OptionsElementsMargin}"/>
+                <Button x:Name="LoadTriangulationFileButton" Click="OnLoadTriangulationFileButtonClick" Content="{Binding Path=XWGM_CreatingTriangulation_LoadTriangulationFile, Source={StaticResource Strings}}"/>
+              </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

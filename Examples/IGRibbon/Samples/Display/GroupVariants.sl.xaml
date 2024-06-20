@@ -1,0 +1,167 @@
+﻿<framework:SampleContainer x:Class="IGRibbon.Samples.Display.GroupVariants"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="AddTabsGroups"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGRibbon.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGRibbon;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamRibbonSB.xaml" />
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamDialogWindow.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:RibbonStrings x:Key="RibbonStrings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Width="Auto" Background="White" >
+        <ig:XamDialogWindow x:Name="MyDialogWindow" Header="{Binding Source={StaticResource RibbonStrings}, Path=XWR_DialogWindow}" RestrictInContainer="True" >
+            <ig:XamRibbon x:Name="MyRibbon">
+                <!--Add Tabs to XamRibbon -->
+                <ig:XamRibbon.Tabs>
+                    <ig:XamRibbonTabItem KeyTip="H" Header="{Binding Source={StaticResource RibbonStrings}, Path=XWR_HomeTab}">
+                        <!-- Add Home XamRibbonGroup -->
+                        <ig:XamRibbonGroup Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Clipboard}" Id="Clipboard"
+                                           LargeImage="{Binding Source='Ribbon/Paste32.png', Converter={StaticResource getImageConverter}}"
+                                           SmallImage="{Binding Source='Ribbon/Paste16.png', Converter={StaticResource getImageConverter}}">
+                            <ig:ButtonTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Paste}" MaximumSize="ImageAndTextLarge"
+                                           SmallImage="{Binding Source='Ribbon/Paste16.png', Converter={StaticResource getImageConverter}}"
+                                           LargeImage="{Binding Source='Ribbon/Paste32.png', Converter={StaticResource getImageConverter}}"/>
+                            <ig:VerticalRibbonToolContainer>
+                                <ig:ButtonTool Id="CutTool1" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_CutButton}"
+                                               MaximumSize="ImageAndTextNormal"
+                                               SmallImage="{Binding Source='Ribbon/Cut16.png', Converter={StaticResource getImageConverter}}"/>
+                                <ig:ButtonTool Id="CopyTool" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_CopyButton}"
+                                               MaximumSize="ImageAndTextNormal"
+                                               SmallImage="{Binding Source='Ribbon/Copy16.png', Converter={StaticResource getImageConverter}}"/>
+                                <ig:ButtonTool Id="DeleteTool" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Delete}"
+                                               MaximumSize="ImageAndTextNormal"
+                                               SmallImage="{Binding Source='Ribbon/Delete16.png', Converter={StaticResource getImageConverter}}"/>
+                            </ig:VerticalRibbonToolContainer>
+                        </ig:XamRibbonGroup>
+                        <!-- End Home XamRibbonGroup-->
+
+                        <!--#BEGIN SNIPPET#-->
+                        <!-- Add Presets XamRibbonGroup-->
+                        <ig:XamRibbonGroup Id="Presets" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Presets}"
+                                           LargeImage="{Binding Source='Ribbon/QuickStyles32.png', Converter={StaticResource getImageConverter}}"
+                                           SmallImage="{Binding Source='Ribbon/QuickStyles16.png', Converter={StaticResource getImageConverter}}">
+                            <!-- Add a collection of XamRibbonGroup.Variants to XamRibbonGroup.
+                            These Variants control which resize operations happen and in what order-->
+                            <ig:XamRibbonGroup.Variants>
+                                <!-- Add GroupVariant items to the collection of Variants -->
+                                <ig:GroupVariant Priority="1" ResizeAction="HideGalleryPreview"/>
+                                <ig:GroupVariant Priority="2" ResizeAction="ReduceGalleryPreviewItems"/>
+                                <ig:GroupVariant Priority="3" ResizeAction="ReduceImageAndTextNormalTools"/>
+                                <ig:GroupVariant Priority="4" ResizeAction="ReduceImageAndTextLargeTools"/>
+                                <ig:GroupVariant Priority="5" ResizeAction="CollapseRibbonGroup"/>
+                                <ig:GroupVariant Priority="6" ResizeAction="IncreaseHorizontalWrapRowCount"/>
+                            </ig:XamRibbonGroup.Variants>
+                            <!-- Add Gallery Tool -->
+                            <!-- Set ShouldDisplayGalleryPreview to True to enable Inline Gallery Preview-->
+                            <ig:MenuTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_QuickStyles}"
+                                         ShouldDisplayGalleryPreview="True" MaximumSize="ImageAndTextLarge"
+                                         LargeImage="{Binding Source='Ribbon/QuickStyles32.png', Converter={StaticResource getImageConverter}}"
+                                         SmallImage="{Binding Source='Ribbon/QuickStyles16.png', Converter={StaticResource getImageConverter}}">
+                                <ig:GalleryTool Id="PresetsGallery" MaxDropDownColumns="3" PreferredDropDownColumns="3">
+                                    <ig:GalleryTool.Groups>
+                                        <ig:GalleryItemGroup Title="{Binding Source={StaticResource RibbonStrings}, Path=XWR_BlackAndWhite}">
+                                            <ig:GalleryItemGroup.GalleryItems>
+                                                <ig:GalleryItem Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Normal}"
+                                                                Image="{Binding Source='Ribbon/NormalText16.png', Converter={StaticResource getImageConverter}}">
+                                                </ig:GalleryItem>
+                                                <ig:GalleryItem Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Bold}"
+                                                                Image="{Binding Source='Ribbon/BoldText16.png', Converter={StaticResource getImageConverter}}">
+                                                </ig:GalleryItem>
+                                                <ig:GalleryItem Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Large}"
+                                                                Image="{Binding Source='Ribbon/LargeText16.png', Converter={StaticResource getImageConverter}}">
+                                                </ig:GalleryItem>
+                                            </ig:GalleryItemGroup.GalleryItems>
+                                        </ig:GalleryItemGroup>
+
+                                        <ig:GalleryItemGroup Title="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Color}">
+                                            <ig:GalleryItemGroup.GalleryItems>
+                                                <ig:GalleryItem Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Red}"
+                                                                Image="{Binding Source='Ribbon/RedText16.png', Converter={StaticResource getImageConverter}}">
+                                                </ig:GalleryItem>
+                                                <ig:GalleryItem Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Blue}"
+                                                                Image="{Binding Source='Ribbon/BlueText16.png', Converter={StaticResource getImageConverter}}">
+                                                </ig:GalleryItem>
+                                                <ig:GalleryItem Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Purple}"
+                                                                Image="{Binding Source='Ribbon/PurpleText16.png', Converter={StaticResource getImageConverter}}">
+                                                </ig:GalleryItem>
+                                            </ig:GalleryItemGroup.GalleryItems>
+                                        </ig:GalleryItemGroup>
+
+                                        <ig:GalleryItemGroup Title="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Bright}">
+                                            <ig:GalleryItemGroup.GalleryItems>
+                                                <ig:GalleryItem Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_BrightRed}"
+                                                                Image="{Binding Source='Ribbon/BrightRedText16.png', Converter={StaticResource getImageConverter}}">
+                                                </ig:GalleryItem>
+                                                <ig:GalleryItem Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Pink}"
+                                                                Image="{Binding Source='Ribbon/BrightPinkText16.png', Converter={StaticResource getImageConverter}}">
+                                                </ig:GalleryItem>
+                                                <ig:GalleryItem Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Green}"
+                                                                Image="{Binding Source='Ribbon/BrightGreenText16.png', Converter={StaticResource getImageConverter}}">
+                                                </ig:GalleryItem>
+                                            </ig:GalleryItemGroup.GalleryItems>
+                                        </ig:GalleryItemGroup>
+                                    </ig:GalleryTool.Groups>
+                                </ig:GalleryTool>
+                            </ig:MenuTool>
+                            <ig:MenuTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Edit}" MaximumSize="ImageAndTextLarge"
+                                         LargeImage="{Binding Source='Ribbon/Paste32.png', Converter={StaticResource getImageConverter}}" 
+                                         SmallImage="{Binding Source='Ribbon/Paste16.png', Converter={StaticResource getImageConverter}}">
+                                <ig:ButtonTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Paste}"
+                                               SmallImage="{Binding Source='Ribbon/Paste16.png', Converter={StaticResource getImageConverter}}"/>
+                                <ig:ButtonTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_CutButton}"
+                                               SmallImage="{Binding Source='Ribbon/Cut16.png', Converter={StaticResource getImageConverter}}"/>
+                                <ig:ButtonTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_CopyButton}"
+                                               SmallImage="{Binding Source='Ribbon/Copy16.png', Converter={StaticResource getImageConverter}}"/>
+                            </ig:MenuTool>
+                            <ig:MenuTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Styling}" MaximumSize="ImageAndTextLarge"
+                                         LargeImage="{Binding Source='Ribbon/QuickStyles32.png', Converter={StaticResource getImageConverter}}"
+                                         SmallImage="{Binding Source='Ribbon/QuickStyles16.png', Converter={StaticResource getImageConverter}}">
+                                <ig:ButtonTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Bold}"
+                                               SmallImage="{Binding Source='Ribbon/BoldText16.png', Converter={StaticResource getImageConverter}}"/>
+                                <ig:ButtonTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Italic}"
+                                               SmallImage="{Binding Source='Ribbon/Italic16.png', Converter={StaticResource getImageConverter}}"/>
+                                <ig:ButtonTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Underline}"
+                                               SmallImage="{Binding Source='Ribbon/Underline16.png', Converter={StaticResource getImageConverter}}"/>
+                            </ig:MenuTool>
+                            <ig:ButtonTool MaximumSize="ImageOnly"
+                                           SmallImage="{Binding Source='Ribbon/LeftAlign16.png', Converter={StaticResource getImageConverter}}"/>
+                            <ig:ButtonTool MaximumSize="ImageOnly"
+                                           SmallImage="{Binding Source='Ribbon/CenterAlign16.png', Converter={StaticResource getImageConverter}}"/>
+                            <ig:ButtonTool MaximumSize="ImageOnly"
+                                           SmallImage="{Binding Source='Ribbon/RightAlign16.png', Converter={StaticResource getImageConverter}}"/>
+                        </ig:XamRibbonGroup>
+                        <!-- End Presets RibbonGroup-->
+                        <!--#END SNIPPET#-->
+                    </ig:XamRibbonTabItem>
+                    <!-- Add new Insert XamRibbonTab -->
+                    <ig:XamRibbonTabItem KeyTip="I" Header="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Insert_Tab}">
+                        <!-- Add new Illustrations XamRibbonGroup -->
+                        <ig:XamRibbonGroup Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Illustrations}" Id="Illustrations">
+                            <ig:ButtonTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Chart}" MaximumSize="ImageAndTextLarge"
+                                           LargeImage="{Binding Source='Ribbon/ChartPie32.png', Converter={StaticResource getImageConverter}}"
+                                           SmallImage="{Binding Source='Ribbon/ChartPie16.png', Converter={StaticResource getImageConverter}}"/>
+                            <ig:ButtonTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Picture}" MaximumSize="ImageAndTextLarge"
+                                           LargeImage="{Binding Source='Ribbon/Picture32.png', Converter={StaticResource getImageConverter}}"
+                                           SmallImage="{Binding Source='Ribbon/Picture16.png', Converter={StaticResource getImageConverter}}"/>
+                        </ig:XamRibbonGroup>
+                        <!-- End Illustration XamRibbonGroup-->
+                    </ig:XamRibbonTabItem>
+                </ig:XamRibbon.Tabs>
+                <!-- End Tabs -->
+            </ig:XamRibbon>
+        </ig:XamDialogWindow>
+    </Grid>
+</framework:SampleContainer>
