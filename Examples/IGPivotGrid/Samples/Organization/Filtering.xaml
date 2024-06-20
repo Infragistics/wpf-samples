@@ -1,0 +1,89 @@
+﻿<framework:SampleContainer x:Class="IGPivotGrid.Samples.Organization.Filtering"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="Filtering Page"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:local="clr-namespace:IGPivotGrid.Samples.Controls"
+      xmlns:res="clr-namespace:IGPivotGrid.Resources"
+      xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGPivotGrid;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+
+            <local:SampleFlatDataSourceSellerVsProduct x:Key="FlatDataSource" />
+            <res:PivotGridStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Width="Auto">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- #BEGIN SNIPPET# -->
+        <StackPanel Orientation="Horizontal" Margin="{StaticResource SampleInnerNavigationPadding}" 
+                    Grid.ColumnSpan="2"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top" >
+            <TextBlock Text="{Binding Path=XPG_Filtering_ShowDataForTheLast, Source={StaticResource Strings}}"
+                       Style="{StaticResource SamplesInnerNavigationTitleStyle}"
+                       HorizontalAlignment="Left" />
+            <ComboBox x:Name="monthsToFilter"
+                      VerticalAlignment="Center"
+                      Width="60"
+                      SelectedIndex="3" Margin="{StaticResource OptionsTextRightMargin}"
+                      Style="{StaticResource IGComboBoxStyle}">
+                <ComboBox.Items>
+                    <sys:Int32>6</sys:Int32>
+                    <sys:Int32>12</sys:Int32>
+                    <sys:Int32>18</sys:Int32>
+                    <sys:Int32>24</sys:Int32>
+                    <sys:Int32>30</sys:Int32>
+                    <sys:Int32>36</sys:Int32>
+                    <sys:Int32>42</sys:Int32>
+                    <sys:Int32>48</sys:Int32>
+                    <sys:Int32>54</sys:Int32>
+                </ComboBox.Items>
+            </ComboBox>
+            <TextBlock Text="{Binding Path=XPG_Filtering_Months, Source={StaticResource Strings}}"
+                       Style="{StaticResource SamplesInnerNavigationTitleStyle}" Margin="{StaticResource OptionsTextRightMargin}"/>
+            <Button Content="{Binding Path=XPG_Filtering_Filter, Source={StaticResource Strings}}"
+                    Click="Filter"
+                    VerticalAlignment="Center"
+                    Width="80"
+                    Style="{StaticResource IGGenericButton}"/>
+        </StackPanel>
+
+        <ig:XamPivotGrid x:Name="pivotGrid"
+                         DataSource="{StaticResource FlatDataSource}"
+                         AllowCompactLayout="True"
+                         Grid.Row="1" />
+
+        <ig:Expander Grid.Column="1" Grid.Row="1">
+            <ig:XamPivotDataSelector
+                x:Name="dataSelector"
+                DataSource="{StaticResource FlatDataSource}" />
+        </ig:Expander>
+        <!-- #END SNIPPET# -->
+
+        <local:PivotGridBusyIndicator
+            x:Name="isBusyIndicator"
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            Visibility="Collapsed" />
+    </Grid>
+</framework:SampleContainer>

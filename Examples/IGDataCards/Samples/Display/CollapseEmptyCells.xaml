@@ -1,0 +1,60 @@
+﻿<igFramework:SampleContainer x:Class="IGDataCards.Samples.Display.CollapseEmptyCells"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="CollapseEmptyCells"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:converters="clr-namespace:IGDataCards.Converters"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGDataCards.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataCards;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DataCardsStrings x:Key="DataCardsStrings" />
+            <converters:VisibilityToBooleanConverter x:Key="visToBoolConverter" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid>
+        <!-- #BEGIN SNIPPET# -->
+        <igDP:XamDataCards Name="xamDataCards1"
+                           BindToSampleData="True"
+                           InitializeRecord="xamDataCards1_InitializeRecord"
+                           Theme="RoyalLight">
+            <igDP:XamDataCards.ViewSettings>
+                <igDP:CardViewSettings CollapseEmptyCellsButtonVisibility="Visible"
+                                       ShouldCollapseEmptyCells="False" />
+            </igDP:XamDataCards.ViewSettings>
+        </igDP:XamDataCards>
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource DataCardsStrings},
+            Path=LayoutAndBehavior_CollapseEmptyCells_ConfigArea_Header}"
+                               HorizontalAlignment="Right">
+            <TextBlock Text="{Binding Source={StaticResource DataCardsStrings}, Path=LayoutAndBehavior_CollapseEmptyCells_ConfigArea_Orientation}"
+                       Margin="{StaticResource OptionsElementsMargin}"/>
+            <controls:EnumValuesProvider x:Name="cboOrientation"
+                                         Margin="{StaticResource OptionsElementsMargin}"
+                                         EnumType="Orientation"
+                                         DisplayTemplate="ComboBox"
+                                         SelectedEnumIndex="0"
+                                         Value="{Binding ElementName=xamDataCards1, Path=ViewSettings.Orientation}" />
+            <CheckBox Content="{Binding Source={StaticResource DataCardsStrings}, Path=LayoutAndBehavior_CollapseEmptyCells_ConfigArea_ConfigArea_CollapseEmptyCellButton}"
+                      IsChecked="{Binding ElementName=xamDataCards1, Path=ViewSettings.CollapseEmptyCellsButtonVisibility, Converter={StaticResource visToBoolConverter}}" 
+                      Margin="{StaticResource OptionsElementsMargin}"/>
+            <CheckBox Content="{Binding Source={StaticResource DataCardsStrings}, Path=LayoutAndBehavior_CollapseEmptyCells_ConfigArea_CollapseAllEmptyCells}"
+                      IsChecked="{Binding ElementName=xamDataCards1, Path=ViewSettings.ShouldCollapseEmptyCells}" 
+                      Margin="{StaticResource OptionsElementsMargin}"/>
+            <Button Content="{Binding Source={StaticResource DataCardsStrings}, Path=LayoutAndBehavior_CollapseEmptyCells_ConfigArea_CollapseEmptyCellsSingle}"
+                    Command="{x:Static igDP:DataPresenterCommands.ToggleEmptyCardCellsCollapsedState}"
+                    CommandTarget="{Binding ElementName=xamDataCards1}"
+                    CommandParameter="{Binding ElementName=xamDataCards1, Path=ActiveRecord}" />
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

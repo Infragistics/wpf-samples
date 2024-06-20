@@ -1,0 +1,104 @@
+﻿<igFramework:SampleContainer x:Class="IGMonthCalendar.Samples.Display.WeekNumbers"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="WeekNumbers"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:glob="clr-namespace:System.Globalization;assembly=mscorlib"
+      xmlns:igEditors="http://infragistics.com/Editors"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGMonthCalendar.Resources"
+      xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGMonthCalendar;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:MonthCalendarStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <Grid>
+        <!-- #BEGIN SNIPPET# -->
+        <igEditors:XamMonthCalendar Theme="RoyalLight"
+                                    WeekNumberVisibility="Visible"
+                                    x:Name="xamCalendar"
+                                    FirstDayOfWeek="Sunday"
+                                    WeekRule="FirstFullWeek">
+            <igEditors:XamMonthCalendar.Resources>
+                <Style TargetType="{x:Type igEditors:XamMonthCalendar}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding RelativeSource={x:Static RelativeSource.Self},
+                            Path=Dispatcher.Thread.CurrentUICulture.Name}"
+                                     Value="ja-JP">
+                            <Setter Property="DayOfWeekHeaderFormat"
+                                    Value="SingleCharacter" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </igEditors:XamMonthCalendar.Resources>
+        </igEditors:XamMonthCalendar>
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource CommonStrings},
+            Path=ConfigurationPanel_Header_Options}"
+                               UseLayoutRounding="True" Margin="500,10,0,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding Source={StaticResource Strings}, Path=WeekNumberVisibility_Label}"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center" />
+                <controls:EnumValuesProvider Grid.Column="1"
+                                             MinWidth="120"
+                                             Value="{Binding Path=WeekNumberVisibility, Mode=TwoWay, ElementName=xamCalendar}"
+                                             EnumType="Visibility"
+                                             DisplayTemplate="ComboBox"
+                                             SelectedEnumIndex="0"
+                                             HorizontalAlignment="Left"
+                                             VerticalAlignment="Center"
+                                             Margin="5,0,0,0" />
+
+                <TextBlock Grid.Row="1"
+                           Text="{Binding Source={StaticResource Strings}, Path=FirstDayOfWeek_Label}"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center" />
+                <controls:EnumValuesProvider Grid.Row="1"
+                                             Grid.Column="1"
+                                             Value="{Binding Path=FirstDayOfWeek, Mode=TwoWay, ElementName=xamCalendar}"
+                                             MinWidth="120"
+                                             EnumType="sys:DayOfWeek"
+                                             DisplayTemplate="ComboBox"
+                                             SelectedEnumIndex="0"
+                                             HorizontalAlignment="Left"
+                                             VerticalAlignment="Center"
+                                             Margin="5,0,0,0" />
+
+                <TextBlock Grid.Row="2"
+                           Grid.Column="0"
+                           Text="{Binding Source={StaticResource Strings}, Path=WeekRule_Label}"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center" />
+                <controls:EnumValuesProvider Grid.Row="2"
+                                             Grid.Column="1"
+                                             Value="{Binding Path=WeekRule, Mode=TwoWay, ElementName=xamCalendar}"
+                                             MinWidth="120"
+                                             EnumType="glob:CalendarWeekRule"
+                                             DisplayTemplate="ComboBox"
+                                             SelectedEnumIndex="0"
+                                             HorizontalAlignment="Left"
+                                             VerticalAlignment="Center"
+                                             Margin="5,0,0,0" />
+            </Grid>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

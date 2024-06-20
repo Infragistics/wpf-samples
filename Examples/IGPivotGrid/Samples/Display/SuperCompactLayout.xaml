@@ -1,0 +1,73 @@
+﻿<framework:SampleContainer x:Class="IGPivotGrid.Samples.Display.SuperCompactLayout"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="SuperCompactLayout Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:local="clr-namespace:IGPivotGrid.Samples.Controls"
+      xmlns:res="clr-namespace:IGPivotGrid.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGPivotGrid;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <local:SampleFlatDataSourceDateVsProduct x:Key="FlatDataSource" />
+            <res:PivotGridStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamPivotGrid x:Name="pivotGrid"
+                         Grid.Row="1"
+                         DataSource="{StaticResource FlatDataSource}"
+                         AllowSuperCompactLayout="True"
+                         SuperCompactLayoutIndent="30"
+                         ParentInFrontForColumns="False"
+                         ParentInFrontForRows="True"/>
+        <!-- #END SNIPPET# -->
+
+        <ig:Expander Grid.Column="1" Grid.Row="1" Grid.RowSpan="2">
+            <ig:XamPivotDataSelector x:Name="dataSelector"
+                                     DataSource="{StaticResource FlatDataSource}" />
+        </ig:Expander>
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource CommonStrings}, Path=XW_Options}" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Border Margin="{StaticResource OptionsElementsMargin}">
+                <StackPanel>
+                    <RadioButton GroupName="A" Content="AllowSuperCompactLayout" IsChecked="{Binding AllowSuperCompactLayout, ElementName=pivotGrid, Mode=TwoWay}" x:Name="superCompactLayoutRadioButton" Margin="{StaticResource OptionsElementsMargin}"/>
+                    <RadioButton GroupName="A" Content="AllowCompactLayout" IsChecked="{Binding AllowCompactLayout, ElementName=pivotGrid, Mode=TwoWay}" Margin="{StaticResource OptionsElementsMargin}"/>
+                    <RadioButton GroupName="A" Content="{Binding Source={StaticResource Strings}, Path=XPG_NormalLayout}" Margin="{StaticResource OptionsTextTopBottomMargin}"/>
+                </StackPanel>
+            </Border>
+            <Border Margin="{StaticResource OptionsElementsMargin}">
+                <StackPanel>
+                    <TextBlock Text="SuperCompactLayoutIndent" Margin="{StaticResource OptionsElementsMargin}"/>
+                    <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsTextTopBottomMargin}">
+                        <TextBlock Text="{Binding Minimum, ElementName=indentSlider}" />
+                        <Slider Minimum="0" Maximum="200" x:Name="indentSlider" Value="{Binding SuperCompactLayoutIndent,ElementName=pivotGrid, Mode=TwoWay}" 
+                        Margin="8,0" HorizontalAlignment="Stretch" MinWidth="150" IsEnabled="{Binding IsChecked, ElementName=superCompactLayoutRadioButton}"/>
+                        <TextBlock Text="{Binding Maximum, ElementName=indentSlider}" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+            <Border>
+                <StackPanel>
+                    <CheckBox Content="ParentInFrontForColumns" IsChecked="{Binding ParentInFrontForColumns, ElementName=pivotGrid, Mode=TwoWay}" Margin="{StaticResource OptionsElementsMargin}"/>
+                    <CheckBox Content="ParentInFrontForRows" IsChecked="{Binding ParentInFrontForRows, ElementName=pivotGrid, Mode=TwoWay}"/>
+                </StackPanel>
+            </Border>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

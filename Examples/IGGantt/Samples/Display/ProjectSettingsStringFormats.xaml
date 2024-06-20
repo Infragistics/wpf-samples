@@ -1,0 +1,110 @@
+﻿<framework:SampleContainer x:Class="IGGantt.Samples.Display.ProjectSettingsStringFormats"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:viewModel="clr-namespace:IGGantt.Samples.ViewModel"
+    xmlns:res="clr-namespace:IGGantt.Resources"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="Project Settings String Format">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                
+                <ResourceDictionary Source="/IGGantt;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <res:GanttStrings x:Key="Strings" />
+            
+            <viewModel:ProjectSettingsSFViewModel x:Key="dc" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+    <framework:SampleContainer.DataContext>
+        <Binding Source="{StaticResource dc}" />
+    </framework:SampleContainer.DataContext>
+    <Grid x:Name="LayoutRoot" Background="White">
+        <ig:XamGantt x:Name="xamGantt">
+            <ig:XamGantt.Project>
+                <ig:ListBackedProject TaskItemsSource="{Binding Tasks}">
+                    <ig:ListBackedProject.TaskPropertyMappings>
+                            <ig:ProjectTaskPropertyMappingCollection UseDefaultMappings="True">
+                                <ig:ProjectTaskPropertyMapping TaskProperty="DataItemId" DataObjectProperty="DataItemId" />
+                                <ig:ProjectTaskPropertyMapping TaskProperty="TaskName" DataObjectProperty="TaskName" />
+                                <ig:ProjectTaskPropertyMapping TaskProperty="Start" DataObjectProperty="Start" />
+                                <ig:ProjectTaskPropertyMapping TaskProperty="Duration" DataObjectProperty="Duration" />
+                                <ig:ProjectTaskPropertyMapping TaskProperty="Tasks" DataObjectProperty="Tasks" />
+                                <ig:ProjectTaskPropertyMapping TaskProperty="Predecessors" DataObjectProperty="Predecessors" />
+                                <ig:ProjectTaskPropertyMapping TaskProperty="ConstraintType" DataObjectProperty="ConstraintType" />
+                                <ig:ProjectTaskPropertyMapping TaskProperty="ConstraintDate" DataObjectProperty="ConstraintDate" />
+                                <ig:ProjectTaskPropertyMapping TaskProperty="DurationFormat" DataObjectProperty="DurationFormat" />
+                        </ig:ProjectTaskPropertyMappingCollection>
+                    </ig:ListBackedProject.TaskPropertyMappings>
+                    <!-- #BEGIN SNIPPET# -->
+                    <ig:ListBackedProject.Settings>
+                        <ig:ProjectSettings DateStringFormat="{Binding SelectedDateFormat.Code, Mode=TwoWay}" 
+                                            DurationStringFormat="{Binding SelectedNumberFormat.Code, Mode=TwoWay}" />
+                    </ig:ListBackedProject.Settings>
+                    <!-- #END SNIPPET# -->
+                </ig:ListBackedProject>
+            </ig:XamGantt.Project>
+            <ig:XamGantt.ViewProvider>
+                <ig:ListBackedProjectViewProvider>
+                    <ig:ListBackedProjectViewProvider.ViewItemsSource>
+                        <viewModel:ProjectViewCollection>
+                            <ig:ProjectView Key="GanttChart" TableKey="Basic" />
+                        </viewModel:ProjectViewCollection>
+                    </ig:ListBackedProjectViewProvider.ViewItemsSource>
+                    <ig:ListBackedProjectViewProvider.TableItemsSource>
+                        <viewModel:ProjectTableCollection>
+                            <ig:ProjectTable Key="Basic">
+                                <ig:ProjectTable.Columns>
+                                    <ig:ProjectColumn Key="Id" Width="25" />
+                                    <ig:ProjectColumn Key="IsManual" Width="25" />
+                                    <ig:ProjectColumn Key="TaskName" Width="60" />
+                                    <ig:ProjectColumn Key="ManualDuration" Width="100" />
+                                    <ig:ProjectColumn Key="ManualStart" Width="100" />
+                                    <ig:ProjectColumn Key="ManualFinish" Width="94" />
+                                    <ig:ProjectColumn Key="PredecessorsIdText" Width="102" />
+                                    <ig:ProjectColumn Key="ResourcesText" Width="124" />
+                                </ig:ProjectTable.Columns>
+                            </ig:ProjectTable>
+                        </viewModel:ProjectTableCollection>
+                    </ig:ListBackedProjectViewProvider.TableItemsSource>
+                </ig:ListBackedProjectViewProvider>
+            </ig:XamGantt.ViewProvider>
+        </ig:XamGantt>
+        <!-- if you copy/paste the code, you can replace OptionsPanel with a standard container of your choice - StackPanel, Grid, WrapPanel, DockPanel for example. -->
+        <!-- A minor adjustment in sample layout can be needed after this operation. -->
+        <controls:OptionsPanel Canvas.ZIndex="100" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10"
+                               HeaderText="{Binding Source={StaticResource Strings}, Path=ProjectStringFormats}">
+            <Grid>
+                <Border>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height=".25*" />
+                            <RowDefinition Height=".25*" />
+                            <RowDefinition Height=".25*" />
+                            <RowDefinition Height=".25*" />
+                        </Grid.RowDefinitions>
+                        <!-- #BEGIN SNIPPET# -->
+                        <TextBlock Text="{Binding Source={StaticResource Strings}, Path=ChooseDurationFormat}" Grid.Row="0" Margin="3"
+                                   TextWrapping="Wrap" FontWeight="Bold" HorizontalAlignment="Left"/>
+                        <ComboBox ItemsSource="{Binding NumberDisplayFormats}" SelectedItem="{Binding SelectedNumberFormat, Mode=TwoWay}" 
+                                  DisplayMemberPath="Name" Width="120" Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="3"/>
+
+                        <TextBlock Text="{Binding Source={StaticResource Strings}, Path=ChooseDateFormat}" Grid.Row="2" Margin="3,10,3,3"
+                                   TextWrapping="Wrap" FontWeight="Bold" HorizontalAlignment="Left" />
+                        <ComboBox ItemsSource="{Binding DateDisplayFormat}" SelectedItem="{Binding SelectedDateFormat, Mode=TwoWay}" 
+                                  DisplayMemberPath="Name" Width="120" Grid.Row="3" Height="23" HorizontalAlignment="Left" Margin="3" />
+                        <!-- #END SNIPPET# -->
+                    </Grid>
+                </Border>
+            </Grid>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

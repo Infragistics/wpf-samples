@@ -1,0 +1,90 @@
+﻿<framework:SampleContainer x:Class="IGSlider.Samples.Style.Theming"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="Theming"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGSlider.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <res:SliderStrings x:Key="Strings" />
+            <converters:FormatConverter x:Key="dateConverter" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSlider;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Calendar x:Name="calendarRight"
+                  VerticalAlignment="Center"
+                  Grid.Row="1"
+                  SelectedDatesChanged="calendarRight_SelectedDatesChanged"
+                  DisplayDateChanged="calendarRight_DisplayDateChanged"
+                  d:LayoutOverrides="Width"
+                  Margin="10,0"
+                  IsTodayHighlighted="False" />
+        
+        <ig:XamDateTimeSlider x:Name="sliderRight"
+                              TrackClickAction="MoveToPoint"
+                              IsMouseWheelEnabled="True"
+                              MinValue="09/01/2013"
+                              MaxValue="09/30/2013"
+                              Value="{Binding DisplayDate, ElementName=calendarRight, Mode=TwoWay}"
+                              d:LayoutOverrides="Height"
+                              Margin="20,0"
+                              Grid.Column="1"
+                              Grid.Row="1">
+
+            <ig:XamDateTimeSlider.Thumb>
+                <ig:XamSliderDateTimeThumb />
+            </ig:XamDateTimeSlider.Thumb>
+
+            <ig:XamDateTimeSlider.TickMarks>
+                <ig:DateTimeSliderTickMarks FrequencyType="Days"
+                                            TickMarksFrequency="1"
+                                            IncludeSliderEnds="False" />
+                <ig:DateTimeSliderTickMarks FrequencyType="Days"
+                                            TickMarksFrequency="7"
+                                            IncludeSliderEnds="False" />
+
+                <ig:DateTimeSliderTickMarks UseFrequency="False"
+                                            NumberOfTickMarks="1"
+                                            IncludeSliderEnds="False">
+                    <ig:DateTimeSliderTickMarks.HorizontalTickMarksTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Converter={StaticResource dateConverter}, ConverterParameter=DATE}"
+                                           Margin="0,20,0,0" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ig:DateTimeSliderTickMarks.HorizontalTickMarksTemplate>
+                </ig:DateTimeSliderTickMarks>
+            </ig:XamDateTimeSlider.TickMarks>
+        </ig:XamDateTimeSlider>
+         
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ================================================================================================== -->
+        <!-- Note theme are changed in code-behind -->
+        <controls:ThemeSelector x:Name="ThemeSelector" Grid.ColumnSpan="2"
+                                HorizontalAlignment="Right"
+                                SelectionChanged="OnSelectionChanged"/>
+        <!-- ================================================================================================== -->
+        <!-- #END SNIPPET# -->
+    </Grid>
+</framework:SampleContainer>

@@ -1,0 +1,165 @@
+﻿<framework:SampleContainer x:Class="IGSyntaxEditor.Samples.Editing.UndoRedo"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="UndoRedo Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+      xmlns:res="clr-namespace:IGSyntaxEditor.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                
+                <ResourceDictionary Source="/IGSyntaxEditor;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:SyntaxEditorStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+
+        <ig:XamSyntaxEditor x:Name="xamSyntaxEditorLeft" Grid.Row="1" Grid.Column="0" SplitOptions="SplittingNotAllowed" BorderThickness="1">
+            <ig:XamSyntaxEditor.Document>
+                <ig:TextDocument>
+                    <ig:TextDocument.Language>
+                        <ig:PlainTextLanguage />
+                    </ig:TextDocument.Language>
+                </ig:TextDocument>
+            </ig:XamSyntaxEditor.Document>
+        </ig:XamSyntaxEditor>
+
+        <ig:XamSyntaxEditor x:Name="xamSyntaxEditorRight" Grid.Row="1" Grid.Column="1" SplitOptions="SplittingNotAllowed" BorderThickness="1">
+            <ig:XamSyntaxEditor.Document>
+                <ig:TextDocument>
+                    <ig:TextDocument.Language>
+                        <ig:PlainTextLanguage />
+                    </ig:TextDocument.Language>
+                </ig:TextDocument>
+            </ig:XamSyntaxEditor.Document>
+        </ig:XamSyntaxEditor>
+
+        <controls:OptionsPanel HeaderText="{Binding Path=ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}"
+                               HorizontalAlignment="Right" MinWidth="200">
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}"/>
+                <Style TargetType="Button" BasedOn="{StaticResource IGGenericButton}" >
+                    <Setter Property="MinWidth" Value="90"/>
+                </Style>
+            </controls:OptionsPanel.Resources>
+            <StackPanel Orientation="Vertical">
+                <StackPanel Margin="{StaticResource BottomPaddingMid}">
+                    <RadioButton
+                        Content="{Binding Source={StaticResource Strings}, Path=SeparateUndoManagers}"
+                        Click="rbSeparate_Click" GroupName="GroupA" IsChecked="True" Margin="{StaticResource OptionsElementsMargin}"/>
+                    <RadioButton
+                        Content="{Binding Source={StaticResource Strings}, Path=SharedUndoManager}"
+                        Click="rbShared_Click" GroupName="GroupA" />
+                </StackPanel>
+
+                <StackPanel x:Name="spSeparateControls" Orientation="Vertical">
+                    <Border>
+                        <StackPanel Margin="{StaticResource BottomPaddingMid}">
+                            <TextBlock Text="{Binding Source={StaticResource Strings}, Path=LeftEditor}" Margin="{StaticResource OptionsElementsMargin}" />
+                            <StackPanel Orientation="Horizontal">
+                                <!-- #BEGIN SNIPPET# -->
+                                <Button>
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="/IGSyntaxEditor;component/Images/Undo.png"/>
+                                            <TextBlock Text="{Binding Source={StaticResource CommonStrings}, Path=Undo}"/>
+                                        </StackPanel>
+                                    </Button.Content>
+                                    <ig:Commanding.Command>
+                                        <igPrim:SyntaxEditorCommandSource EventName="Click" CommandType="Undo" TargetName="xamSyntaxEditorLeft" />
+                                    </ig:Commanding.Command>
+                                </Button>
+                                <Button Margin="{StaticResource OptionsTextLeftMargin}">
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="/IGSyntaxEditor;component/Images/Redo.png"/>
+                                            <TextBlock Text="{Binding Source={StaticResource CommonStrings}, Path=Redo}"/>
+                                        </StackPanel>
+                                    </Button.Content>
+                                    <ig:Commanding.Command>
+                                        <igPrim:SyntaxEditorCommandSource EventName="Click" CommandType="Redo" TargetName="xamSyntaxEditorLeft" />
+                                    </ig:Commanding.Command>
+                                </Button>
+                                <!-- #END SNIPPET# -->
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                    <Border>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Source={StaticResource Strings}, Path=RightEditor}" Margin="{StaticResource OptionsElementsMargin}" />
+                            <StackPanel Orientation="Horizontal">
+                                <Button>
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="/IGSyntaxEditor;component/Images/Undo.png"/>
+                                            <TextBlock Text="{Binding Source={StaticResource CommonStrings}, Path=Undo}"/>
+                                        </StackPanel>
+                                    </Button.Content>
+                                    <ig:Commanding.Command>
+                                        <igPrim:SyntaxEditorCommandSource EventName="Click" CommandType="Undo" TargetName="xamSyntaxEditorRight" />
+                                    </ig:Commanding.Command>
+                                </Button>
+                                <Button Margin="{StaticResource OptionsTextLeftMargin}">
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="/IGSyntaxEditor;component/Images/Redo.png"/>
+                                            <TextBlock Text="{Binding Source={StaticResource CommonStrings}, Path=Redo}"/>
+                                        </StackPanel>
+                                    </Button.Content>
+                                    <ig:Commanding.Command>
+                                        <igPrim:SyntaxEditorCommandSource EventName="Click" CommandType="Redo" TargetName="xamSyntaxEditorRight" />
+                                    </ig:Commanding.Command>
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <StackPanel x:Name="spSharedControls" Orientation="Horizontal" ><!--Visibility="Collapsed"-->
+                    <Border>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Source={StaticResource Strings}, Path=SharedEditor}" Margin="{StaticResource OptionsElementsMargin}" />
+                            <StackPanel Orientation="Horizontal">
+                                <Button>
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="/IGSyntaxEditor;component/Images/Undo.png"/>
+                                            <TextBlock Text="{Binding Source={StaticResource CommonStrings}, Path=Undo}"/>
+                                        </StackPanel>
+                                    </Button.Content>
+                                    <ig:Commanding.Command>
+                                        <!-- In this case with shared undo manager it is equal at which target the command will be invoked. -->
+                                        <igPrim:SyntaxEditorCommandSource EventName="Click" CommandType="Undo" TargetName="xamSyntaxEditorLeft" />
+                                    </ig:Commanding.Command>
+                                </Button>
+                                <Button Margin="{StaticResource OptionsTextLeftMargin}">
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="/IGSyntaxEditor;component/Images/Redo.png"/>
+                                            <TextBlock Text="{Binding Source={StaticResource CommonStrings}, Path=Redo}"/>
+                                        </StackPanel>
+                                    </Button.Content>
+                                    <ig:Commanding.Command>
+                                        <!-- In this case with shared undo manager it is equal at which target the command will be invoked. -->
+                                        <igPrim:SyntaxEditorCommandSource EventName="Click" CommandType="Redo" TargetName="xamSyntaxEditorLeft" />
+                                    </ig:Commanding.Command>
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

@@ -1,0 +1,120 @@
+﻿<framework:SampleContainer x:Class="IGDockManager.Samples.Display.SpecifyIconsForContentPanes"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="SpecifyIconsForContentPanes"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:igDock="http://infragistics.com/DockManager"
+      xmlns:locCtls="clr-namespace:IGDockManager.CustomControls"
+      xmlns:res="clr-namespace:IGDockManager.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDockManager;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/IGDockManager;component/CustomControls/themes/generic.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DockManagerStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <!-- #BEGIN SNIPPET# -->
+    <!-- Create a XamDockManager control -->
+    <igDock:XamDockManager Theme="RoyalLight">
+        <!-- Document Content ======================================================================== -->
+        <!-- Add a DocumentContentHost here which will assign the DocumentContentHost as the Content of the
+        XamDockManager.  XamDockManager displays its content inside the dock areas.  Then add a SplitPane
+        containing a TabGroupPane with several ContentPanes that represent document content. -->
+        <igDock:DocumentContentHost>
+            <igDock:SplitPane>
+                <igDock:TabGroupPane>
+                    <igDock:ContentPane x:Name="document1"
+                                        Header="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_Page1_Header}">
+
+                        <locCtls:XdmStartPage Header="{Binding Source={StaticResource Strings}, Path=XamDockManagerWalkthrough_SpecifyIconsForContentPanes_XdmStartPage_Header}">
+                            <StackPanel>
+                                <TextBlock Text="{Binding Source={StaticResource Strings}, Path=XamDockManagerWalkthrough_SpecifyIconsForContentPanes_XdmStartPage_Description}"
+                                           TextWrapping="Wrap"/>
+                                <Image
+                                    Source="{Binding Source={StaticResource Strings}, Path=XamDockManagerWalkthrough_SpecifyIconsForContentPanes_XdmStartPage_Image}"
+                                    Margin="0,10,0,0"
+                                    Stretch="None"
+                                    Width="318"
+                                    Height="124"
+                                    HorizontalAlignment="Left"/>
+                            </StackPanel>
+                        </locCtls:XdmStartPage>
+
+                    </igDock:ContentPane>
+                    <igDock:ContentPane x:Name="document2"
+                                        Header="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_Page2_Header}">
+                        <locCtls:XdmSampleDocumentContent Content=" "/>
+                    </igDock:ContentPane>
+                    <igDock:ContentPane x:Name="document3"
+                                        Header="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_Page3_Header}">
+                        <locCtls:XdmSampleDocumentContent Content=" "/>
+                    </igDock:ContentPane>
+                    <igDock:ContentPane x:Name="document4"
+                                        Header="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_Page4_Header}">
+                        <locCtls:XdmSampleDocumentContent Content=" "/>
+                    </igDock:ContentPane>
+                </igDock:TabGroupPane>
+            </igDock:SplitPane>
+        </igDock:DocumentContentHost>
+        <!-- Add panes to the XamDockManager's Panes collection -->
+        <igDock:XamDockManager.Panes>
+            <!-- Right Dock Area ====================================================================== -->
+            <!-- Add a SplitPane with a single ContentPane and set its initial location to DockedRight
+            The ContentPane will show up as 'pinned' since we have not set its IsPinned property which
+            defaults to true. -->
+            <igDock:SplitPane igDock:XamDockManager.InitialLocation="DockedRight"
+                              SplitterOrientation="Horizontal" Width="220">
+                <igDock:TabGroupPane>
+                    <!-- Use the Image property to add Icons to each Content Pane to emulate the Visual Studio 2008 look -->
+                    <igDock:ContentPane x:Name="rightEdgeDock"
+                                        Header="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_RightEdge_Header1}"
+                                        Image="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_RightEdge_Image1}">
+                        <locCtls:XdmSamplePaneContent Content=" "/>
+                    </igDock:ContentPane>
+                    <igDock:ContentPane x:Name="rightEdgeTeamDock"
+                                        Header="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_RightEdge_Header2}"
+                                        Image="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_RightEdge_Image2}">
+                        <locCtls:XdmSamplePaneContent Content=" "/>
+                    </igDock:ContentPane>
+                </igDock:TabGroupPane>
+                <igDock:ContentPane x:Name="rightEdgePropertiesDock"
+                                    Header="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_RightEdge_Header3}"
+                                    Image="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_RightEdge_Image3}">
+                    <locCtls:XdmSamplePaneContent Content=" "/>
+                </igDock:ContentPane>
+            </igDock:SplitPane>
+            <!-- Bottom Dock Area ===================================================================== -->
+            <!-- Add a SplitPane with a single TabGroupPane that contains multiple ContentPanes. -->
+            <igDock:SplitPane igDock:XamDockManager.InitialLocation="DockedBottom">
+                <!-- TabGroupPane containing 5 ContentPanes -->
+                <igDock:TabGroupPane>
+                    <igDock:ContentPane x:Name="bottomEdgeDock1"
+                                        Header="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_BottomEdge_Header1}"
+                                        Image="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_BottomEdge_Image1}">
+                        <locCtls:XdmSamplePaneContent Content=" "/>
+                    </igDock:ContentPane>
+                    <igDock:ContentPane x:Name="bottomEdgeDock2"
+                                        Header="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_BottomEdge_Header2}"
+                                        Image="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_BottomEdge_Image2}">
+                        <locCtls:XdmSamplePaneContent Content=" "/>
+                    </igDock:ContentPane>
+                    <igDock:ContentPane x:Name="bottomEdgeDock3"
+                                        Header="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_BottomEdge_Header3}"
+                                        Image="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_BottomEdge_Image3}">
+                        <locCtls:XdmSamplePaneContent Content=" "/>
+                    </igDock:ContentPane>
+                </igDock:TabGroupPane>
+            </igDock:SplitPane>
+        </igDock:XamDockManager.Panes>
+    </igDock:XamDockManager>
+    <!-- #END SNIPPET# -->
+
+</framework:SampleContainer>

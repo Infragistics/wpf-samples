@@ -1,0 +1,70 @@
+﻿<igFramework:SampleContainer x:Class="IGDataGrid.Samples.Organization.ControllingTabStopEnabledReadonly"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:res="clr-namespace:IGDataGrid.Resources"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:viewModel="clr-namespace:IGDataGrid.Samples.ViewModel"
+      Title="ControlingTabStopEnabledReadonly">
+    
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataGrid;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DataGridStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <igFramework:SampleContainer.DataContext>
+        <viewModel:ProductsDataProvider />
+    </igFramework:SampleContainer.DataContext>
+
+    <Grid>
+        <igDP:XamDataGrid x:Name="dataGrid" Theme="RoyalLight"
+                          DataSource="{Binding Path=Products}"
+                          AutoFit="True" >
+            <igDP:XamDataGrid.FieldLayoutSettings>
+                <igDP:FieldLayoutSettings AutoGenerateFields="False"
+                                          AutoFitMode="Always" />
+            </igDP:XamDataGrid.FieldLayoutSettings>
+
+            <igDP:XamDataGrid.FieldLayouts>
+                <igDP:FieldLayout>                  
+                    <igDP:FieldLayout.Fields>
+                        <!-- #BEGIN SNIPPET# -->
+                        <igDP:TextField Name="SKU" IsReadOnly="True" IsTabStop="False"
+                                        Label="{Binding Source={StaticResource Strings}, Path=Product_SKU}"/>
+                        <igDP:TextField Name="Name" IsEnabled="False"
+                                        Label="{Binding Source={StaticResource Strings}, Path=Product_Name}"/>
+                        <igDP:TextField Name="Supplier" IsTabStop="False"
+                                        Label="{Binding Source={StaticResource Strings}, Path=Product_Supplier}"/>
+                        <!-- #END SNIPPET# -->
+                        <igDP:CurrencyField Name="UnitPrice"
+                                            Label="{Binding Source={StaticResource Strings}, Path=Product_UnitPrice}"/>
+                        <igDP:NumericField Name="UnitsInStock"
+                                           Label="{Binding Source={StaticResource Strings}, Path=Product_UnitsInStock}"/>
+                        <igDP:NumericField Name="UnitsOnOrder"
+                                           Label="{Binding Source={StaticResource Strings}, Path=Product_UnitsOnOrder}"/>
+                    </igDP:FieldLayout.Fields>                   
+                </igDP:FieldLayout>
+            </igDP:XamDataGrid.FieldLayouts>
+        </igDP:XamDataGrid>
+
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource Strings},Path=DisableSelectedCells_Header}"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Bottom">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="{Binding Source={StaticResource Strings}, Path=DisableSelectedCells_Info}" Margin="{StaticResource OptionsElementsMargin}"/>
+                <Button Content="{Binding Source={StaticResource Strings}, Path=DisableSelectedCells_Header}" 
+                        x:Name="Btn_DisableSelected" 
+                        Click="Btn_DisableSelected_OnClick"/>
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

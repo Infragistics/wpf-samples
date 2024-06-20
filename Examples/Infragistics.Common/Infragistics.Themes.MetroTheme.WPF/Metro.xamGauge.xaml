@@ -1,0 +1,518 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="http://schemas.infragistics.com/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <!-- *********************************  THEME COLORS  ********************************* -->
+    <ResourceDictionary.MergedDictionaries>
+      <ResourceDictionary Source="Theme.Colors.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- ********************************** BRUSHES **********************************-->
+    <SolidColorBrush x:Key="ForegroundBrush" Color="{StaticResource Color_002}"/>
+
+    <!-- RadialGauge Brushes -->
+    <SolidColorBrush x:Key="RadialGaugeInnerCircleFillBrush" Color="{StaticResource Color_002}"/>
+    <SolidColorBrush x:Key="RadialGaugeBackgroundBrush" Color="{StaticResource Color_009}"/>
+    <SolidColorBrush x:Key="RadialGaugeBorderBrush" Color="{StaticResource Color_024}"/>
+    <SolidColorBrush x:Key="RadialGaugeTickMarkBackgroundBrush" Color="{StaticResource Color_002}"/>
+    <SolidColorBrush x:Key="RadialGaugeRangeFillBrush" Color="{StaticResource Color_024}"/>
+    <SolidColorBrush x:Key="RadialGaugeNeedleBackgroundBrush" Color="{StaticResource Color_002}"/>
+
+    <!-- LinearGauge Brushes -->
+    <SolidColorBrush x:Key="LinearGaugeBackgroundBrush" Color="{StaticResource Color_009}"/>
+    <SolidColorBrush x:Key="LinearGaugeBorderBrush" Color="{StaticResource Color_024}"/>
+    <SolidColorBrush x:Key="LinearGaugeTickMarkBackgroundBrush" Color="{StaticResource Color_002}"/>
+    <SolidColorBrush x:Key="LinearGaugeTickMarkStrokeBrush" Color="{StaticResource Color_002}"/>
+    <SolidColorBrush x:Key="LinearGaugeBarMarkerBackgroundBrush" Color="{StaticResource Color_002}"/>
+    <SolidColorBrush x:Key="LinearGaugeRangeFillBrush" Color="{StaticResource Color_024}"/>
+    <SolidColorBrush x:Key="LinearGaugeNeedleBackgroundBrush" Color="{StaticResource Color_002}"/>
+
+    <!-- SegmentedDisplay Brushes -->
+    <SolidColorBrush x:Key="SegmentedDisplayBackgroundBrush" Color="{StaticResource Color_009}"/>
+    <SolidColorBrush x:Key="SegmentedDisplayBorderBrush" Color="{StaticResource Color_024}"/>
+    <SolidColorBrush x:Key="SegmentedDisplayTextForegroundUnlitBrush" Color="{StaticResource Color_020}"/>
+
+    <!-- BulletGraph Brushes -->
+    <SolidColorBrush x:Key="BulletGraphTickMarkBackgroundBrush" Color="{StaticResource Color_002}"/>
+    <SolidColorBrush x:Key="BulletGraphTickMarkStrokeBrush" Color="{StaticResource Color_002}"/>
+
+    <!-- QualitativeRange Brushes -->
+    <SolidColorBrush x:Key="QualitativeRangeBackgroundBrush" Color="{StaticResource Color_024}"/>
+
+    <!-- ComparativeMeasure Brushes -->
+    <SolidColorBrush x:Key="ComparativeMeasureBackgroundBrush" Color="{StaticResource Color_009}"/>
+    <SolidColorBrush x:Key="ComparativeMeasureStrokeBrush" Color="{StaticResource Color_009}"/>
+
+    <!-- FeaturedMeasure Brushes -->
+    <SolidColorBrush x:Key="FeaturedMeasureBackgroundBrush" Color="{StaticResource Color_009}"/>
+    <SolidColorBrush x:Key="FeaturedMeasureStrokeBrush" Color="{StaticResource Color_009}"/>
+
+    <!-- *********************************  Radial Gauge Style  ********************************* -->
+    <Style TargetType="local:XamRadialGauge" x:Key="XamRadialGauge">
+      <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+      <Setter Property="FontSize" Value="14"/>
+      <Setter Property="FontFamily" Value="Segoe UI"/>
+      <Setter Property="Margin" Value="0"/>
+      <Setter Property="Background" Value="{StaticResource RadialGaugeBackgroundBrush}"/>
+      <Setter Property="BorderBrush" Value="{StaticResource RadialGaugeBorderBrush}"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:XamRadialGauge">
+            <Grid UseLayoutRounding="False">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="85*"/>
+                <RowDefinition Height="85*"/>
+                <RowDefinition Height="85*"/>
+              </Grid.RowDefinitions>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="85*"/>
+                <ColumnDefinition Width="85*"/>
+                <ColumnDefinition Width="85*"/>
+              </Grid.ColumnDefinitions>
+              <Ellipse Grid.ColumnSpan="3" Grid.RowSpan="3" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="8"/>
+              <Grid x:Name="RootElement" Grid.RowSpan="3" Grid.ColumnSpan="3" Margin="{TemplateBinding Padding}"/>
+              <Ellipse Margin="0" Grid.ColumnSpan="3" Grid.RowSpan="3" RenderTransformOrigin="0.5,0.5" Width="24" Height="24" Fill="{StaticResource RadialGaugeInnerCircleFillBrush}"/>
+            </Grid>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:XamRadialGauge" BasedOn="{StaticResource XamRadialGauge}" />
+
+    <!-- *********************************  Label Style  ********************************* -->
+    <Style TargetType="local:Label" x:Key="LabelStyle">
+      <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+      <Setter Property="FontSize" Value="14"/>
+      <Setter Property="FontFamily" Value="Segoe UI"/>
+      <Setter Property="IsTabStop" Value="False"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:Label">
+            <Grid>
+              <TextBlock Text="{TemplateBinding Text}" Foreground="{TemplateBinding Foreground}"/>
+            </Grid>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:Label" BasedOn="{StaticResource LabelStyle}" />
+
+    <!-- *********************************  RadialGaugeRange Style  ********************************* -->
+    <Style TargetType="local:RadialGaugeRange" x:Key="RadialGaugeRangeStyle">
+      <Setter Property="Fill" Value="{StaticResource RadialGaugeRangeFillBrush}"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:RadialGaugeRange">
+            <Path Name="PathElement" Fill="{TemplateBinding Fill}"/>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:RadialGaugeRange" BasedOn="{StaticResource RadialGaugeRangeStyle}" />
+
+    <!-- *********************************  RadialGaugeTickMark Style  ********************************* -->
+    <Style x:Key="RadialGaugeTickMarkStyle" TargetType="local:RadialGaugeTickMark">
+      <Setter Property="IsTabStop" Value="False"/>
+      <Setter Property="Background" Value="{StaticResource RadialGaugeTickMarkBackgroundBrush}"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:RadialGaugeTickMark">
+            <Rectangle Fill="{TemplateBinding Background}" Opacity="1" Stretch="Fill" Stroke="{TemplateBinding BorderBrush}" MinHeight="1" Width="{TemplateBinding Width}"/>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:RadialGaugeTickMark" BasedOn="{StaticResource RadialGaugeTickMarkStyle}"/>
+
+    <!-- *********************************  RadialGaugeTickMarkset Style  ********************************* -->
+    <Style TargetType="local:RadialGaugeTickMarkGroup" x:Key="RadialGaugeTickMarkGroupStyle">
+      <Setter Property="IsTabStop" Value="False"/>
+      <Setter Property="TickMarkStyle" Value="{StaticResource RadialGaugeTickMarkStyle}"/>
+      <Setter Property="Margin" Value="0"/>
+      <Setter Property="StartExtent" Value="0.5"/>
+      <Setter Property="EndExtent" Value="0.7"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:RadialGaugeTickMarkGroup">
+            <ContentPresenter x:Name="RootElement"/>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:RadialGaugeTickMarkGroup" BasedOn="{StaticResource RadialGaugeTickMarkGroupStyle}" />
+
+    <!-- *********************************  RadialGaugeNeedle Style  ********************************* -->
+    <Style TargetType="local:RadialGaugeNeedle" x:Key="RadialGaugeNeedleStyle">
+      <Setter Property="IsTabStop" Value="False" />
+      <Setter Property="Background" Value="{StaticResource RadialGaugeNeedleBackgroundBrush}"/>
+      <Setter Property="RenderTransformOrigin" Value="0.125, 0.5"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:RadialGaugeNeedle">
+            <Path x:Name="RootElement" Fill="{TemplateBinding Background}" Stretch="Fill" Data="M380,212 C380,212 466,214.39586 466,214.39586 C466,214.39586 380,217 380,217 C380,217 380,212 380,212 z" UseLayoutRounding="False" Height="12">
+              <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                  <VisualState x:Name="Normal">
+                    <Storyboard />
+                  </VisualState>
+                  <VisualState x:Name="MouseOver">
+                    <Storyboard />
+                  </VisualState>
+                </VisualStateGroup>
+              </VisualStateManager.VisualStateGroups>
+            </Path>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:RadialGaugeNeedle" BasedOn="{StaticResource RadialGaugeNeedleStyle}" />
+
+    <!-- *********************************  RadialGaugeLabel Style  ********************************* -->
+    <Style TargetType="local:RadialGaugeLabelGroup" x:Key="RadialGaugeLabelGroupStyle">
+      <Setter Property="Margin" Value="0"/>
+      <Setter Property="Extent" Value="0.65"/>
+      <Setter Property="FontFamily" Value="Segoe UI"/>
+      <Setter Property="FontSize" Value="14"/>
+      <Setter Property="IsTabStop" Value="False"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:RadialGaugeLabelGroup">
+            <ContentPresenter x:Name="RootElement"/>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:RadialGaugeLabelGroup" BasedOn="{StaticResource RadialGaugeLabelGroupStyle}" />
+
+    <!-- *********************************  LinearGauge Style  ********************************* -->
+    <Style TargetType="local:XamLinearGauge" x:Key="XamLinearGaugeStyle">
+      <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+      <Setter Property="FontSize" Value="14"/>
+      <Setter Property="FontFamily" Value="Segoe UI"/>
+      <Setter Property="InnerMargin" Value="20,20,28,20"/>
+      <Setter Property="MinHeight" Value="65"/>
+      <Setter Property="MinWidth" Value="65"/>
+      <Setter Property="Background" Value="{StaticResource LinearGaugeBackgroundBrush}"/>
+      <Setter Property="BorderBrush" Value="{StaticResource LinearGaugeBorderBrush}"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:XamLinearGauge">
+            <Grid>
+              <Rectangle Fill="{TemplateBinding BorderBrush}"/>
+              <Rectangle Stroke="{TemplateBinding BorderBrush}" StrokeThickness="1" Margin="7" Fill="{TemplateBinding Background}"/>
+              <ContentPresenter x:Name="RootElement" Margin="{TemplateBinding InnerMargin}"/>
+            </Grid>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:XamLinearGauge" BasedOn="{StaticResource XamLinearGaugeStyle}" />
+
+    <!-- *********************************  LinearGaugeTickMark Style  ********************************* -->
+    <Style x:Key="LinearGaugeTickMarkStyle" TargetType="local:LinearGaugeTickMark">
+      <Setter Property="Background" Value="{StaticResource LinearGaugeTickMarkBackgroundBrush}"/>
+      <Setter Property="Stroke" Value="{StaticResource LinearGaugeTickMarkStrokeBrush}"/>
+      <Setter Property="Margin" Value="0"/>
+      <Setter Property="IsTabStop" Value="False"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:LinearGaugeTickMark">
+            <Rectangle MinWidth="1" Stretch="Fill" Opacity="1" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding Stroke}"/>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:LinearGaugeTickMark" BasedOn="{StaticResource LinearGaugeTickMarkStyle}"/>
+
+    <!-- *********************************  LinearGaugeTickMarkGroup Style  ********************************* -->
+    <Style TargetType="local:LinearGaugeTickMarkGroup" x:Key="LinearGaugeTickMarkGroupStyle">
+      <Setter Property="Margin" Value="0"/>
+      <Setter Property="TickMarkStyle" Value="{StaticResource LinearGaugeTickMarkStyle}"/>
+      <Setter Property="StartExtent" Value="0.5"/>
+      <Setter Property="EndExtent" Value="0.6"/>
+      <Setter Property="Interval" Value="10"/>
+      <Setter Property="IsTabStop" Value="False"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:LinearGaugeTickMarkGroup">
+            <Grid>
+              <ContentPresenter x:Name="RootElement"/>
+            </Grid>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:LinearGaugeTickMarkGroup" BasedOn="{StaticResource LinearGaugeTickMarkGroupStyle}" />
+
+    <!-- *********************************  LinearGaugeNeedle Style  ********************************* -->
+    <Style TargetType="local:LinearGaugeNeedle" x:Key="LinearGaugeNeedleStyle">
+      <Setter Property="IsTabStop" Value="False"/>
+      <Setter Property="Background" Value="{StaticResource LinearGaugeNeedleBackgroundBrush}"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:LinearGaugeNeedle">
+            <Grid>
+              <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="Positions">
+                  <VisualState x:Name="Horizontal">
+                    <Storyboard>
+                      <DoubleAnimation Storyboard.TargetName="NeedleGrid" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(RotateTransform.Angle)" Duration="0" To="0">
+                      </DoubleAnimation>
+                    </Storyboard>
+                  </VisualState>
+                  <VisualState x:Name="Vertical">
+                    <Storyboard>
+                      <DoubleAnimation Storyboard.TargetName="NeedleGrid" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(RotateTransform.Angle)" Duration="0" To="-90">
+                      </DoubleAnimation>
+                    </Storyboard>
+                  </VisualState>
+                </VisualStateGroup>
+              </VisualStateManager.VisualStateGroups>
+              <Grid x:Name="NeedleGrid">
+                <Grid.RenderTransform>
+                  <TransformGroup>
+                    <RotateTransform/>
+                  </TransformGroup>
+                </Grid.RenderTransform>
+                <Path Fill="{TemplateBinding Background}" Stretch="Fill" Height="20" Data="M410,205 C410,205 420,209.4852 420,209.4852 C420,209.4852 410,214 410,214 C410,214 410,205 410,205 z" UseLayoutRounding="False"/>
+              </Grid>
+            </Grid>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:LinearGaugeNeedle" BasedOn="{StaticResource LinearGaugeNeedleStyle}" />
+
+    <!-- *********************************  LinearGaugeBarMarker Style  ********************************* -->
+    <Style TargetType="local:LinearGaugeBarMarker" x:Key="LinearGaugeBarMarkerStyle">
+      <Setter Property="IsTabStop" Value="False"/>
+      <Setter Property="Background" Value="{StaticResource LinearGaugeBarMarkerBackgroundBrush}"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:LinearGaugeBarMarker">
+            <Rectangle Fill="{TemplateBinding Background}"/>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:LinearGaugeBarMarker" BasedOn="{StaticResource LinearGaugeBarMarkerStyle}" />
+
+    <!-- *********************************  LinearGaugeLabelGroup Style  ********************************* -->
+    <Style TargetType="local:LinearGaugeLabelGroup" x:Key="LinearGaugeLabelGroupStyle">
+      <Setter Property="FontFamily" Value="Segoe UI"/>
+      <Setter Property="FontSize" Value="14"/>
+      <Setter Property="IsTabStop" Value="False"/>
+      <Setter Property="Margin" Value="0"/>
+      <Setter Property="Padding" Value="0"/>
+      <Setter Property="HorizontalAlignment" Value="Stretch"/>
+      <Setter Property="Extent" Value="0.85"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:LinearGaugeLabelGroup">
+            <ContentPresenter x:Name="RootElement" Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}"/>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:LinearGaugeLabelGroup" BasedOn="{StaticResource LinearGaugeLabelGroupStyle}" />
+
+    <!-- *********************************  LinearGaugeRange Style  ********************************* -->
+    <Style TargetType="local:LinearGaugeRange" x:Key="LinearGaugeRangeStyle">
+      <Setter Property="Fill" Value="{StaticResource LinearGaugeRangeFillBrush}"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:LinearGaugeRange">
+            <Polygon Name="PathElement" Fill="{TemplateBinding Fill}"/>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:LinearGaugeRange" BasedOn="{StaticResource LinearGaugeRangeStyle}" />
+
+    <!-- *********************************  SegmentedDigitalGauge Style  ********************************* -->
+    <Style TargetType="local:XamSegmentedDisplay" x:Key="XamSegmentedDisplayStyle">
+      <Setter Property="Background" Value="{StaticResource SegmentedDisplayBackgroundBrush}"/>
+      <Setter Property="BorderBrush" Value="{StaticResource SegmentedDisplayBorderBrush}"/>
+      <Setter Property="BorderThickness" Value="0"/>
+      <Setter Property="TextForeground" Value="{StaticResource ForegroundBrush}"/>
+      <Setter Property="TextForegroundUnlit" Value="{StaticResource SegmentedDisplayTextForegroundUnlitBrush}"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:XamSegmentedDisplay">
+            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+              <Grid>
+                <Rectangle Fill="{TemplateBinding BorderBrush}"/>
+                <Rectangle Fill="{TemplateBinding Background}" Margin="7"/>
+                <ContentPresenter x:Name="RootElement" d:LayoutOverrides="Width, Height" Margin="20"/>
+              </Grid>
+            </Border>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:XamSegmentedDisplay" BasedOn="{StaticResource XamSegmentedDisplayStyle}" />
+
+    <!-- *********************************  SevenSegmentDigit Style  ********************************* -->
+    <Style TargetType="local:SevenSegmentDigit" x:Key="SevenSegmentDigitStyle">
+      <Setter Property="IsTabStop" Value="False"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:SevenSegmentDigit">
+            <Canvas x:Name="RootElement">
+              <Path Canvas.Left="1.868" Canvas.Top="0" Height="5" Width="19.263752222061157" Stretch="Fill" Data="M 2.1093978881835938,1.664093017578125 C1.5547027587890625,0.8320465087890625 2,0 3,0 3,0 20,0 20,0 21,0 21.445297241210938,0.8320465087890625 20.890602111816406,1.664093017578125 20.890602111816406,1.664093017578125 16,5 16,5 16,5 7,5 7,5 7,5 2.1093978881835938,1.664093017578125 2.1093978881835938,1.664093017578125 z" x:Name="top"/>
+              <Path Canvas.Left="5" Canvas.Top="13.5" Height="5" Width="13" Stretch="Fill" Data="M 7,14 C7,14 16,14 16,14 16,14 18,16 18,16 18,16 18,17 18,17 18,17 16,19 16,19 16,19 7,19 7,19 7,19 5,17 5,17 5,17 5,16 5,16 5,16 7,14 7,14 z" x:Name="middle"/>
+              <Path Canvas.Left="1.868" Canvas.Top="27.5" Height="5" Width="19.263752222061157" Stretch="Fill" Data="M 2.1093978881835938,31.335906982421875 C1.5547027587890625,32.16795349121094 2,33 3,33 3,33 20,33 20,33 21,33 21.445297241210938,32.16795349121094 20.890602111816406,31.335906982421875 20.890602111816406,31.335906982421875 16,28 16,28 16,28 7,28 7,28 7,28 2.1093978881835938,31.335906982421875 2.1093978881835938,31.335906982421875 z" x:Name="bottom"/>
+              <Path Canvas.Left="0" Canvas.Top="1.368126392364502" Height="14.131873607635498" Width="5" Stretch="Fill" Data="M 0,3 C0,2 0.8320465087890625,1.5547027587890625 1.6641006469726562,2.109405517578125 1.6641006469726562,2.109405517578125 5,6 5,6 5,6 5,14 5,14 5,14 3,16 3,16 3,16 2,16 2,16 2,16 0,14 0,14 0,14 0,3 0,3 z" x:Name="leftTop"/>
+              <Path Canvas.Left="0" Canvas.Top="16.3681" Height="14.131874084472656" Width="5" Stretch="Fill" Data="M 0,29.868133544921875 C0,30.868133544921875 0.8320465087890625,31.313430786132812 1.6641082763671875,30.75872802734375 1.6641082763671875,30.75872802734375 5,26.868133544921875 5,26.868133544921875 5,26.868133544921875 5,18.868133544921875 5,18.868133544921875 5,18.868133544921875 3,16.868133544921875 3,16.868133544921875 3,16.868133544921875 2,16.868133544921875 2,16.868133544921875 2,16.868133544921875 0,18.868133544921875 0,18.868133544921875 0,18.868133544921875 0,29.868133544921875 0,29.868133544921875 z" x:Name="leftBottom"/>
+              <Path Canvas.Left="18" Canvas.Top="1.368126392364502" Height="14.131873607635498" Width="5" Stretch="Fill" Data="M 23,3 C23,2 22.167953491210938,1.5547027587890625 21.335899353027344,2.109405517578125 21.335899353027344,2.109405517578125 18,6 18,6 18,6 18,14 18,14 18,14 20,16 20,16 20,16 21,16 21,16 21,16 23,14 23,14 23,14 23,3 23,3 z" x:Name="rightTop"/>
+              <Path Canvas.Left="18" Canvas.Top="16.368133544921875" Height="14.131874084472656" Width="5" Stretch="Fill" Data="M 23,29.868133544921875 C23,30.868133544921875 22.167953491210938,31.313430786132812 21.335891723632812,30.75872802734375 21.335891723632812,30.75872802734375 18,26.868133544921875 18,26.868133544921875 18,26.868133544921875 18,18.868133544921875 18,18.868133544921875 18,18.868133544921875 20,16.868133544921875 20,16.868133544921875 20,16.868133544921875 21,16.868133544921875 21,16.868133544921875 21,16.868133544921875 23,18.868133544921875 23,18.868133544921875 23,18.868133544921875 23,29.868133544921875 23,29.868133544921875 z" x:Name="rightBottom"/>
+              <Path Canvas.Left="26" Canvas.Top="13.5" Height="6" Width="6" Stretch="Fill" Data="M 26,17 C26,15.343124389648438 27.34313201904297,14 29,14 30.65686798095703,14 32,15.343124389648438 32,17 32,18.656875610351562 30.65686798095703,20 29,20 27.34313201904297,20 26,18.656875610351562 26,17 z" x:Name="dotTop"/>
+              <Path Canvas.Left="26" Canvas.Top="26.5" Height="6" Width="6" Stretch="Fill" Data="M 26,30 C26,28.343124389648438 27.34313201904297,27 29,27 30.65686798095703,27 32,28.343124389648438 32,30 32,31.656875610351562 30.65686798095703,33 29,33 27.34313201904297,33 26,31.656875610351562 26,30 z" x:Name="dotBottom"/>
+            </Canvas>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:SevenSegmentDigit" BasedOn="{StaticResource SevenSegmentDigitStyle}" />
+
+    <!-- *********************************  FourteenSegmentDigit Style  ********************************* -->
+    <Style TargetType="local:FourteenSegmentDigit" x:Key="FourteenSegmentDigitStyle">
+      <Setter Property="IsTabStop" Value="False"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:FourteenSegmentDigit">
+            <Canvas x:Name="RootElement">
+              <Path Canvas.Left="2" Canvas.Top="0" Height="6" Width="42" Stretch="Fill" Data="M 2,0 C2,0 44,0 44,0 44,0 38,6 38,6 38,6 8,6 8,6 8,6 2,0 2,0 z" x:Name="top"/>
+              <Path Canvas.Left="2" Canvas.Top="66" Height="6" Width="42" Stretch="Fill" Data="M 2,72 C2,72 44,72 44,72 44,72 38,66 38,66 38,66 8,66 8,66 8,66 2,72 2,72 z" x:Name="bottom"/>
+              <Path Canvas.Left="20" Canvas.Top="8" Height="26" Width="6" Stretch="Fill" Data="M 23,34 C23,34 26,31 26,31 26,31 26,8 26,8 26,8 20,8 20,8 20,8 20,31 20,31 20,31 23,34 23,34 z" x:Name="centerTop"/>
+              <Path Canvas.Left="20" Canvas.Top="38" Height="26" Width="6" Stretch="Fill" Data="M 23,38 C23,38 26,41 26,41 26,41 26,64 26,64 26,64 20,64 20,64 20,64 20,41 20,41 20,41 23,38 23,38 z" x:Name="centerBottom"/>
+              <Path Canvas.Left="0" Canvas.Top="2" Height="33" Width="6" Stretch="Fill" Data="M 0,2 C0,2 6,8 6,8 6,8 6,32 6,32 6,32 3,35 3,35 3,35 0,32 0,32 0,32 0,2 0,2 z" x:Name="leftTop"/>
+              <Path Canvas.Left="0" Canvas.Top="37" Height="33" Width="6" Stretch="Fill" Data="M 0,70 C0,70 6,64 6,64 6,64 6,40 6,40 6,40 3,37 3,37 3,37 0,40 0,40 0,40 0,70 0,70 z" x:Name="leftBottom"/>
+              <Path Canvas.Left="40" Canvas.Top="2" Height="33" Width="6" Stretch="Fill" Data="M 46,2 C46,2 40,8 40,8 40,8 40,32 40,32 40,32 43,35 43,35 43,35 46,32 46,32 46,32 46,2 46,2 z" x:Name="rightTop"/>
+              <Path Canvas.Left="40" Canvas.Top="37" Height="33" Width="6" Stretch="Fill" Data="M 46,70 C46,70 40,64 40,64 40,64 40,40 40,40 40,40 43,37 43,37 43,37 46,40 46,40 46,40 46,70 46,70 z" x:Name="rightBottom"/>
+              <Path Canvas.Left="6" Canvas.Top="33" Height="6" Width="16" Stretch="Fill" Data="M 6,36 C6,36 9,33 9,33 9,33 19,33 19,33 19,33 22,36 22,36 22,36 19,39 19,39 19,39 9,39 9,39 9,39 6,36 6,36 z" x:Name="centerLeft"/>
+              <Path Canvas.Left="24" Canvas.Top="33" Height="6" Width="16" Stretch="Fill" Data="M 24,36 C24,36 27,33 27,33 27,33 37,33 37,33 37,33 40,36 40,36 40,36 37,39 37,39 37,39 27,39 27,39 27,39 24,36 24,36 z" x:Name="centerRight"/>
+              <Path Canvas.Left="8" Canvas.Top="8" Height="23" Width="9" Stretch="Fill" Data="M 8,8 C8,8 12,8 12,8 12,8 17,21 17,21 17,21 17,31 17,31 17,31 13,31 13,31 13,31 8,16 8,16 8,16 8,8 8,8 z" x:Name="leftTopDiagonal"/>
+              <Path Canvas.Left="29" Canvas.Top="8" Height="23" Width="9" Stretch="Fill" Data="M 38,8 C38,8 34,8 34,8 34,8 29,21 29,21 29,21 29,31 29,31 29,31 33,31 33,31 33,31 38,16 38,16 38,16 38,8 38,8 z" x:Name="rightTopDiagonal"/>
+              <Path Canvas.Left="8" Canvas.Top="41" Height="23" Width="9" Stretch="Fill" Data="M 8,64 C8,64 12,64 12,64 12,64 17,51 17,51 17,51 17,41 17,41 17,41 13,41 13,41 13,41 8,56 8,56 8,56 8,64 8,64 z" x:Name="leftBottomDiagonal"/>
+              <Path Canvas.Left="29" Canvas.Top="41" Height="23" Width="9" Stretch="Fill" Data="M 38,64 C38,64 34,64 34,64 34,64 29,51 29,51 29,51 29,41 29,41 29,41 33,41 33,41 33,41 38,56 38,56 38,56 38,64 38,64 z" x:Name="rightBottomDiagonal"/>
+              <Path Canvas.Left="46" Canvas.Top="33" Height="8" Width="8" Stretch="Fill" Data="M 56,27 C56,24.790863037109375 57.790863037109375,23 60,23 62.209136962890625,23 64,24.790863037109375 64,27 64,29.209136962890625 62.209136962890625,31 60,31 57.790863037109375,31 56,29.209136962890625 56,27 z" x:Name="dotTop"/>
+              <Path Canvas.Left="46" Canvas.Top="64" Height="8" Width="8" Stretch="Fill" Data="M 56,47 C56,44.790863037109375 57.790863037109375,43 60,43 62.209136962890625,43 64,44.790863037109375 64,47 64,49.209136962890625 62.209136962890625,51 60,51 57.790863037109375,51 56,49.209136962890625 56,47 z" x:Name="dotBottom"/>
+            </Canvas>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:FourteenSegmentDigit" BasedOn="{StaticResource FourteenSegmentDigitStyle}" />
+
+    <!-- *********************************  BulletGraph Style  ********************************* -->
+    <Style TargetType="local:XamBulletGraph" x:Key="XamBulletGraphStyle">
+      <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+      <Setter Property="FontSize" Value="14"/>
+      <Setter Property="FontFamily" Value="Segoe UI"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:XamBulletGraph">
+            <Grid>
+              <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                <Grid x:Name="RootElement" Margin="{TemplateBinding InnerMargin}"/>
+              </Border>
+            </Grid>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:XamBulletGraph" BasedOn="{StaticResource XamBulletGraphStyle}" />
+
+    <!-- *********************************  ComparativeMeasure Style  ********************************* -->
+    <Style TargetType="local:ComparativeMeasure" x:Key="ComparativeMeasureStyle">
+      <Setter Property="IsTabStop" Value="False"/>
+      <Setter Property="Background" Value="{StaticResource ComparativeMeasureBackgroundBrush}"/>
+      <Setter Property="Thickness" Value="6"/>
+      <Setter Property="Width" Value="3"/>
+      <Setter Property="Stroke" Value="{StaticResource ComparativeMeasureStrokeBrush}"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:ComparativeMeasure">
+            <Rectangle Fill="{TemplateBinding Background}" Stroke="{TemplateBinding Stroke}"/>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:ComparativeMeasure" BasedOn="{StaticResource ComparativeMeasureStyle}" />
+
+    <!-- *********************************  FeaturedMeasure Style  ********************************* -->
+    <Style TargetType="local:FeaturedMeasure"  x:Key="FeaturedMeasureStyle">
+      <Setter Property="IsTabStop" Value="False"/>
+      <Setter Property="Background" Value="{StaticResource FeaturedMeasureBackgroundBrush}"/>
+      <Setter Property="Stroke" Value="{StaticResource FeaturedMeasureStrokeBrush}"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:FeaturedMeasure">
+            <Rectangle Fill="{TemplateBinding Background}" Stroke="{TemplateBinding Stroke}"/>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:FeaturedMeasure" BasedOn="{StaticResource FeaturedMeasureStyle}" />
+
+    <!-- *********************************  QuantitativeRange Style  ********************************* -->
+    <Style TargetType="local:QualitativeRange" x:Key="QualitativeRangeStyle">
+      <Setter Property="IsTabStop" Value="False"/>
+      <Setter Property="Background" Value="{StaticResource QualitativeRangeBackgroundBrush}"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:QualitativeRange">
+            <Rectangle Fill="{TemplateBinding Background}"/>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:QualitativeRange" BasedOn="{StaticResource QualitativeRangeStyle}" />
+
+    <!-- *********************************  BulletGraphTickMarkGroup Style  ********************************* -->
+    <Style TargetType="local:BulletGraphTickMarkGroup" x:Key="BulletGraphTickMarkGroupStyle">
+      <Setter Property="Background" Value="{StaticResource BulletGraphTickMarkBackgroundBrush}"/>
+      <Setter Property="Stroke" Value="{StaticResource BulletGraphTickMarkStrokeBrush}"/>
+      <Setter Property="Thickness" Value="1"/>
+      <Setter Property="IsTabStop" Value="False"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:BulletGraphTickMarkGroup">
+            <ContentPresenter x:Name="RootElement"/>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:BulletGraphTickMarkGroup" BasedOn="{StaticResource BulletGraphTickMarkGroupStyle}" />
+
+    <!-- *********************************  BulletGraphTickMark Style  ********************************* -->
+    <Style TargetType="local:BulletGraphTickMark" x:Key="BulletGraphTickMarkStyle">
+      <Setter Property="IsTabStop" Value="False"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:BulletGraphTickMark">
+            <Rectangle Fill="{TemplateBinding Background}" Stroke="{TemplateBinding Stroke}"/>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:BulletGraphTickMark" BasedOn="{StaticResource BulletGraphTickMarkStyle}" />
+
+    <!-- *********************************  BulletGraphLabelGroup Style  ********************************* -->
+    <Style TargetType="local:BulletGraphLabelGroup" x:Key="BulletGraphLabelGroupStyle">
+      <Setter Property="IsTabStop" Value="False"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="local:BulletGraphLabelGroup">
+            <ContentPresenter x:Name="RootElement"/>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="local:BulletGraphLabelGroup" BasedOn="{StaticResource BulletGraphLabelGroupStyle}" />
+</ResourceDictionary>

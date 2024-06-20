@@ -1,0 +1,256 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Display.Series.GalleryPolarSeries"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="PolarSeries Page"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+      xmlns:resources="clr-namespace:IGDataChart.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <resources:DataChartStrings x:Key="Strings" />
+            <models:WindDataModel x:Key="WindDataSource" d:IsDataSource="True" />
+
+            <Style TargetType="{x:Type ig:Legend}">
+                <Setter Property="Background" Value="{StaticResource LegendBackgroundBrush}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource LegendBorderBrush}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+            </Style>
+            <Style TargetType="{x:Type ig:XamDataChart}">
+                <Setter Property="HorizontalZoomable" Value="True"/>  
+                <Setter Property="VerticalZoomable" Value="True"/>  
+                <Setter Property="HorizontalZoombarVisibility" Value="Visible"/>  
+                <Setter Property="VerticalZoombarVisibility" Value="Visible"/>   
+                <Setter Property="PlotAreaBorderBrush" Value="{x:Null}"/>       
+            </Style>
+            <Style TargetType="{x:Type ig:NumericAngleAxis}">
+                <Setter Property="Interval" Value="15"/>
+                <Setter Property="MinimumValue" Value="0"/>
+                <Setter Property="MaximumValue" Value="360"/>
+                <Setter Property="StartAngleOffset" Value="0"/>
+            </Style> 
+            <Style TargetType="{x:Type ig:NumericRadiusAxis}">
+                <Setter Property="Interval" Value="10"/>
+                <Setter Property="MinimumValue" Value="0"/>
+                <Setter Property="MaximumValue" Value="70"/> 
+            </Style>         
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="1">
+            <ig:XamDataChart x:Name="PolarLineChart" 
+                             Legend="{Binding ElementName=Legend}"
+                             DataContext="{Binding Source={StaticResource WindDataSource}}"   >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericAngleAxis x:Name="AngleAxis1"/>
+                    <ig:NumericRadiusAxis x:Name="RadiusAxis1" />
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:PolarLineSeries Title="2010"
+                                        AngleAxis="{Binding ElementName=AngleAxis1}"
+                                        RadiusAxis="{Binding ElementName=RadiusAxis1}"
+                                        AngleMemberPath="Direction" MarkerType="None"
+                                        RadiusMemberPath="Speed" ItemsSource="{Binding WindData2010}"
+                                        Thickness="5"    >
+                    </ig:PolarLineSeries>
+                    <ig:PolarLineSeries Title="2009"
+                                        AngleAxis="{Binding ElementName=AngleAxis1}"
+                                        RadiusAxis="{Binding ElementName=RadiusAxis1}"
+                                        AngleMemberPath="Direction" MarkerType="None"
+                                        RadiusMemberPath="Speed" ItemsSource="{Binding WindData2009}"
+                                        Thickness="5"  >
+                    </ig:PolarLineSeries>
+                    <ig:PolarLineSeries Title="2008"
+                                        AngleAxis="{Binding ElementName=AngleAxis1}"
+                                        RadiusAxis="{Binding ElementName=RadiusAxis1}"
+                                        AngleMemberPath="Direction" MarkerType="None"
+                                        RadiusMemberPath="Speed" ItemsSource="{Binding WindData2008}"
+                                        Thickness="5"   >
+                    </ig:PolarLineSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+            <ig:XamDataChart x:Name="PolarSplineChart"
+                             Legend="{Binding ElementName=Legend}"
+                             DataContext="{Binding Source={StaticResource WindDataSource}}" >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericAngleAxis x:Name="AngleAxis2"/>
+                    <ig:NumericRadiusAxis x:Name="RadiusAxis2" />
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:PolarSplineSeries Title="2010"
+                                          AngleAxis="{Binding ElementName=AngleAxis2}"
+                                          RadiusAxis="{Binding ElementName=RadiusAxis2}"
+                                          AngleMemberPath="Direction" MarkerType="None"
+                                          RadiusMemberPath="Speed"
+                                          ItemsSource="{Binding WindData2010}"
+                                          Thickness="5"  >
+                    </ig:PolarSplineSeries>
+                    <ig:PolarSplineSeries Title="2009"
+                                          AngleAxis="{Binding ElementName=AngleAxis2}"
+                                          RadiusAxis="{Binding ElementName=RadiusAxis2}"
+                                          AngleMemberPath="Direction" MarkerType="None"
+                                          RadiusMemberPath="Speed"
+                                          ItemsSource="{Binding WindData2009}"
+                                          Thickness="5" >
+                    </ig:PolarSplineSeries>
+                    <ig:PolarSplineSeries Title="2008"
+                                          AngleAxis="{Binding ElementName=AngleAxis2}"
+                                          RadiusAxis="{Binding ElementName=RadiusAxis2}"
+                                          AngleMemberPath="Direction" MarkerType="None"
+                                          RadiusMemberPath="Speed"
+                                          ItemsSource="{Binding WindData2008}"
+                                          Thickness="5"  />
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+            <ig:XamDataChart x:Name="PolarSplineAreaChart"
+                             Legend="{Binding ElementName=Legend}"
+                             DataContext="{Binding Source={StaticResource WindDataSource}}" >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericAngleAxis x:Name="AngleAxis3"/>
+                    <ig:NumericRadiusAxis x:Name="RadiusAxis3" />
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:PolarSplineAreaSeries Title="2010"
+                                              MarkerType="None"
+                                              AngleAxis="{Binding ElementName=AngleAxis3}"
+                                              RadiusAxis="{Binding ElementName=RadiusAxis3}"
+                                              AngleMemberPath="Direction"
+                                              RadiusMemberPath="Speed"
+                                              ItemsSource="{Binding WindData2010}"
+                                              Thickness="5" >
+                    </ig:PolarSplineAreaSeries>
+                    <ig:PolarSplineAreaSeries Title="2009"
+                                              AngleAxis="{Binding ElementName=AngleAxis3}"
+                                              RadiusAxis="{Binding ElementName=RadiusAxis3}"
+                                              AngleMemberPath="Direction" MarkerType="None"
+                                              RadiusMemberPath="Speed"
+                                              ItemsSource="{Binding WindData2009}"
+                                              Thickness="5"  >
+                    </ig:PolarSplineAreaSeries>
+                    <ig:PolarSplineAreaSeries Title="2008"
+                                              AngleAxis="{Binding ElementName=AngleAxis3}"
+                                              RadiusAxis="{Binding ElementName=RadiusAxis3}"
+                                              AngleMemberPath="Direction" MarkerType="None"
+                                              RadiusMemberPath="Speed"
+                                              ItemsSource="{Binding WindData2008}"
+                                              Thickness="5"   >
+                    </ig:PolarSplineAreaSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+            <ig:XamDataChart x:Name="PolarAreaChart"
+                             Legend="{Binding ElementName=Legend}"
+                             DataContext="{Binding Source={StaticResource WindDataSource}}" >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericAngleAxis x:Name="AngleAxis4"/>
+                    <ig:NumericRadiusAxis x:Name="RadiusAxis4" />
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:PolarAreaSeries Title="2010"
+                                        AngleAxis="{Binding ElementName=AngleAxis4}"
+                                        RadiusAxis="{Binding ElementName=RadiusAxis4}"
+                                        AngleMemberPath="Direction" MarkerType="None"
+                                        RadiusMemberPath="Speed"
+                                        ItemsSource="{Binding WindData2010}"
+                                        Thickness="5">
+                    </ig:PolarAreaSeries>
+                    <ig:PolarAreaSeries Title="2009"
+                                        AngleAxis="{Binding ElementName=AngleAxis4}"
+                                        RadiusAxis="{Binding ElementName=RadiusAxis4}"
+                                        AngleMemberPath="Direction" MarkerType="None"
+                                        RadiusMemberPath="Speed"
+                                        ItemsSource="{Binding WindData2009}"
+                                        Thickness="5"   >
+                    </ig:PolarAreaSeries>
+                    <ig:PolarAreaSeries Title="2008"
+                                        AngleAxis="{Binding ElementName=AngleAxis4}"
+                                        RadiusAxis="{Binding ElementName=RadiusAxis4}"
+                                        AngleMemberPath="Direction" MarkerType="None"
+                                        RadiusMemberPath="Speed"
+                                        ItemsSource="{Binding WindData2008}"
+                                        Thickness="5"  >
+                    </ig:PolarAreaSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+            <ig:XamDataChart x:Name="PolarScatterChart"
+                             DataContext="{Binding Source={StaticResource WindDataSource}}"
+                             Legend="{Binding ElementName=Legend}"  >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericAngleAxis x:Name="AngleAxis5"/>
+                    <ig:NumericRadiusAxis x:Name="RadiusAxis5" />
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:PolarScatterSeries Title="2010"
+                                           MarkerType="Circle"
+                                           AngleAxis="{Binding ElementName=AngleAxis5}"
+                                           RadiusAxis="{Binding ElementName=RadiusAxis5}"
+                                           AngleMemberPath="Direction"
+                                           RadiusMemberPath="Speed"
+                                           ItemsSource="{Binding WindData2010}" >
+                    </ig:PolarScatterSeries>
+                    <ig:PolarScatterSeries Title="2009"
+                                           MarkerType="Circle" AngleAxis="{Binding ElementName=AngleAxis5}"
+                                           RadiusAxis="{Binding ElementName=RadiusAxis5}"
+                                           AngleMemberPath="Direction"
+                                           RadiusMemberPath="Speed"
+                                           ItemsSource="{Binding WindData2009}"  >
+                    </ig:PolarScatterSeries>
+                    <ig:PolarScatterSeries Title="2008"
+                                           MarkerType="Circle"
+                                           AngleAxis="{Binding ElementName=AngleAxis5}"
+                                           RadiusAxis="{Binding ElementName=RadiusAxis5}"
+                                           AngleMemberPath="Direction"
+                                           RadiusMemberPath="Speed"
+                                           ItemsSource="{Binding WindData2008}"  >
+                    </ig:PolarScatterSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+
+            <ig:Legend x:Name="Legend" VerticalAlignment="Top" HorizontalAlignment="Left" Padding="10,5,10,5" 
+                       Content="{Binding XWDC_DataModel_WindPatterns_Title, Source={StaticResource Strings}}" Margin="10" /> 
+        </Grid>
+        <Border Margin="{StaticResource SampleInnerNavigationPadding}" HorizontalAlignment="Left">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding XWDC_Global_SeriesType, Source={StaticResource Strings}}" Style="{StaticResource SamplesInnerNavigationTitleStyle}"/>
+                <ComboBox x:Name="ItemSelectionComboBox" Width="200" Margin="0,0,2,0" HorizontalAlignment="Left" VerticalAlignment="Center"  Style="{StaticResource IGComboBoxStyle}"/>
+                <Button x:Name="PrevItemButton" HorizontalAlignment="Center" Cursor="Hand"  Margin="0,0,2,0" Content="" Style="{StaticResource IGPreviousButtonStyle}" />
+                <Button x:Name="NextItemButton" HorizontalAlignment="Right" Cursor="Hand"  Margin="0,0,2,0" Content=""  Style="{StaticResource IGNextButtonStyle}" />
+            </StackPanel>
+        </Border>
+
+    </Grid>
+</igFramework:SampleContainer>

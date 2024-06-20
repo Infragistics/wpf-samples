@@ -1,0 +1,105 @@
+﻿<framework:SampleContainer x:Class="IGDataTree.Samples.Editing.SelectedDataItems"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+             xmlns:ig="http://schemas.infragistics.com/xaml" 
+             xmlns:local="clr-namespace:IGDataTree.Samples.ViewModels"
+             xmlns:resources="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared"
+             xmlns:dataTreeResources="clr-namespace:IGDataTree.Resources"
+             xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="700">
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataTree;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamDataTree.xaml" />
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamGrid.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <resources:CommonStrings x:Key="Strings" />
+            <dataTreeResources:DataTreeStrings x:Key="DataTreeStrings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <framework:SampleContainer.DataContext>
+        <local:EmployeesDataProvider />
+    </framework:SampleContainer.DataContext>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="{Binding Source={StaticResource DataTreeStrings}, Path=XDT_Employees_Header}" 
+                       FontWeight="Bold" Margin="0,10" />
+            <ig:XamDataTree x:Name="DataTree" Grid.Row="1"
+                            ItemsSource="{Binding Path=Employees}"
+                            VerticalAlignment="Stretch"
+                            NodeLayoutAssigned="DataTree_OnNodeLayoutAssigned">
+                <ig:XamDataTree.SelectionSettings>
+                    <ig:TreeSelectionSettings NodeSelection="Multiple"/>
+                </ig:XamDataTree.SelectionSettings>
+
+                <ig:XamDataTree.GlobalNodeLayouts>
+                    <ig:NodeLayout Key="EmployeeLayout"
+                                   TargetTypeName="Employee">
+                        <ig:NodeLayout.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/IGDataTree;component/Images/NodeCustomerIcon.png" />
+                                    <TextBlock Text="{Binding Data.Name}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ig:NodeLayout.ItemTemplate>
+                    </ig:NodeLayout>
+                </ig:XamDataTree.GlobalNodeLayouts>
+            </ig:XamDataTree>
+        </Grid>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <TextBlock Text="{Binding Source={StaticResource DataTreeStrings}, Path=XDT_EmployeesDetails_Header}" 
+                       FontWeight="Bold" Margin="0,10" />
+
+            <!--#BEGIN SNIPPET#-->
+            <ig:XamGrid ItemsSource="{Binding ElementName=DataTree, Path=SelectedDataItems}" 
+                        Grid.Row="1" AutoGenerateColumns="False"
+                        ColumnWidth="*" VerticalAlignment="Stretch">
+                <!--#END SNIPPET#-->
+                <ig:XamGrid.EditingSettings>
+                    <ig:EditingSettings AllowEditing="Cell"/>
+                </ig:XamGrid.EditingSettings>
+
+                <ig:XamGrid.Columns>
+                    <ig:TextColumn Key="Name" HeaderText="{Binding Path=Employee_Name, Source={StaticResource Strings}}"/>
+                    <ig:ImageColumn Key="ImagePath" ImageHeight="50" ImageWidth="50"
+                                    HeaderText="{Binding Source={StaticResource Strings}, Path=Employee_Photo}"/>
+                    <ig:TextColumn Key="JobTitle" HeaderText="{Binding Path=Employee_JobTitle, Source={StaticResource Strings}}"/>
+                    <ig:TextColumn Key="EmployeeSince" HeaderText="{Binding Path=Employee_EmployeeSince, Source={StaticResource Strings}}"/>
+                    <ig:CheckBoxColumn Key="HasHealthInsurance" HeaderText="{Binding Path=Employee_HasInsurance, Source={StaticResource Strings}}" />
+                    <ig:TextColumn Key="ManagerName" HeaderText="{Binding Path=Employee_ManagerName, Source={StaticResource Strings}}" />                    
+                </ig:XamGrid.Columns>
+            </ig:XamGrid>
+        </Grid>
+
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource CommonStrings}, Path=ConfigurationPanel_Header_Options}"
+                               HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.ColumnSpan="2"
+                               Margin="50" MinWidth="150">
+            <CheckBox x:Name="CheckBox_Insurance" 
+                      Content="{Binding Source={StaticResource DataTreeStrings}, Path=XDT_SelectedItems_SelectWithInsurance}"
+                      FontWeight="Bold" Margin="3"
+                      Checked="CheckBox_Insurance_OnChecked"
+                      Unchecked="CheckBox_Insurance_OnUnchecked"/>
+         </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

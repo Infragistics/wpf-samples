@@ -1,0 +1,92 @@
+﻿<framework:SampleContainer x:Class="IGComboEditor.Samples.Data.ComboPrimitivesBinding"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:framework="http://schemas.infragistics.com/xaml/samples"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:local="clr-namespace:IGComboEditor.Samples.Data"
+      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+      xmlns:resources="clr-namespace:IGComboEditor.Resources"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="800">
+    
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGComboEditor;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- #BEGIN SNIPPET# -->
+            <ObjectDataProvider x:Key="WeekDaysDataProviderValues" 
+                                MethodName="GetValues" 
+                                ObjectType="{x:Type sys:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="local:WeekDaysNames"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+            <!-- #END SNIPPET# -->
+            
+            <local:Data x:Key="Data" />
+            <resources:ComboEditorStrings x:Key="ComboEditorStrings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Margin="20,30">
+                    <Label Content="{Binding Source={StaticResource ComboEditorStrings}, Path=CE_Data_Enum}" 
+                           Style="{StaticResource SamplesInnerNavigationLabelTitleStyle}"/>
+                    <!-- #BEGIN SNIPPET# -->
+                    <ig:XamComboEditor x:Name="ComboEditorEnum"
+                                       Width="180"
+                                       ItemsSource="{Binding Source={StaticResource WeekDaysDataProviderValues}}"/>
+                    <!-- #END SNIPPET# -->
+                </StackPanel>
+                <StackPanel Margin="20,30">
+                    <Label Content="{Binding Source={StaticResource ComboEditorStrings}, Path=CE_Data_Int}" 
+                           Style="{StaticResource SamplesInnerNavigationLabelTitleStyle}"/>
+                    <ig:XamComboEditor x:Name="ComboEditorInts"
+                                   Width="180"
+                                   ItemsSource="{Binding Source={StaticResource Data}, Path=IntList}" />
+                </StackPanel>
+
+                <StackPanel Margin="20,30">
+                    <Label Content="{Binding Source={StaticResource ComboEditorStrings}, Path=CE_Data_Double}"
+                           Style="{StaticResource SamplesInnerNavigationLabelTitleStyle}"/>
+                    <ig:XamComboEditor x:Name="ComboEditorDoubles"
+                                   Width="180"
+                                   ItemsSource="{Binding Source={StaticResource Data}, Path=DoubleList}" />
+                </StackPanel>
+
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Margin="20,30">
+                    <Label Content="{Binding Source={StaticResource ComboEditorStrings}, Path=CE_Data_Bool}"
+                           Style="{StaticResource SamplesInnerNavigationLabelTitleStyle}"/>
+                    <ig:XamComboEditor x:Name="ComboEditorBools"
+                                       Width="180"
+                                       ItemsSource="{Binding Source={StaticResource Data}, Path=BoolList}" />
+                </StackPanel>
+
+                <StackPanel Margin="20,30">
+                    <Label Content="{Binding Source={StaticResource ComboEditorStrings}, Path=CE_Data_Dates}"
+                           Style="{StaticResource SamplesInnerNavigationLabelTitleStyle}"/>
+                    <ig:XamComboEditor x:Name="ComboEditorDates"
+                                       Width="180"
+                                       ItemsSource="{Binding Source={StaticResource Data}, Path=DatesList}" />
+                </StackPanel>
+
+                <StackPanel Margin="20,30">
+                    <Label Content="{Binding Source={StaticResource ComboEditorStrings}, Path=CE_Data_Chars}"
+                           Style="{StaticResource SamplesInnerNavigationLabelTitleStyle}"/>
+                    <ig:XamComboEditor x:Name="ComboEditorChars"
+                                       Width="180"
+                                       ItemsSource="{Binding Source={StaticResource Data}, Path=CharsList}" />
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</framework:SampleContainer>

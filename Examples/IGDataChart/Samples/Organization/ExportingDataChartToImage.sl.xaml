@@ -1,0 +1,99 @@
+﻿<framework:SampleContainer x:Class="IGDataChart.Samples.Organization.ExportingDataChartToImage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="ExportingDataChartToImage Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGDataChart.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <models:RandomDataCollection x:Key="data1" />
+            <models:RandomDataCollection x:Key="data2" />
+            <models:RandomDataCollection x:Key="data3" />
+
+            <res:DataChartStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid x:Name="dataChartGrid" Background="White">
+            <ig:XamDataChart x:Name="theChart"
+                             Legend="{Binding ElementName=theLegend}">
+                <ig:XamDataChart.Axes>
+                    <ig:CategoryXAxis x:Name="xAxis" Label="{}{Label}" ItemsSource="{StaticResource data1}">
+                        <ig:CategoryXAxis.LabelSettings>
+                            <ig:AxisLabelSettings Visibility="Collapsed" />
+                        </ig:CategoryXAxis.LabelSettings>
+                    </ig:CategoryXAxis>
+                    <ig:NumericYAxis x:Name="yAxis">
+                        <ig:NumericYAxis.LabelSettings>
+                            <ig:AxisLabelSettings Visibility="Collapsed" />
+                        </ig:NumericYAxis.LabelSettings>
+                    </ig:NumericYAxis>
+                </ig:XamDataChart.Axes>
+                <ig:XamDataChart.Series>
+                    <ig:LineSeries x:Name="line1"
+                                   Title="{Binding XWDC_DataModel_CompanyFinanceCategory_Marketing, Source={StaticResource Strings}}"
+                                   MarkerType="None" Thickness="3"
+                                   ItemsSource="{StaticResource data1}"
+                                   XAxis="{Binding ElementName=xAxis}"
+                                   YAxis="{Binding ElementName=yAxis}"
+                                   ValueMemberPath="Value">
+                    </ig:LineSeries>
+                    <ig:LineSeries x:Name="line2"
+                                   Title="{Binding XWDC_DataModel_CompanyFinanceCategory_Development, Source={StaticResource Strings}}"
+                                   MarkerType="None" Thickness="3"
+                                   ItemsSource="{StaticResource data2}"
+                                   XAxis="{Binding ElementName=xAxis}"
+                                   YAxis="{Binding ElementName=yAxis}"
+                                   ValueMemberPath="Value">
+                    </ig:LineSeries>
+                    <ig:LineSeries x:Name="line3"
+                                   Title="{Binding XWDC_DataModel_CompanyFinanceCategory_CustomerSupport, Source={StaticResource Strings}}"
+                                   MarkerType="None" Thickness="3"
+                                   ItemsSource="{StaticResource data3}"
+                                   XAxis="{Binding ElementName=xAxis}"
+                                   YAxis="{Binding ElementName=yAxis}"
+                                   ValueMemberPath="Value">
+                    </ig:LineSeries>
+
+                </ig:XamDataChart.Series>
+            </ig:XamDataChart>
+
+            <Border Margin="15,20,7,15" VerticalAlignment="Top"
+                    HorizontalAlignment="Right"
+                    Padding="0" CornerRadius="0"  >
+                <!--#BEGIN SNIPPET#-->
+                <ig:Legend x:Name="theLegend" Margin="0"
+                           Padding="5"
+                           Content="{Binding XWDC_DataModel_CompanyFinance_Spending, Source={StaticResource Strings}}"
+                           HorizontalAlignment="Stretch"
+                           VerticalAlignment="Stretch">
+                </ig:Legend>
+                <!--#END SNIPPET#-->
+            </Border>
+        </Grid>
+        <controls:OptionsPanel Margin="10 10 0 0" HeaderText="{Binding XWDC_ExportToImage_Export_Options, Source={StaticResource Strings}}">
+            <TextBlock Text="{Binding XWDC_ExportToImage_File_Format, Source={StaticResource Strings}}"/>
+            <ComboBox x:Name="formatCombo" Margin="0 0 0 10" SelectedIndex="0">
+                <ComboBoxItem Content="JPEG" Tag="True"/>
+                <ComboBoxItem Content="PNG" Tag="False"/>
+            </ComboBox>
+            <TextBlock Text="{Binding XWDC_ExportToImage_Jpeg_Quality, Source={StaticResource Strings}}"/>
+            <Slider x:Name="qualitySlider" IsEnabled="{Binding ElementName=formatCombo, Path=SelectedItem.Tag}" Minimum="1" Maximum="100" Value="90" Width="200" Margin="0 0 0 15"/>
+            <Button x:Name="saveButton" Click="SaveButton_Click" Content="{Binding XWDC_ExportToImage_Export, Source={StaticResource Strings}}"/>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

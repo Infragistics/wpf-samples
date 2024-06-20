@@ -1,0 +1,48 @@
+﻿<igFramework:SampleContainer
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="ScheduleResourceStrings"
+      x:Class="IGSchedule.Samples.Localization.ScheduleResourceStrings"
+      xmlns:data="clr-namespace:IGSchedule.DataSource"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:res="clr-namespace:IGSchedule.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <res:ScheduleStrings x:Key="resStrings" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSchedule;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <igFramework:SampleContainer.DataContext>
+        <data:ScheduleData x:Name="Data" />
+    </igFramework:SampleContainer.DataContext>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+
+        <!--#BEGIN SNIPPET#-->
+        <ig:XamScheduleView x:Name="scheduleView" ShowWorkingHoursOnly="True">
+            <ig:XamScheduleView.DataManager>
+                <ig:XamScheduleDataManager x:Name="dataManager">
+                    <ig:XamScheduleDataManager.CalendarGroups>
+                        <ig:CalendarGroup InitialCalendarIds="own1"/>
+                    </ig:XamScheduleDataManager.CalendarGroups>
+                    <ig:XamScheduleDataManager.DataConnector>
+                        <ig:ListScheduleDataConnector
+                            ResourceItemsSource="{Binding Resources}"
+                            ResourceCalendarItemsSource="{Binding Calendars}"
+                            AppointmentItemsSource="{Binding Appointments}"/>
+                    </ig:XamScheduleDataManager.DataConnector>
+                </ig:XamScheduleDataManager>
+            </ig:XamScheduleView.DataManager>
+        </ig:XamScheduleView>
+        <!--#END SNIPPET#-->
+    </Grid>
+</igFramework:SampleContainer>

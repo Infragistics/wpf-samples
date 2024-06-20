@@ -1,0 +1,59 @@
+﻿<framework:SampleContainer x:Class="IGGantt.Samples.Editing.Selection"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGGantt.Resources"
+    xmlns:viewmodel="clr-namespace:IGGantt.Samples.ViewModel"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="Selection">
+    
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                
+                <ResourceDictionary Source="/IGGantt;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <res:GanttStrings x:Key="Strings" />
+            
+            <viewmodel:ProjectViewModel x:Key="viewmodel" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <framework:SampleContainer.DataContext>
+        <Binding Source="{StaticResource viewmodel}" />
+    </framework:SampleContainer.DataContext>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="182" />
+        </Grid.RowDefinitions>
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamGantt x:Name="gantt" Project="{Binding Project}" 
+                     SelectedCellsChanged="gantt_SelectedCellsChanged"
+                     SelectedColumnsChanged="gantt_SelectedColumnsChanged"
+                     SelectedRowsChanged="gantt_SelectedRowsChanged"/>
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel VerticalAlignment="Stretch"
+                               HorizontalAlignment="Stretch"
+                               HeaderText="{Binding Source={StaticResource Strings},Path=SelectedElements}"
+                               IsMovable="False"
+                               Grid.Row="1"
+                               ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                               ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+            <ListBox x:Name="ListBox_Output" Height="100"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
+            <Button Content="{Binding Source={StaticResource Strings},Path=Clear}"
+                    x:Name="Btn_Clear"
+                    Click="Btn_Clear_Click"
+                    VerticalAlignment="Bottom" Height="20"/>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

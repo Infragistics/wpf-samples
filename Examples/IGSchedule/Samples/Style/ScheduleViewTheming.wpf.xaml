@@ -1,0 +1,91 @@
+﻿<igFramework:SampleContainer
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="ScheduleViewTheming"
+      x:Class="IGSchedule.Samples.Style.ScheduleViewTheming"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:data="clr-namespace:IGSchedule.DataSource"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGSchedule.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <res:ScheduleStrings x:Key="resStrings" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSchedule;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    
+    <igFramework:SampleContainer.DataContext>
+        <data:ScheduleData x:Name="Data" />
+    </igFramework:SampleContainer.DataContext>
+ 
+    <Grid x:Name="LayoutRoot" Width="Auto">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamScheduleView x:Name="scheduleView" ShowWorkingHoursOnly="True" Grid.Row="1" Margin="0,10,0,0">
+            <ig:XamScheduleView.DataManager>
+                <ig:XamScheduleDataManager x:Name="dataManager">
+                    <ig:XamScheduleDataManager.CalendarGroups>
+                        <ig:CalendarGroup InitialCalendarIds="own1"/>
+                    </ig:XamScheduleDataManager.CalendarGroups>
+                    <ig:XamScheduleDataManager.DataConnector>
+                        <ig:ListScheduleDataConnector
+                            ResourceItemsSource="{Binding Resources}"
+                            ResourceCalendarItemsSource="{Binding Calendars}"
+                            AppointmentItemsSource="{Binding Appointments}"/>
+                    </ig:XamScheduleDataManager.DataConnector>
+                </ig:XamScheduleDataManager>
+            </ig:XamScheduleView.DataManager>
+        </ig:XamScheduleView>
+        <!-- #END SNIPPET# -->
+
+        <controls:OptionsPanel HeaderText="{Binding Path=ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}" Grid.Row="0" IsMovable="False">
+            <StackPanel Orientation="Horizontal">
+
+                <Border>
+                    <StackPanel x:Name="RBHolder">
+                        <TextBlock Text="{Binding Source={StaticResource CommonStrings}, Path=ChooseColorScheme}" Margin="{StaticResource OptionsTextTopBottomMargin}"/>
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel>
+                                <RadioButton GroupName="gr" Checked="ColorScheme_Changed" Tag="IGTheme" Content="{Binding ThemeIG, Source={StaticResource resStrings}}" Margin="{StaticResource OptionsElementsMargin}"/>
+                                <RadioButton GroupName="gr" Checked="ColorScheme_Changed" Tag="Null" Content="{Binding Generic, Source={StaticResource resStrings}}" x:Name="NullColorScheme" IsChecked="True" />
+                            </StackPanel>
+                            <StackPanel Margin="10,0,0,0">
+                                <RadioButton GroupName="gr" Checked="ColorScheme_Changed" Tag="2007_1" Content="{Binding Theme07Black, Source={StaticResource resStrings}}" Margin="{StaticResource OptionsElementsMargin}"/>
+                                <RadioButton GroupName="gr" Checked="ColorScheme_Changed" Tag="2007_0" Content="{Binding Theme07Blue, Source={StaticResource resStrings}}" Margin="{StaticResource OptionsElementsMargin}"/>
+                                <RadioButton GroupName="gr" Checked="ColorScheme_Changed" Tag="2007_2" Content="{Binding Theme07Silver, Source={StaticResource resStrings}}" />
+                            </StackPanel>
+                            <StackPanel Margin="10,0,0,0">
+                                <RadioButton GroupName="gr" Checked="ColorScheme_Changed" Tag="2010_1" Content="{Binding Theme10Black, Source={StaticResource resStrings}}" Margin="{StaticResource OptionsElementsMargin}"/>
+                                <RadioButton GroupName="gr" Checked="ColorScheme_Changed" Tag="2010_0" Content="{Binding Theme10Blue, Source={StaticResource resStrings}}" Margin="{StaticResource OptionsElementsMargin}"/>
+                                <RadioButton GroupName="gr" Checked="ColorScheme_Changed" Tag="2010_2" Content="{Binding Theme10Silver, Source={StaticResource resStrings}}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ================================================================================================== -->
+                <!-- Note theme are changed in code-behind -->
+                <controls:ThemeSelector x:Name="ThemeSelector"  Margin="10 0 0 0"
+                                        HorizontalAlignment="Right"
+                                        SelectionChanged="OnSelectionChanged"/>
+                <!-- ================================================================================================== -->
+                <!-- #END SNIPPET# -->  
+
+            </StackPanel>
+        </controls:OptionsPanel>
+
+    </Grid>
+</igFramework:SampleContainer>

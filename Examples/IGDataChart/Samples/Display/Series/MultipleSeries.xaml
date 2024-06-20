@@ -1,0 +1,91 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Display.Series.MultipleSeries"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="MultipleSeries Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+      xmlns:resources="clr-namespace:IGDataChart.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <resources:DataChartStrings x:Key="Strings" />
+            <models:StockMarketSettings x:Key="dataSettings" DateInterval="0:1:0" />
+            <models:StockMarketDataCollection x:Key="data" Settings="{StaticResource dataSettings}" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <ig:XamDataChart x:Name="DataChart" DataContext="{StaticResource data}" 
+                         VerticalZoomable="True" HorizontalZoomable="True">
+           <ig:XamDataChart.Axes>
+                <ig:CategoryXAxis x:Name="commonXAxis" ItemsSource="{Binding}" Label="{}{Date:hh:mm:ss}">
+                    <ig:CategoryXAxis.LabelSettings>
+                        <ig:AxisLabelSettings Location="OutsideBottom" Extent="35" Visibility="Visible" />
+                    </ig:CategoryXAxis.LabelSettings>
+                </ig:CategoryXAxis>
+                <ig:NumericYAxis x:Name="volumeYAxis" Opacity="0">
+                    <ig:NumericYAxis.LabelSettings>
+                        <ig:AxisLabelSettings Location="OutsideLeft" Extent="55" Visibility="Visible" />
+                    </ig:NumericYAxis.LabelSettings>
+                </ig:NumericYAxis>
+                <ig:NumericYAxis x:Name="priceYAxis">
+                    <ig:NumericYAxis.LabelSettings>
+                        <ig:AxisLabelSettings Location="OutsideRight" Extent="55" Visibility="Visible" />
+                    </ig:NumericYAxis.LabelSettings>
+                </ig:NumericYAxis>
+            </ig:XamDataChart.Axes>
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ========================================================================== -->
+            <ig:XamDataChart.Series>
+                <ig:FinancialPriceSeries x:Name="PriceSeries" 
+                                         DisplayType="Candlestick"
+                                         ItemsSource="{Binding}"
+                                         OpenMemberPath="Open"
+                                         CloseMemberPath="Close"
+                                         HighMemberPath="High"
+                                         LowMemberPath="Low"
+                                         VolumeMemberPath="Volume"
+                                         XAxis="{Binding ElementName=commonXAxis}"
+                                         YAxis="{Binding ElementName=priceYAxis}"
+                                         TrendLineThickness="2" 
+                                         TrendLineType="ModifiedAverage"
+                                         TrendLineDashArray="1 2" 
+                                         IsHighlightingEnabled="True" 
+                                         IsTransitionInEnabled="True">
+                </ig:FinancialPriceSeries>
+                <ig:LineSeries x:Name="VolumeSeries" MarkerType="None" Thickness="2"
+                               ValueMemberPath="Volume" ItemsSource="{Binding}"
+                               XAxis="{Binding ElementName=commonXAxis}"
+                               YAxis="{Binding ElementName=volumeYAxis}"
+                               TrendLineThickness="2" 
+                               TrendLineType="CumulativeAverage"
+                               TrendLineDashArray="1 2" 
+                               IsHighlightingEnabled="True" 
+                               IsTransitionInEnabled="True"/>
+            </ig:XamDataChart.Series>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+        </ig:XamDataChart>
+        <controls:OptionsPanel HeaderText="{Binding XWDC_MultipleSeries_ShowElements, Source={StaticResource Strings}}" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="10,0,7,10" >
+            <CheckBox Click="CheckBox_Click" Margin="{StaticResource OptionsElementsMargin}" IsChecked="True" Tag="ShowPriceSeries" 
+                      Content="{Binding XWDC_MultipleSeries_PriceSeries, Source={StaticResource Strings}}"/>
+            <CheckBox Click="CheckBox_Click" Margin="{StaticResource OptionsElementsMargin}" IsChecked="True" Tag="ShowPriceTrendline" 
+                      Content="{Binding XWDC_MultipleSeries_PriceTrendline, Source={StaticResource Strings}}"/>
+            <Rectangle Fill="{StaticResource SeparatorBrush}" Height="1" Stretch="Fill" Margin="{StaticResource OptionsElementsMargin}"/>
+            <CheckBox Click="CheckBox_Click" Margin="{StaticResource OptionsElementsMargin}" IsChecked="True" Tag="ShowVolumeSeries" 
+                      Content="{Binding XWDC_MultipleSeries_VolumeSeries, Source={StaticResource Strings}}"/>
+            <CheckBox Click="CheckBox_Click" Margin="{StaticResource OptionsElementsMargin}" IsChecked="True" Tag="ShowVolumeTrendline" 
+                      Content="{Binding XWDC_MultipleSeries_VolumeTrendline, Source={StaticResource Strings}}"/>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

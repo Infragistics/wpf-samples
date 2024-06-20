@@ -1,0 +1,94 @@
+﻿<igs:SampleContainer 
+    x:Class="IGSurfaceChart.Samples.Data.BindingShapefiles"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"  
+    xmlns:res="clr-namespace:IGSurfaceChart.Resources"
+    xmlns:igs="http://schemas.infragistics.com/xaml/samples" 
+    xmlns:ig="http://schemas.infragistics.com/xaml" 
+    xmlns:igx="clr-namespace:Infragistics.Samples.Shared.DataProviders;assembly=Infragistics.Samples.Shared"
+    xmlns:data="clr-namespace:IGSurfaceChart.Samples.Data"
+    mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="500">
+    <igs:SampleContainer.Resources>
+        <ResourceDictionary>
+            <Style TargetType="ig:LinearScale" x:Key="LinearScaleStyle" >
+                <!--<Setter Property="LabelFormat" Value="{}{0:N{precision}}" />-->
+                <Setter Property="LabelFontSize" Value="16" />
+                <Setter Property="TitleFontSize" Value="16" />
+            </Style>
+            
+            <res:SurfaceChartStrings x:Key="ChartStrings" />
+            <!-- ShapeFileProvider provides absolute path to a shape file Stretch="Fill" TileMode="Tile" -->
+            
+            <DiffuseMaterial x:Key="FloorMapMaterial">
+                <DiffuseMaterial.Brush>
+                    <ImageBrush 
+                    ImageSource="/Infragistics.Samples.Assets;component/Storage/en/images/Maps/geo_preview_bing_road.png">
+                    </ImageBrush>
+                </DiffuseMaterial.Brush>
+            </DiffuseMaterial>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSurfaceChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+ 
+          </ResourceDictionary>
+    </igs:SampleContainer.Resources>
+    
+    <Grid>
+        <!--<Grid.Background>
+            <ImageBrush Stretch="Fill" TileMode="Tile" 
+                    ImageSource="/Infragistics.Samples.Assets;component/Storage/en/images/Maps/geo_preview_bing_road.png">
+            </ImageBrush>
+        </Grid.Background>-->
+        <!--Fields: lon	lat	magnitude region depth datetime 
+        XMemberPath="Fields[lon]" 
+                                YMemberPath="Fields[lat]" 
+                                ZMemberPath="Fields[magnitude]"--> 
+        <!--#BEGIN SNIPPET#-->
+        <ig:XamScatterSurface3D x:Name="SurfaceChart" Background="Transparent"
+                                ItemsSource="{Binding Data}"
+                                XMemberPath="X" 
+                                YMemberPath="Y" 
+                                ZMemberPath="Z"   ShowFloorProjection="False"
+                                FloorMaterial="{StaticResource FloorMapMaterial}" 
+                                RimThickness="0" 
+                                SeriesColors="{StaticResource WarmCollection}">
+            <ig:XamScatterSurface3D.Resources>
+                <igx:ShapeFileProvider x:Key="ShapeFileProvider"
+                    ShapeFileRelativePath="/world/world_cities.shp"
+                    ShapeDatabaseRelativePath="world/world_cities.dbf"/> 
+            </ig:XamScatterSurface3D.Resources>
+            <ig:XamScatterSurface3D.DataContext>
+                <!-- ShapefileConverter loads X/Y from shape files (.SHP) and Z values from database (.DBF) files x:Key="ShapeFileConverter"-->
+                <!--<ig:ShapefileConverter 
+                    ImportCompleted="OnShapefileImportCompleted"
+                    ShapefileSource="{Binding Path=ShapeFileAbsolutePath, Source={StaticResource ShapeFileProvider}}"
+                    DatabaseSource="{Binding Path=ShapeDatabaseAbsolutePath, Source={StaticResource ShapeFileProvider}}" />-->
+              <samples:ShapefileData3D ZMemberPath="POP_CNTRY" MaxPoints="2500"
+                    ShapefileSource="/IGSurfaceChart;component/Resources/world_countries.shp"
+                    DatabaseSource="/IGSurfaceChart;component/Resources/world_countries.dbf" />
+              <data:ShapefileData ZMemberPath="POPULATION"
+                    ShapefileSource="{Binding Path=ShapeFileAbsolutePath, Source={StaticResource ShapeFileProvider}}"
+                    DatabaseSource="{Binding Path=ShapeDatabaseAbsolutePath, Source={StaticResource ShapeFileProvider}}" />
+            </ig:XamScatterSurface3D.DataContext>
+              <ig:XamScatterSurface3D.XAxis>
+                <ig:LinearScale Title="{Binding Source={StaticResource ChartStrings}, Path=XAxis}" 
+                                Style="{StaticResource LinearScaleStyle}" 
+                                MinimumValue="-180" MaximumValue="180"/>
+            </ig:XamScatterSurface3D.XAxis>
+            <ig:XamScatterSurface3D.YAxis>
+                <ig:LinearScale Title="{Binding Source={StaticResource ChartStrings}, Path=YAxis}" 
+                                Style="{StaticResource LinearScaleStyle}" 
+                                MinimumValue="-90" MaximumValue="90"/>
+            </ig:XamScatterSurface3D.YAxis>
+            <ig:XamScatterSurface3D.ZAxis>
+                <ig:LinearScale x:Name="ValueAxis" MinimumValue="0" 
+                                Title="{Binding Source={StaticResource ChartStrings}, Path=ZAxis}" 
+                                Style="{StaticResource LinearScaleStyle}" />
+            </ig:XamScatterSurface3D.ZAxis>
+        </ig:XamScatterSurface3D>
+        <!--#END SNIPPET#-->
+    </Grid>
+</igs:SampleContainer>

@@ -1,0 +1,104 @@
+﻿<igFramework:SampleContainer x:Class="IGDataGrid.Samples.Editing.AdorningEditors"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="AdorningEditors"
+      xmlns:bvr="clr-namespace:IGDataGrid.Behaviors"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGDataGrid.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataGrid;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DataGridStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <AdornerDecorator>
+        <DockPanel>
+            <Border DockPanel.Dock="Top"
+                    Margin="{StaticResource GridsSamplesBottomPadding}">
+                <TextBlock HorizontalAlignment="Right">
+                    <Hyperlink Click="linkToBlogPost_Click" Foreground="{StaticResource HyperlinkForegroundBrush}">
+                        <TextBlock Text="{Binding Source={StaticResource Strings}, Path=AdorningEditors_Hyperlink_Text}"/>
+                    </Hyperlink>
+                </TextBlock>
+            </Border>
+            <!-- #BEGIN SNIPPET# -->
+            <igDP:XamDataGrid x:Name="xamDG"
+                              bvr:XamDataGridBehavior.DisplayAdorningEditors="True"
+                              bvr:XamDataGridBehavior.RequestAdorningEditor="OnRequestAdorningEditor"
+                              AutoFit="True"
+                              DataSource="{Binding}"
+                              Theme="RoyalLight">
+                <igDP:XamDataGrid.Resources>
+                    <Style x:Key="OnlineStatusCellStyle"
+                           TargetType="{x:Type igDP:CellValuePresenter}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type igDP:CellValuePresenter}">
+                                    <Image x:Name="img"
+                                           Source="/IGDataGrid;component/Resources/online.png"
+                                           Width="16"
+                                           Height="16" />
+                                    <ControlTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding Path=DataItem.OnlineStatus}"
+                                                     Value="Offline">
+                                            <Setter TargetName="img"
+                                                    Property="Source"
+                                                    Value="/IGDataGrid;component/Resources/offline.png" />
+                                        </DataTrigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </igDP:XamDataGrid.Resources>
+
+                <igDP:XamDataGrid.FieldLayouts>
+                    <igDP:FieldLayout>
+                        <igDP:FieldLayout.Fields>
+                            <igDP:Field Name="OnlineStatus"
+                                        Label="Online Status">
+                                <igDP:Field.Settings>
+                                    <igDP:FieldSettings AllowGroupBy="True"
+                                                        CellValuePresenterStyle="{StaticResource OnlineStatusCellStyle}"
+                                                        CellMaxWidth="80" />
+                                </igDP:Field.Settings>
+                            </igDP:Field>
+                            <igDP:Field Name="DisplayName"
+                                        Label="Name"
+                                        IsScrollTipField="True" />
+                            <igDP:Field Name="CellPhone"
+                                        Label="Mobile #" />
+                            <igDP:Field Name="PersonalEmail"
+                                        Label="Personal E-mail" />
+                        </igDP:FieldLayout.Fields>
+                        <igDP:FieldLayout.Settings>
+                            <igDP:FieldLayoutSettings AutoGenerateFields="False"
+                                                      HighlightAlternateRecords="True"
+                                                      SelectionTypeCell="Single"
+                                                      SelectionTypeField="Single"
+                                                      SelectionTypeRecord="Single" />
+                        </igDP:FieldLayout.Settings>
+                        <igDP:FieldLayout.SortedFields>
+                            <igDP:FieldSortDescription Direction="Ascending"
+                                                       FieldName="DisplayName" />
+                        </igDP:FieldLayout.SortedFields>
+                    </igDP:FieldLayout>
+                </igDP:XamDataGrid.FieldLayouts>
+
+                <igDP:XamDataGrid.FieldSettings>
+                    <igDP:FieldSettings AllowGroupBy="False" />
+                </igDP:XamDataGrid.FieldSettings>
+            </igDP:XamDataGrid>
+            <!-- #END SNIPPET# -->
+        </DockPanel>
+    </AdornerDecorator>
+</igFramework:SampleContainer>

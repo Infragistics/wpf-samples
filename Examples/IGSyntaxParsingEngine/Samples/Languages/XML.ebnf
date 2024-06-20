@@ -1,0 +1,104 @@
+?
+<Grammar Name="Infragistics XML Language Definition" StartSymbol="RootContent">
+	<TerminalSymbolReference Name="NewLineToken"/> 
+	<TerminalSymbolReference Name="WhitespaceToken"/> 
+
+	<TerminalSymbol Name="TAG_OPEN" Value="&lt;" Comparison="RegularExpression" LanguageElementName="Punctuation" LookaheadPattern="[^!]"> 
+		<LexerState Name="Tag"> 
+			<TerminalSymbol Name="LITERAL_OPEN" Value="&quot;" LanguageElementName="StringLiteral"> 
+				<LexerState Name="StringLiteral"> 
+					<TerminalSymbol Name="ENTITY_START" Value="&amp;" LanguageElementName="Operator"> 
+						<LexerState Name="Entity_StringLiteral"> 
+							<TerminalSymbol Name="ENTITY_AMP" Value="amp"/> 
+							<TerminalSymbol Name="ENTITY_QUOT" Value="quot"/> 
+							<TerminalSymbol Name="ENTITY_LT" Value="lt"/> 
+							<TerminalSymbol Name="ENTITY_GT" Value="gt"/> 
+							<TerminalSymbol Name="ENTITY_APOS" Value="apos"/> 
+							<TerminalSymbol Name="ENTITY_TEXT" Value="[^;\r\n]+" Comparison="RegularExpression"/> 
+							<TerminalSymbolReference Name="WhitespaceToken"/> 
+							<TerminalSymbol Name="ENTITY_END" Value=";" IsExitSymbol="true"/> 
+							<TerminalSymbolReference Name="NewLineToken" IsExitSymbol="true"/> 
+						</LexerState>
+					</TerminalSymbol>
+					<TerminalSymbol Name="LITERAL_CONTENT" Value="[^\&quot;&lt;&gt;&amp;\n\r]+" Comparison="RegularExpression" LanguageElementName="StringLiteral"/> 
+					<TerminalSymbolReference Name="WhitespaceToken"/> 
+					<TerminalSymbol Name="LITERAL_CLOSE" Value="&quot;" LanguageElementName="StringLiteral" IsExitSymbol="true"/> 
+					<TerminalSymbolReference Name="NewLineToken" IsExitSymbol="true"/> 
+				</LexerState>
+			</TerminalSymbol>
+			<TerminalSymbol Name="XML_DEC" Value="xml" Comparison="LiteralIgnoreCase" LookaheadPattern="(\W|\z)" LanguageElementName="ReservedKeyword"/> 
+			<TerminalSymbol Name="IdentifierToken" Value="[a-zA-Z_\p{L}][a-zA-Z0-9_\-:\p{L}]*" Comparison="RegularExpression" LookaheadPattern="(\W|\z)" LanguageElementName="Identifier"/> 
+			<TerminalSymbol Name="EqualsToken" Value="=" LanguageElementName="Operator"/> 
+			<TerminalSymbol Name="SLASH" Value="/" LanguageElementName="Punctuation"/> 
+			<TerminalSymbol Name="ColonToken" Value=":" LanguageElementName="Punctuation"/> 
+			<TerminalSymbol Name="DotToken" Value="." LanguageElementName="Punctuation"/> 
+			<TerminalSymbol Name="QuestionToken" Value="?" LanguageElementName="Punctuation"/> 
+			<TerminalSymbolReference Name="WhitespaceToken"/> 
+			<TerminalSymbol Name="TAG_CLOSE" Value="&gt;" LanguageElementName="Punctuation" IsExitSymbol="true"/> 
+			<TerminalSymbolReference Name="NewLineToken" /> 
+		</LexerState>
+	</TerminalSymbol>
+	<TerminalSymbol Name="CDATA_DEC_OPEN" Value="&lt;![CDATA[" LookaheadPattern="." LanguageElementName="ReservedKeyword"> 
+		<LexerState Name="CData"> 
+			<TerminalSymbolReference Name="NewLineToken"/> 
+			<TerminalSymbol Name="CDATA_TEXT" Value="([^\]])|(\][^\]])|(\]\][^&gt;])+" Comparison="RegularExpression"/> 
+			<TerminalSymbolReference Name="WhitespaceToken"/> 
+			<TerminalSymbol Name="CDATA_DEC_CLOSE" Value="]]&gt;" IsExitSymbol="true"/> 
+		</LexerState>
+	</TerminalSymbol>
+	<TerminalSymbol Name="COMMENT_START" Value="&lt;!--" LanguageElementName="Comment"> 
+		<LexerState Name="Comment"> 
+			<TerminalSymbol Name="COMMENT_TEXT" Value="([^-]|-[^-]|--[^>])+" Comparison="RegularExpression" LanguageElementName="Comment"/> 
+			<TerminalSymbolReference Name="NewLineToken"/> 
+			<TerminalSymbolReference Name="WhitespaceToken"/> 
+			<TerminalSymbol Name="COMMENT_END" Value="--&gt;" LanguageElementName="Comment" IsExitSymbol="true"/> 
+		</LexerState>
+	</TerminalSymbol>
+	<TerminalSymbol Name="TAG_VALUE_CONTENT" Value="[^\&lt;&amp;\n\r]+" Comparison="RegularExpression"/> 
+</Grammar>
+?
+
+(*
+  StartSymbol...note that this non-terminal 'augments' the grammar
+*)
+RootContent = Content, $;
+
+Content = XmlDeclaration, {Tag};
+
+CData = CDATA_DEC_OPEN, [CDATA_TEXT], CDATA_DEC_CLOSE;
+
+XmlDeclaration = TAG_OPEN, QuestionToken, XML_DEC, [AttributeList], QuestionToken, TAG_CLOSE;
+
+(* XML entities *)
+_entity_head = ENTITY_START;
+EntityDoubleQuote = _entity_head, ENTITY_QUOT, ENTITY_END;
+EntitySingleQuote = _entity_head, ENTITY_APOS, ENTITY_END;
+EntityLessThan = _entity_head, ENTITY_LT, ENTITY_END;
+EntityGreaterThan = _entity_head, ENTITY_GT, ENTITY_END;
+EntityAmpersand = _entity_head, ENTITY_AMP, ENTITY_END;
+EntityText = _entity_head, ENTITY_TEXT, ENTITY_END;
+_entity = EntityAmpersand | EntityDoubleQuote | EntitySingleQuote | EntityLessThan | EntityGreaterThan | EntityText;
+
+(* Tags *)
+Tag = _tag_no_content | _tag_with_content;
+TagValue = {_tag_value};
+_tag_value = TAG_VALUE_CONTENT | _entity | CData;
+_tag_head = TAG_OPEN, ElementName, [AttributeList];
+_tag_content =  Tag | TagValue;
+_tag_no_content = _tag_head, SLASH, TAG_CLOSE;
+_tag_with_content = _tag_head, TAG_CLOSE, {_tag_content}, TAG_OPEN, SLASH, ElementName, TAG_CLOSE;
+
+(* Elements *)
+ElementName = _element_name;
+NamespacePrefix = IdentifierToken, ColonToken;
+_element_name = [NamespacePrefix], _qualified_identifier;
+_qualified_identifier = IdentifierToken, {DotToken,  IdentifierToken};
+
+(* Attributes *)
+AttributeList = {AttributeDeclaration};
+AttributeDeclaration = AttributeName, EqualsToken, AttributeValue;
+AttributeName = _element_name;
+AttributeValue = _string_literal;
+_string_literal = LITERAL_OPEN, [LITERAL_CONTENT | _entity], LITERAL_CLOSE;
+
+

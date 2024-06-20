@@ -1,0 +1,44 @@
+﻿<framework:SampleContainer x:Class="IGDataGrid.Samples.Editing.Editing"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+    xmlns:igDP="http://infragistics.com/DataPresenter"
+    xmlns:res="clr-namespace:IGDataGrid.Resources"                           
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="Editing Page">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataGrid;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DataGridStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+
+        <!-- #BEGIN SNIPPET# -->
+        <igDP:XamDataGrid x:Name="xamDataGrid1" Theme="RoyalLight">
+            <igDP:XamDataGrid.FieldSettings>
+                <igDP:FieldSettings AllowEdit="True" IsAutoEditModeEnabled="True" CellClickAction="SelectCell" />
+            </igDP:XamDataGrid.FieldSettings>
+        </igDP:XamDataGrid>
+        <!-- #END SNIPPET# -->
+
+        <controls:OptionsPanel
+            HeaderText="{Binding Source={StaticResource CommonStrings}, Path=ConfigurationPanel_Header_Options}"
+            Margin="400,90,0,0">
+            <CheckBox IsChecked="{Binding ElementName=xamDataGrid1, Path=FieldSettings.AllowEdit}"
+                      Content="{Binding Source={StaticResource Strings}, Path=XDG_AllowEditing}" 
+                      Margin="{StaticResource OptionsElementsMargin}"/>
+            <CheckBox IsChecked="{Binding ElementName=xamDataGrid1, Path=FieldSettings.IsAutoEditModeEnabled}"
+                      Content="{Binding Source={StaticResource Strings}, Path=XDG_EditingAsYouType}"/>
+        </controls:OptionsPanel>
+
+    </Grid>
+</framework:SampleContainer>

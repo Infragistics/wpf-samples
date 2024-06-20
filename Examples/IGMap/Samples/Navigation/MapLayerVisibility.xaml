@@ -1,0 +1,411 @@
+﻿<igFramework:SampleContainer x:Class="IGMap.Samples.Navigation.MapLayerVisibility"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:providers="clr-namespace:Infragistics.Samples.Shared.DataProviders;assembly=Infragistics.Samples.Shared"
+      xmlns:resources="clr-namespace:IGMap.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGMap;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/IGMap;component/Assets/NavigationStyles.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <resources:MapStrings x:Key="Strings" />
+            <Storyboard x:Key="sbFadeOutLoaderMessage">
+                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="loaderMessage" Storyboard.TargetProperty="(UIElement.Opacity)">
+                    <SplineDoubleKeyFrame KeyTime="00:00:00" Value="1" />
+                    <SplineDoubleKeyFrame KeyTime="00:00:00.400" Value=".83" KeySpline="0,0,0.209999993443489,1" />
+                </DoubleAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="loaderMessage">
+                    <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                        <DiscreteObjectKeyFrame.Value>
+                            <Visibility>Visible</Visibility>
+                        </DiscreteObjectKeyFrame.Value>
+                    </DiscreteObjectKeyFrame>
+                    <DiscreteObjectKeyFrame KeyTime="00:00:01">
+                        <DiscreteObjectKeyFrame.Value>
+                            <Visibility>Collapsed</Visibility>
+                        </DiscreteObjectKeyFrame.Value>
+                    </DiscreteObjectKeyFrame>
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+            <LinearGradientBrush x:Key="BackgroundBrush" EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                <GradientStop Color="Black" Offset="0" />
+                <GradientStop Color="Black" Offset="1" />
+                <GradientStop Color="#FFCBCBCB" Offset="0.532" />
+                <GradientStop Color="#FF171717" Offset="0.067" />
+                <GradientStop Color="#FF191919" Offset="0.927" />
+            </LinearGradientBrush>
+            <SolidColorBrush x:Key="BorderBrush" Color="Gray" />
+            <LinearGradientBrush x:Key="ForegroundBrush" EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                <GradientStop Color="Black" Offset="0" />
+                <GradientStop Color="Black" Offset="1" />
+                <GradientStop Color="#FFEC521D" Offset="0.532" />
+                <GradientStop Color="#FF171717" Offset="0.067" />
+                <GradientStop Color="#FF191919" Offset="0.927" />
+            </LinearGradientBrush>
+            <SolidColorBrush x:Key="SliderTrackRailBorderFill" Color="White" />
+            <SolidColorBrush x:Key="SliderTrackBorderBrush" Color="#FF818181"/>
+            <providers:ShapeFileProvider x:Key="wroldShapeFileProvider" ShapeFileRelativePath="/world" />
+            <providers:ShapeFileProvider x:Key="statesShapeFileProvider" ShapeFileRelativePath="/America/usa_states" />
+            <providers:ShapeFileProvider x:Key="countiesShapeFileProvider" ShapeFileRelativePath="/America/usa_counties" />
+            <providers:ShapeFileProvider x:Key="areasShapeFileProvider" ShapeFileRelativePath="/America/usa_urban_areas" />
+
+            <Style x:Key="MapLayerStyle" TargetType="ig:MapLayer">
+                <Setter Property="IsClickable" Value="False"/>
+                <Setter Property="Stroke" Value="White"/>
+                <Setter Property="StrokeThickness" Value=".5"/>
+            </Style>
+
+            <Style TargetType="ig:MapNavigationPane" x:Key="MapNavigationPaneStyle">
+                <Setter Property="MinWidth" Value="57"/>
+                <Setter Property="MinHeight" Value="57"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ig:MapNavigationPane">
+                            <Grid>
+                                <Grid x:Name="HorizontalRoot" MinWidth="160">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <!-- Horizontal -->
+
+                                    <Grid x:Name="ZoomControlH" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10,0,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="22"/>
+                                            <ColumnDefinition Width="*" MinWidth="50"/>
+                                            <ColumnDefinition Width="22"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Rectangle Fill="{StaticResource SliderTrackRailBorderFill}"
+                                                   Grid.Column="1"
+                                                   Height="4"
+                                                   d:LayoutOverrides="VerticalAlignment, Width, GridBox"
+                                                   RadiusX="1" RadiusY="1"
+                                                   Stroke="{StaticResource SliderTrackBorderBrush}"/>
+
+                                        <Button x:Name="HorizontalZoomOutButton"
+                                                Style="{StaticResource NavZoomOutButtonStyle}"
+                                                Grid.Column="0"
+                                                HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+                                        <Slider x:Name="HorizontalZoomRange"
+                                                Grid.Column="1"
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Center"
+                                                MinWidth="49"
+                                                Orientation="Horizontal" Style="{StaticResource IGSliderStyle}"/>
+
+                                        <Button x:Name="HorizontalZoomInButton"
+                                                Style="{StaticResource NavZoomInButtonStyle}"
+                                                Grid.Column="3"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center" />
+                                    </Grid>
+                                    <!-- Horizontal -->
+                                    <Grid x:Name="HorizontalPanControl" Width="56" Height="56">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="18"/>
+                                            <RowDefinition Height="20"/>
+                                            <RowDefinition Height="18"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="18"/>
+                                            <ColumnDefinition Width="20"/>
+                                            <ColumnDefinition Width="18"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Button x:Name="HorizontalPanWestButton"
+                                                Style="{StaticResource NavPanLeftButtonStyle}"
+                                                Content="W"
+                                                Grid.Column="0" Grid.Row="1"
+                                                RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <!--<Button.RenderTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform/>
+                                                    <SkewTransform/>
+                                                    <RotateTransform Angle="-90"/>
+                                                    <TranslateTransform/>
+                                                </TransformGroup>
+                                            </Button.RenderTransform>-->
+                                        </Button>
+
+                                        <Button x:Name="HorizontalPanSouthButton"
+                                                Style="{StaticResource NavPanDownButtonStyle}"
+                                                Content="S"
+                                                Grid.Column="1" Grid.Row="2"
+                                                RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <!--<Button.RenderTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform ScaleY="-1"/>
+                                                    <SkewTransform/>
+                                                    <RotateTransform/>
+                                                    <TranslateTransform/>
+                                                </TransformGroup>
+                                            </Button.RenderTransform>-->
+                                        </Button>
+
+                                        <Button x:Name="HorizontalPanEastButton"
+                                                Style="{StaticResource NavPanRightButtonStyle}"
+                                                Content="E"
+                                                Grid.Column="2" Grid.Row="1"
+                                                RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <!--<Button.RenderTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform/>
+                                                    <SkewTransform/>
+                                                    <RotateTransform Angle="90"/>
+                                                    <TranslateTransform/>
+                                                </TransformGroup>
+                                            </Button.RenderTransform>-->
+                                        </Button>
+
+                                        <Button x:Name="HorizontalPanNorthButton"
+                                                Style="{StaticResource NavPanUpButtonStyle}"
+                                                Content="N"
+                                                Grid.Column="1" Grid.Row="0"
+                                                d:LayoutOverrides="VerticalMargin" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                                        <Button
+                                            x:Name="HorizontalFitButton"
+                                            Style="{StaticResource NavFitBothButtonStyle}"
+                                            Grid.Column="1"
+                                            Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </Grid>
+                                <!-- Vertical -->
+                                <Grid x:Name="VerticalRoot" MinHeight="160">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid
+                                        x:Name="ZoomControl"
+                                        Width="Auto"
+                                        Grid.Row="1"
+                                        Margin="0,10,19,0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="22"/>
+                                            <RowDefinition Height="*" MinHeight="50"/>
+                                            <RowDefinition Height="22"/>
+                                        </Grid.RowDefinitions>
+
+                                        <Grid Margin="0,0,2,0"  Grid.Row="1" Height="200">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="30"/>
+                                                <RowDefinition Height="30"/>
+                                                <RowDefinition Height="30"/>
+                                                <RowDefinition Height="30"/>
+                                                <RowDefinition Height="30"/>
+                                                <RowDefinition Height="50"/>
+                                            </Grid.RowDefinitions>
+
+                                            <TextBlock Grid.Column="0" Grid.Row="0" Text="" FontSize="9" Foreground="Black" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="2" />
+                                            <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding Path=XM_Streets, Source={StaticResource Strings}}" FontSize="9" Foreground="Black" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="2" />
+                                            <TextBlock Grid.Column="0" Grid.Row="2" Text="{Binding Path=XM_Cities, Source={StaticResource Strings}}" FontSize="9" Foreground="Black" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="2" />
+                                            <TextBlock Grid.Column="0" Grid.Row="3" Text="{Binding Path=XM_Counties, Source={StaticResource Strings}}" FontSize="9" Foreground="Black" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="2" />
+                                            <TextBlock Grid.Column="0" Grid.Row="4" Text="{Binding Path=XM_States, Source={StaticResource Strings}}" FontSize="9" Foreground="Black" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="2" />
+                                            <TextBlock Grid.Column="0" Grid.Row="5" Text="{Binding Path=XM_World, Source={StaticResource Strings}}" FontSize="9" Foreground="Black" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="2" />
+
+                                            <Slider Style="{StaticResource IGSliderStyle}"
+                                                    x:Name="VerticalZoomRange"
+                                                    Orientation="Vertical"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Stretch"
+                                                    Grid.RowSpan="6" Grid.Column="1"
+                                                    Margin="0"/>
+                                        </Grid>
+
+                                        <Grid x:Name="ZoomIn">
+                                            <Button
+                                                x:Name="VerticalZoomInButton"
+                                                Content="+"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource NavZoomInButtonStyle}"
+                                                FontFamily="/Infragistics.Samples.Shared;component/fonts/#Segoe UI"
+                                                FontWeight="Normal"/>
+                                        </Grid>
+
+                                        <Grid x:Name="ZoomOut" Grid.Row="2">
+                                            <Button
+                                                x:Name="VerticalZoomOutButton"
+                                                Content="-"
+                                                FontFamily="/Infragistics.Samples.Shared;component/fonts/#Segoe UI"
+                                                HorizontalAlignment="Right" VerticalAlignment="Center"
+                                                Style="{StaticResource NavZoomOutButtonStyle}"
+                                                RenderTransformOrigin="0.5,0.5"
+                                                FontWeight="Normal"/>
+                                        </Grid>
+                                    </Grid>
+                                    <Grid
+                                        x:Name="PanControl"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="18"/>
+                                            <RowDefinition Height="20"/>
+                                            <RowDefinition Height="18"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="18"/>
+                                            <ColumnDefinition Width="20"/>
+                                            <ColumnDefinition Width="18"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button
+                                            x:Name="VerticalPanNorthButton"
+                                            Content="N"
+                                            Grid.Column="1"
+                                            Style="{StaticResource NavPanUpButtonStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <Button
+                                            x:Name="VerticalPanWestButton"
+                                            Content="W"
+                                            Grid.Row="1"
+                                            Style="{StaticResource NavPanLeftButtonStyle}"
+                                            RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <!--<Button.RenderTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform/>
+                                                    <SkewTransform/>
+                                                    <RotateTransform Angle="-90"/>
+                                                    <TranslateTransform/>
+                                                </TransformGroup>
+                                            </Button.RenderTransform>-->
+                                        </Button>
+                                        <Button
+                                            x:Name="VerticalPanEastButton"
+                                            Content="E"
+                                            Grid.Column="2"
+                                            Grid.Row="1"
+                                            Style="{StaticResource NavPanRightButtonStyle}"
+                                            RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <!--<Button.RenderTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform/>
+                                                    <SkewTransform/>
+                                                    <RotateTransform Angle="90"/>
+                                                    <TranslateTransform/>
+                                                </TransformGroup>
+                                            </Button.RenderTransform>-->
+                                        </Button>
+                                        <Button
+                                            x:Name="VerticalPanSouthButton"
+                                            Content="S"
+                                            Grid.Column="1"
+                                            Grid.Row="2"
+                                            Style="{StaticResource NavPanDownButtonStyle}"
+                                            RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <!--<Button.RenderTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform ScaleY="-1"/>
+                                                    <SkewTransform/>
+                                                    <RotateTransform/>
+                                                    <TranslateTransform/>
+                                                </TransformGroup>
+                                            </Button.RenderTransform>-->
+                                        </Button>
+                                        <Button
+                                            x:Name="VerticalFitButton"
+                                            Content="*"
+                                            Visibility="Visible"
+                                            Grid.Column="1"
+                                            Grid.Row="1"
+                                            Style="{StaticResource NavFitBothButtonStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+
+            </Style>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <Grid x:Name="LayoutRoot" Margin="5">
+
+        <Grid x:Name="loaderMessage" Margin="0" Background="#BFFFFFFF" Canvas.ZIndex="1" Visibility="Collapsed" VerticalAlignment="Stretch">
+            <Border Width="260" Height="100" Background="#FFF5F5F5" BorderBrush="#FFE0E0E0" BorderThickness="1">
+                <Grid VerticalAlignment="Center"
+                      HorizontalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+            <ProgressBar x:Name="loaderProgress" Grid.Row="1" Height="10" Width="200" VerticalAlignment="Center" Value="0" Style="{StaticResource IGProgressBarStyle}" />
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Orientation="Horizontal" Margin="0 0 0 20">
+                <TextBlock Text="{Binding Path=XWM_MapLayer_ImportingLayers, Source={StaticResource Strings}}" FontSize="14" Margin="0" HorizontalAlignment="Center" Foreground="{StaticResource ForegroundBrush}" VerticalAlignment="Center" />
+                <TextBlock x:Name="txtProgress" FontSize="14" Margin="0" HorizontalAlignment="Center" Foreground="{StaticResource ForegroundBrush}" VerticalAlignment="Center" Text="..." />
+            </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+        <ig:XamMap x:Name="shapeMap" Margin="0,0,0,0" 
+                   WindowRectChanged="OnWindowRectChanged"
+                   WindowZoomMaximum="30" Background="Transparent" >
+            <!-- #BEGIN SNIPPET# -->
+            <!-- NOTE: MapTileSource and its Visibility is changed in code-behind -->
+            <ig:XamMap.Layers>
+                <!-- MapLayer with world counties shape file -->
+                <ig:MapLayer LayerName="worldLayer" StrokeThickness="0" ToolTip="{}{Name}" VisibleFromScale="0" VisibleToScale="25"
+                             FillMode="RandomSelect" Brushes="DimGray" IsSelectable="False" IsHitTestVisible="False" Imported="OnMapLayerImported" IsClickable="False" >
+                    <ig:MapLayer.Reader>
+                        <ig:ShapeFileReader Uri="{Binding ShapeFileAbsolutePath, Source={StaticResource wroldShapeFileProvider}}"
+                                            DataMapping="Name=CODE; Country=CNTRY_NAME;"/>
+                    </ig:MapLayer.Reader>
+                    <ig:MapLayer.ValueTemplate>
+                        <DataTemplate>
+                            <TextBlock IsHitTestVisible="False" Foreground="Black" FontSize="10" Text="{Binding Path=Name}" Visibility="{Binding Path=Visibility}" />
+                        </DataTemplate>
+                    </ig:MapLayer.ValueTemplate>
+                </ig:MapLayer>
+                <!-- MapLayer with U.S. states shape file -->
+                <ig:MapLayer LayerName="statesLayer" StrokeThickness="0" ToolTip="{}{Name}" VisibleFromScale="0" VisibleToScale="400"
+                             FillMode="RandomSelect" Imported="OnMapLayerImported" IsClickable="False" >
+                    <ig:MapLayer.Reader>
+                        <ig:ShapeFileReader Uri="{Binding ShapeFileAbsolutePath, Source={StaticResource statesShapeFileProvider}}"
+                                            DataMapping="Name=STATE;Caption=STATE;"/>
+                    </ig:MapLayer.Reader>
+                </ig:MapLayer>
+                <!-- MapLayer with U.S. counties shape file -->
+                <ig:MapLayer LayerName="countiesLayer" ToolTip="{}{Name}, {State}" VisibleFromScale="25" VisibleToScale="400"
+                             FillMode="RandomInterpolate" Brushes="Transparent"
+                             Imported="OnMapLayerImported" Style="{StaticResource MapLayerStyle}">
+                    <ig:MapLayer.Reader>
+                        <ig:ShapeFileReader Uri="{Binding ShapeFileAbsolutePath, Source={StaticResource countiesShapeFileProvider}}"
+                                            DataMapping="Name=COUNTY; State=STATE" />
+                    </ig:MapLayer.Reader>
+                </ig:MapLayer>
+                <!-- MapLayer with U.S. cities shape file -->
+                <ig:MapLayer LayerName="citiesLayer" ToolTip="{}{Name}, {State}" VisibleFromScale="100" VisibleToScale="400"
+                             FillMode="RandomInterpolate" Brushes="Maroon"
+                             Imported="OnMapLayerImported" Style="{StaticResource MapLayerStyle}">
+                    <ig:MapLayer.Reader>
+                        <ig:ShapeFileReader Uri="{Binding ShapeFileAbsolutePath, Source={StaticResource areasShapeFileProvider}}"
+                                            DataMapping="Name=NAME; State=STATE" />
+                    </ig:MapLayer.Reader>
+                </ig:MapLayer>
+            </ig:XamMap.Layers>
+            <!-- #END SNIPPET# -->
+            
+            <ig:MapNavigationPane x:Name="mapNavigationPane" Margin="5" Visibility="Visible" VerticalAlignment="Top"
+                                  Style="{StaticResource MapNavigationPaneStyle}"
+                                  ig:XamDock.Edge="OutsideRight">
+            </ig:MapNavigationPane>
+        </ig:XamMap>
+
+    </Grid>
+</igFramework:SampleContainer>

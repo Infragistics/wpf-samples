@@ -1,0 +1,109 @@
+﻿<igFramework:SampleContainer x:Class="IGPieChart.Samples.Display.PieChartLabels"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGPieChart.Resources"
+      xmlns:resources="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGPieChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:PieChartStrings x:Key="Strings" />
+            <resources:CommonStrings x:Key="CommonStrings"/>
+            <models:FinancialDataCollection x:Key="financialData"/>
+            <Style x:Key="OptionPanelLabels" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+                <Setter Property="FontWeight" Value="Normal"/>
+                <Setter Property="HorizontalAlignment" Value="Right"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="0 0 5 0"/>
+            </Style>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <Grid Margin="25">
+        <ig:ItemLegend x:Name="Legend" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                       Margin="10" Padding="10,5"/>
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamPieChart Name="pieChart" Grid.Row="2"
+                        ItemsSource="{StaticResource financialData}"
+                        LabelMemberPath="Label"
+                        ValueMemberPath="Spending"
+                        ToolTip="{}{Label}"
+                        Legend="{Binding ElementName=Legend}"
+                        LabelExtent="{Binding ElementName=labelExtentSlider, Path=Value, Mode=TwoWay}"
+                        LabelInnerColor="Black" LabelOuterColor="Black"
+                        LeaderLineMargin="{Binding ElementName=leaderLineMarginSlider, Path=Value, Mode=TwoWay}"
+                        AllowSliceExplosion="True"
+                        RadiusFactor=".5"
+                        LeaderLineVisibility="Visible"/>
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel VerticalAlignment="Top" HorizontalAlignment="Left"
+                               HeaderText="{Binding Source={StaticResource CommonStrings}, Path=XW_Options}"
+                               Margin="0,10,10,0" MinWidth="150">
+            <TextBlock Text="LabelExtent" Margin="3" Style="{StaticResource OptionPanelLabels}" HorizontalAlignment="Left" />
+            <Slider Minimum="15" Maximum="100" Value="40" Name="labelExtentSlider" Margin="3" 
+                    ToolTipService.ToolTip="{Binding Value, RelativeSource={RelativeSource Self}, StringFormat='{}{0:0.00}'}"/>
+            <TextBlock Text="LabelsPosition" Margin="3" Style="{StaticResource OptionPanelLabels}" HorizontalAlignment="Left" />
+            <controls:EnumValuesProvider x:Name="labelsPositionCombo"
+                                         Margin="3"
+                                         EnumType="ig:LabelsPosition"
+                                         DisplayTemplate="ComboBox"
+                                         Value="{Binding ElementName=pieChart, Path=LabelsPosition, Mode=TwoWay}" />
+            <TextBlock x:Name="labelInnerColor" Grid.Column="0" Margin="1, 5, 10, 5"  Text="{Binding XPC_InnerLabel, Source={StaticResource Strings}}">
+            </TextBlock>
+            <ComboBox x:Name="innerLabelCmbx" Grid.Column="1" Width="150">
+                <ComboBoxItem Tag="Black" Content="{Binding XPC_Black, Source={StaticResource Strings}}"></ComboBoxItem>
+                <ComboBoxItem Tag="Blue" Content="{Binding XPC_Blue, Source={StaticResource Strings}}"></ComboBoxItem>
+                <ComboBoxItem Tag="Brown" Content="{Binding XPC_Brown, Source={StaticResource Strings}}"></ComboBoxItem>
+                <ComboBoxItem Tag="Green" Content="{Binding XPC_Green, Source={StaticResource Strings}}"></ComboBoxItem>
+                <ComboBoxItem Tag="Magenta" Content="{Binding XPC_Magenta, Source={StaticResource Strings}}"></ComboBoxItem>
+                <ComboBoxItem Tag="Orange" Content="{Binding XPC_Orange, Source={StaticResource Strings}}"></ComboBoxItem>
+                <ComboBoxItem Tag="Purple" Content="{Binding XPC_Purple, Source={StaticResource Strings}}"></ComboBoxItem>
+                <ComboBoxItem Tag="Red" Content="{Binding XPC_Red, Source={StaticResource Strings}}"></ComboBoxItem>
+                <ComboBoxItem Tag="Yellow" Content="{Binding XPC_Yellow, Source={StaticResource Strings}}"></ComboBoxItem>
+                <ComboBoxItem Tag="White" Content="{Binding XPC_White, Source={StaticResource Strings}}"></ComboBoxItem>
+                <ComboBoxItem Tag="LightGray" Content="{Binding XPC_LightGray, Source={StaticResource Strings}}"></ComboBoxItem>
+                <ComboBoxItem Tag="DarkGray" Content="{Binding XPC_DarkGray, Source={StaticResource Strings}}"></ComboBoxItem>
+            </ComboBox>
+
+            <TextBlock x:Name="labelOuterColor" Grid.Column="0" Margin="1, 5, 10, 5"  Text="{Binding XPC_OuterLabel, Source={StaticResource Strings}}">
+            </TextBlock>
+            <ComboBox x:Name="outerLabelCmbx" Grid.Column="1" Width="150">
+                <ComboBoxItem Tag="Black" Content="{Binding XPC_Black, Source={StaticResource Strings}}"></ComboBoxItem>
+                <ComboBoxItem Tag="Blue" Content="{Binding XPC_Blue, Source={StaticResource Strings}}"></ComboBoxItem>
+                <ComboBoxItem Tag="Brown" Content="{Binding XPC_Brown, Source={StaticResource Strings}}"></ComboBoxItem>
+                <ComboBoxItem Tag="Green" Content="{Binding XPC_Green, Source={StaticResource Strings}}"></ComboBoxItem>
+                <ComboBoxItem Tag="Magenta" Content="{Binding XPC_Magenta, Source={StaticResource Strings}}"></ComboBoxItem>
+                <ComboBoxItem Tag="Orange" Content="{Binding XPC_Orange, Source={StaticResource Strings}}"></ComboBoxItem>
+                <ComboBoxItem Tag="Purple" Content="{Binding XPC_Purple, Source={StaticResource Strings}}"></ComboBoxItem>
+                <ComboBoxItem Tag="Red" Content="{Binding XPC_Red, Source={StaticResource Strings}}"></ComboBoxItem>
+                <ComboBoxItem Tag="Yellow" Content="{Binding XPC_Yellow, Source={StaticResource Strings}}"></ComboBoxItem>
+                <ComboBoxItem Tag="White" Content="{Binding XPC_White, Source={StaticResource Strings}}"></ComboBoxItem>
+                <ComboBoxItem Tag="LightGray" Content="{Binding XPC_LightGray, Source={StaticResource Strings}}"></ComboBoxItem>
+                <ComboBoxItem Tag="DarkGray" Content="{Binding XPC_DarkGray, Source={StaticResource Strings}}"></ComboBoxItem>
+            </ComboBox>
+
+            <StackPanel x:Name="leaderLineOptions">
+                <TextBlock Text="LeaderLineType" Margin="3" Style="{StaticResource OptionPanelLabels}" HorizontalAlignment="Left" />
+                <controls:EnumValuesProvider x:Name="leaderLineTypeCombo"
+                                         Margin="3"
+                                         EnumType="ig:LeaderLineType"
+                                         DisplayTemplate="ComboBox"
+                                         Value="{Binding ElementName=pieChart, Path=LeaderLineType, Mode=TwoWay}" />
+                <TextBlock Text="LeaderLineMargin" Margin="3" Style="{StaticResource OptionPanelLabels}" HorizontalAlignment="Left" />
+                <Slider Minimum="0" Maximum="100" Name="leaderLineMarginSlider" Margin="3" Value="6.0"
+                        ToolTipService.ToolTip="{Binding Value, RelativeSource={RelativeSource Self}, StringFormat='{}{0:0.00}'}"/>
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

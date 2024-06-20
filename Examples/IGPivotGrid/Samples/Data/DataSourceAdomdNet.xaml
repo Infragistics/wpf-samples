@@ -1,0 +1,77 @@
+<framework:SampleContainer x:Class="IGPivotGrid.Samples.Data.DataSourceAdomdNet"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:igOlap="http://schemas.infragistics.com/olap"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+    xmlns:local="clr-namespace:IGPivotGrid.Samples.Controls"
+    xmlns:res="clr-namespace:IGPivotGrid.Resources"
+    xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700"
+    Title="DataSourceAdomdNet Page">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGPivotGrid;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <!-- #BEGIN SNIPPET# -->
+            <igOlap:AdomdDataSource x:Key="AdomdDataSource"
+                                    Database="Adventure Works DW Standard Edition"
+                                    Cube="Adventure Works"
+                                    Filters="[Sales Territory].[Sales Territory Country]{[Sales Territory].[Sales Territory Country].&amp;[United Kingdom]}"
+                                    Columns="[Date].[Calendar]"
+                                    Rows="[Product].[Category]"
+                                    Measures="Reseller Sales Amount">
+
+                <igOlap:AdomdDataSource.ConnectionSettings>
+                    <igOlap:AdomdConnectionSettings ConnectionString="Provider=MSOLAP.4;Persist Security Info=True;Data Source=http://sampledata.infragistics.com/olap/msmdpump.dll;MDX Compatibility=1;Safety Options=2;MDX Missing Member Mode=Error" />
+                </igOlap:AdomdDataSource.ConnectionSettings>
+
+            </igOlap:AdomdDataSource>
+            <!-- #END SNIPPET# -->
+
+            <res:PivotGridStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <ig:XamPivotGrid x:Name="pivotGrid"
+                         DataSource="{StaticResource AdomdDataSource}"
+                         AllowCompactLayout="True" />
+
+        <ig:Expander Grid.Column="1">
+            <ig:XamPivotDataSelector x:Name="dataSelector"
+                                     DataSource="{StaticResource AdomdDataSource}" />
+        </ig:Expander>
+
+        <Grid x:Name="loaderMessage" Grid.ColumnSpan="2">
+            <Border Background="White" Opacity="0.8" />
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="{Binding Source={StaticResource Strings}, Path=XPG_Wait_Line1}"
+                           FontSize="16"
+                           Margin="0"
+                           HorizontalAlignment="Center"
+                           Foreground="#FF474747" />
+                <TextBlock Text="{Binding Source={StaticResource Strings}, Path=XPG_Wait_Line2}"
+                           FontSize="16"
+                           Margin="0"
+                           HorizontalAlignment="Center"
+                           Foreground="#FF474747" />
+            </StackPanel>
+        </Grid>
+        <local:PivotGridBusyIndicator x:Name="isBusyIndicator"
+                                      Grid.ColumnSpan="2"
+                                      Visibility="Collapsed" />
+    </Grid>
+</framework:SampleContainer>

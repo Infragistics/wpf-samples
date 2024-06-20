@@ -1,0 +1,51 @@
+﻿<igFramework:SampleContainer x:Class="IGDataCards.Samples.Editing.AddNewAndFilterRecord"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="AddNewAndFilterRecord"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGDataCards.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataCards;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DataCardsStrings x:Key="DataCardsStrings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid>
+        <!-- #BEGIN SNIPPET# -->
+        <igDP:XamDataCards Name="xamDataCards1"
+                           Theme="RoyalLight">
+            <igDP:XamDataCards.FieldLayoutSettings>
+                <igDP:FieldLayoutSettings AllowAddNew="True" />
+            </igDP:XamDataCards.FieldLayoutSettings>
+            <igDP:XamDataCards.FieldSettings>
+                <igDP:FieldSettings AllowRecordFiltering="True" />
+            </igDP:XamDataCards.FieldSettings>
+        </igDP:XamDataCards>
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource DataCardsStrings},
+            Path=LayoutAndBehavior_AddNewAndFilterRecord_Config_Header}"
+                               HorizontalAlignment="Right">
+            <CheckBox Content="{Binding Source={StaticResource DataCardsStrings},
+                Path=LayoutAndBehavior_AddNewFilterRecord_ConfigArea_EnableFilter}"
+                      IsChecked="{Binding ElementName=xamDataCards1, Path=FieldSettings.AllowRecordFiltering}"
+                      VerticalAlignment="Center"
+                      Margin="0, 0, 0, 10"
+                       />
+            <CheckBox Content="{Binding Source={StaticResource DataCardsStrings},
+                Path=LayoutAndBehavior_AddNewAndFilterRecord_ConfigArea_EnableAddNew}"
+                      IsChecked="{Binding ElementName=xamDataCards1, Path=FieldLayoutSettings.AllowAddNew}"
+                      VerticalAlignment="Center"
+                       />
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

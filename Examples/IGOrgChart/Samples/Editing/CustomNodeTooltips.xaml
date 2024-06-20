@@ -1,0 +1,82 @@
+﻿<framework:SampleContainer x:Class="IGOrgChart.Samples.Editing.CustomNodeTooltips"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+    xmlns:res="clr-namespace:IGOrgChart.Resources"
+    xmlns:model="clr-namespace:IGOrgChart.Model"
+    mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <res:OrgChartStrings x:Key="Strings" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGOrgChart;component/Assets/Global.xaml" />
+                
+                
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Width="Auto">
+
+        <ig:XamOrgChart ItemsSource="{Binding Employees}">
+
+            <!--Set the data context of the OrgChart-->
+            <ig:XamOrgChart.DataContext>
+                <model:EmployeesModel />
+            </ig:XamOrgChart.DataContext>
+
+            <ig:XamOrgChart.GlobalNodeLayouts>
+                <!-- #BEGIN SNIPPET# -->
+                <!--Use the Allow Tooltips property to toggle the visibility of the tooltips-->
+                <ig:OrgChartNodeLayout TargetTypeName="Employee"
+                                       DisplayMemberPath="JobTitle"
+                                       AllowToolTips="{Binding IsChecked, ElementName=CheckBoxAllowTooltips}">
+                    <!--Set a custom data template for the tooltips-->
+                    <ig:OrgChartNodeLayout.ToolTipContentTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,5,0,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <Border Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Top" BorderBrush="Gray">
+                                    <Image Source="{Binding ImagePath}" Width="64" Height="64" />
+                                </Border>
+
+                                <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding OrgChart_Name, Source={StaticResource Strings}}" FontWeight="Bold" Margin="5,0,5,0" />
+                                <TextBlock Grid.Column="2" Grid.Row="0" Text="{Binding FullName}" Margin="5,0,5,0" />
+
+                                <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding OrgChart_Id, Source={StaticResource Strings}}" FontWeight="Bold" Margin="5,0,5,0" />
+                                <TextBlock Grid.Column="2" Grid.Row="1" Text="{Binding Id}" Margin="5,0,5,0" />
+
+                                <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding OrgChart_JobTitle, Source={StaticResource Strings}}" FontWeight="Bold" Margin="5,0,5,0" />
+                                <TextBlock Grid.Column="2" Grid.Row="2" Text="{Binding JobTitle}" Margin="5,0,5,0" />
+                            </Grid>
+                        </DataTemplate>
+                    </ig:OrgChartNodeLayout.ToolTipContentTemplate>
+                    <!---->
+                </ig:OrgChartNodeLayout>
+                <!-- #END SNIPPET# -->
+            </ig:XamOrgChart.GlobalNodeLayouts>
+
+        </ig:XamOrgChart>
+
+        <controls:OptionsPanel HeaderText="{Binding OrgChart_TooltipSettings, Source={StaticResource Strings}}" 
+                               HorizontalAlignment="Right">
+            <CheckBox x:Name="CheckBoxAllowTooltips" Content="{Binding OrgChart_AllowTooltips, Source={StaticResource Strings}}" IsChecked="True" />
+        </controls:OptionsPanel>
+
+    </Grid>
+</framework:SampleContainer>

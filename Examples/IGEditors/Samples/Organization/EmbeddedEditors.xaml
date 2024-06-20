@@ -1,0 +1,94 @@
+﻿<framework:SampleContainer
+    x:Class="IGEditors.Samples.Organization.EmbeddedEditors"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    mc:Ignorable="d"
+    d:DesignHeight="300" d:DesignWidth="300"
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+    xmlns:igDP="http://infragistics.com/DataPresenter"
+    xmlns:igEditors="http://infragistics.com/Editors"
+    xmlns:igTheme="http://infragistics.com/Themes"
+    xmlns:res="clr-namespace:IGEditors.Resources"
+	Title="EmbeddedEditors">
+  
+    <!-- #BEGIN SNIPPET# -->
+    <igDP:XamDataGrid x:Name="xamDG" Theme="RoyalLight" GroupByAreaLocation="None" DataSource="{Binding}">
+        <igDP:XamDataGrid.Resources>
+            <res:EditorsStringRes x:Key="resStrings" />
+            
+            <!-- This xml provider is populated in code-behind and is used in the Priority column. -->
+            <XmlDataProvider x:Key="PrioritiesXml" />            
+
+            <Style x:Key="PriorityFieldStyle" TargetType="{x:Type igEditors:XamComboEditor}">
+                <Setter Property="ItemsProvider">
+                    <Setter.Value>
+                        <igEditors:ComboBoxItemsProvider 
+                            ItemsSource="{Binding Source={StaticResource PrioritiesXml}, XPath=/priorities/priority}" 
+                            DisplayMemberPath="@text" 
+                            ValuePath="@id" />
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="PriceFieldStyle" TargetType="{x:Type igEditors:XamCurrencyEditor}" BasedOn="{x:Static igTheme:EditorsRoyalLight.XamCurrencyEditor}">
+                <Setter Property="Mask" Value="$nnn.nn" />
+            </Style>
+            <Style x:Key="DateOrderedFieldStyle" TargetType="{x:Type igEditors:XamDateTimeEditor}" BasedOn="{x:Static igTheme:EditorsRoyalLight.XamDateTimeEditor}">
+                <Setter Property="DropDownButtonDisplayMode" Value="MouseOver" />
+            </Style>
+            <Style x:Key="BoolFieldStyle" TargetType="{x:Type igEditors:XamCheckEditor}" BasedOn="{x:Static igTheme:EditorsRoyalLight.XamCheckEditor}">
+                <Setter Property="IsThreeState" Value="False" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+            </Style>
+
+            <!-- This items provider is populated in the code-behind. -->
+            <igEditors:ComboBoxItemsProvider x:Key="PackagingItemsProvider" />
+
+            <Style x:Key="PackagingFieldStyle" TargetType="{x:Type igEditors:XamComboEditor}">
+                <Setter Property="ItemsProvider" Value="{StaticResource PackagingItemsProvider}" />
+            </Style>
+        </igDP:XamDataGrid.Resources>
+
+        <igDP:XamDataGrid.FieldLayouts>
+            <igDP:FieldLayout>
+                <igDP:FieldLayout.Fields>
+                    <igDP:Field Name="Name" Label="{Binding Embedded_Header_Product, Source={StaticResource resStrings}}">
+                        <igDP:Field.Settings>
+                            <igDP:FieldSettings AllowEdit="False" />
+                        </igDP:Field.Settings>
+                    </igDP:Field>
+                    <igDP:Field Name="Package" Label="{Binding Embedded_Header_Packaging, Source={StaticResource resStrings}}">
+                        <igDP:Field.Settings>
+                            <igDP:FieldSettings EditorStyle="{StaticResource PackagingFieldStyle}" />
+                        </igDP:Field.Settings>
+                    </igDP:Field>
+                    <igDP:Field Name="PriorityLevel" Label="{Binding Embedded_Header_Priority, Source={StaticResource resStrings}}">
+                        <igDP:Field.Settings>
+                            <igDP:FieldSettings EditorStyle="{StaticResource PriorityFieldStyle}" />
+                        </igDP:Field.Settings>
+                    </igDP:Field>
+                    <igDP:Field Name="Price" Label="{Binding Embedded_Header_Price, Source={StaticResource resStrings}}">
+                        <igDP:Field.Settings>
+                            <igDP:FieldSettings EditorStyle="{StaticResource PriceFieldStyle}" />
+                        </igDP:Field.Settings>
+                    </igDP:Field>
+                    <igDP:Field Name="DateOrdered" Label="{Binding Embedded_Header_DateOrdered, Source={StaticResource resStrings}}">
+                        <igDP:Field.Settings>
+                            <igDP:FieldSettings EditorStyle="{StaticResource DateOrderedFieldStyle}" />
+                        </igDP:Field.Settings>
+                    </igDP:Field>
+                    <igDP:Field Name="IsActive" Label="Active" Width="Auto">
+                        <igDP:Field.Settings>
+                            <igDP:FieldSettings EditorStyle="{StaticResource BoolFieldStyle}" />
+                        </igDP:Field.Settings>
+                    </igDP:Field>
+                </igDP:FieldLayout.Fields>
+            </igDP:FieldLayout>
+        </igDP:XamDataGrid.FieldLayouts>
+    </igDP:XamDataGrid>
+    <!-- #END SNIPPET# -->
+    
+</framework:SampleContainer>

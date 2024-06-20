@@ -1,0 +1,94 @@
+﻿<framework:SampleContainer x:Class="IGDataTree.Samples.Editing.ActiveDataTreeItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="600"
+             xmlns:data="clr-namespace:IGDataTree.DataSources"
+             xmlns:ig="http://schemas.infragistics.com/xaml"
+             xmlns:igDP="http://infragistics.com/DataPresenter"                           
+             xmlns:res="clr-namespace:IGDataTree.Resources">
+    <Grid>
+        <Grid.DataContext>
+            <data:LibraryBusinessLogic />
+        </Grid.DataContext>  
+        
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="/IGDataTree;component/Assets/Global.xaml" />
+                    
+                </ResourceDictionary.MergedDictionaries>
+                <res:DataTreeStrings x:Key="DataTreeStrings" />
+            </ResourceDictionary>
+        </Grid.Resources>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" MinWidth="180"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Grid.ColumnSpan="2"  Text="{Binding Source={StaticResource DataTreeStrings}, Path=XDT_SampleNote}"
+                   FontWeight="Bold" Margin="{StaticResource SampleInnerNavigationPadding}" Style="{StaticResource SamplesTitleStyle}"/>
+        <ig:XamDataTree x:Name="dataTree" Grid.Row="1" 
+                        ItemsSource="{Binding Path=Categories}"
+                        ActiveDataItem="{Binding Path=Categories[0]}">
+                <ig:XamDataTree.GlobalNodeLayouts>
+                    <ig:NodeLayout Key="ChapterLayout"
+                                   TargetTypeName="Category"
+                                   DisplayMemberPath="Name">
+                        <ig:NodeLayout.CollapsedIconTemplate>
+                            <DataTemplate>
+                                <Image Source="/IGDataTree;component/Images/BookIcon.png" />
+                            </DataTemplate>
+                        </ig:NodeLayout.CollapsedIconTemplate>
+                    </ig:NodeLayout>
+                </ig:XamDataTree.GlobalNodeLayouts>
+        </ig:XamDataTree>
+
+
+        <StackPanel Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Left"
+                    VerticalAlignment="Top">
+            <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}">
+                <TextBlock Text="{Binding Source={StaticResource DataTreeStrings},Path=DT_Genre}"
+                           FontWeight="SemiBold" Margin="{StaticResource OptionsTextRightMargin}" Style="{StaticResource BodyStyle}"/>
+                <TextBlock x:Name="Txt_Genre" Text="{Binding ElementName=dataTree, Path=ActiveDataItem.Name}" 
+                           TextWrapping="Wrap" Style="{StaticResource BodyStyle}" MinWidth="80"  Margin="0,0,20,0"/>
+                <TextBlock Text="{Binding Source={StaticResource DataTreeStrings},Path=DT_Category}" 
+                           FontWeight="SemiBold" Margin="{StaticResource OptionsTextRightMargin}" Style="{StaticResource BodyStyle}"/>
+                <TextBlock x:Name="Txt_Category" Text="{Binding ElementName=dataTree, Path=ActiveDataItem.Branch}"
+                           TextWrapping="Wrap" Style="{StaticResource BodyStyle}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsTextMargin}">
+
+            </StackPanel>
+
+            <TextBlock Text="{Binding ElementName=dataTree, Path=ActiveDataItem.Description}" 
+                       TextWrapping="Wrap"
+                       HorizontalAlignment="Left" Margin="{StaticResource BottomPaddingLarge}" Style="{StaticResource BodyStyle}"/>
+
+            <!-- #BEGIN SNIPPET# -->
+            <igDP:XamDataGrid DataSource="{Binding ElementName=dataTree, Path=ActiveDataItem.Books}" >
+                <igDP:XamDataGrid.FieldSettings>
+                    <igDP:FieldSettings Width="*" />
+                </igDP:XamDataGrid.FieldSettings>
+                <igDP:XamDataGrid.FieldLayoutSettings>
+                    <igDP:FieldLayoutSettings AutoGenerateFields="False" />
+                </igDP:XamDataGrid.FieldLayoutSettings>
+            <!-- #END SNIPPET# -->
+                <igDP:XamDataGrid.FieldLayouts>
+                    <igDP:FieldLayout>
+                        <igDP:Field Name="Isbn" Width="100" Label="{Binding Source={StaticResource DataTreeStrings}, Path=Isbn}"/>
+                        <igDP:Field Name="Title" Label="{Binding Source={StaticResource DataTreeStrings}, Path=Title}"/>
+                        <igDP:Field Name="Author" Label="{Binding Source={StaticResource DataTreeStrings}, Path=Author}"/>
+                    </igDP:FieldLayout>
+                </igDP:XamDataGrid.FieldLayouts>
+            </igDP:XamDataGrid>
+        </StackPanel>       
+    </Grid>
+</framework:SampleContainer>

@@ -1,0 +1,78 @@
+﻿<framework:SampleContainer x:Class="IGDataGrid.Samples.Organization.CellMerging"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="CellMerging Page"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGDataGrid.Resources"
+      xmlns:igTheme="http://infragistics.com/Themes"
+      xmlns:System="clr-namespace:System;assembly=mscorlib"
+      >
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataGrid;component/Assets/Global.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <res:DataGridStrings x:Key="Strings" />
+
+            <ObjectDataProvider x:Key="odpMergedCellMode"
+                                MethodName="GetValues"
+                                ObjectType="{x:Type System:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="igDP:MergedCellMode" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>           
+        </ResourceDictionary>
+       
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <igDP:XamDataGrid x:Name="datagrid" Theme="RoyalLight">
+            <igDP:XamDataGrid.FieldSettings>
+                <igDP:FieldSettings MergedCellMode="Always">                   
+
+                </igDP:FieldSettings>
+            </igDP:XamDataGrid.FieldSettings>
+            <igDP:XamDataGrid.FieldLayoutSettings>
+                <igDP:FieldLayoutSettings AutoGenerateFields="False" />
+            </igDP:XamDataGrid.FieldLayoutSettings>
+            <igDP:XamDataGrid.FieldLayouts>
+                <igDP:FieldLayout Key="Layout0">
+                    <igDP:FieldLayout.Fields>
+                        <igDP:Field Name="SKU" Label="{Binding Path=XWG_Grid_ProductSKU, Source={StaticResource Strings}}"/>
+                        <igDP:Field Name="Name" Label="{Binding Path=XWG_Grid_ProductName, Source={StaticResource Strings}}"/>
+                        <igDP:Field Name="Category" Label="{Binding Path=XWG_Grid_ProductCategory, Source={StaticResource Strings}}"/>
+                        <igDP:Field Name="UnitPrice" 
+                               Label="{Binding Path=XWG_Grid_UnitPrice, Source={StaticResource Strings}}"/>
+                        <igDP:Field Name="UnitsInStock"
+                               Label="{Binding Path=XWG_Grid_UnitsStock, Source={StaticResource Strings}}"/>
+
+                    </igDP:FieldLayout.Fields>
+                  
+                </igDP:FieldLayout>
+            </igDP:XamDataGrid.FieldLayouts>
+        </igDP:XamDataGrid>
+
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource Strings}, Path=DataGrid_MergedCellSettings}"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Top">
+            <TextBlock Grid.Row="2"
+                           Text="{Binding MergedCellFields_ConfigArea_MergedCellMode, Source={StaticResource Strings}}"
+                           ToolTip="{Binding MergedCellFields_ConfigArea_MergedCellMode_ToolTip, Source={StaticResource Strings}}"
+                           Margin="{StaticResource OptionsElementsMargin}"/>
+            <ComboBox Grid.Row="3"
+                          HorizontalAlignment="Left"
+                          ItemsSource="{Binding Source={StaticResource odpMergedCellMode}}"
+                          SelectedItem="{Binding FieldSettings.MergedCellMode, ElementName=datagrid}"
+                          ToolTip="{Binding MergedCellFields_ConfigArea_MergedCellMode_ToolTip, Source={StaticResource Strings}}"
+                          Width="170"/>
+            
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

@@ -1,0 +1,62 @@
+﻿<framework:SampleContainer x:Class="IGTreeGrid.Samples.Data.HeterogeneousData"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:igDP="http://infragistics.com/DataPresenter"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGTreeGrid.Resources"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:vm="clr-namespace:IGTreeGrid.Samples.ViewModels"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="HeterogeneousData Page">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGTreeGrid;component/Assets/Global.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <res:TreeGridStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <framework:SampleContainer.DataContext>
+        <vm:HeterogeneousDataProvider />
+    </framework:SampleContainer.DataContext>
+
+    <Grid x:Name="LayoutRoot">
+        <igDP:XamTreeGrid x:Name="xtg" DataSource="{Binding Path=SystemNodeBaseObjects}" Theme="RoyalLight">
+            <igDP:XamTreeGrid.FieldLayoutSettings>
+                <igDP:FieldLayoutSettings AutoGenerateFields="False" />
+            </igDP:XamTreeGrid.FieldLayoutSettings>
+
+            <!-- #BEGIN SNIPPET# -->
+            <igDP:XamTreeGrid.FieldLayouts>
+
+                <igDP:FieldLayout Key="FolderNode" IsDefault="True">
+                    <igDP:TextField Name="FolderName" Label="{Binding Source={StaticResource Strings}, Path=lblName}" Width="190" />
+                    <igDP:TemplateField Name="Size" BindingType="Unbound" Width="70" DataType="{x:Type sys:String}"
+                                        Label="{Binding Source={StaticResource Strings}, Path=lblSize}" AllowEdit="False">
+                        <igDP:TemplateField.DisplayTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Center" Text="{Binding Source={StaticResource Strings}, Path=lblDirectory}" />
+                            </DataTemplate>
+                        </igDP:TemplateField.DisplayTemplate>
+                    </igDP:TemplateField>
+                    <igDP:DateTimeField Name="DateModified" Label="{Binding Source={StaticResource Strings}, Path=lblDateModified}" Width="150" />
+                    <igDP:Field Name="Children" />
+                </igDP:FieldLayout>
+
+                <igDP:FieldLayout Key="FileNode">
+                    <igDP:TextField Name="FileName" Label="FolderName" Width="190" />
+                    <igDP:NumericField Name="FileSize" Label="Size" Width="70" AllowEdit="False" />
+                    <igDP:DateTimeField Name="DateModified" Label="DateModified" Width="150" />
+                </igDP:FieldLayout>
+
+            </igDP:XamTreeGrid.FieldLayouts>
+            <!-- #END SNIPPET# -->
+            
+        </igDP:XamTreeGrid>
+    </Grid>
+</framework:SampleContainer>

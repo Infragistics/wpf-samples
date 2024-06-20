@@ -1,0 +1,244 @@
+﻿<igFramework:SampleContainer x:Class="IGPivotGrid.Samples.Printing.CustomizingReportSettings"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+    xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"  
+    xmlns:local="clr-namespace:IGPivotGrid.Samples.Controls"
+    xmlns:res="clr-namespace:IGPivotGrid.Resources" 
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:igRep="http://infragistics.com/Reporting"
+    xmlns:igOlap="http://schemas.infragistics.com/olap"
+    xmlns:tools="clr-namespace:Infragistics.Samples.Shared.Tools;assembly=Infragistics.Samples.Shared"                 
+    xmlns:igWindows="http://infragistics.com/Windows"  
+    mc:Ignorable="d" 
+    d:DesignHeight="650" d:DesignWidth="1000"
+    Title="Customizing Pivot Report Settings">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGPivotGrid;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/IGPivotGrid;component/Assets/ReportProgressControlStyle.xaml" />
+                <ResourceDictionary Source="/IGPivotGrid;component/Assets/CellTemplates.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+
+            <res:PivotGridStrings x:Key="Strings" />
+            <local:SampleFlatDataSourceProductAndSellerVsCity x:Key="flatDataSource" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <igWindows:XamTabControl Grid.Row="1" Theme="RoyalLight"  >
+            <igWindows:TabItemEx Header="{Binding Source={StaticResource Strings}, Path=XPG_Printing_TabControl_DataHeader}"  >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <ig:XamPivotGrid Grid.Row="1" x:Name="xamPivotGrid" DataSource="{StaticResource flatDataSource}" >
+                        <ig:XamPivotGrid.ReportSettings>
+                            <ig:PivotReportSettings x:Name="pivotReportSettings" />
+                        </ig:XamPivotGrid.ReportSettings>
+
+                        <ig:XamPivotGrid.ColumnHeaderTemplates>
+                            <ig:HeaderTemplate Template="{StaticResource RowHeaderDataTemplate1}"
+                                   Hierarchy="{tools:ObjectValue DefaultValue=City, DataObject={StaticResource Strings}, PropertyName=XPG_Data_PropertyNames_City}"
+                                   Level="2"/>
+                            <ig:HeaderTemplate Template="{StaticResource RowHeaderDataTemplate2}"
+                                   Hierarchy="{tools:ObjectValue DefaultValue=City, DataObject={StaticResource Strings}, PropertyName=XPG_Data_PropertyNames_City}"
+                                   Level="2"
+                                   Label="{tools:ObjectValue DefaultValue=Sofia, DataObject={StaticResource Strings}, PropertyName=XPG_Sofia}"/>
+                        </ig:XamPivotGrid.ColumnHeaderTemplates>
+                        <ig:XamPivotGrid.RowHeaderTemplates>
+                            <ig:HeaderTemplate Template="{StaticResource ColumnHeaderDataTemplate1}"
+                                   Hierarchy="{tools:ObjectValue DefaultValue=Product, DataObject={StaticResource Strings}, PropertyName=XPG_Data_PropertyNames_Product}"
+                                   Level="2"/>
+                            <ig:HeaderTemplate Template="{StaticResource ColumnHeaderDataTemplate2}"
+                                   Hierarchy="{tools:ObjectValue DefaultValue=Product, DataObject={StaticResource Strings}, PropertyName=XPG_Data_PropertyNames_Product}"
+                                   Level="2"
+                                   Label="{tools:ObjectValue DefaultValue=Clothing, DataObject={StaticResource Strings}, PropertyName=XPG_Clothing}"/>
+                        </ig:XamPivotGrid.RowHeaderTemplates>
+                        <ig:XamPivotGrid.DataCellTemplates>
+                            <ig:DataCellTemplate Template="{StaticResource DataCellDataTemplate1}"
+                                     RowHierarchy="{tools:ObjectValue DefaultValue=Product, DataObject={StaticResource Strings}, PropertyName=XPG_Data_PropertyNames_Product}"
+                                     RowLabel="{tools:ObjectValue DefaultValue=Bikes, DataObject={StaticResource Strings}, PropertyName=XPG_Bikes}"/>
+                            <ig:DataCellTemplate Template="{StaticResource DataCellDataTemplate2}"
+                                     ColumnHierarchy="{tools:ObjectValue DefaultValue=City, DataObject={StaticResource Strings}, PropertyName=XPG_Data_PropertyNames_City}"
+                                     ColumnLabel="{tools:ObjectValue DefaultValue=London, DataObject={StaticResource Strings}, PropertyName=XPG_London}"/>
+                            <ig:DataCellTemplate Template="{StaticResource DataCellDataTemplate3}"
+                                     ColumnLabel="{tools:ObjectValue DefaultValue='All Products', DataObject={StaticResource Strings}, PropertyName=XPG_Data_HierarchyDescriptors_Product_All}"
+                                     RowLabel="{tools:ObjectValue DefaultValue=Berlin, DataObject={StaticResource Strings}, PropertyName=XPG_Berlin}"/>
+                        </ig:XamPivotGrid.DataCellTemplates>
+                    </ig:XamPivotGrid>
+
+                    <ig:Expander Grid.Row="1" Grid.Column="1" IsExpanded="False">
+                        <ig:XamPivotDataSelector DataSource="{StaticResource flatDataSource}" />
+                    </ig:Expander>
+                </Grid>
+            </igWindows:TabItemEx>
+
+            <igWindows:TabItemEx x:Name="tbiPreview" Header="{Binding Source={StaticResource Strings}, Path=XPG_Printing_TabControl_PreviewHeader}">
+                <igRep:XamReportPreview x:Name="xamReportPreview" />
+            </igWindows:TabItemEx>
+        </igWindows:XamTabControl>
+
+        <!-- #BEGIN SNIPPET# -->
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource Strings}, Path=XPG_Printing_ReportSettings}" IsMovable="False" Margin="0,10,0,10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" MinHeight="20"/>
+                    <RowDefinition Height="Auto" MinHeight="20"/>
+                    <RowDefinition Height="Auto" MinHeight="20"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition MinWidth="160" Width="Auto"/>
+                    <ColumnDefinition MinWidth="160" Width="Auto"/>
+                    <ColumnDefinition MinWidth="160" Width="Auto"/>
+                    <ColumnDefinition MinWidth="160" Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel>
+                    <!-- Print Expansion Indicator Toggles -->
+                    <CheckBox IsChecked="{Binding ColumnHeaderCellSettings.PrintExpansionIndicators, ElementName=pivotReportSettings}"
+                             
+                              Margin="2"
+                              Content="{Binding XPG_Printing_PrintColumnExpansionIndicators, Source={StaticResource Strings}}" />
+                    <CheckBox IsChecked="{Binding RowHeaderCellSettings.PrintExpansionIndicators, ElementName=pivotReportSettings}"
+                             
+                              Margin="2"
+                              Content="{Binding XPG_Printing_PrintRowExpansionIndicators, Source={StaticResource Strings}}" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="1"  >
+                    <!-- Pring Headers -->
+                    <CheckBox IsChecked="{Binding ColumnHeaderCellSettings.PrintHeaders, ElementName=pivotReportSettings}"
+                             
+                              Margin="2" 
+                              Content="{Binding XPG_Printing_PrintColumnHeades, Source={StaticResource Strings}}" />
+                    <CheckBox IsChecked="{Binding RowHeaderCellSettings.PrintHeaders, ElementName=pivotReportSettings}"
+                             
+                              Margin="2"
+                              Content="{Binding XPG_Printing_PrintRowHeaders, Source={StaticResource Strings}}" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="2">
+                    <!-- Apply Cell Templates -->
+                    <CheckBox IsThreeState="True" IsChecked="{Binding ColumnHeaderCellSettings.ApplyHeaderCellTemplate, ElementName=pivotReportSettings}"
+                             
+                              Margin="2"
+                              Content="{Binding Source={StaticResource Strings}, Path=XPG_Printing_ApplyColumnHeaderCellTemplates}" />
+                    <CheckBox IsThreeState="True" IsChecked="{Binding RowHeaderCellSettings.ApplyHeaderCellTemplate, ElementName=pivotReportSettings}"
+                             
+                              Margin="2"
+                              Content="{Binding XPG_Printing_ApplyRowHeaderCellTemplates, Source={StaticResource Strings}}" />
+                    <CheckBox IsThreeState="True" IsChecked="{Binding DataCellSettings.ApplyDataCellTemplate, ElementName=pivotReportSettings}"
+                             
+                              Margin="2"
+                              Content="{Binding XPG_Printing_ApplyDataCellTemplates, Source={StaticResource Strings}}" />
+                </StackPanel>
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition MinWidth="110" Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" MinHeight="20"/>
+                        <RowDefinition Height="Auto" MinHeight="20"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="{Binding XPG_Printing_Settings_PagePrintOrder, Source={StaticResource Strings}}"
+                                   
+                                   d:LayoutOverrides="Height"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Left">:
+                    </TextBlock>
+                    <controls:EnumValuesProvider EnumType="igRep:PagePrintOrder"
+                                                     DisplayTemplate="ComboBox"
+                                                     SelectedEnumIndex="0"
+                                                     x:Name="cmbPagePrintOrder"
+                                                     Margin="2"
+                                                     d:LayoutOverrides="Height"
+                                                     HorizontalAlignment="Left"
+                                                     Width="90"
+                                                     Grid.Column="1"
+                                                     VerticalAlignment="Center"/>
+
+                    <TextBlock Text="{Binding XPG_Printing_Settings_HorizontalPagination, Source={StaticResource Strings}}"
+                                   
+                                   d:LayoutOverrides="Height"
+                                   Grid.Row="1"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Left"
+                                   Margin="2">:
+                    </TextBlock>
+                    <controls:EnumValuesProvider EnumType="igRep:HorizontalPaginationMode"
+                                                     DisplayTemplate="ComboBox"
+                                                     SelectedEnumIndex="0"
+                                                     x:Name="cmbHorizontalPaginationMode"
+                                                     d:LayoutOverrides="Height"
+                                                     HorizontalAlignment="Left"
+                                                     Margin="2"
+                                                     Width="90"
+                                                     Grid.Row="1"
+                                                     Grid.Column="1"
+                                                     VerticalAlignment="Center"/>
+                </Grid>
+
+                <StackPanel Grid.Column="1" Grid.Row="1">
+                    <!-- Repeat Headers -->
+                    <CheckBox IsChecked="{Binding ColumnHeaderCellSettings.RepeatHeaders, ElementName=pivotReportSettings}"
+                             
+                              Margin="2,5,2,2"
+                              Content="{Binding XPG_Printing_RepeatColumnHeaders, Source={StaticResource Strings}}" />
+                    <CheckBox IsChecked="{Binding RowHeaderCellSettings.RepeatHeaders, ElementName=pivotReportSettings}"
+                             
+                              Margin="2"
+                              Content="{Binding XPG_Printing_RepeatRowHeaders, Source={StaticResource Strings}}" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Grid.Row="3"  Margin="2" >
+                    <Button
+                            x:Name="btnPreview"
+                            Click="btnPreview_Click"
+                            Margin="2"
+                            VerticalAlignment="Center"
+                            Tag="{Binding XPG_Printing_PreviewButton_Content, Source={StaticResource Strings}}"
+                            Style="{DynamicResource IconButtonStyle}">
+                        <Path Data="{StaticResource PrintIcon}" Width="12" Height="11" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=ContentControl}}" Stretch="Fill" Margin="0,0,-2,0"/>
+                    </Button>
+                    <Button
+                            x:Name="btnPrint"
+                            Click="btnPrint_Click"
+                            Margin="2"
+                            VerticalAlignment="Center"
+                            Tag="{Binding XPG_Printing_PrintButton_Content, Source={StaticResource Strings}}"
+                            Style="{DynamicResource IconButtonStyle}">
+                        <Path Data="{StaticResource PrintIcon}" Width="12" Height="11" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=ContentControl}}" Stretch="Fill" Margin="0,0,-2,0"/>
+                    </Button>
+                    <Button
+                            x:Name="btnExport"
+                            Click="btnExport_Click"
+                            Margin="2"
+                            VerticalAlignment="Center"
+                            Tag="{Binding XPG_Printing_ExportButton_Content, Source={StaticResource Strings}}"
+                            Style="{DynamicResource IconButtonStyle}">
+                        <Path Data="{StaticResource ExportIcon}" Width="12" Height="11" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=ContentControl}}" Stretch="Fill" Margin="0,0,-2,0"/>
+                    </Button>
+                </StackPanel>
+
+                <igRep:ReportProgressControl x:Name="progressInfo" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" />
+            </Grid>
+        </controls:OptionsPanel>
+        <!-- #END SNIPPET# -->
+    </Grid>
+</igFramework:SampleContainer>

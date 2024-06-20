@@ -1,0 +1,88 @@
+﻿<framework:SampleContainer x:Class="IGGrid.Samples.Organization.SummaryRowFormatting"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="SummaryRowFormatting Page"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGGrid.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGrid;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:GridStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">        
+        <ig:XamGrid x:Name="dataGrid" AutoGenerateColumns="False" ColumnWidth="*">
+            <!-- #BEGIN SNIPPET# -->
+            <ig:XamGrid.SummaryRowSettings>
+                <ig:SummaryRowSettings AllowSummaryRow="Top" SummaryScope="ColumnLayout" />
+            </ig:XamGrid.SummaryRowSettings>
+            <!-- #END SNIPPET# -->
+            
+            <ig:XamGrid.Columns>
+                <ig:TextColumn Key="MLS" HeaderText="{Binding Path=XWG_Property_MLS, Source={StaticResource Strings}}"/>
+                <!-- #BEGIN SNIPPET# -->
+                <ig:TextColumn Key="ListingDate" FormatString="{}{0:d}"
+                               HeaderText="{Binding Path=XWG_Property_ListingDate, Source={StaticResource Strings}}">
+                   
+                    <ig:TextColumn.SummaryColumnSettings>
+                        <ig:SummaryColumnSettings>
+                            <ig:SummaryColumnSettings.SummaryOperands>
+                                <ig:MaximumSummaryOperand FormatString="{}{0:d}" />
+                                <ig:MinimumSummaryOperand FormatString="{}{0:d}" />
+                                <ig:CountSummaryOperand 
+                                    RowDisplayLabel="{Binding Path=XWG_Property_TotalProperties, Source={StaticResource Strings}}" 
+                                    SelectionDisplayLabel="{Binding Path=XWG_Property_TotalProperties, Source={StaticResource Strings}}"/>
+                            </ig:SummaryColumnSettings.SummaryOperands>
+                        </ig:SummaryColumnSettings>
+                    </ig:TextColumn.SummaryColumnSettings>
+                </ig:TextColumn>
+                <!-- #END SNIPPET# -->
+                <ig:TextColumn Key="Price" FormatString="{}{0:C}"
+                               HeaderText="{Binding Path=XWG_Property_Price, Source={StaticResource Strings}}">
+                   
+                    <ig:TextColumn.SummaryColumnSettings>
+                        <ig:SummaryColumnSettings>
+                            <ig:SummaryColumnSettings.SummaryOperands>
+                                <ig:MaximumSummaryOperand FormatString="{}{0:c}" />
+                                <ig:MinimumSummaryOperand FormatString="{}{0:c}" />
+                                <ig:CountSummaryOperand 
+                                    RowDisplayLabel="{Binding Path=XWG_Property_TotalProperties, Source={StaticResource Strings}}" 
+                                    SelectionDisplayLabel="{Binding Path=XWG_Property_TotalProperties, Source={StaticResource Strings}}"/>
+                            </ig:SummaryColumnSettings.SummaryOperands>
+                        </ig:SummaryColumnSettings>
+                    </ig:TextColumn.SummaryColumnSettings>
+                </ig:TextColumn>
+
+                <ig:TextColumn Key="SqFeet" FormatString="{}{0:N0}"
+                               HeaderText="{Binding Path=XWG_Property_SqFeet, Source={StaticResource Strings}}">
+                    
+                    <ig:TextColumn.SummaryColumnSettings>
+                        <ig:SummaryColumnSettings>
+                            <ig:SummaryColumnSettings.SummaryOperands>
+                                <ig:MaximumSummaryOperand FormatString="{}{0:N0}" />
+                                <ig:MinimumSummaryOperand FormatString="{}{0:N0}" />
+                                <ig:CountSummaryOperand 
+                                    RowDisplayLabel="{Binding Path=XWG_Property_TotalProperties, Source={StaticResource Strings}}" 
+                                    SelectionDisplayLabel="{Binding Path=XWG_Property_TotalProperties, Source={StaticResource Strings}}"/>
+                            </ig:SummaryColumnSettings.SummaryOperands>
+                        </ig:SummaryColumnSettings>
+                    </ig:TextColumn.SummaryColumnSettings>
+                </ig:TextColumn>
+                <ig:TextColumn Key="NumberOfBedRooms"
+                               HeaderText="{Binding Path=XWG_Property_NumberOfBedRooms, Source={StaticResource Strings}}"/>
+                <ig:TextColumn Key="NumberOfBathRooms"
+                               HeaderText="{Binding Path=XWG_Property_NumberOfBathRooms, Source={StaticResource Strings}}"/>
+            </ig:XamGrid.Columns>
+        </ig:XamGrid>
+    </Grid>
+</framework:SampleContainer>

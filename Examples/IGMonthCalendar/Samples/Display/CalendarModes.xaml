@@ -1,0 +1,113 @@
+﻿<igFramework:SampleContainer x:Class="IGMonthCalendar.Samples.Display.CalendarModes"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="CalendarModes"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:igEditors="http://infragistics.com/Editors"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGMonthCalendar.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGMonthCalendar;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:MonthCalendarStrings x:Key="Strings" />
+           
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    
+    <Grid>
+        <!-- #BEGIN SNIPPET# -->
+        <igEditors:XamMonthCalendar Theme="RoyalLight"
+                                    x:Name="xamCalendar">
+            <igEditors:XamMonthCalendar.Resources>
+                <Style TargetType="{x:Type igEditors:XamMonthCalendar}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=Dispatcher.Thread.CurrentUICulture.Name}"
+                                     Value="ja-JP">
+                            <Setter Property="DayOfWeekHeaderFormat"
+                                    Value="SingleCharacter" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </igEditors:XamMonthCalendar.Resources>
+        </igEditors:XamMonthCalendar>
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource CommonStrings}, Path=ConfigurationPanel_Header_Options}"
+                               UseLayoutRounding="True" Margin="500,10,0,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="{Binding Source={StaticResource Strings}, Path=MinCalendarMode_Label}"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center" />
+                <controls:EnumValuesProvider Grid.Column="1"
+                                             Value="{Binding Path=MinCalendarMode, ElementName=xamCalendar, Mode=TwoWay}"
+                                             MinWidth="120"
+                                             EnumType="igEditors:CalendarMode"
+                                             DisplayTemplate="ComboBox"
+                                             SelectedEnumIndex="0"
+                                             HorizontalAlignment="Left"
+                                             Margin="5,0,0,0"
+                                             VerticalAlignment="Center" />
+
+                <TextBlock Grid.Row="1"
+                           Text="{Binding Source={StaticResource Strings}, Path=CurrentCalendarMode_Label}"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center" />
+                <controls:EnumValuesProvider Grid.Row="1"
+                                             Grid.Column="1"
+                                             Value="{Binding Path=CurrentCalendarMode, ElementName=xamCalendar, Mode=TwoWay}"
+                                             MinWidth="120"
+                                             EnumType="igEditors:CalendarMode"
+                                             DisplayTemplate="ComboBox"
+                                             SelectedEnumIndex="0"
+                                             HorizontalAlignment="Left"
+                                             Margin="5,0,0,0"
+                                             VerticalAlignment="Center" />
+
+                <Button Command="{x:Static igEditors:MonthCalendarCommands.ZoomInCalendarMode}"
+                        CommandTarget="{Binding ElementName=xamCalendar}"
+                        Margin="0,0,5,0"
+                        Grid.Row="2"
+                        Style="{DynamicResource IconButtonStyle}"
+                        Tag="{Binding Source={StaticResource Strings}, Path=ZoomIn_Button}">
+                    <Path HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch"
+                          Height="14"
+                          Width="14"
+                          Stretch="Fill"
+                          Data="M31,102 C31,99.790833 32.790833,98 35,98 37.209167,98 39,99.790833 39,102 39,104.20917 37.209167,106 35,106 32.790833,106 31,104.20917 31,102 z M29,102 C29,105.31375 31.686249,108 35,108 36.1129,108 37.156456,107.69746 38.049999,107.17 38.049999,107.17 40.853554,109.97488 40.853554,109.97488 41.383884,110.50521 42.444546,110.5052 42.974876,109.97488 43.505203,109.44455 43.505203,108.38389 42.974873,107.85355 42.974873,107.85355 40.169998,105.05 40.169998,105.05 40.697826,104.15672 41,103.11272 41,102 41,98.686249 38.313751,96&#xa;35,96 31.686249,96 29,98.686249 29,102 z M32.513308,101.44914 C32.513308,101.44914 32.513308,102.44914 32.513308,102.44914 32.513308,102.44914 34.513308,102.44914 34.513308,102.44914 34.513308,102.44914 34.513308,104.44914 34.513308,104.44914 34.513308,104.44914 35.513308,104.44914 35.513308,104.44914 35.513308,104.44914 35.513308,102.44914 35.513308,102.44914 35.513308,102.44914 37.513308,102.44914 37.513308,102.44914 37.513308,102.44914 37.513308,101.44914 37.513308,101.44914 37.513308,101.44914 35.513308,101.44914&#xa;35.513308,101.44914 35.513308,101.44914 35.513308,99.449145 35.513308,99.449145 35.513308,99.449145 34.513308,99.449145 34.513308,99.449145 34.513308,99.449145 34.513308,101.44914 34.513308,101.44914 34.513308,101.44914 32.513308,101.44914 32.513308,101.44914 z"
+                          Fill="#FF333333" />
+                </Button>
+                <Button Command="{x:Static igEditors:MonthCalendarCommands.ZoomOutCalendarMode}"
+                        CommandTarget="{Binding ElementName=xamCalendar}"
+                        Tag="{Binding Source={StaticResource Strings}, Path=ZoomOut_Button}"
+                        Margin="0,0,5,0"
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Style="{DynamicResource IconButtonStyle}">
+                    <Path Height="14"
+                          Width="14"
+                          Stretch="Fill"
+                          Data="M31,102 C31,99.790833 32.790833,98 35,98 37.209167,98 39,99.790833 39,102 39,104.20917 37.209167,106 35,106 32.790833,106 31,104.20917 31,102 z M29,102 C29,105.31375 31.686249,108 35,108 36.1129,108 37.156456,107.69746 38.049999,107.17 38.049999,107.17 40.853554,109.97488 40.853554,109.97488 41.383884,110.50521 42.444546,110.5052 42.974876,109.97488 43.505203,109.44455 43.505203,108.38389 42.974873,107.85355 42.974873,107.85355 40.169998,105.05 40.169998,105.05 40.697826,104.15672 41,103.11272 41,102 41,98.686249 38.313751,96&#xa;35,96 31.686249,96 29,98.686249 29,102 z M32.556083,101.55608 C32.556083,101.55608 32.556083,102.55608 32.556083,102.55608 32.556083,102.55608 37.556083,102.55608 37.556083,102.55608 37.556083,102.55608 37.556083,101.55608 37.556083,101.55608 37.556083,101.55608 32.556083,101.55608 32.556083,101.55608 z"
+                          Fill="#FF333333"
+                          SnapsToDevicePixels="True" />
+                </Button>
+            </Grid>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

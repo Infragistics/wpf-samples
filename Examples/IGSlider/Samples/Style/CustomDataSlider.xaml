@@ -1,0 +1,37 @@
+﻿<framework:SampleContainer x:Class="IGSlider.Samples.Style.CustomDataSlider"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:local="clr-namespace:IGSlider.Samples.Style">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <local:BackgroundConverter x:Key="MyBackgroundConverter" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSlider;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" VerticalAlignment="Top" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- #BEGIN SNIPPET# -->
+        <local:ColorSlider x:Name="MyCustomSlider"
+                           Grid.Row="0" Height="50"
+                           MinValue="#FF3F51B5" Value="#FF9FB328" MaxValue="#FF9FB328"
+                           SmallChange="8" LargeChange="64" TrackClickAction="LargeChange"/>
+
+        <Rectangle x:Name="MyTextBox" Height="150" Grid.Row="1" RadiusX="3" RadiusY="3"
+                   Fill="{Binding ElementName=MyCustomSlider, Path=Value, Converter={StaticResource MyBackgroundConverter}}" />
+        <!-- #END SNIPPET# -->
+    </Grid>
+</framework:SampleContainer>

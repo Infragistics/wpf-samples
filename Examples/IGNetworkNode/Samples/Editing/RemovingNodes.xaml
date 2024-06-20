@@ -1,0 +1,58 @@
+﻿<framework:SampleContainer x:Class="IGNetworkNode.Samples.Editing.RemovingNodes" 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:common="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared" 
+    xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGNetworkNode.Resources"                         
+    mc:Ignorable="d" d:DesignHeight="400" d:DesignWidth="700">
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGNetworkNode;component/Assets/Global.xaml" />
+                
+                
+            </ResourceDictionary.MergedDictionaries>
+            <common:CommonStrings x:Key="CommonStrings"/>
+            <res:NetworkNodeStrings x:Key="Strings"/>
+            <models:NetworkNodeCompanyData x:Key="SampleData" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+    <Grid x:Name="LayoutRoot" Width="Auto">
+        <!-- #BEGIN SNIPPET# -->
+
+        <ig:XamNetworkNode x:Name="xnn" 
+                           SelectionType="Single"
+                           ItemsSource="{Binding Nodes, Source={StaticResource SampleData}}"
+                           SelectedNodesCollectionChanged="xnn_SelectedNodesCollectionChanged">
+            <ig:XamNetworkNode.GlobalNodeLayouts>
+                <ig:NetworkNodeNodeLayout
+                    TargetTypeName="NodeModel"
+                    DisplayMemberPath="Label"
+                    ToolTipMemberPath="ToolTip"
+                    ConnectionsMemberPath="Connections"
+                    ConnectionTargetMemberPath="Target"
+                    ConnectionWeightMemberPath="Weight"
+                    />
+            </ig:XamNetworkNode.GlobalNodeLayouts>
+        </ig:XamNetworkNode>
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource CommonStrings}, Path=XW_Options}"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Top">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Name="tb_DisaplayNode" Margin="{StaticResource OptionsElementsMargin}"/>
+                <Button  Name="bth_RemoveNodeFromView" Content="{Binding Source={StaticResource Strings}, Path=XNN_RemoveNodeFromView}" 
+                        Margin="{StaticResource OptionsElementsMargin}" HorizontalAlignment="Stretch"  Click="bth_RemoveNodeFromView_Click"/>
+                <Button  Name="btn_RestoreNodeIntoView" Content="{Binding Source={StaticResource Strings}, Path=XNN_RestoreNodeIntoView}" 
+                        Margin="{StaticResource OptionsElementsMargin}" HorizontalAlignment="Stretch"  Click="btn_RestoreNodeIntoView_Click"/>
+                <Button Name="btn_RemoveNodeFromSource" Content="{Binding Source={StaticResource Strings}, Path=XNN_RemoveNodeFromSource}" 
+                        Click="btn_RemoveNodeFromSource_Click"/>
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

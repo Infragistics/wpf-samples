@@ -1,0 +1,85 @@
+<framework:SampleContainer 
+    x:Class="IGBulletGraph.GridIntegration"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700" Title="SimpleData Page"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:igDP="http://infragistics.com/DataPresenter"
+    xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:resources="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGBulletGraph.Resources" >
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGBulletGraph;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:BulletGraphStrings x:Key="Strings" />  
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+    <Grid x:Name="LayoutRoot" Background="White" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="{Binding Path=EnergySource, Source={StaticResource Strings}}"                   
+                   Style="{StaticResource SamplesBigTitleStyle}"
+                   Margin="{StaticResource BottomPaddingLarge}"
+                   TextWrapping="Wrap"/>
+        <!-- #BEGIN SNIPPET# -->
+        <igDP:XamDataGrid Grid.Row="1" Grid.ColumnSpan="2" DataSource="{Binding}">
+            <igDP:XamDataGrid.FieldLayoutSettings>
+            <igDP:FieldLayoutSettings AutoGenerateFields="False"/>
+            </igDP:XamDataGrid.FieldLayoutSettings>
+            <igDP:XamDataGrid.FieldSettings>
+                <igDP:FieldSettings Width="Auto" />
+            </igDP:XamDataGrid.FieldSettings>
+            <igDP:XamDataGrid.FieldLayouts>
+                <igDP:FieldLayout>
+                    <igDP:Field Name="Month" Label="{Binding Path=Month, Source={StaticResource Strings}}" />
+                    <igDP:Field Name="Consumption" Label="{Binding Path=Consumption, Source={StaticResource Strings}}" />
+                    <igDP:Field Name="Production" Label="{Binding Path=Production, Source={StaticResource Strings}}" />
+                    <igDP:TemplateField Name="XamBulletGraph" BindingType="UseAlternateBinding" AlternateBinding="{Binding}" Label="{Binding Path=ConsumptionGraph, Source={StaticResource Strings}}">
+                        <igDP:TemplateField.DisplayTemplate>
+                            <DataTemplate>
+                                <ig:XamBulletGraph MinHeight="50"
+                                               MinWidth="250"
+                                               Margin="0,5"
+                                               ValueBrush="White" 
+                                               VerticalAlignment="Center"
+                                               MinimumValue="{Binding Min}"
+                                               MaximumValue="{Binding Max}"
+                                               TargetValue="{Binding Production}" 
+                                               Value="{Binding Consumption}"
+                                               LabelInterval="150" 
+                                               ScaleBackgroundBrush="Transparent"
+                                               BackingBrush="Transparent"
+                                               Background="Transparent" >
+                                    <ig:XamBulletGraph.Ranges>
+                                        <ig:XamLinearGraphRange StartValue="{Binding Min}" 
+                                                            EndValue="{Binding Ranges[0]}" />
+                                        <ig:XamLinearGraphRange StartValue="{Binding Ranges[0]}" 
+                                                            EndValue="{Binding Ranges[1]}" />
+                                        <ig:XamLinearGraphRange StartValue="{Binding Ranges[1]}" 
+                                                            EndValue="{Binding Max}"   />
+                                    </ig:XamBulletGraph.Ranges>
+                                </ig:XamBulletGraph>
+                            </DataTemplate>
+                        </igDP:TemplateField.DisplayTemplate>
+                    </igDP:TemplateField>
+                </igDP:FieldLayout>
+            </igDP:XamDataGrid.FieldLayouts>
+        </igDP:XamDataGrid>
+        <!-- #END SNIPPET# -->
+    </Grid>
+</framework:SampleContainer>

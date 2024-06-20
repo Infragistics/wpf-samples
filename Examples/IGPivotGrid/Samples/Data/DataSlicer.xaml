@@ -1,0 +1,77 @@
+﻿<framework:SampleContainer x:Class="IGPivotGrid.Samples.Data.DataSlicer"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="DataSlicer Page"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igOlap="http://schemas.infragistics.com/olap"
+      xmlns:local="clr-namespace:IGPivotGrid.Samples.Controls"
+      xmlns:res="clr-namespace:IGPivotGrid.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGPivotGrid;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+
+            <res:PivotGridStrings x:Key="XPG_Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.Resources>
+            <local:SampleFlatDataSourceSellerVsProduct x:Key="DataSource" />
+        </Grid.Resources>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" MaxWidth="240" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Data Slicer -->
+        <ig:Expander Grid.Column="0" Header="{Binding Source={StaticResource XPG_Strings}, Path=XPG_Data_Slicer}">
+            <ig:XamPivotDataSlicer
+                SlicerProvider="{StaticResource DataSource}"
+                TargetHierarchyName="[Product].[Product]"
+                TargetLevelIndex="1"
+                IsHeaderAreaExpanded="False">
+            </ig:XamPivotDataSlicer>
+        </ig:Expander>
+
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamPivotGrid
+            x:Name="pivotGrid"
+            DataSource="{StaticResource DataSource}"
+            AllowCompactLayout="True"
+            Grid.Column="1" />
+        <ig:Expander Grid.Column="2">
+            <ig:XamPivotDataSelector
+                x:Name="dataSelector"
+                DataSource="{StaticResource DataSource}"
+                IsTabStop="False">
+            </ig:XamPivotDataSelector>
+        </ig:Expander>
+        <!-- #END SNIPPET# -->
+
+        <Grid x:Name="loaderMessage" Grid.ColumnSpan="3">
+            <Border Background="White" Opacity="0.8" />
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="{Binding Source={StaticResource XPG_Strings}, Path=XPG_Wait_Line1}"
+                           FontSize="16"
+                           Margin="0"
+                           HorizontalAlignment="Center"/>
+                <TextBlock Text="{Binding Source={StaticResource XPG_Strings}, Path=XPG_Wait_Line2}"
+                           FontSize="16"
+                           Margin="0"
+                           HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Grid>
+        <local:PivotGridBusyIndicator x:Name="isBusyIndicator" Grid.ColumnSpan="3" Visibility="Collapsed" />
+    </Grid>
+</framework:SampleContainer>

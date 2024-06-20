@@ -1,0 +1,60 @@
+﻿<framework:SampleContainer x:Class="IGDataTree.Samples.Organization.DragAndDrop"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="DragAndDrop"
+      xmlns:dataSources="clr-namespace:IGDataTree.DataSources"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <dataSources:LibraryBusinessLogic x:Key="LibraryBusinessLogic" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataTree;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid>
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamDataTree x:Name="MyTree"
+                        IsDraggable="True"
+                        IsDropTarget="True"
+                        ItemsSource="{Binding Source={StaticResource LibraryBusinessLogic}, Path=Categories}">
+            <ig:XamDataTree.GlobalNodeLayouts>
+                <ig:NodeLayout Key="ChapterLayout"
+                               TargetTypeName="Category"
+                               DisplayMemberPath="Name">
+                    <ig:NodeLayout.ExpandedIconTemplate>
+                        <DataTemplate>
+                            <Image Source="/IGDataTree;component/Images/PageIcon.png" />
+                        </DataTemplate>
+                    </ig:NodeLayout.ExpandedIconTemplate>
+                    <ig:NodeLayout.CollapsedIconTemplate>
+                        <DataTemplate>
+                            <Image Source="/IGDataTree;component/Images/BookIcon.png" />
+                        </DataTemplate>
+                    </ig:NodeLayout.CollapsedIconTemplate>
+                </ig:NodeLayout>
+                <ig:NodeLayout Key="TitleLayout"
+                               TargetTypeName="Book"
+                               DisplayMemberPath="Title">
+                    <ig:NodeLayout.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/IGDataTree;component/Images/PageIcon.png" />
+                                <TextBlock Text="{Binding Data.Title}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ig:NodeLayout.ItemTemplate>
+                </ig:NodeLayout>
+            </ig:XamDataTree.GlobalNodeLayouts>
+        </ig:XamDataTree>
+        <!-- #END SNIPPET# -->
+    </Grid>
+</framework:SampleContainer>

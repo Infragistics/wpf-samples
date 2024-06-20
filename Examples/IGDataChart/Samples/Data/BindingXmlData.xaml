@@ -1,0 +1,133 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Data.BindingXmlData"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    mc:Ignorable="d"
+    d:DesignHeight="500" d:DesignWidth="700"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+    xmlns:local="clr-namespace:IGDataChart.Samples.Data">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <DataTemplate x:Key="SeriesItemBadge"/>
+            <local:LanguageInformation x:Key="LanguageInfo"/>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid x:Name="LoadingControl" Canvas.ZIndex="1">
+            <TextBlock x:Name="TxbLoadingMessage" 
+                       Text="{Binding Path=XWDC_BindingXMLData_LoadingMessage, Source={StaticResource Strings}}" 
+                       FontSize="15" 
+                       Margin="0" 
+                       Foreground="{StaticResource ForegroundBrush}" 
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center"/>
+        </Grid>
+
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ========================================================================== -->
+        <!-- Refer to code behind for xml binding implementation -->
+        <ig:XamDataChart x:Name="PriceChart"
+                         ig:SyncManager.SyncSettings="channel1"
+                         Title="{Binding XWDC_BindingXMLData_PriceChartTitle, Source={StaticResource Strings}}"
+                         HorizontalZoomable="True" VerticalZoomable="True"
+                         Margin="0,0,0,20" DataContext="{Binding Mode=OneWay}">
+            <ig:XamDataChart.Axes>
+                <ig:CategoryXAxis x:Name="DateXAxis" ItemsSource="{Binding Path=XmlDataSource}"
+                                   Label="{Binding XDC_AxisLabelsFormat_DateYearMonth, Source={StaticResource Strings}}">
+                </ig:CategoryXAxis>
+                <ig:NumericYAxis x:Name="PriceYAxis" Label="{}{0:C0}">
+                </ig:NumericYAxis>
+            </ig:XamDataChart.Axes>
+            <ig:XamDataChart.Series>
+                <ig:ItemToolTipLayer UseInterpolation="False"
+                                     Canvas.ZIndex="1"
+                                     TransitionDuration="0:00:00.1" />
+                <ig:FinancialPriceSeries ItemsSource="{Binding Path=XmlDataSource}"
+                                         LegendItemBadgeTemplate="{StaticResource SeriesItemBadge}"
+                                         DisplayType="Candlestick"
+                                         OpenMemberPath="Open"
+                                         CloseMemberPath="Close"
+                                         HighMemberPath="High"
+                                         LowMemberPath="Low"
+                                         VolumeMemberPath="Volume"
+                                         XAxis="{Binding ElementName=DateXAxis}"
+                                         YAxis="{Binding ElementName=PriceYAxis}" IsHighlightingEnabled="True" IsTransitionInEnabled="True">
+                    <ig:FinancialPriceSeries.ToolTip>
+                        <Grid Language="{Binding Language, Source={StaticResource LanguageInfo}}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{Binding XWDC_BindingXmlData_ToolTip_Date, Source={StaticResource Strings}}" />
+                                <TextBlock Text="{Binding XWDC_BindingXmlData_ToolTip_Open, Source={StaticResource Strings}}" />
+                                <TextBlock Text="{Binding XWDC_BindingXmlData_ToolTip_Close, Source={StaticResource Strings}}" />
+                                <TextBlock Text="{Binding XWDC_BindingXmlData_ToolTip_High, Source={StaticResource Strings}}" />
+                                <TextBlock Text="{Binding XWDC_BindingXmlData_ToolTip_Low, Source={StaticResource Strings}}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical" Grid.Column="1">
+                                <TextBlock Text="{Binding Item.Date, StringFormat='\{0:d\}'}" />
+                                <TextBlock Text="{Binding Item.Open, StringFormat='\{0:c2\}'}" />
+                                <TextBlock Text="{Binding Item.Close, StringFormat='\{0:c2\}'}" />
+                                <TextBlock Text="{Binding Item.High, StringFormat='\{0:c2\}'}" />
+                                <TextBlock Text="{Binding Item.Low, StringFormat='\{0:c2\}'}" />
+                            </StackPanel>
+                        </Grid>
+                    </ig:FinancialPriceSeries.ToolTip>
+                </ig:FinancialPriceSeries>
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+        <ig:XamDataChart x:Name="VolumeChart"
+                             ig:SyncManager.SyncSettings="channel1"
+                             Title="{Binding XWDC_BindingXMLData_VolumeChartTitle, Source={StaticResource Strings}}"
+                             HorizontalZoomable="True" VerticalZoomable="True"
+
+                             Grid.Row="1" DataContext="{Binding Mode=OneWay}">
+            <ig:XamDataChart.Axes>
+                <ig:NumericYAxis x:Name="VolumeYAxis" Label="{}{0:#,,} M" MinimumValue="20000000"/>
+            </ig:XamDataChart.Axes>
+            <ig:XamDataChart.Series>
+                <ig:ItemToolTipLayer UseInterpolation="False" Canvas.ZIndex="1"
+                                     TransitionDuration="0:00:00.1" />
+                <ig:AreaSeries MarkerType="None" Thickness="1"
+                               IsHighlightingEnabled="True" IsTransitionInEnabled="True"
+                               LegendItemBadgeTemplate="{StaticResource SeriesItemBadge}"
+                               ItemsSource="{Binding Path=XmlDataSource}"
+                               ValueMemberPath="Volume"
+                               XAxis="{Binding ElementName=DateXAxis}"
+                               YAxis="{Binding ElementName=VolumeYAxis}">
+                    <ig:AreaSeries.ToolTip>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding XWDC_BindingXmlData_ToolTip_Volume, Source={StaticResource Strings}}"/>
+                            <TextBlock Grid.Column="1" Text="{Binding Item.Volume, StringFormat='\{0:N0\}'}" />
+                        </Grid>
+                    </ig:AreaSeries.ToolTip>
+                </ig:AreaSeries>
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+        <!-- ========================================================================== -->
+        <!-- #END SNIPPET# -->
+        <TextBlock HorizontalAlignment="Right" 
+                   VerticalAlignment="Bottom" 
+                   Style="{StaticResource SourceTextblockStyle}"
+                   Text="{Binding XWDC_BindingXmlData_DataSource, Source={StaticResource Strings}}" 
+                   Grid.Row="2" />
+    </Grid>
+</igFramework:SampleContainer>

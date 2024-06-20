@@ -1,0 +1,103 @@
+﻿<igFramework:SampleContainer x:Class="IGDataGrid.Samples.Organization.ExternalFiltering"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d" 
+      d:DesignHeight="500" d:DesignWidth="700"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:igEditors="http://infragistics.com/Editors"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:igWindows="http://infragistics.com/Windows"
+      xmlns:res="clr-namespace:IGDataGrid.Resources"
+      xmlns:dataSources="clr-namespace:IGDataGrid.DataSources"
+      xmlns:resources="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared"
+      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+      Title="ExternalFiltering Page">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataGrid;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DataGridStrings x:Key="Strings" />
+            <resources:CommonStrings x:Key="CommonStrings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <!-- #BEGIN SNIPPET# -->
+        <igDP:XamDataGrid x:Name="XamDataGrid1"
+                          Grid.Row="1"
+                          DataSource="{DynamicResource DataSource}"
+                          RecordFilterChanged="XamDataGrid1_RecordFilterChanged" 
+                          Theme="RoyalLight">
+            <!--Settings-->
+            <igDP:XamDataGrid.FieldSettings>
+                <igDP:FieldSettings AllowRecordFiltering="true" />
+            </igDP:XamDataGrid.FieldSettings>
+            <igDP:XamDataGrid.FieldLayoutSettings>
+                <igDP:FieldLayoutSettings AutoGenerateFields="true" 
+                                          FilterUIType="FilterRecord" 
+                                          FilterEvaluationMode="UseCollectionView" />
+            </igDP:XamDataGrid.FieldLayoutSettings>
+        </igDP:XamDataGrid>
+        <!-- #END SNIPPET# -->
+
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource CommonStrings}, Path=XW_Options}"
+                               HorizontalAlignment="Left" VerticalAlignment="Top"
+                               Margin="{StaticResource GridsSamplesBottomPadding}">
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="{x:Type Label}" BasedOn="{StaticResource LabelStyle}">
+                    <Setter Property="Width" Value="150" />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                    <Setter Property="HorizontalContentAlignment" Value="Left" />
+                </Style>
+            </controls:OptionsPanel.Resources>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+            </Grid>
+
+            <!--CollectionView items counter-->
+            <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,0,0,13">
+                <Label  Content="{Binding Path=XDG_Items_In_CollectionView, Source={StaticResource Strings}}" />
+                <Label  x:Name="label1" 
+                        Width="40" 
+                        HorizontalContentAlignment="Left"
+                        Content="{Binding ElementName=xamDataGrid1, Path=RecordManager.FilteredInDataItems.Count, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+
+            <!--DataPresenter items counter-->
+            <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="{StaticResource OptionsElementsMargin}">
+                <Label  Content="{Binding Path=XDG_Items_In_DataPresenter, Source={StaticResource Strings}}" />
+                <Label  x:Name="label2" 
+                        Width="40" 
+                        HorizontalContentAlignment="Left"
+                        Content="{Binding ElementName=xamDataGrid1, Path=RecordManager.FilteredInDataItems.Count, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="2">
+                <Label  Content="{Binding Path=XDG_Filter_Evaluation_Mode, Source={StaticResource Strings}}" />
+                
+                <!--xamComboEditor-->
+                <igEditors:XamComboEditor 
+                        ItemsSource="{DynamicResource FilterEvaluationMode}"
+                        SelectedItemChanged="XamComboEditor_SelectedItemChanged"
+                        Value="{Binding FieldLayoutSettings.FilterEvaluationMode, ElementName=XamDataGrid1}"
+                        MinWidth="130" 
+                        VerticalAlignment="Center" 
+                        Theme="RoyalLight"/>
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

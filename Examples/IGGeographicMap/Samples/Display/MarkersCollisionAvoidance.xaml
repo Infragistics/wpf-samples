@@ -1,0 +1,92 @@
+﻿<framework:SampleContainer x:Class="IGGeographicMap.Samples.MarkersCollisionAvoidance"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+    xmlns:providers="clr-namespace:Infragistics.Samples.Shared.DataProviders;assembly=Infragistics.Samples.Shared"
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:resources="clr-namespace:IGGeographicMap.Resources" 
+    xmlns:local="clr-namespace:IGGeographicMap.Samples">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGeographicMap;component/Assets/Global.xaml" />
+                
+                
+            </ResourceDictionary.MergedDictionaries>
+            <resources:MapStrings x:Key="MapStrings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.Resources>
+            <SolidColorBrush x:Key="mapBackground" Color="{StaticResource Color_002}" />
+            <ig:BrushCollection x:Key="shapeBrushes">
+               <SolidColorBrush Color="{StaticResource Color_020}" />
+                <SolidColorBrush Color="{StaticResource Color_021}" />
+                <SolidColorBrush Color="{StaticResource Color_022}" />
+            </ig:BrushCollection>
+            <ig:RandomFillStyleSelector x:Key="shapeStyleSelector" Brushes="{StaticResource shapeBrushes}" />
+
+            <!-- ShapefileConverter loads shapes from shape files (SHP) and -->
+            <!-- stores them in the Points property as List<List<Point>> object type -->   
+              <ig:ShapefileConverter x:Key="shapeFileSource"
+                ImportCompleted="OnShapefileImportCompleted"
+                ShapefileSource="/Infragistics.Samples.Services;component/shapefiles/world/world_countries_reg.shp"
+                 DatabaseSource="/Infragistics.Samples.Services;component/shapefiles/world/world_countries_reg.dbf" />
+       
+            <DropShadowEffect x:Key="ShadowEffect" ShadowDepth="1" BlurRadius="10" Opacity="0.85"/>
+         
+            <DataTemplate x:Key="MarkerLabelTemplate">
+                <TextBlock Text="{Binding Path=Item.Fields[ISO_3_CODE]}" Width="50" Height="30"
+                                           Foreground="White" FontWeight="Bold"
+                                           Effect="{StaticResource ShadowEffect}"/>
+            </DataTemplate>
+        </Grid.Resources>
+        <ig:XamGeographicMap x:Name="GeoMap"
+                             Background="{StaticResource mapBackground}"
+                             BackgroundContent="{x:Null}"
+                             OverviewPlusDetailPaneVisibility="Collapsed"
+                             Zoomable="True"  >
+            <ig:XamGeographicMap.Series>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:GeographicShapeSeries ItemsSource="{StaticResource shapeFileSource}" 
+                                          ShapeStyleSelector="{StaticResource shapeStyleSelector}"
+                                          ShapeMemberPath="Points" 
+                                          MarkerCollisionAvoidance="{Binding ElementName=MarkerCollisionAvoidanceListBox, Path=SelectedItem}" 
+                                          MarkerTemplate="{StaticResource MarkerLabelTemplate}">
+                </ig:GeographicShapeSeries>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamGeographicMap.Series>
+        </ig:XamGeographicMap>
+        <controls:OptionsPanel HeaderText="{Binding Path=XWGM_MarkerCollisionAvoidance, Source={StaticResource MapStrings}}" Padding="0"
+                               VerticalAlignment="Top" HorizontalAlignment="Right">
+            <!-- #BEGIN SNIPPET# -->
+            <ListBox x:Name="MarkerCollisionAvoidanceListBox" HorizontalAlignment="Stretch" SelectedIndex="0" SelectionMode="Single" >
+                <ListBox.ItemsSource>
+                    <local:MarkerCollisionAvoidanceList>
+                        <ig:CollisionAvoidanceType>Fade</ig:CollisionAvoidanceType>
+                        <ig:CollisionAvoidanceType>FadeAndShift</ig:CollisionAvoidanceType>
+                        <ig:CollisionAvoidanceType>Omit</ig:CollisionAvoidanceType>
+                        <ig:CollisionAvoidanceType>OmitAndShift</ig:CollisionAvoidanceType>
+                        <ig:CollisionAvoidanceType>None</ig:CollisionAvoidanceType>
+                    </local:MarkerCollisionAvoidanceList>
+                </ListBox.ItemsSource>
+            </ListBox>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+        </controls:OptionsPanel>
+        <TextBlock x:Name="OpenSourceCopyright" Text="{Binding Path=XW_OpenSourceCopyright, Source={StaticResource CommonStrings}}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Style="{StaticResource SourceTextblockStyle}"  />
+        <Grid x:Name="MapLoadingContainer" Margin="0" Background="White" Canvas.ZIndex="1" Visibility="Collapsed" VerticalAlignment="Stretch">
+            <Border Background="Transparent" Opacity="0.7" CornerRadius="3" />
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                <TextBlock x:Name="MapLoadingStatus" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" Text="..." />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</framework:SampleContainer>

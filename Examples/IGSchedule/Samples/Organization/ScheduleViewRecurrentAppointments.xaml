@@ -1,0 +1,52 @@
+﻿<igFramework:SampleContainer
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="ScheduleViewRecurrentAppointments"
+      x:Class="IGSchedule.Samples.Organization.ScheduleViewRecurrentAppointments"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGSchedule.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <res:ScheduleStrings x:Key="resStrings" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSchedule;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <!-- #BEGIN SNIPPET# -->
+    <ig:XamScheduleView x:Name="scheduleView" ShowWorkingHoursOnly="True">
+        <ig:XamScheduleView.DataManager>
+            <ig:XamScheduleDataManager CurrentUserId="own1" x:Name="dataManager">
+                <ig:XamScheduleDataManager.CalendarGroups>
+                    <ig:CalendarGroup InitialCalendarIds="own1"/>
+                </ig:XamScheduleDataManager.CalendarGroups>
+                <ig:XamScheduleDataManager.DataConnector>
+                    <ig:ListScheduleDataConnector
+                        ResourceItemsSource="{Binding Resources}"
+                        ResourceCalendarItemsSource="{Binding Calendars}"
+                        AppointmentItemsSource="{Binding Appointments}"
+                        TaskItemsSource="{Binding Tasks}"
+                        JournalItemsSource="{Binding Journals}"/>
+                </ig:XamScheduleDataManager.DataConnector>
+                <ig:XamScheduleDataManager.Settings>
+                    <ig:ScheduleSettings>
+                        <ig:ScheduleSettings.WorkingHours>
+                            <ig:WorkingHoursCollection>
+                                <ig:TimeRange Start="18:00" End="22:00" />
+                            </ig:WorkingHoursCollection>
+                        </ig:ScheduleSettings.WorkingHours>
+                    </ig:ScheduleSettings>
+                </ig:XamScheduleDataManager.Settings>
+            </ig:XamScheduleDataManager>
+        </ig:XamScheduleView.DataManager>
+    </ig:XamScheduleView>
+    <!-- #END SNIPPET# -->
+</igFramework:SampleContainer>

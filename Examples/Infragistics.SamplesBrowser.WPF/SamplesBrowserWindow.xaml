@@ -1,0 +1,519 @@
+﻿<Window x:Class="Infragistics.SamplesBrowser.SamplesBrowserWindow"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="480" d:DesignWidth="640"
+      Title=""
+      xmlns:converters="clr-namespace:Infragistics.SamplesBrowser.Converters"
+      xmlns:convertersShared="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared"
+      xmlns:controls="clr-namespace:Infragistics.SamplesBrowser.Controls"
+      xmlns:res="clr-namespace:Infragistics.SamplesBrowser.Properties"
+      Background="{x:Null}"
+      Width="1142" Height="708"
+      MinHeight="200" MinWidth="700"
+      BorderBrush="{StaticResource WindowBorderBrush}" BorderThickness="1"   
+      Loaded="MainWindowLoaded"
+      WindowStyle="None" AllowsTransparency="True"
+      WindowStartupLocation="CenterScreen"
+      WindowState="Normal" 
+	  StateChanged="MainWindowOnStateChanged"
+	  ResizeMode="CanResizeWithGrip"
+      Icon="Images/Icons/SamplesBrowser_WPF.ico"
+      x:Name="mainWindow">
+
+    <!--<WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="50"/>
+    </WindowChrome.WindowChrome>-->
+
+    <Window.Resources>
+        
+        <converters:SamplesPathConverter x:Key="SamplesPathConverter"/>
+        <converters:CSharpColorizerConverter x:Key="cSharpColorizerConverter"/>
+        <convertersShared:XAMLColorizerConverter x:Key="xamlColorizerConverter"/>
+        <converters:TocItemToNameConverter x:Key="TocItemToNameConverter" />
+        <converters:TocVisibilityConverter x:Key="TocVisibilityConverter" />
+        <BooleanToVisibilityConverter x:Key="BoolToVisConv"/>
+
+        <res:Resources x:Key="Strings"/>
+
+        <!-- End LeftNav TreeviewItem Stye-->
+
+        <Storyboard x:Key="FadeOutMenuItems">
+            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="CategoryTree" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <SplineDoubleKeyFrame KeyTime="00:00:00.2000000" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="FadeInMenuItems">
+            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="CategoryTree" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <SplineDoubleKeyFrame KeyTime="00:00:00.2000000" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <!-- Code View ScrollBar -->
+        <Storyboard x:Key="StartupAnimation">
+            <!-- Logo Animation -->
+            <!-- End Logo Animation -->
+
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="BodyArea" Storyboard.TargetProperty="(UIElement.Opacity)" BeginTime="00:00:00">
+                <SplineDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <SplineDoubleKeyFrame KeyTime="00:00:04.6000000" Value="0"/>
+                <SplineDoubleKeyFrame KeyTime="00:00:04.9000000" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="MenuArea" Storyboard.TargetProperty="(UIElement.Opacity)" BeginTime="00:00:00">
+                <SplineDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <SplineDoubleKeyFrame KeyTime="00:00:04.4000000" Value="0"/>
+                <SplineDoubleKeyFrame KeyTime="00:00:04.7000000" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="BreadcrumbPanel" Storyboard.TargetProperty="(UIElement.Opacity)" BeginTime="00:00:00">
+                <SplineDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <SplineDoubleKeyFrame KeyTime="00:00:04.8000000" Value="0"/>
+                <SplineDoubleKeyFrame KeyTime="00:00:05" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="txtCurrentItemDescription" Storyboard.TargetProperty="(UIElement.Opacity)" BeginTime="00:00:00">
+                <SplineDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <SplineDoubleKeyFrame KeyTime="00:00:05.9000000" Value="0"/>
+                <SplineDoubleKeyFrame KeyTime="00:00:06.1000000" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <!--<DoubleAnimationUsingKeyFrames Storyboard.TargetName="BreadcrumbPanel" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" BeginTime="00:00:00">
+                <SplineDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <SplineDoubleKeyFrame KeyTime="00:00:04.8000000" Value="20"/>
+                <SplineDoubleKeyFrame KeyTime="00:00:05" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>-->
+
+            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="SBTopButtonsContainerBg" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <SplineDoubleKeyFrame KeyTime="00:00:03.8000000" Value="0"/>
+                <SplineDoubleKeyFrame KeyTime="00:00:04" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="SBTopButtonsContainer" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <SplineDoubleKeyFrame KeyTime="00:00:03.8000000" Value="0"/>
+                <SplineDoubleKeyFrame KeyTime="00:00:04" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <!--<DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="support" Storyboard.TargetProperty="(UIElement.Opacity)">
+        <SplineDoubleKeyFrame KeyTime="00:00:03.7000000" Value="0"/>
+        <SplineDoubleKeyFrame KeyTime="00:00:03.9000000" Value="1"/>
+      </DoubleAnimationUsingKeyFrames>
+      <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="forum" Storyboard.TargetProperty="(UIElement.Opacity)">
+        <SplineDoubleKeyFrame KeyTime="00:00:03.8000000" Value="0"/>
+        <SplineDoubleKeyFrame KeyTime="00:00:04" Value="1"/>
+      </DoubleAnimationUsingKeyFrames>
+      <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="Help" Storyboard.TargetProperty="(UIElement.Opacity)">
+        <SplineDoubleKeyFrame KeyTime="00:00:03.9000000" Value="0"/>
+        <SplineDoubleKeyFrame KeyTime="00:00:04.1000000" Value="1"/>
+      </DoubleAnimationUsingKeyFrames>-->
+            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="Openning">
+                <SplineDoubleKeyFrame KeyTime="00:00:3.0" Value="1"/>
+                <SplineDoubleKeyFrame KeyTime="00:00:3.3" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="Openning" Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="00:00:01.5000000" Value="{x:Static Visibility.Visible}"/>
+                <DiscreteObjectKeyFrame KeyTime="00:00:03.3000000" Value="{x:Static Visibility.Collapsed}"/>
+            </ObjectAnimationUsingKeyFrames>
+            <!--<DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="support" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+        <SplineDoubleKeyFrame KeyTime="00:00:03.7000000" Value="40"/>
+        <SplineDoubleKeyFrame KeyTime="00:00:03.9000000" Value="0"/>
+      </DoubleAnimationUsingKeyFrames>
+      <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="forum" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+        <SplineDoubleKeyFrame KeyTime="00:00:03.8000000" Value="40"/>
+        <SplineDoubleKeyFrame KeyTime="00:00:04" Value="0"/>
+      </DoubleAnimationUsingKeyFrames>
+      <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="Help" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+        <SplineDoubleKeyFrame KeyTime="00:00:03.9000000" Value="40"/>
+        <SplineDoubleKeyFrame KeyTime="00:00:04.1000000" Value="0"/>
+      </DoubleAnimationUsingKeyFrames>-->
+
+            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="LeftLogo" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
+                <SplineDoubleKeyFrame KeyTime="00:00:0.3" Value="0.1"/>
+                <SplineDoubleKeyFrame KeyTime="00:00:1.0" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="LeftLogo" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" >
+                <SplineDoubleKeyFrame KeyTime="00:00:0.3" Value="0.1"/>
+                <SplineDoubleKeyFrame KeyTime="00:00:1.0" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="LeftLogo" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <SplineDoubleKeyFrame KeyTime="00:00:0.3" Value="0"/>
+                <SplineDoubleKeyFrame KeyTime="00:00:1.0" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+
+        <!--Resize Rectangles Style-->
+         <Style x:Key="RectBorderStyle" TargetType="Rectangle">
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="Fill" Value="Transparent" />
+            <Setter Property="Tag" Value="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
+            <EventSetter Event="MouseLeftButtonDown" Handler="Resize_Init"/>
+            <EventSetter Event="MouseLeftButtonUp" Handler="Resize_End"/>
+            <EventSetter Event="MouseMove" Handler="Resizeing_Form"/>
+        </Style>
+    </Window.Resources>
+
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+            <BeginStoryboard Storyboard="{StaticResource FadeOutMenuItems}"/>
+            <BeginStoryboard Storyboard="{StaticResource FadeInMenuItems}"/>
+            <BeginStoryboard Storyboard="{StaticResource StartupAnimation}" x:Name="StartupAnimation_BeginStoryboard"/>
+        </EventTrigger>
+    </Window.Triggers>
+
+    <Grid x:Name="LayoutRoot" Background="{StaticResource WindowBackgroundBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Visibility="Visible">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Background="{StaticResource WindowTitleBarBackgroundBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" MinWidth="95"/>
+            </Grid.ColumnDefinitions>
+            <Image Source="Images/Shell/FeatureBrowserBackground.png" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="bgArtwork" Width="23" Height="21" Margin="14,0,0,0"/>
+            <TextBlock Text="{Binding Source={StaticResource Strings}, Path=Window_Main_Title}" Foreground="White" Grid.Column="0" VerticalAlignment="Center" Margin="44,0,30,0" FontSize="18"/>
+            <Rectangle x:Name="SBTopButtonsContainerBg" Fill="{StaticResource SBTopButtonsContainerBackgroundBrush}" Grid.Column="1" Opacity="0"/>
+            <Rectangle Fill="Transparent"  Grid.ColumnSpan="3" MouseDown="TitleBarMouseDown"/>
+            <StackPanel x:Name="SBTopButtonsContainer" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Opacity="0">
+                <TextBlock x:Name="CrrVersionTextBlock" Text="" Margin="20, 0, 20, 0" TextAlignment="Center" Foreground="LightGray" VerticalAlignment="Center"/>
+                <Button Click="OnOpenWebPageButtonClick" CommandParameter="{Binding Source={StaticResource Strings}, Path=Hyperlink_ContactInfragisticsSupport_Url}" Style="{DynamicResource ShowcaseBtn}" Tag="{Binding Source={StaticResource Strings}, Path=Hyperlink_ContactInfragisticsSupport}" x:Name="support" RenderTransformOrigin="0.5,0.5" Cursor="Hand" Height="29" HorizontalAlignment="Right" Margin="20,0" VerticalAlignment="Center">
+                    <Grid HorizontalAlignment="Left">
+                        <Rectangle Fill="{StaticResource TransparentBrush}"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Path Width="17" Height="15" Data="M 423.6866 71.5612 C 423.6326 72.1866 423.7623 73.6657 424.0496 74.2257 C 424.3005 74.7155 424.8855 75.1857 425.5338 75.3467 C 425.8474 75.3968 425.9258 75.3968 426.2396 75.3467 C 426.8877 75.1857 427.4727 74.7155 427.7236 74.2257 C 428.011 73.6657 428.1406 72.1866 428.0864 71.5612 C 427.9825 70.3637 426.9919 69.7647 425.8867 69.7647 C 424.7815 69.7647 423.7905 70.3637 423.6866 71.5612 ZM 429.9423 79.5998 L 429.9977 78.4906 C 430.1206 76.0366 425.2554 75.5141 422.868 76.6443 C 424.5548 77.375 425.681 78.5541 425.5942 80.2931 L 425.5913 80.3488 C 427.0416 80.3889 428.4922 80.1402 429.9423 79.5998 ZM 415.7681 70.545 C 415.6899 71.431 415.8774 73.5261 416.2928 74.3195 C 416.656 75.0133 417.502 75.6796 418.4397 75.9074 C 418.8934 75.9784 419.0068 75.9784 419.4604 75.9074 C 420.3982 75.6796 421.2441 75.0133 421.6072 74.3195 C 422.0228 73.5261 422.2102 71.431 422.1321 70.545 C 421.9816 68.8485 420.5488 68 418.9501 68 C 417.3516 68 415.9182 68.8485 415.7681 70.545 ZM 424.8163 81.9327 L 424.8966 80.3611 C 425.1396 75.6024 412.7611 75.6153 413.0035 80.3611 L 413.0837 81.9327 C 416.9946 83.3516 420.9055 83.3599 424.8163 81.9327 Z" Stretch="Fill" Fill="{DynamicResource HeaderIconsForegroundFill}" SnapsToDevicePixels="True"/>
+                            <TextBlock Text="{Binding Source={StaticResource Strings}, Path=Hyperlink_ContactInfragisticsSupport}" VerticalAlignment="Center" Margin="8,0,0,0" Foreground="{StaticResource HeaderLinksForegroundFill}"/>
+                        </StackPanel>
+                    </Grid>
+                </Button>
+                <Button Click="OnOpenWebPageButtonClick" CommandParameter="{Binding Source={StaticResource Strings}, Path=Hyperlink_WpfForums_Url}" Style="{DynamicResource ShowcaseBtn}" Tag="{Binding Source={StaticResource Strings}, Path=Hyperlink_WpfForums}" x:Name="forum" RenderTransformOrigin="0.5,0.5" Cursor="Hand" Height="29" HorizontalAlignment="Right" Margin="0,0,20,0" VerticalAlignment="Center">
+                    <Grid HorizontalAlignment="Left">
+                        <Rectangle Fill="{StaticResource TransparentBrush}"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Path Width="16" Height="16" Data="M 517 74 C 517 73.4477 517.4476 73 518 73 C 518.5524 73 519 73.4477 519 74 C 519 74.5523 518.5524 75 518 75 C 517.4476 75 517 74.5523 517 74 ZM 514 74 C 514 73.4477 514.4476 73 515 73 C 515.5524 73 516 73.4477 516 74 C 516 74.5523 515.5524 75 515 75 C 514.4476 75 514 74.5523 514 74 ZM 511 74 C 511 73.4477 511.4476 73 512 73 C 512.5524 73 513 73.4477 513 74 C 513 74.5523 512.5524 75 512 75 C 511.4476 75 511 74.5523 511 74 ZM 507.0625 74 C 507.0625 75.5416 507.6313 76.9685 508.5924 78.125 L 507 83 L 511.6526 80.34 C 512.6787 80.7628 513.8221 81 515.0313 81 C 519.4324 81 523 77.866 523 74 C 523 70.134 519.4324 67 515.0313 67 C 510.6301 67 507.0625 70.134 507.0625 74 Z" Stretch="Fill" Fill="{DynamicResource HeaderIconsForegroundFill}" SnapsToDevicePixels="True"/>
+                            <TextBlock Text="{Binding Source={StaticResource Strings}, Path=Hyperlink_WpfForums}" VerticalAlignment="Center" Margin="8,0,0,0" Foreground="{StaticResource HeaderLinksForegroundFill}"/>
+                        </StackPanel>
+                    </Grid>
+                </Button>
+                <Button Click="OnOpenWebPageButtonClick" CommandParameter="{Binding Source={StaticResource Strings}, Path=Hyperlink_WpfOnlineHelp_Url}" Style="{DynamicResource ShowcaseBtn}" Tag="{Binding Source={StaticResource Strings}, Path=Hyperlink_WpfOnlineHelp}" x:Name="Help" RenderTransformOrigin="0.5,0.5" Cursor="Hand" Height="29" HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="0,0,20,0">
+                    <Grid HorizontalAlignment="Left">
+                        <Rectangle Fill="{StaticResource TransparentBrush}"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Path Width="16" Height="16" Data="M 607.7922 74.6976 C 607.6537 74.9855 607.489 75.234 607.2986 75.4432 C 607.1077 75.6523 606.7656 76.0043 606.2717 76.4991 C 606.1353 76.6385 606.0259 76.7612 605.9436 76.8669 C 605.8613 76.9726 605.8 77.0693 605.76 77.1569 C 605.7197 77.2448 605.6887 77.3324 605.6667 77.4202 L 605.5673 77.8998 C 605.5256 78.1554 605.6108 78.3399 605.4722 78.4741 L 604.1471 78.4741 C 604.0046 78.2728 604.1101 77.9921 604.1101 77.6907 C 604.1101 77.3128 604.1621 76.9768 604.2666 76.7002 C 604.3711 76.4235 604.5094 76.1763 604.6821 75.9671 C 604.8546 75.7579 605.0874 75.5073 605.3806 75.2193 C 605.6375 74.9675 605.8232 74.7762 605.9377 74.6481 C 606.052 74.5198 606.1484 74.3765 606.2266 74.2191 C 606.3049 74.0616 606.344 73.8904 606.344 73.706 C 606.344 73.3462 606.2246 73.0424 605.9858 72.7949 C 605.7468 72.5476 605.4387 72.4238 605.0615 72.4238 C 604.6199 72.4238 604.2947 72.5485 604.0859 72.7982 C 603.8772 73.0479 603.556 73.9014 603.556 73.9014 L 602 73.928 C 602 73.928 602.1008 72.9601 602.3457 72.5215 C 602.5906 72.0829 602.948 71.7197 603.4176 71.4318 C 603.8872 71.144 604.4352 71 605.0615 71 C 605.6434 71 606.1575 71.1204 606.603 71.361 C 607.0486 71.6017 607.3928 71.929 607.6357 72.3427 C 607.8785 72.7567 608 73.2064 608 73.6922 C 608 74.0746 607.9307 74.4097 607.7922 74.6976 ZM 605.4922 79.7301 C 605.3115 79.91 605.1028 80 604.866 80 C 604.6211 80 604.4072 79.911 604.2246 79.7335 C 604.0419 79.5558 603.9507 79.3073 603.9507 78.9879 L 605.7632 78.9879 C 605.7632 79.3029 605.6729 79.5502 605.4922 79.7301 ZM 597 75 C 597 79.4184 600.5818 83 605 83 C 609.4182 83 613 79.4184 613 75 C 613 70.5816 609.4182 67 605 67 C 600.5818 67 597 70.5816 597 75 Z" Fill="{DynamicResource HeaderIconsForegroundFill}" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Center" SnapsToDevicePixels="True"/>
+                            <TextBlock Text="{Binding Source={StaticResource Strings}, Path=Hyperlink_WpfOnlineHelp}" VerticalAlignment="Center" Margin="8,0,0,0" Foreground="{StaticResource HeaderLinksForegroundFill}"/>
+                        </StackPanel>
+                    </Grid>
+                </Button>
+            </StackPanel>
+            <StackPanel Grid.Column="2" 
+                        Margin="0,0,6,0"
+                        HorizontalAlignment="Right"
+                        Orientation="Horizontal">
+                <Button Name="MinimizeButton" 
+                        IsTabStop="False" 
+                        Padding="0" Margin="0,6"
+                        Style="{StaticResource DialogButtonStyle}">
+                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Rectangle x:Name="MinimizeGlyph"
+                                       Width="10"
+                                       Height="1"
+                                       Margin="0 7 0 0"
+                                       VerticalAlignment="Bottom"
+                                       Fill="{StaticResource WindowTitleBarIconsBrush}" />
+                    </Grid>
+                </Button>
+                <Button Name="MaximizeButton"
+                            IsTabStop="False"
+                            Padding="0"
+                            Style="{StaticResource DialogButtonStyle}" Margin="0,6">
+                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Grid Visibility="{Binding IsMaximizeButtonVisible, ElementName=mainWindow, Converter={StaticResource BoolToVisConv}}" x:Name="MaximizeGlyph">
+                            <Path Width="10"
+                    				Height="10"
+                    				HorizontalAlignment="Center"
+                    				VerticalAlignment="Center"
+                    				Data="M0.99999994,0.99999994 L0.99999994,9 9,9 9,0.99999994 z M0,0 L10,0 10,10 0,10 z"
+                    				Fill="{StaticResource WindowTitleBarIconsBrush}"
+                    				Stretch="Fill"
+                    				UseLayoutRounding="False" />
+                        </Grid>
+                        <Grid Visibility="{Binding IsRestoreButtonVisible, ElementName=mainWindow, Converter={StaticResource BoolToVisConv}}" x:Name="RestoreGlyph" >
+                            <Path Width="10"
+                    				Height="10" Fill="{StaticResource WindowTitleBarIconsBrush}"
+                    				Data="M1,3 L1,9 7,9 7,3 z M3,0.99999994 L3,2 8,2 8,7 9,7 9,0.99999994 z M2,0 L10,0 10,8 8,8 8,10 0,10 0,2 2,2 z"
+                    				Stretch="Fill"/>
+                        </Grid>
+                    </Grid>
+                </Button>
+                <Button Name="CloseButton"
+                            Margin="0,6"
+                            IsTabStop="False"
+                            Style="{StaticResource DialogButtonStyle}">
+                    <Path Width="10"
+                              Height="10"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              Data="M 1301 69.6875 L 1305.3049 74 L 1300.9375 78.5313 L 1301.6324 79.2263 L 1306 74.735 L 1310.4263 79.2613 L 1311.1563 78.5313 L 1306.7 74 L 1310.9375 69.6875 L 1310.2075 68.9575 L 1306 73.265 L 1301.6949 68.9925 L 1301 69.6875 Z"
+                              Fill="{StaticResource WindowTitleBarIconsBrush}"
+                              Stretch="Fill" />
+                </Button>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1" HorizontalAlignment="Stretch" x:Name="MenuPlusBody" VerticalAlignment="Stretch" Width="Auto" Height="Auto">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="MenuColumn" Width="260" MaxWidth="600"/>
+                <ColumnDefinition x:Name="BodyColumn" Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Rectangle x:Name="LogoBackground" Height="36" VerticalAlignment="Stretch" Grid.Column="1"/>
+            <Grid x:Name="MenuArea" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{StaticResource TreeViewBackgroundBrush}">
+                <!-- JAS -->
+                <DockPanel>
+                    <Grid Height="46" VerticalAlignment="Top" DockPanel.Dock="Top">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="31"/>
+                        </Grid.ColumnDefinitions>
+                        <controls:SearchControl x:Name="SearchArea" Grid.Column="0"/>
+                        <controls:MenuExpansionButton Grid.Column="1" MinWidth="31" Height="46" Content="Button" x:Name="btnToggleMenu" Click="btnToggleMenu_Click" IsMenuExpanded="{Binding Path=IsMenuExpanded, ElementName=mainWindow, Mode=Default}" Style="{DynamicResource MenuExpansionButtonStyle1}"/>
+                    </Grid>
+                    <Rectangle Width="5" Fill="{StaticResource TreeViewShadowSeparator}" DockPanel.Dock="Right" IsHitTestVisible="False"/>
+                    <TreeView Margin="6,0,0,0" xmlns:vm="clr-namespace:Infragistics.SamplesBrowser.ViewModel" xmlns:bvr="clr-namespace:Infragistics.SamplesBrowser.Behaviors" x:Name="CategoryTree" ItemsSource="{Binding Path=Children, Mode=OneTime}" BorderBrush="{x:Null}" BorderThickness="0,0,0,0" Style="{StaticResource TreeViewStyle}" ItemContainerStyle="{StaticResource TreeViewItemStyle}" Loaded="CategoryTree_Loaded" SelectedItemChanged="CategoryTree_SelectedItemChanged">
+                        <TreeView.Resources>
+                            <DataTemplate x:Key="NewReleaseIconTemplate">
+                                <Grid Width="Auto" Height="17" Margin="{StaticResource StatusIconOuterMargin}" ToolTip="{Binding Source={StaticResource Strings}, Path=NewIcon_ToolTip}">
+                                    <Rectangle RadiusY="2" RadiusX="2" Fill="{StaticResource NewReleaseIconBackgroundBrush}" SnapsToDevicePixels="True"/>
+                                    <TextBlock FontSize="9" TextAlignment="Center" Foreground="{StaticResource LightForegroundBrush}" Text="{Binding Source={StaticResource Strings}, Path=SampleStatusNew}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="{StaticResource StatusIconInnerMargin}"/>
+                                </Grid>
+                            </DataTemplate>
+                            <DataTemplate x:Key="UpdatedReleaseIconTemplate">
+                                <Grid Width="Auto" Height="17" Margin="{StaticResource StatusIconOuterMargin}" ToolTip="{Binding Source={StaticResource Strings}, Path=UpdatedIcon_ToolTip}">
+                                    <Rectangle RadiusY="2" RadiusX="2" Fill="{StaticResource UpdatedReleaseIconBackgroundBrush}" SnapsToDevicePixels="True"/>
+                                    <TextBlock FontSize="9" TextAlignment="Center" Foreground="{StaticResource LightForegroundBrush}" Text="{Binding Source={StaticResource Strings}, Path=SampleStatusUpdated}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="{StaticResource StatusIconInnerMargin}"/>
+                                </Grid>
+                            </DataTemplate>
+                            <DataTemplate x:Key="CtpReleaseIconTemplate">
+                                <Grid Width="Auto" Height="17" Margin="{StaticResource StatusIconOuterMargin}" ToolTip="{Binding Source={StaticResource Strings}, Path=CtpIcon_ToolTip}">
+                                    <Rectangle RadiusY="2" RadiusX="2" Fill="{StaticResource CtpReleaseIconBackgroundBrush}" SnapsToDevicePixels="True"/>
+                                    <TextBlock FontSize="9" TextAlignment="Center" Foreground="{StaticResource LightForegroundBrush}" Text="{Binding Source={StaticResource Strings}, Path=SampleStatusCTP}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="{StaticResource StatusIconInnerMargin}"/>
+                                </Grid>
+                                </DataTemplate>
+                                <DataTemplate x:Key="BetaReleaseIconTemplate">
+                                    <Grid Width="Auto" Height="17" Margin="{StaticResource StatusIconOuterMargin}" ToolTip="{Binding Source={StaticResource Strings}, Path=CtpIcon_ToolTip}">
+                                        <Rectangle RadiusY="2" RadiusX="2" Fill="DodgerBlue" SnapsToDevicePixels="True"/>
+                                        <TextBlock FontSize="9" TextAlignment="Center" Foreground="{StaticResource LightForegroundBrush}" Text="{Binding Source={StaticResource Strings}, Path=SampleStatusBeta}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="{StaticResource StatusIconInnerMargin}"/>
+                                    </Grid>
+                                </DataTemplate>
+                                <HierarchicalDataTemplate DataType="{x:Type vm:ControlViewModel}" ItemsSource="{Binding Path=Children, Mode=OneTime}">
+                                <DockPanel Height="32" Margin="2,0" LastChildFill="False">
+                                    <!--<Image x:Name="img" DockPanel.Dock="Left" Margin="0,0,4,0" Source="{Binding Path=Icon, Mode=OneTime}" Width="32" Height="32"/>-->
+                                    <!--<TextBlock Text="{Binding Path=ReleaseVersion, Mode=OneTime}" Foreground="{StaticResource ForegroundBrush}" VerticalAlignment="Center" DockPanel.Dock="Left"/>
+							  <TextBlock Text=" - "  VerticalAlignment="Center" DockPanel.Dock="Left"/>
+							  <TextBlock Text="{Binding Path=Status, Mode=OneTime}" Foreground="{StaticResource ForegroundBrush}" VerticalAlignment="Center" DockPanel.Dock="Left"/>
+							  <TextBlock Text=" - "  VerticalAlignment="Center" DockPanel.Dock="Left"/>-->
+                                    <TextBlock Text="{Binding Path=Name, Mode=OneTime}" Foreground="{StaticResource ForegroundBrush}" VerticalAlignment="Center" DockPanel.Dock="Left"/>
+                                    <ContentPresenter ContentTemplate="{StaticResource UpdatedReleaseIconTemplate}" DockPanel.Dock="Left" Margin="0,0,0,0" Visibility="{Binding Path=IsUpdated, Converter={StaticResource BoolToVisConv}}"/>
+                                    <ContentPresenter ContentTemplate="{StaticResource NewReleaseIconTemplate}" DockPanel.Dock="Left" Margin="0,0,0,0" Visibility="{Binding Path=IsNew, Converter={StaticResource BoolToVisConv}}"/>
+                                    <ContentPresenter ContentTemplate="{StaticResource CtpReleaseIconTemplate}" DockPanel.Dock="Left" Margin="0,0,0,0" Visibility="{Binding Path=IsCtp, Converter={StaticResource BoolToVisConv}}"/>
+                                    <ContentPresenter ContentTemplate="{StaticResource BetaReleaseIconTemplate}" DockPanel.Dock="Left" Margin="0,0,0,0" Visibility="{Binding Path=IsBETA, Converter={StaticResource BoolToVisConv}}"/>
+                                </DockPanel>
+                            </HierarchicalDataTemplate>
+                            <!-- This template is applied to SubCategoryViewModel and SampleViewModel objects. -->
+                            <HierarchicalDataTemplate DataType="{x:Type vm:TocItemViewModel}" ItemsSource="{Binding Path=Children, Mode=OneTime}">
+                                <DockPanel Height="32" Margin="2,0" LastChildFill="False">
+                                    <!--<TextBlock Text="{Binding Path=ReleaseVersion, Mode=OneTime}" Foreground="{StaticResource ForegroundBrush}" VerticalAlignment="Center" DockPanel.Dock="Left"/>
+							  <TextBlock Text=" - "  VerticalAlignment="Center" DockPanel.Dock="Left"/>
+							  <TextBlock Text="{Binding Path=Status, Mode=OneTime}" Foreground="{StaticResource ForegroundBrush}" VerticalAlignment="Center" DockPanel.Dock="Left"/>
+							  <TextBlock Text=" - "  VerticalAlignment="Center" DockPanel.Dock="Left"/>-->
+                                    <TextBlock Text="{Binding Path=Name, Mode=OneTime}" Foreground="{StaticResource ForegroundBrush}" VerticalAlignment="Center" DockPanel.Dock="Left"/>
+                                    <ContentPresenter ContentTemplate="{StaticResource UpdatedReleaseIconTemplate}" DockPanel.Dock="Left" Visibility="{Binding Path=IsUpdated, Converter={StaticResource BoolToVisConv}}"/>
+                                    <ContentPresenter ContentTemplate="{StaticResource NewReleaseIconTemplate}" DockPanel.Dock="Left" Visibility="{Binding Path=IsNew, Converter={StaticResource BoolToVisConv}}"/>
+                                    <ContentPresenter ContentTemplate="{StaticResource CtpReleaseIconTemplate}" DockPanel.Dock="Left" Margin="0,0,0,0" Visibility="{Binding Path=IsCtp, Converter={StaticResource BoolToVisConv}}"/>
+                                    <ContentPresenter ContentTemplate="{StaticResource BetaReleaseIconTemplate}" DockPanel.Dock="Left" Margin="0,0,0,0" Visibility="{Binding Path=IsBETA, Converter={StaticResource BoolToVisConv}}"/>
+                                </DockPanel>
+                            </HierarchicalDataTemplate>
+                        </TreeView.Resources>
+                    </TreeView>
+                </DockPanel>
+            </Grid>
+            <GridSplitter x:Name="MenuBodySplitter" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="10" Height="Auto" Grid.Column="1" Background="#00000000" Grid.Row="1" />
+            <Grid x:Name="BodyArea" Grid.Column="1" Grid.RowSpan="2" MinWidth="380">
+                <!-- The upper Grid should not have MinWidth="600", because there are samples counting on small window sizes to show different control's behaviors. -->
+
+                <TabControl x:Name="tabViews" Style="{DynamicResource TabControl_FeatureBrowser}" FontFamily="/Infragistics.Samples.Shared;component/fonts/#Segoe UI" IsSynchronizedWithCurrentItem="True" SelectionChanged="tabViews_SelectionChanged">
+                    <TabItem x:Name="tabSample" Style="{DynamicResource TabItem_FeatureBrowser}" Header="{Binding Source={StaticResource Strings}, Path=TabItems_Sample_Header}" Margin="0">
+                        <Grid Margin="{StaticResource SampleAreaInnerMargin}"><!--d:IsHidden="True"-->
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <AdornerDecorator Grid.Row="1" UseLayoutRounding="True" >
+                                <!--<Frame x:Name="frSample" Navigating="frSample_Navigating" UseLayoutRounding="True" igWindows:Utilities.SnapElementToDevicePixels="True" HorizontalContentAlignment="Stretch" LoadCompleted="frSample_LoadCompleted" VerticalContentAlignment="Stretch" Background="{x:Null}" Margin="0,0,0,0" Source="{Binding ElementName=CategoryTree, Path=SelectedItem.XamlFilePath, IsAsync=True, FallbackValue=Welcome.xaml}"/>-->
+                                <Frame x:Name="frSample" Background="{x:Null}" Navigating="frSample_Navigating" HorizontalContentAlignment="Stretch" LoadCompleted="frSample_LoadCompleted" VerticalContentAlignment="Stretch"/>
+                            </AdornerDecorator>
+
+                            <TextBox Grid.Row="0" Style="{StaticResource SamplesDescriptionStyle}" 
+                                     Text="{Binding ElementName=CategoryTree, Path=SelectedItem.Description, Mode=OneWay}" 
+                                     x:Name="txtCurrentItemDescription"
+                                     ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                     TextChanged="txtCurrentItemDescription_TextChanged">
+                            </TextBox>
+                        </Grid>
+                    </TabItem>
+                    <TabItem x:Name="tabXAML" Style="{DynamicResource TabItem_FeatureBrowser}" Header="{Binding Source={StaticResource Strings}, Path=TabItems_XAML_Header}" IsEnabled="True" IsSelected="False">
+                        <Grid Margin="{StaticResource CodeAreaInnerMargin}">
+                            <!--<Grid.Resources>
+												<utils:DataContextSpy x:Key="frameSpy" DataContext="{Binding ElementName=frSample, Path=Content}"/>
+											</Grid.Resources>-->
+                            <ScrollViewer Visibility="Visible" x:Name="scrSampleXaml" Width="Auto" Height="Auto" HorizontalScrollBarVisibility="Auto" Style="{DynamicResource IGScrollViewerStyle}">
+                                <ContentPresenter x:Name="XamlCode" Content="{Binding Path=CurrentXamlText, Converter={StaticResource xamlColorizerConverter}, ElementName=mainWindow, Mode=Default}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.CanContentScroll="True"/>
+                                <!-- ScrollViewer.CanContentScroll="False" -->
+                            </ScrollViewer>
+                        </Grid>
+                    </TabItem>
+                    <TabItem x:Name="tabSnippet" Style="{DynamicResource TabItem_FeatureBrowser}" Header="{Binding Source={StaticResource Strings}, Path=TabItems_XAML_Snippet_Header}" IsEnabled="True" IsSelected="False">
+                        <Grid Margin="{StaticResource CodeAreaInnerMargin}">
+                            <!--<Grid.Resources>
+												<utils:DataContextSpy x:Key="frameSpy" DataContext="{Binding ElementName=frSample, Path=Content}"/>
+											</Grid.Resources>-->
+                            <ScrollViewer Visibility="Visible" x:Name="scrSnippetXaml" Width="Auto" Height="Auto" HorizontalScrollBarVisibility="Auto" Style="{DynamicResource IGScrollViewerStyle}">
+                                <ContentPresenter x:Name="XamlSnippet" Content="{Binding Path=CurrentXamlText, Converter={StaticResource xamlColorizerConverter}, ElementName=mainWindow, Mode=Default}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.CanContentScroll="True"/>
+                                <!-- ScrollViewer.CanContentScroll="False" -->
+                            </ScrollViewer>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Style="{DynamicResource TabItemLast_FeatureBrowser}" Header="{Binding Source={StaticResource Strings}, Path=TabItems_CodeBehind_Header}" x:Name="tabCode" Width="Auto" Height="Auto" Margin="0,0,-1,0">
+                        <Grid Margin="{StaticResource CodeAreaInnerMargin}">
+                            <ScrollViewer Visibility="Visible" x:Name="scrSampleCode" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Style="{DynamicResource IGScrollViewerStyle}">
+                                <ContentPresenter x:Name="CSharpCode" Content="{Binding Path=CurrentCSharpCode, Converter={StaticResource cSharpColorizerConverter}, ElementName=mainWindow, Mode=Default}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.CanContentScroll="True"/>
+                            </ScrollViewer>
+                        </Grid>
+                    </TabItem>
+                    <TabItem  IsVisibleChanged="tabCustom_IsVisibleChanged" Style="{DynamicResource TabItemLast_FeatureBrowser}" Header="{Binding Source={StaticResource Strings}, Path=TabItems_Related_Header}" x:Name="tabCustom" Width="Auto" Height="Auto" Margin="0,0,-1,0" Visibility="{Binding ElementName=CategoryTree, Path=SelectedItem.HasCodeFiles, Converter={StaticResource BoolToVisConv}, FallbackValue=Collapsed}">
+                        <Grid Margin="-10 20 0 0">
+                            <Grid.Resources>
+                                <ResourceDictionary>
+                                    <ResourceDictionary.MergedDictionaries>
+                                        <ResourceDictionary Source="/Infragistics.Samples.Shared;component/Assets/IGControlStyles.xaml" />
+                                    </ResourceDictionary.MergedDictionaries>
+                                </ResourceDictionary>
+                            </Grid.Resources>
+                            <ScrollViewer Visibility="Visible" x:Name="scrCustomCode" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Foreground="#FF000000" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Style="{DynamicResource IGScrollViewerStyle}" Margin="0 10 0 0 ">
+                                <ContentPresenter x:Name="FileCode" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.CanContentScroll="True"/>
+                            </ScrollViewer>
+                            <ComboBox x:Name="codeFilesCombo" ItemsSource="{Binding ElementName=CategoryTree, Path=SelectedItem.CodeFiles}" HorizontalAlignment="Right" VerticalAlignment="Top" SelectionChanged="CodeFilesCombo_SelectionChanged" MinWidth="250" Style="{StaticResource IGComboBoxStyle}" Margin="0 11 20 0"/>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+
+                <StackPanel Orientation="Horizontal" Grid.Row="0" x:Name="BreadcrumbPanel" 
+                            Margin="{StaticResource BreadcrumbControlMargin}" VerticalAlignment="Top"
+                            Visibility="{Binding ElementName=CategoryTree, Path=SelectedItem, Converter={StaticResource TocVisibilityConverter}}">
+                    <StackPanel.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </StackPanel.RenderTransform>
+                    <StackPanel Orientation="Horizontal" Background="{StaticResource BreadcrumbBackgroundBrush}" Margin="{StaticResource OptionsTextRightMargin}" VerticalAlignment="Center">
+                        <TextBlock Style="{StaticResource BreadcrumbTextStyle}" VerticalAlignment="Center"
+                                   Text="{Binding ElementName=CategoryTree, Path=SelectedItem, Converter={StaticResource TocItemToNameConverter},ConverterParameter='control'}"/>
+                        <!--NOTE: uncomment this code to show sample category in Breadcrumb Panel-->
+                        <!--<Path Width="5" Height="8"  Data="M 408 174.2895 L 409.1812 173 L 413 177 L 409.1812 181 L 408.0562 179.8088 L 410.6814 177.0196 L 408 174.2895 Z" 
+                              Fill="{StaticResource GlyphBackgroundBrush}" Stretch="Fill"/>
+                        <TextBlock Style="{StaticResource BreadcrumbTextStyle}"
+                                   Text="{Binding ElementName=CategoryTree, Path=SelectedItem, Converter={StaticResource TocItemToNameConverter}, ConverterParameter='category'}">
+                        </TextBlock>-->
+                    </StackPanel>
+                    <TextBlock Style="{StaticResource SamplesDescriptionTitleStyle}" Margin="0,-3,0,0"
+                               Text="{Binding ElementName=CategoryTree, Path=SelectedItem, 
+                               Converter={StaticResource TocItemToNameConverter}, ConverterParameter='sample'}">
+                    </TextBlock>
+                </StackPanel>
+
+            </Grid>
+        </Grid>
+        <ToggleButton x:Name="btnExpandMenu" Style="{DynamicResource ToggleButton_ToggleMenu}" Width="11" Height="11" Content="Button" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" Margin="-1,113,0,0" VerticalAlignment="Top" IsChecked="{Binding Path=IsMenuExpanded, ElementName=mainWindow, Mode=OneWay}">
+            <ToggleButton.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="-1" ScaleY="1"/>
+                    <SkewTransform AngleX="0" AngleY="0"/>
+                    <RotateTransform Angle="0"/>
+                    <TranslateTransform X="-15" Y="0"/>
+                </TransformGroup>
+            </ToggleButton.RenderTransform>
+        </ToggleButton>
+
+
+        <Path Fill="#FFFFFFFF" Stretch="Fill" Stroke="#FF000000" HorizontalAlignment="Left" Margin="238.5,162.5,0,71.5" x:Name="pathVertical" Width="1" Data="M0,0L0,50" Opacity="0"/>
+
+        <Grid Width="300" Height="205" Background="#00ffffff" x:Name="Openning" Margin="0" Grid.RowSpan="2">
+            <Grid Opacity="0" Margin="0" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="LeftLogo" RenderTransformOrigin="0.5,0.5">
+                <Grid.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleX="0.1" ScaleY="0.1"/>
+                        <SkewTransform AngleX="0" AngleY="0"/>
+                        <RotateTransform Angle="0"/>
+                        <TranslateTransform X="0" Y="0"/>
+                    </TransformGroup>
+                </Grid.RenderTransform>
+                <Image Source="Images\Shell\introLogo.png" Stretch="UniformToFill" Width="300" Height="205" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            </Grid>
+        </Grid>
+        </Grid>
+        <!--Resize Handlers-->
+            <Rectangle x:Name="leftSizeGrip"
+                        Width="2"
+                        HorizontalAlignment="Left"
+                        Cursor="SizeWE"
+                        Style="{StaticResource RectBorderStyle}" />
+                    <Rectangle x:Name="rightSizeGrip"
+                        Width="2"
+                        HorizontalAlignment="Right"
+                        Cursor="SizeWE"
+                        Style="{StaticResource RectBorderStyle}" />
+                    <Rectangle x:Name="topSizeGrip"
+                        Height="2"
+                        VerticalAlignment="Top"
+                        Cursor="SizeNS"
+                        Style="{StaticResource RectBorderStyle}" />
+                    <Rectangle x:Name="bottomSizeGrip"
+                        Height="2"
+                        VerticalAlignment="Bottom"
+                        Cursor="SizeNS"
+                        Style="{StaticResource RectBorderStyle}" />
+                    <!--  Corners  -->
+                    <Rectangle Name="topLeftSizeGrip"
+                        Width="2"
+                        Height="2"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Cursor="SizeNWSE"
+                        Style="{StaticResource RectBorderStyle}" />
+                    <Rectangle Name="bottomRightSizeGrip"
+                        Width="2"
+                        Height="2"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Cursor="SizeNWSE"
+                        Style="{StaticResource RectBorderStyle}" />
+                    <Rectangle Name="topRightSizeGrip"
+                        Width="2"
+                        Height="2"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Cursor="SizeNESW"
+                        Style="{StaticResource RectBorderStyle}" />
+                    <Rectangle Name="bottomLeftSizeGrip"
+                        Width="2"
+                        Height="2"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        Cursor="SizeNESW"
+                        Style="{StaticResource RectBorderStyle}" />
+    </Grid>
+</Window>

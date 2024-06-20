@@ -1,0 +1,65 @@
+﻿<framework:SampleContainer x:Class="IGDockManager.Samples.Organization.CustomTabGroupFilesMenu"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="CustomizingTabGroupFilesMenu"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:igDock="http://infragistics.com/DockManager"
+      xmlns:locCtls="clr-namespace:IGDockManager.CustomControls"
+      xmlns:res="clr-namespace:IGDockManager.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDockManager;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/IGDockManager;component/CustomControls/themes/generic.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DockManagerStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <!-- #BEGIN SNIPPET# -->
+    <!-- Create a XamDockManager control
+    FilesMenuOpening is actually an event on the TabGroupPane but since its a
+    bubble routed event and groups can get added dynamically at runtime its better
+    to handle this on the xamDockManager itself-->
+    <igDock:XamDockManager
+        x:Name="dockManager"
+        Theme="RoyalLight"
+        igDock:TabGroupPane.FilesMenuOpening="dockManager_FilesMenuOpening">
+        <!-- Document Content ======================================================================== -->
+        <!-- Add a DocumentContentHost here which will assign the DocumentContentHost as the Content of the
+        XamDockManager.  XamDockManager displays its content inside the dock areas.  Then add a SplitPane
+        containing a TabGroupPane with several ContentPanes that represent document content. -->
+        <igDock:DocumentContentHost>
+            <igDock:SplitPane>
+                <igDock:TabGroupPane>
+                    <igDock:ContentPane x:Name="document1"
+                                        Header="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_Page1_Header}">
+                        <locCtls:XdmStartPage Header="{Binding Source={StaticResource Strings}, Path=InteractingWithTheDockManager_CustomizingTabGroupFilesMenu_XdmStartPage_Header}">
+                            <Image Source="../../Images/CustomizingTabGroupFilesMenu.png"
+                                   Stretch="None"/>
+                        </locCtls:XdmStartPage>
+                    </igDock:ContentPane>
+                    <igDock:ContentPane x:Name="document2"
+                                        Header="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_Page2_Header}">
+                        <locCtls:XdmSampleDocumentContent Content=" "/>
+                    </igDock:ContentPane>
+                    <igDock:ContentPane x:Name="document3"
+                                        Header="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_Page3_Header}">
+                        <locCtls:XdmSampleDocumentContent Content=" "/>
+                    </igDock:ContentPane>
+                    <igDock:ContentPane x:Name="document4"
+                                        Header="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_Page4_Header}">
+                        <locCtls:XdmSampleDocumentContent Content=" "/>
+                    </igDock:ContentPane>
+                </igDock:TabGroupPane>
+            </igDock:SplitPane>
+        </igDock:DocumentContentHost>
+    </igDock:XamDockManager>
+    <!-- #END SNIPPET# -->
+
+</framework:SampleContainer>

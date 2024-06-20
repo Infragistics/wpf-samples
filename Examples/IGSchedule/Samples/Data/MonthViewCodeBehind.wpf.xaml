@@ -1,0 +1,89 @@
+﻿<igFramework:SampleContainer
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="MonthViewCodeBehind"
+      x:Class="IGSchedule.Samples.Data.MonthViewCodeBehind"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGSchedule.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <res:ScheduleStrings x:Key="resStrings" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSchedule;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <!-- #BEGIN SNIPPET# -->
+        <ig:ListScheduleDataConnector x:Name="scheduleDataConnector"
+                                      ResourceItemsSource="{Binding Resources}"
+                                      ResourceCalendarItemsSource="{Binding Calendars}"
+                                      AppointmentItemsSource="{Binding Appointments}">
+            <ig:ListScheduleDataConnector.ResourcePropertyMappings>
+                <ig:ResourcePropertyMappingCollection>
+                    <ig:ResourcePropertyMapping ResourceProperty="Id" DataObjectProperty="Id1" />
+                    <ig:ResourcePropertyMapping ResourceProperty="Name" DataObjectProperty="Name1" />
+                </ig:ResourcePropertyMappingCollection>
+            </ig:ListScheduleDataConnector.ResourcePropertyMappings>
+            <ig:ListScheduleDataConnector.ResourceCalendarPropertyMappings>
+                <ig:ResourceCalendarPropertyMappingCollection>
+                    <ig:ResourceCalendarPropertyMapping ResourceCalendarProperty="Id" DataObjectProperty="Id1" />
+                    <ig:ResourceCalendarPropertyMapping ResourceCalendarProperty="Name" DataObjectProperty="Name1" />
+                    <ig:ResourceCalendarPropertyMapping ResourceCalendarProperty="OwningResourceId" DataObjectProperty="ResourceId1" />
+                </ig:ResourceCalendarPropertyMappingCollection>
+            </ig:ListScheduleDataConnector.ResourceCalendarPropertyMappings>
+            <ig:ListScheduleDataConnector.AppointmentPropertyMappings >
+                <ig:AppointmentPropertyMappingCollection>
+                    <ig:AppointmentPropertyMapping AppointmentProperty="Id" DataObjectProperty="Id1" />
+                    <ig:AppointmentPropertyMapping AppointmentProperty="Start" DataObjectProperty="Start1" />
+                    <ig:AppointmentPropertyMapping AppointmentProperty="End" DataObjectProperty="End1" />
+                    <ig:AppointmentPropertyMapping AppointmentProperty="OwningResourceId" DataObjectProperty="OwnerId1" />
+                    <ig:AppointmentPropertyMapping AppointmentProperty="OwningCalendarId" DataObjectProperty="CalendarId1" />
+                    <ig:AppointmentPropertyMapping AppointmentProperty="Subject" DataObjectProperty="Subject1" />
+                    <ig:AppointmentPropertyMapping AppointmentProperty="Description" DataObjectProperty="Text1" />
+                </ig:AppointmentPropertyMappingCollection>
+            </ig:ListScheduleDataConnector.AppointmentPropertyMappings>
+        </ig:ListScheduleDataConnector>
+
+        <ig:XamScheduleDataManager x:Name="dataManager" DataConnector="{Binding ElementName=scheduleDataConnector}">
+            <ig:XamScheduleDataManager.Settings>
+                <ig:ScheduleSettings WorkDays="Monday, Wednesday, Friday, Saturday"/>
+            </ig:XamScheduleDataManager.Settings>
+        </ig:XamScheduleDataManager>
+
+        <ig:XamMonthView x:Name="monthView" DataManager="{Binding ElementName=dataManager}" Grid.Column="1"
+                         CalendarDisplayMode="Overlay"/>
+        <!-- #END SNIPPET# -->
+        
+        <controls:OptionsPanel VerticalAlignment="Top" Margin="0" HeaderText="{Binding Source={StaticResource CommonStrings}, Path=ConfigurationPanel_Header_Options}" Grid.Column="0" IsMovable="False">
+            <TextBlock Text="{Binding ActiveDates, Source={StaticResource resStrings}}" Margin="{StaticResource OptionsTextTopBottomMargin}" />
+            <ig:XamDateNavigator x:Name="dtPicker" SelectedDatesChanged="dtPicker_SelectedDatesChanged" Margin="{StaticResource VerticalPaddingBottomSmall}"/>
+            <Border>
+                <StackPanel>
+                    <TextBlock Text="{Binding AddResourceToDayView, Source={StaticResource resStrings}}" Margin="{StaticResource OptionsTextTopBottomMargin}"/>
+                    <ComboBox x:Name="cboResources" ItemsSource="{Binding Resources}" DisplayMemberPath="Name1" SelectedValuePath="ID1" Margin="{StaticResource OptionsElementsMargin}" SelectionChanged="cboResources_SelectionChanged" />
+                    <TextBlock Text="{Binding AvailableCalendars, Source={StaticResource resStrings}}" Margin="{StaticResource OptionsTextTopBottomMargin}"/>
+                    <ComboBox x:Name="cboResourceCalendars" Margin="{StaticResource OptionsElementsMargin}"/>
+                    <CheckBox x:Name="chkAddingMode" Content="{Binding AddMode, Source={StaticResource resStrings}}" Margin="{StaticResource OptionsElementsMargin}" />
+                    <ComboBox x:Name="cboGroups" ItemsSource="{Binding ElementName=dataManager, Path=CalendarGroups}" DisplayMemberPath="SelectedCalendar.Name" IsEnabled="{Binding ElementName=chkAddingMode, Path=IsChecked}" Margin="{StaticResource OptionsElementsMargin}" />
+                    <Button x:Name="btnAdd" Content="{Binding ButtonAdd, Source={StaticResource resStrings}}" Click="btnAdd_Click" Margin="10" />
+                </StackPanel>
+            </Border>
+        </controls:OptionsPanel>
+
+    </Grid>
+</igFramework:SampleContainer>

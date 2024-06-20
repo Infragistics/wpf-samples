@@ -1,0 +1,83 @@
+<framework:SampleContainer 
+    x:Class="IGLinearGauge.GridIntegration"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700" Title="SimpleData Page"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:igDP="http://infragistics.com/DataPresenter"
+    xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGLinearGauge.Resources" >
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGLinearGauge;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:LinearGaugeStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+    <Grid x:Name="LayoutRoot">        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+            
+        <TextBlock Text="{Binding Path=WindSpeedDescription, Source={StaticResource Strings}}"                   
+                   Style="{StaticResource SamplesTitleStyle}"
+                   Margin="{StaticResource BottomPaddingLarge}" 
+                   TextWrapping="Wrap"/>        
+        <!-- #BEGIN SNIPPET# -->
+        <igDP:XamDataGrid Grid.Row="1" Grid.ColumnSpan="2"
+                    DataSource="{Binding}" 
+                    VerticalAlignment="Top"  
+                    MaxHeight="500">
+            <igDP:XamDataGrid.FieldLayoutSettings>
+                <igDP:FieldLayoutSettings AutoGenerateFields="False"/>
+            </igDP:XamDataGrid.FieldLayoutSettings>
+            <igDP:XamDataGrid.FieldSettings>
+                <igDP:FieldSettings Width="Auto" />
+            </igDP:XamDataGrid.FieldSettings>
+            <igDP:XamDataGrid.FieldLayouts>
+                <igDP:FieldLayout>
+                    <igDP:Field Name="Date" IsReadOnly="True" Label="{Binding Path=Date, Source={StaticResource Strings}}"/>
+                    <igDP:Field Name="WindSpeed" Label="{Binding Path=WindSpeed, Source={StaticResource Strings}}"/>
+                    <igDP:TemplateField Name="XamLinearGauge" AlternateBinding="{Binding}" BindingType="UseAlternateBinding" Label="{Binding Path=WindSpeedGauge, Source={StaticResource Strings}}">
+                        <igDP:TemplateField.DisplayTemplate>
+                            <DataTemplate>
+                                <ig:XamLinearGauge NeedleBrush="White"
+                                               NeedleOutline="#FF2582A9" 
+                                               MinWidth="250"
+                                               MaximumValue="9" 
+                                               Value="{Binding WindSpeed}"
+                                               LabelInterval="2"
+                                               LabelsPostInitial="1"
+                                               Interval="1"  
+                                               Background="Transparent"
+                                               BorderBrush="Transparent"
+                                               BackingBrush="Transparent"
+                                               BackingOutline="Transparent"
+                                               Foreground="#FFBBBBBB">
+                                    <ig:XamLinearGauge.Ranges>
+                                        <ig:XamLinearGraphRange StartValue="0" EndValue="1" />
+                                        <ig:XamLinearGraphRange StartValue="1" EndValue="4" />
+                                        <ig:XamLinearGraphRange StartValue="4" EndValue="7" />
+                                        <ig:XamLinearGraphRange StartValue="7" EndValue="9" />
+                                    </ig:XamLinearGauge.Ranges>
+                                </ig:XamLinearGauge>
+                            </DataTemplate>
+                        </igDP:TemplateField.DisplayTemplate>
+                    </igDP:TemplateField>
+                </igDP:FieldLayout>
+            </igDP:XamDataGrid.FieldLayouts>                           
+        </igDP:XamDataGrid> 
+        <!-- #END SNIPPET# --> 
+    </Grid> 
+</framework:SampleContainer>

@@ -1,0 +1,56 @@
+﻿<igFramework:SampleContainer x:Class="IGDataCards.Samples.Display.CardHeaders"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="CardHeaders_Samp"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:converters="clr-namespace:IGDataCards.Converters"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGDataCards.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataCards;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DataCardsStrings x:Key="DataCardsStrings" />
+            <converters:VisibilityToBooleanConverter x:Key="visToBoolConverter" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    
+    <Grid>
+        <!-- #BEGIN SNIPPET# -->
+        <igDP:XamDataCards Name="xamDataCards1"
+                           BindToSampleData="True"
+                           Theme="RoyalLight">
+            <igDP:XamDataCards.ViewSettings>
+                <igDP:CardViewSettings HeaderPath="email"
+                                       HeaderVisibility="Visible" />
+            </igDP:XamDataCards.ViewSettings>
+        </igDP:XamDataCards>
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource DataCardsStrings}, Path=LayoutAndBehavior_CardHeaders_ConfigArea_Header}"
+                               HorizontalAlignment="Right">
+            <CheckBox Content="{Binding Source={StaticResource DataCardsStrings},
+                Path=LayoutAndBehavior_CardHeaders_ConfigArea_Setting_DisplayHeaders}"
+                      VerticalAlignment="Center"
+                      
+                      Margin="0,0,20,10"
+                      Name="chkHeaderVisibility"
+                      IsChecked="{Binding ElementName=xamDataCards1,
+                Path=ViewSettings.HeaderVisibility, Converter={StaticResource visToBoolConverter}}" />
+            <TextBlock VerticalAlignment="Center" Margin="{StaticResource OptionsElementsMargin}"
+                       Text="{Binding Source={StaticResource DataCardsStrings}, Path=LayoutAndBehavior_CardHeaders_ConfigArea_Setting_SelectHeaderField}" />
+            <ComboBox VerticalAlignment="Center"
+                      IsEnabled="{Binding ElementName=chkHeaderVisibility, Path=IsChecked}"
+                      ItemsSource="{Binding ElementName=xamDataCards1, Path=DefaultFieldLayout.Fields}"
+                      DisplayMemberPath="Name"
+                      SelectedValuePath="Name"
+                      SelectedValue="{Binding ElementName=xamDataCards1, Path=ViewSettings.HeaderPath}"/>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

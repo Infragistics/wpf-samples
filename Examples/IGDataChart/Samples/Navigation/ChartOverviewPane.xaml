@@ -1,0 +1,361 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Navigation.ChartOverviewPane"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="ChartOverview Page"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared" 
+      xmlns:resources="clr-namespace:IGDataChart.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+                
+                
+            </ResourceDictionary.MergedDictionaries>
+            <resources:DataChartStrings x:Key="Strings" />
+            <ig:AxisLabelSettings x:Key="xAxisLabelSettings" Location="OutsideTop" Extent="25" VerticalAlignment="Center" Visibility="Collapsed" />
+            <ig:AxisLabelSettings x:Key="yAxisLabelSettings" Location="OutsideLeft" Extent="45" HorizontalAlignment="Center" Visibility="Collapsed" />
+
+            <models:FinancialDataCollection x:Key="financialData" />
+            <models:WindDataModel x:Key="WindDataSource" d:IsDataSource="True" />
+            <models:BubbleDataScatterSample x:Key="ScatterData1" />
+            <models:BubbleDataScatterSample x:Key="ScatterData2" />
+            <models:StockMarketDataCollection x:Key="data1">
+                <models:StockMarketDataCollection.Settings>
+                    <models:StockMarketSettings DataPoints="200" PriceStart="600"/>
+                </models:StockMarketDataCollection.Settings>
+            </models:StockMarketDataCollection>
+            <models:StockMarketDataCollection x:Key="data2">
+                <models:StockMarketDataCollection.Settings>
+                    <models:StockMarketSettings DataPoints="200" PriceStart="500" />
+                </models:StockMarketDataCollection.Settings>
+            </models:StockMarketDataCollection>
+
+            <models:BubbleDataRandomSample x:Key="bubbleDataSample1">
+                <models:BubbleDataRandomSample.Settings>
+                    <models:BubbleDataSettings DataPoints="15" XMin="20" XMax="180" YMin="20" YMax="180"
+                                               RadiusMin="100" RadiusMax="120" />
+                </models:BubbleDataRandomSample.Settings>
+            </models:BubbleDataRandomSample>
+            <models:BubbleDataRandomSample x:Key="bubbleDataSample2">
+                <models:BubbleDataRandomSample.Settings>
+                    <models:BubbleDataSettings DataPoints="15" XMin="20" XMax="180" YMin="20" YMax="180"
+                                               RadiusMin="50" RadiusMax="80" />
+                </models:BubbleDataRandomSample.Settings>
+            </models:BubbleDataRandomSample>
+            <models:BubbleDataRandomSample x:Key="bubbleDataSample3">
+                <models:BubbleDataRandomSample.Settings>
+                    <models:BubbleDataSettings DataPoints="15" XMin="20" XMax="180" YMin="20" YMax="180"
+                                               RadiusMin="10" RadiusMax="40" />
+                </models:BubbleDataRandomSample.Settings>
+            </models:BubbleDataRandomSample>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="0.5*"/>
+        </Grid.RowDefinitions>
+
+        <ig:XamTileManager Name="ChartTileManager" MaximizedTileLimit="1" Grid.Row="1">
+            <ig:XamTileManager.NormalModeSettings>
+                <ig:NormalModeSettings
+                    HorizontalTileAreaAlignment="Stretch"
+                    VerticalTileAreaAlignment="Stretch"
+                    AllowTileDragging="Slide"
+                    AllowTileSizing="Individual"
+                    />
+            </ig:XamTileManager.NormalModeSettings>
+            <ig:XamTileManager.MaximizedModeSettings>
+                <ig:MaximizedModeSettings
+                    AllowTileDragging="No"
+                    ShowAllMinimizedTiles="True"
+                    MinimizedTileExpansionMode="AllowOne"
+                    VerticalTileAreaAlignment="Bottom"
+                    MaximizedTileLocation="Bottom"
+                    MaximizedTileLayoutOrder="VerticalWithLastTileFill" 
+                    />
+            </ig:XamTileManager.MaximizedModeSettings>
+            <ig:XamTile Header="{Binding XWDC_CategorySeries, Source={StaticResource Strings}}" IsMaximized="True" ExpandButtonVisibility="Collapsed" >
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->  
+                <ig:XamDataChart x:Name="CategoryDataChart" Margin="2" 
+                         OverviewPlusDetailPaneVisibility="Visible"
+                         OverviewPlusDetailPaneHorizontalAlignment="Right"
+                         OverviewPlusDetailPaneVerticalAlignment="Bottom"
+                         HorizontalZoomable="True" HorizontalZoombarVisibility="Collapsed"
+                         VerticalZoomable="True" VerticalZoombarVisibility="Collapsed"
+                         DataContext="{StaticResource data1}">
+                    <ig:XamDataChart.Axes>
+                        <ig:CategoryXAxis x:Name="xAxis" ItemsSource="{StaticResource data1}" Label="{}{Index}"
+                                  LabelSettings="{StaticResource xAxisLabelSettings}">
+                        </ig:CategoryXAxis>
+                        <ig:NumericYAxis x:Name="yAxis"
+                                 LabelSettings="{StaticResource yAxisLabelSettings}">
+                        </ig:NumericYAxis>
+                    </ig:XamDataChart.Axes>
+                    <ig:XamDataChart.Series>
+                        <ig:AreaSeries ItemsSource="{StaticResource data1}"
+                               ValueMemberPath="Open"
+                               XAxis="{Binding ElementName=xAxis}"
+                               YAxis="{Binding ElementName=yAxis}" IsHighlightingEnabled="True" IsTransitionInEnabled="True" >
+                        </ig:AreaSeries>
+                        <ig:LineSeries ItemsSource="{StaticResource data2}"
+                               ValueMemberPath="Open" MarkerType="Circle"
+                               XAxis="{Binding ElementName=xAxis}"
+                               YAxis="{Binding ElementName=yAxis}" IsHighlightingEnabled="True" IsTransitionInEnabled="True">
+                        </ig:LineSeries>
+                    </ig:XamDataChart.Series>
+                </ig:XamDataChart>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamTile>
+            <ig:XamTile Header="{Binding XWDC_FinancialSeries, Source={StaticResource Strings}}" IsMaximized="False" ExpandButtonVisibility="Collapsed" >
+                <ig:XamDataChart x:Name="FinancialDataChart" Margin="2"  
+                         OverviewPlusDetailPaneVisibility="Visible"
+                         OverviewPlusDetailPaneHorizontalAlignment="Right"
+                         OverviewPlusDetailPaneVerticalAlignment="Bottom"
+                         HorizontalZoomable="True" HorizontalZoombarVisibility="Collapsed"
+                         VerticalZoomable="True" VerticalZoombarVisibility="Collapsed"
+                         DataContext="{StaticResource data1}">
+                    <ig:XamDataChart.Axes>
+                        <ig:CategoryXAxis x:Name="xAxisFS" ItemsSource="{StaticResource data1}" Label="{}{Index}"
+                                  LabelSettings="{StaticResource xAxisLabelSettings}">
+                        </ig:CategoryXAxis>
+                        <ig:NumericYAxis x:Name="yAxisFS"
+                                 LabelSettings="{StaticResource yAxisLabelSettings}">
+                        </ig:NumericYAxis>
+                    </ig:XamDataChart.Axes>
+                    <ig:XamDataChart.Series>
+                        <ig:FinancialPriceSeries
+                        DisplayType="Candlestick" 
+                        ItemsSource="{StaticResource data1}"
+                        OpenMemberPath="Open"
+                        CloseMemberPath="Close"
+                        HighMemberPath="High"
+                        LowMemberPath="Low"
+                        VolumeMemberPath="Volume"
+                        XAxis="{Binding ElementName=xAxisFS}"
+                        YAxis="{Binding ElementName=yAxisFS}" 
+                        TrendLineType="ExponentialAverage" IsHighlightingEnabled="True" IsTransitionInEnabled="True">
+                        </ig:FinancialPriceSeries>
+                    </ig:XamDataChart.Series>
+                </ig:XamDataChart>
+            </ig:XamTile>
+            <ig:XamTile Header="{Binding XWDC_ScatterSeries, Source={StaticResource Strings}}" IsMaximized="False"  ExpandButtonVisibility="Collapsed" >
+                <ig:XamDataChart x:Name="ScatterDataChart" Margin="2"  
+                         OverviewPlusDetailPaneVisibility="Visible"
+                         OverviewPlusDetailPaneHorizontalAlignment="Right"
+                         OverviewPlusDetailPaneVerticalAlignment="Bottom"
+                         HorizontalZoomable="True" HorizontalZoombarVisibility="Collapsed"
+                         VerticalZoomable="True" VerticalZoombarVisibility="Collapsed"
+                         DataContext="{StaticResource data1}">
+                    <ig:XamDataChart.Axes>
+                        <ig:NumericXAxis x:Name="ScatterXAxis" LabelSettings="{StaticResource xAxisLabelSettings}" Interval="10" MinimumValue="0" MaximumValue="100" />
+                        <ig:NumericYAxis x:Name="ScatterYAxis" LabelSettings="{StaticResource yAxisLabelSettings}" />
+                    </ig:XamDataChart.Axes>
+                    <ig:XamDataChart.Series>
+                        <ig:ScatterSeries ItemsSource="{StaticResource ScatterData1}"
+                                  MarkerType="Circle"
+                                  XMemberPath="X" YMemberPath="Y"
+                                  XAxis="{Binding ElementName=ScatterXAxis}"
+                                  YAxis="{Binding ElementName=ScatterYAxis}">
+                        </ig:ScatterSeries>
+                        <ig:ScatterSeries ItemsSource="{StaticResource ScatterData2}"
+                                  MarkerType="Circle"
+                                  XMemberPath="X" YMemberPath="Y"
+                                  XAxis="{Binding ElementName=ScatterXAxis}"
+                                  YAxis="{Binding ElementName=ScatterYAxis}">
+                        </ig:ScatterSeries>
+                    </ig:XamDataChart.Series>
+                </ig:XamDataChart>
+            </ig:XamTile>
+            <ig:XamTile Header="{Binding XWDC_PolarSeries, Source={StaticResource Strings}}" IsMaximized="False"  ExpandButtonVisibility="Collapsed"  >
+                <ig:XamDataChart x:Name="PolarDataChart" Margin="2"  
+                         OverviewPlusDetailPaneVisibility="Visible"
+                         OverviewPlusDetailPaneHorizontalAlignment="Right"
+                         OverviewPlusDetailPaneVerticalAlignment="Bottom"
+                         HorizontalZoomable="True" HorizontalZoombarVisibility="Collapsed"
+                         VerticalZoomable="True" VerticalZoombarVisibility="Collapsed"
+                         DataContext="{Binding Source={StaticResource WindDataSource}}" >
+                    <ig:XamDataChart.Axes>
+                        <ig:NumericAngleAxis x:Name="numericAngleAxis1" Canvas.ZIndex="10" CrossingAxis="{Binding ElementName=numericRadiusAxis1}" Interval="15" MaximumValue="360" MinimumValue="0" StartAngleOffset="0">
+                            <ig:NumericAngleAxis.LabelSettings>
+                                <ig:AxisLabelSettings Location="InsideTop" Extent="20" Visibility="Collapsed" />
+                            </ig:NumericAngleAxis.LabelSettings>
+                        </ig:NumericAngleAxis>
+                        <ig:NumericRadiusAxis x:Name="numericRadiusAxis1" Canvas.ZIndex="10" StrokeThickness="2" CrossingAxis="{Binding ElementName=numericAngleAxis1}" CrossingValue="0" MinimumValue="0" MaximumValue="70" Interval="10">
+                            <ig:NumericRadiusAxis.LabelSettings>
+                                <ig:AxisLabelSettings Location="InsideBottom" Visibility="Collapsed"/>
+                            </ig:NumericRadiusAxis.LabelSettings>
+                        </ig:NumericRadiusAxis>
+                    </ig:XamDataChart.Axes>
+                    <ig:XamDataChart.Series>
+                        <ig:PolarLineSeries Title="2010"
+                                        AngleAxis="{Binding ElementName=numericAngleAxis1}"
+                                        RadiusAxis="{Binding ElementName=numericRadiusAxis1}"
+                                        AngleMemberPath="Direction" MarkerType="None"
+                                        RadiusMemberPath="Speed" ItemsSource="{Binding Path=WindData2010}"
+                                        Thickness="5"    >
+                        </ig:PolarLineSeries>
+                        <ig:PolarLineSeries Title="2009"
+                                        AngleAxis="{Binding ElementName=numericAngleAxis1}"
+                                        RadiusAxis="{Binding ElementName=numericRadiusAxis1}"
+                                        AngleMemberPath="Direction" MarkerType="None"
+                                        RadiusMemberPath="Speed" ItemsSource="{Binding Path=WindData2009}"
+                                        Thickness="5"  >
+                        </ig:PolarLineSeries>
+                        <ig:PolarLineSeries Title="2008"
+                                        AngleAxis="{Binding ElementName=numericAngleAxis1}"
+                                        RadiusAxis="{Binding ElementName=numericRadiusAxis1}"
+                                        AngleMemberPath="Direction" MarkerType="None"
+                                        RadiusMemberPath="Speed" ItemsSource="{Binding Path=WindData2008}"
+                                        Thickness="5"   >
+                        </ig:PolarLineSeries>
+                    </ig:XamDataChart.Series>
+                </ig:XamDataChart>
+            </ig:XamTile>
+            <ig:XamTile Header="{Binding XWDC_BubbleSeries, Source={StaticResource Strings}}" IsMaximized="False" ExpandButtonVisibility="Collapsed"  >
+                <ig:XamDataChart x:Name="BubbleDataChart" Margin="2"  
+                         OverviewPlusDetailPaneVisibility="Visible"
+                         OverviewPlusDetailPaneHorizontalAlignment="Right"
+                         OverviewPlusDetailPaneVerticalAlignment="Bottom"
+                         HorizontalZoomable="True" HorizontalZoombarVisibility="Collapsed"
+                         VerticalZoomable="True" VerticalZoombarVisibility="Collapsed"
+                         DataContext="{Binding Source={StaticResource WindDataSource}}" >
+                    <ig:XamDataChart.Axes>
+                        <ig:NumericXAxis x:Name="numericXAxis" MinimumValue="0" MaximumValue="200" Interval="20">
+                            <ig:NumericXAxis.LabelSettings>
+                                <ig:AxisLabelSettings Location="OutsideLeft" Visibility="Collapsed"/>
+                            </ig:NumericXAxis.LabelSettings>
+                        </ig:NumericXAxis>
+                        <ig:NumericYAxis x:Name="numericYAxis" MinimumValue="0" MaximumValue="200" Interval="20">
+                            <ig:NumericYAxis.LabelSettings>
+                                <ig:AxisLabelSettings Location="OutsideBottom" Visibility="Collapsed"/>
+                            </ig:NumericYAxis.LabelSettings>
+                        </ig:NumericYAxis>
+                    </ig:XamDataChart.Axes>
+                    <ig:XamDataChart.Series>
+                        <ig:BubbleSeries   
+                                  XAxis="{Binding ElementName=numericXAxis}"
+                                  YAxis="{Binding ElementName=numericYAxis}"
+                                  XMemberPath="X"
+                                  YMemberPath="Y"
+                                  RadiusMemberPath="Radius"
+                                  MarkerType="Circle"
+                                  ItemsSource="{StaticResource bubbleDataSample1}"   >
+                        </ig:BubbleSeries>
+                        <ig:BubbleSeries   
+                                  XAxis="{Binding ElementName=numericXAxis}"
+                                  YAxis="{Binding ElementName=numericYAxis}"
+                                  XMemberPath="X"
+                                  YMemberPath="Y"
+                                  RadiusMemberPath="Radius"
+                                  MarkerType="Circle"
+                                  ItemsSource="{StaticResource bubbleDataSample2}"   >
+                        </ig:BubbleSeries>
+                        <ig:BubbleSeries   
+                                  YAxis="{Binding ElementName=numericYAxis}"
+                                  XMemberPath="X"
+                                  YMemberPath="Y"
+                                  RadiusMemberPath="Radius"
+                                  MarkerType="Circle"
+                                  ItemsSource="{StaticResource bubbleDataSample3}"   >
+                        </ig:BubbleSeries>
+                    </ig:XamDataChart.Series>
+                </ig:XamDataChart>
+            </ig:XamTile>
+            <ig:XamTile Header="{Binding XWDC_RadialSeries, Source={StaticResource Strings}}" IsMaximized="False"  ExpandButtonVisibility="Collapsed" >
+                <ig:XamDataChart x:Name="RadialDataChart" Margin="2"  
+                         OverviewPlusDetailPaneVisibility="Visible"
+                         OverviewPlusDetailPaneHorizontalAlignment="Right"
+                         OverviewPlusDetailPaneVerticalAlignment="Bottom"
+                         HorizontalZoomable="True" HorizontalZoombarVisibility="Collapsed"
+                         VerticalZoomable="True" VerticalZoombarVisibility="Collapsed" >
+                    <ig:XamDataChart.Axes>
+                        <ig:CategoryAngleAxis x:Name="categoryAngleAxis4"
+                                          ItemsSource="{StaticResource financialData}"
+                                          Interval="1"
+                                          Label="{}{Label}"  >
+                            <ig:CategoryAngleAxis.LabelSettings>
+                                <ig:AxisLabelSettings Location="InsideTop" Extent="20" Visibility="Collapsed"/>
+                            </ig:CategoryAngleAxis.LabelSettings>
+                        </ig:CategoryAngleAxis>
+                        <ig:NumericRadiusAxis x:Name="numericRadiusAxis4"
+                                          InnerRadiusExtentScale="0.1"
+                                          MaximumValue="100"
+                                          MinimumValue="0"
+                                          Interval="25"
+                                          RadiusExtentScale="0.7" >
+                            <ig:NumericRadiusAxis.LabelSettings>
+                                <ig:AxisLabelSettings Location="InsideTop" Extent="20" Visibility="Collapsed"/>
+                            </ig:NumericRadiusAxis.LabelSettings>
+                        </ig:NumericRadiusAxis>
+                    </ig:XamDataChart.Axes>
+                    <ig:XamDataChart.Series>
+                        <ig:RadialPieSeries Title="{Binding XWDC_DataModel_CompanyFinance_Budget, Source={StaticResource Strings}}"
+                                        Opacity="0.8"
+                                        AngleAxis="{Binding ElementName=categoryAngleAxis4}"
+                                        ValueAxis="{Binding ElementName=numericRadiusAxis4}"
+                                        ValueMemberPath="Budget"
+                                        MarkerType="None"
+                                        Thickness="3"
+                                        ItemsSource="{StaticResource financialData}">
+                        </ig:RadialPieSeries>
+                        <ig:RadialPieSeries Title="{Binding XWDC_DataModel_CompanyFinance_Spending, Source={StaticResource Strings}}" Opacity="0.8"
+                                        AngleAxis="{Binding ElementName=categoryAngleAxis4}"
+                                        ValueAxis="{Binding ElementName=numericRadiusAxis4}"
+                                        ValueMemberPath="Spending"
+                                        MarkerType="None"
+                                        Thickness="3"
+                                        ItemsSource="{StaticResource financialData}">
+                        </ig:RadialPieSeries>
+                    </ig:XamDataChart.Series>
+                </ig:XamDataChart>
+            </ig:XamTile>
+        </ig:XamTileManager>
+
+
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="{StaticResource SampleInnerNavigationPadding}" HorizontalAlignment="Left">
+        	<StackPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource SamplesInnerNavigationTitleStyle}"/>    	
+			</StackPanel.Resources>
+            <TextBlock Text="{Binding XW_HorizontalAlignment, Source={StaticResource CommonStrings}}" VerticalAlignment="Center" />
+            <ComboBox x:Name="OpdHorizontalAlignmentComboBox" SelectedIndex="0" 
+                      SelectionChanged="OpdHorizontalAlignmentComboBox_SelectionChanged" 
+                      Style="{StaticResource IGComboBoxStyle}">
+                <ComboBox.ItemsSource>
+                    <models:HorizontalAlignmenList>
+                        <HorizontalAlignment>Right</HorizontalAlignment>
+                        <HorizontalAlignment>Center</HorizontalAlignment>
+                        <HorizontalAlignment>Left</HorizontalAlignment>
+                    </models:HorizontalAlignmenList>
+                </ComboBox.ItemsSource>
+            </ComboBox>
+            <TextBlock Text="{Binding XW_VerticalAlignment, Source={StaticResource CommonStrings}}" Margin="12,0,6,0" VerticalAlignment="Center" />
+            <ComboBox x:Name="OpdVerticalAlignmentComboBox" SelectedIndex="0" 
+                      SelectionChanged="OpdVerticalAlignmentComboBox_SelectionChanged" 
+                      Style="{StaticResource IGComboBoxStyle}">
+                <ComboBox.ItemsSource>
+                    <models:VerticalAlignmentList>
+                        <VerticalAlignment>Bottom</VerticalAlignment>
+                        <VerticalAlignment>Center</VerticalAlignment>
+                        <VerticalAlignment>Top</VerticalAlignment>
+                    </models:VerticalAlignmentList>
+                </ComboBox.ItemsSource>
+            </ComboBox>
+            <TextBlock Text="{Binding XW_PaneVisibility, Source={StaticResource CommonStrings}}" Margin="12,0,6,0" VerticalAlignment="Center" />
+            <ComboBox x:Name="OpdPaneVisibility" SelectedIndex="0" 
+                      SelectionChanged="OpdPaneVisibility_SelectionChanged" 
+                      Style="{StaticResource IGComboBoxStyle}" />
+        </StackPanel>
+    </Grid>
+</igFramework:SampleContainer>

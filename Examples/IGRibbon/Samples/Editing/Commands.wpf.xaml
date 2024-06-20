@@ -1,0 +1,289 @@
+﻿<framework:SampleContainer x:Class="IGRibbon.Samples.Editing.Commands"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="CommandsPage"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:igRibbon="http://infragistics.com/Ribbon"
+      xmlns:res="clr-namespace:IGRibbon.Resources"
+      xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGRibbon;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:RibbonStrings x:Key="RibbonStrings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+
+        <igRibbon:XamRibbon x:Name="myRibbon" Theme="RoyalLight">
+            <!-- ApplicationMenu -->
+            <igRibbon:XamRibbon.ApplicationMenu>
+                <igRibbon:ApplicationMenu
+                    Image="/IGRibbon;component/Images/xamRibbonDefaultApplicationIcon.png"
+                    RecentItemsHeader="{Binding Shared_ApplicationMenu_RecentItems_Header, Source={StaticResource RibbonStrings}}">
+                    <igRibbon:ButtonTool Caption="{Binding Shared_ApplicationMenu_Button_New, Source={StaticResource RibbonStrings}}"
+                                         LargeImage="/IGRibbon;component/Images/New_Large.png"/>
+                    <igRibbon:ButtonTool Caption="{Binding Shared_ApplicationMenu_Button_Open, Source={StaticResource RibbonStrings}}"
+                                         LargeImage="/IGRibbon;component/Images/Open_Large.png"/>
+                    <igRibbon:ButtonTool Caption="{Binding Shared_ApplicationMenu_Button_Save, Source={StaticResource RibbonStrings}}"
+                                         LargeImage="/IGRibbon;component/Images/Save_Large.png" IsEnabled="{Binding ElementName=editorWindow,Path=IsDocumentOpen}"/>
+                    <igRibbon:ButtonTool Caption="{Binding Shared_ApplicationMenu_Button_Close, Source={StaticResource RibbonStrings}}"
+                                         LargeImage="/IGRibbon;component/Images/Close_Large.png" IsEnabled="{Binding ElementName=editorWindow,Path=IsDocumentOpen}"/>
+                    <igRibbon:SeparatorTool/>
+                    <igRibbon:MenuTool Caption="{Binding Shared_ApplicationMenu_MenuTool_Theme, Source={StaticResource RibbonStrings}}" ButtonType="DropDown"
+                                       LargeImage="/IGRibbon;component/Images/Theme_Large.png">
+                        <igRibbon:LabelTool Caption="{Binding Shared_ApplicationMenu_ThemeSelector_Description, Source={StaticResource RibbonStrings}}"/>
+                        <igRibbon:RadioButtonTool
+                            Caption="{Binding Shared_ApplicationMenu_ThemeSelector_Blue, Source={StaticResource RibbonStrings}}"
+                            Tag="Office2k7Blue"
+                            LargeImage="/IGRibbon;component/Images/Theme_Blue.png"
+                            igRibbon:MenuToolBase.MenuItemDescription="{Binding Shared_ApplicationMenu_ThemeSelector_Blue_Description,
+                            Source={StaticResource RibbonStrings}}"/>
+                        <igRibbon:RadioButtonTool
+                            Caption="{Binding Shared_ApplicationMenu_ThemeSelector_Black, Source={StaticResource RibbonStrings}}"
+                            Tag="Office2k7Black"
+                            IsChecked="True"
+                            LargeImage="/IGRibbon;component/Images/Theme_Black.png"
+                            igRibbon:MenuToolBase.MenuItemDescription="{Binding Shared_ApplicationMenu_ThemeSelector_Black_Description,
+                            Source={StaticResource RibbonStrings}}"/>
+                        <igRibbon:RadioButtonTool
+                            Caption="{Binding Shared_ApplicationMenu_ThemeSelector_Silver, Source={StaticResource RibbonStrings}}"
+                            Tag="Office2k7Silver"
+                            LargeImage="/IGRibbon;component/Images/Theme_Silver.png"
+                            igRibbon:MenuToolBase.MenuItemDescription="{Binding Shared_ApplicationMenu_ThemeSelector_Silver_Description,
+                            Source={StaticResource RibbonStrings}}"/>
+                    </igRibbon:MenuTool>
+                    <igRibbon:ApplicationMenu.RecentItems>
+                        <igRibbon:ButtonTool Caption="{Binding Shared_ApplicationMenu_RecentItems_Item1, Source={StaticResource RibbonStrings}}"/>
+                        <igRibbon:ButtonTool Caption="{Binding Shared_ApplicationMenu_RecentItems_Item2, Source={StaticResource RibbonStrings}}"/>
+                        <igRibbon:ButtonTool Caption="{Binding Shared_ApplicationMenu_RecentItems_Item3, Source={StaticResource RibbonStrings}}"/>
+                        <igRibbon:ButtonTool Caption="{Binding Shared_ApplicationMenu_RecentItems_Item4, Source={StaticResource RibbonStrings}}"/>
+                        <igRibbon:ButtonTool Caption="{Binding Shared_ApplicationMenu_RecentItems_Item5, Source={StaticResource RibbonStrings}}"/>
+                        <igRibbon:ButtonTool Caption="{Binding Shared_ApplicationMenu_RecentItems_Item6, Source={StaticResource RibbonStrings}}"/>
+                        <igRibbon:ButtonTool Caption="{Binding Shared_ApplicationMenu_RecentItems_Item7, Source={StaticResource RibbonStrings}}"/>
+                        <igRibbon:ButtonTool Caption="{Binding Shared_ApplicationMenu_RecentItems_Item8, Source={StaticResource RibbonStrings}}"/>
+                        <igRibbon:ButtonTool Caption="{Binding Shared_ApplicationMenu_RecentItems_Item9, Source={StaticResource RibbonStrings}}"/>
+                        <igRibbon:ButtonTool Caption="{Binding Shared_ApplicationMenu_RecentItems_Item10, Source={StaticResource RibbonStrings}}"/>
+                    </igRibbon:ApplicationMenu.RecentItems>
+                    <igRibbon:ApplicationMenu.FooterToolbar>
+                        <igRibbon:ApplicationMenuFooterToolbar>
+                            <igRibbon:ButtonTool Caption="{Binding Shared_ApplicationMenu_Button_Exit, Source={StaticResource RibbonStrings}}"/>
+                        </igRibbon:ApplicationMenuFooterToolbar>
+                    </igRibbon:ApplicationMenu.FooterToolbar>
+                </igRibbon:ApplicationMenu>
+            </igRibbon:XamRibbon.ApplicationMenu>
+            <!-- End ApplicationMenu -->
+            <!-- Tabs -->
+            <igRibbon:XamRibbon.Tabs>
+                <igRibbon:RibbonTabItem Header="{Binding Shared_Tab_Format_Header, Source={StaticResource RibbonStrings}}">
+                    <!-- #BEGIN SNIPPET# -->
+                    <!-- RibbonGroup-->
+                    <igRibbon:RibbonGroup Id="Clipboard" Caption="{Binding Shared_Tab_Format_Group_Clipboard_Caption, Source={StaticResource RibbonStrings}}">
+                        <igRibbon:ToolHorizontalWrapPanel>
+                            <igRibbon:ButtonTool
+                                Caption="{Binding Shared_Tab_Format_Group_Clipboard_Button_Paste, Source={StaticResource RibbonStrings}}"
+                                Command="Paste" CommandTarget="{Binding ElementName=richTextBox}"
+                                igRibbon:RibbonGroup.MaximumSize="ImageAndTextLarge"
+                                SmallImage="/IGRibbon;component/Images/Paste_16x16.png"
+                                LargeImage="/IGRibbon;component/Images/Paste_32x32.png"/>
+                            <igRibbon:ButtonGroup>
+                                <igRibbon:ButtonTool Command="Cut" CommandTarget="{Binding ElementName=richTextBox}"
+                                                     SmallImage="/IGRibbon;component/Images/EditCut.png"/>
+                                <igRibbon:ButtonTool Command="Copy" CommandTarget="{Binding ElementName=richTextBox}"
+                                                     SmallImage="/IGRibbon;component/Images/EditCopy.png"/>
+                            </igRibbon:ButtonGroup>
+                            <igRibbon:ButtonGroup>
+                                <igRibbon:ButtonTool Command="Undo" CommandTarget="{Binding ElementName=richTextBox}"
+                                                     SmallImage="/IGRibbon;component/Images/EditUndo.png"/>
+                                <igRibbon:ButtonTool Command="Redo" CommandTarget="{Binding ElementName=richTextBox}"
+                                                     SmallImage="/IGRibbon;component/Images/EditRedo.png"/>
+                            </igRibbon:ButtonGroup>
+                        </igRibbon:ToolHorizontalWrapPanel>
+                    </igRibbon:RibbonGroup>
+                    <!-- End RibbonGroup-->
+                    <!-- #END SNIPPET# -->
+                    <!-- RibbonGroup-->
+                    <igRibbon:RibbonGroup Id="Text Style" Caption="{Binding Shared_Tab_Format_Group_TextStyle_Caption, Source={StaticResource RibbonStrings}}">
+                        <igRibbon:ToolHorizontalWrapPanel>
+                            <igRibbon:ButtonGroup>
+                                <igRibbon:ToggleButtonTool Command="ToggleBold" CommandTarget="{Binding ElementName=richTextBox}"
+                                                           SmallImage="/IGRibbon;component/Images/Bold.png"/>
+                                <igRibbon:ToggleButtonTool Command="ToggleItalic" CommandTarget="{Binding ElementName=richTextBox}"
+                                                           SmallImage="/IGRibbon;component/Images/Italic.png"/>
+                                <igRibbon:ToggleButtonTool Command="ToggleUnderline" CommandTarget="{Binding ElementName=richTextBox}"
+                                                           SmallImage="/IGRibbon;component/Images/Underline.png"/>
+                            </igRibbon:ButtonGroup>
+                            <igRibbon:ButtonGroup>
+                                <igRibbon:RadioButtonTool Command="AlignLeft" CommandTarget="{Binding ElementName=richTextBox}" IsChecked="True"
+                                                          SmallImage="/IGRibbon;component/Images/LeftAlign.png"/>
+                                <igRibbon:RadioButtonTool Command="AlignCenter" CommandTarget="{Binding ElementName=richTextBox}"
+                                                          SmallImage="/IGRibbon;component/Images/CenterAlign.png"/>
+                                <igRibbon:RadioButtonTool Command="AlignRight" CommandTarget="{Binding ElementName=richTextBox}"
+                                                          SmallImage="/IGRibbon;component/Images/RightAlign.png"/>
+                                <igRibbon:RadioButtonTool Command="AlignJustify" CommandTarget="{Binding ElementName=richTextBox}"
+                                                          SmallImage="/IGRibbon;component/Images/JustifyAlign.png"/>
+                            </igRibbon:ButtonGroup>
+                        </igRibbon:ToolHorizontalWrapPanel>
+                    </igRibbon:RibbonGroup>
+                    <!-- End RibbonGroup-->
+                    <!-- RibbonGroup-->
+                    <igRibbon:RibbonGroup Id="FontGlobal" Caption="{Binding Shared_Tab_Format_Group_GlobalFont_Caption, Source={StaticResource RibbonStrings}}">
+                        <igRibbon:ToolHorizontalWrapPanel>
+                            <igRibbon:ComboEditorTool
+                                Id="fontFamilyCombo"
+                                x:Name="fontFamilyCombo"
+                                DropDownResizeMode="VerticalOnly"
+                                IsEditable="False"
+                                EditAreaWidth="148.0">
+                            </igRibbon:ComboEditorTool>
+                            <igRibbon:ComboEditorTool
+                                Id="fontSizeCombo"
+                                x:Name="fontSizeCombo"
+                                IsEditable="False"
+                                DropDownResizeMode="VerticalOnly"
+                                EditAreaWidth="118.0"
+                                ValueType="{x:Type sys:Double}">
+                            </igRibbon:ComboEditorTool>
+                            <igRibbon:MenuTool igRibbon:RibbonGroup.MaximumSize="ImageOnly" SmallImage="/IGRibbon;component/Images/FontColor.png">
+                                <TextBlock Text="{Binding Shared_Tab_Format_Group_GlobalFont_ColorMenu_Color, Source={StaticResource RibbonStrings}}"/>
+                            </igRibbon:MenuTool>
+                        </igRibbon:ToolHorizontalWrapPanel>
+                    </igRibbon:RibbonGroup>
+                    <!-- End RibbonGroup-->
+                    <!-- RibbonGroup-->
+                    <igRibbon:RibbonGroup Id="Presets" Caption="{Binding Shared_Tab_Format_Group_Presets_Caption, Source={StaticResource RibbonStrings}}">
+                        <igRibbon:MenuTool
+                            ShouldDisplayGalleryPreview="False"
+                            Caption="{Binding Shared_Tab_Format_Group_Presets_QuickStylesMenu_Caption, Source={StaticResource RibbonStrings}}"
+                            LargeImage="/IGRibbon;component/Images/QuickStyles_32x32.png"
+                            SmallImage="/IGRibbon;component/Images/QuickStyles_16x16.png">
+                            <igRibbon:MenuTool.ToolTip>
+                                <igRibbon:XamRibbonScreenTip
+                                    DataContext="{StaticResource RibbonStrings}"
+                                    Header="{Binding Path=Shared_Tab_Format_Group_Presets_QuickStylesMenu_Tooltip_Header}"
+                                    Footer="{Binding Path=Shared_Tab_Format_Group_Presets_QuickStylesMenu_Tooltip_Footer}"
+                                    FooterSeparatorVisibility="Visible"
+                                    Content="{Binding Path=Shared_Tab_Format_Group_Presets_QuickStylesMenu_Tooltip_Content}"/>
+                            </igRibbon:MenuTool.ToolTip>
+                            <igRibbon:GalleryTool Id="presetsGallery" ItemBehavior="StateButton">
+                                <igRibbon:GalleryTool.Groups>
+                                    <igRibbon:GalleryItemGroup
+                                        Title="{Binding Shared_Tab_Format_Group_Presets_QuickStylesMenu_GalleryGroup_BlackAndWhite_Title, Source={StaticResource RibbonStrings}}"
+                                        >
+                                        <igRibbon:GalleryItemGroup.ItemKeys>
+                                            <sys:String>Normal</sys:String>
+                                            <sys:String>Blatantly Bold</sys:String>
+                                            <sys:String>Unmistakably Large</sys:String>
+                                        </igRibbon:GalleryItemGroup.ItemKeys>
+                                    </igRibbon:GalleryItemGroup>
+                                    <igRibbon:GalleryItemGroup
+                                        Title="{Binding Shared_Tab_Format_Group_Presets_QuickStylesMenu_GalleryGroup_Color_Title, Source={StaticResource RibbonStrings}}"
+                                        >
+                                        <igRibbon:GalleryItemGroup.ItemKeys>
+                                            <sys:String>Medium Red</sys:String>
+                                            <sys:String>Boldly Blue</sys:String>
+                                            <sys:String>Italicized Indigo</sys:String>
+                                        </igRibbon:GalleryItemGroup.ItemKeys>
+                                    </igRibbon:GalleryItemGroup>
+                                    <igRibbon:GalleryItemGroup
+                                        Title="{Binding Shared_Tab_Format_Group_Presets_QuickStylesMenu_GalleryGroup_Bright_Title, Source={StaticResource RibbonStrings}}"
+                                        >
+                                        <igRibbon:GalleryItemGroup.ItemKeys>
+                                            <sys:String>Vivid</sys:String>
+                                            <sys:String>High on Pink</sys:String>
+                                            <sys:String>50's Green</sys:String>
+                                        </igRibbon:GalleryItemGroup.ItemKeys>
+                                    </igRibbon:GalleryItemGroup>
+                                </igRibbon:GalleryTool.Groups>
+                                <igRibbon:GalleryTool.Items>
+                                    <igRibbon:GalleryItem
+                                        Key="Normal"
+                                        Text="{Binding Shared_Tab_Format_Group_Presets_QuickStylesMenu_GalleryGroup_BlackAndWhite_Normal,
+                                        Source={StaticResource RibbonStrings}}"
+                                        Image="/IGRibbon;component/Images/GalleryItem_Normal.png"
+                                        Tag="Times New Roman;11.0;0,0,0;Normal"/>
+                                    <igRibbon:GalleryItem
+                                        Key="Blatantly Bold"
+                                        Text="{Binding Shared_Tab_Format_Group_Presets_QuickStylesMenu_GalleryGroup_BlackAndWhite_BlatantlyBold,
+                                        Source={StaticResource RibbonStrings}}"
+                                        Image="/IGRibbon;component/Images/GalleryItem_BlatantlyBold.png"
+                                        Tag="Tahoma;14.0;0,0,0;Bold"/>
+                                    <igRibbon:GalleryItem
+                                        Key="Unmistakably Large"
+                                        Text="{Binding Shared_Tab_Format_Group_Presets_QuickStylesMenu_GalleryGroup_BlackAndWhite_UnmistakablyLarge,
+                                        Source={StaticResource RibbonStrings}}"
+                                        Image="/IGRibbon;component/Images/GalleryItem_UnmistakablyLarge.png"
+                                        Tag="Tahoma;48.0;0,0,0;Normal"/>
+                                    <igRibbon:GalleryItem
+                                        Key="Medium Red"
+                                        Text="{Binding Shared_Tab_Format_Group_Presets_QuickStylesMenu_GalleryGroup_Color_MediumRed,
+                                        Source={StaticResource RibbonStrings}}"
+                                        Image="/IGRibbon;component/Images/GalleryItem_MediumRed.png"
+                                        Tag="Tahoma;16.0;255,0,0;Normal"/>
+                                    <igRibbon:GalleryItem
+                                        Key="Boldly Blue"
+                                        Text="{Binding Shared_Tab_Format_Group_Presets_QuickStylesMenu_GalleryGroup_Color_BoldyBlue,
+                                        Source={StaticResource RibbonStrings}}"
+                                        Image="/IGRibbon;component/Images/GalleryItem_BoldlyBlue.png"
+                                        Tag="Tahoma;14.0;0,0,255;Bold"/>
+                                    <igRibbon:GalleryItem
+                                        Key="Italicized Indigo"
+                                        Text="{Binding Shared_Tab_Format_Group_Presets_QuickStylesMenu_GalleryGroup_Color_ItalicizedIndigo,
+                                        Source={StaticResource RibbonStrings}}"
+                                        Image="/IGRibbon;component/Images/GalleryItem_ItalicizedIndigo.png"
+                                        Tag="Tahoma;16.0;75,0,130;Italic"/>
+                                    <igRibbon:GalleryItem
+                                        Key="Vivid"
+                                        Text="{Binding Shared_Tab_Format_Group_Presets_QuickStylesMenu_GalleryGroup_Bright_Vivid,
+                                        Source={StaticResource RibbonStrings}}"
+                                        Image="/IGRibbon;component/Images/GalleryItem_Vivid.png"
+                                        Tag="Symbol;48.0;241,58,19;Bold"/>
+                                    <igRibbon:GalleryItem
+                                        Key="High on Pink"
+                                        Text="{Binding Shared_Tab_Format_Group_Presets_QuickStylesMenu_GalleryGroup_Bright_HighOnPink,
+                                        Source={StaticResource RibbonStrings}}"
+                                        Image="/IGRibbon;component/Images/GalleryItem_Pink.png"
+                                        Tag="Comic Sans MS;16.0;241,45,239;Bold"/>
+                                    <igRibbon:GalleryItem
+                                        Key="50's Green"
+                                        Text="{Binding Shared_Tab_Format_Group_Presets_QuickStylesMenu_GalleryGroup_Bright_50sGreen,
+                                        Source={StaticResource RibbonStrings}}"
+                                        Image="/IGRibbon;component/Images/GalleryItem_50sGreen.png"
+                                        Tag="Tahoma;24.0;0,157,162;Italic"/>
+                                </igRibbon:GalleryTool.Items>
+                            </igRibbon:GalleryTool>
+                        </igRibbon:MenuTool>
+                    </igRibbon:RibbonGroup>
+                    <!-- End RibbonGroup-->
+                </igRibbon:RibbonTabItem>
+                <igRibbon:RibbonTabItem Header="{Binding Shared_Tab_Insert_Header, Source={StaticResource RibbonStrings}}">
+                    <igRibbon:RibbonGroup Id="ClipArt" Caption="{Binding Shared_Tab_Insert_Group_ClipArt_Caption, Source={StaticResource RibbonStrings}}" />
+                </igRibbon:RibbonTabItem>
+            </igRibbon:XamRibbon.Tabs>
+            <!-- End Tabs -->
+        </igRibbon:XamRibbon>
+
+        <RichTextBox
+            x:Name="richTextBox"
+            SpellCheck.IsEnabled="True"
+            VerticalScrollBarVisibility="Auto"
+            Grid.Row="1">
+            <FlowDocument>
+                <Paragraph>
+                    <Run x:Name="textRun" Text="{Binding Shared_RichTextBox_StyleThisText, Source={StaticResource RibbonStrings}, Mode=OneTime}"/>
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
+    </Grid>
+</framework:SampleContainer>

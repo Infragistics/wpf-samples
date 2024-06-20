@@ -1,0 +1,545 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8E0B1831-3898-495C-AF7B-E4F90BBD53A2}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>IGGeographicMap</RootNamespace>
+    <AssemblyName>IGGeographicMap</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Output\</OutputPath>
+    <BaseIntermediateOutputPath>obj\WPF\</BaseIntermediateOutputPath>
+    <DefineConstants>TRACE;DEBUG;WPF</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Output\</OutputPath>
+    <BaseIntermediateOutputPath>obj\WPF\</BaseIntermediateOutputPath>
+    <DefineConstants>TRACE;WPF</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="InfragisticsWPF, Version=23.2.20232.157, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>..\packages\Infragistics.WPF.Trial.23.2.157\lib\net40\InfragisticsWPF.dll</HintPath>
+    </Reference>
+    <Reference Include="InfragisticsWPF.Controls.Charts.XamDataChart, Version=23.2.20232.157, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>..\packages\Infragistics.WPF.Charts.Trial.23.2.157\lib\net40\InfragisticsWPF.Controls.Charts.XamDataChart.dll</HintPath>
+    </Reference>
+    <Reference Include="InfragisticsWPF.Controls.Editors.XamColorPicker, Version=23.2.20232.157, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>..\packages\Infragistics.WPF.ColorPicker.Trial.23.2.157\lib\net40\InfragisticsWPF.Controls.Editors.XamColorPicker.dll</HintPath>
+    </Reference>
+    <Reference Include="InfragisticsWPF.Controls.Editors.XamSlider, Version=23.2.20232.157, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>..\packages\Infragistics.WPF.Slider.Trial.23.2.157\lib\net40\InfragisticsWPF.Controls.Editors.XamSlider.dll</HintPath>
+    </Reference>
+    <Reference Include="InfragisticsWPF.Controls.Interactions.XamDialogWindow, Version=23.2.20232.157, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>..\packages\Infragistics.WPF.DialogWindow.Trial.23.2.157\lib\net40\InfragisticsWPF.Controls.Interactions.XamDialogWindow.dll</HintPath>
+    </Reference>
+    <Reference Include="InfragisticsWPF.Controls.Maps.XamGeographicMap, Version=23.2.20232.157, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>..\packages\Infragistics.WPF.GeographicMap.Trial.23.2.157\lib\net40\InfragisticsWPF.Controls.Maps.XamGeographicMap.dll</HintPath>
+    </Reference>
+    <Reference Include="InfragisticsWPF.DataVisualization, Version=23.2.20232.157, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>..\packages\Infragistics.WPF.DataVisualization.Trial.23.2.157\lib\net40\InfragisticsWPF.DataVisualization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Converters\AirplaneConverter.cs" />
+    <Compile Include="Converters\GeoSymbolFillConverter.cs" />
+    <Compile Include="Converters\GeoSymbolSizeConverter.cs" />
+    <Compile Include="Converters\ValueToBrushConverter.cs" />
+    <Compile Include="Extensions\GeoCoordinatesGrid.cs" />
+    <Compile Include="Extensions\GeoMapExtensions.cs" />
+    <Compile Include="Extensions\GeoMarker.cs" />
+    <Compile Include="Extensions\GeoSeriesExtensions.cs" />
+    <Compile Include="Extensions\ImagerySources\GeoImageryMap.cs" />
+    <Compile Include="Extensions\ImagerySources\MapQuestImagery.cs" />
+    <Compile Include="Extensions\ImagerySources\MapQuestTileSource.cs" />
+    <Compile Include="Extensions\Scales\GeoMarkerBrushScale.cs" />
+    <Compile Include="Extensions\Scales\GeoMarkerSizeScale.cs" />
+    <Compile Include="Extensions\StyleSelectors\ComparisonStyleSelector.cs" />
+    <Compile Include="Extensions\StyleSelectors\CustomRangeStyleSelector.cs" />
+    <Compile Include="Extensions\StyleSelectors\DrillDownStyleSelector.cs" />
+    <Compile Include="Extensions\StyleSelectors\RangeConditionalStyleSelector.cs" />
+    <Compile Include="Extensions\StyleSelectors\TemperatureStyleSelector.cs" />
+    <Compile Include="Models\AirlineConnection.cs" />
+    <Compile Include="Models\AirlineFlight.cs" />
+    <Compile Include="Models\AirlineTracker.cs" />
+    <Compile Include="Models\Airplane.cs" />
+    <Compile Include="Models\Airport.cs" />
+    <Compile Include="Models\EarthQuakeMapViewModel.cs" />
+    <Compile Include="Models\EarthQuakeViewModel.cs" />
+    <Compile Include="Models\MapShapeElement.cs" />
+    <Compile Include="Models\MapView.cs" />
+    <Compile Include="Models\WeatherLocation.cs" />
+    <Compile Include="Models\WeatherViewModel.cs" />
+    <Compile Include="Models\WorldCitiesViewModel.cs" />
+    <Compile Include="Models\WorldCityModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <AppDesigner Include="Properties\" />
+    <Compile Include="Resources\AssetsLocalizer.cs" />
+    <Compile Include="Resources\MapStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MapStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Custom\Controls\GeoMapLocationPane.cs" />
+    <Compile Include="Samples\Custom\Controls\GeoMapNavigationPane.cs" />
+    <Compile Include="Samples\Custom\Controls\GeoMapPane.cs" />
+    <Compile Include="Samples\Custom\Models\GeoMapAdapter.cs" />
+    <Compile Include="Samples\Data\BindingDatabaseFiles.xaml.cs">
+      <DependentUpon>BindingDatabaseFiles.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Data\BindingGeoImagery.xaml.cs">
+      <DependentUpon>BindingGeoImagery.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Data\BindingGeoTileSeries.xaml.cs">
+      <DependentUpon>BindingGeoTileSeries.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Data\CreatingCustomBingMapImagery.xaml.cs">
+      <DependentUpon>CreatingCustomBingMapImagery.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\GeoHighDensitySeries.xaml.cs">
+      <DependentUpon>GeoHighDensitySeries.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\GeoProportionalSeries.xaml.cs">
+      <DependentUpon>GeoProportionalSeries.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Data\BindingShapeFiles.xaml.cs">
+      <DependentUpon>BindingShapeFiles.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Data\BindingTriangulatedFiles.xaml.cs">
+      <DependentUpon>BindingTriangulatedFiles.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Data\BindingViewModels.xaml.cs">
+      <DependentUpon>BindingViewModels.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Data\BindingWeatherData.xaml.cs">
+      <DependentUpon>BindingWeatherData.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Data\BindingXmlFiles.xaml.cs">
+      <DependentUpon>BindingXmlFiles.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Data\CreatingCustomGeoImagery.xaml.cs">
+      <DependentUpon>CreatingCustomGeoImagery.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Data\CreatingTriangulatedFiles.xaml.cs">
+      <DependentUpon>CreatingTriangulatedFiles.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Data\FilteringData.xaml.cs">
+      <DependentUpon>FilteringData.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\CustomMapLegend.xaml.cs">
+      <DependentUpon>CustomMapLegend.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\GeoContourLineSeries.xaml.cs">
+      <DependentUpon>GeoContourLineSeries.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\GeoPolylineSeries.xaml.cs">
+      <DependentUpon>GeoPolylineSeries.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\GeoScatterAreaSeries.xaml.cs">
+      <DependentUpon>GeoScatterAreaSeries.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\GeoShapeControlSeries.xaml.cs">
+      <DependentUpon>GeoShapeControlSeries.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\GeoShapeSeries.xaml.cs">
+      <DependentUpon>GeoShapeSeries.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\GeoSymbolSeries.xaml.cs">
+      <DependentUpon>GeoSymbolSeries.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\GeoTileImagerySeries.xaml.cs">
+      <DependentUpon>GeoTileImagerySeries.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\GeoTileSeriesFillRule.xaml.cs">
+      <DependentUpon>GeoTileSeriesFillRule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\MarkersCollisionAvoidance.xaml.cs">
+      <DependentUpon>MarkersCollisionAvoidance.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\MarkersTypes.xaml.cs">
+      <DependentUpon>MarkersTypes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\MapLegend.xaml.cs">
+      <DependentUpon>MapLegend.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\MultipleSeries.xaml.cs">
+      <DependentUpon>MultipleSeries.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Editing\MapEvents.xaml.cs">
+      <DependentUpon>MapEvents.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Editing\MapProgression.xaml.cs">
+      <DependentUpon>MapProgression.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Editing\MapSelection.xaml.cs">
+      <DependentUpon>MapSelection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Navigation\MapCoordinatesGrid.xaml.cs">
+      <DependentUpon>MapCoordinatesGrid.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Navigation\MapCrosshair.xaml.cs">
+      <DependentUpon>MapCrosshair.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Navigation\MapDrillDown.xaml.cs">
+      <DependentUpon>MapDrillDown.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Navigation\MapLocationPane.xaml.cs">
+      <DependentUpon>MapLocationPane.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Navigation\MapNavigation.xaml.cs">
+      <DependentUpon>MapNavigation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Navigation\MapNavigationPane.xaml.cs">
+      <DependentUpon>MapNavigationPane.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Navigation\MapOverviewPane.xaml.cs">
+      <DependentUpon>MapOverviewPane.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Navigation\MappingGeoLocations.xaml.cs">
+      <DependentUpon>MappingGeoLocations.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Navigation\MappingGeoRegions.xaml.cs">
+      <DependentUpon>MappingGeoRegions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Navigation\MapSeriesVisibility.xaml.cs">
+      <DependentUpon>MapSeriesVisibility.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Navigation\MapSynchronization.xaml.cs">
+      <DependentUpon>MapSynchronization.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Navigation\MapToolTips.xaml.cs">
+      <DependentUpon>MapToolTips.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Navigation\MultiTouchInterations.xaml.cs">
+      <DependentUpon>MultiTouchInterations.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Performance\AirlineTrafficMap.xaml.cs">
+      <DependentUpon>AirlineTrafficMap.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Styling\MarkerBrushScale.xaml.cs">
+      <DependentUpon>MarkerBrushScale.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Styling\MarkerSizeScale.xaml.cs">
+      <DependentUpon>MarkerSizeScale.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Styling\MarkerValues.xaml.cs">
+      <DependentUpon>MarkerValues.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Styling\ShapeStyleSelector.xaml.cs">
+      <DependentUpon>ShapeStyleSelector.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Styling\Theming.xaml.cs">
+      <DependentUpon>Theming.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Infragistics.Samples.Assets\Infragistics.Samples.Assets.WPF.csproj">
+      <Project>{DBF6EEAB-4ECD-48FB-BDDC-544EC71CF0EE}</Project>
+      <Name>Infragistics.Samples.Assets.WPF</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infragistics.Samples.Framework\Infragistics.Samples.Framework.WPF.csproj">
+      <Project>{9D1438D4-80AD-400D-976A-F4500A79C6E9}</Project>
+      <Name>Infragistics.Samples.Framework.WPF</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infragistics.Samples.Services\Infragistics.Samples.Services.WPF.csproj">
+      <Project>{303EBB44-B4CB-49B4-B6DE-70C27F9DD7E0}</Project>
+      <Name>Infragistics.Samples.Services.WPF</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infragistics.Samples.Shared\Infragistics.Samples.Shared.WPF.csproj">
+      <Project>{AEA4805F-4C96-4943-BD61-34C18F96C2D9}</Project>
+      <Name>Infragistics.Samples.Shared.WPF</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Assets\Brushes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Assets\Global.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Assets\GlobalExtended.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Assets\NavigationStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Custom\Controls\GeoMapNavigationPane.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Custom\Controls\GeoMapLocationPane.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Samples\Data\BindingDatabaseFiles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Data\BindingGeoImagery.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Data\BindingGeoTileSeries.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Data\CreatingCustomBingMapImagery.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Display\GeoHighDensitySeries.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Display\GeoProportionalSeries.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Data\BindingShapeFiles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Data\BindingTriangulatedFiles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Data\BindingViewModels.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Data\BindingWeatherData.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Data\BindingXmlFiles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Data\CreatingCustomGeoImagery.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Data\CreatingTriangulatedFiles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Data\FilteringData.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Display\CustomMapLegend.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Display\GeoContourLineSeries.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Display\GeoPolylineSeries.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Display\GeoScatterAreaSeries.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Display\GeoShapeControlSeries.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Display\GeoShapeSeries.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Display\GeoSymbolSeries.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Display\GeoTileImagerySeries.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Display\GeoTileSeriesFillRule.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Display\MarkersCollisionAvoidance.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Display\MarkersTypes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Display\MapLegend.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Display\MultipleSeries.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Editing\MapEvents.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Editing\MapProgression.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Editing\MapSelection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Navigation\MapCoordinatesGrid.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Navigation\MapCrosshair.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Navigation\MapDrillDown.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Navigation\MapLocationPane.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Navigation\MapNavigation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Navigation\MapNavigationPane.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Navigation\MapOverviewPane.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Navigation\MappingGeoLocations.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Navigation\MappingGeoRegions.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Navigation\MapSeriesVisibility.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Navigation\MapSynchronization.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Navigation\MapToolTips.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Navigation\MultiTouchInterations.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Performance\AirlineTrafficMap.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Styling\MarkerBrushScale.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Styling\MarkerSizeScale.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Styling\MarkerValues.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Styling\ShapeStyleSelector.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Styling\Theming.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="Resources\MapStrings.ja.resx" />
+    <EmbeddedResource Include="Resources\MapStrings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>MapStrings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\Models\" />
+    <Folder Include="Shapefiles\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

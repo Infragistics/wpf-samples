@@ -1,0 +1,317 @@
+﻿<framework:SampleContainer x:Class="IGPivotGrid.Samples.Display.ConditionalFormatting"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="ConditionalFormatting Page"
+      xmlns:converters="clr-namespace:IGPivotGrid.Converters"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:local="clr-namespace:IGPivotGrid.Samples.Controls">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGPivotGrid;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <SolidColorBrush x:Key="ForegroundBrush" Color="#FF333333"/>
+            <SolidColorBrush x:Key="DisabledColor" Color="#FFABABAB"/>
+            <SolidColorBrush x:Key="CellItemNormalBackgroundBrush" Color="#FFFFFFFF"/>
+            <SolidColorBrush x:Key="CellItemNormalBorderBrush" Color="#FFBCBCBC"/>
+            <local:SampleFlatDataSourceSellerVsProduct x:Key="FlatDataSource"/>
+            <converters:PivotCellControlToDoubleConverter x:Key="converter"/>
+
+            <SolidColorBrush x:Key="LightForegroundBrush" Color="#FFffffff"/>
+            <SolidColorBrush x:Key="Tree_Active" Color="#FF94D7F3"/>
+            <SolidColorBrush x:Key="CellItemAltNormalBackgroundBrush" Color="#FFE7E7E7"/>
+            <SolidColorBrush x:Key="CellRowHoverStroke" Color="#FF2788B1"/>
+            <SolidColorBrush x:Key="ExpansionIndicatorForegroundBrush" Color="White"/>
+            <SolidColorBrush x:Key="CellItemSelectedBorderBrush" Color="#FF818181"/>
+            <SolidColorBrush x:Key="CellItemActiveBorderBrush" Color="#FF3AB5E9"/>
+
+            <LinearGradientBrush x:Key="PivotCellLow" EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FFE4970A" Offset="1"/>
+                <GradientStop Color="#FFFAB638"/>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="PivotCellMid" EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FFCB4A09" Offset="1"/>
+                <GradientStop Color="#FFE16D1F"/>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="PivotCellHigh" EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FFd3404b"/>
+                <GradientStop Color="#FFc62d36" Offset="1"/>
+            </LinearGradientBrush>
+              <LinearGradientBrush x:Key="CellRowHoverBackgroundBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+                  <GradientStop Color="#FF3bb7eb" />
+                  <GradientStop Color="#FF2686ae"  Offset="1" />
+              </LinearGradientBrush>
+            <SolidColorBrush x:Key="CellItemSelectedBackgroundBrush" Color="#FFc6dbe3"/>
+                                 
+
+            <Style x:Key="High" TargetType="ig:PivotCellControl">
+                <Setter Property="Foreground" Value="{StaticResource LightForegroundBrush}"/>
+                <Setter Property="Background" Value="{StaticResource PivotCellHigh}"/>
+                <Setter Property="FontSize" Value="11"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="BorderBrush" Value="{StaticResource CellItemNormalBorderBrush}"/>
+                <Setter Property="BorderThickness" Value="0,0,1,1"/>
+                <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                <Setter Property="Padding" Value="5"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ig:PivotCellControl">
+                            <Grid>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualStateGroup.Transitions>
+                                            <VisualTransition/>
+                                        </VisualStateGroup.Transitions>
+                                        <VisualState x:Name="Normal"/>
+                                        <VisualState x:Name="MouseOver">
+                                            <Storyboard>
+                                                <DoubleAnimation
+                                                    Duration="0"
+                                                    To="1"
+                                                    Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                    Storyboard.TargetName="MouseOver1" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Alternate">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames
+                                                    Storyboard.TargetName="AltElem"
+                                                    Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                    <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                                                        <DiscreteObjectKeyFrame.Value>
+                                                            <Visibility>Visible</Visibility>
+                                                        </DiscreteObjectKeyFrame.Value>
+                                                    </DiscreteObjectKeyFrame>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="SelectedStates">
+                                        <VisualState x:Name="NotSelected"/>
+                                        <VisualState x:Name="Selected">
+                                            <Storyboard>
+                                                <DoubleAnimation
+                                                    Duration="0"
+                                                    To="1"
+                                                    Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                    Storyboard.TargetName="SelectedBackground"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="ActiveStates">
+                                        <VisualState x:Name="InActive"/>
+                                        <VisualState x:Name="Active">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames
+                                                    BeginTime="00:00:00"
+                                                    Duration="00:00:00.0010000"
+                                                    Storyboard.TargetName="ActiveRect"
+                                                    Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                    <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                                                        <DiscreteObjectKeyFrame.Value>
+                                                            <Visibility>Visible</Visibility>
+                                                        </DiscreteObjectKeyFrame.Value>
+                                                    </DiscreteObjectKeyFrame>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <DoubleAnimation
+                                                    Duration="0"
+                                                    To="1"
+                                                    Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                    Storyboard.TargetName="ActiveBackground"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Border x:Name="Root"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        Background="{TemplateBinding Background}"/>
+                                <Border x:Name="AltElem"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        Background="{StaticResource CellItemAltNormalBackgroundBrush}"
+                                        Visibility="Collapsed"/>
+                                <Rectangle x:Name="ActiveBackground"
+                                           Fill="{StaticResource Tree_Active}"
+                                           Opacity="0"/>
+                                <Rectangle x:Name="SelectedBackground"
+                                           Fill="{StaticResource CellItemSelectedBackgroundBrush}"
+                                           Opacity="0"
+                                           Margin="{TemplateBinding BorderThickness}"/>
+                                <Rectangle x:Name="MouseOver1"
+                                           Fill="{StaticResource CellRowHoverBackgroundBrush}"
+                                           Margin="0"
+                                           Stroke="{StaticResource CellRowHoverStroke}"
+                                           Opacity="0"/>
+                                <Rectangle x:Name="ActiveRect"
+                                           Visibility="Collapsed"
+                                           Stroke="{StaticResource CellItemActiveBorderBrush}"
+                                           StrokeThickness="1"/>
+                                <ContentControl x:Name="contentControl"
+                                                Margin="{TemplateBinding Padding}"
+                                                Foreground="{TemplateBinding Foreground}">
+                                    <ContentPresenter
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                                </ContentControl>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="Middle" TargetType="ig:PivotCellControl" BasedOn="{StaticResource High}">
+                <Setter Property="Foreground" Value="{StaticResource LightForegroundBrush}"/>
+                <Setter Property="Background" Value="{StaticResource PivotCellMid}"/>
+                <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            </Style>
+
+            <Style x:Key="Low" TargetType="ig:PivotCellControl" BasedOn="{StaticResource High}">
+                <Setter Property="Foreground" Value="{StaticResource LightForegroundBrush}"/>
+                <Setter Property="Background" Value="{StaticResource PivotCellLow}"/>
+                <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            </Style>
+
+            <Style x:Key="ScaledCell" TargetType="ig:PivotCellControl">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ig:PivotCellControl">
+                            <Grid>
+                                <Grid.Resources>
+                                    <LinearGradientBrush x:Key="CellRowHoverBackgroundBrush"
+                                                         EndPoint="0.5,1"
+                                                         StartPoint="0.5,0">
+                                        <GradientStop Color="#FF3bb7eb" />
+                                        <GradientStop Color="#FF2686ae"
+                                                      Offset="1" />
+                                    </LinearGradientBrush>
+                                    <SolidColorBrush x:Key="CellItemSelectedBackgroundBrush"
+                                                     Color="#FFc6dbe3"/>
+                                    <SolidColorBrush x:Key="CellItemSelectedBorderBrush"
+                                                     Color="#FF3ab5e9"/>
+                                    <SolidColorBrush x:Key="CellRowHoverStroke"
+                                                     Color="#FF2788B1"/>
+                                </Grid.Resources>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="Foreground" Storyboard.TargetName="CellText1">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ForegroundBrush}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="MouseOver">
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="0" To="1"
+                                                                 Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                                 Storyboard.TargetName="MouseOver2" />
+                                                <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="Foreground" Storyboard.TargetName="CellText1">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LightForegroundBrush}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="SelectedStates">
+                                        <VisualState x:Name="NotSelected"/>
+                                        <VisualState x:Name="Selected">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames
+                                                    BeginTime="00:00:00"
+                                                    Duration="00:00:00.0010000"
+                                                    Storyboard.TargetName="SelectedRect"
+                                                    Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                    <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                                                        <DiscreteObjectKeyFrame.Value>
+                                                            <Visibility>Visible</Visibility>
+                                                        </DiscreteObjectKeyFrame.Value>
+                                                    </DiscreteObjectKeyFrame>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="ActiveStates">
+                                        <VisualState x:Name="InActive"/>
+                                        <VisualState x:Name="Active">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames
+                                                    BeginTime="00:00:00"
+                                                    Duration="00:00:00.0010000"
+                                                    Storyboard.TargetName="ActiveRect"
+                                                    Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                    <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                                                        <DiscreteObjectKeyFrame.Value>
+                                                            <Visibility>Visible</Visibility>
+                                                        </DiscreteObjectKeyFrame.Value>
+                                                    </DiscreteObjectKeyFrame>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Border x:Name="Root"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        Background="{TemplateBinding Background}"/>
+                                <Rectangle x:Name="MouseOver2"
+                                           Fill="{StaticResource CellRowHoverBackgroundBrush}"
+                                           Stroke="{StaticResource CellRowHoverStroke}"
+                                           StrokeThickness="1"
+                                           Opacity="0"
+                                           Margin="{TemplateBinding BorderThickness}"/>
+                                <Border x:Name="SelectedRect"
+                                        Background="{StaticResource CellItemSelectedBackgroundBrush}"
+                                        BorderThickness="1"
+                                        BorderBrush="{StaticResource CellItemSelectedBorderBrush}"
+                                        Visibility="Collapsed"/>
+                                <Rectangle x:Name="ActiveRect"
+                                           Fill="Transparent"
+                                           StrokeThickness="1"
+                                           Visibility="Collapsed">
+                                </Rectangle>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Rectangle Margin="5"
+                                               Grid.Column="0"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Stretch"
+                                               Fill="{StaticResource ChartSeriesBrush12}"
+                                               Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource converter}}"/>
+                                    <ContentControl Grid.Column="1" x:Name="CellText1" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                    Margin="{TemplateBinding Padding}" HorizontalContentAlignment="Stretch" Foreground="{TemplateBinding Foreground}"/>
+                                </Grid>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Width="Auto">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamPivotGrid x:Name="pivotGrid"
+                         AllowCompactLayout="True"
+                         DataSource="{StaticResource FlatDataSource}"/>
+        <ig:Expander Grid.Column="1">
+            <ig:XamPivotDataSelector x:Name="dataSelector" DataSource="{StaticResource FlatDataSource}"/>
+        </ig:Expander>
+        <!-- #END SNIPPET# -->
+        <local:PivotGridBusyIndicator x:Name="isBusyIndicator" Grid.ColumnSpan="2" Visibility="Collapsed"/>
+    </Grid>
+</framework:SampleContainer>

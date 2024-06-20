@@ -1,0 +1,54 @@
+﻿<framework:SampleContainer x:Class="IGSpreadsheet.Samples.Data.DataValidation"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGSpreadsheet.Resources"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="DataValidation Page">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSpreadsheet;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:SpreadsheetStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <ig:XamSpreadsheet x:Name="xamSpreadsheet1" />
+        <controls:OptionsPanel HeaderText="{Binding ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}"
+                               Margin="40,80" HorizontalAlignment="Right">
+            <StackPanel Orientation="Vertical">
+                <!-- #BEGIN SNIPPET# -->
+                <Button Content="{Binding Path=btnCircleInvalidData, Source={StaticResource Strings}}"
+                        ig:Commanding.CommandTarget="{Binding ElementName=xamSpreadsheet1}"
+                        Margin="{StaticResource OptionsElementsMargin}">
+                    <ig:Commanding.Command>
+                        <igPrim:SpreadsheetCommandSource
+                            EventName="Click"
+                            CommandType="CircleInvalidData" />
+                    </ig:Commanding.Command>
+                </Button>
+                <Button Content="{Binding Path=btnClearValidationCircles, Source={StaticResource Strings}}"
+                        ig:Commanding.CommandTarget="{Binding ElementName=xamSpreadsheet1}">
+                    <ig:Commanding.Command>
+                        <igPrim:SpreadsheetCommandSource
+                            EventName="Click"
+                            CommandType="ClearValidationCircles" />
+                    </ig:Commanding.Command>
+                </Button>
+                <!-- #END SNIPPET# -->
+            </StackPanel>
+        </controls:OptionsPanel>
+
+
+    </Grid>
+</framework:SampleContainer>

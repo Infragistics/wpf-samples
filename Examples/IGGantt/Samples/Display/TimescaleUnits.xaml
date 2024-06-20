@@ -1,0 +1,95 @@
+﻿<framework:SampleContainer x:Class="IGGantt.Samples.Display.TimescaleUnits"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:igEdit="http://infragistics.com/Editors"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGGantt.Resources"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="Timescale Units">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                
+                <ResourceDictionary Source="/IGGantt;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <res:GanttStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamGantt x:Name="xamGantt" Project="{Binding}"/>
+        <!-- #END SNIPPET# -->
+        <!-- if you copy/paste the code, you can replace OptionsPanel with a standard container of your choice - StackPanel, Grid, WrapPanel, DockPanel for example. -->
+        <!-- A minor adjustment in sample layout can be needed after this operation. -->
+        <controls:OptionsPanel Canvas.ZIndex="100"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Bottom"
+                               Margin="10"
+                               HeaderText="{Binding Source={StaticResource Strings},Path=TimescaleUnits}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height=".5*" />
+                    <RowDefinition Height=".5*" />
+                </Grid.RowDefinitions>
+
+                <Border  Grid.Row="0" Margin="0,0,0,10">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width=".4*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height=".1*" />
+                            <RowDefinition Height=".45*" />
+                            <RowDefinition Height=".45*" />
+                        </Grid.RowDefinitions>
+                        <!-- #BEGIN SNIPPET# -->
+                        <TextBlock Text="{Binding Source={StaticResource Strings},Path=TopTierFormatting}" Grid.Row="0" Grid.ColumnSpan="2" Margin="0,0,0,3" FontWeight="Bold"/>
+
+                        <TextBlock Text="{Binding Source={StaticResource Strings},Path=Units}" Grid.Row="1" Grid.Column="0" Margin="5,3" VerticalAlignment="Center" />
+                        <ComboBox x:Name="cbUnitTypesTop" Grid.Row="1" Grid.Column="1" Height="23" Width="120" HorizontalAlignment="Left" 
+                                  SelectionChanged="UnitTypesOnSelectionChanged" Margin="5" />
+
+                        <TextBlock Text="{Binding Source={StaticResource Strings},Path=Count}" Grid.Row="2" Grid.Column="0" Margin="5,0" VerticalAlignment="Center" />
+                        <igEdit:XamNumericEditor x:Name="xamnuUnitCountTop" Grid.Row="2" Grid.Column="1" Margin="5" Value="1" Mask="{}{number:1-255}" Height="23"
+                                            HorizontalAlignment="Left" SpinButtonDisplayMode="Always" ValueChanged="xamnuUnitCountOnValueChanged" />
+                        <!-- #END SNIPPET# -->
+                    </Grid>
+                </Border>
+
+                <Border Grid.Row="1" >
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width=".4*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height=".1*" />
+                            <RowDefinition Height=".45*" />
+                            <RowDefinition Height=".45*" />
+                        </Grid.RowDefinitions>
+                        <!-- #BEGIN SNIPPET# -->
+                        <TextBlock Text="{Binding Source={StaticResource Strings},Path=MiddleTierFormatting}" Grid.Row="0" Grid.ColumnSpan="2" Margin="0,3" FontWeight="Bold"/>
+
+                        <TextBlock Text="{Binding Source={StaticResource Strings},Path=Units}" Grid.Row="1" Grid.Column="0" Margin="5,3" VerticalAlignment="Center" />
+                        <ComboBox x:Name="cbUnitTypesMiddle" Grid.Row="1" Grid.Column="1" Height="23" Width="120" HorizontalAlignment="Left" 
+                                  SelectionChanged="UnitTypesOnSelectionChanged" Margin="5" />
+
+                        <TextBlock Text="{Binding Source={StaticResource Strings},Path=Count}" Grid.Row="2" Grid.Column="0" Margin="5,0" VerticalAlignment="Center" />
+                        <igEdit:XamNumericEditor x:Name="xamnuUnitCountMiddle" Grid.Row="2" Grid.Column="1" Margin="5" Value="1" Mask="{}{number:1-255}" Height="23"
+                                            HorizontalAlignment="Left" SpinButtonDisplayMode="Always" ValueChanged="xamnuUnitCountOnValueChanged"  />
+                        <!-- #END SNIPPET# -->
+                    </Grid>
+                </Border>
+            </Grid>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

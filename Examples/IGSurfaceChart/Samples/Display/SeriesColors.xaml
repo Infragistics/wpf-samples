@@ -1,0 +1,70 @@
+﻿<igs:SampleContainer x:Class="IGSurfaceChart.Samples.Display.SeriesColors"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:igs="http://schemas.infragistics.com/xaml/samples"
+             xmlns:viewModel="clr-namespace:IGSurfaceChart.Samples.ViewModels"
+             xmlns:res="clr-namespace:IGSurfaceChart.Resources"
+             xmlns:ig="http://schemas.infragistics.com/xaml"
+             xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+             xmlns:customControls="clr-namespace:IGSurfaceChart.CustomControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="500">
+    <igs:SampleContainer.DataContext>
+        <viewModel:ColorPalettesViewModel />
+    </igs:SampleContainer.DataContext>
+
+    <igs:SampleContainer.Resources>
+        <ResourceDictionary>
+            <res:SurfaceChartStrings x:Key="ChartStrings" />
+           
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSurfaceChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </igs:SampleContainer.Resources>
+
+    <Grid>
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamScatterSurface3D Name="SurfaceChart" ItemsSource="{Binding Path=DataCollection}" 
+                                XMemberPath="X" YMemberPath="Y" ZMemberPath="Z" 
+                                CubeMaterial="{x:Null}" RimThickness="0" 
+                                SeriesColors="{Binding SeriesColorsPalette}"
+                                SeriesColorInterpolation="{Binding SeriesColorInterpolationOption}">
+            <ig:XamScatterSurface3D.XAxis>
+                <ig:LinearAxis Title="{Binding Source={StaticResource ChartStrings}, Path=XAxis}" />
+            </ig:XamScatterSurface3D.XAxis>
+            <ig:XamScatterSurface3D.YAxis>
+                <ig:LinearAxis Title="{Binding Source={StaticResource ChartStrings}, Path=YAxis}" />
+            </ig:XamScatterSurface3D.YAxis>
+            <ig:XamScatterSurface3D.ZAxis>
+                <ig:LinearAxis Title="{Binding Source={StaticResource ChartStrings}, Path=ZAxis}" />
+            </ig:XamScatterSurface3D.ZAxis>
+        </ig:XamScatterSurface3D>
+        <!-- #END SNIPPET# -->
+
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource ChartStrings}, Path=Configurations}"
+                               HorizontalAlignment="Right" VerticalAlignment="Top" Width="200">
+            <StackPanel>
+                <Label Style="{StaticResource HeaderLabelStyle}" Content="{Binding Source={StaticResource ChartStrings}, Path=SeriesColorsSettings}" Margin="{StaticResource OptionsPanelHeaderLabelLeftMargin}" />
+                <Label Style="{StaticResource LabelStyle}" Content="{Binding Source={StaticResource ChartStrings}, Path=Palettes}" 
+                       Margin="{StaticResource OptionsElementsTopBottomMargin}"/>
+                <ComboBox Name="ColorPalette_ComboBox" ItemsSource="{Binding Path=ColorCollectionList}"
+                          SelectedItem="{Binding SeriesColorsPalette}"
+                          SelectedIndex="0">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <customControls:ColorCollectionViewer ItemsSource="{Binding}" Width="{Binding Width}" Height="Auto" Margin="0,0,0,2" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <Label Style="{StaticResource LabelStyle}" Content="{Binding Source={StaticResource ChartStrings}, Path=ColorInterpolation}" 
+                       Margin="{StaticResource OptionsElementsTopBottomMargin}" />
+                <ComboBox Name="SeriesColorInterpolation_ComboBox" ItemsSource="{Binding Path=SeriesColorInterpolationOptions}"
+                          SelectedItem="{Binding SeriesColorInterpolationOption}" VerticalAlignment="Center"/>
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</igs:SampleContainer>

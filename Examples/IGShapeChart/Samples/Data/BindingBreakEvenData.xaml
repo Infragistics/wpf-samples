@@ -1,0 +1,58 @@
+﻿<igFramework:SampleContainer x:Class="IGShapeChart.Samples.Data.BindingBreakEvenData"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+             xmlns:ig="http://schemas.infragistics.com/xaml"                             
+             xmlns:local="clr-namespace:IGShapeChart.Samples.Data"
+             xmlns:resources="clr-namespace:IGShapeChart.Resources"
+             mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700">
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGShapeChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <resources:ShapeChartStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        
+        <ig:XamShapeChart                         
+            Legend="{Binding ElementName=Legend}"      
+            Margin="0"
+            Thickness="3"
+            YAxisTitle="{Binding XW_Price_Title, Source={StaticResource Strings}}"
+            XAxisTitle="{Binding XW_Units_Title, Source={StaticResource Strings}}"
+            Title="{Binding XW_BreakEven_Title, Source={StaticResource Strings}}" 
+            Outlines="#6E7F2AFA #80FF3100 #7B02B602 #F67222E7 #F4C62600 #F9808080 #F9282828 #EE029802 #EE078FE4"
+            Brushes="#6E7F2AFA #80FF3100 #7B02B602 #F67222E7 #F4C62600 #F9808080 #F9282828 #EE029802 #EE078FE4"
+            MarkerOutlines="#6E7F2AFA #80FF3100 #7B02B602 #F67222E7 #F4C62600 #F9808080 #F9282828 #EE029802 #EE078FE4"
+            MarkerBrushes="Transparent"
+            SeriesAdded="XamShapeChart_SeriesAdded"
+            CrosshairsAnnotationEnabled="false"
+            ToolTipType="Default"
+            CrosshairsDisplayMode="None">
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ========================================================================== -->
+            <ig:XamShapeChart.ItemsSource>
+                <local:BreakEvenList>
+                    <local:BreakEvenItem FixedCost="1000" VariableCost="600" Revenue="1800" Units="100"/>
+                </local:BreakEvenList>
+            </ig:XamShapeChart.ItemsSource>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+        </ig:XamShapeChart>
+
+        <ig:Legend x:Name="Legend"
+                   Grid.Column="1"
+                   Visibility="Visible" />
+    </Grid>
+</igFramework:SampleContainer>

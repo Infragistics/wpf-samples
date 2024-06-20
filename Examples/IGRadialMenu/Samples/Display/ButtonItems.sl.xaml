@@ -1,0 +1,144 @@
+﻿<framework:SampleContainer x:Class="IGRadialMenu.Samples.Display.ButtonItems"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGRadialMenu.Resources"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="ButtonItems Page">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGRadialMenu;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/IGRadialMenu;component/Assets/Themes.sl.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:RadialMenuStrings x:Key="Strings" />
+            <ig:StringFormatConverter x:Key="StringFormatConverter" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <controls:OptionsPanel
+            HeaderText="{Binding ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}"
+            Margin="0,10,0,10" Grid.Row="0" IsMovable="False">
+            <StackPanel>
+                <CheckBox IsThreeState="False" x:Name="cbCloseOnClick">
+                    <TextBlock Text="{Binding Source={StaticResource Strings}, Path=CloseOnSelect}" />
+                </CheckBox>
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                    <TextBlock Text="{Binding Source={StaticResource Strings}, Path=RadialMenuWidth}" />
+                    <Slider MinWidth="100" SmallChange="1" LargeChange="1" Minimum="100" Maximum="600"
+                        Value="{Binding ElementName=rMenu, Path=Width, Mode=TwoWay}" />
+                    <TextBlock FontWeight="Bold"
+                        Text="{Binding ElementName=rMenu, Path=Width, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}" />
+                    <TextBlock Text="{Binding Source={StaticResource Strings}, Path=RadialMenuHeight}" Margin="30,0,0,0" />
+                    <Slider MinWidth="100" SmallChange="1" LargeChange="1" Minimum="100" Maximum="350"
+                        Value="{Binding ElementName=rMenu, Path=Height, Mode=TwoWay}" />
+                    <TextBlock FontWeight="Bold"
+                        Text="{Binding ElementName=rMenu, Path=Height, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}" />
+                </StackPanel>
+            </StackPanel>
+        </controls:OptionsPanel>
+        
+        <ig:XamRichTextEditor x:Name="xamRichTextEditor1" Grid.Row="1"
+            BorderThickness="1" BorderBrush="{StaticResource RichTextEditorBorderBrush}"
+            SelectionChanged="xamRichTextEditor1_SelectionChanged">
+            <ig:XamRichTextEditor.ClipboardSerializationProviders>
+                <ig:HtmlSerializationProvider />
+            </ig:XamRichTextEditor.ClipboardSerializationProviders>
+        </ig:XamRichTextEditor>
+
+        <ig:PlainTextDocumentAdapter
+            Document="{Binding ElementName=xamRichTextEditor1, Path=Document}"
+            Value="{Binding Source={StaticResource Strings}, Path=Lorem, Mode=OneWay}" />
+
+        <ig:XamRadialMenu
+            x:Name="rMenu" Width="300" Height="300" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top">
+
+            <!--#BEGIN SNIPPET#-->
+            <ig:RadialMenuItem KeyTip="B" Click="RadialMenu_Click"
+                Header="{Binding Source={StaticResource CommonStrings}, Path=Bold}">
+                <ig:RadialMenuItem.Icon>
+                    <Image Source="/IGRadialMenu;component/Images/Bold.png" Width="16" Height="16" />
+                </ig:RadialMenuItem.Icon>
+                <ig:Commanding.Command>
+                    <igPrim:RichTextEditorCommandSource EventName="Click" CommandType="ToggleBoldFormatting" />
+                </ig:Commanding.Command>
+            </ig:RadialMenuItem>
+            <!--#END SNIPPET#-->
+
+            <ig:RadialMenuItem KeyTip="I" Click="RadialMenu_Click"
+                Header="{Binding Source={StaticResource CommonStrings}, Path=Italic}">
+                <ig:RadialMenuItem.Icon>
+                    <Image Source="/IGRadialMenu;component/Images/Italic.png" Width="16" Height="16" />
+                </ig:RadialMenuItem.Icon>
+                <ig:Commanding.Command>
+                    <igPrim:RichTextEditorCommandSource EventName="Click" CommandType="ToggleItalicFormatting" />
+                </ig:Commanding.Command>
+            </ig:RadialMenuItem>
+
+            <ig:RadialMenuItem KeyTip="U" Click="RadialMenu_Click"
+                Header="{Binding Source={StaticResource CommonStrings}, Path=Undo}">
+                <ig:RadialMenuItem.Icon>
+                    <Image Source="/IGRadialMenu;component/Images/Undo.png" Width="16" Height="16" />
+                </ig:RadialMenuItem.Icon>
+                <ig:Commanding.Command>
+                    <igPrim:RichTextEditorCommandSource EventName="Click" CommandType="Undo" />
+                </ig:Commanding.Command>
+            </ig:RadialMenuItem>
+
+            <ig:RadialMenuItem KeyTip="R" Click="RadialMenu_Click"
+                Header="{Binding Source={StaticResource CommonStrings}, Path=Redo}">
+                <ig:RadialMenuItem.Icon>
+                    <Image Source="/IGRadialMenu;component/Images/Redo.png" Width="16" Height="16" />
+                </ig:RadialMenuItem.Icon>
+                <ig:Commanding.Command>
+                    <igPrim:RichTextEditorCommandSource EventName="Click" CommandType="Redo" />
+                </ig:Commanding.Command>
+            </ig:RadialMenuItem>
+
+            <ig:RadialMenuItem KeyTip="X" Click="RadialMenu_Click"
+                Header="{Binding Source={StaticResource CommonStrings}, Path=Cut}">
+                <ig:RadialMenuItem.Icon>
+                    <Image Source="/IGRadialMenu;component/Images/Cut.png" Width="16" Height="16" />
+                </ig:RadialMenuItem.Icon>
+                <ig:Commanding.Command>
+                    <igPrim:RichTextEditorCommandSource EventName="Click" CommandType="Cut" />
+                </ig:Commanding.Command>
+            </ig:RadialMenuItem>
+
+            <ig:RadialMenuItem KeyTip="C" Click="RadialMenu_Click"
+                Header="{Binding Source={StaticResource CommonStrings}, Path=Copy}">
+                <ig:RadialMenuItem.Icon>
+                    <Image Source="/IGRadialMenu;component/Images/Copy.png" Width="16" Height="16" />
+                </ig:RadialMenuItem.Icon>
+                <ig:Commanding.Command>
+                    <igPrim:RichTextEditorCommandSource EventName="Click" CommandType="Copy" />
+                </ig:Commanding.Command>
+            </ig:RadialMenuItem>
+
+            <ig:RadialMenuItem KeyTip="V" Click="RadialMenu_Click"
+                Header="{Binding Source={StaticResource CommonStrings}, Path=Paste}">
+                <ig:RadialMenuItem.Icon>
+                    <Image Source="/IGRadialMenu;component/Images/Paste.png" Width="16" Height="16" />
+                </ig:RadialMenuItem.Icon>
+                <ig:Commanding.Command>
+                    <igPrim:RichTextEditorCommandSource EventName="Click" CommandType="Paste" />
+                </ig:Commanding.Command>
+            </ig:RadialMenuItem>
+
+        </ig:XamRadialMenu>
+
+    </Grid>
+</framework:SampleContainer>

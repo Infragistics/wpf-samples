@@ -1,0 +1,165 @@
+﻿<igFramework:SampleContainer x:Class="IGDataGrid.Samples.Style.AlternatingRowHighlighting"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="AlternatingRowHighlighting"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGDataGrid.Resources"
+      xmlns:System="clr-namespace:System;assembly=mscorlib">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataGrid;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DataGridStrings x:Key="Strings" />
+
+            <ObjectDataProvider x:Key="odpAddnewRecordLocation"
+                                MethodName="GetValues"
+                                ObjectType="{x:Type System:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="igDP:AddNewRecordLocation" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+            <XmlDataProvider x:Key="QuarterbackData" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid>
+        <igDP:XamDataGrid x:Name="XamDataGrid1"
+                          Theme="RoyalLight"
+                          DataSource="{Binding Source={StaticResource QuarterbackData}, XPath=season}">
+            <!-- #BEGIN SNIPPET# -->
+            <!--
+            Using the FieldLayoutSettings object, you can quickly
+            add alternate row highlighting to the XamDataGrid-->
+            <igDP:XamDataGrid.FieldLayoutSettings>
+                <igDP:FieldLayoutSettings HighlightAlternateRecords="True" />
+            </igDP:XamDataGrid.FieldLayoutSettings>
+            <!-- #END SNIPPET# -->
+            <!--
+            Using the properties of the Field object, you can define custom
+            header labels and also control the visibility of Fields within a
+            FieldLayout -->
+            <igDP:XamDataGrid.FieldLayouts>
+                <igDP:FieldLayout>
+                    <igDP:FieldLayout.Fields>
+                        <!--
+                        NOTE: Most of these fields have their EditAsType set because the data source is XML.
+                        The XamDataGrid treats XML data as strings unless you specify otherwise.
+                        -->
+                        <igDP:Field Name="year" Label="Year">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type System:Int32}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="team" Label="Team" />
+                        <igDP:Field Name="games" Label="Games">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type System:Int32}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="qbrate" Label="Rating">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type System:Double}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="comp" Label="Completions">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type System:Int32}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="att" Label="Attempts">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type System:Int32}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="pct" Label="Passing %">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type System:Double}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="passingyards" Label="Total Passing Yards">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type System:Int32}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="passingyardsperattempt" Label="Passing Yards/Attempt">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type System:Double}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="passingyardspergame" Label="Passing Yards/Game">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type System:Double}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="passingtd" Label="Passing Touchdowns">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type System:Int32}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="int" Label="Interceptions">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type System:Int32}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="rushs" Label="Rushes">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type System:Int32}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="rushyrds" Label="Rushing Yards">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type System:Int32}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="rushyardspergame" Label="Rushing Yard/Game">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type System:Double}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="rushavg" Label="Rushing Average">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type System:Double}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="rushtd" Label="Rushing Touchdowns">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type System:Int32}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="sack" Label="Sacks">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type System:Int32}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="yardslost" Label="Yards Lost">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type System:Int32}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="fum"
+                                    Label="Fumbles"
+                                    Visibility="Collapsed" />
+                        <igDP:Field Name="fuml"
+                                    Label="Fumbles Lost"
+                                    Visibility="Collapsed" />
+                    </igDP:FieldLayout.Fields>
+                </igDP:FieldLayout>
+            </igDP:XamDataGrid.FieldLayouts>
+        </igDP:XamDataGrid>
+        <controls:OptionsPanel HeaderText="{Binding ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}"
+                               Margin="10"
+                               HorizontalAlignment="Right">
+            <CheckBox x:Name="chkHighlightAlternateRows"
+                      IsChecked="{Binding Path=(FieldLayoutSettings).HighlightAlternateRecords, ElementName=XamDataGrid1}"
+                      Content="{Binding Source={StaticResource Strings}, Path=EnableAlternateRowHighlighting}" />
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

@@ -1,0 +1,124 @@
+﻿<igFramework:SampleContainer x:Class="IGPieChart.Samples.Display.LabelsWithPercentage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:local="clr-namespace:IGPieChart.Model"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+      xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared"
+      xmlns:resources="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGPieChart.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGPieChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:PieChartStrings x:Key="Strings" />
+            <resources:CommonStrings x:Key="CommonStrings"/>
+            <models:FinancialDataCollection x:Key="financialData"/>
+            <local:LabelsPositionMode x:Key="LabelsPositionMode_None"
+                                      LabelsPosition="None"
+                                      LabelsPositionName="None" />
+            <local:LabelsPositionMode x:Key="LabelsPositionMode_Center"
+                                      LabelsPosition="Center"
+                                      LabelsPositionName="Center" />
+            <local:LabelsPositionMode x:Key="LabelsPositionMode_InsideEnd"
+                                      LabelsPosition="InsideEnd"
+                                      LabelsPositionName="InsideEnd" />
+            <local:LabelsPositionMode x:Key="LabelsPositionMode_OutsideEnd"
+                                      LabelsPosition="OutsideEnd"
+                                      LabelsPositionName="OutsideEnd" />
+            <local:LabelsPositionMode x:Key="LabelsPositionMode_BestFit"
+                                      LabelsPosition="BestFit"
+                                      LabelsPositionName="BestFit" />
+            <Style x:Key="OptionPanelLabels" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+                <Setter Property="FontWeight" Value="Normal"/>
+                <Setter Property="HorizontalAlignment" Value="Right"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="0 0 5 0"/>
+            </Style>
+
+            <!-- Label Types Templates -->
+            <converters:PercentValueConverter x:Key="conv"/>
+            
+            <DataTemplate x:Key="labelTemplate1">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{Binding PercentValue, StringFormat=p, Converter={StaticResource conv}}" />
+                </StackPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="labelTemplate2">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{Binding PercentValue, StringFormat=n}" />
+                </StackPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="labelTemplate3">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{Binding ItemLabel}" />
+                </StackPanel>
+            </DataTemplate>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid Margin="25">
+        <ig:ItemLegend x:Name="Legend" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10" Padding="10,5"/>
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamPieChart Name="pieChart" Grid.Row="2"
+                        ItemsSource="{StaticResource financialData}"
+                        LabelMemberPath="Label"
+                        ValueMemberPath="Spending"
+                        Legend="{Binding ElementName=Legend}"
+                        LabelExtent="20"
+                        AllowSliceExplosion="True"
+                        ExplodedSlices="0 1 2"
+                        RadiusFactor=".5"
+                        SliceClick="pieChart_SliceClick"
+                        LeaderLineVisibility="Visible">
+
+            <!-- Tooltip template with Percent formatting -->
+            <ig:XamPieChart.ToolTip>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding ItemLabel}" />
+                    <TextBlock Text=" ("/>
+                    <TextBlock Text="{Binding PercentValue, StringFormat=p, Converter={StaticResource conv}}" />
+                    <TextBlock Text=")"/>
+                </StackPanel>
+            </ig:XamPieChart.ToolTip>
+        </ig:XamPieChart>
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel VerticalAlignment="Top" 
+                               HorizontalAlignment="Left"
+                               HeaderText="{Binding Source={StaticResource CommonStrings}, Path=XW_Options}"
+                               Margin="0,10,10,0" 
+                               MinWidth="150">
+            <TextBlock Text="{Binding Source={StaticResource Strings}, Path=XPC_Labels_Poistion}" Margin="3" 
+                       Style="{StaticResource OptionPanelLabels}" HorizontalAlignment="Left" />
+            <ComboBox x:Name="labelsPositionCombo" Margin="3" >
+                <ComboBoxItem Content="{StaticResource LabelsPositionMode_None}" />
+                <ComboBoxItem Content="{StaticResource LabelsPositionMode_Center}" />
+                <ComboBoxItem Content="{StaticResource LabelsPositionMode_InsideEnd}" />
+                <ComboBoxItem Content="{StaticResource LabelsPositionMode_OutsideEnd}" />
+                <ComboBoxItem Content="{StaticResource LabelsPositionMode_BestFit}" />
+            </ComboBox>
+
+            <!-- Percent labels -->
+            <TextBlock Text="{Binding Source={StaticResource Strings}, Path=XPC_Labels_Displayed}" Margin="3" 
+                       Style="{StaticResource OptionPanelLabels}" HorizontalAlignment="Left" />
+            <StackPanel Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Orientation="Vertical">
+                <RadioButton x:Name="rb1" HorizontalAlignment="Left" IsThreeState="False" Click="rb1_Click"
+                             Content="{Binding Source={StaticResource Strings}, Path=XPC_Percent}" Margin="{StaticResource OptionsElementsMargin}"/>
+                <RadioButton x:Name="rb2" HorizontalAlignment="Left" IsThreeState="False" Click="rb2_Click"
+                             Content="{Binding Source={StaticResource Strings}, Path=XPC_Values}" Margin="{StaticResource OptionsElementsMargin}"/>
+                <RadioButton x:Name="rb3" HorizontalAlignment="Left" IsThreeState="False" Click="rb3_Click"
+                             Content="{Binding Source={StaticResource Strings}, Path=XPC_Text}" />
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

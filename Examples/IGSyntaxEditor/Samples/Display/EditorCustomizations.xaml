@@ -1,0 +1,99 @@
+﻿<framework:SampleContainer x:Class="IGSyntaxEditor.Samples.Display.EditorCustomizations"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="Editor Customizations"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:conv="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared"                           
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGSyntaxEditor.Resources"
+      xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                
+                <ResourceDictionary Source="/IGSyntaxEditor;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:SyntaxEditorStrings x:Key="Strings" />
+            <conv:VisibilityConverter x:Key="VisConverter" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamSyntaxEditor x:Name="xamSyntaxEditor1" 
+            SplitOptions="SplittingNotAllowed" BorderThickness="1"
+            CurrentLineHighlightVisibility="{Binding ElementName=cbCLH, Path=IsChecked, Converter={StaticResource ResourceKey=VisConverter}, Mode=TwoWay}"
+            WhitespaceIndicatorVisibility="{Binding ElementName=cbWhiteSpInd, Path=IsChecked, Converter={StaticResource ResourceKey=VisConverter}, Mode=TwoWay}"
+        />
+        <!-- #END SNIPPET# -->
+
+        <controls:OptionsPanel HeaderText="{Binding ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}" 
+                               HorizontalAlignment="Right" MinWidth="200">
+            <StackPanel Orientation="Vertical">
+                <StackPanel>
+                    <CheckBox IsThreeState="False" Margin="{StaticResource OptionsElementsMargin}"
+                              IsChecked="{Binding ElementName=xamSyntaxEditor1, Path=IsLineNumberMarginVisible, Mode=TwoWay}">
+                        <TextBlock Text="{Binding Source={StaticResource Strings}, Path=LineNumberMargin}" />
+                    </CheckBox>
+                    <CheckBox x:Name="cbWhiteSpInd" IsThreeState="False" Margin="{StaticResource BottomPaddingMid}">
+                        <TextBlock Text="{Binding Path=WhiteSpaceIndication, Source={StaticResource Strings}}" />
+                    </CheckBox>
+                    <StackPanel Orientation="Vertical" Margin="{StaticResource BottomPaddingMid}">
+                        <TextBlock Text="{Binding Path=WhiteSpaceBrush, Source={StaticResource Strings}}" Margin="{StaticResource OptionsElementsMargin}"/>
+                        <ComboBox x:Name="cbWSBColor" MinWidth="50" SelectionChanged="cbWSBColor_SelectionChanged">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Rectangle HorizontalAlignment="Stretch" MinWidth="160" Height="16" Margin="-2,1,0,0">
+                                        <Rectangle.Fill>
+                                            <SolidColorBrush Color="{Binding}" />
+                                        </Rectangle.Fill>
+                                    </Rectangle>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <CheckBox x:Name="cbCLH" IsThreeState="False" Margin="{StaticResource BottomPaddingMid}">
+                        <TextBlock Text="{Binding Path=CurrentLineHighlight, Source={StaticResource Strings}}" />
+                    </CheckBox>
+                    <StackPanel Orientation="Vertical" Margin="{StaticResource BottomPaddingMid}">
+                        <TextBlock Text="{Binding Path=CurrentLineHighlightBack, Source={StaticResource Strings}}" Margin="{StaticResource OptionsElementsMargin}"/>
+                        <ComboBox x:Name="cbCLHBack" MinWidth="50" SelectionChanged="cbCLHBack_SelectionChanged">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Rectangle HorizontalAlignment="Stretch" MinWidth="160" Height="16" Margin="-2,1,0,0">
+                                        <Rectangle.Fill>
+                                            <SolidColorBrush Color="{Binding}" />
+                                        </Rectangle.Fill>
+                                    </Rectangle>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{Binding Path=CurrentLineHighlightBorder, Source={StaticResource Strings}}" Margin="{StaticResource OptionsElementsMargin}"/>
+                        <ComboBox x:Name="cbCLHBorder" MinWidth="50" SelectionChanged="cbCLHBorder_SelectionChanged">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Rectangle HorizontalAlignment="Stretch" MinWidth="160" Height="16" Margin="-2,1,0,0">
+                                        <Rectangle.Fill>
+                                            <SolidColorBrush Color="{Binding}" />
+                                        </Rectangle.Fill>
+                                    </Rectangle>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+                </StackPanel>
+
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

@@ -1,0 +1,73 @@
+﻿<igFramework:SampleContainer x:Class="IGToolbar.Samples.VerticalOrientation"
+                 xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 mc:Ignorable="d"
+                 xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+                 xmlns:ig="http://schemas.infragistics.com/xaml"
+                 Title="Infragistics XAML Control Sample">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>                
+                <ResourceDictionary Source="/IGToolbar;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <models:EnergyProductionModel x:Key="DataViewModel" />
+        </ResourceDictionary>
+	</igFramework:SampleContainer.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50" />
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <ig:XamToolbar
+        Name="Toolbar"
+        Target="{Binding ElementName=chart}"
+        Orientation="Vertical">
+            </ig:XamToolbar>
+        </Grid>
+        <Grid Grid.Column="1">
+            <ig:XamDataChart
+        IsHorizontalZoomEnabled="true"
+        Name="chart" DataContext="{StaticResource DataViewModel}">
+                <ig:XamDataChart.Axes>
+                    <ig:CategoryXAxis x:Name="numericXAxis2" ItemsSource="{Binding EnergySampleData}"  
+                                  Label="{}{Country}" />
+                    <ig:NumericYAxis x:Name="numericYAxis2" />
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:LineSeries IsDropShadowEnabled="True"
+                               ShadowOpacity="0.3"
+                               ShadowDepth="2"
+                               ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Gas"
+                               Title="{Binding StringEnergyGas, Source={StaticResource DataViewModel}}"
+                               XAxis="{Binding ElementName=numericXAxis2}"
+                               YAxis="{Binding ElementName=numericYAxis2}"
+                               Thickness="5"
+                               ShowDefaultTooltip="True"
+                               MarkerType="Circle">
+                    </ig:LineSeries>
+                    <ig:LineSeries IsDropShadowEnabled="True"
+                               ShadowOpacity="0.3"
+                               ShadowDepth="2"
+                               ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Oil"
+                               Title="{Binding StringEnergyOil, Source={StaticResource DataViewModel}}"
+                               XAxis="{Binding ElementName=numericXAxis2}"
+                               YAxis="{Binding ElementName=numericYAxis2}"
+                               Thickness="5"
+                               ShowDefaultTooltip="True"
+                               MarkerType="Circle">
+                    </ig:LineSeries >
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+        </Grid>
+    </Grid>
+</igFramework:SampleContainer>

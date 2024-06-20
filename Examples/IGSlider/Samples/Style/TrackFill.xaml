@@ -1,0 +1,333 @@
+﻿<framework:SampleContainer x:Class="IGSlider.Samples.Style.TrackFill"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"      
+      xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igDP="http://infragistics.com/DataPresenter"                           
+      xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+      xmlns:res="clr-namespace:IGSlider.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <res:SliderStrings x:Key="Strings" />
+            <converters:FormatConverter x:Key="dateConverter" />
+            <SolidColorBrush x:Key="TickBrush" Color="#FF777777"/>
+            <DataTemplate x:Key="HorizontalTick">
+                <Rectangle Fill="{StaticResource TickBrush}" Height="5" Margin="0,0,0,10" Width="1"/>
+            </DataTemplate>
+            <DataTemplate x:Key="VerticalTick">
+                <Rectangle Fill="{StaticResource TickBrush}" Height="1" Margin="0,0,10,0" Width="5"/>
+            </DataTemplate>
+            <SolidColorBrush x:Key="StrokeBrush" Color="#FFA5AAB5"/>
+
+            <Style x:Key="TrackFillStyleOrange" TargetType="igPrim:TrackFill">
+                <Setter Property="Template" >
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <Rectangle Height="20" Fill="#FFF96232"/>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="SliderBase" TargetType="ig:XamSliderBase">
+                <Setter Property="Orientation" Value="Horizontal"/>
+                <Setter Property="HorizontalTickMarksTemplate" Value="{StaticResource HorizontalTick}"/>
+                <Setter Property="VerticalTickMarksTemplate" Value="{StaticResource VerticalTick}"/>
+                <Setter Property="IsMouseWheelEnabled" Value="False"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ig:XamSliderBase">
+                            <Grid x:Name="RootElement" Background="{TemplateBinding Background}">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="OrientationStates">
+                                        <VisualState x:Name="Horizontal"/>
+                                        <VisualState x:Name="Vertical">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HorizontalSlider" Storyboard.TargetProperty="Visibility">
+                                                    <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                                                        <DiscreteObjectKeyFrame.Value>
+                                                            <Visibility>Collapsed</Visibility>
+                                                        </DiscreteObjectKeyFrame.Value>
+                                                    </DiscreteObjectKeyFrame>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="VerticalSlider" Storyboard.TargetProperty="Visibility">
+                                                    <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                                                        <DiscreteObjectKeyFrame.Value>
+                                                            <Visibility>Visible</Visibility>
+                                                        </DiscreteObjectKeyFrame.Value>
+                                                    </DiscreteObjectKeyFrame>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Grid x:Name="HorizontalSlider">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <RepeatButton x:Name="HorizontalDecrease" Height="13" Margin="0,0,10,0" Width="8" Visibility="{TemplateBinding DecreaseButtonVisibility}" Content="-" Grid.Column="0">
+                                        <ig:Commanding.Command>
+                                            <ig:XamSliderBaseCommandSource EventName="Click" CommandType="SmallDecrease"/>
+                                        </ig:Commanding.Command>
+                                    </RepeatButton>
+                                    <RepeatButton x:Name="HorizontalIncrease" Height="13" Margin="10,0,0,0" Width="8" Visibility="{TemplateBinding IncreaseButtonVisibility}" Content="+" Grid.Column="2">
+                                        <ig:Commanding.Command>
+                                            <ig:XamSliderBaseCommandSource EventName="Click" CommandType="SmallIncrease"/>
+                                        </ig:Commanding.Command>
+                                    </RepeatButton>
+                                    <Grid x:Name="HorizontalSlidersGrid" Margin="5,5,5,5" Grid.Column="1">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                    </Grid>
+                                    <Grid x:Name="HorizontalTrack" Height="20" Background="Transparent" Grid.Column="1" VerticalAlignment="Center">
+                                        <Border Background="#FF999999" BorderBrush="#FF777777" BorderThickness="1,1,1,1"/>
+                                        <Grid x:Name="HorizontalTickMarks" Background="Transparent"/>
+                                        <Canvas x:Name="HorizontalTrackFills" Height="20" />
+                                        <Canvas x:Name="HorizontalThumbs"/>
+                                    </Grid>
+                                </Grid>
+                                <Grid x:Name="VerticalSlider" Visibility="Collapsed">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <RepeatButton x:Name="VerticalDecrease" Height="8" Margin="0,10,0,0" Width="13" Visibility="{TemplateBinding DecreaseButtonVisibility}" Content="-" Grid.Row="2">
+                                        <ig:Commanding.Command>
+                                            <ig:XamSliderBaseCommandSource EventName="Click" CommandType="SmallDecrease"/>
+                                        </ig:Commanding.Command>
+                                    </RepeatButton>
+                                    <RepeatButton x:Name="VerticalIncrease" Height="8" Margin="0,0,0,10" Width="13" Visibility="{TemplateBinding IncreaseButtonVisibility}" Content="+" Grid.Row="0">
+                                        <ig:Commanding.Command>
+                                            <ig:XamSliderBaseCommandSource EventName="Click" CommandType="SmallIncrease"/>
+                                        </ig:Commanding.Command>
+                                    </RepeatButton>
+                                    <Grid x:Name="VerticalSlidersGrid" Margin="0,5,0,5" Grid.Row="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                    </Grid>
+                                    <Grid x:Name="VerticalTickMarks" Background="Transparent" Grid.Row="1"/>
+                                    <Grid x:Name="VerticalTrack" Width="20" Background="Transparent" Grid.Row="1">
+                                        <Border Width="3" Background="#FFE7EAEA" BorderBrush="#FFA5AEBD" BorderThickness="1,1,1,1"/>
+                                        <Canvas x:Name="VerticalTrackFills"/>
+                                        <Canvas x:Name="VerticalThumbs"/>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="DtSliderStyle" BasedOn="{StaticResource SliderBase}" TargetType="ig:XamNumericRangeSlider">
+                <Setter Property="SmallChange" Value="1"/>
+                <Setter Property="LargeChange" Value="10"/>
+                <!--<Setter Property="SmallChangeType" Value=""/>
+                <Setter Property="LargeChangeType" Value="Days"/>-->
+                <Setter Property="TrackClickAction" Value="None"/>
+            </Style>
+            <SolidColorBrush x:Key="BaseBrush" Color="#FFB0BAC1"/>
+            <SolidColorBrush x:Key="FocusBorderBrush" Color="#FF6DBDD1"/>
+            <Style x:Key="XamSliderNumericThumbStyle1" TargetType="ig:XamSliderNumericThumb">
+                <Setter Property="Background" Value="{StaticResource BaseBrush}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource StrokeBrush}"/>
+                <Setter Property="InteractionMode" Value="Free"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ig:XamSliderNumericThumb">
+                            <Grid x:Name="RootElement">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="OrientationStates">
+                                        <VisualState x:Name="Horizontal"/>
+                                        <VisualState x:Name="Vertical">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HorizontalThumb" Storyboard.TargetProperty="Visibility">
+                                                    <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                                                        <DiscreteObjectKeyFrame.Value>
+                                                            <Visibility>Collapsed</Visibility>
+                                                        </DiscreteObjectKeyFrame.Value>
+                                                    </DiscreteObjectKeyFrame>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="VerticalThumb" Storyboard.TargetProperty="Visibility">
+                                                    <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                                                        <DiscreteObjectKeyFrame.Value>
+                                                            <Visibility>Visible</Visibility>
+                                                        </DiscreteObjectKeyFrame.Value>
+                                                    </DiscreteObjectKeyFrame>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="FocusStates">
+                                        <VisualState x:Name="Unfocused"/>
+                                        <VisualState x:Name="Focused">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="FocusElementV" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                    <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                                                        <DiscreteObjectKeyFrame.Value>
+                                                            <Visibility>Visible</Visibility>
+                                                        </DiscreteObjectKeyFrame.Value>
+                                                    </DiscreteObjectKeyFrame>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="ActiveStates">
+                                        <VisualState x:Name="Inactive"/>
+                                        <VisualState x:Name="Active">
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <ToolTipService.ToolTip>
+                                    <ToolTip x:Name="ThumbToolTip" Visibility="{TemplateBinding ToolTipVisibility}" ContentTemplate="{TemplateBinding ToolTipTemplate}"/>
+                                </ToolTipService.ToolTip>
+                                <Grid x:Name="HorizontalThumb" Margin="-3.5,0,3.5,0">
+                                    <Border x:Name="HorizontalThumbContent" Height="37" Width="7" Background="#FFBBBBBB"  BorderBrush="#FF777777" BorderThickness="1" Margin="0,-8,0,0">
+                                        <Grid>
+                                            <Path
+                                                x:Name="Grippers"
+                                                Width="1"
+                                                Height="7"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                Data="M 0,6 C0,6 0,7 0,7 0,7 1,7 1,7 1,7 1,6 1,6 1,6 0,6 0,6 zM 0,4 C0,4 0,5 0,5 0,5 1,5 1,5 1,5 1,4 1,4 1,4 0,4 0,4 zM 0,2 C0,2 0,3 0,3 0,3 1,3 1,3 1,3 1,2 1,2 1,2 0,2 0,2 zM 0,0 C0,0 0,1 0,1 0,1 1,1 1,1 1,1 1,0 1,0 1,0 0,0 0,0 z"
+                                                Fill="#FF777777"
+                                                Stretch="Fill"/>
+                                        </Grid>
+                                    </Border>
+                                    <Border Padding="3,0,3,0" Height="28" Margin="-22,-40,-22,0" VerticalAlignment="Top" 
+                                            RenderTransformOrigin="0.5,0.5" BorderThickness="1" d:LayoutOverrides="VerticalAlignment" CornerRadius="3"
+                                            Background="#FFDDDDDD">
+                                        <TextBlock
+                                            Text="{Binding Path=Value, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+                                            TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF555555" FontSize="10"/>
+                                    </Border>
+                                    <Path
+                                        Width="12"
+                                        Height="5" Fill="#FFDDDDDD"
+                                        HorizontalAlignment="Center"
+                                        Margin="0,-13,0,0"
+                                        VerticalAlignment="Top"
+                                        Data="M -0.5,0 C-0.5,0 3.80,4.30 3.80,4.30 4.74,5.24 6.25,5.24 7.19,4.30 7.19,4.30 11.5,0 11.5,0 11.5,0 -0.5,0 -0.5,0 z"
+                                        Stretch="Fill">
+                                    </Path>
+                                </Grid>
+                                <Grid x:Name="VerticalThumb" Visibility="Collapsed">
+                                    <Grid x:Name="VerticalThumbContent" Height="8" Width="15">
+                                        <Path x:Name="BaseBgV" Fill="{TemplateBinding Background}" Stretch="Fill" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="1" Height="8" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="15" Opacity="1" UseLayoutRounding="False" Data="M 0.5,5.10 C0.5,5.10 0.5,1.89 0.5,1.89 0.5,0.57 0.67,0.5 2.12,0.5 2.12,0.5 11.01,0.5 11.01,0.5 11.01,0.5 13.5,3.59 13.5,3.59 13.5,3.59 11.01,6.5 11.01,6.5 11.01,6.5 2.12,6.5 2.12,6.5 0.67,6.5 0.5,6.42 0.5,5.10 z"/>
+                                        <Path x:Name="OverlayV" Stretch="Fill" StrokeThickness="1" Height="6" HorizontalAlignment="Left" Margin="1,1,0,0" VerticalAlignment="Top" Width="13" Opacity=".5" UseLayoutRounding="False" Data="M 0.5,5.10 C0.5,5.10 0.5,1.89 0.5,1.89 0.5,0.57 0.67,0.5 2.12,0.5 2.12,0.5 11.01,0.5 11.01,0.5 11.01,0.5 13.5,3.59 13.5,3.59 13.5,3.59 11.01,6.5 11.01,6.5 11.01,6.5 2.12,6.5 2.12,6.5 0.67,6.5 0.5,6.42 0.5,5.10 z">
+                                            <Path.Fill>
+                                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                    <GradientStop Color="White" Offset="0"/>
+                                                    <GradientStop Color="#99FFFFFF" Offset="1"/>
+                                                </LinearGradientBrush>
+                                            </Path.Fill>
+                                        </Path>
+                                        <Path x:Name="InnerBorderV" Stretch="Fill" Stroke="#ffffff" StrokeThickness="1" Height="6" HorizontalAlignment="Left" Margin="1,1,0,0" VerticalAlignment="Top" Width="13" Opacity="1" UseLayoutRounding="False" Data="M 0.5,5.10 C0.5,5.10 0.5,1.89 0.5,1.89 0.5,0.57 0.67,0.5 2.12,0.5 2.12,0.5 11.01,0.5 11.01,0.5 11.01,0.5 13.5,3.59 13.5,3.59 13.5,3.59 11.01,6.5 11.01,6.5 11.01,6.5 2.12,6.5 2.12,6.5 0.67,6.5 0.5,6.42 0.5,5.10 z"/>
+                                        <Path x:Name="FocusElementV" Stretch="Fill" Stroke="{StaticResource FocusBorderBrush}" StrokeThickness="1" Height="6" HorizontalAlignment="Left" Margin="1,1,0,0" VerticalAlignment="Top" Width="13" Opacity="1" UseLayoutRounding="False" Visibility="Collapsed" Data="M 0.5,5.10 C0.5,5.10 0.5,1.89 0.5,1.89 0.5,0.57 0.67,0.5 2.12,0.5 2.12,0.5 11.01,0.5 11.01,0.5 11.01,0.5 13.5,3.59 13.5,3.59 13.5,3.59 11.01,6.5 11.01,6.5 11.01,6.5 2.12,6.5 2.12,6.5 0.67,6.5 0.5,6.42 0.5,5.10 z"/>
+                                        <Path x:Name="DisabledElementV" Stretch="Fill" Stroke="White" StrokeThickness="1" Height="8" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="15" Opacity="0.5" UseLayoutRounding="False" Visibility="Collapsed" Data="M 0.5,5.10 C0.5,5.10 0.5,1.89 0.5,1.89 0.5,0.57 0.67,0.5 2.12,0.5 2.12,0.5 11.01,0.5 11.01,0.5 11.01,0.5 13.5,3.59 13.5,3.59 13.5,3.59 11.01,6.5 11.01,6.5 11.01,6.5 2.12,6.5 2.12,6.5 0.67,6.5 0.5,6.42 0.5,5.10 z"/>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSlider;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+    
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <igDP:XamDataGrid x:Name="dataGrid" DataSource="{Binding OrderHistory}" Margin="0,0,0,70">
+            <igDP:XamDataGrid.FieldLayoutSettings>
+                <igDP:FieldLayoutSettings AutoGenerateFields="False"/>
+            </igDP:XamDataGrid.FieldLayoutSettings>
+            <igDP:XamDataGrid.FieldSettings>
+                <igDP:FieldSettings Width="*" AllowSorting="True" />
+            </igDP:XamDataGrid.FieldSettings>
+            <igDP:XamDataGrid.FieldLayouts>
+                <igDP:FieldLayout>
+                    <igDP:Field Name="OrderDate" Label="{Binding XWG_OrderDate, Source={StaticResource Strings}}"/>
+                    <igDP:Field Name="ShipName" Label="{Binding XWG_ShipName, Source={StaticResource Strings}}"/>
+                    <igDP:Field Name="Price" Label="{Binding XWG_Price, Source={StaticResource Strings}}" />
+                    <igDP:Field Name="Supplier" Label="{Binding XWG_Supplier, Source={StaticResource Strings}}"/>
+                    <igDP:Field Name="CategoryName" Label="{Binding XWG_CategoryName, Source={StaticResource Strings}}"/>
+                    <igDP:Field Name="ProductName" Label="{Binding XWG_ProductName, Source={StaticResource Strings}}"/>
+                </igDP:FieldLayout>
+            </igDP:XamDataGrid.FieldLayouts>
+        </igDP:XamDataGrid>
+
+        <!-- #BEGIN SNIPPET# -->
+
+        <ig:XamNumericRangeSlider
+            x:Name="RangeSlider"
+            VerticalAlignment="Bottom"
+            ThumbValueChanged="RangeSlider_ThumbValueChanged"
+            TrackClickAction="MoveToPoint"
+            IsMouseWheelEnabled="True"
+            MinValue="0"
+            MaxValue="16000" Margin="22,0"
+            FontSize="11"
+            IncreaseButtonVisibility="Collapsed"
+            DecreaseButtonVisibility="Collapsed"
+            Grid.ColumnSpan="3" 
+            Style="{StaticResource DtSliderStyle}">
+
+            <ig:XamNumericRangeSlider.TickMarks>
+                <ig:SliderTickMarks TickMarksFrequency="1000" IncludeSliderEnds="True">
+                    <ig:SliderTickMarks.HorizontalTickMarksTemplate>
+                        <DataTemplate>
+                            <Rectangle Width="1" Height="20" Fill="#FF777777"/>
+                        </DataTemplate>
+                    </ig:SliderTickMarks.HorizontalTickMarksTemplate>
+                </ig:SliderTickMarks>
+                <ig:SliderTickMarks TickMarksFrequency="6000" IncludeSliderEnds="True">
+                    <ig:SliderTickMarks.HorizontalTickMarksTemplate>
+                        <DataTemplate>
+                            <Rectangle Width="1" Height="20" Fill="#FF777777"/>
+                        </DataTemplate>
+                    </ig:SliderTickMarks.HorizontalTickMarksTemplate>
+                </ig:SliderTickMarks>
+            </ig:XamNumericRangeSlider.TickMarks>
+
+            <ig:XamSliderNumericThumb Value="1000"
+                                      InteractionMode="Push"
+                                      IsSnapToTickEnabled="True"
+                                      TrackFillBrush="Transparent"
+                                      Style="{StaticResource XamSliderNumericThumbStyle1}"/>
+
+            <ig:XamSliderNumericThumb Value="9000"
+                                      InteractionMode="Push"
+                                      IsSnapToTickEnabled="True"
+                                      Style="{StaticResource XamSliderNumericThumbStyle1}"
+                                      TrackFillStyle="{StaticResource TrackFillStyleOrange}"/>
+
+        </ig:XamNumericRangeSlider>
+
+        <!-- #END SNIPPET# -->
+
+        <TextBlock Text="{Binding Slider_StylingTrackFill_TextLabel, Source={StaticResource Strings}}"
+                   FontSize="12" HorizontalAlignment="Right" Grid.Row="2" Margin="0,0,20,10" Foreground="#FF333333"/>
+    </Grid>
+</framework:SampleContainer>

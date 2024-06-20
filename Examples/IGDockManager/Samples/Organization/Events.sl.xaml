@@ -1,0 +1,103 @@
+﻿<igFramework:SampleContainer x:Class="IGDockManager.Samples.Organization.Events"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="Infragistics XAML Control Sample"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:res="clr-namespace:IGDockManager.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDockManager;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DockManagerStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <!--#BEGIN SNIPPET#-->
+        <ig:XamDockManager x:Name="xamDockManager"
+                           ActivePaneChanging="xamDockManager_ActivePaneChanging"
+                           ActivePaneChanged="xamDockManager_ActivePaneChanged"
+                           PaneClosing="xamDockManager_PaneClosing"
+                           PaneClosed="xamDockManager_PaneClosed"
+                           PaneFloating="xamDockManager_PaneFloating"
+                           PaneFloated="xamDockManager_PaneFloated"
+                           PaneUnpinning="xamDockManager_PaneUnpinning"
+                           PaneUnpinned="xamDockManager_PaneUnpinned">
+            <ig:XamDockManager.Content>
+                <ig:DocumentContentHost>
+                    <ig:DocumentContentHost.Panes>
+                        <ig:TabGroupPane>
+                            <ig:ContentPane Header="{Binding Source={StaticResource Strings},Path=Docking_StartPage}"
+                                            IsActivePane="True" Name="StartPagePane"
+                                            IsDocumentPane="True" AllowClose="False" CloseButtonVisibility="Collapsed">
+                                <ig:ContentPane.Content>
+                                    <Grid>
+                                        <Image Source="{Binding Source='Backgrounds/LightBlue.jpg', 
+                                            Converter={StaticResource getImageConverter}}" Stretch="UniformToFill" />
+                                        <HyperlinkButton  Width="250"
+                                                          VerticalAlignment="Top"
+                                                          HorizontalAlignment="Left"
+                                                          Margin="30" Click="HyperlinkButton_Click"
+                                                          BorderThickness="0" IsTabStop="False">
+                                            <HyperlinkButton.Background>
+                                                <ImageBrush ImageSource="/IGDockManager;component/Images/Delete16.png"
+                                                            Stretch="None" AlignmentX="Left" AlignmentY="Center"/>
+                                            </HyperlinkButton.Background>
+                                            <HyperlinkButton.Content>
+                                                <TextBlock Text="{Binding Source={StaticResource Strings},Path=Docking_ClearEventsOutput}"
+                                                           Padding="20" HorizontalAlignment="Right"
+                                                           VerticalAlignment="Bottom" />
+                                            </HyperlinkButton.Content>
+                                        </HyperlinkButton>
+                                    </Grid>
+                                </ig:ContentPane.Content>
+                            </ig:ContentPane>
+                            <ig:ContentPane Header="MainPage.xaml" Name="MainPagePane"
+                                            IsDocumentPane="True"/>
+                            <ig:ContentPane Header="MainPage.xaml.cs" Name="MainPageCSPane"
+                                            IsDocumentPane="True"/>
+                            <ig:ContentPane Header="App.xaml" Name="AppPane"
+                                            IsDocumentPane="True"/>
+                        </ig:TabGroupPane>
+                    </ig:DocumentContentHost.Panes>
+                </ig:DocumentContentHost>
+            </ig:XamDockManager.Content>
+            <ig:XamDockManager.Panes>
+                <ig:SplitPane Location="Right" Orientation="Vertical"
+                              Width="200" >
+                    <ig:TabGroupPane Location="Top">
+                        <ig:ContentPane Header="{Binding Source={StaticResource Strings},Path=Docking_SolutionExplorer}"
+                                        IsActivePane="True" Name="SLExplorerPane"/>
+                        <ig:ContentPane Header="{Binding Source={StaticResource Strings},Path=Docking_TeamExplorer}"
+                                        Name="TExplorerPane"/>
+                    </ig:TabGroupPane>
+                    <ig:ContentPane Header="{Binding Source={StaticResource Strings},Path=Docking_Properties}"
+                                    Location="Bottom" Name="PropertiesPane" />
+                </ig:SplitPane>
+                <ig:TabGroupPane Location="Bottom" Height="350">
+                    <ig:ContentPane Header="{Binding Source={StaticResource Strings},Path=Docking_ErrorList}"
+                                    Name="ErrorListPane" />
+                    <ig:ContentPane Header="{Binding Source={StaticResource Strings},Path=Docking_Output}"
+                                    IsActivePane="True" Name="OutputPane">
+                        <ig:ContentPane.Content>
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                                          VerticalScrollBarVisibility="Auto" Name="scrollViewer"
+                                          BorderBrush="Transparent" BorderThickness="0">
+                                <ListBox x:Name="ListBox_Output" BorderThickness="0"/>
+                            </ScrollViewer>
+                        </ig:ContentPane.Content>
+                    </ig:ContentPane>
+                    <ig:ContentPane Header="{Binding Source={StaticResource Strings},Path=Docking_History}" />
+                </ig:TabGroupPane>
+            </ig:XamDockManager.Panes>
+        </ig:XamDockManager>
+        <!--#END SNIPPET#-->
+    </Grid>
+</igFramework:SampleContainer>
