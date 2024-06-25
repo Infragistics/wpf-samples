@@ -101,11 +101,6 @@ namespace IGExtensions.Common.Maps
             _geometries.Add(data);
         }
 
-        protected override void ClearValues(FrameworkElement element)
-        {
-         
-        }
-
         protected override PathGeometry GetShapeGeometry(int i, List<PointCollection> points)
         {
             if (points == null)
