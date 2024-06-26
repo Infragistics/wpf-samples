@@ -29,8 +29,8 @@ namespace Infragistics.Controls.Charts
             DependencyProperty.Register(MinimumRangePropertyName, typeof(double), typeof(CustomPaletteColorScaleView),
             new PropertyMetadata(DefaultMinimumRange, (o, e) =>
             {
-                (o as CustomPaletteColorScaleView).PropertyUpdated(MinimumRangePropertyName, e.OldValue, e.NewValue);
-            }));
+                (o as CustomPaletteColorScaleView).PropertyUpdatedOverride(o, MinimumRangePropertyName, e.OldValue, e.NewValue);
+            }));        
 
         /// <summary>
         /// Gets or sets the minimum size for this scale.
@@ -50,7 +50,7 @@ namespace Infragistics.Controls.Charts
             DependencyProperty.Register(MaximumRangePropertyName, typeof(double), typeof(CustomPaletteColorScaleView),
             new PropertyMetadata(DefaultMaximumRange, (o, e) =>
             {
-                (o as CustomPaletteColorScaleView).PropertyUpdated(MaximumRangePropertyName, e.OldValue, e.NewValue);
+                (o as CustomPaletteColorScaleView).PropertyUpdatedOverride(o, MaximumRangePropertyName, e.OldValue, e.NewValue);
             }));
 
         /// <summary>

@@ -11,9 +11,8 @@
 
     <!--  ********************************** RESOURCES **********************************  -->
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="MetroDark.Colors.xaml" />
         <ResourceDictionary Source="MetroDark.DataVisualization.xaml" />
-        <ResourceDictionary Source="MetroDark.Styles.WPF.xaml" />
+        <ResourceDictionary Source="MetroDark.Styles.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <!--  ********************************** BRUSHES **********************************  -->
@@ -46,6 +45,7 @@
         <GradientStop Color="{StaticResource Color_005}" Offset="0" />
         <GradientStop Color="{StaticResource Color_003}" Offset="1" />
     </LinearGradientBrush>
+    <SolidColorBrush x:Key="FinancialLegendBackgroundBrush"  Color="{StaticResource Color_007}"/>
 
     <!--  Tooltip Brushes  -->
     <SolidColorBrush x:Key="TooltipBackgroundBrush" Color="{StaticResource Color_009}" />
@@ -128,7 +128,7 @@
     <!--  *********************************  Strokes  *********************************  -->
     <Thickness x:Key="TooltipBorderThickness">1</Thickness>
     <Thickness x:Key="LegendBorderThickness">0 0 0 0</Thickness>
-    <System:Double x:Key="MarkerStrokeThickness">0.5</System:Double>
+    <System:Double x:Key="MarkerStrokeThickness">1</System:Double>
     <System:Double x:Key="CrosshairStrokeThickness">1.4</System:Double>
     <System:Double x:Key="TickStrokeThickness">2</System:Double>
     <System:Double x:Key="AxisStrokeThickness">2</System:Double>
@@ -144,14 +144,19 @@
     <Thickness x:Key="CrosshairTooltipItemPadding">0 4 0 4</Thickness>
     <Thickness x:Key="LegendPadding">4</Thickness>
     <Thickness x:Key="LegendMargin">10</Thickness>
-    <Thickness x:Key="LegenItemMargin">4</Thickness>
-    <Thickness x:Key="LegenItemBadgeMargin">0</Thickness>
+    <Thickness x:Key="LegendItemMargin">4</Thickness>
+    <Thickness x:Key="LegendItemBadgeMargin">0</Thickness>
     <Thickness x:Key="BadgeRightMargin">0 0 7 0</Thickness>
+    <Thickness x:Key="FinancialLegendMargin">5</Thickness>
+    <Thickness x:Key="FinancialLegendPadding">6 6 6 6</Thickness>
 
     <!--  *********************************  Font Styles  *********************************  -->
+    <System:Double x:Key="ChartSmallerFontSize">13.333</System:Double>
     <System:Double x:Key="ChartSmallFontSize">14.667</System:Double>
     <System:Double x:Key="ChartTitleFontSize">16</System:Double>
     <FontFamily x:Key="ChartFontFamily">#Segoe UI</FontFamily>
+    <FontWeight x:Key="FinancialLegendFinalValueWeight">SemiBold</FontWeight>
+    <FontFamily x:Key="FinancialLegendFontFamily">#Segoe UI</FontFamily>
 
     <!--  ********************************** Marker Templates and Styles **********************************  -->
     <Style TargetType="local:Marker" x:Key="MarkerStyle">
@@ -297,7 +302,7 @@
                     <Grid>
                         <Border Background="{TemplateBinding Background}" BorderBrush="{Binding Series.ActualOutline}" BorderThickness="{TemplateBinding BorderThickness}">
                             <StackPanel Orientation="Horizontal" Margin="{TemplateBinding Padding}">
-                                <ContentPresenter Content="{Binding}" ContentTemplate="{Binding Series.LegendItemBadgeTemplate}" />
+                                <ContentPresenter Content="{Binding}" ContentTemplate="{Binding Series.ActualLegendItemBadgeTemplate}" />
                                 <ContentControl FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" Margin="5,0,0,0">
                                     <ContentControl.Resources>
                                         <Style TargetType="ContentControl">
@@ -618,17 +623,82 @@
 
     <!--  Basic LegendItemTemplate - used by BasicLegend with all series except Bubble Series  -->
     <DataTemplate x:Key="LegendItemTemplate">
-        <StackPanel Orientation="Horizontal" Margin="{StaticResource LegenItemMargin}" Visibility="{Binding Series.Visibility}">
-            <ContentPresenter Content="{Binding}" ContentTemplate="{Binding Series.LegendItemBadgeTemplate}" Margin="{StaticResource LegenItemBadgeMargin}" />
+        <Grid>
+            <StackPanel Orientation="Horizontal" Margin="{StaticResource LegendItemMargin}">
+                <StackPanel.Style>
+                    <Style TargetType="StackPanel">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Visibility, ElementName=financialLegendContent}" Value="Visible">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Series.Visibility}" Value="Collapsed">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
+                <ContentPresenter Content="{Binding}" ContentTemplate="{Binding Series.LegendItemBadgeTemplate}" Margin="{StaticResource LegendItemBadgeMargin}"/>
             <ContentControl Foreground="{Binding Series.ActualLegend.ItemsForeground}"
                             FontStretch="{Binding Series.ActualLegend.ItemsFontStretch}"
                             FontStyle="{Binding Series.ActualLegend.ItemsFontStyle}"
                             FontWeight="{Binding Series.ActualLegend.ItemsFontWeight}"
                             FontSize="{Binding Series.ActualLegend.ItemsFontSize}"
-                            FontFamily="{Binding Series.ActualLegend.ItemsFontFamily}">
+                            FontFamily="{StaticResource FinancialLegendFontFamily}">
                 <ContentPresenter Content="{Binding Series.Title, TargetNullValue=Series Title}" />
             </ContentControl>
         </StackPanel>
+            <ContentControl x:Name="financialLegendContent"
+                      Foreground="{Binding Series.ActualLegend.ItemsForeground}"
+                      FontStretch="{Binding Series.ActualLegend.ItemsFontStretch}"
+                      FontStyle="{Binding Series.ActualLegend.ItemsFontStyle}"
+                      FontWeight="{Binding Series.ActualLegend.ItemsFontWeight}"
+                      FontSize="{Binding Series.ActualLegend.ItemsFontSize}"
+                      FontFamily="{Binding Series.ActualLegend.ItemsFontFamily}">
+                <ContentControl.Style>
+                    <Style TargetType="ContentControl">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FinancialLegend}}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Series.Visibility}" Value="Collapsed">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ContentControl.Style>
+                <Border Background="{StaticResource FinancialLegendBackgroundBrush}" Padding="{StaticResource FinancialLegendPadding}" Margin="{StaticResource FinancialLegendMargin}">
+                    <StackPanel Orientation="Horizontal">
+                        <ContentPresenter Content="{Binding}" ContentTemplate="{Binding Series.LegendItemBadgeTemplate}" Margin="{StaticResource LegendItemBadgeMargin}"/>
+                        <ContentControl Foreground="{StaticResource ForegroundBrush}" FontSize="{StaticResource ChartSmallerFontSize}">
+                        <ContentPresenter Content="{Binding Series.Title, TargetNullValue=Series Title}"/>
+                        </ContentControl>
+                        <TextBlock Text=": " Visibility="{Binding Visibility, ElementName=finalValue}" Foreground="{StaticResource ForegroundBrush}" FontSize="{StaticResource ChartSmallerFontSize}"/>
+                        <TextBlock x:Name="finalValue" FontWeight="{StaticResource FinancialLegendFinalValueWeight}" Text="{Binding Series.FinalValue, StringFormat={}{0:0.00}}" Foreground="{StaticResource ForegroundBrush}" FontSize="{StaticResource ChartSmallerFontSize}">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <Trigger Property="Text" Value="NaN">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        <TextBlock Text="{Binding Series.PercentChange, StringFormat=' ({0:0.00}%)'}" Foreground="{StaticResource ForegroundBrush}" FontSize="{StaticResource ChartSmallerFontSize}">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <Trigger Property="Text" Value=" (NaN%)">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+            </ContentControl>
+        </Grid>
     </DataTemplate>
 
     <!--  Overlay LegendItemTemplate - used by BasicLegend with overlay Series  -->
@@ -1167,7 +1237,7 @@
     <Style TargetType="local:BarSeries" BasedOn="{StaticResource Series}">
         <Setter Property="LegendItemBadgeTemplate" Value="{StaticResource LegendItemRectBadgeTemplate}" />
         <Setter Property="MarkerType" Value="None" />
-        <Setter Property="Resolution" Value="4" />
+        
         <Setter Property="ShadowDirection" Value="45" />
         <Setter Property="RadiusX" Value="0" />
         <Setter Property="RadiusY" Value="0" />
@@ -1176,7 +1246,7 @@
     <Style TargetType="local:ColumnSeries" BasedOn="{StaticResource Series}">
         <Setter Property="LegendItemBadgeTemplate" Value="{StaticResource LegendItemRectBadgeTemplate}" />
         <Setter Property="MarkerType" Value="None" />
-        <Setter Property="Resolution" Value="4" />
+        
         <Setter Property="RadiusX" Value="0" />
         <Setter Property="RadiusY" Value="0" />
     </Style>
@@ -1232,7 +1302,7 @@
     <Style TargetType="local:WaterfallSeries" BasedOn="{StaticResource Series}">
         <Setter Property="LegendItemBadgeTemplate" Value="{StaticResource LegendItemPositiveNegativeBadgeTemplate}" />
         <Setter Property="MarkerType" Value="None" />
-        <Setter Property="Resolution" Value="4" />
+        
         <Setter Property="NegativeBrush" Value="{StaticResource NegativeBrush}" />
         <Setter Property="NegativeOutline" Value="{StaticResource NegativeBrush}" />
         <Setter Property="RadiusX" Value="0" />
@@ -1242,14 +1312,14 @@
     <!--  *********************************  STACKED SERIES  *********************************  -->
     <Style TargetType="local:StackedColumnSeries" BasedOn="{StaticResource Series}">
         <Setter Property="MarkerType" Value="None" />
-        <Setter Property="Resolution" Value="4" />
+        
         <Setter Property="RadiusX" Value="0" />
         <Setter Property="RadiusY" Value="0" />
     </Style>
 
     <Style TargetType="local:StackedBarSeries" BasedOn="{StaticResource Series}">
         <Setter Property="MarkerType" Value="None" />
-        <Setter Property="Resolution" Value="4" />
+        
         <Setter Property="ShadowDirection" Value="135" />
         <Setter Property="RadiusX" Value="0" />
         <Setter Property="RadiusY" Value="0" />
@@ -1257,14 +1327,14 @@
 
     <Style TargetType="local:Stacked100ColumnSeries" BasedOn="{StaticResource Series}">
         <Setter Property="MarkerType" Value="None" />
-        <Setter Property="Resolution" Value="4" />
+        
         <Setter Property="RadiusX" Value="0" />
         <Setter Property="RadiusY" Value="0" />
     </Style>
 
     <Style TargetType="local:Stacked100BarSeries" BasedOn="{StaticResource Series}">
         <Setter Property="MarkerType" Value="None" />
-        <Setter Property="Resolution" Value="4" />
+        
         <Setter Property="ShadowDirection" Value="135" />
         <Setter Property="RadiusX" Value="0" />
         <Setter Property="RadiusY" Value="0" />
@@ -1313,13 +1383,13 @@
     <Style TargetType="local:ColumnFragment" BasedOn="{StaticResource Series}">
         <Setter Property="LegendItemBadgeTemplate" Value="{StaticResource LegendItemRectBadgeTemplate}" />
         <Setter Property="MarkerType" Value="None" />
-        <Setter Property="Resolution" Value="4" />
+        
     </Style>
 
     <Style TargetType="local:BarFragment" BasedOn="{StaticResource Series}">
         <Setter Property="LegendItemBadgeTemplate" Value="{StaticResource LegendItemRectBadgeTemplate}" />
         <Setter Property="MarkerType" Value="None" />
-        <Setter Property="Resolution" Value="4" />
+        
     </Style>
 
     <Style TargetType="local:LineFragment" BasedOn="{StaticResource Series}">
@@ -1366,7 +1436,7 @@
         <Setter Property="HeatMaximumColor" Value="{StaticResource HotColor}" />
         <Setter Property="HeatMinimumColor" Value="{StaticResource ColdColor}" />
         <Setter Property="LegendItemBadgeTemplate" Value="{StaticResource LegendItemHighDensityBadgeTemplate}" />
-        <Setter Property="Resolution" Value="4" />
+        
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:Series">
@@ -1378,7 +1448,7 @@
 
     <Style TargetType="local:ScatterLineSeries" BasedOn="{StaticResource Series}">
         <Setter Property="LegendItemBadgeTemplate" Value="{StaticResource LegendItemLineBadgeTemplate}" />
-        <Setter Property="Resolution" Value="5" />
+        
         <Setter Property="Thickness" Value="{StaticResource LineSeriesStrokeThickness}" />
         <Setter Property="MarkerType" Value="Automatic" />
         <Setter Property="Template">
@@ -1399,7 +1469,7 @@
 
     <Style TargetType="local:ScatterSplineSeries" BasedOn="{StaticResource Series}">
         <Setter Property="LegendItemBadgeTemplate" Value="{StaticResource LegendItemLineBadgeTemplate}" />
-        <Setter Property="Resolution" Value="5" />
+        
         <Setter Property="Thickness" Value="{StaticResource LineSeriesStrokeThickness}" />
         <Setter Property="MarkerType" Value="Automatic" />
         <Setter Property="Template">
@@ -1441,7 +1511,7 @@
     <!--  *********************************  FINANCIAL SERIES  *********************************  -->
     <Style TargetType="local:FinancialPriceSeries" BasedOn="{StaticResource Series}">
         <Setter Property="LegendItemBadgeTemplate" Value="{StaticResource LegendItemFinancialBadgeTemplate}" />
-        <Setter Property="Resolution" Value="5"/>
+        
         <Setter Property="DisplayType" Value="OHLC" />
         <Setter Property="NegativeBrush" Value="{StaticResource NegativeBrush}" />
         <Setter Property="NegativeOutline" Value="{StaticResource NegativeBrush}" />
@@ -1765,7 +1835,7 @@
     <Style TargetType="local:RadialColumnSeries" BasedOn="{StaticResource Series}">
         <Setter Property="LegendItemBadgeTemplate" Value="{StaticResource LegendItemRectBadgeTemplate}" />
         <Setter Property="MarkerType" Value="None" />
-        <Setter Property="Resolution" Value="4" />
+        
         <Setter Property="RadiusX" Value="0" />
         <Setter Property="RadiusY" Value="0" />
     </Style>
@@ -1773,7 +1843,7 @@
     <Style TargetType="local:RadialPieSeries" BasedOn="{StaticResource Series}">
         <Setter Property="LegendItemBadgeTemplate" Value="{StaticResource LegendItemRectBadgeTemplate}" />
         <Setter Property="MarkerType" Value="None" />
-        <Setter Property="Resolution" Value="4" />
+        
     </Style>
 
     <Style TargetType="local:ValueOverlay" BasedOn="{StaticResource Series}">
@@ -1784,6 +1854,14 @@
     <!--  *********************************  ANNOTATION LAYERS  *********************************  -->
     <Style TargetType="local:CrosshairLayer" BasedOn="{StaticResource Series}">
         <Setter Property="LegendItemBadgeTemplate" Value="{StaticResource LegendItemMarkerlessLineBadgeTemplate}" />
+    </Style>
+
+    <Style TargetType="local:FinalValueLayer" BasedOn="{StaticResource Series}" >
+        <Setter Property="LegendItemBadgeTemplate" Value="{StaticResource LegendItemMarkerlessLineBadgeTemplate}"/>
+    </Style>
+
+    <Style TargetType="local:CalloutLayer" BasedOn="{StaticResource Series}" >
+        <Setter Property="LegendItemBadgeTemplate" Value="{StaticResource LegendItemMarkerlessLineBadgeTemplate}"/>
     </Style>
 
     <Style TargetType="local:CategoryHighlightLayer" BasedOn="{StaticResource Series}">
@@ -2105,7 +2183,6 @@
         <Setter Property="SubtitleMargin" Value="0 0 0 5" />
         <Setter Property="Margin" Value="2" />
         <Setter Property="Padding" Value="2" />
-        <Setter Property="Resolution" Value="1" />
         <Setter Property="ToolTipStyle" Value="{StaticResource ToolTipStyle}" />
     </Style>
 
@@ -2408,7 +2485,6 @@
         <Setter Property="SubtitleForeground" Value="{StaticResource ChartSubtitleBrush}" />
         <Setter Property="Margin" Value="2" />
         <Setter Property="Padding" Value="2" />
-        <Setter Property="Resolution" Value="1" />
         <Setter Property="Thickness" Value="1" />
         <Setter Property="IsHorizontalZoomEnabled" Value="True" />
         <Setter Property="IsVerticalZoomEnabled" Value="True" />
@@ -2474,5 +2550,16 @@
     <!--  ********************************** ScatterChart Style ********************************** -->
     <Style TargetType="local:XamScatterChart" BasedOn="{StaticResource XamCartesianChartStyle}">
         <Setter Property="ChartType" Value="Auto" />
+    </Style>
+
+    <!--  ********************************* Financial Legend Style ********************************* -->
+    <Style TargetType="local:FinancialLegend">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:FinancialLegend">
+                    <WrapPanel x:Name="panel" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 </ResourceDictionary>

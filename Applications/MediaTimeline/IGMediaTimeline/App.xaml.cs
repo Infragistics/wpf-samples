@@ -19,7 +19,7 @@ namespace MediaTimeline
 
             ThemeManager.ApplicationTheme = new MetroTheme();
             // merge app resources that use colors and styles defined in the Metro Theme
-            this.Resources.MergeDictionary("/InfragisticsWPF.Themes.Metro;component/themes/theme.colors.xaml"); 
+            this.Resources.MergeDictionary("/InfragisticsWPF.Themes.Metro;component/themes/Metro.Theme.Colors.xaml"); 
             this.Resources.MergeDictionary("/IGExtensions.Common;component/Assets/Styles/CommonStyles.xaml"); 
             this.Resources.MergeDictionary("/IGShowcase.MediaTimeline;component/Assets/Styles/AppBrushes.xaml");
             this.Resources.MergeDictionary("/IGShowcase.MediaTimeline;component/Assets/Styles/AppStyles.xaml");
