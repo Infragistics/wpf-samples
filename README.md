@@ -1,8 +1,8 @@
 # Examples for Infragistics Ultimate UI for WPF Controls
 
-This repository contains the Samples Browser and Showcase Applications for all of the Infragistics for WPF controls listed in the [Infragistics documentation here](https://www.infragistics.com/help/wpf/controls-components-and-frameworks).
+This repository contains the Samples Browser and Showcase Applications for all of the Infragistics for WPF controls listed in the [Infragistics documentation](https://www.infragistics.com/help/wpf/controls-components-and-frameworks).
 
-The Infragistics for WPF Samples Browser exists in the "Examples" folder in this repository, while each of the showcases exist in the "Applications" folder. Below you will find the steps necessary to run each of these.
+The Infragistics for WPF Samples Browser exists in the [Examples](./Examples) folder in this repository, while each of the showcases exist in the [Applications](./Applications) folder. Below you will find the steps necessary to run each of these.
 
 # Initial Setup
 
@@ -14,15 +14,15 @@ git clone https://github.com/Infragistics/wpf-samples.git
 
 # Running Samples Browser
 
-The Infragistics for WPF Samples Browser is a standalone application that contains samples for all of the WPF controls that Infragistics exposes. It exists in the "Examples" folder in this repository. In order to run it, you can follow these steps:
+The Infragistics for WPF Samples Browser is a standalone application that contains samples for all controls provided in the Infragistics WPF product. It exists in the [Examples](./Examples) folder in this repository. In order to run it, you can follow these steps:
 
-- Open the Examples/Infragistics.Samples.WPF.sln in Visual Studio.
-- Restore the NuGet packages that are referenced in each project. The Trial NuGet packages for the Infragistics for WPF product are currently in use for each of the projects in the browser. Visual Studio will try to restore the packages on build. The Trial packages exist on the public NuGet feed, and so you will need to target it in order to restore them. The public NuGet feed is https://api.nuget.org/v3/index.json.
-- When the build finishes, you can start the browser by simply starting the solution from within Visual Studio. An .exe for the browser will also be placed within the created Examples/Output folder for future runs of the browser.
+- Open the `.\Examples\Infragistics.Samples.WPF.sln` in Visual Studio.
+- Restore the NuGet packages that are referenced in each project. The Trial NuGet packages for the Infragistics for WPF product are currently in use for each of the projects in the browser. Visual Studio will try to restore the packages on build. The Trial packages exist on the public [NuGet](https://api.nuget.org/v3/index.json) feed, and so you will need to target it in order to restore them.
+- When the build finishes, you can start the browser by simply starting the solution from within Visual Studio. An execurable file for the browser app will be placed within the auto-generated `.\Examples\Output` folder for future runs of the browser.
 
 # Running Showcase Applications
 
-Each of the Infragistics for WPF Showcase Applications are individually runnable. Each one is within the Applications folder of this repository. The following lists each of the projects:    
+You can run each of the Infragistics for WPF Showcase Applications individually. All these apps are located in the [Applications](./Applications) folder of this repository. The following lists each of the applications:    
 
 - `AirplaneSeatingChart`
 - `EarthQuake`
