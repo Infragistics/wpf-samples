@@ -1,6 +1,6 @@
 # Examples for Infragistics Ultimate UI for WPF Controls
 
-This repository contains the Samples Browser and Showcase Applications for all of the Infragistics for WPF controls listed here: https://www.infragistics.com/help/wpf/controls-components-and-frameworks.
+This repository contains the Samples Browser and Showcase Applications for all of the Infragistics for WPF controls listed in the [Infragistics documentation here](https://www.infragistics.com/help/wpf/controls-components-and-frameworks).
 
 The Infragistics for WPF Samples Browser exists in the "Examples" folder in this repository, while each of the showcases exist in the "Applications" folder. Below you will find the steps necessary to run each of these.
 
