@@ -19,7 +19,7 @@ namespace IGDataChart.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class DataChartStrings {
@@ -29,7 +29,7 @@ namespace IGDataChart.Resources {
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public DataChartStrings() {
+        internal DataChartStrings() {
         }
         
         /// <summary>
@@ -3346,6 +3346,51 @@ namespace IGDataChart.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Highlight Behavior.
+        /// </summary>
+        public static string XWDC_Global_HighlightBehavior {
+            get {
+                return ResourceManager.GetString("XWDC_Global_HighlightBehavior", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Legend Highlight Mode.
+        /// </summary>
+        public static string XWDC_Global_HighlightLegendMode {
+            get {
+                return ResourceManager.GetString("XWDC_Global_HighlightLegendMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Highlight Mode.
+        /// </summary>
+        public static string XWDC_Global_HighlightMode {
+            get {
+                return ResourceManager.GetString("XWDC_Global_HighlightMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selection Behavior.
+        /// </summary>
+        public static string XWDC_Global_SelectionBehaviorType {
+            get {
+                return ResourceManager.GetString("XWDC_Global_SelectionBehaviorType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selection Mode.
+        /// </summary>
+        public static string XWDC_Global_SelectionModeType {
+            get {
+                return ResourceManager.GetString("XWDC_Global_SelectionModeType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Type.
         /// </summary>
         public static string XWDC_Global_SeriesType {
@@ -5169,39 +5214,6 @@ namespace IGDataChart.Resources {
         public static string XWGM_MultiTouch_ShowCrosshairTooltips {
             get {
                 return ResourceManager.GetString("XWGM_MultiTouch_ShowCrosshairTooltips", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Series Highlighting.
-        /// </summary>
-        public static string XWDC_Global_HighlightMode
-        {
-            get
-            {
-                return ResourceManager.GetString("XWDC_Global_HighlightMode", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Series Highlighting Behavior.
-        /// </summary>
-        public static string XWDC_Global_HighlightBehavior
-        {
-            get
-            {
-                return ResourceManager.GetString("XWDC_Global_HighlightBehavior", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Legend Highlighting.
-        /// </summary>
-        public static string XWDC_Global_HighlightLegendMode
-        {
-            get
-            {
-                return ResourceManager.GetString("XWDC_Global_HighlightLegendMode", resourceCulture);
             }
         }
     }
