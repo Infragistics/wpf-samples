@@ -11,27 +11,32 @@ namespace IGFunnelChart.Model
             Add(new TestDataItem()
             {
                 Label = FunnelChartStrings.XFC_FunnelChart_Impressions,
-                Value = 3000
+                Value = 3000,
+                Value2 = 1500
             });
             Add(new TestDataItem()
             {
                 Label = FunnelChartStrings.XFC_FunnelChart_Clicks,
-                Value = 2000
+                Value = 2000,
+                Value2 = 1000
             });
             Add(new TestDataItem()
             {
                 Label = FunnelChartStrings.XFC_FunnelChart_FreeDownloads,
-                Value = 1000
+                Value = 1000,
+                Value2 = 500
             });
             Add(new TestDataItem()
             {
                 Label = FunnelChartStrings.XFC_FunnelChart_Purchase,
-                Value = 500
+                Value = 500,
+                Value2 = 250
             });
             Add(new TestDataItem()
             {
                 Label = FunnelChartStrings.XFC_FunnelChart_RepeatPurchase,
-                Value = 400
+                Value = 400,
+                Value2 = 200
             });
         }
     }
@@ -51,6 +56,13 @@ namespace IGFunnelChart.Model
         {
             get { return _value; }
             set { _value = value; RaisePropertyChanged("Value"); }
+        }
+
+        private double _value2;
+        public double Value2
+        {
+            get { return _value2; }
+            set { _value2 = value; RaisePropertyChanged("Value2"); }
         }
 
         private void RaisePropertyChanged(string propertyName)

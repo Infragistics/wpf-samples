@@ -29,7 +29,7 @@ namespace IGDataChart.Resources {
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public DataChartStrings() {
+        internal DataChartStrings() {
         }
         
         /// <summary>
@@ -57,6 +57,15 @@ namespace IGDataChart.Resources {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Highlight Value .
+        /// </summary>
+        public static string highlightValueText {
+            get {
+                return ResourceManager.GetString("highlightValueText", resourceCulture);
             }
         }
         
@@ -3369,6 +3378,24 @@ namespace IGDataChart.Resources {
         public static string XWDC_Global_HighlightMode {
             get {
                 return ResourceManager.GetString("XWDC_Global_HighlightMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Label Extent.
+        /// </summary>
+        public static string XWDC_Global_LabelExtent {
+            get {
+                return ResourceManager.GetString("XWDC_Global_LabelExtent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Angle Axis Label Mode.
+        /// </summary>
+        public static string XWDC_Global_LabelModeType {
+            get {
+                return ResourceManager.GetString("XWDC_Global_LabelModeType", resourceCulture);
             }
         }
         

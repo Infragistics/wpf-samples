@@ -1,0 +1,74 @@
+﻿<framework:SampleContainer x:Class="IGFunnelChart.Samples.Display.FunnelChartHighlighting"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:model="clr-namespace:IGFunnelChart.Model"
+      xmlns:res="clr-namespace:IGFunnelChart.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGFunnelChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <SolidColorBrush x:Key="LightForegroundBrush" Color="White"/>
+            <model:TestData x:Key="data" />
+            <res:FunnelChartStrings x:Key="Strings" />
+            <DataTemplate x:Key="outerLabelTemplate">
+                <Grid>
+                    <TextBlock Text="{Binding}"
+                               FontSize="15"
+                               Foreground="{StaticResource ForegroundBrush}" />
+                </Grid>
+            </DataTemplate>
+            <DataTemplate x:Key="InnerLabelTemplate">
+                <Grid>
+                    <TextBlock Text="{Binding}"
+                               FontSize="15"
+                               Foreground="{StaticResource LightForegroundBrush}" />
+                </Grid>
+            </DataTemplate>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamFunnelChart x:Name="funnel"
+                           Margin="10,10,200,10"
+                           ItemsSource="{StaticResource data}"
+                           ValueMemberPath="Value"
+                           UseOuterLabelsForLegend="True"
+                           InnerLabelMemberPath="Value"
+                           InnerLabelVisibility="Visible"
+                           OuterLabelMemberPath="Label"
+                           OuterLabelVisibility="Visible"
+                           OuterLabelTemplate="{StaticResource outerLabelTemplate}"
+                           InnerLabelTemplate="{StaticResource InnerLabelTemplate}"
+                           IsInverted="{Binding ElementName=invertToggleBtn, Path=IsChecked}"
+                           UseUnselectedStyle="True"
+                           TransitionDuration="0:00:00.8"
+                           HighlightedValueMemberPath="Value2"
+                           HighlightValueDisplayMode="Overlay">
+            <ig:XamFunnelChart.ToolTip>
+                <TextBlock Text="{Binding Item.Label}" />
+            </ig:XamFunnelChart.ToolTip>
+        </ig:XamFunnelChart>
+        <!-- #END SNIPPET# -->
+
+        <controls:OptionsPanel HeaderText="{Binding XFC_FunnelChart_FunnelOptions, Source={StaticResource Strings}}"
+                               VerticalAlignment="Top" HorizontalAlignment="Right" Margin="50">
+            <StackPanel>
+                <ToggleButton x:Name="invertToggleBtn"
+                              IsChecked="False"
+                              Content="{Binding XFC_FunnelChart_Invert, Source={StaticResource Strings}}"
+                              HorizontalAlignment="Stretch"
+                              Margin="5" />
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>
