@@ -241,6 +241,15 @@ namespace Infragistics.SamplesBrowser.WelcomePages.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Using the xamDataPieChart control, you can create pie charts with a customizable threshold for inclusion in an &quot;Other&quot; category, and text labels and images that can be displayed within or outside of the pie in a manner that avoids overlapping..
+        /// </summary>
+        public static string DataPieChart_Welcome_Paragraph_1 {
+            get {
+                return ResourceManager.GetString("DataPieChart_Welcome_Paragraph_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The xamDataPresenter control presents data any way you like it, if the way you like it is lightning fast and with the flexibility of our pluggable view architecture. Grid, carousel, card view or your own custom view, all in one control..
         /// </summary>
         public static string DataPresenter_Welcome_Paragraph1 {
