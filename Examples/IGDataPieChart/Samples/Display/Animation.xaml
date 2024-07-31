@@ -5,14 +5,32 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:ig="http://schemas.infragistics.com/xaml"                             
-             xmlns:local="clr-namespace:IGDataPieChart.WPF.Samples.Display"
+             xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
              xmlns:data="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.Resources>
-            <data:FinancialDataCollection x:Key="data" />
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="/IGDataPieChart;component/Assets/Global.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+                <data:FinancialDataCollection x:Key="data" />
+            </ResourceDictionary>
         </Grid.Resources>
-        <ig:XamDataPieChart ItemsSource="{StaticResource data}" />
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamDataPieChart x:Name="dataPieChart"
+                            ItemsSource="{StaticResource data}" />
+        <!--#END SNIPPET#-->
+
+        <controls:OptionsPanel VerticalAlignment="Top" HorizontalAlignment="Left"
+                               HeaderText="Options"
+                               Margin="0,10,10,0" MinWidth="150">
+            <TextBlock Text="Animation Mode:"  Style="{StaticResource OptionsPanelTextStyle}" HorizontalAlignment="Left" Margin="3" />
+            <ComboBox x:Name="animationModeCombo" SelectionChanged="animationModeCombo_SelectionChanged"/>
+            <TextBlock Text="Animation Duration" Style="{StaticResource OptionsPanelTextStyle}" HorizontalAlignment="Left" Margin="3"/>
+            <Slider x:Name="animationDurationSlider" Minimum="500" Maximum="3000" Value="1000"  Margin="3" ValueChanged="animationDurationSlider_ValueChanged"/>
+            <Button x:Name="replayAnimationBtn" Content="Replay Animation" Click="replayAnimationBtn_Click"/>
+        </controls:OptionsPanel>
     </Grid>
 </igFramework:SampleContainer>

@@ -17,13 +17,10 @@ using System.Windows.Shapes;
 namespace IGDataPieChart.WPF.Samples.Display
 {   
     public partial class Legend : SampleContainer
-    {
-        public FinancialDataCollection Data { get; set; }
+    {        
         public Legend()
         {
-            InitializeComponent();
-            this.Data = new FinancialDataCollection();
-            this.DataContext = this;
+            InitializeComponent();            
         }
     }
 }

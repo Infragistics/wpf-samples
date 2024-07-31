@@ -5,11 +5,37 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:ig="http://schemas.infragistics.com/xaml"
-             xmlns:local="clr-namespace:IGDataPieChart.WPF.Samples.Display"
+             xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
              xmlns:data="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <ig:XamDataPieChart ItemsSource="{Binding Data}" />
+    <Grid x:Name="layoutRoot">
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="/IGDataPieChart;component/Assets/Global.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+                <data:FinancialDataCollection x:Key="data" />
+            </ResourceDictionary>
+        </Grid.Resources>
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamDataPieChart x:Name="dataPieChart"
+                            ItemsSource="{StaticResource data}"
+                            OthersCategoryText="Others"
+                            OthersCategoryType="Number"
+                            OthersCategoryThreshold="10"/>
+        <!--#END SNIPPET#-->
+
+        <controls:OptionsPanel VerticalAlignment="Top" HorizontalAlignment="Left"
+                               HeaderText="Options"
+                               Margin="0,10,10,0" MinWidth="150">
+            <TextBlock Text="Others Category Type:"  Style="{StaticResource OptionsPanelTextStyle}" HorizontalAlignment="Left" Margin="3" />
+            <ComboBox x:Name="othersType" SelectionChanged="othersType_SelectionChanged" SelectedIndex="0"/>
+            <TextBlock Text="Others Category Threshold:" Style="{StaticResource OptionsPanelTextStyle}" HorizontalAlignment="Left" Margin="3"/>
+            <Slider x:Name="thresholdSlider" Minimum="0" Maximum="50" Value="10" ValueChanged="thresholdSlider_ValueChanged"/>
+            <TextBlock Text="Others Category Text:" Style="{StaticResource OptionsPanelTextStyle}"/>
+            <TextBox x:Name="othersTextbox" Text="Others" TextChanged="othersTextbox_TextChanged" />
+        </controls:OptionsPanel>
+
     </Grid>
 </igFramework:SampleContainer>

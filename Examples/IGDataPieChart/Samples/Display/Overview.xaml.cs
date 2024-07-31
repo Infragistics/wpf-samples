@@ -18,12 +18,9 @@ namespace IGDataPieChart.Samples.Display
 {
     public partial class Overview : SampleContainer
     {
-        public FinancialDataCollection Data { get; set; }
         public Overview()
         {
-            InitializeComponent();
-            this.Data = new FinancialDataCollection();
-            this.DataContext = this;
+            InitializeComponent();            
         }
     }
 }

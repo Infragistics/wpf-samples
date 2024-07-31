@@ -1,4 +1,5 @@
-﻿using Infragistics.Samples.Framework;
+﻿using Infragistics.Controls.Charts;
+using Infragistics.Samples.Framework;
 using Infragistics.Samples.Shared.Models;
 using System;
 using System.Collections.Generic;
@@ -18,12 +19,26 @@ namespace IGDataPieChart.WPF.Samples.Display
 {
     public partial class Animation : SampleContainer
     {
-        public FinancialDataCollection Data { get; set; }
         public Animation()
         {
             InitializeComponent();
-            this.Data = new FinancialDataCollection();
-            this.DataContext = this;
+            this.animationModeCombo.ItemsSource = Enum.GetValues(typeof(CategoryTransitionInMode));
+            this.animationModeCombo.SelectedItem = CategoryTransitionInMode.Auto;
+            
+        }
+        private void animationModeCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            this.dataPieChart.TransitionInMode = (CategoryTransitionInMode)e.AddedItems[0];
+        }
+
+        private void animationDurationSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            this.dataPieChart.TransitionInDuration = new TimeSpan(0, 0, 0, 0, (int)e.NewValue);
+        }
+
+        private void replayAnimationBtn_Click(object sender, RoutedEventArgs e)
+        {
+            this.dataPieChart.ReplayTransitionIn();
         }
     }
 }
