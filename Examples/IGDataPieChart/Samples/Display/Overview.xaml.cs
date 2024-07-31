@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace IGDataPieChart.WPF.Samples.Display
+namespace IGDataPieChart.Samples.Display
 {
     public partial class Overview : SampleContainer
     {
