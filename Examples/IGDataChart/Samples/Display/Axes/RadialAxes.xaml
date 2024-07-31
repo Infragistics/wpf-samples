@@ -54,7 +54,7 @@
                                       RadiusExtentScale="{Binding ElementName=radiusAxisExtentScale, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0.0'}"
                                       InnerRadiusExtentScale="{Binding ElementName=radiusAxisInnerExtentScale, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0.0'}"  >
                     <ig:NumericRadiusAxis.LabelSettings>
-                        <ig:AxisLabelSettings Location="InsideBottom" Extent="40" />
+                        <ig:AxisLabelSettings x:Name="axisSettings" Location="InsideBottom" Extent="40" />
                     </ig:NumericRadiusAxis.LabelSettings>
                 </ig:NumericRadiusAxis>
             </ig:XamDataChart.Axes>
@@ -163,8 +163,16 @@
                     <Slider x:Name="radiusAxisCrossingSlider" Width="115" Minimum="0" Maximum="360" SmallChange="5" LargeChange="5" />
                     <TextBlock VerticalAlignment="Center" Width="25" Text="{Binding ElementName=radiusAxisCrossingSlider, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}"  />
                 </StackPanel>
-            </StackPanel>
+            </StackPanel>            
             <CheckBox x:Name="radiusAxisInvertion" IsChecked="False" Content="{Binding XWDC_AxisProperty_InvertedAxis, Source={StaticResource Strings}}" Margin="{StaticResource OptionsTextRightBottomMargin}" />
+            <!--LabelMode-->
+            <StackPanel Margin="{StaticResource OptionsElementsMargin}">
+                <TextBlock Text="{Binding XWDC_Global_LabelModeType, Source={StaticResource Strings}}" Margin="{StaticResource OptionsTextRightBottomMargin}"  HorizontalAlignment="Left"/>
+                <StackPanel Orientation="Horizontal" >
+                    <ComboBox x:Name="LabelModeComboBox" Width="200" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource IGComboBoxStyle}" />
+                    <Slider x:Name="angleAxisLabelExtent" ValueChanged="angleAxisLabelExtent_ValueChanged" Width="115" Minimum="1" Maximum="100" Value="{Binding ElementName=axisSettings, Path=Extent}" SmallChange="5" LargeChange="5"  />
+                </StackPanel>
+            </StackPanel>
         </controls:OptionsPanel>
 
     </Grid>

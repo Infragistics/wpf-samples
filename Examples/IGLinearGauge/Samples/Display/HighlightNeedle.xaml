@@ -1,0 +1,64 @@
+<framework:SampleContainer  
+    x:Class="IGLinearGauge.HighlightNeedle"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700" Title="SimpleData Page"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGLinearGauge.Resources" >
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGLinearGauge;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:LinearGaugeStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+       <Grid x:Name="LayoutRoot" Background="White"  >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions> 
+        <Border Margin="0,0,0,20"
+                Grid.ColumnSpan="2"
+                BorderBrush="#FFEAEAEA"
+                BorderThickness="0">
+            <StackPanel>
+                <TextBlock Text="{Binding Path=AbsoluteZero, Source={StaticResource Strings}}"
+                           Style="{StaticResource SamplesBigTitleStyle}"
+                           d:LayoutOverrides="GridBox" />
+                <!-- #BEGIN SNIPPET# -->
+                <ig:XamLinearGauge x:Name="xamLinearGauge2" 
+                                   Margin="0,20"
+                                   Height="80"
+                                   VerticalAlignment="Center"
+                                   MinimumValue="-275"
+                                   MaximumValue="0"
+                                   BackingStrokeThickness="0"      
+                                   Interval="25"
+                                   Value="-250"
+                                   HighlightValue="-50"
+                                   HighlightValueDisplayMode="Overlay"
+                                   FontFamily="{StaticResource FontFamily}" FontSize="{StaticResource FontSize}" >
+                    <ig:XamLinearGauge.Ranges>
+                        <ig:XamLinearGraphRange StartValue="-275" EndValue="-225"/>
+                        <ig:XamLinearGraphRange StartValue="-225" EndValue="-175"/>
+                        <ig:XamLinearGraphRange StartValue="-175" EndValue="-125"/>
+                        <ig:XamLinearGraphRange StartValue="-125" EndValue="-75"/>
+                        <ig:XamLinearGraphRange StartValue="-75" EndValue="0"/>
+                    </ig:XamLinearGauge.Ranges>
+                </ig:XamLinearGauge> 
+                <!-- #END SNIPPET# -->
+            </StackPanel>
+        </Border>
+        <TextBlock Grid.Row="1"  
+                   HorizontalAlignment="Left" 
+                   VerticalAlignment="Top"
+                   TextWrapping="Wrap" 
+                   Style="{StaticResource BodyStyle}"
+                   Text="{Binding Path=AbsoluteZero_Description, Source={StaticResource Strings}}"/>
+    </Grid>
+</framework:SampleContainer>

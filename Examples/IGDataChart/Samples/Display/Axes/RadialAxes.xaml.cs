@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using Infragistics.Controls.Charts;
+using System;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace IGDataChart.Samples.Display.Axes
@@ -11,6 +13,8 @@ namespace IGDataChart.Samples.Display.Axes
             this.Loaded += OnLoaded;
         }
 
+        private AxisAngleLabelMode[] labelModeValues = (AxisAngleLabelMode[])Enum.GetValues(typeof(AxisAngleLabelMode));
+
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             // add event handlers for axis controls
@@ -19,7 +23,18 @@ namespace IGDataChart.Samples.Display.Axes
 
             this.radiusAxisInvertion.Click += OnRadiusAxisInvertionChecked;
             this.radiusAxisVisibility.Click += OnRadiusAxisVisibilityChecked;
+
+            labelModeValues = (AxisAngleLabelMode[])Enum.GetValues(typeof(AxisAngleLabelMode));
+            this.LabelModeComboBox.ItemsSource = labelModeValues;
+            this.LabelModeComboBox.SelectionChanged += LabelModeComboBox_SelectionChanged; ;
+            this.LabelModeComboBox.SelectedIndex = 2;
         }
+
+        private void LabelModeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            this.angleAxis.LabelMode = labelModeValues[LabelModeComboBox.SelectedIndex];
+        }
+
         private void OnRadiusAxisInvertionChecked(object sender, RoutedEventArgs e)
         {
             CheckBox cbk = (sender as CheckBox);
@@ -49,6 +64,11 @@ namespace IGDataChart.Samples.Display.Axes
             if (cbk.IsChecked == null) return;
             this.DataChart.Axes["angleAxis"].Visibility = cbk.IsChecked.Value ? Visibility.Visible : Visibility.Collapsed;
             this.DataChart.Axes["angleAxis"].LabelSettings.Visibility = cbk.IsChecked.Value ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private void angleAxisLabelExtent_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            this.angleAxis.LabelSettings.Extent = e.NewValue;
         }
     }
 }
