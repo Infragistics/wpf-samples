@@ -10,6 +10,24 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <ig:XamDataPieChart ItemsSource="{Binding Data}" />
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="/IGDataPieChart;component/Assets/Global.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+                <data:FinancialDataCollection x:Key="data" />
+            </ResourceDictionary>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <!-- #BEGIN SNIPPET# -->
+        <ig:ItemLegend x:Name="legend" Orientation="Horizontal" />
+
+        <ig:XamDataPieChart ItemsSource="{StaticResource data}"
+                            Legend="{Binding ElementName=legend}"
+                            Grid.Row="1"/>
+        <!--#END SNIPPET#-->
     </Grid>
 </igFramework:SampleContainer>
