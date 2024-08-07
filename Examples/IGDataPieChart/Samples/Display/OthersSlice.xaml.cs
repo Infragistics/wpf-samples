@@ -28,23 +28,9 @@ namespace IGDataPieChart.WPF.Samples.Display
             data.Add(new FinancialDataPoint() { Label = "Others 2", Budget = 5, Spending = 5 });
             data.Add(new FinancialDataPoint() { Label = "Others 3", Budget = 5, Spending = 5 });
 
-            this.othersType.ItemsSource = Enum.GetValues(typeof(OthersCategoryType));
-
+           
         }
 
-        private void othersType_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            this.dataPieChart.OthersCategoryType = (OthersCategoryType)e.AddedItems[0];
-        }
-
-        private void othersTextbox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            this.dataPieChart.OthersCategoryText = othersTextbox.Text;
-        }
-
-        private void thresholdSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            this.dataPieChart.OthersCategoryThreshold = e.NewValue;
-        }
+        
     }
 }
