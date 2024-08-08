@@ -108,16 +108,16 @@ namespace Infragistics.Samples.Core
         /// The name of company
         /// </summary>
         public const string AssemblyCompanyName = "Infragistics Inc.";
-        public const string AssemblyCopyrightYear = "2023";
+        public const string AssemblyCopyrightYear = "2024";
         public const string AssemblyCopyright = "Copyright © " + AssemblyCompanyName + " " + AssemblyCopyrightYear;
         /// <summary>
         /// The major and minor build numbers of the assembly, e.g. 17.1
         /// </summary>
-        public const string AssemblyMajorMinor = "23.1";
+        public const string AssemblyMajorMinor = "24.1";
         /// <summary>
         /// The build number of the assembly, e.g. 20171
         /// </summary>
-        public const string AssemblyBuild = "20231";
+        public const string AssemblyBuild = "20241";
         /// <summary>
         /// The revision of the assembly.
         /// </summary>
