@@ -29,7 +29,7 @@ namespace Infragistics.SamplesBrowser.WelcomePages.Resources {
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Descriptions() {
+        public Descriptions() {
         }
         
         /// <summary>
