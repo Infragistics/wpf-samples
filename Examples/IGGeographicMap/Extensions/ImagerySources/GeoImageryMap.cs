@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Infragistics.Samples.Services;
 
@@ -637,5 +638,47 @@ namespace IGGeographicMap.Extensions
         }
     }
     #endregion
-     
+
+    public class OSM_Imagery : Infragistics.Controls.Maps.GeographicMapImagery
+    {
+        public OSM_Imagery()
+            : base(new OSM_TileSource())
+        { }
+    }
+
+    public class OSM_TileSource : Infragistics.Controls.Maps.MapTileSource
+    {
+        public OSM_TileSource()
+            : base(134217728, 134217728, 256, 256, 0)
+        { }
+
+        private const string CustomPath = "http://tile.openstreetmap.org/{z}/{x}/{y}.png";
+        //private const string CustomPath = "http://c.tile.opentopomap.org/{z}/{x}/{y}.png";
+        /// <summary>
+        /// Gets path for the type of a geographic imagery tile
+        /// </summary>
+        /// <returns></returns>
+        private string GetTileType()
+        {
+            return CustomPath;
+        }
+        /// <summary>
+        /// Overridden method for getting a geographic imagery tile at specific position of the map
+        /// </summary>
+        protected override void GetTileLayers(int tileLevel, int tilePositionX, int tilePositionY, IList<object> tileImageLayerSources)
+        {
+            var tilePath = GetTileType();
+            int zoom = tileLevel - 8;
+            if (zoom > 0)
+            {
+                string uriString = tilePath;
+                uriString = uriString.Replace("{z}", zoom.ToString());
+                uriString = uriString.Replace("{x}", tilePositionX.ToString());
+                uriString = uriString.Replace("{y}", tilePositionY.ToString());
+                //System.Diagnostics.Debug.WriteLine(uriString);
+                tileImageLayerSources.Add(new Uri(uriString));
+            }
+        }
+    }
+
 }

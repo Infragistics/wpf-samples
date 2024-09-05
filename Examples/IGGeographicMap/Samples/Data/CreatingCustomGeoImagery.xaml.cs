@@ -41,6 +41,11 @@ namespace IGGeographicMap.Samples.Data
             else if (mapView.ImageryStyle == MapQuestImageryStyle.SatelliteMapStyle)
                 this.GeoMap.BackgroundContent = new MapQuestSatelliteImagery();
         }
+
+        private void ShowOpenStreetImagery(MapQuestImageryView mapView)
+        {
+            this.GeoMap.BackgroundContent = new OSM_Imagery();
+        }
     }
 
 }
