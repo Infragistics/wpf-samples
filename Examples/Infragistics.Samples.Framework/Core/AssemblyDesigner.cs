@@ -113,19 +113,15 @@ namespace Infragistics.Samples.Core
         /// <summary>
         /// The major and minor build numbers of the assembly, e.g. 17.1
         /// </summary>
-        public const string AssemblyMajorMinor = "24.1";
-        /// <summary>
-        /// The build number of the assembly, e.g. 20171
-        /// </summary>
-        public const string AssemblyBuild = "20241";
+        public const string AssemblyMajorMinor = "24.2";
         /// <summary>
         /// The revision of the assembly.
         /// </summary>
-        public const string AssemblyRevision = "1";
+        public const string AssemblyRevision = "1000";
         /// <summary>
         /// The full version of the Assembly.
         /// </summary>
-        public const string AssemblyVersion = AssemblyMajorMinor + "." + AssemblyBuild + "." + AssemblyRevision;
+        public const string AssemblyVersion = AssemblyMajorMinor + "." + AssemblyRevision;
 
         #endregion
 

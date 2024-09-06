@@ -19,7 +19,7 @@ namespace IGTimeline.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class TimelineStrings {
@@ -772,7 +772,7 @@ namespace IGTimeline.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Eric lee Gottlieb Daimler of the Württemberg high speed internal combustion engine; a simple, light, compact, vertical cylinder engine was applied to a motor bicycle..
+        ///   Looks up a localized string similar to Eric lee Gottlieb Daimler of the Württemberg high speed public combustion engine; a simple, light, compact, vertical cylinder engine was applied to a motor bicycle..
         /// </summary>
         public static string XWT_SimpleTimeline_SeriesMotorbike_Details1 {
             get {
@@ -790,7 +790,7 @@ namespace IGTimeline.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Singer Motor Wheel was a wheel attached to a small internal combustion engine that would be substituted for the front wheel of a bicycle, motorizing it..
+        ///   Looks up a localized string similar to The Singer Motor Wheel was a wheel attached to a small public combustion engine that would be substituted for the front wheel of a bicycle, motorizing it..
         /// </summary>
         public static string XWT_SimpleTimeline_SeriesMotorbike_Details3 {
             get {
