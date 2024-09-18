@@ -25,8 +25,7 @@
         
         <!-- #BEGIN SNIPPET# -->
         <!-- ========================================================================== -->
-        <ig:XamRadialGauge x:Name="radialGauge" TransitionDuration="1500" ScaleEndAngle="360" 
-                           ScaleStartAngle="0" LabelExtent="0.7" LabelInterval="10" Width="400" TitleDisplaysValue="True" SubtitleText="MPH" SubtitleFontSize="12" >
+        <ig:XamRadialGauge x:Name="radialGauge" TransitionDuration="1500" LabelExtent="0.7" LabelInterval="10" Width="400" TitleDisplaysValue="True" SubtitleText="MPH" SubtitleFontSize="12" TitleFontSize="12" IsNeedleDraggingEnabled="True" TitleAngle="90" SubtitleExtent=".25">
         </ig:XamRadialGauge>
         <!-- ========================================================================== -->
         <!-- #END SNIPPET# -->
@@ -41,6 +40,12 @@
                     <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
                     <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
                     <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition MinWidth="{StaticResource OptionsFirstColumnMinWidth}" />
@@ -62,12 +67,31 @@
                 <TextBlock Grid.Row="1" Grid.Column="2" x:Name="labelIntervalLabel" HorizontalAlignment="Left" VerticalAlignment="Center" 
                            Text="10" Margin="{StaticResource OptionsTextLeftMargin}" />
 
-                <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" 
-                           Text="{Binding transitionDurationText, Source={StaticResource Strings}}" />
-                <Slider Grid.Row="2" Grid.Column="1" x:Name="transitionDurationSlider" VerticalAlignment="Center" 
-                        Value="2" Minimum="0" Maximum="5" SmallChange="1" LargeChange="1" HorizontalAlignment="Stretch" ValueChanged="transitionDurationSlider_ValueChanged" />
-                <TextBlock Grid.Row="2" Grid.Column="2" x:Name="labeltransitionDuration" HorizontalAlignment="Left" VerticalAlignment="Center" 
-                           Text="2" Margin="{StaticResource OptionsTextLeftMargin}" />   
+                <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Text="{Binding Needle_TitleSnapsToNeedlePivotLabel, Source={StaticResource Strings}}" />
+                <CheckBox Grid.Row="2" Grid.Column="1"
+IsChecked="{Binding ElementName=radialGauge, Path=TitleSnapsToNeedlePivot, Mode=TwoWay}"/>
+
+                <TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" Text="{Binding Needle_SubtitleSnapsToNeedlePivotLabel, Source={StaticResource Strings}}" />
+                <CheckBox Grid.Row="3" Grid.Column="1"
+IsChecked="{Binding ElementName=radialGauge, Path=SubtitleSnapsToNeedlePivot, Mode=TwoWay}"/>
+
+
+                <TextBlock Grid.Row="4" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" 
+         Text="{Binding titleAngle, Source={StaticResource Strings}}" />
+                <Slider Grid.Row="4" Grid.Column="1" x:Name="titleAngleSlider" VerticalAlignment="Center"
+      Value="180" Minimum="0" Maximum="360" SmallChange="1" LargeChange="1" HorizontalAlignment="Stretch" ValueChanged="titleAngleSlider_ValueChanged" />
+                <TextBlock Grid.Row="4" Grid.Column="2" x:Name="labelTitleAngle" HorizontalAlignment="Left" VerticalAlignment="Center" 
+         Text="2" Margin="{StaticResource OptionsTextLeftMargin}" />
+                
+                <TextBlock Grid.Row="5" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" 
+   Text="{Binding titleExtent, Source={StaticResource Strings}}" />
+                <Slider Grid.Row="5" Grid.Column="1" x:Name="titleExtentSlider" VerticalAlignment="Center" 
+Value=".45" Minimum=".10" Maximum=".45" SmallChange="1" LargeChange="1" HorizontalAlignment="Stretch" ValueChanged="titleExtentSlider_ValueChanged" />
+                <TextBlock Grid.Row="5" Grid.Column="2" x:Name="labelTitleExtent" HorizontalAlignment="Left" VerticalAlignment="Center" 
+   Text="2" Margin="{StaticResource OptionsTextLeftMargin}" />
+
+  
+            
             </Grid>
         </controls:OptionsPanel>
     </Grid>

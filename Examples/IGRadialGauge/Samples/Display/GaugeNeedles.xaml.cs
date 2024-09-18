@@ -23,8 +23,12 @@ namespace IGRadialGauge.Samples.Display
             this.needleStartExtentSlider.Value = 0;
             this.needleStartWidthRatioSlider.Value = 0;
             this.needleEndWidthRatioSlider.Value = 0;
-            this.needleValueSlider.Value = 60;
+            this.needleValueSlider.Value = 50;
+            this.needleHighlightValueSlider.Value = 0;
             this.transitionDurationSlider.Value = 2;
+            this.radialGauge.TitleDisplaysValue = true;
+            this.radialGauge.HighlightValue = 0;
+            this.radialGauge.HighlightLabelDisplaysValue = true;
 #if WPF
             this.radialGauge.SnapsToDevicePixels = false;
 #endif
@@ -106,6 +110,12 @@ namespace IGRadialGauge.Samples.Display
                 this.labeltransitionDuration.Text = this.transitionDurationSlider.Value == 0 ? "0" : this.transitionDurationSlider.Value.ToString("#.##");
 
             }
+        }
+
+        private void needleHighlightValueSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            this.radialGauge.HighlightValue = this.needleHighlightValueSlider.Value;
+            this.needleHighlightValueLabel.Text = this.needleHighlightValueSlider.Value == 0 ? "0" : this.needleHighlightValueSlider.Value.ToString("#.##");
         }
     }
 }
