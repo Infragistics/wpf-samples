@@ -48,15 +48,40 @@ namespace IGTreeGrid.Samples.ViewModels
 
         private IEnumerable<Account> GetAccounts(XElement parent, string parentId)
         {
-            return (from d in parent.Descendants("Account")
-                    where d.Attribute("ParentID").Value == parentId
-                    select new Account
-                    {
-                        Number = d.Attribute("AccountNumber").Value,
-                        Name = d.Attribute("Name").Value,
-                        Balance = d.Attribute("Balance").Value,
-                        Accounts = this.GetAccounts(d, d.Attribute("AccountNumber").Value)
-                    }).ToList<Account>();
+            List<XElement> xElems = (parent.Descendants("Account").Where(d => d.Attribute("ParentID").Value == parentId).ToList());
+
+            List<Account> accounts = new List<Account>();
+
+            foreach (XElement elem in xElems)
+            {
+                int number = int.Parse(elem.Attribute("AccountNumber").Value);
+                string name = elem.Attribute("Name").Value;
+                string balance = elem.Attribute("Balance").Value;
+
+                decimal? actualBalance = 0;
+
+                if (string.IsNullOrEmpty(balance))
+                {
+                    actualBalance = null;
+                }
+                else
+                {
+                    actualBalance = decimal.Parse(balance);
+                }
+
+                Account account = new Account()
+                {
+                    Number = number,
+                    Name = name,
+                    Balance = actualBalance
+                };
+
+                account.Accounts = this.GetAccounts(elem, elem.Attribute("AccountNumber").Value);
+
+                accounts.Add(account);
+            }
+
+            return accounts;
         }
     }
 }
