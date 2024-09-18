@@ -22,8 +22,8 @@ namespace Infragistics.Samples.Shared.Models
 			}
 		}
 
-		private string _number;
-		public string Number
+		private int _number;
+		public int Number
 		{
 			get
 			{
@@ -39,8 +39,8 @@ namespace Infragistics.Samples.Shared.Models
 			}
 		}
 
-		private string _balance;
-		public string Balance
+		private decimal? _balance;
+		public decimal? Balance
 		{
 			get
 			{
