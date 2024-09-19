@@ -20,7 +20,6 @@ namespace IGRadialGauge.Samples.Display
         {
             this.labelIntervalSlider.Value = 10;
             this.labelExtentSlider.Value = 0.7;
-            this.transitionDurationSlider.Value = 2;
 #if WPF
             this.radialGauge.SnapsToDevicePixels = false;
 #endif
@@ -42,14 +41,30 @@ namespace IGRadialGauge.Samples.Display
                 this.labelIntervalLabel.Text = this.labelIntervalSlider.Value == 0 ? "0" : this.labelIntervalSlider.Value.ToString("#.##");
         }
 
-        private void transitionDurationSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (transitionDurationSlider != null && labeltransitionDuration != null)
-            {
-                this.radialGauge.TransitionDuration = ((int)this.transitionDurationSlider.Value) * 1000;
-                this.labeltransitionDuration.Text = this.transitionDurationSlider.Value == 0 ? "0" : this.transitionDurationSlider.Value.ToString("#.##");
 
+        private void titleAngleSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (radialGauge != null)
+            {
+                this.radialGauge.TitleAngle = this.titleAngleSlider.Value;
+                this.radialGauge.SubtitleAngle = this.titleAngleSlider.Value;
             }
+
+            if (labelTitleAngle != null)
+                this.labelTitleAngle.Text = this.titleAngleSlider.Value == 0 ? "0" : this.titleAngleSlider.Value.ToString("#.##");
+
+        }
+
+        private void titleExtentSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (radialGauge != null)
+            {
+                this.radialGauge.TitleExtent = this.titleExtentSlider.Value;
+                this.radialGauge.SubtitleExtent = this.titleExtentSlider.Value + 0.25;
+            }
+
+            if (labelTitleExtent != null)
+                this.labelTitleExtent.Text = this.titleExtentSlider.Value == 0 ? "0" : this.titleExtentSlider.Value.ToString("#.##");
         }
 
     }

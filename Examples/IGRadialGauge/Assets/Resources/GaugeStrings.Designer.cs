@@ -275,7 +275,75 @@ namespace IGRadialGauge.Assets.Resources {
                 return ResourceManager.GetString("Needle_NeedleValueLabel", resourceCulture);
             }
         }
-        
+
+          
+        /// <summary>
+        ///   Looks up a localized string similar to Needle Value.
+        /// </summary>
+        public static string titleAngle {
+            get {
+                return ResourceManager.GetString("titleAngle", resourceCulture);
+            }
+        }
+
+          
+        /// <summary>
+        ///   Looks up a localized string similar to Needle Value.
+        /// </summary>
+        public static string titleExtent {
+            get {
+                return ResourceManager.GetString("titleExtent", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Needle Toggle.
+        /// </summary>
+        public static string Needle_DisplayNeedleValueLabel {
+            get {
+                return ResourceManager.GetString("Needle_DisplayNeedleValueLabel", resourceCulture);
+            }
+        }
+
+         /// <summary>
+        ///   Looks up a localized string similar to Highlight Toggle.
+        /// </summary>
+        public static string Needle_DisplayHighlightNeedleValueLabel {
+            get {
+                return ResourceManager.GetString("Needle_DisplayHighlightNeedleValueLabel", resourceCulture);
+            }
+        }
+
+
+        /// <summary>
+        ///   Looks up a localized string similar to Needle Highlight Value.
+        /// </summary>
+        public static string Needle_NeedleHighlightValueLabel
+        {
+            get
+            {
+                return ResourceManager.GetString("Needle_NeedleHighlightValueLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Needle Value.
+        /// </summary>
+        public static string Needle_TitleSnapsToNeedlePivotLabel {
+            get {
+                return ResourceManager.GetString("Needle_TitleSnapsToNeedlePivotLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Needle Value.
+        /// </summary>
+        public static string Needle_SubtitleSnapsToNeedlePivotLabel {
+            get {
+                return ResourceManager.GetString("Needle_SubtitleSnapsToNeedlePivotLabel", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Pivot Shape.
         /// </summary>
