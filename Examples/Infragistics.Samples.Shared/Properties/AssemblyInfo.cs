@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Markup;
 using Infragistics.Samples.Core;        // provides AssemblyDesigner
 
-// General Information about an assembly is controlled through the following 
+// General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Infragistics.Samples.Shared")]
@@ -18,8 +18,10 @@ using Infragistics.Samples.Core;        // provides AssemblyDesigner
 [assembly: AssemblyVersion(AssemblyDesigner.AssemblyVersion)]
 [assembly: AssemblyFileVersion(AssemblyDesigner.AssemblyVersion)]
 
-// Setting ComVisible to false makes the types in this assembly not visible 
-// to COM components.  If you need to access a type in this assembly from 
+[assembly: InternalsVisibleTo("Infragistics.SamplesBrowser")]
+
+// Setting ComVisible to false makes the types in this assembly not visible
+// to COM components.  If you need to access a type in this assembly from
 // COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
 
@@ -28,7 +30,7 @@ using Infragistics.Samples.Core;        // provides AssemblyDesigner
 
 //#if WINDOWS_PHONE
 [assembly: System.Resources.NeutralResourcesLanguage("en")]
- 
+
 //[assembly: AllowPartiallyTrustedCallers()]
 [assembly: ThemeInfo(
     ResourceDictionaryLocation.None, //where theme specific resource dictionaries are located
