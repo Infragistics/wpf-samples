@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using Infragistics.Samples.Core;
 
-// General Information about an assembly is controlled through the following 
+// General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("IGMap")]
@@ -18,8 +18,10 @@ using Infragistics.Samples.Core;
 [assembly: AssemblyVersion(AssemblyDesigner.AssemblyVersion)]
 [assembly: AssemblyFileVersion(AssemblyDesigner.AssemblyVersion)]
 
-// Setting ComVisible to false makes the types in this assembly not visible 
-// to COM components.  If you need to access a type in this assembly from 
+[assembly: InternalsVisibleTo("Infragistics.SamplesBrowser")]
+
+// Setting ComVisible to false makes the types in this assembly not visible
+// to COM components.  If you need to access a type in this assembly from
 // COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
 
