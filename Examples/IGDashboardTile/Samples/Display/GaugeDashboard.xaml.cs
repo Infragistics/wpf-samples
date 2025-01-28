@@ -22,7 +22,7 @@ namespace IGDashboardTile.Samples.Display
     /// </summary>
     public partial class GaugeDashboard : SampleContainer
     {
-        public double DashboardValue { get; set; }
+        public List<GaugeData> data { get; set; }
         public GaugeDashboard()
         {
             DataChartDashboardTileFeature.Register();
@@ -32,9 +32,14 @@ namespace IGDashboardTile.Samples.Display
             PieChartDashboardTileFeature.Register();
 
             InitializeComponent();
+            data = new List<GaugeData> { new GaugeData { Value = 50 } };
 
-            DashboardValue = 50;
             this.DataContext = this;
+        }
+
+        public class GaugeData
+        {
+            public double Value { get; set; }
         }
     }
 }
