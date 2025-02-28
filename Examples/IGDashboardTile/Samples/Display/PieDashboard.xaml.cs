@@ -32,7 +32,7 @@ namespace IGDashboardTile.Samples.Display
 
             InitializeComponent();
 
-            dashboard.IncludedProperties = "Spending;Label".Split(';');
+           // dashboard.IncludedProperties = "Spending;Label".Split(';');
         }
     }
 }
