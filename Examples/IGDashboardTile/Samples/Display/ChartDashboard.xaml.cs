@@ -32,7 +32,7 @@ namespace IGDashboardTile.Samples.Display
 
             InitializeComponent();
 
-            dashboard.IncludedProperties = "Country;Coal;Oil;Gas;Nuclear;Hydro".Split(';');            
+           // dashboard.IncludedProperties = "Country;Coal;Oil;Gas;Nuclear;Hydro".Split(';');            
         }
     }
 }
