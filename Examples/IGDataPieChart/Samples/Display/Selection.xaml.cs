@@ -33,7 +33,10 @@ namespace IGDataPieChart.WPF.Samples.Display
 
         private void selectionBehaviorCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (e.AddedItems[0] == "Single")
+            var item = e.AddedItems[0];
+            if (item == null) return;
+
+            if (item.ToString() == "Single")
             {
                 this.dataPieChart.SelectionBehavior = SeriesSelectionBehavior.PerDataItemSingleSelect;
             }
