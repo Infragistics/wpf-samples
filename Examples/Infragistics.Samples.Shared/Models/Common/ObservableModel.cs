@@ -4,6 +4,7 @@ using System.Threading;
 using System.Windows;
 using System.Runtime.Serialization;
 using System.Windows.Threading;
+using System.Runtime.CompilerServices;
 using Infragistics.Samples.Shared.Tools;
 
 namespace Infragistics.Samples.Shared.Models
@@ -40,7 +41,7 @@ namespace Infragistics.Samples.Shared.Models
         {
             OnPropertyChanged(sender, new PropertyChangedEventArgs(propertyName));
         }
-        protected virtual void OnPropertyChanged(string propertyName)
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             OnPropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
