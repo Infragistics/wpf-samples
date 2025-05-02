@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -113,11 +113,13 @@
     <Compile Include="Custom\Calculators\HighestCalculator.cs" />
     <Compile Include="Custom\Calculators\LowestCalculator.cs" />
     <Compile Include="Models\BrushPalettes.cs" />
+    <Compile Include="Models\DataAnnotation.cs" />
     <Compile Include="Models\FinancialSeriesModel.cs" />
     <Compile Include="Models\FinancialSeriesViewModel.cs" />
     <Compile Include="Models\HighVolumeDataModel.cs" />
     <Compile Include="Custom\Frameworks\MotionFramework.cs" />
     <Compile Include="Models\RealTimeDataModel.cs" />
+    <Compile Include="Models\StockTeslaData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\AssetsLocalizer.cs" />
     <Compile Include="Resources\DataChartStrings.Designer.cs">
@@ -183,6 +185,27 @@
     <Compile Include="Samples\Layers\CalloutLayer.xaml.cs">
       <DependentUpon>CalloutLayer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Samples\Layers\OverlayTextAnnotations.xaml.cs">
+      <DependentUpon>OverlayTextAnnotations.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Layers\DataAnnotationLayersCombined.xaml.cs">
+      <DependentUpon>DataAnnotationLayersCombined.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Layers\DataAnnotationBandLayerWithStocks.xaml.cs">
+      <DependentUpon>DataAnnotationBandLayerWithStocks.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Layers\DataAnnotationLineLayerWithStocks.xaml.cs">
+      <DependentUpon>DataAnnotationLineLayerWithStocks.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Layers\DataAnnotationRectLayerWithStocks.xaml.cs">
+      <DependentUpon>DataAnnotationRectLayerWithStocks.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Layers\DataAnnotationSliceLayerrWithStocks.xaml.cs">
+      <DependentUpon>DataAnnotationSliceLayerrWithStocks.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Layers\DataAnnotationStripLayerWithStocks.xaml.cs">
+      <DependentUpon>DataAnnotationStripLayerWithStocks.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Samples\Layers\DataTooltipGrouping.cs">
       <DependentUpon>DataTooltipGrouping.xaml</DependentUpon>
     </Compile>
@@ -190,7 +213,7 @@
       <DependentUpon>DataTooltipGroupingAndHighlighting.xaml</DependentUpon>
     </Compile>
     <Compile Include="Samples\Layers\DataTooltipGroupingStyling.cs">
-        <DependentUpon>DataTooltipGroupingStyling.xaml</DependentUpon>
+      <DependentUpon>DataTooltipGroupingStyling.xaml</DependentUpon>
     </Compile>
     <Compile Include="Samples\Layers\DataTooltipLayer.xaml.cs">
       <DependentUpon>DataTooltipLayer.xaml</DependentUpon>
@@ -557,6 +580,34 @@
     <Page Include="Samples\Layers\CalloutLayer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Samples\Layers\OverlayTextAnnotations.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Layers\DataAnnotationLayersCombined.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Layers\DataAnnotationBandLayerWithStocks.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Layers\DataAnnotationLineLayerWithStocks.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Layers\DataAnnotationRectLayerWithStocks.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Layers\DataAnnotationSliceLayerrWithStocks.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Layers\DataAnnotationStripLayerWithStocks.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Samples\Layers\DataTooltipGrouping.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -973,8 +1024,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
+    <PreBuildEvent>taskkill /f /fi "pid gt 0" /im Infragistics.SamplesBrowser.exe</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
