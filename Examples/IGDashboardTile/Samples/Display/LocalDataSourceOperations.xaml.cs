@@ -20,11 +20,11 @@ using System.Windows.Shapes;
 namespace IGDashboardTile.Samples.Display
 {
     /// <summary>
-    /// Interaction logic for FieldSelector.xaml
+    /// Interaction logic for LocalDataSourceOperations.xaml
     /// </summary>
-    public partial class FieldSelector : SampleContainer
+    public partial class LocalDataSourceOperations : SampleContainer
     {
-        public FieldSelector()
+        public LocalDataSourceOperations()
         {
             DataChartDashboardTileFeature.Register();
             GeographicMapDashboardTileFeature.Register();
