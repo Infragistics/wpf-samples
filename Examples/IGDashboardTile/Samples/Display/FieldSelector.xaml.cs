@@ -24,8 +24,6 @@ namespace IGDashboardTile.Samples.Display
     /// </summary>
     public partial class FieldSelector : SampleContainer
     {
-        public LocalDataSource SalesData { get; set; }
-
         public FieldSelector()
         {
             DataChartDashboardTileFeature.Register();
@@ -35,9 +33,6 @@ namespace IGDashboardTile.Samples.Display
             PieChartDashboardTileFeature.Register();
 
             InitializeComponent();
-            //RetailSalesPerformanceData data = new RetailSalesPerformanceData();
-            //this.SalesData = new LocalDataSource() { ItemsSource = data };
-            //this.DataContext = this;
         }
     }
 }
