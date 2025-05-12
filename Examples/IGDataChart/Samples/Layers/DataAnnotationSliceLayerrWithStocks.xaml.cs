@@ -26,7 +26,6 @@ namespace IGDataChart.Samples.Layers
 
             this.Chart.DataContext = dataSource;
 
-
             this.Chart.Series.Add(CreateStockSplitAnnotations(xAxisBottom));
             this.Chart.Series.Add(CreateStockEarningsMissAnnotations(xAxisBottom));
             this.Chart.Series.Add(CreateStockEarningsBeatAnnotations(xAxisBottom));
@@ -37,7 +36,6 @@ namespace IGDataChart.Samples.Layers
 
             this.Chart.Series.Add(tooltip);
         }
-
 
         public static Series CreateStockSplitAnnotations(Axis targetAxis)
         {
