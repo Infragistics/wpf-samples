@@ -1,7 +1,6 @@
 ﻿using Infragistics.Samples.Framework;
 using Infragistics.Samples.Shared.Models;
 using Infragistics.Themes;
-using Infragistics.Themes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
