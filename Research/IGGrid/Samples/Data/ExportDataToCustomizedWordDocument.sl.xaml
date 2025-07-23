@@ -1,0 +1,143 @@
+﻿<igFramework:SampleContainer x:Class="IGGrid.Samples.Data.ExportDataToCustomizedWordDocument"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="ExportDataToCustomizedWordDocument"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:res="clr-namespace:IGGrid.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGrid;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamGrid.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <res:GridStrings x:Key="Strings" />
+            <!--#BEGIN SNIPPET#-->
+            <!-- Set WordDocumentSettings (Word document metadata attributes) -->
+            <ig:WordDocumentSettings x:Key="wordDocumentSettings"
+                                     Author="{Binding ElementName=txtBox_Author, Path=Text}"
+                                     Company="{Binding ElementName=txtBox_Company, Path=Text}"
+                                     Subject="{Binding ElementName=txtBox_Subject, Path=Text}"
+                                     Title="{Binding ElementName=txtBox_Title, Path=Text}"/>
+            <!-- Set WordSectionSettings (Page Orientation, Page Margins, Page Size and etc. ) -->
+            <ig:WordSectionSettings x:Key="wordSectionSettings" />
+
+            <!-- Define default table settings -->
+            <ig:WordTableSettings x:Key="defaultTableSettings">
+                <ig:WordTableSettings.BorderSettings>
+                    <ig:WordBorderSettings Color="White" Width="0" />
+                </ig:WordTableSettings.BorderSettings>
+            </ig:WordTableSettings>
+
+            <!-- Define style for group by row -->
+            <ig:WordTableCellSettings x:Key="groupByCellSettings">
+                <ig:WordTableCellSettings.BorderSettings>
+                    <ig:WordBorderSettings Sides="Bottom" Color="#FF365F91" Width="2" />
+                </ig:WordTableCellSettings.BorderSettings>
+            </ig:WordTableCellSettings>
+
+            <!-- Define style for header row -->
+            <ig:WordTableCellSettings x:Key="headerCellSettings"
+                                      BackColor="#FFD3DFEE">
+                <ig:WordTableCellSettings.BorderSettings>
+                    <ig:WordBorderSettings Color="#FF365F91" Sides="Bottom" />
+                </ig:WordTableCellSettings.BorderSettings>
+            </ig:WordTableCellSettings>
+
+            <!-- Define style for data rows -->
+            <ig:WordTableCellSettings VerticalAlignment="Center"
+                                      x:Key="dataRowCellSettings"
+                                      >
+                <ig:WordTableCellSettings.BorderSettings>
+                    <ig:WordBorderSettings Color="#FF365F91" Sides="Bottom" />
+                </ig:WordTableCellSettings.BorderSettings>
+            </ig:WordTableCellSettings>
+
+            <ig:XamGridWordWriter x:Key="wordWriter"
+                                  ExportEnded="XamGridWordWriter_ExportEnded">
+                <!-- Define the layout settings of the exported Word document -->
+                <ig:XamGridWordWriter.ExportLayoutSettings>
+                    <ig:XamGridWordExportLayoutSettings
+                        WordDocumentSettings="{Binding Source={StaticResource wordDocumentSettings}}"
+                        DefaultSectionSettings="{Binding Source={StaticResource wordSectionSettings}}"
+                        DefaultTableSettings="{Binding Source={StaticResource defaultTableSettings}}"
+                        GroupByRowCellTableCellSettings="{Binding Source={StaticResource groupByCellSettings}}"
+                        HeaderRowTableCellSettings="{Binding Source={StaticResource headerCellSettings}}"
+                        DataRowCellTableCellSettings="{Binding Source={StaticResource dataRowCellSettings}}" />
+                </ig:XamGridWordWriter.ExportLayoutSettings>
+            </ig:XamGridWordWriter>
+            <!--#END SNIPPET#-->
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <Grid x:Name="LayoutRoot">
+        <ig:XamGrid x:Name="xamGrid" AutoGenerateColumns="False" ColumnWidth="*" >
+            <ig:XamGrid.Columns>
+                <ig:TextColumn Key="SKU" HeaderText="{Binding Path=XWG_Grid_ProductSKU, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="Name" HeaderText="{Binding Path=XWG_Grid_ProductName, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="Category" IsGroupBy="True"
+                               HeaderText="{Binding Path=XWG_Grid_ProductCategory, Source={StaticResource Strings}}"  />
+                <ig:TextColumn Key="Supplier"  HeaderText="{Binding Path=XWG_Supplier, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="QuantityPerUnit" HeaderText="{Binding Path=XWG_Data_QuantityLabel, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="UnitPrice" HeaderText="{Binding Path=XWG_Grid_UnitPrice, Source={StaticResource Strings}}"
+                               FormatString="{}{0:C}" />
+                <ig:TextColumn Key="UnitsInStock" HeaderText="{Binding Path=XWG_Data_UnitStockLabel, Source={StaticResource Strings}}" />
+            </ig:XamGrid.Columns>
+            <ig:XamGrid.GroupBySettings >
+                <ig:GroupBySettings AllowGroupByArea="Top" />
+            </ig:XamGrid.GroupBySettings>
+            <ig:XamGrid.SummaryRowSettings>
+                <ig:SummaryRowSettings AllowSummaryRow="Bottom" SummaryScope="ColumnLayout"  />
+            </ig:XamGrid.SummaryRowSettings>
+        </ig:XamGrid>
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource Strings},Path=XG_ExportToWord}"
+                               Margin="470,160,0,0">
+            <Border BorderBrush="#FF494949" BorderThickness="1" Margin="2">
+                <Grid MinWidth="200">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding Source={StaticResource Strings},Path=WordExport_DocumentSettings}"
+                               Grid.ColumnSpan="2" Grid.Row="0" Margin="3"/>
+
+                    <TextBlock Text="{Binding Source={StaticResource Strings},Path=WordExport_Author}" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Margin="3" />
+                    <TextBox x:Name="txtBox_Author" Text="" Grid.Column="1" Grid.Row="1" Margin="3" Height="22" />
+
+                    <TextBlock Text="{Binding Source={StaticResource Strings},Path=WordExport_Company}" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Margin="3"/>
+                    <TextBox x:Name="txtBox_Company" Grid.Column="1" Grid.Row="2" Margin="3" Height="22"/>
+
+                    <TextBlock Text="{Binding Source={StaticResource Strings},Path=WordExport_Title}" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" Margin="3"/>
+                    <TextBox x:Name="txtBox_Title" Grid.Column="1" Grid.Row="3" Margin="3" Height="22"/>
+
+                    <TextBlock Text="{Binding Source={StaticResource Strings},Path=WordExport_Subject}" Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" Margin="3"/>
+                    <TextBox x:Name="txtBox_Subject" Grid.Column="1" Grid.Row="4" Margin="3" Height="22"/>
+                </Grid>
+            </Border>
+            <Border BorderBrush="#FF494949" BorderThickness="1" Margin="2">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{Binding Source={StaticResource Strings},Path=WordExport_PageOrientation}"
+                               Margin="3" />
+                    <ComboBox x:Name="Combo_Orientation" Margin="3"
+                              SelectionChanged="Combo_Orientation_SelectionChanged"
+                              Width="100" HorizontalAlignment="Left" />
+                </StackPanel>
+            </Border>
+            <Button x:Name="Btn_Export" Content="{Binding Source={StaticResource Strings},Path=XWG_Excel_ButtonCaptionExport}"
+                    Click="Btn_Export_Click" Margin="2" />
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

@@ -1,0 +1,66 @@
+﻿<framework:SampleContainer x:Class="IGExcel.Samples.Display.NamedTables"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGExcel.Resources"
+    Title="NamedTables">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGExcel;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:ExcelStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+    
+    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="60" />
+        </Grid.RowDefinitions>
+
+        <ig:XamTileManager Name="xtmNamedTables" MaximizedTileLimit="1" Grid.Column="0" Grid.Row="0">
+            <ig:XamTileManager.Resources>
+                <!-- IG Styles for ms controls -->
+                <Style BasedOn="{StaticResource IGComboBoxStyle}" TargetType="ComboBox"/>
+                <Style BasedOn="{StaticResource IGRadioButtonStyle}" TargetType="RadioButton"/>
+                <Style BasedOn="{StaticResource IGCheckBoxStyle}" TargetType="CheckBox"/>
+            </ig:XamTileManager.Resources>
+            <ig:XamTileManager.MaximizedModeSettings>
+                <ig:MaximizedModeSettings
+                    AllowTileDragging="No"
+                    ShowTileAreaSplitter="False"
+                    ShowAllMinimizedTiles="True"
+                    VerticalTileAreaAlignment="Top"
+                    MaximizedTileLayoutOrder="SingleColumn"
+                    MinimizedTileExpandButtonVisibility="Collapsed"
+                    />
+            </ig:XamTileManager.MaximizedModeSettings>
+            <ig:XamTileManager.NormalModeSettings>
+                <ig:NormalModeSettings HorizontalTileAreaAlignment="Stretch" VerticalTileAreaAlignment="Stretch" />
+            </ig:XamTileManager.NormalModeSettings>
+        </ig:XamTileManager>
+
+        <Grid Grid.Column="0" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.55*" />
+                <ColumnDefinition Width="0.225*" />
+                <ColumnDefinition Width="0.225*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="{Binding Source={StaticResource Strings}, Path=NamedTables_LoadExcelDescription}"  
+                       VerticalAlignment="Center" TextWrapping="Wrap" Style="{StaticResource OptionsPanelTextStyle}" Foreground="{StaticResource ForegroundBrush}"/>
+            <!-- #BEGIN SNIPPET# -->
+            <Button x:Name="btnLoadExcel" Content="{Binding Source={StaticResource Strings}, Path=NamedTables_LoadTables}" Click="OnLoadExcelClick" 
+                    Margin="5" Width="135" Height="23" Grid.Column="1" HorizontalAlignment="Right" Style="{StaticResource IGGenericButton}"/>
+            <Button x:Name="btnExportExcel" Content="{Binding Source={StaticResource Strings}, Path=NamedTables_ExportModifications}" Click="OnExportExcelClick" 
+                    Margin="5" Width="135" Height="23" Grid.Column="2" HorizontalAlignment="Right" Style="{StaticResource IGGenericButton}"/>
+            <!-- #END SNIPPET# -->
+        </Grid>
+
+    </Grid>
+</framework:SampleContainer>

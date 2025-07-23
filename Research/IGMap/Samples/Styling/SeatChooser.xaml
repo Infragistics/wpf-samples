@@ -1,0 +1,512 @@
+﻿<igFramework:SampleContainer x:Class="IGMap.Samples.Styling.SeatChooser"
+             xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:providers="clr-namespace:Infragistics.Samples.Shared.DataProviders;assembly=Infragistics.Samples.Shared"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:resources="clr-namespace:IGMap.Resources"
+             xmlns:ig="http://schemas.infragistics.com/xaml"
+             mc:Ignorable="d"
+             d:DesignWidth="730"
+             d:DesignHeight="530" 
+             MaxWidth="820" MaxHeight="610"
+             MinWidth="730" MinHeight="530">
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGMap;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <resources:MapStrings x:Key="Strings" />
+            
+            <FontFamily x:Key="FontFamily">/Infragistics.Samples.Shared;component/fonts/#Segoe UI</FontFamily>
+            <Style x:Key="PurchaseButtonStyle" TargetType="Button">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Grid>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="FocusStates">
+                                        <VisualState x:Name="Unfocused" />
+                                        <VisualState x:Name="Focused" />
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="MouseOver" />
+                                        <VisualState x:Name="Normal" />
+                                        <VisualState x:Name="Pressed" />
+                                        <VisualState x:Name="Disabled" />
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Border Opacity="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="5,5,5,5" BorderBrush="#ff8f00" BorderThickness="1">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0.4956898790724734,0.029851453057650863" EndPoint="0.4956898790724734,0.9701485469423491">
+                                            <LinearGradientBrush.GradientStops>
+                                                <GradientStopCollection>
+                                                    <GradientStop Color="#FFff8000" Offset="0" />
+                                                    <GradientStop Color="#FFffc300" Offset="0.13888899981975555" />
+                                                    <GradientStop Color="#FFffa100" Offset="0.5333330035209656" />
+                                                    <GradientStop Color="#FFff9400" Offset="0.5388889908790588" />
+                                                    <GradientStop Color="#FFFF8200" Offset="0.9166669845581055" />
+                                                    <GradientStop Color="#FFff8000" Offset="0.9666669964790344" />
+                                                </GradientStopCollection>
+                                            </LinearGradientBrush.GradientStops>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                </Border>
+                                <Border Opacity="0.34901960784313724" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="5,5,5,5" BorderBrush="#ffffff" BorderThickness="3" />
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="1" FontSize="14" FontFamily="{StaticResource FontFamily}" TextAlignment="left" Foreground="#ffffff" FontWeight="Bold" Text="{TemplateBinding Content}" Margin="25,5,25,5" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <Grid x:Name="LayoutRoot"
+	      Margin="5"
+	      HorizontalAlignment="Stretch"
+	      VerticalAlignment="Stretch">
+		<Grid Margin="0"
+		      VerticalAlignment="Stretch"
+		      Height="Auto"
+		      Width="Auto"
+		      HorizontalAlignment="Stretch">
+			<Border Opacity="1"
+			        HorizontalAlignment="Stretch"
+			        VerticalAlignment="Stretch"
+			        Margin="0,0,0,0"
+			        CornerRadius="10,10,10,10"
+			        Background="#695d46" />
+			<Path Margin="0,0,0,0"
+			      HorizontalAlignment="Stretch"
+			      VerticalAlignment="Top"
+			      Height="107.81"
+			      Stretch="Fill"
+			      Data="M61,212 C61,212 382.69067,193.33777 549.25575,168.538 576.07682,164.54463 646.55384,152.538 673.42665,146.938 864.89237,107.03863 999.60695,134.138 999.60695,134.138 999.60695,134.138 999,286 999,286 999,286 878.7309,236.17964 629,218 368,199 61,336 61,336 61,336 61,212 61,212 z"
+			      Fill="#FF494131" />
+			<Path HorizontalAlignment="Stretch"
+			      VerticalAlignment="Top"
+			      Height="73.818"
+			      Stretch="Fill"
+			      Data="M60.999996,205.72861 C113.98236,180.85043 195.10232,198.09754 309,172 534.86288,120.2477 876.05292,134.98059 1001.8156,147.04848 1013.2067,148.14155 1009.0352,132.51662 1009.0352,132.51662 1009.0352,132.51662 419.5027,127.68945 291.92349,139 226.56492,144.79437 142.01683,150.47398 61.07815,154.67338 61.07815,154.67338 60.999996,205.72861 60.999996,205.72861 z"
+			      Fill="#FF6D675A"
+			      Margin="0,4,0,0" />
+			<Path Margin="0,4,0,0"
+			      HorizontalAlignment="Stretch"
+			      VerticalAlignment="Top"
+			      Height="67.034"
+			      Stretch="Fill"
+			      Opacity="1"
+			      Data="M61,205.29999 C114.85292,181.74072 199.69706,182.30342 309,172 552.20775,149.07407 857.65316,142.60931 1001.1174,152.23142 1006.1174,151.23142 1002.0489,143.01025 1002.0489,143.01025 1002.0489,143.01025 723.27088,125.9219 282.62955,155.58907 220.14448,159.79602 138.77469,162.5275 60.911499,166.36353 60.911499,166.36353 61,205.29999 61,205.29999 z"
+			      Fill="#ffffff" />
+			<Grid Margin="10,15,10,10"
+			      Width="130"
+			      Height="120"
+			      HorizontalAlignment="Left"
+			      VerticalAlignment="Top"
+			      Grid.Column="1">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="0.411*" />
+					<RowDefinition Height="0.589*" />
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="0.13*" />
+					<ColumnDefinition Width="0.72*" />
+					<ColumnDefinition Width="0.13*" />
+				</Grid.ColumnDefinitions>
+
+				<Grid Grid.Column="1"
+				      Grid.RowSpan="2">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="0.45*" />
+						<RowDefinition Height="0.1*" />
+						<RowDefinition Height="0.08*" />
+						<RowDefinition Height="0.08*" />
+						<RowDefinition Height="0.15*" />
+					</Grid.RowDefinitions>
+
+					<Border Opacity="1"
+					        Grid.RowSpan="4"
+					        HorizontalAlignment="Stretch"
+					        VerticalAlignment="Stretch"
+					        BorderBrush="#C1FFFFFF"
+					        BorderThickness="3"
+					        Margin="0,0,0,0"
+					        CornerRadius="22,22,13,13">
+						<Border.Background>
+							<LinearGradientBrush StartPoint="0.022727272727272728,0.09"
+							                     EndPoint="0.6590909090909091,0.44">
+								<LinearGradientBrush.GradientStops>
+									<GradientStopCollection>
+										<GradientStop Color="#FF792700"
+										              Offset="0" />
+										<GradientStop Color="#FFff712c"
+										              Offset="1" />
+									</GradientStopCollection>
+								</LinearGradientBrush.GradientStops>
+							</LinearGradientBrush>
+						</Border.Background>
+					</Border>
+
+					<Border Opacity="1"
+					        Grid.Row="1"
+					        Grid.RowSpan="2"
+					        HorizontalAlignment="Stretch"
+					        VerticalAlignment="Stretch"
+					        Margin="3"
+					        CornerRadius="6,6,6,6">
+						<Border.Background>
+							<LinearGradientBrush StartPoint="0.5,0"
+							                     EndPoint="0.5,2.25">
+								<LinearGradientBrush.GradientStops>
+									<GradientStopCollection>
+										<GradientStop Color="#00000000"
+										              Offset="0" />
+										<GradientStop Color="#FF000000"
+										              Offset="1" />
+									</GradientStopCollection>
+								</LinearGradientBrush.GradientStops>
+							</LinearGradientBrush>
+						</Border.Background>
+					</Border>
+
+					<Border Opacity="1"
+					        Grid.Row="2"
+					        Grid.RowSpan="2"
+					        HorizontalAlignment="Stretch"
+					        VerticalAlignment="Stretch"
+					        Margin="3"
+					        CornerRadius="12,12,12,12"
+					        Background="#ff712c" />
+
+					<Path Margin="3,0,3,0"
+					      Grid.Row="4"
+					      VerticalAlignment="Stretch"
+					      Stretch="Fill"
+					      Opacity="0.8588235294117647"
+					      Data="M 45,272 C45,263.71563720703125 84.84600830078125,257 134,257 183.15399169921875,257 223,263.71563720703125 223,272 223,280.28436279296875 183.15399169921875,287 134,287 84.84600830078125,287 45,280.28436279296875 45,272 z">
+						<Path.Fill>
+							<RadialGradientBrush Center="0.5,0.5"
+							                     GradientOrigin="0.5,0.5"
+							                     RadiusX="0.6"
+							                     RadiusY="0.5">
+								<RadialGradientBrush.GradientStops>
+									<GradientStopCollection>
+										<GradientStop Color="#b2ff712c"
+										              Offset="0" />
+										<GradientStop Color="#00695d46"
+										              Offset="1" />
+									</GradientStopCollection>
+								</RadialGradientBrush.GradientStops>
+							</RadialGradientBrush>
+						</Path.Fill>
+					</Path>
+
+				</Grid>
+
+				<Border Opacity="1"
+				        Grid.Column="0"
+				        HorizontalAlignment="Stretch"
+				        VerticalAlignment="Stretch"
+				        Margin="-3,0,-3,-3"
+				        CornerRadius="15"
+				        BorderBrush="#C1FFFFFF"
+				        BorderThickness="3"
+				        Grid.Row="1">
+					<Border.Background>
+						<LinearGradientBrush StartPoint="0,0"
+						                     EndPoint="0,1">
+							<LinearGradientBrush.GradientStops>
+								<GradientStopCollection>
+									<GradientStop Color="#FF333333"
+									              Offset="0" />
+									<GradientStop Color="#FF333333"
+									              Offset="0.1388999968767166" />
+									<GradientStop Color="#FF000000"
+									              Offset="1" />
+								</GradientStopCollection>
+							</LinearGradientBrush.GradientStops>
+						</LinearGradientBrush>
+					</Border.Background>
+				</Border>
+				<Border Opacity="1"
+				        Grid.Column="2"
+				        HorizontalAlignment="Stretch"
+				        VerticalAlignment="Stretch"
+				        Margin="-3,0,-3,-3"
+				        CornerRadius="15"
+				        BorderBrush="#C1FFFFFF"
+				        BorderThickness="3"
+				        Grid.Row="1">
+					<Border.Background>
+						<LinearGradientBrush StartPoint="0,0"
+						                     EndPoint="0,1">
+							<LinearGradientBrush.GradientStops>
+								<GradientStopCollection>
+									<GradientStop Color="#FF333333"
+									              Offset="0" />
+									<GradientStop Color="#FF333333"
+									              Offset="0.1388999968767166" />
+									<GradientStop Color="#FF000000"
+									              Offset="1" />
+								</GradientStopCollection>
+							</LinearGradientBrush.GradientStops>
+						</LinearGradientBrush>
+					</Border.Background>
+				</Border>
+
+			</Grid>
+
+
+			<Grid Height="141.973"
+			      HorizontalAlignment="Left"
+			      Margin="-15.924,8.689,0,0"
+			      VerticalAlignment="Top"
+			      Width="178" />
+			<Grid x:Name="logo"
+			      Height="72"
+			      HorizontalAlignment="Left"
+			      Margin="151.029,43.662,0,0"
+			      VerticalAlignment="Top"
+			      Width="299">
+				<Path Margin="1,1,0,0"
+				      VerticalAlignment="Top"
+				      Height="35"
+				      Width="298.0470886230469"
+				      Stretch="Fill"
+				      Opacity="1"
+				      Data="{Binding Path=XWM_SeatChooser_DataString1, Source={StaticResource Strings}}"
+				      Fill="#CC000000" />
+				<Path Margin="0,0,1,0"
+				      VerticalAlignment="Top"
+				      Height="35"
+				      Width="298.0470886230469"
+				      Stretch="Fill"
+				      Opacity="1"
+				      Data="{Binding Path=XWM_SeatChooser_DataString2, Source={StaticResource Strings}}">
+					<Path.Fill>
+						<LinearGradientBrush StartPoint="0.5000000511959004,0"
+						                     EndPoint="0.5000000511959004,1">
+							<LinearGradientBrush.GradientStops>
+								<GradientStopCollection>
+									<GradientStop Color="#FF0a749c"
+									              Offset="0" />
+									<GradientStop Color="#FF3ebbe8"
+									              Offset="0.7990999817848206" />
+									<GradientStop Color="#FF1fe1f1"
+									              Offset="1" />
+								</GradientStopCollection>
+							</LinearGradientBrush.GradientStops>
+						</LinearGradientBrush>
+					</Path.Fill>
+				</Path>
+				<Path Margin="0,0,1,0"
+				      VerticalAlignment="Bottom"
+				      Height="35"
+				      Width="298.0470886230469"
+				      Stretch="Fill"
+				      Opacity="1"
+				      Data="{Binding Path=XWM_SeatChooser_DataString3, Source={StaticResource Strings}}">
+					<Path.Fill>
+						<LinearGradientBrush StartPoint="0.48665758041826435,0.2857142857142857"
+						                     EndPoint="0.48665758041826435,-0.7142857142857143">
+							<LinearGradientBrush.GradientStops>
+								<GradientStopCollection>
+									<GradientStop Color="#000d98cc"
+									              Offset="0" />
+									<GradientStop Color="#FF45c5f3"
+									              Offset="1" />
+								</GradientStopCollection>
+							</LinearGradientBrush.GradientStops>
+						</LinearGradientBrush>
+					</Path.Fill>
+				</Path>
+				<Path Margin="0.242,1,1.758,0"
+				      VerticalAlignment="Top"
+				      Height="22"
+				      Width="297.1800079345703"
+				      Stretch="Fill"
+				      Opacity="1"
+				      Data="{Binding Path=XWM_SeatChooser_DataString4, Source={StaticResource Strings}}">
+					<Path.Fill>
+						<LinearGradientBrush StartPoint="0.5511979391649893,-0.4090909090909091"
+						                     EndPoint="0.5511979391649893,1.1363636363636365">
+							<LinearGradientBrush.GradientStops>
+								<GradientStopCollection>
+									<GradientStop Color="#FFffffff"
+									              Offset="0" />
+									<GradientStop Color="#FFffffff"
+									              Offset="0.45329999923706055" />
+									<GradientStop Color="#00ffffff"
+									              Offset="1" />
+								</GradientStopCollection>
+							</LinearGradientBrush.GradientStops>
+						</LinearGradientBrush>
+					</Path.Fill>
+				</Path>
+			</Grid>
+			<Grid HorizontalAlignment="Left"
+			      Height="19.153"
+			      Margin="299,82.61,0,0"
+			      VerticalAlignment="Top"
+			      Width="151">
+				<Border Opacity="1"
+				        HorizontalAlignment="Stretch"
+				        VerticalAlignment="Stretch"
+				        Margin="0,17.153,0,0"
+				        Background="#ff712c" />
+				<TextBlock Margin="0,0,2.276,3.553"
+				           Opacity="0.8"
+				           FontSize="13"
+				           FontFamily="{StaticResource FontFamily}"
+				           TextAlignment="left"
+				           Foreground="#ffffff"
+				           Text="Your Event. Your Price." />
+			</Grid>
+
+			<Border Opacity="1"
+			        HorizontalAlignment="Right"
+			        VerticalAlignment="Top"
+			        Margin="0,20,20,0"
+			        CornerRadius="10"
+			        Background="#33FFFFFF"
+			        Width="200"
+			        Height="Auto">
+
+				<StackPanel>
+					<Border CornerRadius="10,10,0,0"
+					        Background="#7FFFFFFF">
+
+						<TextBlock Margin="5"
+						           HorizontalAlignment="Stretch"
+						           VerticalAlignment="Bottom"
+						           Opacity="1"
+						           FontSize="14"
+						           FontFamily="{StaticResource FontFamily}"
+						           TextAlignment="left"
+						           Foreground="#000000"
+						           FontWeight="Bold"
+						           Text="{Binding Path=XWM_SeatChooser_EventName, Source={StaticResource Strings}}" />
+
+					</Border>
+					<TextBlock Margin="5,10,5,5"
+					           HorizontalAlignment="Stretch"
+					           VerticalAlignment="Bottom"
+					           Opacity="1"
+					           FontSize="12"
+					           FontFamily="{StaticResource FontFamily}"
+					           TextAlignment="left"
+					           Foreground="#ffffff"
+					           FontWeight="Bold"
+					           Text="{Binding Path=XWM_SeatChooser_EventDate, Source={StaticResource Strings}}" />
+					<TextBlock Margin="5"
+					           HorizontalAlignment="Stretch"
+					           VerticalAlignment="Bottom"
+					           Opacity="0.8"
+					           FontSize="12"
+					           FontFamily="{StaticResource FontFamily}"
+					           TextAlignment="left"
+					           Foreground="#ffffff"
+					           FontWeight="Normal"
+					           Text="{Binding Path=XWM_SeatChooser_EventTime, Source={StaticResource Strings}}" />
+					<TextBlock Margin="5"
+					           HorizontalAlignment="Stretch"
+					           VerticalAlignment="Bottom"
+					           Opacity="0.8"
+					           FontSize="12"
+					           FontFamily="{StaticResource FontFamily}"
+					           TextAlignment="left"
+					           Foreground="#ffffff"
+					           FontWeight="Normal"
+					           Text="{Binding Path=XWM_SeatChooser_EventLocation, Source={StaticResource Strings}}" />
+					<TextBlock Margin="5"
+					           HorizontalAlignment="Stretch"
+					           VerticalAlignment="Bottom"
+					           Opacity="1"
+					           FontSize="14"
+					           FontFamily="{StaticResource FontFamily}"
+					           TextAlignment="left"
+					           Foreground="#ffffff"
+					           FontWeight="Bold"
+					           Text="{Binding Path=XWM_SeatChooser_Directions, Source={StaticResource Strings}}"
+					           TextWrapping="Wrap" />
+
+				</StackPanel>
+			</Border>
+		</Grid>
+        <!-- #BEGIN SNIPPET# -->
+		<ig:XamMap x:Name="theMap"
+		              Width="400"
+		              Height="400"
+		              HorizontalAlignment="Left"
+		              Margin="8,0,0,16"
+		              VerticalAlignment="Bottom"
+		              WindowZoomMinimum=".1"
+		              WindowZoomMaximum="5"
+		              Background="{x:Null}"
+		              ViewportBackground="{x:Null}"
+		              ViewportBorderBrush="{x:Null}"
+		              GridDisplayMode="None"
+		              WindowAnimationMode="None"
+		              WindowScale="0.85"
+		              MapProjectionType="Equirectangular"
+                      BorderThickness="0">
+			<ig:XamMap.Resources>
+                <providers:ShapeFileProvider x:Key="ShapeFileProvider" ShapeFileRelativePath="/custom/theatre_seating_layout" />
+            </ig:XamMap.Resources>
+            <ig:XamMap.Layers>
+				<ig:MapLayer LayerName="TheatreLayer"
+				                FillMode="RandomInterpolate"
+				                Stroke="{x:Null}"
+				                StrokeThickness="0"
+				                Foreground="#FFFF0000"
+				                ShadowFill="{x:Null}"
+				                Cursor="Hand">
+					<!-- Note: Actual Shapefile is loaded in code-behind using absolute path and this XAML code is provided for your convenience -->
+					<!--<ig:MapLayer.Reader>
+                        <ig:ShapeFileReader DataMapping="Caption=ID; Value=ID"
+                                               Uri="/Shapefiles/theatre/seatingLayout" />
+                    </ig:MapLayer.Reader>-->
+				<ig:MapLayer.Reader>
+                        <ig:ShapeFileReader DataMapping="Caption=ID; Value=ID" 
+                                            Uri="{Binding ShapeFileAbsolutePath, Source={StaticResource ShapeFileProvider}}">
+                        </ig:ShapeFileReader>
+                    </ig:MapLayer.Reader>
+                </ig:MapLayer>
+			</ig:XamMap.Layers>
+		</ig:XamMap>
+        <!-- #END SNIPPET# -->
+        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,20,20" Width="200">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.339*" />
+                    <RowDefinition Height="0.326*" />
+                    <RowDefinition Height="0.335*" />
+                </Grid.RowDefinitions>
+                <Path Margin="-15,-10,-10,0" Stretch="Fill" Opacity="1" Data="M 781,233 C781,233 987,241 987,241 987,241 979,291 979,291 979,291 784,299 784,299 784,299 781,233 781,233 z" Fill="#a1e8d9" UseLayoutRounding="False" />
+                <Path Margin="-10,0,-10,-10" Grid.Row="2" Stretch="Fill" Opacity="1" Data="M 796,350 C796,350 987,347 987,347 987,347 983,393 983,393 983,393 803,388 803,388 803,388 796,350 796,350 z" Fill="#a1e8d9" UseLayoutRounding="False" />
+                <Border Background="#FF877D6B" BorderBrush="#660000" BorderThickness="3" Grid.RowSpan="3" />
+                <Border Opacity="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="3" Background="#fff6c5">
+                    <TextBlock x:Name="txtSelectedSeat" Margin="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="1" FontSize="40" FontFamily="{StaticResource FontFamily}" TextAlignment="left" Foreground="#ff712c" FontWeight="Bold" Text="{Binding Path=SeatName}" />
+                </Border>
+                <StackPanel Grid.Row="1">
+                    <TextBlock Margin="12,2,2,2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="1" FontSize="20" FontFamily="{StaticResource FontFamily}" TextAlignment="left" Foreground="#ffffff" FontWeight="Bold" Text="{Binding Path=XWM_SeatChooser_Label_Section, Source={StaticResource Strings}}" />
+                    <TextBlock x:Name="txtSectionName" Margin="12,2,2,2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="0.6" FontSize="14" FontFamily="{StaticResource FontFamily}" TextAlignment="left" Foreground="#ffffff" FontWeight="Normal" Text="{Binding Path=SeatSection}" />
+                </StackPanel>
+                <Border Opacity="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="3" Grid.Row="2" Background="#FFCFC291">
+                    <TextBlock x:Name="txtCost" Margin="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="1" FontSize="16" FontFamily="{StaticResource FontFamily}" TextAlignment="left" Foreground="#ffffff" Text="{Binding Path=SeatPrice}" />
+                </Border>
+            </Grid>
+            <Button Height="Auto" Width="Auto" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,15,5,5" Style="{StaticResource PurchaseButtonStyle}" Content="{Binding Path=XWM_SeatChooser_Label_Purchase, Source={StaticResource Strings}}" />
+            <StackPanel Orientation="Horizontal">
+                <Rectangle Width="20" Height="20" Fill="#ffffff" />
+                <TextBlock Margin="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="1" FontSize="14" FontFamily="{StaticResource FontFamily}" TextAlignment="left" Foreground="#ffffff" FontWeight="Normal" Text="{Binding Path=XWM_SeatChooser_Label_NotAvailable, Source={StaticResource Strings}}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Rectangle Width="20" Height="20" Fill="#7FFFFFFF" />
+                <TextBlock Margin="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="1" FontSize="14" FontFamily="{StaticResource FontFamily}" TextAlignment="left" Foreground="#ffffff" FontWeight="Normal" Text="{Binding Path=XWM_SeatChooser_Label_Available, Source={StaticResource Strings}}" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</igFramework:SampleContainer>

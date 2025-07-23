@@ -1,0 +1,108 @@
+﻿<framework:SampleContainer x:Class="IGDataGrid.Samples.Display.ApplyTemplatesConditionally"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:local="clr-namespace:IGDataGrid.Samples.Display"
+    xmlns:igDP="http://infragistics.com/DataPresenter"
+    xmlns:igED="http://infragistics.com/Editors"
+    xmlns:res="clr-namespace:IGDataGrid.Resources"
+    xmlns:viewModels="clr-namespace:IGDataGrid.Samples.ViewModel"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="ApplyTemplatesConditionally Page">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataGrid;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DataGridStrings x:Key="Strings" />
+            
+            <!-- #BEGIN SNIPPET# -->
+            <local:CustomDisplayTemplateSelector x:Key="customDisplaySelector" />
+            <local:CustomEditingTemplateSelector x:Key="customEditingSelector" />
+            <!-- #END SNIPPET# -->
+
+            <!-- #BEGIN SNIPPET# -->
+            <DataTemplate x:Key="displayTemplateRed">
+                <TextBlock Text="{igED:TemplateEditorValueBinding}" 
+                           Foreground="#FFD23C70"
+                           FontWeight="Bold" 
+                           HorizontalAlignment="Right" />
+            </DataTemplate>
+            <DataTemplate x:Key="displayTemplateGreen">
+                <TextBlock Text="{igED:TemplateEditorValueBinding}" 
+                           Foreground="#FF409644"
+                           FontWeight="Bold"
+                           HorizontalAlignment="Right" />
+            </DataTemplate>
+
+            <DataTemplate x:Key="editingTemplateRed">
+                <igED:XamNumericEditor Value="{igED:TemplateEditorValueBinding}"
+                                       Background="#FFD23C70" 
+                                       HorizontalAlignment="Right"
+                                       Foreground="#FFFFFFFF"/>
+            </DataTemplate>
+            <DataTemplate x:Key="editingTemplateGreen">
+                <igED:XamNumericEditor Value="{igED:TemplateEditorValueBinding}"
+                                       Background="#FF409644" 
+                                       HorizontalAlignment="Right"
+                                       Foreground="#FFFFFFFF" />
+            </DataTemplate>
+            <!-- #END SNIPPET# -->
+
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <framework:SampleContainer.DataContext>
+        <viewModels:CarsBusinessLogicExtended />
+    </framework:SampleContainer.DataContext>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <controls:OptionsPanel Margin="{StaticResource GridsSamplesBottomPadding}" Grid.Row="0" IsMovable="False"
+            HeaderText="{Binding ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}">
+            <Grid Margin="3">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Source={StaticResource Strings}, Path=XDG_Budget}" />
+                        <TextBlock Text="{Binding ElementName=budgetSlider, Path=Value}" />
+                    </StackPanel>
+                    <Slider x:Name="budgetSlider" Minimum="1000" Maximum="60000" Value="10000" MinWidth="200"
+                            MaxWidth="200" HorizontalAlignment="Left" Margin="0,10,0,0" TickFrequency="1000"
+                            IsSnapToTickEnabled="True" ValueChanged="Slider_ValueChanged" />
+                </StackPanel>
+            </Grid>
+        </controls:OptionsPanel>
+
+        <igDP:XamDataGrid Grid.Row="1" x:Name="dataGrid" DataSource="{Binding Path=Cars}" GroupByAreaLocation="None" Theme="RoyalLight">
+            <igDP:XamDataGrid.FieldLayoutSettings>
+                <igDP:FieldLayoutSettings AutoGenerateFields="False" />
+            </igDP:XamDataGrid.FieldLayoutSettings>
+            <igDP:XamDataGrid.FieldLayouts>
+                <igDP:FieldLayout>
+                    <igDP:TextField Name="Make" Label="{Binding Source={StaticResource Strings}, Path=Car_Make}" />
+                    <igDP:TextField Name="Model" Label="{Binding Source={StaticResource Strings}, Path=Car_Model}" />
+                    <igDP:NumericField Name="Milage" Label="{Binding Source={StaticResource Strings}, Path=Car_Milage}" />
+                    
+                    <!-- #BEGIN SNIPPET# -->
+                    <igDP:TemplateField Name="BasePrice"
+                        Label="{Binding Source={StaticResource Strings}, Path=XDG_Price}"
+                        DisplayTemplateSelector="{StaticResource customDisplaySelector}"
+                        EditTemplateSelector="{StaticResource customEditingSelector}" />
+                    <!-- #END SNIPPET# -->
+                    
+                </igDP:FieldLayout>
+            </igDP:XamDataGrid.FieldLayouts>
+        </igDP:XamDataGrid>
+        
+    </Grid>
+</framework:SampleContainer>

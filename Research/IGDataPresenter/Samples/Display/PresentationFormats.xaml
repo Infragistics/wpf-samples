@@ -1,0 +1,94 @@
+﻿<igFramework:SampleContainer
+    x:Class="IGDataPresenter.Samples.Display.PresentationFormats"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="300"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:igDP="http://infragistics.com/DataPresenter"
+    xmlns:igWindows="http://infragistics.com/Windows"
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+    xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+    Title="Presentation Formats">
+    
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataPresenter;component/Assets/Global.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    
+    <Grid>
+        <!-- #BEGIN SNIPPET# -->
+        <igDP:XamDataPresenter x:Name="xdp" Theme="RoyalLight" Loaded="xdp_Loaded"
+            View="{Binding ElementName=cbXdpView, Path=SelectedItem.Tag, Mode=TwoWay}">
+            
+            <igDP:XamDataPresenter.FieldSettings>
+                <igDP:FieldSettings Height="50" AutoSizeOptions="DataCells" AutoSizeScope="AllRecords" />
+            </igDP:XamDataPresenter.FieldSettings>
+            
+            <igDP:XamDataPresenter.FieldLayouts>
+                <igDP:FieldLayout>
+                    <igDP:TextField Name="Employee Name" Label="Name" Width="260" />
+                    <igDP:Field Name="History" />
+                    <igDP:Field Name="Reports" Visibility="Collapsed" />
+                </igDP:FieldLayout>
+                <igDP:FieldLayout Key="{x:Type sys:String}">
+                    <igDP:Field Name="Value" Label="Name" Width="260" />
+                </igDP:FieldLayout>
+            </igDP:XamDataPresenter.FieldLayouts>
+            
+        </igDP:XamDataPresenter>
+        <!-- #END SNIPPET# -->
+
+        <controls:OptionsPanel HorizontalAlignment="Right" VerticalAlignment="Top" Margin="50"
+            HeaderText="{Binding Source={StaticResource CommonStrings}, Path=ConfigurationPanel_Header_Options}">
+            <StackPanel Margin="5">
+                <ComboBox x:Name="cbXdpView">
+
+                    <ComboBoxItem Content="Carousel View">
+                        <ComboBoxItem.Tag>
+                            <igDP:CarouselView>
+                                <igDP:CarouselView.ViewSettings>
+                                    <igWindows:CarouselViewSettings IsListContinuous="True" ItemSize="150,150" ItemsPerPage="7">
+                                        <igWindows:CarouselViewSettings.ItemPathRenderPen>
+                                            <Pen Brush="#FFD4CDCD" />
+                                        </igWindows:CarouselViewSettings.ItemPathRenderPen>
+                                    </igWindows:CarouselViewSettings>
+                                </igDP:CarouselView.ViewSettings>
+                            </igDP:CarouselView>
+                        </ComboBoxItem.Tag>
+                    </ComboBoxItem>
+
+                    <ComboBoxItem Content="Card View">
+                        <ComboBoxItem.Tag>
+                            <igDP:CardView>
+                                <igDP:CardView.ViewSettings>
+                                    <igDP:CardViewSettings HeaderPath="email" HeaderVisibility="Visible" />
+                                </igDP:CardView.ViewSettings>
+                            </igDP:CardView>
+                        </ComboBoxItem.Tag>
+                    </ComboBoxItem>
+
+                    <ComboBoxItem Content="Grid View">
+                        <ComboBoxItem.Tag>
+                            <igDP:GridView />
+                        </ComboBoxItem.Tag>
+                    </ComboBoxItem>
+
+                    <ComboBoxItem Content="Tree View" IsSelected="True">
+                        <ComboBoxItem.Tag>
+                            <igDP:TreeView />
+                        </ComboBoxItem.Tag>
+                    </ComboBoxItem>
+
+                </ComboBox>
+            </StackPanel>
+        </controls:OptionsPanel>
+
+    </Grid>
+</igFramework:SampleContainer>

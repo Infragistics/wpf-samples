@@ -1,0 +1,110 @@
+﻿<framework:SampleContainer x:Class="IGRichTextEditor.Samples.Data.DefiningImages"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGRichTextEditor.Resources"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="DefiningImages Page">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGRichTextEditor;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/IGRichTextEditor;component/Assets/Themes.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:RichTextEditorStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamRichTextEditor x:Name="xamRichTextEditor1" Grid.Row="1" Margin="0,10,0,0" AllowDocumentViewSplitting="True"
+                              BorderThickness="1" BorderBrush="{StaticResource RichTextEditorBorderBrush}">
+            <ig:XamRichTextEditor.ClipboardSerializationProviders>
+                <ig:RtfSerializationProvider />
+                <ig:WordSerializationProvider />
+                <ig:HtmlSerializationProvider />
+            </ig:XamRichTextEditor.ClipboardSerializationProviders>
+        </ig:XamRichTextEditor>
+        <!-- #END SNIPPET# -->
+
+        <controls:OptionsPanel
+            HeaderText="{Binding ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}"
+            Margin="0,10,0,10" Grid.Row="0" IsMovable="False">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Margin="5,0,0,0">
+                    <CheckBox x:Name="cbFlipHorizontal" IsThreeState="False" Margin="0,0,0,10" Click="cb_Click"
+                        Content="{Binding Source={StaticResource Strings}, Path=lblFlipHor}" />
+                    <CheckBox x:Name="cbFlipVertical" IsThreeState="False" Margin="0,0,0,10" Click="cb_Click"
+                        Content="{Binding Source={StaticResource Strings}, Path=lblFlipVer}" />
+                    <TextBlock Text="{Binding Source={StaticResource Strings}, Path=lblRotate}" Margin="0,0,0,5"/>
+                    <Slider x:Name="slAngle" Width="100" Minimum="0" Maximum="360" Value="0" SmallChange="1" ValueChanged="slAngle_ValueChanged" />
+                </StackPanel>
+                
+                <StackPanel Margin="15,0,0,0">
+                    <TextBlock Text="{Binding Source={StaticResource Strings}, Path=lblCrop}" Margin="0 0 0 5" FontWeight="Bold" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Source={StaticResource Strings}, Path=lblTop}" MinWidth="60" />
+                        <Slider x:Name="slCropTop" Width="100" Minimum="0" Maximum="100" Value="0" SmallChange="1" ValueChanged="slCrop_ValueChanged" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0 5" >
+                        <TextBlock Text="{Binding Source={StaticResource Strings}, Path=lblBottom}" MinWidth="60" />
+                        <Slider x:Name="slCropBottom" Width="100" Minimum="0" Maximum="100" Value="0" SmallChange="1" ValueChanged="slCrop_ValueChanged" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Source={StaticResource Strings}, Path=lblLeft}" MinWidth="60" />
+                        <Slider x:Name="slCropLeft" Width="100" Minimum="0" Maximum="100" Value="0" SmallChange="1" ValueChanged="slCrop_ValueChanged" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0 5 ">
+                        <TextBlock Text="{Binding Source={StaticResource Strings}, Path=lblRight}" MinWidth="60" />
+                        <Slider x:Name="slCropRight" Width="100" Minimum="0" Maximum="100" Value="0" SmallChange="1" ValueChanged="slCrop_ValueChanged" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Margin="15,0,0,0">
+                    <TextBlock Text="{Binding Source={StaticResource Strings}, Path=lblMargins}" Margin="0 0 0 5" FontWeight="Bold"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Source={StaticResource Strings}, Path=lblTop}" MinWidth="60" />
+                        <Slider x:Name="slMarginTop" Width="100" Minimum="0" Maximum="100" Value="0" SmallChange="1" ValueChanged="slMargin_ValueChanged" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0 5">
+                        <TextBlock Text="{Binding Source={StaticResource Strings}, Path=lblBottom}" MinWidth="60" />
+                        <Slider x:Name="slMarginBottom" Width="100" Minimum="0" Maximum="100" Value="0" SmallChange="1" ValueChanged="slMargin_ValueChanged" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Source={StaticResource Strings}, Path=lblLeft}" MinWidth="60" />
+                        <Slider x:Name="slMarginLeft" Width="100" Minimum="0" Maximum="100" Value="0" SmallChange="1" ValueChanged="slMargin_ValueChanged" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0 5">
+                        <TextBlock Text="{Binding Source={StaticResource Strings}, Path=lblRight}" MinWidth="60" />
+                        <Slider x:Name="slMarginRight" Width="100" Minimum="0" Maximum="100" Value="0" SmallChange="1" ValueChanged="slMargin_ValueChanged" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Margin="15,0,0,0">
+                    <TextBlock Text="{Binding Source={StaticResource Strings}, Path=lblSize}" Margin="0 0 0 5" FontWeight="Bold" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Source={StaticResource Strings}, Path=lblWidth}" MinWidth="60" />
+                        <Slider x:Name="slStretchWidth" Width="100" Minimum="100" Maximum="1000" Value="500" SmallChange="1" ValueChanged="slStretchSize_ValueChanged" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0 5">
+                        <TextBlock Text="{Binding Source={StaticResource Strings}, Path=lblHeight}" MinWidth="60" />
+                        <Slider x:Name="slStretchHeight" Width="100" Minimum="100" Maximum="1000" Value="377" SmallChange="1" ValueChanged="slStretchSize_ValueChanged" />
+                    </StackPanel>
+                </StackPanel>
+
+            </StackPanel>
+        </controls:OptionsPanel>
+
+    </Grid>
+</framework:SampleContainer>

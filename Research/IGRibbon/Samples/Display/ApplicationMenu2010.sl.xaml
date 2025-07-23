@@ -1,0 +1,541 @@
+﻿<framework:SampleContainer x:Class="IGRibbon.Samples.Display.ApplicationMenu2010"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="AddTabsGroups"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGRibbon.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGRibbon;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamRibbonSB.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:RibbonStrings x:Key="RibbonStrings" />
+            
+            <LinearGradientBrush x:Key="Button_Normal" StartPoint="0.5,0" EndPoint="0.5,1">
+                <GradientStop Offset="0" Color="#FFFEFEFE"/>
+                <GradientStop Offset="1" Color="#FFEBEDEE"/>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="ButtonStroke_Normal" StartPoint="0.5,0" EndPoint="0.5,1">
+                <GradientStop Offset="0" Color="#FFE8E9E9"/>
+                <GradientStop Offset="1" Color="White"/>
+                <GradientStop Offset="0.988" Color="#FFAEAFB1"/>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="ButtonStroke_Hover" StartPoint="0.5,0" EndPoint="0.5,1">
+                <GradientStop Offset="0" Color="#FFF8CE57"/>
+                <GradientStop Offset="1" Color="#FFF8D52F"/>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="Button_Hover" StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Offset="0" Color="#FFffeea8"/>
+                <GradientStop Offset="0.23" Color="#FFffe47f"/>
+                <GradientStop Offset="0.5" Color="#FFffe37c"/>
+                <GradientStop Offset="0.75" Color="#FFffe994"/>
+                <GradientStop Offset="1" Color="#FFfffce0"/>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="Button_Pressed" StartPoint="0.684,-0.039" EndPoint="0.684,0.977">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Offset="1" Color="#FFF9D87C"/>
+                        <GradientStop Color="#FFF7CC6D"/>
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="ButtonStroke_Pressed" StartPoint="0.5,0" EndPoint="0.5,1">
+                <GradientStop Offset="0" Color="#FFB57C33"/>
+                <GradientStop Offset="1" Color="#FFB8A14B"/>
+            </LinearGradientBrush>
+            <Style x:Key="Office2010Button" TargetType="Button">
+                <Setter Property="Foreground" Value="#FF262626"/>
+                <Setter Property="Padding" Value="3,5"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Grid>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal"/>
+                                        <VisualState x:Name="MouseOver">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="normal" Storyboard.TargetProperty="Fill">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource Button_Hover}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="normal" Storyboard.TargetProperty="Stroke">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ButtonStroke_Hover}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <DoubleAnimation
+                                                    Duration="0"
+                                                    Storyboard.TargetName="hoverGlow"
+                                                    Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                    To="1"/>
+                                                <DoubleAnimation
+                                                    Duration="0"
+                                                    Storyboard.TargetName="highlightStroke"
+                                                    Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                    To="1"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="normal" Storyboard.TargetProperty="Fill">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource Button_Pressed}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="normal" Storyboard.TargetProperty="Stroke">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ButtonStroke_Pressed}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <DoubleAnimation
+                                                    Duration="0"
+                                                    Storyboard.TargetName="pressedGlow"
+                                                    Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                    To="1"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Disabled">
+                                            <Storyboard>
+                                                <DoubleAnimation
+                                                    Duration="0"
+                                                    Storyboard.TargetName="disabled"
+                                                    Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                    To="1"/>
+                                                <DoubleAnimation
+                                                    Duration="0"
+                                                    Storyboard.TargetName="contentPresenter"
+                                                    Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                    To="0.5"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="FocusStates">
+                                        <VisualState x:Name="Focused"/>
+                                        <VisualState x:Name="Unfocused"/>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Rectangle
+                                    x:Name="normal"
+                                    Margin="0"
+                                    Fill="{StaticResource Button_Normal}"
+                                    Opacity="1"
+                                    RadiusX="2"
+                                    RadiusY="2"
+                                    Stroke="{StaticResource ButtonStroke_Normal}"
+                                    StrokeThickness="1"/>
+                                <Rectangle
+                                    x:Name="hoverGlow"
+                                    Margin="1"
+                                    Opacity="0"
+                                    RadiusX="1"
+                                    RadiusY="1"
+                                    StrokeThickness="0">
+                                    <Rectangle.Fill>
+                                        <RadialGradientBrush Center="0.51,0.939" GradientOrigin="0.51,0.939" RadiusX="1.082">
+                                            <GradientStop Offset="0.162" Color="#E5FFFEEB"/>
+                                            <GradientStop Offset="1" Color="#00FFFEEB"/>
+                                        </RadialGradientBrush>
+                                    </Rectangle.Fill>
+                                    <Rectangle.Stroke>
+                                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                            <GradientStop Offset="0" Color="#FFF8CE57"/>
+                                            <GradientStop Offset="1" Color="#FFF8D52F"/>
+                                        </LinearGradientBrush>
+                                    </Rectangle.Stroke>
+                                </Rectangle>
+                                <Rectangle
+                                    x:Name="pressedGlow"
+                                    Margin="1"
+                                    Opacity="0"
+                                    RadiusX="1"
+                                    RadiusY="1"
+                                    StrokeThickness="0">
+                                    <Rectangle.Fill>
+                                        <RadialGradientBrush Center="0.51,0.939" GradientOrigin="0.51,0.939" RadiusX="1.082">
+                                            <GradientStop Offset="0.162" Color="#FFFEF4A1"/>
+                                            <GradientStop Offset="1" Color="#00FEF4A1"/>
+                                        </RadialGradientBrush>
+                                    </Rectangle.Fill>
+                                    <Rectangle.Stroke>
+                                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                            <GradientStop Offset="0" Color="#FFF8CE57"/>
+                                            <GradientStop Offset="1" Color="#FFF8D52F"/>
+                                        </LinearGradientBrush>
+                                    </Rectangle.Stroke>
+                                </Rectangle>
+                                <Rectangle
+                                    x:Name="disabled"
+                                    Margin="0"
+                                    Opacity="0"
+                                    RadiusX="2"
+                                    RadiusY="2"
+                                    Stroke="#9b9b9b"
+                                    StrokeThickness="1">
+                                    <Rectangle.Fill>
+                                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                            <LinearGradientBrush.GradientStops>
+                                                <GradientStopCollection>
+                                                    <GradientStop Offset="0" Color="#FFd3d3d3"/>
+                                                    <GradientStop Offset="0.961" Color="#FFA2A2A2"/>
+                                                    <GradientStop Offset="0.994" Color="#FFa1a1a1"/>
+                                                </GradientStopCollection>
+                                            </LinearGradientBrush.GradientStops>
+                                        </LinearGradientBrush>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <Rectangle
+                                    x:Name="highlightStroke"
+                                    Margin="1"
+                                    Opacity="0"
+                                    RadiusX="1"
+                                    RadiusY="1"
+                                    Stroke="#BFFFFFFF"
+                                    StrokeThickness="1"/>
+                                <ContentPresenter
+                                    x:Name="contentPresenter"
+                                    HorizontalAlignment="Center"
+                                    Margin="{TemplateBinding Padding}"
+                                    VerticalAlignment="Center"
+                                    Content="{TemplateBinding Content}"
+                                    ContentTemplate="{TemplateBinding ContentTemplate}"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Width="Auto" >
+        <ig:XamRibbon x:Name="MyRibbon" ApplicationMenuMode="Office2010">
+            <!--#BEGIN SNIPPET#-->
+            <!-- ApplicationMenu 2010 -->
+            <ig:XamRibbon.ApplicationMenu2010>
+                <ig:XamRibbonApplicationMenu2010 Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_File}">
+                    <!-- Button Tools -->
+                    <ig:ButtonTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_SaveButton}"
+                                   LargeImage="{Binding Source='Ribbon/Save16.png', Converter={StaticResource getImageConverter}}" />
+                    <ig:ButtonTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_OpenButton}"
+                                   LargeImage="{Binding Source='Ribbon/Open16.png', Converter={StaticResource getImageConverter}}" />
+                    <ig:ButtonTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_CloseButton}"
+                                   LargeImage="{Binding Source='Ribbon/Close32.png', Converter={StaticResource getImageConverter}}"/>
+
+                    <!-- Info BackStage -->
+                    <ig:Office2010ApplicationMenuTabTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Info}" Id="InfoBackStageTab">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="100"/>
+                                <RowDefinition Height="100"/>
+                                <RowDefinition Height="100"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="300"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Row="0" VerticalAlignment="Top" Grid.ColumnSpan="2" FontSize="18" Text="{Binding Source={StaticResource RibbonStrings},
+                                Path=XWR_InfoDoc}"></TextBlock>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Grid.Column="0" Grid.Row="1">
+                                <Button Width="85" Height="85" VerticalAlignment="Top" HorizontalAlignment="Left" Style="{StaticResource Office2010Button}">
+                                    <Button.ContentTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="45"/>
+                                                    <RowDefinition Height="35"/>
+                                                </Grid.RowDefinitions>
+                                                <Image Grid.Row="0" Width="32" Height="32"
+                                                       Source="{Binding Source='Ribbon/Permissions.png', Converter={StaticResource getImageConverter}}"/>
+                                                <TextBlock Grid.Row="1" TextAlignment="Center" Text="{Binding Source={StaticResource RibbonStrings},
+                                                    Path=XWR_ProductDocuments}"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </Button.ContentTemplate>
+                                </Button>
+                                <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+                                    <TextBlock Margin="10" FontWeight="Bold" Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Permissions}"/>
+                                    <TextBlock Margin="10" Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Permissions_Info}"/>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="2">
+                                <Button Width="85" Height="85" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{StaticResource Office2010Button}">
+                                    <Button.ContentTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="45"/>
+                                                    <RowDefinition Height="35"/>
+                                                </Grid.RowDefinitions>
+                                                <Image Grid.Row="0" Height="32" Width="32"
+                                                       Source="{Binding Source='Ribbon/Issues32.png', Converter={StaticResource getImageConverter}}"/>
+                                                <TextBlock Grid.Row="1" TextAlignment="Center" Text="{Binding Source={StaticResource RibbonStrings},
+                                                    Path=XWR_CheckForIssues}"></TextBlock>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </Button.ContentTemplate>
+                                </Button>
+                                <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                                    <TextBlock Margin="10" FontWeight="Bold" Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_PrepareForSharing}"/>
+                                    <TextBlock Margin="10" Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_PrepareForSharingInfo}"/>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="3">
+                                <Button Width="85" Height="85" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{StaticResource Office2010Button}">
+                                    <Button.ContentTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="45"/>
+                                                    <RowDefinition Height="35"/>
+                                                </Grid.RowDefinitions>
+                                                <Image Grid.Row="0" Height="32" Width="32"
+                                                       Source="{Binding Source='Ribbon/Versions32.png', Converter={StaticResource getImageConverter}}"/>
+                                                <TextBlock Grid.Row="1" TextAlignment="Center" Text="{Binding Source={StaticResource RibbonStrings},
+                                                    Path=XWR_ManageVersions}"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </Button.ContentTemplate>
+                                </Button>
+                                <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                                    <TextBlock Margin="10" FontWeight="Bold" Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Versions}"/>
+                                    <TextBlock Margin="10" Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_VersionsInfo}"/>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <StackPanel Grid.RowSpan="4" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                                <Grid VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,20,0,0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="150"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Image Grid.Row="0" Width="196" Height="141" VerticalAlignment="Bottom" HorizontalAlignment="Left"
+                                           Source="{Binding Source='Ribbon/PreviewDoc.png', Converter={StaticResource getImageConverter}}"/>
+                                    <StackPanel Grid.Row="1" Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left">
+                                        <TextBlock VerticalAlignment="Top"  HorizontalAlignment="Left" FontWeight="Bold"
+                                                   Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Properties}"/>
+                                        <TextBlock VerticalAlignment="Bottom"  HorizontalAlignment="Left" Text="{Binding Source={StaticResource RibbonStrings},
+                                            Path=XWR_PropertiesInfo}"/>
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+                        </Grid>
+                    </ig:Office2010ApplicationMenuTabTool>
+
+                    <!-- Recent Application Menu -->
+                    <ig:Office2010ApplicationMenuTabTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Recent}" Id="RecentApplicationMenuId">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="30"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="30"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="50"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.ColumnSpan="2" Grid.Row="0" FontSize="14" FontWeight="Bold" Text="{Binding Source={StaticResource RibbonStrings},
+                                Path=XWR_RecentDocHeader}"/>
+                            <Image Grid.Column="0" Grid.Row="1" Width="25" Height="25"
+                                   Source="{Binding Source='Ribbon/xamRibbon_BackStage_Word_Icon_01.png', Converter={StaticResource getImageConverter}}"/>
+                            <TextBlock Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_RecentDoc1}" />
+                            <Image Grid.Column="0" Grid.Row="2" Width="25" Height="25"
+                                   Source="{Binding Source='Ribbon/xamRibbon_BackStage_Word_Icon_01.png', Converter={StaticResource getImageConverter}}"/>
+                            <TextBlock Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_RecentDoc2}"/>
+                            <Image Grid.Column="0" Grid.Row="3" Width="25" Height="25"
+                                   Source="{Binding Source='Ribbon/xamRibbon_BackStage_Word_Icon_01.png', Converter={StaticResource getImageConverter}}"/>
+                            <TextBlock Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_RecentDoc3}"/>
+                            <Image Grid.Column="0" Grid.Row="4" Width="25" Height="25"
+                                   Source="{Binding Source='Ribbon/xamRibbon_BackStage_Word_Icon_01.png', Converter={StaticResource getImageConverter}}"/>
+                            <TextBlock Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_RecentDoc4}"/>
+                            <Image Grid.Column="0" Grid.Row="5" Width="25" Height="25"
+                                   Source="{Binding Source='Ribbon/xamRibbon_BackStage_Word_Icon_01.png', Converter={StaticResource getImageConverter}}"/>
+                            <TextBlock Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_RecentDoc5}"/>
+                            <Image Grid.Column="0" Grid.Row="6" Width="25" Height="25"
+                                   Source="{Binding Source='Ribbon/xamRibbon_BackStage_Word_Icon_01.png', Converter={StaticResource getImageConverter}}"/>
+                            <TextBlock Grid.Column="1" Grid.Row="6" VerticalAlignment="Center" Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_RecentDoc6}"/>
+                            <TextBlock Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="0" FontSize="14" FontWeight="Bold" Text="{Binding Source={StaticResource RibbonStrings},
+                                Path=XWR_RecentPlacesHeader}"/>
+                            <Image Grid.Column="2" Grid.Row="1" Width="25" Height="25"
+                                   Source="{Binding Source='Ribbon/xamRibbon_BackStage_Word_Icon_01.png', Converter={StaticResource getImageConverter}}"/>
+                            <TextBlock VerticalAlignment="Center" Grid.Column="3" Grid.Row="1" Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_RecentPlace1}"/>
+                            <Image Grid.Column="2" Grid.Row="2" Width="25" Height="25"
+                                   Source="{Binding Source='Ribbon/xamRibbon_BackStage_Word_Icon_01.png', Converter={StaticResource getImageConverter}}"/>
+                            <TextBlock VerticalAlignment="Center" Grid.Column="3" Grid.Row="2" Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_RecentPlace2}"/>
+                            <Image Grid.Column="2" Grid.Row="3" Width="25" Height="25"
+                                   Source="{Binding Source='Ribbon/xamRibbon_BackStage_Word_Icon_01.png', Converter={StaticResource getImageConverter}}"/>
+                            <TextBlock VerticalAlignment="Center" Grid.Column="3" Grid.Row="3" Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_RecentPlace3}"/>
+                        </Grid>
+                    </ig:Office2010ApplicationMenuTabTool>
+
+                    <!-- Help ApplicationMenu -->
+                    <ig:Office2010ApplicationMenuTabTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Help}" Id="HelpApplicationMenuId">
+                        <Grid>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="100"/>
+                                <RowDefinition Height="100"/>
+                                <RowDefinition Height="100"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" FontSize="14">Support</TextBlock>
+                            <Button Grid.Row="1" Width="300" Height="80" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{StaticResource Office2010Button}">
+                                <Button.ContentTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="45"/>
+                                                <ColumnDefinition Width="255"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Image Grid.Column="0" Source="{Binding Source='Ribbon/Help64.png', Converter={StaticResource getImageConverter}}"/>
+                                            <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
+                                                <TextBlock FontWeight="Bold" Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_InfraHelp}"/>
+                                                <TextBlock Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_InfraHelpInfo}"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </DataTemplate>
+                                </Button.ContentTemplate>
+                            </Button>
+                            <Button Grid.Row="2" Width="300" Height="80" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{StaticResource Office2010Button}">
+                                <Button.ContentTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="45"/>
+                                                <ColumnDefinition Width="255"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Image Grid.Column="0" VerticalAlignment="Top"
+                                                   Source="{Binding Source='Ribbon/CodeWindowSelect64.png', Converter={StaticResource getImageConverter}}"/>
+                                            <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
+                                                <TextBlock FontWeight="Bold" Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_GettingStarted}"/>
+                                                <TextBlock Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_GettingStartedInfo}"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </DataTemplate>
+                                </Button.ContentTemplate>
+                            </Button>
+
+                            <Button Grid.Row="3" Width="300" Height="80" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{StaticResource Office2010Button}">
+                                <Button.ContentTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="45"/>
+                                                <ColumnDefinition Width="255"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Image Grid.Column="0" VerticalAlignment="Top"
+                                                   Source="{Binding Source='Ribbon/ContactUs64.png', Converter={StaticResource getImageConverter}}"/>
+                                            <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
+                                                <TextBlock FontWeight="Bold" Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_ContactUs}"/>
+                                                <TextBlock Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_ContactUsInfo}"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </DataTemplate>
+                                </Button.ContentTemplate>
+                            </Button>
+
+                        </Grid>
+                    </ig:Office2010ApplicationMenuTabTool>
+
+                    <!-- Options Button -->
+                    <ig:ButtonTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Options}"
+                                   LargeImage="{Binding Source='Ribbon/Table16.png', Converter={StaticResource getImageConverter}}"/>
+
+                    <!-- Exit Button -->
+                    <ig:ButtonTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_ExitButton}"
+                                   LargeImage="{Binding Source='Ribbon/Delete16.png', Converter={StaticResource getImageConverter}}"/>
+                </ig:XamRibbonApplicationMenu2010>
+            </ig:XamRibbon.ApplicationMenu2010>
+            <!-- End ApplicationMenu 2010 -->
+            <!--#END SNIPPET#-->
+
+            <!--Add Tabs to XamRibbon -->
+            <ig:XamRibbon.Tabs>
+                <!-- Add Home XamRibbonTab-->
+                <ig:XamRibbonTabItem Header="{Binding Source={StaticResource RibbonStrings}, Path=XWR_HomeTab}">
+                    <!-- Add Clipboard XamRibbonGroup -->
+                    <ig:XamRibbonGroup Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Clipboard}" Id="Clipboard">
+                        <ig:ButtonTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Paste}" MaximumSize="ImageAndTextLarge"
+                                       SmallImage="{Binding Source='Ribbon/Paste16.png', Converter={StaticResource getImageConverter}}"
+                                       LargeImage="{Binding Source='Ribbon/Paste32.png', Converter={StaticResource getImageConverter}}"/>
+                        <ig:VerticalRibbonToolContainer>
+                            <ig:ButtonTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_CutButton}" Id="CutTool" MaximumSize="ImageAndTextNormal"
+                                           SmallImage="{Binding Source='Ribbon/Cut16.png', Converter={StaticResource getImageConverter}}"/>
+                            <ig:ButtonTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_CopyButton}" Id="CopyTool" MaximumSize="ImageAndTextNormal"
+                                           SmallImage="{Binding Source='Ribbon/Copy16.png', Converter={StaticResource getImageConverter}}"/>
+                            <ig:ButtonTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Delete}" Id="DeleteTool" MaximumSize="ImageAndTextNormal"
+                                           SmallImage="{Binding Source='Ribbon/Delete16.png', Converter={StaticResource getImageConverter}}"/>
+                        </ig:VerticalRibbonToolContainer>
+                    </ig:XamRibbonGroup>
+                    <!-- End Clipboard XamRibbonGroup-->
+
+                    <!-- Add Text Style XamRibbonGroup-->
+                    <ig:XamRibbonGroup Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_TextStyle}" Id="Text Style">
+                        <ig:HorizontalRibbonToolContainer MinRows="Two">
+                            <ig:ButtonTool MaximumSize="ImageOnly"
+                                           SmallImage="{Binding Source='Ribbon/LeftAlign16.png', Converter={StaticResource getImageConverter}}"/>
+                            <ig:ButtonTool MaximumSize="ImageOnly"
+                                           SmallImage="{Binding Source='Ribbon/CenterAlign16.png', Converter={StaticResource getImageConverter}}"/>
+                            <ig:ButtonTool MaximumSize="ImageOnly"
+                                           SmallImage="{Binding Source='Ribbon/RightAlign16.png', Converter={StaticResource getImageConverter}}"/>
+                            <ig:ButtonTool MaximumSize="ImageOnly"
+                                           SmallImage="{Binding Source='Ribbon/JustifyAlign16.png', Converter={StaticResource getImageConverter}}"/>
+
+                            <ig:ButtonTool Id="BoldTool" MaximumSize="ImageOnly"
+                                           SmallImage="{Binding Source='Ribbon/Bold16.png', Converter={StaticResource getImageConverter}}"/>
+                            <ig:ButtonTool Id="ItalicTool" MaximumSize="ImageOnly"
+                                           SmallImage="{Binding Source='Ribbon/Italic16.png', Converter={StaticResource getImageConverter}}"/>
+                            <ig:ButtonTool Id="UnderlineTool" MaximumSize="ImageOnly"
+                                           SmallImage="{Binding Source='Ribbon/Underline16.png', Converter={StaticResource getImageConverter}}"/>
+                        </ig:HorizontalRibbonToolContainer>
+                    </ig:XamRibbonGroup>
+                    <!-- End Text Style XamRibbonGroup-->
+                </ig:XamRibbonTabItem>
+                <!-- End Home XamRibbonTab-->
+
+                <!-- Add new Insert XamRibbonTab -->
+                <ig:XamRibbonTabItem Header="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Insert_Tab}">
+                    <!-- Add new Illustrations XamRibbonGroup -->
+                    <ig:XamRibbonGroup Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Illustrations}" Id="Illustrations">
+                        <ig:ButtonTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Chart}" MaximumSize="ImageAndTextLarge"
+                                       LargeImage="{Binding Source='Ribbon/ChartPie32.png', Converter={StaticResource getImageConverter}}"
+                                       SmallImage="{Binding Source='Ribbon/ChartPie16.png', Converter={StaticResource getImageConverter}}"/>
+                        <ig:ButtonTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Picture}" MaximumSize="ImageAndTextLarge"
+                                       LargeImage="{Binding Source='Ribbon/Picture32.png', Converter={StaticResource getImageConverter}}"
+                                       SmallImage="{Binding Source='Ribbon/Picture16.png', Converter={StaticResource getImageConverter}}"/>
+                    </ig:XamRibbonGroup>
+                    <!-- End Illustration XamRibbonGroup-->
+                </ig:XamRibbonTabItem>
+                <!-- End Insert XamRibbonTab-->
+            </ig:XamRibbon.Tabs>
+            <!-- End Tabs -->
+        </ig:XamRibbon>
+        <controls:OptionsPanel Width="Auto" HeaderText="{Binding XWR_ApplicationMenu2010Options, Source={StaticResource RibbonStrings}}" Margin="400,80,0,0">
+            <StackPanel HorizontalAlignment="Center">
+            <TextBlock x:Name="SetCaption" Margin="0,5,0,0" Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_SetCaption}" />
+            <TextBox x:Name="CurrentCaptionName" Margin="0,5,0,0" Width="180" MaxLength="25" HorizontalAlignment="Left" />
+            <Button x:Name="AddItems" Margin="0,5,0,0" Cursor="Hand" Content="{Binding Source={StaticResource RibbonStrings}, Path=XWR_SetCaption}"
+                    Click="AddItems_Click" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+
+            <TextBlock Margin="0,10,0,0" Text="{Binding XWR_SetTrimColor, Source={StaticResource RibbonStrings}}" />
+            <ComboBox x:Name="DefaultColorCombo" Height="22" Width="180" 
+                      HorizontalAlignment="Left" 
+                      DisplayMemberPath="ColorName" 
+                      SelectedValuePath="Color"
+                      SelectionChanged="DefaultColorCombo_SelectionChanged"/>
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

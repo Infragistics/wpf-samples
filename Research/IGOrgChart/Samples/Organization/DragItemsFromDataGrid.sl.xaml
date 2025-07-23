@@ -1,0 +1,131 @@
+﻿<framework:SampleContainer x:Class="IGOrgChart.Samples.Organization.DragItemsFromDataGrid"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework" 
+    xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+    xmlns:data="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Data"
+    xmlns:res="clr-namespace:IGOrgChart.Resources"
+    xmlns:model="clr-namespace:IGOrgChart.Samples.Organization"
+    xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700"
+    Title="DragItemsFromDataGrid Page">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGOrgChart;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamOrgChart.xaml" />
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.DataVisualization.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            
+            <res:OrgChartStrings x:Key="Strings" />
+            <model:SampleEmployeeModel x:Key="EmployeeModel" />
+            
+            <!--#BEGIN SNIPPET#-->
+            
+            <!--The Drop Target Style for the Nodes-->
+            <Style x:Key="DropTargetStyle" TargetType="ig:OrgChartNodeControl">
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF3BB7EB" />
+                            <GradientStop Color="#FF2582A9" Offset="1" />
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            
+            <!--#END SNIPPET#-->
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Width="Auto">
+
+        <!--#BEGIN SNIPPET#-->
+        
+        <ig:XamOrgChart x:Name="OrgChart"
+                        DataContext="{StaticResource EmployeeModel}"
+                        ItemsSource="{Binding AssignedEmployees}"
+                        NodeArrangementStrategy="Stagger"
+                        NodeControlAttachedEvent="OrgChart_NodeControlAttachedEvent">
+            
+
+            
+            <!--Make the XamOrgChart a Drop Target-->
+            <ig:DragDropManager.DropTarget>
+                <ig:DropTarget IsDropTarget="True" />
+            </ig:DragDropManager.DropTarget>
+            
+
+            
+            <ig:XamOrgChart.GlobalNodeLayouts>
+                <!--Employee Node Layout-->
+                <ig:OrgChartNodeLayout TargetTypeName="Employee"
+                                       DisplayMemberPath="FullName">
+                    
+                    <!--Set the default background for the nodes. This way, after a drag template is applied,
+                      the default style will be returned.-->
+
+                    <!--NOTE:
+                      The OrgChartNode class holds the information for a node of the OrgChart control.
+                      The OrgChartNodeControl class is a container and a visual representation of the OrgChartNode.-->
+                    <ig:OrgChartNodeLayout.NodeStyle>
+                        <Style TargetType="ig:OrgChartNodeControl" BasedOn="{StaticResource OrgChartNodeControlStyle}">
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="White" Offset="0.508"/>
+                                        <GradientStop Color="#FFC4C4C4" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ig:OrgChartNodeLayout.NodeStyle>
+                    
+                </ig:OrgChartNodeLayout>
+            </ig:XamOrgChart.GlobalNodeLayouts>
+            
+
+        </ig:XamOrgChart>
+        
+        <!--#END SNIPPET#-->
+
+        <controls:OptionsPanel HeaderText="{Binding OrgChart_DragItemsFromHere, Source={StaticResource Strings}}" >
+            <StackPanel>
+                <data:DataGrid x:Name="dataGrid" ItemsSource="{Binding UnassignedEmployees, Source={StaticResource EmployeeModel}}" AutoGenerateColumns="False" Width="150" Height="140" SelectionMode="Single" HeadersVisibility="None" >
+                    <data:DataGrid.Columns>
+                        <data:DataGridTextColumn Binding="{Binding FullName}" />
+                    </data:DataGrid.Columns>
+                    <data:DataGrid.RowStyle>
+                        <Style TargetType="data:DataGridRow" >
+                            <Setter Property="ig:DragDropManager.DragSource">
+                                <Setter.Value>
+                                    <ig:DragSource IsDraggable="True" DragStart="OnDragSourceDragStart" Drop="OnDragSourceDrop">
+                                        <ig:DragSource.DragTemplate>
+                                            <DataTemplate>
+                                                <Border DataContext="{Binding Data}" BorderThickness="1" BorderBrush="#FF617584" Background="#FFC9CACA" Opacity=".5">
+                                                    <TextBlock Text="{Binding FullName}" Margin="3" />
+                                                </Border>
+                                            </DataTemplate>
+                                        </ig:DragSource.DragTemplate>
+                                    </ig:DragSource>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </data:DataGrid.RowStyle>
+                </data:DataGrid>
+
+                <Button Content="{Binding OrgChart_Reset, Source={StaticResource Strings}}" 
+                        Click="Button_Click"
+                        Margin="0,5,0,0" 
+                        HorizontalAlignment="Center" />
+            </StackPanel>
+        </controls:OptionsPanel>
+
+    </Grid>
+</framework:SampleContainer>

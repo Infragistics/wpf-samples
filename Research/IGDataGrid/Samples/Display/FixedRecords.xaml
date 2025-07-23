@@ -1,0 +1,79 @@
+﻿<igFramework:SampleContainer x:Class="IGDataGrid.Samples.Display.FixedRecords"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="FixedRecords"
+      Loaded="Page_Loaded"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGDataGrid.Resources"
+      xmlns:System="clr-namespace:System;assembly=mscorlib">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataGrid;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DataGridStrings x:Key="Strings" />
+            <ObjectDataProvider x:Key="AllowRecordFixingValues"
+                                MethodName="GetValues"
+                                ObjectType="{x:Type System:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="igDP:AllowRecordFixing" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+            <ObjectDataProvider x:Key="FixedRecordUITypeValues"
+                                MethodName="GetValues"
+                                ObjectType="{x:Type System:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="igDP:FixedRecordUIType" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <Grid>
+        <igDP:XamDataGrid Grid.Row="1"
+                          Theme="RoyalLight"
+                          x:Name="XamDataGrid1">
+            <!-- #BEGIN SNIPPET# -->
+            <igDP:XamDataGrid.FieldLayoutSettings>
+                <igDP:FieldLayoutSettings AllowRecordFixing="Top" />
+            </igDP:XamDataGrid.FieldLayoutSettings>
+            <!-- #END SNIPPET# -->
+        </igDP:XamDataGrid>
+
+        <!-- Options Panel -->
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource CommonStrings}, Path=ConfigurationPanel_Header_Options}"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Top"
+                               Margin="50">
+            <TextBlock Text="{Binding Path=FixedRecords_ConfigArea_AllowRecordFixing, Source={StaticResource Strings}}"
+                       ToolTip="{Binding Path=FixedRecords_ConfigArea_AllowRecordFixing_Tooltip, Source={StaticResource Strings}}"
+                       VerticalAlignment="Center"
+                       MinWidth="140" Margin="{StaticResource OptionsElementsMargin}" />
+            <ComboBox ItemsSource="{Binding Source={StaticResource AllowRecordFixingValues}}"
+                      SelectedItem="{Binding Path=FieldLayoutSettings.AllowRecordFixing, ElementName=XamDataGrid1, Mode=TwoWay}"
+                      VerticalAlignment="Center"
+                      MinWidth="125"
+                      Margin="{StaticResource OptionsElementsMargin}" />
+
+            <TextBlock Grid.Row="1"
+                       Grid.Column="0"
+                       Text="{Binding Path=FixedRecords_ConfigArea_FixedRecordUIType, Source={StaticResource Strings}}"
+                       ToolTip="{Binding Path=FixedRecords_ConfigArea_FixedRecordUIType_Tooltip, Source={StaticResource Strings}}"
+                       MinWidth="140"
+                       VerticalAlignment="Center"
+                       Margin="{StaticResource OptionsElementsMargin}" />
+            <ComboBox Grid.Row="1"
+                      Grid.Column="1"
+                      ItemsSource="{Binding Source={StaticResource FixedRecordUITypeValues}}"
+                      SelectedItem="{Binding Path=FieldLayoutSettings.FixedRecordUIType, ElementName=XamDataGrid1, Mode=TwoWay}"
+                      VerticalAlignment="Center"
+                      MinWidth="125"/>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

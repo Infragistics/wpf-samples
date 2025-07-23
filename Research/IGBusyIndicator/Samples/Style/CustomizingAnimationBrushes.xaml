@@ -1,0 +1,317 @@
+﻿<igSamples:SampleContainer x:Class="IGBusyIndicator.Samples.Style.CustomizingAnimationBrushes"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:igSamples="http://schemas.infragistics.com/xaml/samples"
+             xmlns:ig="http://schemas.infragistics.com/xaml"
+             xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+             xmlns:data="clr-namespace:IGBusyIndicator.Samples.DataProviders"
+             xmlns:localResources="clr-namespace:IGBusyIndicator.Resources"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="600">
+
+    <igSamples:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGBusyIndicator;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <data:SolidColorBrushToColorValueConverter x:Key="SolidColorBrushToColorValueConverter" />
+
+            <localResources:BusyIndicatorStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </igSamples:SampleContainer.Resources>
+
+    <ScrollViewer>
+        <Grid>
+            <Grid.Resources>
+                <Style x:Key="BoxTitleStyle" TargetType="TextBlock">
+                    <Setter Property="VerticalAlignment" Value="Bottom" />
+                    <Setter Property="Margin" Value="0,0,0,10" />
+                    <Setter Property="HorizontalAlignment" Value="Left" />
+                    <Setter Property="FontSize" Value="14" />
+                </Style>
+                <Style x:Key="OverlayStyle" TargetType="Rectangle">
+                    <Setter Property="Fill" Value="#ffdddddd" />
+                    <Setter Property="Opacity" Value="0.8" />
+                </Style>
+                <Style x:Key="BusyIndicatorStyle" TargetType="ig:XamBusyIndicator">
+                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                    <Setter Property="VerticalAlignment" Value="Stretch" />
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="OverlayStyle" Value="{StaticResource OverlayStyle}"  />
+                    <Setter Property="Grid.Row" Value="1" />
+                    <Setter Property="Grid.Column" Value="0" />
+                </Style>
+                <Style TargetType="igPrim:BusyAnimationPresenter">
+                    <Setter Property="VerticalAlignment" Value="Stretch" />
+                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                    <Setter Property="Width" Value="200" />
+                    <Setter Property="Height" Value="200" />
+                    <Setter Property="Margin" Value="30" />
+                </Style>
+                <Style x:Key="BusyAnimationsStyle" TargetType="igPrim:BusyAnimationPresenter" >
+                    <Setter Property="Height" Value="100" />
+                    <Setter Property="Width" Value="100" />
+                </Style>
+                <Style TargetType="igPrim:GearsBusyAnimationPresenter" BasedOn="{StaticResource BusyAnimationsStyle}"/>
+                <Style TargetType="igPrim:SpinnerBallsBusyAnimationPresenter" BasedOn="{StaticResource BusyAnimationsStyle}"/>
+                <Style TargetType="igPrim:SpinnerBarsBusyAnimationPresenter" BasedOn="{StaticResource BusyAnimationsStyle}"/>
+                <Style TargetType="igPrim:SpinnerBarsWaveBusyAnimationPresenter" BasedOn="{StaticResource BusyAnimationsStyle}"/>
+                <Style TargetType="igPrim:SpinnerSegmentedBusyAnimationPresenter" BasedOn="{StaticResource BusyAnimationsStyle}"/>
+                <Style TargetType="igPrim:ProgressRingBusyAnimationPresenter" BasedOn="{StaticResource BusyAnimationsStyle}"/>
+                <Style TargetType="igPrim:AzureBusyAnimationPresenter" BasedOn="{StaticResource BusyAnimationsStyle}"/>
+                <Style x:Key="DropDownContainerStyle" TargetType="Grid">
+                    <Setter Property="Grid.Row" Value="1" />
+                    <Setter Property="Grid.Column" Value="1" />
+                </Style>
+                <Style TargetType="ig:XamColorPicker" >
+                    <Setter Property="Height" Value="23" />
+                    <Setter Property="Margin" Value="15,3,0,10" />
+                    <Setter Property="Grid.Column" Value="0" />
+                </Style>
+                <Style x:Key="BrushNameStyle" TargetType="TextBlock">
+                    <Setter Property="Margin" Value="15,0,0,0" />
+                    <Setter Property="Grid.ColumnSpan" Value="2" />
+                    <Setter Property="Grid.Column" Value="0" />
+                </Style>
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="10*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="10*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="20*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="20*" />
+        </Grid.ColumnDefinitions>
+
+            <Grid Grid.Row="0" Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="SpinnerBars" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource BoxTitleStyle}" />
+                <ig:XamBusyIndicator IsBusy="True" Animation="SpinnerBars" Name="SpinnerBars" Style="{StaticResource BusyIndicatorStyle}" />
+                <Grid Style="{StaticResource DropDownContainerStyle}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="AnimationFill" Style="{StaticResource BrushNameStyle}" Grid.Row="0" />
+                    <ig:XamColorPicker SelectedColor="#ff969696" Grid.Row="1"
+                                       SelectedColorPreview="{Binding ElementName=SpinnerBars, Path=AnimationPresenter.AnimationFill, Mode=TwoWay, Converter={StaticResource SolidColorBrushToColorValueConverter}}" />
+                </Grid>
+            </Grid>
+
+            <Grid Grid.Row="0" Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="SpinnerBalls" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource BoxTitleStyle}"/>
+                <ig:XamBusyIndicator IsBusy="True" Animation="SpinnerBalls" Name="SpinnerBalls" Style="{StaticResource BusyIndicatorStyle}" />
+                <Grid Style="{StaticResource DropDownContainerStyle}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="AnimationFill" Style="{StaticResource BrushNameStyle}" />
+                    <ig:XamColorPicker SelectedColor="#ff969696" Grid.Row="1"
+                                   SelectedColorPreview="{Binding ElementName=SpinnerBalls, Path=AnimationPresenter.AnimationFill, Mode=TwoWay, Converter={StaticResource SolidColorBrushToColorValueConverter}}" />
+                </Grid>
+            </Grid>
+
+            <Grid Grid.Row="0" Grid.Column="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="SpinnerBarsWave" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource BoxTitleStyle}"/>
+                <ig:XamBusyIndicator IsBusy="True" Animation="SpinnerBarsWave" Name="SpinnerBarsWave" Style="{StaticResource BusyIndicatorStyle}" />
+                <Grid Style="{StaticResource DropDownContainerStyle}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="AnimationFill" Style="{StaticResource BrushNameStyle}" />
+                    <ig:XamColorPicker SelectedColor="#ff969696" Grid.Row="1"
+                                   SelectedColorPreview="{Binding ElementName=SpinnerBarsWave, Path=AnimationPresenter.AnimationFill, Mode=TwoWay, Converter={StaticResource SolidColorBrushToColorValueConverter}}" />
+                </Grid>
+            </Grid>
+
+            <Grid Grid.Row="2" Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="SpinnerSegmented" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource BoxTitleStyle}"/>
+                <!-- #BEGIN SNIPPET# -->
+                <ig:XamBusyIndicator IsBusy="True" Animation="SpinnerSegmented" Name="SpinnerSegmented" Style="{StaticResource BusyIndicatorStyle}" />
+                <Grid Style="{StaticResource DropDownContainerStyle}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="AnimationFill" Style="{StaticResource BrushNameStyle}" />
+                    <ig:XamColorPicker SelectedColor="#ff969696" Grid.Row="1"
+                                   SelectedColorPreview="{Binding ElementName=SpinnerSegmented, Path=AnimationPresenter.AnimationFill, Mode=TwoWay, Converter={StaticResource SolidColorBrushToColorValueConverter}}" />
+                    <!-- #END SNIPPET# -->
+                </Grid>
+            </Grid>
+
+            <Grid Grid.Row="2" Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Gears" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource BoxTitleStyle}"/>
+                <ig:XamBusyIndicator IsBusy="True" Animation="Gears" Name="Gears" Style="{StaticResource BusyIndicatorStyle}" />
+                <Grid  Style="{StaticResource DropDownContainerStyle}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="BigGearFill" Grid.Row="0" Style="{StaticResource BrushNameStyle}" />                   
+                    <ig:XamColorPicker SelectedColor="#ff969696" Grid.Row="1"
+                                   SelectedColorPreview="{Binding ElementName=Gears, Path=AnimationPresenter.BigGearFill, Mode=TwoWay, Converter={StaticResource SolidColorBrushToColorValueConverter}}" />
+                    <TextBlock Text="SmallGearFill" Grid.Row="2" Style="{StaticResource BrushNameStyle}"/>
+                    <ig:XamColorPicker SelectedColor="#dd0099ff"  Grid.Row="3"
+                                   SelectedColorPreview="{Binding ElementName=Gears, Path=AnimationPresenter.SmallGearFill, Mode=TwoWay, Converter={StaticResource SolidColorBrushToColorValueConverter}}" />
+                </Grid>
+            </Grid>
+
+            <Grid Grid.Row="2" Grid.Column="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Azure" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource BoxTitleStyle}"/>
+                <ig:XamBusyIndicator IsBusy="True" Animation="Azure" Name="Azure" 
+                                     Style="{StaticResource BusyIndicatorStyle}" />
+                <Grid Style="{StaticResource DropDownContainerStyle}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBlock Text="UpperElementsFill" Grid.Row="0" Style="{StaticResource BrushNameStyle}"/>
+                    <ig:XamColorPicker SelectedColor="#FF333333" Grid.Row="1"
+                                       SelectedColorPreview="{Binding ElementName=Azure, Path=AnimationPresenter.UpperElementsFill, Mode=TwoWay, Converter={StaticResource SolidColorBrushToColorValueConverter}}"/>
+                    <TextBlock Text="LowerElementsFill" Grid.Row="2" Style="{StaticResource BrushNameStyle}" />
+                    <ig:XamColorPicker SelectedColor="#ff0099ff" Grid.Row="3"
+                                   SelectedColorPreview="{Binding ElementName=Azure, Path=AnimationPresenter.LowerElementsFill, Mode=TwoWay, Converter={StaticResource SolidColorBrushToColorValueConverter}}"/>                    
+                </Grid>
+            </Grid>
+
+            <Grid Grid.Row="4" Grid.Column="0" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="ProgressRing" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource BoxTitleStyle}"/>
+                <ig:XamBusyIndicator IsBusy="True" Animation="ProgressRing" IsIndeterminate="False" ProgressValue=".75"
+                                 Name="ProgressRing" Style="{StaticResource BusyIndicatorStyle}" />
+                <Grid Style="{StaticResource DropDownContainerStyle}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <CheckBox Name="Checkbox_IsIndeterminate" IsChecked="{Binding ElementName=ProgressRing, Path=IsIndeterminate, Mode=TwoWay}" 
+                              Content="{Binding Source={StaticResource Strings}, Path=BusyIndicator_IsIndeterminate}" Margin="15,3,0,10"
+                              Grid.ColumnSpan="2"/>
+
+                    <TextBlock Text="Background" Grid.Row="1" Style="{StaticResource BrushNameStyle}" />
+                    <ig:XamColorPicker SelectedColor="Transparent" Grid.Row="2"
+                                       SelectedColorPreview="{Binding ElementName=ProgressRing, Path=AnimationPresenter.Background, Mode=TwoWay, Converter={StaticResource SolidColorBrushToColorValueConverter}}"/>
+
+                    <TextBlock Text="Foreground" Grid.Row="3" Style="{StaticResource BrushNameStyle}" />
+                    <ig:XamColorPicker SelectedColor="#FF333333" Grid.Row="4"
+                                       SelectedColorPreview="{Binding ElementName=ProgressRing, Path=AnimationPresenter.Foreground, Mode=TwoWay, Converter={StaticResource SolidColorBrushToColorValueConverter}}"/>
+
+                    <TextBlock Text="RingBackground" Grid.Row="5" Style="{StaticResource BrushNameStyle}" />
+                    <ig:XamColorPicker SelectedColor="#ffb6b6b6" Grid.Row="6"
+                                   SelectedColorPreview="{Binding ElementName=ProgressRing, Path=AnimationPresenter.RingBackground, Mode=TwoWay, Converter={StaticResource SolidColorBrushToColorValueConverter}}"/>
+ 
+                    <TextBlock Text="RingFill" Grid.Row="7" Style="{StaticResource BrushNameStyle}"/>
+                    <ig:XamColorPicker SelectedColor="#dd0099ff" Grid.Row="8"
+                                       SelectedColorPreview="{Binding ElementName=ProgressRing, Path=AnimationPresenter.RingFill, Mode=TwoWay, Converter={StaticResource SolidColorBrushToColorValueConverter}}"/>                  
+                </Grid>
+            </Grid>     
+        </Grid>
+    </ScrollViewer>
+
+</igSamples:SampleContainer>

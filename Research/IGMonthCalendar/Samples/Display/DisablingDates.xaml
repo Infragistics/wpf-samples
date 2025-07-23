@@ -1,0 +1,169 @@
+﻿<igFramework:SampleContainer x:Class="IGMonthCalendar.Samples.Display.DisablingDates"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="DisablingDates"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igEditors="http://infragistics.com/Editors"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGMonthCalendar.Resources"
+      xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGMonthCalendar;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:MonthCalendarStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <!-- #BEGIN SNIPPET# -->
+        <igEditors:XamMonthCalendar Theme="RoyalLight"
+                                    x:Name="xamCalendar">
+            <igEditors:XamMonthCalendar.Resources>
+                <Style TargetType="{x:Type igEditors:XamMonthCalendar}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding RelativeSource={x:Static RelativeSource.Self},
+                            Path=Dispatcher.Thread.CurrentUICulture.Name}"
+                                     Value="ja-JP">
+                            <Setter Property="DayOfWeekHeaderFormat"
+                                    Value="SingleCharacter" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </igEditors:XamMonthCalendar.Resources>
+        </igEditors:XamMonthCalendar>
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource CommonStrings},
+            Path=ConfigurationPanel_Header_Options}" Grid.Column="1" IsMovable="False" UseLayoutRounding="True">
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}"/>
+            </controls:OptionsPanel.Resources>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Column="0"
+                           HorizontalAlignment="Left"
+                           Text="{Binding Source={StaticResource Strings}, Path=DisabledDates_Label}" 
+                           Style="{StaticResource OptionsPanelTitleStyle}"/>
+
+                <Border Grid.Row="1">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Source={StaticResource Strings}, Path=NewRangeStart_Label}"
+                                       VerticalAlignment="Center" />
+                            <igEditors:XamDateTimeEditor x:Name="dteNewRangeStart"
+                                                         IsAlwaysInEditMode="True"
+                                                         DisplayMode="IncludeBoth"
+                                                         Value="{x:Static sys:DateTime.Today}"
+                                                         Height="Auto"
+                                                         VerticalAlignment="Center"
+                                                         Margin="{StaticResource OptionsTextRightMargin}"
+                                                         MinWidth="75" 
+                                                         Theme="RoyalLight"/>
+                            <TextBlock Text="{Binding Source={StaticResource Strings}, Path=ConfigArea_NewRangeEnd_Label}"
+                                       VerticalAlignment="Center" />
+                            <igEditors:XamDateTimeEditor x:Name="dteNewRangeEnd"
+                                                         IsAlwaysInEditMode="True"
+                                                         DisplayMode="IncludeBoth"
+                                                         Value="{x:Static sys:DateTime.Today}"
+                                                         Height="Auto"
+                                                         VerticalAlignment="Center"
+                                                         MinWidth="75"
+                                                         Margin="{StaticResource OptionsTextLeftMargin}"
+                                                         HorizontalAlignment="Right" 
+                                                         Theme="RoyalLight"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Vertical"
+                                    VerticalAlignment="Top"
+                                    d:LayoutOverrides="Width"
+                                    Grid.Row="1"
+                                    HorizontalAlignment="Left"
+                                    Margin="186,8,0,0">
+                            <Button x:Name="btnAddRange"
+                                    Tag="{Binding Source={StaticResource Strings}, Path=AddRange_Button}"
+                                    Click="btnAddRange_Click"
+                                    Style="{DynamicResource IconButtonStyle}"
+                                    Width="Auto"
+                                    HorizontalAlignment="Stretch"
+                                    Margin="0,0,0,5">
+                                <Path Data="{StaticResource PlusIcon}" Width="8" Height="8" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=ContentControl}}" Stretch="Fill" Margin="0,0,-2,0"/>
+                            </Button>
+                            <Button x:Name="btnDeleteRanges"
+                                    Tag="{Binding Source={StaticResource Strings}, Path=DeleteRanges_Button}"
+                                    Click="btnDeleteRanges_Click"
+                                    Style="{DynamicResource IconButtonStyle}"
+                                    IsEnabled="False"
+                                    Width="Auto"
+                                    HorizontalAlignment="Stretch">
+                                <Path Data="{StaticResource MinusIcon}" Width="8" Height="2" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=ContentControl}}" Stretch="Fill" Margin="0,0,-2,0"/>
+                            </Button>
+                        </StackPanel>
+                        <Border Grid.Row="1"
+                                Height="90"
+                                Width="180"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Stretch"
+                                Margin="0 8">
+                            <ListBox x:Name="lstRanges"
+                                     Grid.Row="1"
+                                     SelectionChanged="lstRanges_SelectionChanged"
+                                     ItemsSource="{Binding Path=DisabledDates, ElementName=xamCalendar}">
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Orientation="Vertical" />
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="{x:Type ListBoxItem}">
+                                        <Setter Property="Margin"
+                                                Value="3,0" />
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                            </ListBox>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <CheckBox Grid.Row="2"
+                          VerticalAlignment="Top"
+                          HorizontalAlignment="Left"
+                          Margin="{StaticResource OptionsElementsMargin}"
+                          Content="{Binding Source={StaticResource Strings}, Path=ShowDisabledDaysOfWeek_CheckBox}"
+                          IsChecked="{Binding Path=ShowDisabledDaysOfWeek, ElementName=xamCalendar, Mode=TwoWay}" />
+
+                <TextBlock Text="{Binding Source={StaticResource Strings}, Path=DisabledDaysOfWeek_Label}"
+                           Style="{StaticResource OptionsPanelTitleStyle}"
+                           Grid.Row="3"/>
+                <controls:EnumValuesProvider Grid.Row="4" Margin="0,-5,0,0"
+                                             EnumType="ig:DayOfWeekFlags"
+                                             DisplayTemplate="CheckBoxList"
+                                             Value="{Binding Path=DisabledDaysOfWeek, ElementName=xamCalendar, Mode=TwoWay}"
+                                             HorizontalAlignment="Stretch" x:Name="flagsEnumEditor"
+                                             VerticalAlignment="Top" />
+
+            </Grid>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

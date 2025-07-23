@@ -1,0 +1,137 @@
+﻿<framework:SampleContainer x:Class="IGMultiColumnComboEditor.Samples.Editing.MCC_SelectedValueProperty"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+             xmlns:res="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared"
+             xmlns:resCombo="clr-namespace:IGMultiColumnComboEditor.Resources"
+             xmlns:viewModel="clr-namespace:IGMultiColumnComboEditor.Samples.Editing"
+             xmlns:ig="http://schemas.infragistics.com/xaml"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGMultiColumnComboEditor;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+
+            <res:CommonStrings x:Key="Strings" />
+            <resCombo:MultiColumnComboEditorStrings x:Key="ComboStrings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <framework:SampleContainer.DataContext>
+        <viewModel:PatientsDataProvider />
+    </framework:SampleContainer.DataContext>
+
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock Text="{Binding Source={StaticResource Strings}, Path=XWG_Patient_PatientInformation}"
+                   Margin="0,10" FontWeight="Bold"/>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <TextBlock Text="{Binding Source={StaticResource Strings}, Path=XWG_Patient_AdmittanceID}" 
+                       Margin="5" VerticalAlignment="Center"/>
+            <ig:XamMultiColumnComboEditor x:Name="Cmb_AdmittanceId" 
+                                          AutoGenerateColumns="False"
+                                          ItemsSource="{Binding Path=Patients}"
+                                          FilterMode="FilterOnPrimaryColumnOnly"
+                                          DisplayMemberPath="AdmittanceId"     
+                                          SelectedItem="{Binding SelectedPatient, Mode=TwoWay}"
+                                          EmptyText="{Binding Source={StaticResource ComboStrings}, Path=CE_SelectAdmittanceId}"
+                                          Height="22" Width="300"
+                                          Margin="0,5" VerticalAlignment="Center" Grid.Column="1">
+                <ig:XamMultiColumnComboEditor.Columns>
+                    <ig:TextComboColumn Key="AdmittanceId"
+                                        HeaderText="{Binding Source={StaticResource Strings}, Path=XWG_Patient_AdmittanceID}"/>
+                    <ig:TextComboColumn Key="FirstName"
+                                        HeaderText="{Binding Source={StaticResource Strings}, Path=XWG_Patient_FirstName}"/>
+                    <ig:TextComboColumn Key="LastName"
+                                        HeaderText="{Binding Source={StaticResource Strings}, Path=XWG_Patient_LastName}"/>
+                    <ig:DateComboColumn Key="DOB"
+                                        HeaderText="{Binding Source={StaticResource Strings}, Path=XWG_Patient_DOB}"/>                   
+                </ig:XamMultiColumnComboEditor.Columns>
+            </ig:XamMultiColumnComboEditor>
+
+            <TextBlock Text="{Binding Source={StaticResource Strings}, Path=XWG_Patient_FullName}"
+                       Grid.Row="1" Margin="5" VerticalAlignment="Center"/>
+
+            <ig:XamMultiColumnComboEditor x:Name="Cmb_FullName" 
+                                          ItemsSource="{Binding Path=Patients}"
+                                          AutoGenerateColumns="False"
+                                          DisplayMemberPath="FullName"
+                                          SelectedValue="{Binding Path=SelectedPatient.FullName}"
+                                          SelectedItem="{Binding SelectedPatient, Mode=TwoWay}"
+                                          EmptyText="{Binding Source={StaticResource ComboStrings}, Path=CE_SelectPatientName}"
+                                          Height="22" Width="300"
+                                          Margin="0,5" VerticalAlignment="Center" 
+                                          Grid.Row="1" Grid.Column="1">
+                <ig:XamMultiColumnComboEditor.Columns>
+                    <ig:TextComboColumn Key="AdmittanceId"
+                                        HeaderText="{Binding Source={StaticResource Strings}, Path=XWG_Patient_AdmittanceID}"/>
+                    <ig:TextComboColumn Key="FirstName"
+                                         HeaderText="{Binding Source={StaticResource Strings}, Path=XWG_Patient_FirstName}"/>
+                    <ig:TextComboColumn Key="LastName"
+                                        HeaderText="{Binding Source={StaticResource Strings}, Path=XWG_Patient_LastName}"/>
+                    <ig:TextComboColumn Key="Gender"
+                                        HeaderText="{Binding Source={StaticResource Strings}, Path=XWG_Patient_Gender}"/>
+                </ig:XamMultiColumnComboEditor.Columns>
+            </ig:XamMultiColumnComboEditor>
+
+            <TextBlock Text="{Binding Source={StaticResource Strings}, Path=XWG_Patient_Location}"
+                       Grid.Row="2" Margin="5" VerticalAlignment="Center"/>
+
+            <!-- #BEGIN SNIPPET# -->
+            <ig:XamMultiColumnComboEditor x:Name="Cmb_Location" 
+                                          AutoGenerateColumns="False"
+                                          ItemsSource="{Binding Path=Locations}"
+                                          DisplayMemberPath="RoomName"
+                                          SelectedValuePath="RoomName"
+                                          SelectedValue="{Binding Path=SelectedPatient.Location}"
+                                          Height="22" Width="300"
+                                          Margin="0,5" VerticalAlignment="Center"
+                                          Grid.Row="2" Grid.Column="1">
+                <ig:XamMultiColumnComboEditor.Columns>
+                    <ig:TextComboColumn Key="RoomName"
+                                        HeaderText="{Binding Source={StaticResource Strings}, Path=CE_RoomName}"/>
+                </ig:XamMultiColumnComboEditor.Columns>
+            </ig:XamMultiColumnComboEditor>
+            <!-- #END SNIPPET# -->
+
+            <TextBlock Text="{Binding Source={StaticResource Strings}, Path=XWG_Patient_Severity}"
+                       Grid.Row="3" Margin="5" VerticalAlignment="Center"/>
+            <ig:XamMultiColumnComboEditor x:Name="Cmb_Severity" 
+                                          AutoGenerateColumns="False"
+                                          ItemsSource="{Binding Path=SeverityLevels}" 
+                                          DisplayMemberPath="Level"
+                                          SelectedValuePath="Level"
+                                          SelectedValue="{Binding Path=SelectedPatient.Severity}" 
+                                          Height="22" Width="300" Grid.Row="3" Grid.Column="1"
+                                          Margin="0,5" VerticalAlignment="Center">
+                <ig:XamMultiColumnComboEditor.Columns>
+                    <ig:TextComboColumn Key="Level"
+                                        HeaderText="{Binding Source={StaticResource Strings},Path=CE_Level}"/>
+                </ig:XamMultiColumnComboEditor.Columns>
+            </ig:XamMultiColumnComboEditor>
+        </Grid>
+    </Grid>
+</framework:SampleContainer>

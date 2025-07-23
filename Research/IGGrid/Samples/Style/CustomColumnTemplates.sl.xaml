@@ -1,0 +1,488 @@
+﻿<framework:SampleContainer x:Class="IGGrid.Samples.Style.CustomColumnTemplates"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="CustomColumnTemplates Page"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+      xmlns:res="clr-namespace:IGGrid.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGrid;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamGrid.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:GridStrings x:Key="Strings" />
+
+            <Style x:Key="ExpansionHeaderCellStyle" TargetType="igPrim:ExpansionIndicatorHeaderCellControl">
+                <Setter Property="BorderThickness" Value="0,1,0,1"/>
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <LinearGradientBrush.GradientStops>
+                                <GradientStopCollection>
+                                    <GradientStop Offset="0" Color="#FFffcc00"/>
+                                    <GradientStop Offset="0.972" Color="#FFF19D00"/>
+                                    <GradientStop Offset="0.994" Color="#FFf19c00"/>
+                                </GradientStopCollection>
+                            </LinearGradientBrush.GradientStops>
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Foreground" Value="#FFFFFFFF"/>
+                <Setter Property="BorderBrush" Value="#FFff8f00"/>
+                <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                <Setter Property="Padding" Value="4"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="igPrim:ExpansionIndicatorHeaderCellControl">
+                            <Grid>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal" />
+                                        <VisualState x:Name="MouseOver"/>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" x:Name="NormalFill"/>
+                                <Rectangle Height="1" VerticalAlignment="Top" Fill="#FFFFEF26" Margin="0,1,0,0" />
+                                <ContentPresenter  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" d:LayoutOverrides="Width" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="ExpansionStyle"  TargetType="igPrim:ExpansionIndicatorCellControl">
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <LinearGradientBrush.GradientStops>
+                                <GradientStopCollection>
+                                    <GradientStop Offset="0" Color="#FFffffff"/>
+                                    <GradientStop Offset="0.994" Color="#FFEBEBEB"/>
+                                    <GradientStop Offset="1" Color="#FFebebeb"/>
+                                </GradientStopCollection>
+                            </LinearGradientBrush.GradientStops>
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="BorderBrush" Value="#FFDEDEDE"/>
+                <Setter Property="BorderThickness" Value="0,0,1,1"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="igPrim:ExpansionIndicatorCellControl">
+                            <Grid Background="Transparent">
+                                <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}"/>
+                                <ContentPresenter Margin="{TemplateBinding Padding}"  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" d:LayoutOverrides="Width" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                                <igPrim:ExpansionIndicator x:Name="Indicator" Visibility="Collapsed"  Margin="{TemplateBinding Padding}"  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" d:LayoutOverrides="Width" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Cursor="Hand">
+                                    <igPrim:ExpansionIndicator.Style>
+                                        <Style TargetType="igPrim:ExpansionIndicator">
+                                            <Setter Property="Foreground" Value="#ff333333"/>
+                                            <Setter Property="Width" Value="20"/>
+                                            <Setter Property="Height" Value="20"/>
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="igPrim:ExpansionIndicator">
+                                                        <Grid Background="Transparent">
+                                                            <VisualStateManager.VisualStateGroups>
+                                                                <VisualStateGroup x:Name="ExpansionStates">
+                                                                    <VisualStateGroup.Transitions>
+                                                                        <VisualTransition From="Collapsed" To="Expanded" GeneratedDuration="00:00:00.2000000"></VisualTransition>
+                                                                        <VisualTransition From="Expanded" To="Collapsed" GeneratedDuration="00:00:00.2000000"></VisualTransition>
+                                                                    </VisualStateGroup.Transitions>
+
+                                                                    <VisualState x:Name="Expanded"/>
+                                                                    <VisualState x:Name="Collapsed">
+                                                                        <Storyboard>
+                                                                            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="ExpandGlyph" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                                                                <EasingDoubleKeyFrame KeyTime="00:00:00.1500000" Value="1"/>
+                                                                            </DoubleAnimationUsingKeyFrames>
+                                                                        </Storyboard>
+                                                                    </VisualState>
+                                                                </VisualStateGroup>
+                                                            </VisualStateManager.VisualStateGroups>
+                                                            <Grid x:Name="ExpansionIndicator" Background="#00000000" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                                <Rectangle Width="9" Height="9" Stroke="#b2c3d2" StrokeThickness="1">
+                                                                    <Rectangle.Fill>
+                                                                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                                                            <LinearGradientBrush.GradientStops>
+                                                                                <GradientStopCollection>
+                                                                                    <GradientStop Offset="0" Color="#FFfcfdfd"/>
+                                                                                    <GradientStop Offset="1" Color="#FFdbe3e9"/>
+                                                                                </GradientStopCollection>
+                                                                            </LinearGradientBrush.GradientStops>
+                                                                        </LinearGradientBrush>
+                                                                    </Rectangle.Fill>
+                                                                </Rectangle>
+                                                                <Rectangle
+                                                                    x:Name="ExpandGlyph"
+                                                                    Width="1"
+                                                                    Height="5"
+                                                                    Fill="#333333"
+                                                                    Opacity="0"
+                                                                    HorizontalAlignment="Center"
+                                                                    VerticalAlignment="Center"/>
+                                                                <Rectangle x:Name="CollapseGlyph" Width="5" Height="1" Fill="#FF333333" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                            </Grid>
+                                                        </Grid>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </igPrim:ExpansionIndicator.Style>
+                                </igPrim:ExpansionIndicator>
+
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="CellStyle" TargetType="ig:CellControl">
+                <Setter Property="FontSize" Value="11" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="Background" Value="#FFFFFFFF"/>
+                <Setter Property="BorderBrush" Value="#FFDEDEDE"/>
+                <Setter Property="BorderThickness" Value="0,0,1,1"/>
+                <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                <Setter Property="Padding" Value="10,5"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ig:CellControl">
+                            <Grid>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal" />
+                                        <VisualState x:Name="MouseOver"/>
+                                        <VisualState x:Name="Alternate" >
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="AltElem" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                    <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                                                        <DiscreteObjectKeyFrame.Value>
+                                                            <Visibility>Visible</Visibility>
+                                                        </DiscreteObjectKeyFrame.Value>
+                                                    </DiscreteObjectKeyFrame>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" x:Name="Root"/>
+                                <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="#FFFFFFFF" Visibility="Collapsed" x:Name="AltElem"/>
+                                <ContentPresenter   VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="OrangeHeaderStyle" TargetType="igPrim:HeaderCellControl">
+                <Setter Property="BorderThickness" Value="0,1,0,1"/>
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <LinearGradientBrush.GradientStops>
+                                <GradientStopCollection>
+                                    <GradientStop Offset="0" Color="#FFffcc00"/>
+                                    <GradientStop Offset="0.972" Color="#FFF19D00"/>
+                                    <GradientStop Offset="0.994" Color="#FFf19c00"/>
+                                </GradientStopCollection>
+                            </LinearGradientBrush.GradientStops>
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Foreground" Value="#FFFFFFFF"/>
+                <Setter Property="BorderBrush" Value="#FFff8f00"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="igPrim:HeaderCellControl">
+                            <igPrim:SimpleClickableContainer
+                                x:Name="NormalFill"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                                <ig:Commanding.Commands>
+                                    <ig:XamGridColumnCommandSource CommandType="Select" EventName="SimpleClick"/>
+                                    <ig:XamGridColumnCommandSource CommandType="SortToggle" EventName="SimpleClick"/>
+                                </ig:Commanding.Commands>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto">
+                                        </ColumnDefinition>
+                                        <ColumnDefinition>
+                                        </ColumnDefinition>
+                                        <ColumnDefinition Width="Auto">
+                                        </ColumnDefinition>
+                                        <ColumnDefinition Width="Auto">
+                                        </ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Rectangle
+                                        Height="1"
+                                        Grid.ColumnSpan="4"
+                                        VerticalAlignment="Top"
+                                        Fill="#FFFFEF26"/>
+                                    <ContentPresenter
+                                        Grid.Column="1"
+                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        Margin="{TemplateBinding Padding}"
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        d:LayoutOverrides="Width"/>
+                                    <Path
+                                        x:Name="SortedDescending"
+                                        Grid.Column="2"
+                                        HorizontalAlignment="Right"
+                                        Margin="0,0,5,0"
+                                        VerticalAlignment="Center"
+                                        Data="M 0 0 L 4 4 L 8 0 Z"
+                                        Fill="#FFFFFFFF"
+                                        Opacity="0"/>
+                                    <Path
+                                        x:Name="SortedAscending"
+                                        Grid.Column="2"
+                                        HorizontalAlignment="Right"
+                                        Margin="0,0,5,0"
+                                        VerticalAlignment="Center"
+                                        Data="M0,4 L8,4 L4,0 z"
+                                        Fill="#FFFFFFFF"
+                                        Opacity="0"/>
+                                    <Grid
+                                        x:Name="FixedIndicator"
+                                        Grid.Column="3"
+                                        Margin="0,0,5,0"
+                                        Background="Transparent"
+                                        Cursor="Hand"
+                                        Visibility="Collapsed">
+                                        <Grid x:Name="PinnedIndicator" Background="Transparent" Visibility="Collapsed">
+                                            <Path
+                                                Width="7"
+                                                Height="10"
+                                                Data="M 6,4 C6,4 8,4 8,4 8,4 8,9 8,9 8,9 6,9 6,9 6,9 6,4 6,4 zM 5,3 C5,3 5,9 5,9 5,9 4,9 4,9 4,9 4,10 4,10 4,10 7,10 7,10 7,10 7,13 7,13 7,13 8,13 8,13 8,13 8,10 8,10 8,10 11,10 11,10 11,10 11,9 11,9 11,9 10,9 10,9 10,9 10,3 10,3 10,3 5,3 5,3 z"
+                                                Fill="#FFFFFFFF"
+                                                Opacity="1"
+                                                Stretch="Fill"/>
+                                            <ig:Commanding.Command>
+                                                <ig:XamGridColumnCommandSource CommandType="Unfix" EventName="MouseLeftButtonDown">
+                                                </ig:XamGridColumnCommandSource>
+                                            </ig:Commanding.Command>
+                                        </Grid>
+                                        <Grid x:Name="UnpinnedIndicator" Background="Transparent" Visibility="Collapsed">
+                                            <Path
+                                                Width="10"
+                                                Height="7"
+                                                Data="M 12,7 C12,7 12,9 12,9 12,9 7,9 7,9 7,9 7,7 7,7 7,7 12,7 12,7 zM 13,6 C13,6 7,6 7,6 7,6 7,5 7,5 7,5 6,5 6,5 6,5 6,8 6,8 6,8 3,8 3,8 3,8 3,9 3,9 3,9 6,9 6,9 6,9 6,12 6,12 6,12 7,12 7,12 7,12 7,11 7,11 7,11 13,11 13,11 13,11 13,6 13,6 z"
+                                                Fill="#FFFFFFFF"
+                                                Opacity="1"
+                                                Stretch="Fill"/>
+                                            <ig:Commanding.Command>
+                                                <ig:XamGridColumnCommandSource CommandType="Fix" EventName="MouseLeftButtonDown">
+                                                </ig:XamGridColumnCommandSource>
+                                            </ig:Commanding.Command>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal"/>
+                                        <VisualState x:Name="MouseOver">
+                                            <Storyboard>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Moving">
+                                            <Storyboard>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="FixedStates">
+                                        <VisualState x:Name="Unfixed"/>
+                                        <VisualState x:Name="Fixed"/>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="FixedIndicatorStates">
+                                        <VisualState x:Name="NotFixable"/>
+                                        <VisualState x:Name="Pinned">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="PinnedIndicator" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                    <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                                                        <DiscreteObjectKeyFrame.Value>
+                                                            <Visibility>Visible
+
+                                                            </Visibility>
+                                                        </DiscreteObjectKeyFrame.Value>
+                                                    </DiscreteObjectKeyFrame>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="FixedIndicator" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                    <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                                                        <DiscreteObjectKeyFrame.Value>
+                                                            <Visibility>Visible
+
+                                                            </Visibility>
+                                                        </DiscreteObjectKeyFrame.Value>
+                                                    </DiscreteObjectKeyFrame>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Unpinned">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="UnpinnedIndicator" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                    <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                                                        <DiscreteObjectKeyFrame.Value>
+                                                            <Visibility>Visible
+
+                                                            </Visibility>
+                                                        </DiscreteObjectKeyFrame.Value>
+                                                    </DiscreteObjectKeyFrame>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="FixedIndicator" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                    <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                                                        <DiscreteObjectKeyFrame.Value>
+                                                            <Visibility>Visible
+
+                                                            </Visibility>
+                                                        </DiscreteObjectKeyFrame.Value>
+                                                    </DiscreteObjectKeyFrame>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="SortedStates">
+                                        <VisualState x:Name="NotSorted">
+                                        </VisualState>
+                                        <VisualState x:Name="Ascending">
+                                            <Storyboard>
+                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SortedAscending" Storyboard.TargetProperty="Opacity">
+                                                    <SplineDoubleKeyFrame KeyTime="0" Value="1"/>
+                                                </DoubleAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Descending">
+                                            <Storyboard>
+                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SortedDescending" Storyboard.TargetProperty="Opacity">
+                                                    <SplineDoubleKeyFrame KeyTime="0" Value="1"/>
+                                                </DoubleAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="SelectedStates">
+                                        <VisualState x:Name="NotSelected"/>
+                                        <VisualState x:Name="Selected">
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="ActiveStates">
+                                        <VisualState x:Name="InActive"/>
+                                        <VisualState x:Name="Active">
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                            </igPrim:SimpleClickableContainer>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Width="Auto" >
+        <!--#BEGIN SNIPPET#-->
+        <ig:XamGrid
+            x:Name="dataGrid"
+            AutoGenerateColumns="false"
+            RowHover="None"
+            CellStyle="{StaticResource CellStyle}"
+            HeaderStyle="{StaticResource OrangeHeaderStyle}"
+            IsAlternateRowsEnabled="False">
+            <ig:XamGrid.ColumnResizingSettings>
+                <ig:ColumnResizingSettings
+                    AllowCellAreaResizing="True"
+                    AllowColumnResizing="Indicator"
+                    AllowDoubleClickToSize="True"
+                    AllowMultipleColumnResize="True"/>
+            </ig:XamGrid.ColumnResizingSettings>
+            <ig:XamGrid.Columns>
+                <ig:TextColumn Key="Name" Width="160">
+                    <ig:TextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=XWG_Products_Name, Source={StaticResource Strings}}"/>
+                        </DataTemplate>
+                    </ig:TextColumn.HeaderTemplate>
+                </ig:TextColumn>
+                <ig:TextColumn Key="Description" Width="250">
+                    <ig:TextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=XWG_Products_Description, Source={StaticResource Strings}}"/>
+                        </DataTemplate>
+                    </ig:TextColumn.HeaderTemplate>
+                </ig:TextColumn>
+                <ig:TextColumn Key="Price" Width="100">
+                    <ig:TextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=XWG_Products_Price, Source={StaticResource Strings}}"/>
+                        </DataTemplate>
+                    </ig:TextColumn.HeaderTemplate>
+                </ig:TextColumn>
+                <ig:ColumnLayout Key="Categories" HeaderVisibility="Collapsed" >
+                    <ig:ColumnLayout.Columns>
+                        <ig:TextColumn Key="Name" Width="130" />
+                        <ig:TextColumn Key="Description" Width="250" />
+                        <ig:TextColumn Key="Price"  Width="100"/>
+                        <ig:ColumnLayout Key="Products" HeaderVisibility="Collapsed" >
+                            <ig:ColumnLayout.Columns>
+                                <ig:TemplateColumn Key="ImageUrl" Width="130">
+                                    <ig:TemplateColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="ImageUrl" />
+                                        </DataTemplate>
+                                    </ig:TemplateColumn.HeaderTemplate>
+                                    <ig:TemplateColumn.ItemTemplate>
+                                        <DataTemplate>
+                                            <Image Source="{Binding Path=ImageUrl}" Stretch="Uniform" MaxWidth="90"/>
+                                        </DataTemplate>
+                                    </ig:TemplateColumn.ItemTemplate>
+                                </ig:TemplateColumn>
+                                <ig:TemplateColumn Key="SKU" >
+                                    <ig:TemplateColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="SKU" />
+                                        </DataTemplate>
+                                    </ig:TemplateColumn.HeaderTemplate>
+                                    <ig:TemplateColumn.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock FontWeight="Bold" Foreground="#FF666666" Margin="0,0,5,0" Text="{Binding Path=Designer}"/>
+                                                    <TextBlock Foreground="#FF666666" Text="("/>
+                                                    <TextBlock Foreground="#FF666666" Text="{Binding Path=SKU}"/>
+                                                    <TextBlock Foreground="#FF666666" Text=")"/>
+                                                </StackPanel>
+                                                <StackPanel Margin="10,0,0,0" Orientation="Horizontal">
+                                                    <TextBlock FontWeight="Bold" Foreground="#FF666666" Text="{Binding Path=XMG_CustomTemplates_InStock, Source={StaticResource Strings}}"/>
+                                                    <TextBlock Foreground="#FF666666" Margin="5,0,0,0" Text="{Binding Path=InStock}"/>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ig:TemplateColumn.ItemTemplate>
+                                </ig:TemplateColumn>
+                                <ig:TextColumn Key="UnitPrice" FormatString="{}{0:C}" Width="100" />
+                            </ig:ColumnLayout.Columns>
+                        </ig:ColumnLayout>
+                    </ig:ColumnLayout.Columns>
+                </ig:ColumnLayout>
+            </ig:XamGrid.Columns>
+            <ig:XamGrid.ExpansionIndicatorSettings>
+                <ig:ExpansionIndicatorSettings Style="{StaticResource ExpansionStyle}"  HeaderStyle="{StaticResource ExpansionHeaderCellStyle}"></ig:ExpansionIndicatorSettings>
+            </ig:XamGrid.ExpansionIndicatorSettings>
+            <ig:XamGrid.FillerColumnSettings>
+                <ig:FillerColumnSettings HeaderStyle="{StaticResource OrangeHeaderStyle}"/>
+            </ig:XamGrid.FillerColumnSettings>
+            <ig:XamGrid.SortingSettings>
+                <ig:SortingSettings AllowSorting="False" />
+            </ig:XamGrid.SortingSettings>
+        </ig:XamGrid>
+        <!--#END SNIPPET#-->
+    </Grid>
+</framework:SampleContainer>

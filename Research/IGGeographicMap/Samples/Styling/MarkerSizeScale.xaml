@@ -1,0 +1,108 @@
+﻿<framework:SampleContainer x:Class="IGGeographicMap.Samples.Styling.MarkerSizeScale"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      xmlns:converters="clr-namespace:IGGeographicMap.Converters"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:providers="clr-namespace:Infragistics.Samples.Shared.DataProviders;assembly=Infragistics.Samples.Shared"
+      xmlns:resources="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared" 
+	  xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+	  xmlns:strings="clr-namespace:IGGeographicMap.Resources" 
+	  xmlns:custom="clr-namespace:IGGeographicMap.Models"
+	  xmlns:extensions="clr-namespace:IGGeographicMap.Extensions">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGeographicMap;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <strings:AssetsLocalizer x:Key="AssetsLocalizer" />
+            <strings:MapStrings x:Key="MapStrings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.Resources>
+            <resources:ModelStrings x:Key="ModelStrings" />
+ 
+        </Grid.Resources>
+        <ig:XamGeographicMap x:Name="GeoMap"
+                             OverviewPlusDetailPaneVisibility="Collapsed"
+                             Zoomable="True" PlotAreaBackground="{StaticResource GeoMapSbPlotAreaBackgroundBrush}">
+            <ig:XamGeographicMap.Series>
+                <!--GeographicSymbolSeries with item source of locations of Earthquakes in the world -->
+                <ig:GeographicProportionalSymbolSeries x:Name="SymbolSeries" ItemsSource="{Binding}" 
+                                           LatitudeMemberPath="Fields[lat]" Thickness="2"
+                                           LongitudeMemberPath="Fields[lon]"  
+                                           RadiusMemberPath="Fields[magnitude]" 
+                                           FillMemberPath="Fields[magnitude]">
+                    <!-- #BEGIN SNIPPET# -->
+                    <!-- ========================================================================== -->
+                    <!-- RadiusScale determines the size of symbol based on a data column mapped to RadiusMemberPath -->
+                    <ig:GeographicProportionalSymbolSeries.RadiusScale>
+                        <ig:SizeScale MaximumValue="50" MinimumValue="5" IsLogarithmic="False" LogarithmBase="2"/>
+                    </ig:GeographicProportionalSymbolSeries.RadiusScale>
+                    <!-- ========================================================================== -->
+                    <!-- #END SNIPPET# -->
+                    <ig:GeographicProportionalSymbolSeries.FillScale>
+                        <ig:ValueBrushScale MaximumValue="10" MinimumValue="5" IsLogarithmic="False"   >
+                            <ig:ValueBrushScale.Brushes>
+                                <ig:BrushCollection>
+                                    <SolidColorBrush Color="{StaticResource Color_032}" />
+                                    <SolidColorBrush Color="{StaticResource Color_031}" />
+                                    <SolidColorBrush Color="{StaticResource Color_020}" />
+                                </ig:BrushCollection>
+                            </ig:ValueBrushScale.Brushes>
+                        </ig:ValueBrushScale>
+                    </ig:GeographicProportionalSymbolSeries.FillScale>  
+                    <!-- custom tooltip with bindings to database file (DBF) where ConverterParameter holds name of a column -->
+                    <ig:GeographicProportionalSymbolSeries.ToolTip>
+                            <StackPanel Margin="4">
+                                <TextBlock Text="{Binding Path=XWM_Earthquake, Source={StaticResource ModelStrings}}" FontWeight="Bold" Margin="2" Foreground="{StaticResource ForegroundBrush}" />
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock Text="{Binding Path=XWM_Magnitude, Source={StaticResource ModelStrings}}" Margin="2" />
+                                    <TextBlock Text="{Binding Path=Item.Fields[magnitude], StringFormat=0.0}" Foreground="{StaticResource ForegroundBrush}" Margin="4,2,2,2" />
+                                </StackPanel>
+                            </StackPanel>
+                    </ig:GeographicProportionalSymbolSeries.ToolTip>
+                </ig:GeographicProportionalSymbolSeries>
+            </ig:XamGeographicMap.Series>
+        </ig:XamGeographicMap>
+        <TextBlock x:Name="MapDataSource" Text="{Binding Path=XW_Source_USGS, Source={StaticResource CommonStrings}}" Style="{StaticResource SourceDataTextBoxStyle}"  />
+        <TextBlock x:Name="OpenSourceCopyright" Text="{Binding Path=XW_OpenSourceCopyright, Source={StaticResource CommonStrings}}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Style="{StaticResource SourceTextblockStyle}"  />
+       
+        <controls:OptionsPanel HeaderText="{Binding Path=XWGM_GeoMarkerSizeScale, Source={StaticResource MapStrings}}"
+                               Margin="5" VerticalAlignment="Top" HorizontalAlignment="Right">
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}"/>
+            </controls:OptionsPanel.Resources>
+            <StackPanel>
+                <!-- Radius Scale -->
+                <StackPanel Orientation="Vertical"  Grid.Row="1" Grid.ColumnSpan="2">
+                    <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="0">
+                        <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}">
+                            <TextBlock Text="{Binding Path=CommonStrings.XW_Minimum, Source={StaticResource AssetsLocalizer}}" VerticalAlignment="Center" />
+                            <TextBlock Text=":" VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding ElementName=radiusMinSlider, Path=Value, StringFormat='0'}" Width="80" VerticalAlignment="Center" />
+                        </StackPanel>
+                        <Slider x:Name="radiusMinSlider" Value="2" Minimum="2" Maximum="20" HorizontalAlignment="Stretch" ValueChanged="radiusMinSlider_ValueChanged" Margin="{StaticResource OptionsElementsMargin}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="1">
+                        <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}">
+                            <TextBlock Text="{Binding Path=CommonStrings.XW_Maximum, Source={StaticResource AssetsLocalizer}}" VerticalAlignment="Center" />
+                            <TextBlock Text=":" VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding ElementName=radiusMaxSlider, Path=Value, StringFormat='0'}" Width="80" VerticalAlignment="Center" />
+                        </StackPanel>
+                        <Slider x:Name="radiusMaxSlider" Value="35" Minimum="20" Maximum="50" HorizontalAlignment="Stretch" ValueChanged="radiusMaxSlider_ValueChanged" />
+                    </StackPanel>
+                </StackPanel>
+
+            </StackPanel>
+       
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

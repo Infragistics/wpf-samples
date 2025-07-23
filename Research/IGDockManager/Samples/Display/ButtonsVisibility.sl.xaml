@@ -1,0 +1,137 @@
+﻿<igFramework:SampleContainer x:Class="IGDockManager.Samples.Display.ButtonsVisibility"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="Infragistics XAML Control Sample"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+      xmlns:res="clr-namespace:IGDockManager.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDockManager;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DockManagerStrings x:Key="Strings" />
+            <igPrim:BoolToVisibilityConverter x:Key="boolToVisibility" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <!--#BEGIN SNIPPET#-->
+        <ig:XamDockManager x:Name="xamDockManager">
+            <ig:XamDockManager.Content>
+                <ig:DocumentContentHost>
+                    <ig:DocumentContentHost.Panes>
+                        <ig:TabGroupPane>
+                            <ig:ContentPane Header="{Binding Source={StaticResource Strings},Path=Docking_StartPage}"
+                                            IsActivePane="True"
+                                            IsDocumentPane="True"
+                                            AllowClose="False" CloseButtonVisibility="Collapsed">
+                                <ig:ContentPane.Content>
+                                    <Grid>
+                                        <Image Source="{Binding Source='Backgrounds/LightBlue.jpg', 
+                                            Converter={StaticResource getImageConverter}}" Stretch="UniformToFill" />
+
+                                        <StackPanel Orientation="Vertical" Margin="30">
+                                            <TextBlock Text="{Binding Source={StaticResource Strings},Path=Docking_BtnVisability_Desc}"                                                       
+                                                       Height="30" FontWeight="Bold"/>
+                                            <CheckBox x:Name="Chb_CloseBtnVisibility" IsChecked="True"
+                                                      Style="{StaticResource IGCheckBoxStyle}"
+                                                      Content="{Binding Source={StaticResource Strings},Path=Docking_CloseBtn}" />
+                                            <CheckBox x:Name="Chb_PinBtnVisibility" IsChecked="True"
+                                                      Style="{StaticResource IGCheckBoxStyle}"
+                                                      Content="{Binding Source={StaticResource Strings},Path=Docking_PinBtn}" />
+                                            <CheckBox x:Name="Chb_WinPosBtnVisibility" IsChecked="True"
+                                                      Style="{StaticResource IGCheckBoxStyle}"
+                                                      Content="{Binding Source={StaticResource Strings},Path=Docking_WinPosBtn}" />
+                                        </StackPanel>
+                                    </Grid>
+                                </ig:ContentPane.Content>
+                            </ig:ContentPane>
+                        </ig:TabGroupPane>
+                    </ig:DocumentContentHost.Panes>
+                </ig:DocumentContentHost>
+            </ig:XamDockManager.Content>
+            <ig:XamDockManager.Panes>
+                <ig:SplitPane Location="Right" Orientation="Vertical"
+                              Width="200">
+                    <ig:TabGroupPane Location="Top"
+                                     CloseButtonVisibility="{Binding ElementName=Chb_CloseBtnVisibility, Path=IsChecked, Converter={StaticResource boolToVisibility}}"
+                                     WindowPositionMenuVisibility="{Binding ElementName=Chb_WinPosBtnVisibility, Path=IsChecked, Converter={StaticResource boolToVisibility}}">
+                        <ig:ContentPane
+                            Header="{Binding Source={StaticResource Strings},Path=Docking_SolutionExplorer}"
+                            IsActivePane="True"
+                            CloseButtonVisibility="{Binding ElementName=Chb_CloseBtnVisibility, Path=IsChecked, Converter={StaticResource boolToVisibility}}"
+                            PinButtonVisibility="{Binding ElementName=Chb_PinBtnVisibility, Path=IsChecked, Converter={StaticResource boolToVisibility}}"
+                            WindowPositionMenuVisibility="{Binding ElementName=Chb_WinPosBtnVisibility, Path=IsChecked, Converter={StaticResource boolToVisibility}}"/>
+                        <ig:ContentPane
+                            Header="{Binding Source={StaticResource Strings},Path=Docking_TeamExplorer}"
+                            CloseButtonVisibility="{Binding ElementName=Chb_CloseBtnVisibility, Path=IsChecked, Converter={StaticResource boolToVisibility}}"
+                            PinButtonVisibility="{Binding ElementName=Chb_PinBtnVisibility, Path=IsChecked, Converter={StaticResource boolToVisibility}}"
+                            WindowPositionMenuVisibility="{Binding ElementName=Chb_WinPosBtnVisibility, Path=IsChecked, Converter={StaticResource boolToVisibility}}"/>
+                    </ig:TabGroupPane>
+                    <ig:ContentPane
+                        Header="{Binding Source={StaticResource Strings},Path=Docking_Properties}"
+                        Location="Bottom"
+                        CloseButtonVisibility="{Binding ElementName=Chb_CloseBtnVisibility, Path=IsChecked, Converter={StaticResource boolToVisibility}}"
+                        PinButtonVisibility="{Binding ElementName=Chb_PinBtnVisibility, Path=IsChecked, Converter={StaticResource boolToVisibility}}"
+                        WindowPositionMenuVisibility="{Binding ElementName=Chb_WinPosBtnVisibility, Path=IsChecked, Converter={StaticResource boolToVisibility}}"/>
+                </ig:SplitPane>
+                <ig:TabGroupPane Location="Bottom"
+                                 Height="200"
+                                 CloseButtonVisibility="{Binding ElementName=Chb_CloseBtnVisibility, Path=IsChecked, Converter={StaticResource boolToVisibility}}"
+                                 WindowPositionMenuVisibility="{Binding ElementName=Chb_WinPosBtnVisibility, Path=IsChecked, Converter={StaticResource boolToVisibility}}">
+                    <ig:ContentPane
+                        Header="{Binding Source={StaticResource Strings},Path=Docking_ErrorList}"
+                        CloseButtonVisibility="{Binding ElementName=Chb_CloseBtnVisibility, Path=IsChecked, Converter={StaticResource boolToVisibility}}"
+                        PinButtonVisibility="{Binding ElementName=Chb_PinBtnVisibility, Path=IsChecked, Converter={StaticResource boolToVisibility}}"
+                        WindowPositionMenuVisibility="{Binding ElementName=Chb_WinPosBtnVisibility, Path=IsChecked, Converter={StaticResource boolToVisibility}}" />
+                    <ig:ContentPane
+                        Header="{Binding Source={StaticResource Strings},Path=Docking_Output}"
+                        IsActivePane="True"
+                        CloseButtonVisibility="{Binding ElementName=Chb_CloseBtnVisibility, Path=IsChecked, Converter={StaticResource boolToVisibility}}"
+                        PinButtonVisibility="{Binding ElementName=Chb_PinBtnVisibility, Path=IsChecked, Converter={StaticResource boolToVisibility}}"
+                        WindowPositionMenuVisibility="{Binding ElementName=Chb_WinPosBtnVisibility, Path=IsChecked, Converter={StaticResource boolToVisibility}}"
+                        x:Name="CP_Output">
+                        <ig:ContentPane.Content>
+                            <Grid Margin="5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="22" />
+                                    <RowDefinition Height="22" />
+                                    <RowDefinition Height="22" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding Source={StaticResource Strings},Path=Docking_CloseBtnVisibility}"
+                                           Grid.Column="0" Grid.Row="0" />
+                                <TextBlock Text="{Binding ElementName=CP_Output, Path=CloseButtonVisibility}"
+                                           Grid.Column="1" Grid.Row="0" />
+                                <TextBlock Text="{Binding Source={StaticResource Strings},Path=Docking_PinBtnVisibility}"
+                                           Grid.Column="0" Grid.Row="1" />
+                                <TextBlock Text="{Binding ElementName=CP_Output, Path=PinButtonVisibility}"
+                                           Grid.Column="1" Grid.Row="1" />
+                                <TextBlock Text="{Binding Source={StaticResource Strings},Path=Docking_WinPosBtnVisibility}"
+                                           Grid.Column="0" Grid.Row="2" />
+                                <TextBlock Text="{Binding ElementName=CP_Output, Path=WindowPositionMenuVisibility}"
+                                           Grid.Column="1" Grid.Row="2" />
+                            </Grid>
+                        </ig:ContentPane.Content>
+                    </ig:ContentPane>
+                    <ig:ContentPane
+                        Header="{Binding Source={StaticResource Strings},Path=Docking_History}"
+                        CloseButtonVisibility="{Binding ElementName=Chb_CloseBtnVisibility, Path=IsChecked, Converter={StaticResource boolToVisibility}}"
+                        PinButtonVisibility="{Binding ElementName=Chb_PinBtnVisibility, Path=IsChecked, Converter={StaticResource boolToVisibility}}"
+                        WindowPositionMenuVisibility="{Binding ElementName=Chb_WinPosBtnVisibility, Path=IsChecked, Converter={StaticResource boolToVisibility}}"/>
+                </ig:TabGroupPane>
+            </ig:XamDockManager.Panes>
+        </ig:XamDockManager>
+        <!--#END SNIPPET#-->
+    </Grid>
+</igFramework:SampleContainer>

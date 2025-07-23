@@ -1,0 +1,61 @@
+﻿<framework:SampleContainer x:Class="IGGrid.Samples.Display.RowSelectorsAndNumbering"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="RowSelectorsAndNumbering Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+      xmlns:res="clr-namespace:IGGrid.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGrid;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:GridStrings x:Key="Strings" />
+            <igPrim:VisibilityToBoolValueConverter x:Key="BoolToVisibilityConverter"/>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        
+        <ig:XamGrid x:Name="dataGrid" AutoGenerateColumns="False" ColumnWidth="*">
+            <!-- #BEGIN SNIPPET# -->
+            <ig:XamGrid.RowSelectorSettings>
+                <ig:RowSelectorSettings x:Name="rowSelectorSettings" Visibility="Visible"
+                                        EnableRowNumbering="True"/>
+            </ig:XamGrid.RowSelectorSettings>
+            <!-- #END SNIPPET# -->
+            <ig:XamGrid.Columns>
+                <ig:TextColumn Key="MLS" HeaderText="{Binding Path=XWG_Property_MLS, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="ListingDate" FormatString="{}{0:d}"
+                               HeaderText="{Binding Path=XWG_Property_ListingDate, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="Price" FormatString="{}{0:C}"
+                               HeaderText="{Binding Path=XWG_Property_Price, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="SqFeet" FormatString="{}{0:N0}"
+                               HeaderText="{Binding Path=XWG_Property_SqFeet, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="NumberOfBedRooms"
+                               HeaderText="{Binding Path=XWG_Property_NumberOfBedRooms, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="NumberOfBathRooms"
+                               HeaderText="{Binding Path=XWG_Property_NumberOfBathRooms, Source={StaticResource Strings}}" />
+            </ig:XamGrid.Columns>
+        </ig:XamGrid>
+
+        <controls:OptionsPanel Width="200" HeaderText="{Binding XWG_Config_Options, Source={StaticResource Strings}}" Margin="400,80,0,0">
+            <CheckBox x:Name="HideRowSelector"
+                      IsChecked="{Binding ElementName=dataGrid, Path=RowSelectorSettings.Visibility, Converter={StaticResource BoolToVisibilityConverter}, Mode=TwoWay}"
+                      Content="{Binding Path=XWG_Config_RowSelectors, Source={StaticResource Strings}}"
+                      Margin="{StaticResource OptionsElementsMargin}"/>
+            <CheckBox x:Name="DisplayRowNumbers"
+                      IsEnabled="{Binding ElementName=HideRowSelector, Path=IsChecked}"
+                      IsChecked="{Binding ElementName=dataGrid, Path=RowSelectorSettings.EnableRowNumbering, Mode=TwoWay}"
+                      Content="{Binding Path=XWG_Config_DisplayRowNumber, Source={StaticResource Strings}}" />
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

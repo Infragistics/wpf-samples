@@ -1,0 +1,116 @@
+﻿<igFramework:SampleContainer 
+    x:Class="IGDataChart.Samples.Display.Series.GalleryScatterPolylineSeries"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700" 
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ex="clr-namespace:Infragistics.Samples.Controls;assembly=Infragistics.Samples.Services"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+    xmlns:local="clr-namespace:IGDataChart.Samples.Display.Series">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <models:SimpleNetworkGraph x:Key="SimpleNetworkGraph"/>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <ig:XamDataChart x:Name="DataChart"
+                         Title="{Binding XWDC_Organization_Chart_Title, Source={StaticResource Strings}}"
+                         Subtitle="{Binding XWDC_Organization_Chart_Subtitle, Source={StaticResource Strings}}">
+            <ig:XamDataChart.Axes>
+                <ig:NumericXAxis x:Name="XAxis">
+                    <ig:NumericXAxis.LabelSettings>
+                        <ig:AxisLabelSettings Visibility="Collapsed"/>
+                    </ig:NumericXAxis.LabelSettings>
+                </ig:NumericXAxis>
+                <ig:NumericYAxis x:Name="YAxis">
+                    <ig:NumericYAxis.LabelSettings>
+                        <ig:AxisLabelSettings Visibility="Collapsed"/>
+                    </ig:NumericYAxis.LabelSettings>
+                </ig:NumericYAxis>
+            </ig:XamDataChart.Axes>
+
+            <ig:XamDataChart.Series>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:ScatterPolylineSeries
+                    x:Name="ScatterPolylineSeries"
+                    ItemsSource="{Binding Source={StaticResource SimpleNetworkGraph}, Path=Graph}"
+                    XAxis="{Binding ElementName=XAxis}" 
+                    YAxis="{Binding ElementName=YAxis}"
+                    ShapeMemberPath="Points">
+                </ig:ScatterPolylineSeries>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+                <ig:BubbleSeries
+                    x:Name="DepartmentNodes"
+                    ItemsSource="{Binding Source={StaticResource SimpleNetworkGraph}, Path=Departments}"
+                    XMemberPath="X"
+                    YMemberPath="Y"
+                    RadiusMemberPath="Size"
+                    XAxis="{Binding ElementName=XAxis}"
+                    YAxis="{Binding ElementName=YAxis}"
+                    MarkerType="Circle">
+                    <ig:BubbleSeries.RadiusScale>
+                        <ig:SizeScale MinimumValue="70"/>
+                    </ig:BubbleSeries.RadiusScale>
+                </ig:BubbleSeries>
+                <ig:BubbleSeries
+                    x:Name="EmployeeNodes" 
+                    ItemsSource="{Binding Source={StaticResource SimpleNetworkGraph}, Path=Employees}"
+                    XMemberPath="X"
+                    YMemberPath="Y"
+                    RadiusMemberPath="Size"
+                    XAxis="{Binding ElementName=XAxis}"
+                    YAxis="{Binding ElementName=YAxis}"
+                    MarkerType="Circle">
+                    <ig:BubbleSeries.RadiusScale>
+                        <ig:SizeScale MinimumValue="30"/>
+                    </ig:BubbleSeries.RadiusScale>
+                </ig:BubbleSeries>
+                <ig:ScatterSeries
+                    x:Name="DepartmentLabels"
+                    ItemsSource="{Binding Source={StaticResource SimpleNetworkGraph}, Path=Departments}"
+                    XMemberPath="X"
+                    YMemberPath="Y"
+                    XAxis="{Binding ElementName=XAxis}"
+                    YAxis="{Binding ElementName=YAxis}">
+                    <ig:ScatterSeries.MarkerTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <TextBlock Text="{Binding Path=Item.Label}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ig:ScatterSeries.MarkerTemplate>
+                </ig:ScatterSeries>
+                <ig:ScatterSeries
+                    x:Name="EmployeeLabels"
+                    ItemsSource="{Binding Source={StaticResource SimpleNetworkGraph}, Path=Employees}"
+                    XMemberPath="X"
+                    YMemberPath="Y"
+                    XAxis="{Binding ElementName=XAxis}"
+                    YAxis="{Binding ElementName=YAxis}">
+                    <ig:ScatterSeries.MarkerTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <TextBlock Text="{Binding Path=Item.Label}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ig:ScatterSeries.MarkerTemplate>
+                </ig:ScatterSeries>
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+    </Grid>
+</igFramework:SampleContainer>

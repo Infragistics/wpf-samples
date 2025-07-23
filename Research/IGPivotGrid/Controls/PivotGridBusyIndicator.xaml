@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="IGPivotGrid.Samples.Controls.PivotGridBusyIndicator"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700">
+
+    <Popup x:Name="popup">
+        <Grid x:Name="LayoutRoot" Background="White" Opacity="0.6">
+            <Image x:Name="busyImage"
+                   Source="/IGPivotGrid;component/Images/PivotGridBusyIndicator.png"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"
+                   Stretch="None" RenderTransformOrigin="0.5,0.5"
+                   Width="25" Height="25">
+                <Image.RenderTransform>
+                    <RotateTransform x:Name="rotateTransform" />
+                </Image.RenderTransform>
+                <Image.Triggers>
+                    <EventTrigger RoutedEvent="Image.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation
+                                    Storyboard.TargetName="rotateTransform"
+                                    Storyboard.TargetProperty="Angle"
+                                    From="0"
+                                    To="360"
+                                    Duration="0:0:1"
+                                    RepeatBehavior="Forever" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Image.Triggers>
+            </Image>
+        </Grid>
+    </Popup>
+</UserControl>

@@ -1,0 +1,82 @@
+﻿<framework:SampleContainer x:Class="IGPropertyGrid.Samples.Editing.XamDataCarouselIntegration"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:data="clr-namespace:Infragistics.Samples.Shared.Models.DataPresenter;assembly=Infragistics.Samples.Shared"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:igDP="http://infragistics.com/DataPresenter"
+    xmlns:igWindows="http://infragistics.com/Windows"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="XamDataCarousel Integration Page">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGPropertyGrid;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/IGPropertyGrid;component/Assets/Themes.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <ObjectDataProvider x:Key="odpObjectDataProvider1" ObjectType="{x:Type data:EmployeeData}" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <igDP:XamDataCarousel x:Name="xamDataCarousel1" Theme="RoyalLight" Grid.Column="0" GroupByAreaLocation="None"
+                              HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                              DataSource="{Binding Source={StaticResource odpObjectDataProvider1}, Path=EmployeeDataCollection}">
+            <igDP:XamDataCarousel.FieldLayoutSettings>
+                <igDP:FieldLayoutSettings AutoGenerateFields="False" />
+            </igDP:XamDataCarousel.FieldLayoutSettings>
+            <igDP:XamDataCarousel.FieldLayouts>
+                <igDP:FieldLayout>
+                    <igDP:FieldLayout.FieldSettings>
+                        <igDP:FieldSettings AllowEdit="False" />
+                    </igDP:FieldLayout.FieldSettings>
+                    <igDP:FieldLayout.Fields>
+                        <igDP:Field Name="EmployeeName" />
+                        <igDP:Field Name="Photo" />
+                        <igDP:Field Name="Department" />
+                    </igDP:FieldLayout.Fields>
+                </igDP:FieldLayout>
+            </igDP:XamDataCarousel.FieldLayouts>
+            <igDP:XamDataCarousel.ViewSettings>
+                <igWindows:CarouselViewSettings IsListContinuous="True" ItemsPerPage="7" OpacityEffectStopDirection="UseItemPath"
+                    ScalingEffectStopDirection="UseItemPath" UseOpacity="True" ItemPathPadding="0,0,0,152" ItemPathPrefixPercent="0"
+                    ItemPathSuffixPercent="0.15" ItemSize="128,128">
+                    <igWindows:CarouselViewSettings.ItemPathRenderPen>
+                        <Pen Brush="#FF000000" Thickness="0" />
+                    </igWindows:CarouselViewSettings.ItemPathRenderPen>
+                    <igWindows:CarouselViewSettings.OpacityEffectStops>
+                        <igWindows:OpacityEffectStopCollection>
+                            <igWindows:OpacityEffectStop Value="0" />
+                            <igWindows:OpacityEffectStop Offset="0.1" />
+                            <igWindows:OpacityEffectStop Offset="0.6" Value="1" />
+                            <igWindows:OpacityEffectStop Offset="1" Value="0.1" />
+                        </igWindows:OpacityEffectStopCollection>
+                    </igWindows:CarouselViewSettings.OpacityEffectStops>
+                    <igWindows:CarouselViewSettings.ScalingEffectStops>
+                        <igWindows:ScalingEffectStopCollection>
+                            <igWindows:ScalingEffectStop Value="0" />
+                            <igWindows:ScalingEffectStop Offset="0.45" Value="0.8" />
+                            <igWindows:ScalingEffectStop Offset="0.55" Value="2" />
+                            <igWindows:ScalingEffectStop Offset="0.65" Value="0.8" />
+                            <igWindows:ScalingEffectStop Offset="1" Value="0.2" />
+                        </igWindows:ScalingEffectStopCollection>
+                    </igWindows:CarouselViewSettings.ScalingEffectStops>
+                </igWindows:CarouselViewSettings>
+            </igDP:XamDataCarousel.ViewSettings>
+        </igDP:XamDataCarousel>
+
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamPropertyGrid Grid.Column="1" Width="400" SelectedObject="{Binding ElementName=xamDataCarousel1, Path=ActiveDataItem}" />
+        <!-- #END SNIPPET# -->
+
+    </Grid>
+</framework:SampleContainer>

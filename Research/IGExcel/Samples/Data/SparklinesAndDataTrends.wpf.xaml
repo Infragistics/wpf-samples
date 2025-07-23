@@ -1,0 +1,119 @@
+﻿<framework:SampleContainer x:Class="IGExcel.Samples.Data.SparklinesAndDataTrends"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:igDP="http://infragistics.com/DataPresenter" 
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+    xmlns:resCommon="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:data="clr-namespace:IGSparkline.Model;assembly=IGSparkline"
+    xmlns:sparklineres="clr-namespace:IGSparkline.Resources;assembly=IGSparkline"
+    xmlns:res="clr-namespace:IGExcel.Resources"
+    mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700"
+    xmlns:local="clr-namespace:IGExcel.Samples.Data"
+    Title="Sparklines And Data Trends">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSparkline;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Local Resources -->
+            <resCommon:CommonStrings x:Key="CommonStrings"/>
+            <sparklineres:SparklineStrings x:Key="SparklineStrings"/>
+            <res:ExcelStrings x:Key="ExcelStrings"/>
+            <data:TestData x:Key="testdata"/>
+
+            <local:SourceConverter x:Key="sourceConverter" />
+            
+        </ResourceDictionary>
+        
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+
+            <!-- #BEGIN SNIPPET# -->
+            <igDP:XamDataGrid x:Name="XamDataGrid" InitializeRecord="XamDataGrid_InitializeRecord">
+                <igDP:XamDataGrid.FieldLayouts>
+                    <igDP:FieldLayout >
+                        <igDP:FieldLayout.Fields>
+                            <!--Unbound field definition:-->
+                            <igDP:UnboundField Width="140" Name="Chart" Label="Freight expenses">
+                                <igDP:UnboundField.Settings>
+                                    <igDP:FieldSettings>
+                                        <igDP:FieldSettings.CellValuePresenterStyle>
+                                            <!--Style template definition:-->
+                                            <Style TargetType="{x:Type igDP:CellValuePresenter}">
+                                                <Setter Property="OverridesDefaultStyle" Value="True"/>
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate x:Name="sparklineTemplate" 
+                                                                         TargetType="{x:Type igDP:CellValuePresenter}">
+                                                            <ig:XamSparkline 
+                                                                x:Name="xamSparkline"
+                                                                ItemsSource="{Binding Converter={StaticResource sourceConverter}}"
+                                                                DisplayType="{Binding DataPresenter.DataContext.sparklineDisplayType}"
+                                                                ValueMemberPath="" ToolTip="" 
+                                                                Height="40" Background="Transparent" Margin="0 3 0 3"
+                                                                Brush="#376092" />
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                            <!--End of Style template definition-->
+                                        </igDP:FieldSettings.CellValuePresenterStyle>
+                                    </igDP:FieldSettings>
+                                </igDP:UnboundField.Settings>
+                            </igDP:UnboundField>
+                            <!--End of Unbound field definition-->
+                            <!--
+                        Below column definitions are optional as they match the data set and can be 
+                        auto-generated in case you skip them. Leaving them makes for better custom labels.
+                        -->
+                            <igDP:Field  Name="CustomerID" Label="Customer ID" />
+                            <igDP:Field  Name="CompanyName" Label="Company Name" />
+                            <igDP:Field  Name="ContactName" Label="Contact Name" />
+                            <igDP:Field  Name="Address" Label="Address" />
+                            <igDP:Field  Name="City" Label="City" />
+                            <igDP:Field  Name="Region" Label="Region" />
+                            <igDP:Field  Name="PostalCode" Label="Postal Code" />
+                            <igDP:Field  Name="Country" Label="Country" />
+                            <igDP:Field  Name="Phone" Label="Phone" />
+                            <igDP:Field  Name="Fax" Label="Fax" />
+                            <igDP:Field  Name="ContactTitle" Label="Contact Title" />
+                        </igDP:FieldLayout.Fields>
+                    </igDP:FieldLayout>
+                </igDP:XamDataGrid.FieldLayouts>
+            </igDP:XamDataGrid>
+            <!-- #END SNIPPET# -->
+        </Grid>
+
+        <controls:OptionsPanel HeaderText="{Binding XW_Options, Source={StaticResource CommonStrings}}" HorizontalAlignment="Right">
+            <StackPanel>
+                <ComboBox 
+                    x:Name="ComboBoxChartType" 
+                    Width="120"
+                    HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Center"
+                    SelectionChanged="ComboBoxChartType_SelectionChanged"
+                    Margin="{StaticResource OptionsElementsMargin}">
+                    <ComboBoxItem Content="{Binding XSL_LineChart, Source={StaticResource SparklineStrings}}"/>
+                    <ComboBoxItem Content="{Binding XSL_ColumnChart, Source={StaticResource SparklineStrings}}" IsSelected="True"/>
+                    <ComboBoxItem Content="{Binding XSL_WinLossChart, Source={StaticResource SparklineStrings}}"/>
+                </ComboBox>
+                <!-- Export to Excel with Sparkline -->
+                <Button Click="Button_Click" Content="{Binding Source={StaticResource ExcelStrings}, Path=Excel_ButtonCaptionExport}"></Button>
+
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

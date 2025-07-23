@@ -1,0 +1,85 @@
+﻿<framework:SampleContainer x:Class="IGGantt.Samples.Organization.Resources"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGGantt.Resources"
+    xmlns:viewmodels="clr-namespace:IGGantt.Samples.ViewModel"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="Resources">
+    
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                
+                <ResourceDictionary Source="/IGGantt;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <res:GanttStrings x:Key="Strings" />
+            
+            <viewmodels:ProjectViewModel x:Key="viewmodel" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+    
+    <framework:SampleContainer.DataContext>
+        <Binding Source="{StaticResource viewmodel}" />
+    </framework:SampleContainer.DataContext>
+   
+    <Grid x:Name="LayoutRoot" Background="White">
+        <ig:XamGantt x:Name="gantt" Project="{Binding Project}">
+            <ig:XamGantt.ViewProvider>
+                <ig:ListBackedProjectViewProvider>
+                    <ig:ListBackedProjectViewProvider.ViewItemsSource>
+                        <viewmodels:ProjectViewCollection>
+                            <ig:ProjectView Key="GanttChart" TableKey="Basic" />
+                        </viewmodels:ProjectViewCollection>
+                    </ig:ListBackedProjectViewProvider.ViewItemsSource>
+                    <ig:ListBackedProjectViewProvider.TableItemsSource>
+                        <viewmodels:ProjectTableCollection>
+                            <ig:ProjectTable Key="Basic">
+                                <ig:ProjectTable.Columns>
+                                    <ig:ProjectColumn Key="TaskName" />
+                                    <ig:ProjectColumn Key="ResourcesText" />
+                                    <ig:ProjectColumn Key="IsManual" />
+                                    <ig:ProjectColumn Key="ManualDuration"  />
+                                    <ig:ProjectColumn Key="ManualStart" />
+                                    <ig:ProjectColumn Key="ManualFinish" />
+                                </ig:ProjectTable.Columns>
+                            </ig:ProjectTable>
+                        </viewmodels:ProjectTableCollection>
+                    </ig:ListBackedProjectViewProvider.TableItemsSource>
+                </ig:ListBackedProjectViewProvider>
+            </ig:XamGantt.ViewProvider>
+        </ig:XamGantt>
+        <controls:OptionsPanel HorizontalAlignment="Right"
+                               VerticalAlignment="Bottom"
+                               Margin="30"
+                               HeaderText="{Binding Source={StaticResource Strings},Path=Resources}">
+            <TextBlock Text="{Binding Source={StaticResource Strings},Path=AssignResourceToTask}" 
+                       Width="200" 
+                       TextWrapping="Wrap"/>
+          
+                <!-- #BEGIN SNIPPET# -->
+                <StackPanel>
+                    <TextBlock Text="{Binding Source={StaticResource Strings},Path=AvailableResources}" 
+                               Margin="3" FontWeight="Bold"/>
+                    <ListBox x:Name="Lb_Resources"
+                             Height="130"
+                             ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+                </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <CheckBox x:Name="Chb_AddNewResource"
+                          Checked="Chb_AddNewResource_Checked"
+                          Unchecked="Chb_AddNewResource_Unchecked"/>
+                <TextBlock Text="{Binding Source={StaticResource Strings},Path=AddNewResources}"
+                           TextWrapping="Wrap"
+                           Width="182"/>
+            </StackPanel>
+            <!-- #END SNIPPET# -->
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

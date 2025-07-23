@@ -1,0 +1,54 @@
+﻿<igFramework:SampleContainer x:Class="IGDialogWindow.Samples.Display.DefiningMinimizedPanel"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+      Title="DefiningMinimizedPanel"
+      xmlns:res="clr-namespace:IGDialogWindow.Resources"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDialogWindow;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            
+            <res:DialogWindowStrings x:Key="DWStrings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="windowContainer">
+        <!-- #BEGIN SNIPPET# -->
+        <!-- Define and name a panel to be used as the MinimizedPanel -->
+        <Border Background="#FFEEEEEE" BorderBrush="#FFCCCCCC" BorderThickness="1" Height="30" VerticalAlignment="Bottom" >
+            <StackPanel Orientation="Horizontal" x:Name="minimizeTarget" />
+        </Border>
+        
+        <!-- The following three XamWebDialogWindows use ElementName binding -->
+        <!-- to target the StackPanel named 'minimizeTarget'. -->
+
+        <ig:XamDialogWindow x:Name="xamWindow1"
+                Header="{Binding XDW_ContainerWindow, Source={StaticResource DWStrings}}"
+                WindowState="Normal" CloseButtonVisibility="Collapsed" 
+                MinimizedPanel="{Binding ElementName=minimizeTarget, Mode=OneWay}" Width="250" Height="120" 
+                Left="110" Top="10"
+            />
+        <!-- #END SNIPPET# -->
+        <ig:XamDialogWindow x:Name="xamWindow2"
+                Header="{Binding XDW_ContainerWindow, Source={StaticResource DWStrings}}"
+                WindowState="Normal" CloseButtonVisibility="Collapsed" 
+                MinimizedPanel="{Binding ElementName=minimizeTarget, Mode=OneWay}" Width="250" Height="120" 
+               Left="175" Top="55"					
+            />
+        <ig:XamDialogWindow x:Name="xamWindow3"
+                Header="{Binding XDW_ContainerWindow, Source={StaticResource DWStrings}}"
+                WindowState="Normal" CloseButtonVisibility="Collapsed" 
+                MinimizedPanel="{Binding ElementName=minimizeTarget, Mode=OneWay}" Width="250" Height="120" 
+                Left="240"  Top="95"						
+            />
+    </Grid>
+</igFramework:SampleContainer>

@@ -1,0 +1,76 @@
+﻿<framework:SampleContainer x:Class="IGDockManager.Samples.Organization.DockingMultiplePanesInTabGroup"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="MultipleInTabGroup"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:igDock="http://infragistics.com/DockManager"
+      xmlns:locCtls="clr-namespace:IGDockManager.CustomControls"
+      xmlns:res="clr-namespace:IGDockManager.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDockManager;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/IGDockManager;component/CustomControls/themes/generic.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DockManagerStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <!-- #BEGIN SNIPPET# -->
+    <!-- Create a XamDockManager control -->
+    <igDock:XamDockManager Theme="RoyalLight">
+        <!-- Add panes to the XamDockManager's Panes collection -->
+        <igDock:XamDockManager.Panes>
+            <!-- Left Dock Area ======================================================================= -->
+            <!-- Add a SplitPane with a single ContentPane and set its initial location to DockedLeft
+            Set the ContentPane's IsPinned property to false so that it is displayed as a vertical
+            tab along the left edge of the docking area. When the mouse hovers over the tab, the
+            ContentPane will 'fly out' to display its contents. -->
+            <igDock:SplitPane igDock:XamDockManager.InitialLocation="DockedLeft">
+                <igDock:ContentPane x:Name="leftEdgeDock"
+                                    Header="{Binding Source={StaticResource Strings}, Path=XamDockManagerWalkthrough_Root_LeftEdgeDockPane_Header_UnPinned}"
+                                    IsPinned="False">
+                    <locCtls:XdmSamplePaneContent Content="{Binding Source={StaticResource Strings}, Path=XamDockManagerWalkthrough_Root_LeftEdgeDockPane_Content_UnPinned}"/>
+                </igDock:ContentPane>
+            </igDock:SplitPane>
+            <!-- Right Dock Area ====================================================================== -->
+            <!-- Add a SplitPane with 2 ContentPanes and set its initial location to DockedRight
+            Set the SplitterOrientation property to Horizontal so that the ContentPanes are
+            displayed one above the other. -->
+            <igDock:SplitPane igDock:XamDockManager.InitialLocation="DockedRight"
+                              SplitterOrientation="Horizontal">
+                <igDock:ContentPane x:Name="rightEdgeDock1"
+                                    Header="{Binding Source={StaticResource Strings}, Path=XamDockManagerWalkthrough_Root_RightEdgeDockPane_Header1}">
+                    <locCtls:XdmSamplePaneContent Content="{Binding Source={StaticResource Strings}, Path=XamDockManagerWalkthrough_Root_RightEdgeDockPane_Content1}"/>
+                </igDock:ContentPane>
+                <igDock:ContentPane x:Name="rightEdgeDock2" Header="{Binding Source={StaticResource Strings}, Path=XamDockManagerWalkthrough_Root_RightEdgeDockPane_Header2}">
+                    <locCtls:XdmSamplePaneContent Content="{Binding Source={StaticResource Strings}, Path=XamDockManagerWalkthrough_Root_RightEdgeDockPane_Content2}"/>
+                </igDock:ContentPane>
+            </igDock:SplitPane>
+            <!-- Bottom Dock Area ===================================================================== -->
+            <!-- Add a SplitPane with a single TabGroupPane that contains multiple ContentPanes. -->
+            <igDock:SplitPane igDock:XamDockManager.InitialLocation="DockedBottom">
+                <!-- TabGroupPane containing 3 ContentPanes -->
+                <igDock:TabGroupPane>
+                    <igDock:ContentPane x:Name="bottomEdgeDock1"
+                                        Header="{Binding Source={StaticResource Strings}, Path=XamDockManagerWalkthrough_Root_BottomEdgeDockPane_Header1}">
+                        <locCtls:XdmSamplePaneContent Content="{Binding Source={StaticResource Strings}, Path=XamDockManagerWalkthrough_Root_BottomEdgeDockPane_Content1}" MinHeight="100"/>
+                    </igDock:ContentPane>
+                    <igDock:ContentPane x:Name="bottomEdgeDock2" Header="{Binding Source={StaticResource Strings}, Path=XamDockManagerWalkthrough_Root_BottomEdgeDockPane_Header2}">
+                        <locCtls:XdmSamplePaneContent Content="{Binding Source={StaticResource Strings}, Path=XamDockManagerWalkthrough_Root_BottomEdgeDockPane_Content2}" MinHeight="100"/>
+                    </igDock:ContentPane>
+                    <igDock:ContentPane x:Name="bottomEdgeDock3" Header="{Binding Source={StaticResource Strings}, Path=XamDockManagerWalkthrough_Root_BottomEdgeDockPane_Header3}">
+                        <locCtls:XdmSamplePaneContent Content="{Binding Source={StaticResource Strings}, Path=XamDockManagerWalkthrough_Root_BottomEdgeDockPane_Content3}" MinHeight="100"/>
+                    </igDock:ContentPane>
+                </igDock:TabGroupPane>
+            </igDock:SplitPane>
+        </igDock:XamDockManager.Panes>
+    </igDock:XamDockManager>
+    <!-- #END SNIPPET# -->
+
+</framework:SampleContainer>

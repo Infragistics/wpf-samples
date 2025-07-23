@@ -1,0 +1,57 @@
+﻿<igFramework:SampleContainer x:Class="IGDataGrid.Samples.Organization.CustomFilterOperand"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="CustomFilterOperand"
+      Loaded="Page_Loaded"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:igWindows="http://infragistics.com/Windows"
+      xmlns:local="clr-namespace:IGDataGrid.Samples.Organization">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataGrid;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <!-- #BEGIN SNIPPET# -->
+        <igDP:XamDataGrid Grid.Row="1"
+                          x:Name="XamDataGrid1"
+                          DataSource="{DynamicResource SampleData}"
+                          Theme="RoyalLight">
+
+            <!--Enable the filter functionality. -->
+            <igDP:XamDataGrid.FieldSettings>
+                <igDP:FieldSettings AllowRecordFiltering="true" />
+            </igDP:XamDataGrid.FieldSettings>
+            <igDP:XamDataGrid.FieldLayoutSettings>
+                <igDP:FieldLayoutSettings FilterUIType="FilterRecord"
+                                          AutoGenerateFields="true" />
+            </igDP:XamDataGrid.FieldLayoutSettings>
+
+            <!--Use the custom operand - pre-filter records with even values.-->
+            <igDP:XamDataGrid.FieldLayouts>
+                <igDP:FieldLayout>
+                    <igDP:FieldLayout.RecordFilters>
+                        <igDP:RecordFilter FieldName="Integer">
+                            <igWindows:ComparisonCondition Operator="Equals"
+                                                           Value="{x:Static local:EvenOrOddOperand.Even}" />
+                        </igDP:RecordFilter>
+                    </igDP:FieldLayout.RecordFilters>
+                </igDP:FieldLayout>
+            </igDP:XamDataGrid.FieldLayouts>
+
+        </igDP:XamDataGrid>
+        <!-- #END SNIPPET# -->
+    </Grid>
+</igFramework:SampleContainer>

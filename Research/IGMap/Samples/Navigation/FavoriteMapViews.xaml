@@ -1,0 +1,63 @@
+﻿<igFramework:SampleContainer x:Class="IGMap.Samples.Navigation.FavoriteMapViews"
+             xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+           xmlns:providers="clr-namespace:Infragistics.Samples.Shared.DataProviders;assembly=Infragistics.Samples.Shared"
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:ig="http://schemas.infragistics.com/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:resources="clr-namespace:IGMap.Resources"
+             xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="400" >
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGMap;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <resources:MapStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <Grid x:Name="LayoutRoot" Width="Auto" Margin="5">
+        <ig:XamMap x:Name="theMap" Grid.Row="1" Margin="0" WindowRectChanged="OnGeoMapWindowRectChanged">
+            <ig:XamMap.Resources>
+                <providers:ShapeFileProvider x:Key="ShapeFileProvider" ShapeFileRelativePath="/world" />
+            </ig:XamMap.Resources>
+            <ig:XamMap.Layers>
+                <ig:MapLayer
+                    IsClickable="False" 
+                    LayerName="statesLayer"
+                    FillMode="RandomInterpolate"
+                    ToolTip="{}{Name}">
+                    <ig:MapLayer.Reader>
+                        <ig:ShapeFileReader DataMapping="Name=CNTRY_NAME; Caption=CODE; Value=POP_CNTRY" 
+                                            Uri="{Binding Path=ShapeFileAbsolutePath, Source={StaticResource ShapeFileProvider}}">
+                        </ig:ShapeFileReader>
+                    </ig:MapLayer.Reader>
+                </ig:MapLayer>
+            </ig:XamMap.Layers>
+	        <ig:MapNavigationPane Margin="15" ig:XamDock.Edge="InsideLeft" Visibility="Collapsed"  />
+        </ig:XamMap>
+        <controls:OptionsPanel HeaderText="{Binding Path=XWM_FavoriteViews_FavoriteMapViews, Source={StaticResource Strings}}" 
+                           VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,5,5,5">
+            <StackPanel>
+                <TextBlock Text="{Binding Path=XWM_FavoriteViews_SelectFavoriteView, Source={StaticResource Strings}}" Margin="{StaticResource OptionsElementsMargin}"/>
+                <!-- #BEGIN SNIPPET# -->
+                <!--============================================================================-->
+                <ListBox x:Name="FavouriteViewsListBox" Height="180" DisplayMemberPath="Description" Margin="{StaticResource OptionsElementsMargin}">
+                </ListBox>
+                <Button x:Name="AddMapViewButton" Click="AddFavourite" Margin="{StaticResource OptionsElementsMargin}"
+                        Content="{Binding Path=XWM_FavoriteViews_AddToFavoriteViews, Source={StaticResource Strings}}" 
+                        HorizontalAlignment="Stretch" VerticalAlignment="Center"  />
+                <Button x:Name="RemoveMapViewButton" Click="RemoveFavourite" Margin="{StaticResource OptionsElementsMargin}"
+                        Content="{Binding Path=XWM_FavoriteViews_RemoveFromFavoriteViews, Source={StaticResource Strings}}" 
+                        HorizontalAlignment="Stretch" VerticalAlignment="Center"  />
+                <!--============================================================================-->
+                <!-- #END SNIPPET# -->
+                <TextBlock Text="{Binding Path=XWM_FavoriteViews_CurrentMapView, Source={StaticResource Strings}}" HorizontalAlignment="Center" Margin="{StaticResource OptionsElementsMargin}"/>
+                <TextBox  x:Name="MapViewTextBlock" Text=" ___, ___, ___, ___ " TextAlignment="Center" IsReadOnly="True" Foreground="DimGray" HorizontalAlignment="Stretch"/>
+
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

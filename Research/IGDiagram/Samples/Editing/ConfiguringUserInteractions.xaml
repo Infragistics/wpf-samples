@@ -1,0 +1,169 @@
+﻿<framework:SampleContainer x:Class="IGDiagram.Samples.Editing.ConfiguringUserInteractions"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGDiagram.Resources"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    DataContext="{Binding RelativeSource={RelativeSource Self}}"
+    Title="RestrictUserInteractions Page">
+    
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDiagram;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:DiagramStrings x:Key="Strings" />
+            <SolidColorBrush x:Key="DiagramNodeBrush1" Color="#FF9FB328" />
+            <SolidColorBrush x:Key="DiagramNodeBrush2" Color="#FF7F8F20" />
+            <SolidColorBrush x:Key="DiagramNodeBrush3" Color="#FFF96232" />
+            <SolidColorBrush x:Key="DiagramNodeBrush4" Color="#FFC74E28" />
+            <SolidColorBrush x:Key="DiagramNodeBrush5" Color="#FFDC3F76" />
+            <SolidColorBrush x:Key="DiagramNodeBrush6" Color="#FFB0325E" />
+            <SolidColorBrush x:Key="DiagramNodeBrush7" Color="#FF3F51B5" />
+            <SolidColorBrush x:Key="DiagramNodeBrush8" Color="#FF324191" />
+            <SolidColorBrush x:Key="DiagramNodeBrush9" Color="#FF9A9A9A" />
+            <SolidColorBrush x:Key="DiagramNodeBrush10" Color="#FF7B7B7B" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+   
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <controls:OptionsPanel HeaderText="{Binding Path=ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}"
+                               Margin="0,0,0,10" Grid.Row="0" IsMovable="False">
+            <StackPanel Margin="2">
+                <TextBlock Text="{Binding Source={StaticResource Strings}, Path=lblConfigureUserInteractions}" Margin="{StaticResource OptionsTextTopBottomMargin}" />
+                <StackPanel Orientation="Horizontal">
+
+                    <!-- #BEGIN SNIPPET# -->
+                    <StackPanel Margin="0,0,10,0">
+                        <TextBlock Text="{Binding Source={StaticResource Strings}, Path=lblDiagramLevel}" Margin="{StaticResource OptionsTextTopBottomMargin}"  FontWeight="Bold"/>
+                        <CheckBox IsThreeState="False" Content="AllowEdit" IsChecked="{Binding ElementName=xamDiagram, Path=AllowEdit}" Margin="{StaticResource OptionsElementsMargin}"/>
+                        <CheckBox IsThreeState="False" Content="AllowDelete" IsChecked="{Binding ElementName=xamDiagram, Path=AllowDelete}" Margin="{StaticResource OptionsElementsMargin}"/>
+                        <CheckBox IsThreeState="False" Content="AllowResize" IsChecked="{Binding ElementName=xamDiagram, Path=AllowResize}" />
+                    </StackPanel>
+
+                    <StackPanel Margin="0,0,10,0">
+                        <TextBlock Text="{Binding Source={StaticResource Strings}, Path=lblNodeLevel}" Margin="{StaticResource OptionsTextTopBottomMargin}" FontWeight="Bold"/>
+                        <CheckBox IsThreeState="True" Content="AllowEdit" IsChecked="{Binding Path=SelectedDiagramItem.AllowEdit}" Margin="{StaticResource OptionsElementsMargin}">
+                            <CheckBox.Style>
+                                <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource IGCheckBoxStyle}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=SelectedDiagramItem}" Value="{x:Null}">
+                                            <Setter Property="IsEnabled" Value="False" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </CheckBox.Style>
+                        </CheckBox>
+                        <CheckBox IsThreeState="True" Content="AllowDelete" IsChecked="{Binding Path=SelectedDiagramItem.AllowDelete}" Margin="{StaticResource OptionsElementsMargin}">
+                            <CheckBox.Style>
+                                <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource IGCheckBoxStyle}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=SelectedDiagramItem}" Value="{x:Null}">
+                                            <Setter Property="IsEnabled" Value="False" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </CheckBox.Style>
+                        </CheckBox>
+                        <CheckBox IsThreeState="True" Content="AllowResize" IsChecked="{Binding Path=SelectedDiagramItem.AllowResize}">
+                            <CheckBox.Style>
+                                <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource IGCheckBoxStyle}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=SelectedDiagramItem}" Value="{x:Null}">
+                                            <Setter Property="IsEnabled" Value="False" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </CheckBox.Style>
+                        </CheckBox>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <TextBlock Text="{Binding Source={StaticResource Strings}, Path=lblEnterKeyBehavior}" Margin="{StaticResource OptionsTextTopBottomMargin}"  FontWeight="Bold" />
+                        <controls:EnumValuesProvider
+                            EnumType="{x:Type ig:EnterKeyBehavior}" DisplayTemplate="ComboBox" 
+                            Value="{Binding ElementName=xamDiagram, Path=EnterKeyBehavior, Mode=TwoWay}" />
+                    </StackPanel>
+                    <!-- #END SNIPPET# -->
+
+                </StackPanel>
+            </StackPanel>
+        </controls:OptionsPanel>
+
+        <ig:XamDiagram x:Name="xamDiagram" Grid.Row="1" SelectionMode="Single" SelectionChanged="Diagram_SelectionChanged">
+            <ig:DiagramNode Key="node1" 
+                            Fill="{StaticResource DiagramNodeBrush1}" Stroke="{StaticResource DiagramNodeBrush2}" 
+                            ShapeType="RoundedRectangle"
+                            Height="60"
+                            Width="90"
+                            Content="{x:Static res:DiagramStrings.BasiConfiguration_NewPosition}"
+                            Position="50,50"
+                            Foreground="White"/>
+
+            <ig:DiagramNode Key="node2" 
+                            Position="200,50"
+                            Fill="{StaticResource DiagramNodeBrush3}" Stroke="{StaticResource DiagramNodeBrush4}" 
+                            StrokeThickness="1"
+                            ShapeType="RoundedRectangle"
+                            Height="60"
+                            Width="90"
+                            Content="{x:Static res:DiagramStrings.BasiConfiguration_HardWork}"
+                            Foreground="White"/>
+            <ig:DiagramConnection StartNodeKey="node1" Stroke="{StaticResource DiagramNodeBrush2}" Fill="{StaticResource DiagramNodeBrush2}" EndNodeKey="node2" ConnectionType="Straight"/>
+
+            <ig:DiagramNode Key="node3" 
+                            Fill="{StaticResource DiagramNodeBrush5}" Stroke="{StaticResource DiagramNodeBrush6}" 
+                            StrokeThickness="1"
+                            ShapeType="RoundedRectangle"
+                            Height="60"
+                            Width="90"
+                            Content="{x:Static res:DiagramStrings.BasiConfiguration_Experience}" 
+                            Position="350,50"
+                            Foreground="White"/>
+            <ig:DiagramConnection StartNodeKey="node2" Fill="{StaticResource DiagramNodeBrush4}" Stroke="{StaticResource DiagramNodeBrush4}" EndNodeKey="node3" ConnectionType="Straight"/>
+
+            <ig:DiagramNode Key="node4" 
+                            Fill="{StaticResource DiagramNodeBrush7}" Stroke="{StaticResource DiagramNodeBrush8}" 
+                            StrokeThickness="1"
+                            ShapeType="RoundedRectangle"
+                            Height="60"
+                            Width="90"
+                            Content="{x:Static res:DiagramStrings.BasiConfiguration_Promotion}" 
+                            Position="500,50"
+                            Foreground="White"/>
+            <ig:DiagramConnection Fill="{StaticResource DiagramNodeBrush6}" Stroke="{StaticResource DiagramNodeBrush6}" StartNodeKey="node3" EndNodeKey="node4" />
+            
+            <ig:DiagramNode Key="node5" 
+                            Fill="{StaticResource DiagramNodeBrush9}" Stroke="{StaticResource DiagramNodeBrush10}" 
+                            StrokeThickness="1"
+                            ShapeType="RoundedRectangle"                            
+                            Height="60"
+                            Width="90"
+                            Content="{x:Static res:DiagramStrings.BasiConfiguration_Retirement}" 
+                            Position="500,200"
+                            Foreground="White">
+
+                <ig:DiagramNode.ConnectionPoints>
+                    <ig:DiagramConnectionPoint Position=".5,1" />
+                </ig:DiagramNode.ConnectionPoints>
+            </ig:DiagramNode>
+
+            <ig:DiagramConnection StartNodeKey="node4" EndNodeKey="node1"
+                                  EndNodeConnectionPointName="Left" StartNodeConnectionPointName="Right" />
+            <ig:DiagramConnection StartNodeKey="node4" EndNodeKey="node5" />
+            
+        </ig:XamDiagram>
+        
+    </Grid>
+</framework:SampleContainer>

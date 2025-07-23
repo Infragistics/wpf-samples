@@ -1,0 +1,96 @@
+<framework:SampleContainer  
+    x:Class="IGLinearGauge.ScaleSettings"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700" Title="SimpleData Page"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGLinearGauge.Resources" >
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGLinearGauge;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:LinearGaugeStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources> 
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <TextBlock HorizontalAlignment="Left" 
+                   VerticalAlignment="Top"   
+                   Style="{StaticResource SamplesBigTitleStyle}"
+                   Margin="{StaticResource BottomPaddingLarge}"
+                   Text="{Binding Path=NutritionTitle, Source={StaticResource Strings}}" />
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamLinearGauge Grid.Row="1" 
+                           MaxHeight="80"
+                           Value="40"
+                           LabelFormat="{}{0}%"
+                           Title="{Binding Path=NutritionFat, Source={StaticResource Strings}}"
+                           TitlesHorizontalRatio=".15"
+                           BackingStrokeThickness="0"
+                           FontFamily="{StaticResource FontFamily}" FontSize="{StaticResource FontSize}" >
+            <ig:XamLinearGauge.Ranges>
+                <ig:XamLinearGraphRange StartValue="0" EndValue="20" Brush="#FB9371" />
+                <ig:XamLinearGraphRange StartValue="20" EndValue="35" Brush="#F9774D" />
+                <ig:XamLinearGraphRange StartValue="35" EndValue="100" Brush="#EE5E30" />
+            </ig:XamLinearGauge.Ranges>
+        </ig:XamLinearGauge>
+        <ig:XamLinearGauge Grid.Row="2" Margin="0,20,0,0"
+                           MaxHeight="80"                           
+                           Value="35"
+                           LabelFormat="{}{0}%"
+                           LabelExtent="0.76"  
+                           TickStartExtent=".5"
+                           MinorTickEndExtent=".54"
+                           MinorTickStartExtent=".65"
+                           Title="{Binding Path=NutritionCarbohydrates, Source={StaticResource Strings}}" 
+                           TitlesHorizontalRatio=".15"
+                           BackingStrokeThickness="0"
+                           FontFamily="{StaticResource FontFamily}" FontSize="{StaticResource FontSize}" >
+            <ig:XamLinearGauge.Ranges>
+                <ig:XamLinearGraphRange StartValue="0" EndValue="45" Brush="#BDCB6B" />
+                <ig:XamLinearGraphRange StartValue="45" EndValue="65" Brush="#ABBD43" />
+                <ig:XamLinearGraphRange StartValue="65" EndValue="100" Brush="#98AC26" />
+            </ig:XamLinearGauge.Ranges>
+        </ig:XamLinearGauge>
+        <ig:XamLinearGauge Grid.Row="3" 
+                           MaxHeight="80"
+                           Value="25"
+                           LabelFormat="{}{0}%"
+                           LabelExtent="0.76" 
+                           TickBrush="#4C000000"
+                           MinorTickBrush="#26000000"
+                           FontBrush="#FF7446B9"
+                           TicksPreTerminal="10"
+                           TicksPostInitial="10"
+                           LabelsPostInitial="20"
+                           LabelsPreTerminal="20"
+                           Title="{Binding Path=NutritionProtein, Source={StaticResource Strings}}" 
+                           TitlesHorizontalRatio=".15"
+                           BackingStrokeThickness="0"
+                           FontFamily="{StaticResource FontFamily}" FontSize="{StaticResource FontSize}" >
+            <ig:XamLinearGauge.Ranges>
+                <ig:XamLinearGraphRange StartValue="0" EndValue="10" />
+                <ig:XamLinearGraphRange StartValue="10" EndValue="35" />
+                <ig:XamLinearGraphRange StartValue="35" EndValue="100" />
+            </ig:XamLinearGauge.Ranges>
+        </ig:XamLinearGauge>
+        <!-- #END SNIPPET# -->
+        <TextBlock Grid.Row="4"
+                   VerticalAlignment="Top" 
+                   Style="{StaticResource BodyStyle}"
+                   TextWrapping="Wrap"
+                   Text="{Binding Path=NutritionDescription, Source={StaticResource Strings}}" />
+    </Grid>
+</framework:SampleContainer>

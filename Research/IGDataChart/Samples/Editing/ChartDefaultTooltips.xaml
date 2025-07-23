@@ -1,0 +1,233 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Editing.ChartDefaultTooltips"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="ChartTooltips Page"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+      xmlns:resources="clr-namespace:IGDataChart.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <resources:DataChartStrings x:Key="Strings" />
+            <models:BubbleDataScatterSample x:Key="BubleData" />
+            <models:EnergyProductionModel x:Key="EnergyProductionData" />
+            <models:FinancialDataCollection x:Key="FinancialData" />
+            <models:WindDataModel x:Key="WindDataSource"/>
+            <models:StockMarketDataCollection x:Key="StockMarketData"/>
+            <models:WorldDataViewSource x:Key="WorldDataViewSource" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ComboBox x:Name="ChartType" SelectedIndex="0" Margin="0 0 0 20" Style="{StaticResource IGComboBoxStyle}">
+            <ComboBoxItem Content="{Binding XWDC_CategorySeries, Source={StaticResource Strings}}"/>
+            <ComboBoxItem Content="{Binding XDC_ChartDefaultTooltips_RangeCategorySeries, Source={StaticResource Strings}}"/>
+            <ComboBoxItem Content="{Binding XWDC_FinancialSeries, Source={StaticResource Strings}}"/>
+            <ComboBoxItem Content="{Binding XWDC_BubbleSeries, Source={StaticResource Strings}}"/>
+            <ComboBoxItem Content="{Binding XWDC_PolarSeries, Source={StaticResource Strings}}"/>
+            <ComboBoxItem Content="{Binding XWDC_RadialSeries, Source={StaticResource Strings}}"/>
+        </ComboBox>
+        <ig:XamDataChart x:Name="CategoryChart" IsVerticalZoomEnabled="True" IsHorizontalZoomEnabled="True" DataContext="{StaticResource EnergyProductionData}" Grid.Row="1">
+            <ig:XamDataChart.Axes>
+                <ig:CategoryXAxis x:Name="numericXAxis2" ItemsSource="{Binding EnergySampleData}"  Label="{}{Country}" />
+                <ig:NumericYAxis x:Name="numericYAxis2" />
+            </ig:XamDataChart.Axes>
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ========================================================================== -->
+            <ig:XamDataChart.Series>
+                <ig:ColumnSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Nuclear"
+                               Title="{Binding StringEnergyNuclear, Source={StaticResource EnergyProductionData}}"
+                               XAxis="{Binding ElementName=numericXAxis2}"
+                               YAxis="{Binding ElementName=numericYAxis2}"
+                               IsHighlightingEnabled="True" IsTransitionInEnabled="True"
+                               ShowDefaultTooltip="True"/>
+                <ig:ColumnSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Gas"
+                               Title="{Binding StringEnergyGas, Source={StaticResource EnergyProductionData}}"
+                               XAxis="{Binding ElementName=numericXAxis2}"
+                               YAxis="{Binding ElementName=numericYAxis2}"
+                               IsHighlightingEnabled="True" IsTransitionInEnabled="True"
+                               ShowDefaultTooltip="True"/>
+                <ig:ColumnSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Oil"
+                               Title="{Binding StringEnergyOil, Source={StaticResource EnergyProductionData}}"
+                               XAxis="{Binding ElementName=numericXAxis2}"
+                               YAxis="{Binding ElementName=numericYAxis2}"
+                               IsHighlightingEnabled="True" IsTransitionInEnabled="True"
+                               ShowDefaultTooltip="True"/>
+                <ig:ColumnSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Coal"
+                               Title="{Binding StringEnergyCoal, Source={StaticResource EnergyProductionData}}"
+                               XAxis="{Binding ElementName=numericXAxis2}"
+                               YAxis="{Binding ElementName=numericYAxis2}"
+                               IsHighlightingEnabled="True" IsTransitionInEnabled="True"
+                               ShowDefaultTooltip="True"/>
+            </ig:XamDataChart.Series>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+        </ig:XamDataChart>
+        <ig:XamDataChart x:Name="RangeColumnChart" DataContext="{StaticResource EnergyProductionData}" IsVerticalZoomEnabled="True" IsHorizontalZoomEnabled="True" Visibility="Collapsed" Grid.Row="1">
+            <ig:XamDataChart.Axes>
+                <ig:NumericYAxis x:Name="RangeColumnYAxis" MinimumValue="0" Interval="200" Label="{}{} TWh"  />
+                <ig:CategoryXAxis x:Name="RangeColumnXAxis" ItemsSource="{Binding EnergySampleData}" Label="{}{Country}"/>
+            </ig:XamDataChart.Axes>
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ========================================================================== -->
+            <ig:XamDataChart.Series>
+                <ig:RangeColumnSeries ShowDefaultTooltip="True"
+                                      ItemsSource="{Binding EnergySampleData}"
+                                      HighMemberPath="Coal" LowMemberPath="Oil"
+                                      Title="{Binding StringEnergyCoalVsOil}"
+                                      XAxis="{Binding ElementName=RangeColumnXAxis}"
+                                      YAxis="{Binding ElementName=RangeColumnYAxis}"
+                                      IsHighlightingEnabled="True" IsTransitionInEnabled="True"/>
+                <ig:RangeColumnSeries ShowDefaultTooltip="True"
+                                      ItemsSource="{Binding EnergySampleData}"
+                                      HighMemberPath="Hydro" LowMemberPath="Nuclear"
+                                      Title="{Binding StringEnergyHydroVsNuclear}"
+                                      XAxis="{Binding ElementName=RangeColumnXAxis}"
+                                      YAxis="{Binding ElementName=RangeColumnYAxis}"
+                                      IsHighlightingEnabled="True" IsTransitionInEnabled="True"/>
+            </ig:XamDataChart.Series>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+        </ig:XamDataChart>
+        <ig:XamDataChart x:Name="FinancialPriceChart" IsVerticalZoomEnabled="True" IsHorizontalZoomEnabled="True" Visibility="Collapsed" Grid.Row="1">
+            <ig:XamDataChart.Axes>
+                <ig:CategoryXAxis x:Name="commonCategoryXAxis" ItemsSource="{StaticResource StockMarketData}" Label="{}{Date:MM/dd}"/>
+                <ig:NumericYAxis x:Name="commonNumericYAxis"/>
+            </ig:XamDataChart.Axes>
+            <!-- #BEGIN SNIPPET# -->
+            <!-- =========================================================================================================== -->
+            <ig:XamDataChart.Series>
+                <ig:FinancialPriceSeries 
+                        ShowDefaultTooltip="True"
+                        Title="{Binding XWDC_FinancialPriceSeries, Source={StaticResource Strings}}"
+                        ItemsSource="{StaticResource StockMarketData}"
+                        DisplayType="Candlestick"
+                        OpenMemberPath="Open"
+                        CloseMemberPath="Close"
+                        HighMemberPath="High"
+                        LowMemberPath="Low"
+                        VolumeMemberPath="Volume"
+                        IsHighlightingEnabled="True" IsTransitionInEnabled="True" 
+                        XAxis="{Binding ElementName=commonCategoryXAxis}"
+                        YAxis="{Binding ElementName=commonNumericYAxis}" 
+                        TrendLineType="None">
+                </ig:FinancialPriceSeries>
+            </ig:XamDataChart.Series>
+            <!-- =========================================================================================================== -->
+            <!-- #END SNIPPET# -->
+        </ig:XamDataChart>
+        <ig:XamDataChart x:Name="BubbleChart" IsVerticalZoomEnabled="True" IsHorizontalZoomEnabled="True" Visibility="Collapsed" Grid.Row="1">
+            <ig:XamDataChart.Axes>
+               <ig:NumericXAxis x:Name="numericXAxis1" 
+                                 Title="{Binding XWDC_WorldData_Types_Population, Source={StaticResource Strings}}"
+                                 MinimumValue="10000" MaximumValue="10000000000" IsLogarithmic="True"
+                                 Label="{}{0:#,0,,.##} M"   >
+                </ig:NumericXAxis>
+                <ig:NumericYAxis x:Name="numericYAxis1" 
+                                 Title="{Binding XWDC_WorldData_Types_PublicDebt, Source={StaticResource Strings}}" 
+                                 IsLogarithmic="True" 
+                                 LogarithmBase="10" 
+                                 Label="{}{:N0} %">
+                </ig:NumericYAxis>
+            </ig:XamDataChart.Axes>
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ========================================================================== -->
+            <ig:XamDataChart.Series>
+                <ig:BubbleSeries XMemberPath="Population"
+                                 YMemberPath="PublicDebt"
+                                 RadiusMemberPath="GdpPerCapita"
+                                 ShowDefaultTooltip="True"
+                                 Title="{Binding XWDC_BubbleSeriesType_BubbleSeries, Source={StaticResource Strings}}"
+                                 ItemsSource="{Binding Source={StaticResource WorldDataViewSource}}"
+                                 XAxis="{Binding ElementName=numericXAxis1}"
+                                 YAxis="{Binding ElementName=numericYAxis1}">
+                    <ig:BubbleSeries.RadiusScale>
+                        <ig:SizeScale  IsLogarithmic="False" MinimumValue="10" MaximumValue="100"  />
+                    </ig:BubbleSeries.RadiusScale>
+                </ig:BubbleSeries>
+            </ig:XamDataChart.Series>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+        </ig:XamDataChart>
+        <ig:XamDataChart x:Name="PolarSplineAreaChart" Visibility="Collapsed" Grid.Row="1"
+                             PlotAreaBorderBrush="{x:Null}"
+                             IsHorizontalZoomEnabled="True"
+                             IsVerticalZoomEnabled="True"
+                             DataContext="{Binding Source={StaticResource WindDataSource}}">
+            <ig:XamDataChart.Axes>
+                <ig:NumericAngleAxis x:Name="numericAngleAxis3" CrossingAxis="{Binding ElementName=numericRadiusAxis3}"/>
+                <ig:NumericRadiusAxis x:Name="numericRadiusAxis3" CrossingAxis="{Binding ElementName=numericAngleAxis3}"/>
+            </ig:XamDataChart.Axes>
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ========================================================================== -->
+            <ig:XamDataChart.Series>
+                <ig:PolarSplineAreaSeries ShowDefaultTooltip="True" Title="2010" MarkerType="Circle"
+                                          AngleAxis="{Binding ElementName=numericAngleAxis3}"
+                                          RadiusAxis="{Binding ElementName=numericRadiusAxis3}"
+                                          AngleMemberPath="Direction"
+                                          RadiusMemberPath="Speed"
+                                          ItemsSource="{Binding WindData2010}">
+                </ig:PolarSplineAreaSeries>
+                <ig:PolarSplineAreaSeries ShowDefaultTooltip="True" Title="2009" MarkerType="Circle"
+                                          AngleAxis="{Binding ElementName=numericAngleAxis3}"
+                                          RadiusAxis="{Binding ElementName=numericRadiusAxis3}"
+                                          AngleMemberPath="Direction"
+                                          RadiusMemberPath="Speed"
+                                          ItemsSource="{Binding WindData2009}">
+                </ig:PolarSplineAreaSeries>
+                <ig:PolarSplineAreaSeries ShowDefaultTooltip="True" Title="2008" MarkerType="Circle"
+                                          AngleAxis="{Binding ElementName=numericAngleAxis3}"
+                                          RadiusAxis="{Binding ElementName=numericRadiusAxis3}"
+                                          AngleMemberPath="Direction"
+                                          RadiusMemberPath="Speed"
+                                          ItemsSource="{Binding WindData2008}">
+                </ig:PolarSplineAreaSeries>
+            </ig:XamDataChart.Series>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+        </ig:XamDataChart>
+        <ig:XamDataChart x:Name="RadialAreaChart" Visibility="Collapsed" Grid.Row="1"
+                             IsHorizontalZoomEnabled="True"
+                             IsVerticalZoomEnabled="True"
+                             PlotAreaBorderBrush="{x:Null}">
+            <ig:XamDataChart.Axes>
+                <ig:CategoryAngleAxis x:Name="categoryAngleAxis2" ItemsSource="{StaticResource FinancialData}" Label="{}{Label}"/>
+                <ig:NumericRadiusAxis x:Name="numericRadiusAxis2" RadiusExtentScale="0.6" InnerRadiusExtentScale="0.1" 
+                                      MinimumValue="0" Interval="25" MaximumValue="100"/>
+            </ig:XamDataChart.Axes>
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ========================================================================== -->
+            <ig:XamDataChart.Series>
+                <ig:RadialPieSeries ShowDefaultTooltip="True"
+                                    Title="{Binding XWDC_DataModel_CompanyFinance_Budget, Source={StaticResource Strings}}"
+                                    AngleAxis="{Binding ElementName=categoryAngleAxis2}"
+                                    ValueAxis="{Binding ElementName=numericRadiusAxis2}"
+                                    ValueMemberPath="Budget"
+                                    ItemsSource="{StaticResource FinancialData}"
+                                    Thickness="3" Opacity="0.8"/>
+                <ig:RadialPieSeries ShowDefaultTooltip="True"
+                                    Title="{Binding XWDC_DataModel_CompanyFinance_Spending, Source={StaticResource Strings}}"
+                                    AngleAxis="{Binding ElementName=categoryAngleAxis2}"
+                                    ValueAxis="{Binding ElementName=numericRadiusAxis2}"
+                                    ValueMemberPath="Spending"
+                                    ItemsSource="{StaticResource FinancialData}"
+                                    Thickness="3" Opacity="0.8" />
+            </ig:XamDataChart.Series>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+        </ig:XamDataChart>
+    </Grid>
+</igFramework:SampleContainer>

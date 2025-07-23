@@ -1,0 +1,88 @@
+﻿<framework:SampleContainer x:Class="IGOrgChart.Samples.Display.HierarchicalNodeLayouts"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:data="clr-namespace:IGOrgChart.Samples.Display"
+    mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700"
+    Title="HierarchicalNodeLayouts Page">
+
+    <framework:SampleContainer.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGOrgChart;component/Assets/Global.xaml" />
+                
+                
+            </ResourceDictionary.MergedDictionaries>
+
+            <SolidColorBrush x:Key="NodeBackgroundBrush1" Color="{StaticResource Color_021}"/>
+            <SolidColorBrush x:Key="NodeBackgroundBrush2" Color="{StaticResource Color_022}"/>
+            <SolidColorBrush x:Key="NodeBackgroundBrush3" Color="{StaticResource Color_023}"/>
+            <SolidColorBrush x:Key="NodeBackgroundBrush4" Color="{StaticResource Color_024}"/>
+
+            <SolidColorBrush x:Key="NodeBorderBrush1" Color="#FF8FA124"/>
+            <SolidColorBrush x:Key="NodeBorderBrush2" Color="#FFE0582D"/>
+            <SolidColorBrush x:Key="NodeBorderBrush3" Color="#FF298C95"/>
+            <SolidColorBrush x:Key="NodeBorderBrush4" Color="#FFC6396A"/>
+
+		</ResourceDictionary>
+	</framework:SampleContainer.Resources>
+
+	<Grid x:Name="LayoutRoot" Width="Auto">
+		<!-- #BEGIN SNIPPET# -->
+        <ig:XamOrgChart x:Name="OrgChart"
+                        ItemsSource="{Binding Classes}"
+                        NodeArrangementStrategy="Stagger"
+                        DisplayMemberPath="ClassName">
+            <!--Specify the contents of the root nodes-->
+            <ig:XamOrgChart.NodeStyle>
+                <Style TargetType="ig:OrgChartNodeControl">
+                    <Setter Property="Background" Value="{StaticResource NodeBackgroundBrush1}" />
+                    <Setter Property="BorderBrush" Value="{StaticResource NodeBorderBrush1}" />
+                    <Setter Property="Foreground" Value="{StaticResource ActiveForegroundBrush}" />
+                </Style>
+            </ig:XamOrgChart.NodeStyle>
+            <!--Set the data context of the OrgChart-->
+			<ig:XamOrgChart.DataContext>
+				<data:SampleClassModel />
+			</ig:XamOrgChart.DataContext>
+			<ig:XamOrgChart.NodeLayouts>
+				<!--Hierarchical Node Layouts-->
+                <ig:OrgChartNodeLayout Key="Methods"
+                                       DisplayMemberPath="MethodName">
+                    <ig:OrgChartNodeLayout.NodeStyle>
+						<Style TargetType="ig:OrgChartNodeControl">
+							<Setter Property="Background" Value="{StaticResource NodeBackgroundBrush2}" />
+                            <Setter Property="BorderBrush" Value="{StaticResource NodeBorderBrush2}" />
+                            <Setter Property="Foreground" Value="{StaticResource ActiveForegroundBrush}"/>
+                        </Style>
+					</ig:OrgChartNodeLayout.NodeStyle>
+				</ig:OrgChartNodeLayout>
+                <ig:OrgChartNodeLayout Key="Interfaces"
+                                       DisplayMemberPath="InterfaceName">
+                    <ig:OrgChartNodeLayout.NodeStyle>
+						<Style TargetType="ig:OrgChartNodeControl">
+							<Setter Property="Background" Value="{StaticResource NodeBackgroundBrush3}" />
+                            <Setter Property="BorderBrush" Value="{StaticResource NodeBorderBrush3}" />
+                            <Setter Property="Foreground" Value="{StaticResource ActiveForegroundBrush}" />
+                        </Style>
+					</ig:OrgChartNodeLayout.NodeStyle>
+				</ig:OrgChartNodeLayout>
+				<ig:OrgChartNodeLayout Key="Properties"
+                                       DisplayMemberPath="PropertyName">
+                    <ig:OrgChartNodeLayout.NodeStyle>
+						<Style TargetType="ig:OrgChartNodeControl">
+							<Setter Property="Background" Value="{StaticResource NodeBackgroundBrush4}" />
+                            <Setter Property="BorderBrush" Value="{StaticResource NodeBorderBrush4}" />
+                            <Setter Property="Foreground" Value="{StaticResource ActiveForegroundBrush}" />
+						</Style>
+					</ig:OrgChartNodeLayout.NodeStyle>
+				</ig:OrgChartNodeLayout>
+			</ig:XamOrgChart.NodeLayouts>
+		</ig:XamOrgChart>
+		<!-- #END SNIPPET# -->
+
+	</Grid>
+</framework:SampleContainer>

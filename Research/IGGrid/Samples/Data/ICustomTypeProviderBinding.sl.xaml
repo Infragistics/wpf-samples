@@ -1,0 +1,48 @@
+﻿<igFramework:SampleContainer x:Class="IGGrid.Samples.Data.ICustomTypeProviderBinding"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:ig="http://schemas.infragistics.com/xaml" 
+    xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+    xmlns:res="clr-namespace:IGGrid.Resources"
+    Title="ICustomTypeProvider Binding Page">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGrid;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamGrid.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:GridStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        	<Grid.Resources>
+        		<Style TargetType="TextBlock" BasedOn="{StaticResource BodyStyle}"/>    	
+			</Grid.Resources>        
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <TextBlock Text="{Binding Path=ictp_PropertyName, Source={StaticResource Strings}}" 
+                       VerticalAlignment="Center" Margin="5"/>
+
+            <ig:XamMaskedInput Mask="{Binding Source={StaticResource Strings},Path=XG_ICTPBinding_InputMask}" 
+                               Margin="5" 
+                               Value="{Binding PropertyName, Mode=TwoWay}"
+                               NullText="{Binding Source={StaticResource Strings},Path=XG_ICTPBinding_InputNullText}"
+                               Width="200"/>
+
+            <TextBlock Text="{Binding Path=ictp_PropertyType, Source={StaticResource Strings}}" VerticalAlignment="Center" Margin="5" />
+            <ComboBox Width="150" ItemsSource="{Binding PropertyTypes}" Margin="5" SelectedItem="{Binding SelectedPropertyTypeInfo, Mode=TwoWay}" 
+                      DisplayMemberPath="PropertyType" Style="{StaticResource IGComboBoxStyle}"/>
+
+            <Button Content="{Binding Path=ictp_AddProperty, Source={StaticResource Strings}}" Click="AddProperty" Margin="5" Style="{StaticResource IGGenericButton}"/>
+        </StackPanel>
+
+        <ig:XamGrid Name="xamGridCustomers" AutoGenerateColumns="True" IsEnabled="False" Margin="5" Grid.Row="1" />
+    </Grid>
+</igFramework:SampleContainer>

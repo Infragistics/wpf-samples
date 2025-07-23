@@ -1,0 +1,101 @@
+﻿<igFramework:SampleContainer x:Class="IGCategoryChart.Samples.Data.AxisTitle"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IGCategoryChart.Samples.Data"
+             xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+             xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+             xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+             xmlns:ig="http://schemas.infragistics.com/xaml"
+             xmlns:resources="clr-namespace:IGCategoryChart.Resources"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="600">
+    <Grid>
+
+        <Grid.Resources>
+            <resources:CategoryChartStrings x:Key="Strings"/>
+            <models:EnergyProductionModel x:Key="DataViewModel" />
+        </Grid.Resources>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ========================================================================== -->
+        <ig:XamCategoryChart x:Name="chart1" DataContext="{StaticResource DataViewModel}" Grid.Row="1" ChartType="Auto" Grid.ColumnSpan="2"
+                             ItemsSource="{Binding EnergySampleData}" 
+                             Title="{Binding XECC_TitleLbl, Source={StaticResource Strings}}"
+                             Subtitle="{Binding XECC_SubtitleLbl, Source={StaticResource Strings}}"
+                             XAxisTitle="{Binding  XCC_Country, Source={StaticResource Strings}}"
+                             YAxisTitle="{Binding XCC_Terrawatt, Source={StaticResource Strings}}"
+                             YAxisTitleMargin="{Binding Path=Value, ElementName=AxisMarginSlider}"
+                             YAxisTitleFontSize="{Binding Path=Value, ElementName=AxisFontSizeSlider}"
+                             YAxisTitleAngle="{Binding Path=Value, ElementName=AxisRotationSlider}"
+                             Margin="{StaticResource CategoryChartSamplesPadding}">
+
+        </ig:XamCategoryChart>
+        <!-- ========================================================================== -->
+        <!-- #END SNIPPET# -->
+
+        <controls:OptionsPanel HeaderText="{Binding XCC_AxisTitle_OptionsPanelLbl, Source={StaticResource Strings}}" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0" Grid.Row="0"
+                               MinWidth="175" Width="267">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="30" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" 
+                           Text="{Binding XCC_AxisTitle_RotationLbl	, Source={StaticResource Strings}}" Margin="{StaticResource OptionsTextRightBottomMargin}"/>
+                <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" 
+                           Text="{Binding XCC_AxisTitle_FontSizeLbl, Source={StaticResource Strings}}" Margin="{StaticResource OptionsTextRightBottomMargin}"/>
+                <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" 
+                           Text="{Binding XCC_AxisTitle_MarginLbl, Source={StaticResource Strings}}" Margin="{StaticResource OptionsTextRightBottomMargin}"/>
+                <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" 
+                           Text="{Binding XCC_AxisTitle_AlignmentLbl, Source={StaticResource Strings}}" />
+
+                <Slider Grid.Row="0" Grid.Column="1" x:Name="AxisRotationSlider" Value="-90" Minimum="-180" Maximum="180" Margin="{StaticResource OptionsTextRightBottomMargin}" 
+                        SmallChange="1" LargeChange="1" HorizontalAlignment="Left" Width="106" />
+                <Slider Grid.Row="1" Grid.Column="1" x:Name="AxisFontSizeSlider" Value="11" Minimum="1" Maximum="20" Margin="{StaticResource OptionsTextRightBottomMargin}" 
+                        SmallChange="1" LargeChange="1" HorizontalAlignment="Stretch" />
+                <Slider Grid.Row="2" Grid.Column="1" x:Name="AxisMarginSlider" Value="0" Minimum="1" Maximum="20" Margin="{StaticResource OptionsTextRightBottomMargin}"
+                        SmallChange="1" LargeChange="1" HorizontalAlignment="Stretch" />
+
+                <TextBlock Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" 
+                           Text="{Binding ElementName=AxisRotationSlider, Path=Value, StringFormat='0'}" Margin="{StaticResource OptionsTextTopBottomMargin}"/>
+                <TextBlock Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" 
+                           Text="{Binding ElementName=AxisFontSizeSlider, Path=Value, StringFormat='0'}" Margin="{StaticResource OptionsTextTopBottomMargin}" />
+                <TextBlock Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" 
+                           Text="{Binding ElementName=AxisMarginSlider, Path=Value, StringFormat='0'}" Margin="{StaticResource OptionsTextTopBottomMargin}"/>
+
+                <ComboBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" 
+                          x:Name="AlignmentComboBox" SelectedIndex="0" Margin="5,0,-10,0" SelectionChanged="AlignmentComboBox_SelectionChanged"
+                      >
+                    <ComboBox.ItemsSource>
+                        <models:VerticalAlignmentList>
+                            <VerticalAlignment>Center</VerticalAlignment>
+                            <VerticalAlignment>Bottom</VerticalAlignment>
+                            <VerticalAlignment>Top</VerticalAlignment>
+                        </models:VerticalAlignmentList>
+                    </ComboBox.ItemsSource>
+                </ComboBox>
+
+            </Grid>
+        </controls:OptionsPanel>
+       
+
+    </Grid>
+</igFramework:SampleContainer>

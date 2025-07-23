@@ -1,0 +1,88 @@
+﻿<framework:SampleContainer x:Class="IGTreeGrid.Samples.Display.AddingIcons"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:igDP="http://infragistics.com/DataPresenter"
+    xmlns:igEditors="http://infragistics.com/Editors"
+    xmlns:igWindows="http://infragistics.com/Windows"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGTreeGrid.Resources"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:vm="clr-namespace:IGTreeGrid.Samples.ViewModels"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="AddingIcons Page">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGTreeGrid;component/Assets/Global.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <res:TreeGridStrings x:Key="Strings" />
+            <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
+            <igWindows:NotBoolToVisibilityConverter x:Key="NotBoolToVisibility"/>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <framework:SampleContainer.DataContext>
+        <vm:FileSystemObjectProvider />
+    </framework:SampleContainer.DataContext>
+
+    <Grid x:Name="LayoutRoot" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <igDP:XamTreeGrid x:Name="xtg" Grid.Row="1" DataSource="{Binding Path=FileSystemObjects}"
+                          InitializeRecord="xtg_InitializeRecord" Theme="RoyalLight" Loaded="xtg_Loaded">
+            <igDP:XamTreeGrid.FieldLayoutSettings>
+                <igDP:FieldLayoutSettings AutoGenerateFields="False" />
+            </igDP:XamTreeGrid.FieldLayoutSettings>
+            <igDP:XamTreeGrid.FieldLayouts>
+                <igDP:FieldLayout>
+
+                    <!-- #BEGIN SNIPPET# -->
+                    <igDP:TemplateField Name="Name" Label="{Binding Source={StaticResource Strings}, Path=lblName}"
+                                        Width="190" DataType="{x:Type sys:String}">
+                        <igDP:TemplateField.DisplayTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image x:Name="imgFolder" Source="/IGTreeGrid;component/Images/Folder.png"
+                                           Visibility="{Binding RelativeSource={RelativeSource
+                                                                    AncestorType={x:Type igDP:TreeCellValuePresenter}},
+                                                                Path=DataContext.DataItem.IsFolder,
+                                                                Converter={StaticResource BoolToVisibility}}"
+                                           />
+                                    <Image x:Name="imgFile" Source="/IGTreeGrid;component/Images/File.png"
+                                           Visibility="{Binding RelativeSource={RelativeSource
+                                                                    AncestorType={x:Type igDP:TreeCellValuePresenter}},
+                                                                Path=DataContext.DataItem.IsFolder,
+                                                                Converter={StaticResource NotBoolToVisibility}}"
+                                           />
+                                    <TextBlock Text="{igEditors:TemplateEditorValueBinding}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </igDP:TemplateField.DisplayTemplate>
+                    </igDP:TemplateField>
+                    <!-- #END SNIPPET# -->
+
+                    <igDP:NumericField Name="calcSize" Width="70" BindingType="Unbound"
+                                       Label="{Binding Source={StaticResource Strings}, Path=lblSize}"
+                                       DataType="{x:Type sys:Int32}" AllowEdit="False" />
+                    <igDP:DateTimeField Name="DateModified" Width="150"
+                                        Label="{Binding Source={StaticResource Strings}, Path=lblDateModified}" />
+                    <igDP:Field Name="Children" />
+
+                    <!-- the following fields will not be rendered, but will be used for calculated size unbound field above -->
+                    <igDP:CheckBoxField Name="IsFolder" Visibility="Collapsed" />
+                    <igDP:NumericField Name="FileSize" Visibility="Collapsed" />
+
+                </igDP:FieldLayout>
+            </igDP:XamTreeGrid.FieldLayouts>
+        </igDP:XamTreeGrid>
+
+    </Grid>
+</framework:SampleContainer>

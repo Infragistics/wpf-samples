@@ -1,0 +1,277 @@
+﻿<framework:SampleContainer x:Class="IGSpellChecker.Samples.Organization.MultiLingualDictionaries"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="MultiLingualDictionaries"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGSpellChecker.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSpellChecker;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:SpellCheckerStrings x:Key="SpellCheckerStrings" />
+            
+            <Style TargetType="RadioButton">
+                <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                   <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+                <Setter Property="FontFamily" Value="{StaticResource FontFamily}" />
+                <Setter Property="FontSize" Value="{StaticResource FontSize}" />
+                <Setter Property="FontWeight" Value="{StaticResource FontNormal}" />
+                <Setter Property="HorizontalContentAlignment" Value="Left" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="Padding" Value="6,0,0,0" />
+                <Setter Property="Margin" Value="0 2" />
+                <Setter Property="BorderThickness" Value="{StaticResource DefaultBorderThickness}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                <ControlTemplate TargetType="RadioButton">
+                    <Grid x:Name="MainGrid" SnapsToDevicePixels="True">
+                        <Border x:Name="CheckedContent"
+                                Background="#FFEEEEEE" Margin="0 1 2 1"  
+                                Padding="4" Grid.ColumnSpan="2" BorderThickness="1" BorderBrush="#FFDDDDDD" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                       
+                        <ContentPresenter x:Name="contentPresenter"
+                                          Margin="{TemplateBinding Padding}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}" />
+                           </Border>
+                    </Grid>
+                     <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="CheckedContent" Property="Background" Value="#FFDDDDDD" />
+                                <Setter TargetName="CheckedContent" Property="BorderBrush" Value="#FFBBBBBB" />
+                         </Trigger>
+                         <Trigger Property="IsChecked" Value="True">
+                              <Setter TargetName="CheckedContent" Property="BorderBrush" Value="{StaticResource ButtonPressedBackgroundBrush}" />
+                              <Setter TargetName="CheckedContent" Property="Background" Value="{StaticResource ButtonPressedBorderBrush}" />
+                              <Setter Property="Foreground" Value="{StaticResource ActiveForegroundBrush}" />
+                         </Trigger>
+                     </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="{x:Null}">
+        <Rectangle Height="Auto" Margin="0" VerticalAlignment="Stretch" Stroke="#FFDDDDDD" Fill="#FFFFFFFF"/>
+        <TextBox x:Name="txtSpellCheck" Text="{Binding Mode=TwoWay, Path=Content}" Margin="12,12,165,47" TextWrapping="Wrap" Style="{StaticResource SamplesTextBoxStyle}" />
+        <Button x:Name="btnCheckSpelling" Content="{Binding Source={StaticResource SpellCheckerStrings} ,
+                Path=XSP_CheckSpelling_Button}" Margin="12,0,0,12" Height="24" VerticalAlignment="Bottom" Width="120"
+                    HorizontalAlignment="Left"
+                >
+            <ig:Commanding.Command>
+                <ig:XamSpellCheckerCommandSource CommandType="SpellCheck" TargetName="simpleSpellChecker" EventName="Click"></ig:XamSpellCheckerCommandSource>
+            </ig:Commanding.Command>
+        </Button>
+        <StackPanel Width="145" Margin="12,12,12,0" HorizontalAlignment="Right" VerticalAlignment="Stretch">
+            <RadioButton x:Name="UsDictionaryRadionButton" GroupName="Dictionaries" Checked="Dictionary_Checked" Tag="us-english-v2-whole.dict">
+                <StackPanel x:Name="US" Margin="0,2,0,2" Orientation="Horizontal">
+                    <Image Source="/IGSpellChecker;component/Images/Flags/USFlag.png" />
+                    <TextBlock Margin="10,0,0,0" Text="{Binding Source={StaticResource SpellCheckerStrings} ,
+                            Path=XSP_MultiLang_Culture_ENUS_Label}" TextWrapping="Wrap" d:LayoutOverrides="Height"/>
+                </StackPanel>
+            </RadioButton>
+            <RadioButton GroupName="Dictionaries" Checked="Dictionary_Checked" Tag="uk-english-v2-whole.dict">
+                <StackPanel x:Name="UK" Margin="0,2,0,2" Orientation="Horizontal">
+                    <Image Source="../../Images/Flags/GreatBritain.png" />
+                    <TextBlock  Margin="10,0,0,0" Text="{Binding Source={StaticResource SpellCheckerStrings} ,
+                            Path=XSP_MultiLang_Culture_ENUK_Label}" TextWrapping="Wrap" d:LayoutOverrides="Height" HorizontalAlignment="Right"/>
+                </StackPanel>
+            </RadioButton>
+            <RadioButton GroupName="Dictionaries" Checked="Dictionary_Checked" Tag="au-english-v2-whole.dict">
+                <StackPanel x:Name="AU" Margin="0,2,0,2" Orientation="Horizontal">
+                    <Image Source="../../Images/Flags/Australia.png" />
+                    <TextBlock  Margin="10,0,0,0" Text="{Binding Source={StaticResource SpellCheckerStrings} ,
+                            Path=XSP_MultiLang_Culture_ENAU_Label}" TextWrapping="Wrap" d:LayoutOverrides="Height"/>
+                </StackPanel>
+            </RadioButton>
+            <RadioButton GroupName="Dictionaries" Checked="Dictionary_Checked" Tag="fr-french-v2-whole.dict">
+                <StackPanel  x:Name="FR" Margin="0,2,0,2" Orientation="Horizontal">
+                    <Image Source="../../Images/Flags/France.png" />
+                    <TextBlock  Margin="10,0,0,0" Text="{Binding Source={StaticResource SpellCheckerStrings} ,
+                            Path=XSP_MultiLang_Culture_FR_Label}" TextWrapping="Wrap" d:LayoutOverrides="Height"/>
+                </StackPanel>
+            </RadioButton>
+            <RadioButton GroupName="Dictionaries" Checked="Dictionary_Checked" Tag="de-german-v2-whole.dict" >
+                <StackPanel x:Name="DE" Margin="0,2,0,2" Orientation="Horizontal">
+                    <Image Source="../../Images/Flags/Germany.png" />
+                    <TextBlock  Margin="10,0,0,0" Text="{Binding Source={StaticResource SpellCheckerStrings} ,
+                            Path=XSP_MultiLang_Culture_DE_Label}" TextWrapping="Wrap" d:LayoutOverrides="Height"/>
+                </StackPanel>
+            </RadioButton>
+            <RadioButton GroupName="Dictionaries" Checked="Dictionary_Checked" Tag="nl-dutch-v2.dict" >
+                <StackPanel x:Name="DL" Margin="0,2,0,2" Orientation="Horizontal">
+                    <Image Source="../../Images/Flags/Netherlands.png" />
+                    <TextBlock  Margin="10,0,0,0" Text="{Binding Source={StaticResource SpellCheckerStrings} ,
+                            Path=XSP_MultiLang_Culture_DL_Label}" TextWrapping="Wrap" d:LayoutOverrides="Height"/>
+                </StackPanel>
+            </RadioButton>
+            <RadioButton GroupName="Dictionaries" Checked="Dictionary_Checked" Tag="pt-portuguese-v2.dict">
+                <StackPanel x:Name="PT" Margin="0,2,0,2" Orientation="Horizontal">
+                    <Image Source="../../Images/Flags/Portugal.png" />
+                    <TextBlock  Margin="10,0,0,0" Text="{Binding Source={StaticResource SpellCheckerStrings} ,
+                            Path=XSP_MultiLang_Culture_PT_Label}" TextWrapping="Wrap" d:LayoutOverrides="Height"/>
+                </StackPanel>
+            </RadioButton>
+            <RadioButton GroupName="Dictionaries" Checked="Dictionary_Checked" Tag="es-spanish-v2-whole.dict">
+                <StackPanel x:Name="ES" Margin="0,2,0,2" Orientation="Horizontal">
+                    <Image Source="../../Images/Flags/Spain.png" />
+                    <TextBlock  Margin="10,0,0,0" Text="{Binding Source={StaticResource SpellCheckerStrings} ,
+                            Path=XSP_MultiLang_Culture_ES_Label}" TextWrapping="Wrap" d:LayoutOverrides="Height"/>
+                </StackPanel>
+            </RadioButton>
+        </StackPanel>
+        <Grid
+                Opacity="0.10196078431372549"
+                Margin="195,71,150,10" x:Name="Check" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <Path
+                    Margin="0,0,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Height="210.778"
+                    Width="230"
+                    Stretch="Fill"
+                    Opacity="1"
+                    Data="M 336.15625,0 C265.0947265625,44.648162841796875 194.4530029296875,125.45565795898438 130.125,213.804443359375 96.23828125,190.3487548828125 51.5078125,159.6763916015625 51.5078125,159.6763916015625 49.77935791015625,158.4212646484375 46.3212890625,156.97027587890625 43.375,156.97027587890625 38.38702392578125,156.97027587890625 36.7779541015625,160.2803955078125 35.2421875,162.383056640625 35.2421875,162.383056640625 2.7109375,212.45111083984375 2.7109375,212.45111083984375 1.656097412109375,213.89501953125 0,216.42767333984375 0,219.2166748046875 0,222.14337158203125 1.669036865234375,225.61407470703125 4.06640625,227.336181640625 4.06640625,227.336181640625 127.4140625,313.9405517578125 127.4140625,313.9405517578125 130.544189453125,315.771484375 134.34906005859375,318 138.2578125,318 141.8812255859375,318 146.80126953125,315.78619384765625 149.1015625,312.58721923828125 165.17657470703125,288.206298828125 207.35906982421875,201.2696533203125 243.984375,144.791259765625 281.9375,86.26614379882812 310.40234375,48.376495361328125 347,8.118927001953125 347,8.118927001953125 336.15625,0 336.15625,0 z" UseLayoutRounding="False">
+                <Path.Fill>
+                    <LinearGradientBrush
+                            StartPoint="0.14157095697496397,0.22135973276582155"
+                            EndPoint="0.858432385007655,0.8680567711404285">
+                        <LinearGradientBrush.GradientStops>
+                            <GradientStopCollection>
+                                <GradientStop
+                                        Color="#FFcccccc"
+                                        Offset="0" />
+                                <GradientStop
+                                        Color="#FF999999"
+                                        Offset="0.9777777791023254" />
+                                <GradientStop
+                                        Color="#FF999999"
+                                        Offset="0.9888888597488403" />
+                            </GradientStopCollection>
+                        </LinearGradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Path.Fill>
+            </Path>
+            <Path
+                    Margin="2.718,2.711,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Height="205.475"
+                    Width="224.034"
+                    Stretch="Fill"
+                    Opacity="1"
+                    Data="M 134.19140625,215.1572265625 C134.19140625,215.1572265625 131.91790771484375,217.86395263671875 130.125,217.86395263671875 127.73236083984375,217.86395263671875 124.703125,215.1572265625 124.703125,215.1572265625 124.703125,215.1572265625 48.796875,162.383056640625 48.796875,162.383056640625 48.796875,162.383056640625 46.78546142578125,161.02972412109375 43.375,161.02972412109375 40.29638671875,161.02972412109375 38.61700439453125,163.73583984375 38.61700439453125,163.73583984375 38.61700439453125,163.73583984375 5.421875,214.39617919921875 5.421875,214.39617919921875 5.421875,214.39617919921875 4.06640625,216.01123046875 4.06640625,219.2166748046875 4.06640625,222.8232421875 6.77734375,224.63006591796875 6.77734375,224.63006591796875 22.71820068359375,236.7955322265625 106.04986572265625,293.95611572265625 130.125,311.23382568359375 132.42352294921875,312.88360595703125 134.10845947265625,313.9405517578125 138.2578125,313.9405517578125 141.60882568359375,313.9405517578125 144.77838134765625,312.730712890625 145.628173828125,311.23382568359375 176.5498046875,256.76812744140625 206.03125,197.22784423828125 240.595703125,143.43853759765625 269.532958984375,98.40573120117188 282.9541015625,78.14724731445312 341.578125,8.118927001953125 338.189453125,5.412811279296875 336.15625,4.0594482421875 336.15625,4.0594482421875 279.73486328125,38.734832763671875 235.68212890625,89.81802368164062 208.7421875,120.4339599609375 179.64666748046875,153.49951171875 149.01922607421875,193.95416259765625 134.19140625,215.1572265625 z" UseLayoutRounding="False">
+                <Path.Fill>
+                    <LinearGradientBrush
+                            StartPoint="0.45278683176510076,-0.021834644713942548"
+                            EndPoint="1.091694949828131,0.6860370070111">
+                        <LinearGradientBrush.GradientStops>
+                            <GradientStopCollection>
+                                <GradientStop
+                                        Color="#FFffffff"
+                                        Offset="0" />
+                                <GradientStop
+                                        Color="#FFffffff"
+                                        Offset="0.42222222685813904" />
+                                <GradientStop
+                                        Color="#FF6D6D6D"
+                                        Offset="0.9611111283302307" />
+                                <GradientStop
+                                        Color="#FF666666"
+                                        Offset="0.9888888597488403" />
+                            </GradientStopCollection>
+                        </LinearGradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Path.Fill>
+            </Path>
+            <Path
+                    Margin="5.435,4.989,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Height="200.173"
+                    Width="218.07"
+                    Stretch="Fill"
+                    Opacity="1"
+                    Data="M 335.59088134765625,7.349609375 C273.76202392578125,50.4027099609375 244.88800048828125,85.25100708007812 212.80859375,121.78732299804688 180.9644775390625,158.055419921875 149.27099609375,200.102783203125 132.8359375,221.92340087890625 131.1309814453125,222.88616943359375 127.4140625,221.92340087890625 127.4140625,221.92340087890625 128.88543701171875,222.68212890625 46.0859375,165.08978271484375 46.0859375,165.08978271484375 46.0859375,165.08978271484375 42.01953125,165.08978271484375 42.01953125,165.08978271484375 42.01953125,165.08978271484375 8.1328125,218.02978515625 8.1328125,218.02978515625 8.1328125,218.02978515625 8.1328125,220.57061767578125 8.1328125,220.57061767578125 8.1328125,220.57061767578125 132.8359375,308.5277099609375 132.8359375,308.5277099609375 135.42388916015625,310.5174560546875 141.0628662109375,310.03753662109375 142.9796142578125,308.5277099609375 175.1943359375,249.32562255859375 209.419921875,184.710693359375 237.20703125,142.085205078125 264.31640625,99.79788208007812 294.814453125,56.326629638671875 337.51171875,9.472259521484375 338.1600341796875,8.760589599609375 334.9940185546875,8.089508056640625 335.59088134765625,7.349609375 z" UseLayoutRounding="False">
+                <Path.Fill>
+                    <RadialGradientBrush
+                            Center="0.29621714469063093,0.7809180356183002"
+                            GradientOrigin="0.29621714469063093,0.7809180356183002"
+                            RadiusX="0.5000003705085563"
+                            RadiusY="0.5000003705085563">
+                        <RadialGradientBrush.GradientStops>
+                            <GradientStopCollection>
+                                <GradientStop
+                                        Color="#FFcccccc"
+                                        Offset="0" />
+                                <GradientStop
+                                        Color="#FFcccccc"
+                                        Offset="0.23333333432674408" />
+                                <GradientStop
+                                        Color="#FF999999"
+                                        Offset="0.9555555582046509" />
+                                <GradientStop
+                                        Color="#FF999999"
+                                        Offset="0.9666666388511658" />
+                            </GradientStopCollection>
+                        </RadialGradientBrush.GradientStops>
+                    </RadialGradientBrush>
+                </Path.Fill>
+            </Path>
+            <Path
+                    Margin="3.736,54.559,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Height="151.786"
+                    Width="182.277"
+                    Stretch="Fill"
+                    Opacity="1"
+                    Data="M 27.109375,182.68096923828125 C27.109375,182.68096923828125 6.77734375,216.51055908203125 6.77734375,216.51055908203125 6.77734375,216.51055908203125 5.421875,221.92340087890625 5.421875,221.92340087890625 21.36273193359375,234.08880615234375 104.69439697265625,291.24945068359375 128.76953125,308.5277099609375 131.06805419921875,310.177490234375 132.75299072265625,311.23382568359375 136.90234375,311.23382568359375 138.951416015625,311.23382568359375 142.450439453125,309.73284912109375 143.6796875,308.5277099609375 150.620849609375,301.72039794921875 220.9666748046875,164.10284423828125 280.58203125,82.5443115234375 226.36328125,148.17437744140625 210.09765625,165.76611328125 151.8125,227.336181640625 111.0042724609375,270.4439697265625 50.15234375,234.10174560546875 27.109375,182.68096923828125 z" UseLayoutRounding="False">
+                <Path.Fill>
+                    <RadialGradientBrush
+                            Center="0.35467980295566504,0.7041439353440718"
+                            GradientOrigin="0.35467980295566504,0.7041439353440718"
+                            RadiusX="0.4938272154951224"
+                            RadiusY="0.4938272154951224">
+                        <RadialGradientBrush.GradientStops>
+                            <GradientStopCollection>
+                                <GradientStop
+                                        Color="#99ffffff"
+                                        Offset="0.17777778208255768" />
+                                <GradientStop
+                                        Color="#65ffffff"
+                                        Offset="0.4000000059604645" />
+                                <GradientStop
+                                        Color="#00888888"
+                                        Offset="0.8388888835906982" />
+                                <GradientStop
+                                        Color="#00666666"
+                                        Offset="0.9666666388511658" />
+                            </GradientStopCollection>
+                        </RadialGradientBrush.GradientStops>
+                    </RadialGradientBrush>
+                </Path.Fill>
+            </Path>
+        </Grid>
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamSpellChecker x:Name="simpleSpellChecker">
+            <ig:XamSpellChecker.SpellCheckTargets>
+                <Binding ElementName="txtSpellCheck" Path="Text" Mode="TwoWay"></Binding>
+            </ig:XamSpellChecker.SpellCheckTargets>
+        </ig:XamSpellChecker>
+        <!-- #END SNIPPET# -->
+    </Grid>
+</framework:SampleContainer>

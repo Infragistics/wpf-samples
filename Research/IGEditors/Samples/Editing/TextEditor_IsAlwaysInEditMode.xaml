@@ -1,0 +1,539 @@
+﻿<framework:SampleContainer
+    x:Class="IGEditors.Samples.Editing.TextEditor_IsAlwaysInEditMode"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+    xmlns:igEditors="http://infragistics.com/Editors"
+    xmlns:res="clr-namespace:IGEditors.Resources"
+    Title="TextEditor_IsAlwaysInEditMode">
+  
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGEditors;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <res:EditorsStringRes x:Key="resStrings" />
+
+            <ControlTemplate x:Key="customEditTemplate" TargetType="{x:Type igEditors:XamTextEditor}">
+                <Border x:Name="MainBorder" CornerRadius="3,3,3,3" Background="{TemplateBinding Background}" BorderBrush="#FFCCCCCC" BorderThickness="1">
+                    <Grid Margin="2,2,2,2" Width="Auto" Height="Auto" HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <!-- Pencil Icon -->
+                        <Grid
+						x:Name="editIcon"
+						Height="19"
+						Width="18">
+                            <Grid
+							Width="16"
+							Height="17"
+							Opacity="1"
+							Margin="1,1,0,0"
+							HorizontalAlignment="Left"
+							VerticalAlignment="Top">
+                                <Path
+								Margin="0,0,0,0"
+								HorizontalAlignment="Left"
+								VerticalAlignment="Top"
+								Height="17"
+								Width="16"
+								Stretch="Fill"
+								Opacity="1"
+								Data="M 0.48486328125,11.217681884765625 C0.48486328125,11.217681884765625 0,17 0,17 0,17 2.42425537109375,17 2.42425537109375,17 2.42425537109375,17 5.93939208984375,16.306121826171875 5.93939208984375,16.306121826171875 5.93939208984375,16.306121826171875 16,4.9727783203125 16,4.9727783203125 16,4.9727783203125 16,2.31292724609375 16,2.31292724609375 16,2.31292724609375 14.54547119140625,0.693878173828125 14.54547119140625,0.693878173828125 14.54547119140625,0.693878173828125 12.3636474609375,0 12.3636474609375,0 12.3636474609375,0 10.66668701171875,0.231292724609375 10.66668701171875,0.231292724609375 10.66668701171875,0.231292724609375 0.48486328125,11.217681884765625 0.48486328125,11.217681884765625 z"
+								Fill="#ffffff" />
+                                <Grid
+								Width="15.608648300170898"
+								Height="16.537420749664307"
+								Opacity="1"
+								Margin="0.3636474609375,0.46257925033569336,0,0"
+								HorizontalAlignment="Left"
+								VerticalAlignment="Top">
+                                    <Grid
+									Width="15.608648300170898"
+									Height="16.537420749664307"
+									Opacity="1"
+									Margin="0,0,0,0"
+									HorizontalAlignment="Left"
+									VerticalAlignment="Top">
+                                        <Path
+										Margin="0.533203125,4.205938816070557,0,0"
+										HorizontalAlignment="Left"
+										VerticalAlignment="Top"
+										Height="10.288421630859375"
+										Width="9.9017333984375"
+										Stretch="Fill"
+										Opacity="1"
+										Data="M 10.4349365234375,5.665258884429932 C10.4349365234375,5.665258884429932 7.08355712890625,4.205938816070557 7.08355712890625,4.205938816070557 7.08355712890625,4.205938816070557 0.533203125,14.494360446929932 0.533203125,14.494360446929932 0.533203125,14.494360446929932 10.4349365234375,5.665258884429932 10.4349365234375,5.665258884429932 z">
+                                            <Path.Fill>
+                                                <LinearGradientBrush
+												StartPoint="0.43076496332367625,0.7517700834393752"
+												EndPoint="0.1230721814707514,0.19148936170212766">
+                                                    <LinearGradientBrush.GradientStops>
+                                                        <GradientStopCollection>
+                                                            <GradientStop
+															Color="#7fcacaca"
+															Offset="0.6833329796791077" />
+                                                            <GradientStop
+															Color="#36cacaca"
+															Offset="0.8388890027999878" />
+                                                            <GradientStop
+															Color="#00F6F6F6"
+															Offset="0.9555559754371643" />
+                                                            <GradientStop
+															Color="#00ffffff"
+															Offset="0.9777780175209045" />
+                                                        </GradientStopCollection>
+                                                    </LinearGradientBrush.GradientStops>
+                                                </LinearGradientBrush>
+                                            </Path.Fill>
+                                        </Path>
+                                        <Path
+										Margin="5.7886962890625,5.738256931304932,0,0"
+										HorizontalAlignment="Left"
+										VerticalAlignment="Top"
+										Height="0.43780517578125"
+										Width="1"
+										Stretch="Fill"
+										Opacity="1"
+										Data="M 5.7886962890625,5.738256931304932 C5.7886962890625,5.738256931304932 5.7886962890625,6.176062107086182 5.7886962890625,6.176062107086182 5.7886962890625,6.176062107086182 5.7886962890625,5.738256931304932 5.7886962890625,5.738256931304932 z"
+										Fill="#cccccc" />
+                                        <Path
+										Margin="5.7886962890625,7.270575046539307,0,0"
+										HorizontalAlignment="Left"
+										VerticalAlignment="Top"
+										Height="0.437744140625"
+										Width="1"
+										Stretch="Fill"
+										Opacity="1"
+										Data="M 5.7886962890625,7.270575046539307 C5.7886962890625,7.270575046539307 5.7886962890625,7.708319187164307 5.7886962890625,7.708319187164307 5.7886962890625,7.708319187164307 5.7886962890625,7.270575046539307 5.7886962890625,7.270575046539307 z"
+										Fill="#cccccc" />
+                                        <Path
+										Margin="5.7886962890625,8.802832126617432,0,0"
+										HorizontalAlignment="Left"
+										VerticalAlignment="Top"
+										Height="0.4378662109375"
+										Width="1"
+										Stretch="Fill"
+										Opacity="1"
+										Data="M 5.7886962890625,8.802832126617432 C5.7886962890625,8.802832126617432 5.7886962890625,9.240698337554932 5.7886962890625,9.240698337554932 5.7886962890625,9.240698337554932 5.7886962890625,8.802832126617432 5.7886962890625,8.802832126617432 z"
+										Fill="#cccccc" />
+                                        <Path
+										Margin="5.7886962890625,12.013433933258057,0,0"
+										HorizontalAlignment="Left"
+										VerticalAlignment="Top"
+										Height="0.437835693359375"
+										Width="1"
+										Stretch="Fill"
+										Opacity="1"
+										Data="M 5.7886962890625,12.013433933258057 C5.7886962890625,12.013433933258057 5.7886962890625,12.451269626617432 5.7886962890625,12.451269626617432 5.7886962890625,12.451269626617432 5.7886962890625,12.013433933258057 5.7886962890625,12.013433933258057 z"
+										Fill="#cccccc" />
+                                        <Path
+										Margin="5.7886962890625,10.335211277008057,0,0"
+										HorizontalAlignment="Left"
+										VerticalAlignment="Top"
+										Height="0.510711669921875"
+										Width="1"
+										Stretch="Fill"
+										Opacity="1"
+										Data="M 5.7886962890625,10.335211277008057 C5.7886962890625,10.335211277008057 5.7886962890625,10.845922946929932 5.7886962890625,10.845922946929932 5.7886962890625,10.845922946929932 5.7886962890625,10.335211277008057 5.7886962890625,10.335211277008057 z"
+										Fill="#cccccc" />
+                                        <Path
+										Margin="8.60693359375,0,0,0"
+										HorizontalAlignment="Left"
+										VerticalAlignment="Top"
+										Height="6.360540866851807"
+										Width="7.001714706420898"
+										Stretch="Fill"
+										Opacity="1"
+										Data="M 11.57745361328125,4.060003757476807 C12.9117431640625,5.180334568023682 13.45452880859375,6.360540866851807 13.45452880859375,6.360540866851807 13.45452880859375,6.360540866851807 15.272705078125,4.394567966461182 15.272705078125,4.394567966461182 15.95281982421875,3.6110291481018066 15.59564208984375,2.0984559059143066 14.2432861328125,0.9953675270080566 12.89093017578125,-0.10778188705444336 11.14288330078125,-0.28121328353881836 10.4349365234375,0.41162729263305664 9.8526611328125,1.0916199684143066 8.60693359375,2.4546875953674316 8.60693359375,2.4546875953674316 8.60693359375,2.4546875953674316 10.24310302734375,2.9395813941955566 11.57745361328125,4.060003757476807 z">
+                                            <Path.Fill>
+                                                <LinearGradientBrush
+												StartPoint="0.19712142612945274,0.6963327368627727"
+												EndPoint="0.4496492019019781,1.3829006641491906">
+                                                    <LinearGradientBrush.GradientStops>
+                                                        <GradientStopCollection>
+                                                            <GradientStop
+															Color="#FFbc2222"
+															Offset="0" />
+                                                            <GradientStop
+															Color="#FFbc2222"
+															Offset="0.2944439947605133" />
+                                                            <GradientStop
+															Color="#FFa51a1a"
+															Offset="0.9611110091209412" />
+                                                        </GradientStopCollection>
+                                                    </LinearGradientBrush.GradientStops>
+                                                </LinearGradientBrush>
+                                            </Path.Fill>
+                                        </Path>
+                                        <Path
+										Margin="9.06390380859375,0.25036191940307617,0,0"
+										HorizontalAlignment="Left"
+										VerticalAlignment="Top"
+										Height="5.7067670822143555"
+										Width="6.31524658203125"
+										Stretch="Fill"
+										Opacity="1"
+										Data="M 9.06390380859375,2.3087525367736816 C9.06390380859375,2.3087525367736816 10.43511962890625,2.7699341773986816 11.65362548828125,3.7681336402893066 12.87213134765625,4.766333103179932 13.55780029296875,5.957129001617432 13.55780029296875,5.957129001617432 13.55780029296875,5.957129001617432 15.00494384765625,4.351812839508057 15.00494384765625,4.351812839508057 15.8779296875,3.3793396949768066 15.08935546875,2.0399537086486816 14.0147705078125,1.1412720680236816 12.91815185546875,0.22412729263305664 11.23089599609375,-0.05187368392944336 10.5872802734375,0.6305298805236816 9.75714111328125,1.5493836402893066 9.06390380859375,2.3087525367736816 9.06390380859375,2.3087525367736816 z">
+                                            <Path.Fill>
+                                                <LinearGradientBrush
+												StartPoint="0.29090838801960006,0.7322343544320593"
+												EndPoint="0.42616629135296563,1.4974562912069043">
+                                                    <LinearGradientBrush.GradientStops>
+                                                        <GradientStopCollection>
+                                                            <GradientStop
+															Color="#FFf83737"
+															Offset="0" />
+                                                            <GradientStop
+															Color="#FFf83737"
+															Offset="0.07222200185060501" />
+                                                            <GradientStop
+															Color="#FFa81b1b"
+															Offset="0.6944440007209778" />
+                                                            <GradientStop
+															Color="#FFa81b1b"
+															Offset="0.9388890266418457" />
+                                                        </GradientStopCollection>
+                                                    </LinearGradientBrush.GradientStops>
+                                                </LinearGradientBrush>
+                                            </Path.Fill>
+                                        </Path>
+                                        <Path
+										Margin="0.228515625,10.256300449371338,0,0"
+										HorizontalAlignment="Left"
+										VerticalAlignment="Top"
+										Height="6.062187194824219"
+										Width="5.950733661651611"
+										Stretch="Fill"
+										Opacity="1"
+										Data="M 5.7886962890625,14.713232517242432 C5.97540283203125,14.510015964508057 6.12347412109375,14.270544528961182 6.1695556640625,13.983526706695557 6.2076416015625,13.746405124664307 6.128662109375,13.576178073883057 6.0172119140625,13.472784519195557 5.73175048828125,13.207891941070557 5.01910400390625,13.371801853179932 3.884521484375,14.129461765289307 4.8095703125,12.839544773101807 5.166015625,11.833136081695557 4.72235107421875,11.429663181304932 4.34515380859375,11.086645603179932 3.32958984375,11.508856296539307 2.1326904296875,12.451269626617432 2.6695556640625,11.425970554351807 2.8521728515625,10.687262058258057 2.51348876953125,10.408178806304932 2.40008544921875,10.314703464508057 2.15228271484375,10.233343601226807 1.9803466796875,10.262213230133057 1.680419921875,10.312567234039307 1.4276123046875,10.471472263336182 1.21868896484375,10.700018405914307 1.21868896484375,10.700018405914307 0.68548583984375,11.283758640289307 0.68548583984375,11.283758640289307 0.68548583984375,11.283758640289307 0.228515625,16.318487644195557 0.228515625,16.318487644195557 0.228515625,16.318487644195557 5.33172607421875,15.223974704742432 5.33172607421875,15.223974704742432 5.33050537109375,15.226538181304932 5.44769287109375,15.081457614898682 5.7886962890625,14.713232517242432 z">
+                                            <Path.Fill>
+                                                <LinearGradientBrush
+												StartPoint="0.2634444889348555,0.38743718403237926"
+												EndPoint="0.6639908849591489,0.8354054894202367">
+                                                    <LinearGradientBrush.GradientStops>
+                                                        <GradientStopCollection>
+                                                            <GradientStop
+															Color="#FFffffff"
+															Offset="0" />
+                                                            <GradientStop
+															Color="#FFE8E8E8"
+															Offset="0.949999988079071" />
+                                                            <GradientStop
+															Color="#FFe7e7e7"
+															Offset="0.9944440126419067" />
+                                                        </GradientStopCollection>
+                                                    </LinearGradientBrush.GradientStops>
+                                                </LinearGradientBrush>
+                                            </Path.Fill>
+                                        </Path>
+                                        <Path
+										Margin="0.48486328125,10.610897541046143,0,0"
+										HorizontalAlignment="Left"
+										VerticalAlignment="Top"
+										Height="5.348306655883789"
+										Width="5.631435394287109"
+										Stretch="Fill"
+										Opacity="1"
+										Data="M 0.91400146484375,11.356756687164307 C0.91400146484375,11.356756687164307 0.48486328125,15.959204196929932 0.48486328125,15.959204196929932 0.48486328125,15.959204196929932 5.21209716796875,14.982183933258057 5.21209716796875,14.982183933258057 6.02978515625,14.281713962554932 6.951904296875,12.791113376617432 4.72723388671875,11.102056980133057 3.56451416015625,10.219213962554932 1.50537109375,10.664434909820557 0.91400146484375,11.356756687164307 z">
+                                            <Path.Fill>
+                                                <LinearGradientBrush
+												StartPoint="0.23286076110569573,0.37285065581855975"
+												EndPoint="0.656117844778008,0.8806128129532502">
+                                                    <LinearGradientBrush.GradientStops>
+                                                        <GradientStopCollection>
+                                                            <GradientStop
+															Color="#FFffffff"
+															Offset="0" />
+                                                            <GradientStop
+															Color="#FFffffff"
+															Offset="0.3666670024394989" />
+                                                            <GradientStop
+															Color="#FFCECECE"
+															Offset="0.949999988079071" />
+                                                            <GradientStop
+															Color="#FFcccccc"
+															Offset="0.9833329916000366" />
+                                                        </GradientStopCollection>
+                                                    </LinearGradientBrush.GradientStops>
+                                                </LinearGradientBrush>
+                                            </Path.Fill>
+                                        </Path>
+                                        <Path
+										Margin="0.228515625,14.587427616119385,0,0"
+										HorizontalAlignment="Left"
+										VerticalAlignment="Top"
+										Height="1.7310600280761719"
+										Width="1.8312749862670898"
+										Stretch="Fill"
+										Opacity="1"
+										Data="M 2.0565185546875,15.953711032867432 C2.0565185546875,15.953711032867432 0.228515625,16.318487644195557 0.228515625,16.318487644195557 0.228515625,16.318487644195557 0.38079833984375,14.640295505523682 0.38079833984375,14.640295505523682 0.38079833984375,14.640295505523682 1.00823974609375,14.403509616851807 1.5994873046875,14.932165622711182 2.1282958984375,15.404882907867432 2.0565185546875,15.953711032867432 2.0565185546875,15.953711032867432 z"
+										Fill="#5a6d81" />
+                                        <Path
+										Margin="0.45697021484375,14.539984226226807,0,0"
+										HorizontalAlignment="Left"
+										VerticalAlignment="Top"
+										Height="1.55963134765625"
+										Width="1.2086181640625"
+										Stretch="Fill"
+										Opacity="1"
+										Data="M 1.66558837890625,14.976965427398682 C1.66558837890625,14.976965427398682 0.45697021484375,16.099615573883057 0.45697021484375,16.099615573883057 0.45697021484375,16.099615573883057 0.88201904296875,14.539984226226807 0.88201904296875,14.539984226226807 0.88201904296875,14.539984226226807 1.10638427734375,14.543554782867432 1.339111328125,14.664862155914307 1.565673828125,14.782904148101807 1.66558837890625,14.976965427398682 1.66558837890625,14.976965427398682 z">
+                                            <Path.Fill>
+                                                <LinearGradientBrush
+												StartPoint="0.15064134935865064,1.1983133095918288"
+												EndPoint="0.5794364205635795,0.027413610926310023">
+                                                    <LinearGradientBrush.GradientStops>
+                                                        <GradientStopCollection>
+                                                            <GradientStop
+															Color="#665a6d81"
+															Offset="0" />
+                                                            <GradientStop
+															Color="#885a6d81"
+															Offset="0.15555599331855774" />
+                                                            <GradientStop
+															Color="#FFC6CDD4"
+															Offset="0.6944440007209778" />
+                                                            <GradientStop
+															Color="#FFffffff"
+															Offset="0.9722219705581665" />
+                                                        </GradientStopCollection>
+                                                    </LinearGradientBrush.GradientStops>
+                                                </LinearGradientBrush>
+                                            </Path.Fill>
+                                        </Path>
+                                        <Path
+										Margin="3.884521484375,2.8195557594299316,0,0"
+										HorizontalAlignment="Left"
+										VerticalAlignment="Top"
+										Height="5.618499755859375"
+										Width="8.14990234375"
+										Stretch="Fill"
+										Opacity="1"
+										Data="M 3.884521484375,8.000250339508057 C3.884521484375,8.000250339508057 5.2554931640625,8.438055515289307 5.2554931640625,8.438055515289307 5.2554931640625,8.438055515289307 5.7886962890625,8.365057468414307 5.7886962890625,8.365057468414307 5.7886962890625,8.365057468414307 10.5872802734375,6.394903659820557 10.5872802734375,6.394903659820557 10.5872802734375,6.394903659820557 12.034423828125,4.862616062164307 12.034423828125,4.862616062164307 12.034423828125,4.862616062164307 9.9017333984375,3.3302979469299316 9.9017333984375,3.3302979469299316 9.9017333984375,3.3302979469299316 8.60693359375,2.8195557594299316 8.60693359375,2.8195557594299316 8.60693359375,2.8195557594299316 3.884521484375,8.000250339508057 3.884521484375,8.000250339508057 z">
+                                            <Path.Fill>
+                                                <LinearGradientBrush
+												StartPoint="0.6651339044994309,0.8862292036696052"
+												EndPoint="0.6758133125636571,0.38258729977676026">
+                                                    <LinearGradientBrush.GradientStops>
+                                                        <GradientStopCollection>
+                                                            <GradientStop
+															Color="#99ffffff"
+															Offset="0" />
+                                                            <GradientStop
+															Color="#00ffffff"
+															Offset="0.9444440007209778" />
+                                                        </GradientStopCollection>
+                                                    </LinearGradientBrush.GradientStops>
+                                                </LinearGradientBrush>
+                                            </Path.Fill>
+                                        </Path>
+                                        <Path
+										Margin="1.6756591796875,2.7466187477111816,0,0"
+										HorizontalAlignment="Left"
+										VerticalAlignment="Top"
+										Height="11.382843017578125"
+										Width="11.50128173828125"
+										Stretch="Fill"
+										Opacity="1"
+										Data="M 2.66583251953125,11.794500827789307 C3.1883544921875,11.334784030914307 4.32244873046875,10.857977390289307 4.87469482421875,11.283758640289307 5.43365478515625,11.714697360992432 4.97509765625,13.030096530914307 4.64617919921875,13.399847507476807 5.6744384765625,12.889044284820557 6.44183349609375,13.367193698883057 6.3218994140625,14.129461765289307 6.3218994140625,14.129461765289307 13.17694091796875,6.322027683258057 13.17694091796875,6.322027683258057 13.17694091796875,6.322027683258057 12.49267578125,5.120275974273682 11.27276611328125,4.132940769195557 10.0528564453125,3.1456360816955566 8.68310546875,2.7466187477111816 8.68310546875,2.7466187477111816 8.68310546875,2.7466187477111816 1.6756591796875,10.189276218414307 1.6756591796875,10.189276218414307 2.63238525390625,10.069525241851807 3.0367431640625,10.658392429351807 2.66583251953125,11.794500827789307 z">
+                                            <Path.Fill>
+                                                <LinearGradientBrush
+												StartPoint="0.7381246782744365,0.7774140533468457"
+												EndPoint="0.21810472465598582,0.3436284327051714">
+                                                    <LinearGradientBrush.GradientStops>
+                                                        <GradientStopCollection>
+                                                            <GradientStop
+															Color="#FFf2d083"
+															Offset="0" />
+                                                            <GradientStop
+															Color="#FFffffff"
+															Offset="0.8999999761581421" />
+                                                            <GradientStop
+															Color="#FFffffff"
+															Offset="0.9388890266418457" />
+                                                        </GradientStopCollection>
+                                                    </LinearGradientBrush.GradientStops>
+                                                </LinearGradientBrush>
+                                            </Path.Fill>
+                                        </Path>
+                                        <Path
+										Margin="2.2850341796875,3.0384278297424316,0,0"
+										HorizontalAlignment="Left"
+										VerticalAlignment="Top"
+										Height="10.4921875"
+										Width="10.56341552734375"
+										Stretch="Fill"
+										Opacity="1"
+										Data="M 2.2850341796875,9.897375583648682 C2.99908447265625,9.961187839508057 3.257568359375,10.552740573883057 3.04669189453125,11.283758640289307 4.84844970703125,10.191320896148682 6.00482177734375,11.159094333648682 5.10321044921875,13.034979343414307 5.81842041015625,12.690985202789307 6.5556640625,12.951666355133057 6.54547119140625,13.530615329742432 6.54547119140625,13.530615329742432 12.84844970703125,6.244909763336182 12.84844970703125,6.244909763336182 12.04730224609375,4.655767917633057 10.4432373046875,3.6082520484924316 8.75921630859375,3.0384278297424316 6.59906005859375,5.315008640289307 4.425537109375,7.603888034820557 2.2850341796875,9.897375583648682 z">
+                                            <Path.Fill>
+                                                <LinearGradientBrush
+												StartPoint="0.7459713065736028,0.8155947505584512"
+												EndPoint="0.1819137810493959,0.34676040115413254">
+                                                    <LinearGradientBrush.GradientStops>
+                                                        <GradientStopCollection>
+                                                            <GradientStop
+															Color="#FFe4b23e"
+															Offset="0" />
+                                                            <GradientStop
+															Color="#FFe4b23e"
+															Offset="0.07777799665927887" />
+                                                            <GradientStop
+															Color="#FFecbd40"
+															Offset="0.3388890027999878" />
+                                                            <GradientStop
+															Color="#FFf3d661"
+															Offset="0.37222200632095337" />
+                                                            <GradientStop
+															Color="#FFe9b02e"
+															Offset="0.6888890266418457" />
+                                                            <GradientStop
+															Color="#FFffffff"
+															Offset="0.7166669964790344" />
+                                                            <GradientStop
+															Color="#FFf2d25b"
+															Offset="0.8888890147209167" />
+                                                            <GradientStop
+															Color="#FFf2d25b"
+															Offset="0.9388890266418457" />
+                                                        </GradientStopCollection>
+                                                    </LinearGradientBrush.GradientStops>
+                                                </LinearGradientBrush>
+                                            </Path.Fill>
+                                        </Path>
+                                        <Path
+										Margin="0,2.4546875953674316,0,0"
+										HorizontalAlignment="Left"
+										VerticalAlignment="Top"
+										Height="14.082733154296875"
+										Width="13.45452880859375"
+										Stretch="Fill"
+										Opacity="1"
+										Data="M 13.45452880859375,6.360540866851807 C13.45452880859375,6.360540866851807 12.86126708984375,5.079351902008057 11.51513671875,3.9913392066955566 10.1690673828125,2.9032349586486816 8.60693359375,2.4546875953674316 8.60693359375,2.4546875953674316 8.60693359375,2.4546875953674316 0.48486328125,11.217688083648682 0.48486328125,11.217688083648682 0.48486328125,11.217688083648682 0,16.537420749664307 0,16.537420749664307 0,16.537420749664307 5.45452880859375,15.496618747711182 5.45452880859375,15.496618747711182 5.45452880859375,15.496618747711182 13.45452880859375,6.360540866851807 13.45452880859375,6.360540866851807 zM 1.6756591796875,10.189276218414307 C1.6756591796875,10.189276218414307 8.72723388671875,2.7234253883361816 8.72723388671875,2.7234253883361816 8.72723388671875,2.7234253883361816 10.05279541015625,3.1272644996643066 11.272705078125,4.114569187164307 12.49261474609375,5.101904392242432 13.21209716796875,6.302801609039307 13.21209716796875,6.302801609039307 13.21209716796875,6.302801609039307 6.3980712890625,14.056555271148682 6.3980712890625,14.056555271148682 6.4578857421875,13.859381198883057 6.41790771484375,13.554449558258057 6.2457275390625,13.326849460601807 6.17333984375,13.231207370758057 5.99700927734375,13.138861179351807 5.8648681640625,13.107916355133057 5.57305908203125,13.039648532867432 5.13604736328125,13.177252292633057 4.64617919921875,13.399847507476807 4.97509765625,13.030096530914307 5.5423583984375,11.690161228179932 4.95086669921875,11.210791110992432 4.33349609375,10.710394382476807 3.166015625,11.403234958648682 2.66583251953125,11.794500827789307 2.90313720703125,11.247900485992432 3.08502197265625,10.543341159820557 2.58966064453125,10.189276218414307 2.41412353515625,10.063757419586182 2.0184326171875,10.046850681304932 1.6756591796875,10.189276218414307 zM 5.69696044921875,14.802740573883057 C5.47796630859375,15.076391696929932 5.33331298828125,15.265326023101807 5.33331298828125,15.265326023101807 5.33331298828125,15.265326023101807 0.228515625,16.318487644195557 0.228515625,16.318487644195557 0.228515625,16.318487644195557 0.72723388671875,11.333349704742432 0.72723388671875,11.333349704742432 0.72723388671875,11.333349704742432 1.21868896484375,10.700018405914307 1.21868896484375,10.700018405914307 1.39300537109375,10.529455661773682 1.706787109375,10.373205661773682 1.9803466796875,10.335211277008057 2.271728515625,10.294714450836182 2.387451171875,10.321630954742432 2.51348876953125,10.408178806304932 2.83062744140625,10.625860691070557 2.6695556640625,11.425970554351807 2.1326904296875,12.451269626617432 3.32958984375,11.508856296539307 4.42132568359375,11.013739109039307 4.79852294921875,11.356756687164307 5.2421875,11.760138034820557 4.8857421875,12.766577243804932 3.960693359375,14.056555271148682 5.09527587890625,13.298803806304932 5.73175048828125,13.207891941070557 6.0172119140625,13.472784519195557 6.128662109375,13.576178073883057 6.19854736328125,13.819097995758057 6.1695556640625,13.983526706695557 6.1190185546875,14.269842624664307 5.8836669921875,14.599585056304932 5.69696044921875,14.802740573883057 z">
+                                            <Path.Fill>
+                                                <LinearGradientBrush
+												StartPoint="0.3713045332268791,0.31299367446577514"
+												EndPoint="0.7078829063822645,0.6230878748675408">
+                                                    <LinearGradientBrush.GradientStops>
+                                                        <GradientStopCollection>
+                                                            <GradientStop
+															Color="#FFe9b02e"
+															Offset="0" />
+                                                            <GradientStop
+															Color="#FFe9b02e"
+															Offset="0.3111110031604767" />
+                                                            <GradientStop
+															Color="#FFbb803d"
+															Offset="0.9777780175209045" />
+                                                        </GradientStopCollection>
+                                                    </LinearGradientBrush.GradientStops>
+                                                </LinearGradientBrush>
+                                            </Path.Fill>
+                                        </Path>
+                                        <Path
+										Margin="3.808349609375,2.8924927711486816,0,0"
+										HorizontalAlignment="Left"
+										VerticalAlignment="Top"
+										Height="5.66534423828125"
+										Width="8.191650390625"
+										Stretch="Fill"
+										Opacity="1"
+										Data="M 3.808349609375,8.073217868804932 C3.808349609375,8.073217868804932 5.21209716796875,8.557837009429932 5.21209716796875,8.557837009429932 5.21209716796875,8.557837009429932 5.69696044921875,8.557837009429932 5.69696044921875,8.557837009429932 5.69696044921875,8.557837009429932 10.6666259765625,6.591833591461182 10.6666259765625,6.591833591461182 10.6666259765625,6.591833591461182 12,5.088446140289307 12,5.088446140289307 12,5.088446140289307 9.82562255859375,3.4032654762268066 9.82562255859375,3.4032654762268066 9.82562255859375,3.4032654762268066 8.53076171875,2.8924927711486816 8.53076171875,2.8924927711486816 8.53076171875,2.8924927711486816 3.808349609375,8.073217868804932 3.808349609375,8.073217868804932 z">
+                                            <Path.Fill>
+                                                <LinearGradientBrush
+												StartPoint="0.6617441063392245,0.8788905527843914"
+												EndPoint="0.6723690877119781,0.3794399974143782">
+                                                    <LinearGradientBrush.GradientStops>
+                                                        <GradientStopCollection>
+                                                            <GradientStop
+															Color="#99ffffff"
+															Offset="0" />
+                                                            <GradientStop
+															Color="#00ffffff"
+															Offset="0.9444440007209778" />
+                                                        </GradientStopCollection>
+                                                    </LinearGradientBrush.GradientStops>
+                                                </LinearGradientBrush>
+                                            </Path.Fill>
+                                        </Path>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+
+                        <TextBox x:Name="TextBlock" Text="{TemplateBinding DisplayText}" BorderBrush="#00FFFFFF"
+                                 HorizontalAlignment="Stretch" TextAlignment="{TemplateBinding TextAlignmentResolved}"
+                                 TextWrapping="{TemplateBinding TextWrapping}" Grid.Column="1" />
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="1">
+
+            <StackPanel Orientation="Horizontal">
+                <Label Content="{Binding Source={StaticResource resStrings}, Path=StandaloneUsage_IsAlwaysInEditMode_Main_Label1}"
+                       FontWeight="Bold" MinWidth="100" Style="{StaticResource SamplesInnerNavigationLabelTitleStyle}"/>
+                <!-- #BEGIN SNIPPET# -->
+                <igEditors:XamTextEditor
+					x:Name="txtEditor"
+					Width="120"
+					Text="{Binding Source={StaticResource resStrings}, Path=StandaloneUsage_IsAlwaysInEditMode_SampleText_Label, Mode=OneWay}"
+					EditTemplate="{DynamicResource customEditTemplate}"
+					Margin="0,1"
+					Grid.Column="1"
+					IsAlwaysInEditMode="{Binding ElementName=chkIsAlwaysInEditMode, Path=IsChecked, Mode=Default}"
+                    HorizontalAlignment="Left"
+                    Theme="RoyalLight" />
+                <!-- #END SNIPPET# -->
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                <Label Content="{Binding Source={StaticResource resStrings}, Path=StandaloneUsage_IsAlwaysInEditMode_Main_Label2}"
+                       FontWeight="Bold" MinWidth="100" Style="{StaticResource SamplesInnerNavigationLabelTitleStyle}"/>
+                <igEditors:XamTextEditor
+					x:Name="txtEditor1"
+					Width="120"
+					Text="{Binding Source={StaticResource resStrings}, Path=StandaloneUsage_IsAlwaysInEditMode_SampleText_Label, Mode=OneWay}"
+					Margin="0,1"
+					Grid.Column="1"
+					EditTemplate="{DynamicResource customEditTemplate}"					
+					IsAlwaysInEditMode="{Binding ElementName=chkIsAlwaysInEditMode, Path=IsChecked, Mode=Default}"
+                    HorizontalAlignment="Left"
+                    Theme="RoyalLight" />
+            </StackPanel>
+            
+        </StackPanel>
+
+        <controls:OptionsPanel VerticalAlignment="Top" IsMovable="False" Margin="0,0,0,10"
+            HeaderText="{Binding Path=StandaloneUsage_IsAlwaysInEditMode_ConfigArea_Header, Source={StaticResource resStrings}}">
+            <Grid>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox
+						
+						Grid.Row="0"
+						x:Name="chkIsAlwaysInEditMode"
+						Content="{Binding Source={StaticResource resStrings}, Path=StandaloneUsage_IsAlwaysInEditMode_Main_Label3}"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Center"
+						Checked="chkIsAlwaysInEditMode_Checked" />
+                </StackPanel>
+            </Grid>
+        </controls:OptionsPanel>
+
+    </Grid>
+</framework:SampleContainer>

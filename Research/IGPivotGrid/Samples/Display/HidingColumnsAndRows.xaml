@@ -1,0 +1,95 @@
+﻿<framework:SampleContainer x:Class="IGPivotGrid.Samples.Display.HidingColumnsAndRows"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="HidingColumns Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:localControls="clr-namespace:IGPivotGrid.Samples.Controls"
+      xmlns:res="clr-namespace:IGPivotGrid.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                
+                <ResourceDictionary Source="/IGPivotGrid;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <res:PivotGridStrings x:Key="Strings" />
+            <localControls:SampleFlatDataSourceCityVsProduct x:Key="FlatDataSource"/>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamPivotGrid x:Name="pivotGrid" DataSource="{StaticResource FlatDataSource}" AllowCompactLayout="True"
+                         AllowHidingColumns="True"
+                         AllowHidingRows="True">
+            <ig:XamPivotGrid.HiddenAxisSettings>
+                <ig:HiddenAxisSettings
+                    AllowColumnChooser="True"
+                    AllowRowChooser="True"
+                    HiddenAxis="Clue"/>
+            </ig:XamPivotGrid.HiddenAxisSettings>
+        </ig:XamPivotGrid>
+        <!-- #END SNIPPET# -->
+        <ig:Expander Grid.Column="1" IsExpanded="False">
+            <ig:XamPivotDataSelector x:Name="dataSelector" DataSource="{StaticResource FlatDataSource}" />
+        </ig:Expander>
+
+        <controls:OptionsPanel HeaderText="{Binding XPG_HidingOptions, Source={StaticResource Strings}}" Margin="300 120 0 0">
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}"/>
+            </controls:OptionsPanel.Resources>
+            <Border Margin="{StaticResource OptionsElementsMargin}">
+                <StackPanel>
+                    <TextBlock Text="{Binding XPG_HidingProperties, Source={StaticResource Strings}}" Style="{StaticResource OptionsPanelTitleStyle}"/>
+                    <CheckBox x:Name="chkAllowHidingColumns" Content="{Binding XPG_AllowHidingColumns, Source={StaticResource Strings}}" IsChecked="{Binding ElementName=pivotGrid, Path=AllowHiddingColumns, Mode=TwoWay}" Margin="{StaticResource OptionsElementsMargin}"/>
+                    <CheckBox x:Name="chkAllowHidingRows" Content="{Binding XPG_AllowHidingRows, Source={StaticResource Strings}}" IsChecked="{Binding ElementName=pivotGrid, Path=AllowHiddingRows, Mode=TwoWay}" Margin="{StaticResource OptionsElementsMargin}"/>
+                    <CheckBox Content="{Binding XPG_AllowColumnChooser, Source={StaticResource Strings}}" IsChecked="{Binding ElementName=pivotGrid, Path=HiddenAxisSettings.AllowColumnChooser, Mode=TwoWay}" Margin="{StaticResource OptionsElementsMargin}"/>
+                    <CheckBox Content="{Binding XPG_AllowRowChooser, Source={StaticResource Strings}}" IsChecked="{Binding ElementName=pivotGrid, Path=HiddenAxisSettings.AllowRowChooser, Mode=TwoWay}" Margin="{StaticResource OptionsElementsMargin}"/>
+                </StackPanel>
+            </Border>
+            <Border Margin="{StaticResource OptionsElementsMargin}">
+                <StackPanel>
+                    <TextBlock Text="{Binding XPG_HiddenAxisSetting, Source={StaticResource Strings}}" Style="{StaticResource OptionsPanelTitleStyle}" Margin="0"/>
+                    <controls:EnumValuesProvider EnumType="ig:HiddenAxis"
+                                                 DisplayTemplate="RadioButtonList"
+                                                 Value="{Binding ElementName=pivotGrid, Path=HiddenAxisSettings.HiddenAxis, Mode=TwoWay}"
+                                                 ValueChanged="HiddenAxisSetting_ValueChanged" />
+                </StackPanel>
+            </Border>
+            <Border>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                        <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                        <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding XPG_HidingFromCB, Source={StaticResource Strings}}" Grid.ColumnSpan="3" Style="{StaticResource OptionsPanelTitleStyle}" />
+
+                    <TextBlock Grid.Row="1" Text="{Binding XPG_ColumnIndex, Source={StaticResource Strings}}"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" x:Name="ColumnIdx" Text="0" Width="25" TextChanged="ColumnIdx_TextChanged" VerticalAlignment="Center"/>
+                    <ToggleButton Grid.Row="1" Grid.Column="2" x:Name="ColumnsToggle" Content="{Binding XPG_Hide, Source={StaticResource Strings}}" Click="ColumnsToggle_Click" VerticalAlignment="Center" MinHeight="24"/>
+
+                    <TextBlock Grid.Row="2" Text="{Binding XPG_RowIndex, Source={StaticResource Strings}}"/>
+                    <TextBox Grid.Row="2" Grid.Column="1" x:Name="RowIdx" Text="0" Width="25" TextChanged="RowIdx_TextChanged" VerticalAlignment="Center"/>
+                    <ToggleButton Grid.Row="2" Grid.Column="2" x:Name="RowsToggle" Content="{Binding XPG_Hide, Source={StaticResource Strings}}" Click="RowsToggle_Click" VerticalAlignment="Center" MinHeight="24"/>
+                </Grid>
+            </Border>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

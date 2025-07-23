@@ -1,0 +1,99 @@
+﻿<framework:SampleContainer x:Class="IGInputs.Samples.Data.DataModes"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="DataModes"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGInputs.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <res:InputStrings x:Key="Strings"/>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGInputs;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Margin="0,20,5,20" Grid.Row="1" Text="{Binding Source={StaticResource Strings}, Path=PhoneNumber}" 
+                   VerticalAlignment="Center" Foreground="{StaticResource ForegroundBrush}"/>
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamMaskedInput
+            Mask="(###)###-####" InvalidValueBehavior="RetainValue"
+            PadChar="{Binding ElementName=cboPadChar, Path=SelectedItem.Content}"
+            PromptChar="{Binding ElementName=cboPromptChar, Path=SelectedItem.Content}"
+            DataMode="{Binding ElementName=dataModeCombo, Path=Value}"
+            ClipMode="{Binding ElementName=clipModeCombo, Path=Value}"
+            DisplayMode="{Binding ElementName=displayModeCombo, Path=Value}"
+            Width="150" Grid.Row="1" Grid.Column="1"
+            Margin="0,20,20,20" x:Name="maskedInput">
+        </ig:XamMaskedInput>
+        <!-- #END SNIPPET# -->
+        <TextBlock Margin="0,20,5,20" Grid.Row="1" Grid.Column="2" Text="{Binding Source={StaticResource Strings}, Path=PasteHere}" VerticalAlignment="Center" Foreground="{StaticResource ForegroundBrush}"/>
+        <TextBox Margin="0,20,20,20" Grid.Row="1" Grid.Column="3" Width="150"/>
+        <TextBlock Margin="0,20,0,20" Grid.Row="2" Text="{Binding Source={StaticResource Strings}, Path=Value}" VerticalAlignment="Center" Foreground="{StaticResource ForegroundBrush}"/>
+        <TextBox Margin="0,20,20,20" Grid.Row="2" Grid.Column="1" Width="150" Text="{Binding ElementName=maskedInput, Path=Value}" IsReadOnly="True"/>
+        <controls:OptionsPanel Grid.ColumnSpan="4" Margin="10,10,0,10" IsMovable="False" HorizontalAlignment="Left">
+            <Grid>
+                <Grid.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                        <Setter Property="HorizontalAlignment" Value="Right"/>
+                        <Setter Property="Margin" Value="5 0"/>
+                    </Style>
+                </Grid.Resources>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="DataMode" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 5 8"/>
+                <controls:EnumValuesProvider Grid.Column="1" x:Name="dataModeCombo" EnumType="ig:InputMaskMode" DisplayTemplate="ComboBox" SelectedEnumIndex="0" Width="190" Margin="{StaticResource OptionsElementsMargin}"/>
+                <TextBlock Grid.Row="1" Text="ClipMode" Margin="0 0 5 8"/>
+                <controls:EnumValuesProvider Grid.Row="1" Grid.Column="1" x:Name="clipModeCombo" EnumType="ig:InputMaskMode" DisplayTemplate="ComboBox" SelectedEnumIndex="0" Width="190" Margin="{StaticResource OptionsElementsMargin}"/>
+                <TextBlock Grid.Row="2" Text="DisplayMode"/>
+                <controls:EnumValuesProvider Grid.Row="2" Grid.Column="1" x:Name="displayModeCombo" EnumType="ig:InputMaskMode" DisplayTemplate="ComboBox" SelectedEnumIndex="0" Width="190"/>
+
+                <TextBlock Text="PadChar" FontWeight="Bold" Grid.Column="2" Margin="15,0,5,8"/>
+                <ComboBox x:Name="cboPadChar" SelectedIndex="1" Grid.Column="3" MinWidth="40" Margin="{StaticResource OptionsElementsMargin}">
+                    <ComboBoxItem Content=" "/>
+                    <ComboBoxItem Content="*"/>
+                    <ComboBoxItem Content="~"/>
+                    <ComboBoxItem Content="+"/>
+                </ComboBox>
+                <TextBlock Text="PromptChar" FontWeight="Bold" Grid.Row="1" Grid.Column="2" Margin="15,0,5,8"/>
+                <ComboBox x:Name="cboPromptChar" SelectedIndex="0" Grid.Row="1" Grid.Column="3" MinWidth="40" Margin="{StaticResource OptionsElementsMargin}">
+                    <ComboBoxItem Content="_"/>
+                    <ComboBoxItem Content="*"/>
+                    <ComboBoxItem Content="~"/>
+                    <ComboBoxItem Content="+"/>
+                </ComboBox>
+            </Grid>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

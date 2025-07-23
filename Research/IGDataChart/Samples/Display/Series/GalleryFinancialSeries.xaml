@@ -1,0 +1,206 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Display.Series.GalleryFinancialSeries"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="FinancialSeries Page"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+      xmlns:resources="clr-namespace:IGDataChart.Resources" 
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <resources:DataChartStrings x:Key="Strings" />
+            <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}">
+                <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+            </Style>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.DataContext>
+            <models:StockMarketDataCollection />
+        </Grid.DataContext>
+
+        <Grid Grid.Row="0" x:Name="Container">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="0.3*" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="0.3*" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="0.3*" />
+            </Grid.RowDefinitions>
+
+            <ig:XamDataChart x:Name="FinancialPriceChart" Grid.Row="1"
+                             IsHorizontalZoomEnabled="True"
+                             IsVerticalZoomEnabled="True" >
+                <ig:SyncManager.SyncSettings>
+                    <ig:SyncSettings SyncChannel="syncFinancialIndicators" SynchronizeHorizontally="True" SynchronizeVertically="False" />
+                </ig:SyncManager.SyncSettings>
+                <ig:XamDataChart.Axes>
+                    <ig:CategoryXAxis x:Name="commonCategoryXAxis" ItemsSource="{Binding}" Label="{}{Date:MM/dd}"/>
+                    <ig:NumericYAxis x:Name="commonNumericYAxis"/>
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- =========================================================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:FinancialPriceSeries
+                        DisplayType="Candlestick" 
+                        ItemsSource="{Binding}"
+                        OpenMemberPath="Open"
+                        CloseMemberPath="Close"
+                        HighMemberPath="High"
+                        LowMemberPath="Low"
+                        VolumeMemberPath="Volume"
+                        IsHighlightingEnabled="True" IsTransitionInEnabled="True" 
+                        XAxis="{Binding ElementName=commonCategoryXAxis}"
+                        YAxis="{Binding ElementName=commonNumericYAxis}" 
+                        TrendLineType="None" >
+                    </ig:FinancialPriceSeries>
+                </ig:XamDataChart.Series>
+                <!-- =========================================================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+            <ig:XamDataChart x:Name="FinancialIndicatorChart" Grid.Row="3" 
+                             IsHorizontalZoomEnabled="True"
+                             IsVerticalZoomEnabled="True">
+                <ig:SyncManager.SyncSettings>
+                    <ig:SyncSettings SyncChannel="syncFinancialIndicators" SynchronizeHorizontally="True" SynchronizeVertically="False" />
+                </ig:SyncManager.SyncSettings>
+                <ig:XamDataChart.Axes>
+                    <ig:CategoryXAxis x:Name="indicatorCategoryXAxis" Interval="20" ItemsSource="{Binding}" Label="{}{Date:MM/dd}"/>
+                    <ig:NumericYAxis x:Name="indicatorNumericYAxis"/>
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- =========================================================================================================== -->
+                <!-- Note that most Financial Indicators are used in the same way as FinancialPriceSeries.
+                     Please refer to code behind to see how other Financial Indicators are created in the xamDataChart -->
+                <!-- =========================================================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:AbsoluteVolumeOscillatorIndicator
+                        Thickness="3"
+                        TrendLineType="None"
+                        DisplayType="Area"
+                        IsHighlightingEnabled="True" IsTransitionInEnabled="True" 
+                        XAxis="{Binding ElementName=indicatorCategoryXAxis, Mode=OneWay}"
+                        YAxis="{Binding ElementName=indicatorNumericYAxis, Mode=OneWay}"
+                        ItemsSource="{Binding}"
+                        OpenMemberPath="Open"
+                        CloseMemberPath="Close"
+                        HighMemberPath="High"
+                        LowMemberPath="Low"
+                        VolumeMemberPath="Volume" >
+                    </ig:AbsoluteVolumeOscillatorIndicator>
+                </ig:XamDataChart.Series>
+                <!-- =========================================================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+            <ig:XamDataChart x:Name="FinancialOverlayChart"  Grid.Row="5" 
+                             IsHorizontalZoomEnabled="True"
+                             IsVerticalZoomEnabled="True">
+                <ig:SyncManager.SyncSettings>
+                    <ig:SyncSettings SyncChannel="syncFinancialIndicators" SynchronizeHorizontally="True" SynchronizeVertically="False" />
+                </ig:SyncManager.SyncSettings>
+                <ig:XamDataChart.Axes>
+                    <ig:CategoryXAxis x:Name="overlayCategoryXAxis" Interval="20" ItemsSource="{Binding}" Label="{}{Date:MM/dd}"/>
+                    <ig:NumericYAxis x:Name="overlayNumericYAxis"/>
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- =========================================================================================================== -->
+                <!-- Note that most Financial Overlays are used in the same way as FinancialPriceSeries.
+                     Please refer to code behind to see how other Financial Overlays are created in the xamDataChart -->
+                <!-- =========================================================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:BollingerBandsOverlay
+                        IsHighlightingEnabled="True" IsTransitionInEnabled="True" 
+                        XAxis="{Binding ElementName=overlayCategoryXAxis, Mode=OneWay}"
+                        YAxis="{Binding ElementName=overlayNumericYAxis, Mode=OneWay}"
+                        ItemsSource="{Binding}"
+                        OpenMemberPath="Open"
+                        CloseMemberPath="Close"
+                        HighMemberPath="High"
+                        LowMemberPath="Low"
+                        VolumeMemberPath="Volume" >
+                    </ig:BollingerBandsOverlay>
+                </ig:XamDataChart.Series>
+                <!-- =========================================================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+
+            <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="{StaticResource SampleInnerNavigationPadding}" HorizontalAlignment="Left">
+                <TextBlock Text="{Binding Path=XWDC_FinancialPriceSeries, Source={StaticResource Strings}}" 
+                           Style="{StaticResource SamplesInnerNavigationTitleStyle}"/>
+                <ComboBox x:Name="FinancialPriceModesComboBox" Width="200" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource IGComboBoxStyle}">
+                    <ComboBox.Items>
+                        <ComboBoxItem Tag="Candlestick" Content="{Binding Path=XWDC_FinancialPriceSeries_CandlestickDisplayMode, Source={StaticResource Strings}}"/>
+                        <ComboBoxItem Tag="OHLC" Content="{Binding Path=XWDC_FinancialPriceSeries_OHLC_DisplayMode, Source={StaticResource Strings}}"/>
+                    </ComboBox.Items>
+                </ComboBox>
+                <Button x:Name="PrevFinancialPriceModeButton" VerticalAlignment="Center" HorizontalAlignment="Center" Cursor="Hand" Margin="0,0,2,0" Content="" Style="{StaticResource IGPreviousButtonStyle}" ></Button>
+                <Button x:Name="NextFinancialPriceModeButton" VerticalAlignment="Center" HorizontalAlignment="Right" Cursor="Hand" Margin="0,0,2,0" Content="" Style="{StaticResource IGNextButtonStyle}" />
+               
+            </StackPanel>
+            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="{StaticResource SampleInnerNavigationTopBottomPadding}">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                    <TextBlock Text="{Binding Path=XWDC_FinancialIndicators, Source={StaticResource Strings}}" 
+                           Style="{StaticResource SamplesInnerNavigationTitleStyle}"/>
+                    <ComboBox x:Name="IndicatorsComboBox" Width="300" HorizontalAlignment="Left" VerticalAlignment="Center"  
+                              DisplayMemberPath="DisplayName" Style="{StaticResource IGComboBoxStyle}"/>
+                    <Button x:Name="PrevIndicatorsButton" VerticalAlignment="Center" HorizontalAlignment="Center" Cursor="Hand" Margin="0,0,2,0" Content="" Style="{StaticResource IGPreviousButtonStyle}" />
+                    <Button x:Name="NextIndicatorsButton" VerticalAlignment="Center" HorizontalAlignment="Right" Cursor="Hand" Margin="0,0,2,0" Content="" Style="{StaticResource IGNextButtonStyle}" />
+                </StackPanel>
+                <ComboBox x:Name="IndicatorModesComboBox" Width="200" Margin="4,0,2,0" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource IGComboBoxStyle}">
+                    <ComboBox.Items>
+                        <ComboBoxItem Tag="Area" Content="{Binding Path=XWDC_FinancialIndicators_AreaDisplayMode, Source={StaticResource Strings}}"></ComboBoxItem>
+                        <ComboBoxItem Tag="Column" Content="{Binding Path=XWDC_FinancialIndicators_ColumnDisplayMode, Source={StaticResource Strings}}"></ComboBoxItem>
+                        <ComboBoxItem Tag="Line" Content="{Binding Path=XWDC_FinancialIndicators_LineDisplayMode, Source={StaticResource Strings}}"></ComboBoxItem>
+                    </ComboBox.Items>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="{StaticResource SampleInnerNavigationTopBottomPadding}">
+                <TextBlock Text="{Binding Path=XWDC_FinancialOverlays, Source={StaticResource Strings}}" Style="{StaticResource SamplesInnerNavigationTitleStyle}" />
+                <ComboBox x:Name="OverlaysComboBox" Width="200" HorizontalAlignment="Left" 
+                         VerticalAlignment="Center" DisplayMemberPath="DisplayName" Style="{StaticResource IGComboBoxStyle}">
+                </ComboBox>
+                <Button x:Name="PrevOverlaysButton" HorizontalAlignment="Center" Cursor="Hand"
+                        VerticalAlignment="Center" Margin="0,0,2,0" Content="" Style="{StaticResource IGPreviousButtonStyle}" ></Button>
+                <Button x:Name="NextOverlaysButton" HorizontalAlignment="Right" Cursor="Hand"
+                        VerticalAlignment="Center" Margin="0,0,2,0" Content="" Style="{StaticResource IGNextButtonStyle}" />
+
+                <StackPanel x:Name="FinancialOverlayPeriodPanel" Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" Margin="2" >
+                        <TextBlock Text="{Binding Path=XWDC_FinancialOverlays_Period, Source={StaticResource Strings}}" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding ElementName=FinancialOverlayPeriodSlider, Path=Value, StringFormat='0'}" 
+                                   Width="25"  Margin="4,0,0,0" />
+                    </StackPanel>
+                    <Slider x:Name="FinancialOverlayPeriodSlider" HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                    Minimum="1" Maximum="20" Value="4" Style="{StaticResource IGSliderStyle}"
+                    SmallChange="1" LargeChange="1" Width="80"
+                    ValueChanged="FinancialOverlayPeriodSlider_ValueChanged" />
+                </StackPanel>
+
+                <StackPanel x:Name="FinancialOverlayMultiplierPanel" Margin="{StaticResource OptionsTextLeftMargin}" Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" Margin="2" >
+                        <TextBlock Text="{Binding Path=XWDC_FinancialOverlays_Multiplier, Source={StaticResource Strings}}" FontWeight="Normal"/>
+                        <TextBlock Text="{Binding ElementName=FinancialOverlayMultiplierSlider, Path=Value, StringFormat='0.00'}" 
+                                   Width="25" />
+                    </StackPanel>
+                    <Slider x:Name="FinancialOverlayMultiplierSlider" HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                    Minimum="1" Maximum="20" Value="4"  Style="{StaticResource IGSliderStyle}"
+                    SmallChange="1" LargeChange="1" Width="80"
+                    ValueChanged="FinancialOverlayMultiplierSlider_ValueChanged" />
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+
+    </Grid>
+</igFramework:SampleContainer>

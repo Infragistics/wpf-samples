@@ -1,0 +1,900 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7AF53654-52D3-4314-AE54-8827D0E163C0}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>IGDataGrid</RootNamespace>
+    <AssemblyName>IGDataGrid</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Output\</OutputPath>
+    <BaseIntermediateOutputPath>obj\WPF\</BaseIntermediateOutputPath>
+    <DefineConstants>TRACE;DEBUG;WPF</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Output\</OutputPath>
+    <BaseIntermediateOutputPath>obj\WPF\</BaseIntermediateOutputPath>
+    <DefineConstants>TRACE;WPF</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="InfragisticsWPF">
+      <HintPath>..\packages\Infragistics.WPF.Trial.25.1.22\lib\net40\InfragisticsWPF.dll</HintPath>
+    </Reference>
+    <Reference Include="InfragisticsWPF.Controls.Editors.XamColorPicker">
+      <HintPath>..\packages\Infragistics.WPF.ColorPicker.Trial.25.1.22\lib\net40\InfragisticsWPF.Controls.Editors.XamColorPicker.dll</HintPath>
+    </Reference>
+    <Reference Include="InfragisticsWPF.Controls.Editors.XamSlider">
+      <HintPath>..\packages\Infragistics.WPF.Slider.Trial.25.1.22\lib\net40\InfragisticsWPF.Controls.Editors.XamSlider.dll</HintPath>
+    </Reference>
+    <Reference Include="InfragisticsWPF.DataPresenter">
+      <HintPath>..\packages\Infragistics.WPF.DataGrids.Trial.25.1.22\lib\net40\InfragisticsWPF.DataPresenter.dll</HintPath>
+    </Reference>
+    <Reference Include="InfragisticsWPF.DataPresenter.ExcelExporter">
+      <HintPath>..\packages\Infragistics.WPF.DataGrids.Excel.Trial.25.1.22\lib\net40\InfragisticsWPF.DataPresenter.ExcelExporter.dll</HintPath>
+    </Reference>
+    <Reference Include="InfragisticsWPF.DataPresenter.WordWriter">
+      <HintPath>..\packages\Infragistics.WPF.DataGrids.Word.Trial.25.1.22\lib\net40\InfragisticsWPF.DataPresenter.WordWriter.dll</HintPath>
+    </Reference>
+    <Reference Include="InfragisticsWPF.Documents.Core">
+      <HintPath>..\packages\Infragistics.WPF.Documents.Core.Trial.25.1.22\lib\net40\InfragisticsWPF.Documents.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="InfragisticsWPF.Documents.Excel">
+      <HintPath>..\packages\Infragistics.WPF.Excel.Trial.25.1.22\lib\net40\InfragisticsWPF.Documents.Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="InfragisticsWPF.Documents.IO">
+      <HintPath>..\packages\Infragistics.WPF.Word.Trial.25.1.22\lib\net40\InfragisticsWPF.Documents.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="InfragisticsWPF.Editors">
+      <HintPath>..\packages\Infragistics.WPF.Editors.Trial.25.1.22\lib\net40\InfragisticsWPF.Editors.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Adorners\UIElementAdorner.cs" />
+    <Compile Include="Behaviors\AdorningEditorManager.cs" />
+    <Compile Include="Behaviors\Events.cs" />
+    <Compile Include="Behaviors\XamDataGridBehavior.cs" />
+    <Compile Include="Controls\CellValueGrapher.cs" />
+    <Compile Include="Controls\ContactAdornerControlBase.cs" />
+    <Compile Include="Controls\ContactEmailControl.xaml.cs">
+      <DependentUpon>ContactEmailControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ContactPhoneNumbersControl.xaml.cs">
+      <DependentUpon>ContactPhoneNumbersControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ContactPhotoAndNotesControl.xaml.cs">
+      <DependentUpon>ContactPhotoAndNotesControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\LocalizationRoot.cs" />
+    <Compile Include="Controls\Resources\Strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\EnableConverter.cs" />
+    <Compile Include="Converters\IsLabelIconTypeConverter.cs" />
+    <Compile Include="Converters\PassingToColorConverter.cs" />
+    <Compile Include="Converters\RateToGradientStopConverter.cs" />
+    <Compile Include="Converters\ValueToColorConverter.cs" />
+    <Compile Include="DataSources\CarsBusinessLogic.cs" />
+    <Compile Include="DataSources\Contact.cs" />
+    <Compile Include="DataSources\LibraryBusinessLogic.cs" />
+    <Compile Include="DataSources\NamedColors.cs" />
+    <Compile Include="DataSources\PlainObjects.cs" />
+    <Compile Include="DataSources\StockPortfolio.cs" />
+    <Compile Include="Models\RealTimeViewModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <AppDesigner Include="Properties\" />
+    <Compile Include="Resources\DataGridStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataGridStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Data\AsynchronousDataLoading.xaml.cs">
+      <DependentUpon>AsynchronousDataLoading.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Data\DataContextBinding.xaml.cs">
+      <DependentUpon>DataContextBinding.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Data\DataValueChangedEvent.xaml.cs">
+      <DependentUpon>DataValueChangedEvent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Data\DataValueHistory.xaml.cs">
+      <DependentUpon>DataValueHistory.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Data\HandlingEnumDataType.xaml.cs">
+      <DependentUpon>HandlingEnumDataType.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Data\HierarchicalDataBinding.xaml.cs">
+      <DependentUpon>HierarchicalDataBinding.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Data\ObjectDataBinding.xaml.cs">
+      <DependentUpon>ObjectDataBinding.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Data\SQLDataBinding.xaml.cs">
+      <DependentUpon>SQLDataBinding.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Data\XMLDataBinding.xaml.cs">
+      <DependentUpon>XMLDataBinding.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\ApplyTemplatesConditionally.xaml.cs">
+      <DependentUpon>ApplyTemplatesConditionally.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\ImageFields.xaml.cs">
+      <DependentUpon>ImageFields.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\ManualRefreshUI.xaml.cs">
+      <DependentUpon>ManualRefreshUI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\ResizingFieldsRecords.xaml.cs">
+      <DependentUpon>ResizingFieldsRecords.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\UnboundBinding.xaml.cs">
+      <DependentUpon>UnboundBinding.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\AutoFitFields.xaml.cs">
+      <DependentUpon>AutoFitFields.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\CheckBoxInRecordSelectors.xaml.cs">
+      <DependentUpon>CheckBoxInRecordSelectors.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\ConditionalFormatting.xaml.cs">
+      <DependentUpon>ConditionalFormatting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\EnablingFieldChooserUi.xaml.cs">
+      <DependentUpon>EnablingFieldChooserUi.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\EnablingRightToLeft.xaml.cs">
+      <DependentUpon>EnablingRightToLeft.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\ExpandableFieldRecordDisplayModes.xaml.cs">
+      <DependentUpon>ExpandableFieldRecordDisplayModes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\FieldChooserSettings.xaml.cs">
+      <DependentUpon>FieldChooserSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\FieldConfiguration.xaml.cs">
+      <DependentUpon>FieldConfiguration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\FieldLabelConfiguration.xaml.cs">
+      <DependentUpon>FieldLabelConfiguration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\FieldSettingsOverrides.xaml.cs">
+      <DependentUpon>FieldSettingsOverrides.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\FieldWidthAndHeight.xaml.cs">
+      <DependentUpon>FieldWidthAndHeight.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\FixedFields.xaml.cs">
+      <DependentUpon>FixedFields.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\FixedRecords.xaml.cs">
+      <DependentUpon>FixedRecords.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\HeaderPlacement.xaml.cs">
+      <DependentUpon>HeaderPlacement.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\IDataErrorInfoSupport.xaml.cs">
+      <DependentUpon>IDataErrorInfoSupport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\ManualAssignFieldLayouts.xaml.cs">
+      <DependentUpon>ManualAssignFieldLayouts.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\MovableFields.xaml.cs">
+      <DependentUpon>MovableFields.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Data\MVVMFieldBinding.xaml.cs">
+      <DependentUpon>MVVMFieldBinding.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\RecordNumbering.xaml.cs">
+      <DependentUpon>RecordNumbering.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\RecordOrientation.xaml.cs">
+      <DependentUpon>RecordOrientation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\ReevaluateTheStyleOnACellValueChange.xaml.cs">
+      <DependentUpon>ReevaluateTheStyleOnACellValueChange.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\SpecificEditorFields.xaml.cs">
+      <DependentUpon>SpecificEditorFields.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\UsingCellBinding.xaml.cs">
+      <DependentUpon>UsingCellBinding.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Display\XamComboEditorInDataRecordCells.xaml.cs">
+      <DependentUpon>XamComboEditorInDataRecordCells.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Editing\AddRecord.xaml.cs">
+      <DependentUpon>AddRecord.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Editing\AdorningEditors.xaml.cs">
+      <DependentUpon>AdorningEditors.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Editing\Clipboard.xaml.cs">
+      <DependentUpon>Clipboard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Editing\Commands.xaml.cs">
+      <DependentUpon>Commands.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Editing\Editing.xaml.cs">
+      <DependentUpon>Editing.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Editing\Events.xaml.cs">
+      <DependentUpon>Events.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Editing\ExcelExportingEvents.xaml.cs">
+      <DependentUpon>ExcelExportingEvents.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Editing\ExportToExcel.xaml.cs">
+      <DependentUpon>ExportToExcel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Editing\ExportToWord.xaml.cs">
+      <DependentUpon>ExportToWord.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Editing\SelectedDataItems.xaml.cs">
+      <DependentUpon>SelectedDataItems.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Editing\TemplateFields.xaml.cs">
+      <DependentUpon>TemplateFields.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Editing\UndoAdvanced.xaml.cs">
+      <DependentUpon>UndoAdvanced.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Editing\UndoSimple.xaml.cs">
+      <DependentUpon>UndoSimple.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Editing\WordExportingEvents.xaml.cs">
+      <DependentUpon>WordExportingEvents.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Organization\CellMerging.xaml.cs">
+      <DependentUpon>CellMerging.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Organization\CrossFieldFiltering.xaml.cs">
+      <DependentUpon>CrossFieldFiltering.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Organization\FieldGrouping.xaml.cs">
+      <DependentUpon>FieldGrouping.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\ViewModel\Enums.cs" />
+    <Compile Include="Samples\ViewModel\Person.cs" />
+    <Compile Include="Samples\Organization\AccessSummaryResults.xaml.cs">
+      <DependentUpon>AccessSummaryResults.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Organization\AlphabeticFilteringViaExternalUI.xaml.cs">
+      <DependentUpon>AlphabeticFilteringViaExternalUI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Organization\BindingCalculatedResult.xaml.cs">
+      <DependentUpon>BindingCalculatedResult.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Organization\ControlingFilterBehavior.xaml.cs">
+      <DependentUpon>ControlingFilterBehavior.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Organization\ControllingTabStopEnabledReadonly.xaml.cs">
+      <DependentUpon>ControllingTabStopEnabledReadonly.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Organization\CustomFilterDropDownItems.xaml.cs">
+      <DependentUpon>CustomFilterDropDownItems.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Organization\CustomFilteringViaExternalUI.xaml.cs">
+      <DependentUpon>CustomFilteringViaExternalUI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Organization\CustomFilterOperand.xaml.cs">
+      <DependentUpon>CustomFilterOperand.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Organization\CustomSummaryCalculators.xaml.cs">
+      <DependentUpon>CustomSummaryCalculators.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Organization\DefiningSummariesForASpecificFieldByCode.xaml.cs">
+      <DependentUpon>DefiningSummariesForASpecificFieldByCode.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Organization\DefiningSummariesForASpecificFiled.xaml.cs">
+      <DependentUpon>DefiningSummariesForASpecificFiled.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Organization\EnablingRecordFiltering.xaml.cs">
+      <DependentUpon>EnablingRecordFiltering.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Organization\EnablingRowSummaries.xaml.cs">
+      <DependentUpon>EnablingRowSummaries.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Organization\ExternalFiltering.xaml.cs">
+      <DependentUpon>ExternalFiltering.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Organization\FieldSorting.xaml.cs">
+      <DependentUpon>FieldSorting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Organization\FilterRecordUIOptions.xaml.cs">
+      <DependentUpon>FilterRecordUIOptions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Organization\FormattingRowSummaries.xaml.cs">
+      <DependentUpon>FormattingRowSummaries.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Organization\GroupByAreaExternal.xaml.cs">
+      <DependentUpon>GroupByAreaExternal.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Organization\GroupByConfiguration.xaml.cs">
+      <DependentUpon>GroupByConfiguration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Organization\SummaryLocationAndUIType.xaml.cs">
+      <DependentUpon>SummaryLocationAndUIType.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Performance\ExternalFiltering.xaml.cs">
+      <DependentUpon>ExternalFiltering.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Performance\ExternalGrouping.xaml.cs">
+      <DependentUpon>ExternalGrouping.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Performance\ExternalSorting.xaml.cs">
+      <DependentUpon>ExternalSorting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Performance\ExternalSummaries.xaml.cs">
+      <DependentUpon>ExternalSummaries.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Performance\PerformanceXamDataGrid.xaml.cs">
+      <DependentUpon>PerformanceXamDataGrid.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Style\AlternatingRowHighlighting.xaml.cs">
+      <DependentUpon>AlternatingRowHighlighting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Style\CellValuePresenterStylingAdvanced.xaml.cs">
+      <DependentUpon>CellValuePresenterStylingAdvanced.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Style\CellValuePresenterStylingSimple.xaml.cs">
+      <DependentUpon>CellValuePresenterStylingSimple.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Style\CustomLinkSummaryTemplate.xaml.cs">
+      <DependentUpon>CustomLinkSummaryTemplate.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Style\ExcelExportStyling.xaml.cs">
+      <DependentUpon>ExcelExportStyling.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Style\ExpandableFieldRecordPresenterStyling.xaml.cs">
+      <DependentUpon>ExpandableFieldRecordPresenterStyling.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Style\FieldChooser_Styling.xaml.cs">
+      <DependentUpon>FieldChooser_Styling.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Style\Filtering_Styling.xaml.cs">
+      <DependentUpon>Filtering_Styling.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Style\FixedFieldStyling.xaml.cs">
+      <DependentUpon>FixedFieldStyling.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Style\GroupByAreaMultiStyling.xaml.cs">
+      <DependentUpon>GroupByAreaMultiStyling.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Style\GroupByAreaStyling.xaml.cs">
+      <DependentUpon>GroupByAreaStyling.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Style\HeaderLabelAreaStyling.xaml.cs">
+      <DependentUpon>HeaderLabelAreaStyling.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Style\IDataErrorInfo_Styling.xaml.cs">
+      <DependentUpon>IDataErrorInfo_Styling.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Style\RecordLayoutCustomization.xaml.cs">
+      <DependentUpon>RecordLayoutCustomization.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Style\RecordNumberingStyling.xaml.cs">
+      <DependentUpon>RecordNumberingStyling.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Style\RowSummariesStyling.xaml.cs">
+      <DependentUpon>RowSummariesStyling.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Style\Theming.xaml.cs">
+      <DependentUpon>Theming.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Style\WordExportStyling.xaml.cs">
+      <DependentUpon>WordExportStyling.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\ViewModel\CarsBusinessLogicExtended.cs" />
+    <Compile Include="Samples\ViewModel\PersonFoods.cs" />
+    <Compile Include="Samples\ViewModel\ProductsDataProvider.cs" />
+    <Compile Include="Utils\Utils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Infragistics.Samples.Framework\Infragistics.Samples.Framework.WPF.csproj">
+      <Project>{9D1438D4-80AD-400D-976A-F4500A79C6E9}</Project>
+      <Name>Infragistics.Samples.Framework.WPF</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infragistics.Samples.Shared\Infragistics.Samples.Shared.WPF.csproj">
+      <Project>{AEA4805F-4C96-4943-BD61-34C18F96C2D9}</Project>
+      <Name>Infragistics.Samples.Shared.WPF</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Assets\Global.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Assets\HoverLessStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\ContactEmailControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\ContactPhoneNumbersControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\ContactPhotoAndNotesControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Data\AsynchronousDataLoading.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Data\DataContextBinding.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Data\DataValueChangedEvent.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Data\DataValueHistory.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Data\HandlingEnumDataType.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Samples\Data\HierarchicalDataBinding.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Data\ObjectDataBinding.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Data\SQLDataBinding.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Data\XMLDataBinding.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Display\ApplyTemplatesConditionally.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Samples\Display\ImageFields.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Samples\Display\ManualRefreshUI.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Samples\Display\ResizingFieldsRecords.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Samples\Display\UnboundBinding.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Samples\Display\AutoFitFields.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Display\CheckBoxInRecordSelectors.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Display\ConditionalFormatting.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Display\EnablingFieldChooserUi.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Display\EnablingRightToLeft.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Display\ExpandableFieldRecordDisplayModes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Display\FieldChooserSettings.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Display\FieldConfiguration.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Display\FieldLabelConfiguration.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Display\FieldSettingsOverrides.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Display\FieldWidthAndHeight.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Display\FixedFields.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Display\FixedRecords.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Display\HeaderPlacement.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Display\IDataErrorInfoSupport.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Display\ManualAssignFieldLayouts.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Display\MovableFields.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Data\MVVMFieldBinding.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Samples\Display\RecordNumbering.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Samples\Display\RecordOrientation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Display\ReevaluateTheStyleOnACellValueChange.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Display\SpecificEditorFields.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Samples\Display\UsingCellBinding.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Samples\Display\XamComboEditorInDataRecordCells.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Editing\AddRecord.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Editing\AdorningEditors.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Editing\Clipboard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Editing\Commands.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Editing\Editing.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Samples\Editing\Events.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Editing\ExcelExportingEvents.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Editing\ExportToExcel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Editing\ExportToWord.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Editing\SelectedDataItems.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Samples\Editing\TemplateFields.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Samples\Editing\UndoAdvanced.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Editing\UndoSimple.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Editing\WordExportingEvents.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Organization\AccessSummaryResults.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Organization\CellMerging.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Organization\CrossFieldFiltering.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Samples\Organization\AlphabeticFilteringViaExternalUI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Organization\BindingCalculatedResult.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Organization\ControlingFilterBehavior.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Organization\ControllingTabStopEnabledReadonly.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Samples\Organization\CustomFilterDropDownItems.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Organization\CustomFilteringViaExternalUI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Organization\CustomFilterOperand.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Organization\CustomSummaryCalculators.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Organization\DefiningSummariesForASpecificFieldByCode.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Organization\DefiningSummariesForASpecificFiled.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Organization\EnablingRecordFiltering.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Organization\EnablingRowSummaries.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Organization\ExternalFiltering.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Organization\FieldGrouping.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Samples\Organization\FieldSorting.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Organization\FilterRecordUIOptions.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Organization\FormattingRowSummaries.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Organization\GroupByAreaExternal.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Organization\GroupByConfiguration.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Organization\SummaryLocationAndUIType.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Performance\ExternalFiltering.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Samples\Performance\ExternalGrouping.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Samples\Performance\ExternalSorting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Samples\Performance\ExternalSummaries.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Samples\Performance\PerformanceXamDataGrid.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Style\AlternatingRowHighlighting.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Style\CellValuePresenterStylingAdvanced.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Style\CellValuePresenterStylingSimple.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Style\CustomLinkSummaryTemplate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Style\ExcelExportStyling.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Style\ExpandableFieldRecordPresenterStyling.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Style\FieldChooser_Styling.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Style\Filtering_Styling.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Style\FixedFieldStyling.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Style\GroupByAreaMultiStyling.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Style\GroupByAreaStyling.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Style\HeaderLabelAreaStyling.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Style\IDataErrorInfo_Styling.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Style\RecordLayoutCustomization.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Style\RecordNumberingStyling.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Samples\Style\RowSummariesStyling.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Style\Theming.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Style\WordExportStyling.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Controls\Images\contax.png" />
+    <Resource Include="Controls\Images\email.png" />
+    <Resource Include="Controls\Images\home.png" />
+    <Resource Include="Controls\Images\mobile.png" />
+    <Resource Include="Controls\Images\office.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Controls\Resources\Strings.ja.resx" />
+    <EmbeddedResource Include="Controls\Resources\Strings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\DataGridStrings.ja.resx" />
+    <EmbeddedResource Include="Resources\DataGridStrings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>DataGridStrings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DataSources\MutualFundsList.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\FieldChooserIcon.png" />
+    <Resource Include="Resources\GroupByExternal.png" />
+    <Resource Include="Resources\offline.png" />
+    <Resource Include="Resources\online.png" />
+    <Resource Include="Resources\SampleBallBlue.png" />
+    <Resource Include="Resources\SampleBallOrange.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,243 @@
+﻿<framework:SampleContainer x:Class="IGDragDropFramework.Samples.Editing.DropChannels"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="DropChannels"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGDragDropFramework.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDragDropFramework;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/IGDragDropFramework;component/Assets/SamplesStyles.wpf.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <res:DragAndDropStrings x:Key="DragDropStrings" />
+
+            <SolidColorBrush x:Key="mainBgBrush" Color="{StaticResource Color_002}"/>
+            <SolidColorBrush x:Key="UniformStackPanelBgBrush" Color="{StaticResource Color_008}"/>
+            <SolidColorBrush x:Key="TabVisualBgBrush" Color="{StaticResource Color_008}"/>
+
+            <DataTemplate x:Key="DraggedElementOverTarget" >
+                <Image Source="{Binding Data}" Opacity="0.3" >
+                    <Image.RenderTransform>
+                        <ScaleTransform ScaleX="0.5" ScaleY="0.5" />
+                    </Image.RenderTransform>
+                </Image>
+            </DataTemplate>
+
+            <DataTemplate x:Key="DraggedElementOutOfTarget">
+                <Image Source="{Binding Data}" >
+                    <Image.RenderTransform>
+                        <ScaleTransform ScaleX="0.5" ScaleY="0.5" />
+                    </Image.RenderTransform>
+                </Image>
+            </DataTemplate>
+
+            <SolidColorBrush x:Key="ImgBorderBrush" Color="{StaticResource Color_055}"/>
+
+            <Style x:Key="imageContainerStyle" TargetType="ContentControl">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ContentControl">
+                            <Border Margin="15" Height="83" Width="83" BorderThickness="1" BorderBrush="{StaticResource ImgBorderBrush}">
+                                <ContentPresenter />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+
+            <ControlTemplate x:Key="SrollViewerControlTemplate" TargetType="{x:Type ScrollViewer}">
+                <Grid x:Name="Grid" Background="{TemplateBinding Background}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Rectangle x:Name="Corner" Grid.Column="1"
+                               Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Grid.Row="1"/>
+                    <ScrollContentPresenter x:Name="PART_ScrollContentPresenter"
+                                            CanContentScroll="{TemplateBinding CanContentScroll}"
+                                            CanHorizontallyScroll="False" CanVerticallyScroll="False"
+                                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                                            Content="{TemplateBinding Content}" Grid.Column="0"
+                                            Margin="{TemplateBinding Padding}" Grid.Row="0"/>
+                    <ScrollBar Style="{StaticResource ScrollBarStyle}" x:Name="PART_VerticalScrollBar"
+                               AutomationProperties.AutomationId="VerticalScrollBar"
+                               Cursor="Arrow" Grid.Column="1" Maximum="{TemplateBinding ScrollableHeight}"
+                               Minimum="0" Grid.Row="0"
+                               Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
+                               Value="{Binding VerticalOffset, Mode=OneWay,
+                        RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportHeight}"/>
+                    <ScrollBar  Style="{StaticResource ScrollBarStyle}" x:Name="PART_HorizontalScrollBar"
+                                AutomationProperties.AutomationId="HorizontalScrollBar"
+                                Cursor="Arrow" Grid.Column="0" Maximum="{TemplateBinding ScrollableWidth}"
+                                Minimum="0" Orientation="Horizontal" Grid.Row="1"
+                                Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
+                                Value="{Binding HorizontalOffset, Mode=OneWay,
+                        RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportWidth}"/>
+                </Grid>
+            </ControlTemplate>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid Background="{StaticResource mainBgBrush}" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="90"/>
+        </Grid.RowDefinitions>
+        <Grid Background="White">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10">
+                <Grid x:Name="searchIcon" Width="16" Height="17">
+                    <Path
+                        Width="16" Height="17"
+                        HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                        Data="M 77.2112 130.7399 L 78.2302 131.7838 C 78.5118 132.0721 78.9679 132.0721 79.2494 131.7838 L 84.0804 126.8313 C 84.8268 127.1953 86.0245 127.7331 86.9721 127.7331 C 90.3757 127.7331 93 124.5736 93 121.0871 C 93 117.6007 90.3757 115 86.9721 115 C 83.5683 115 80.4836 117.6007 80.4836 121.0871 C 80.4836 122.5324 81.2498 124.1091 81.9921 125.0992 L 77.2112 129.6958 C 76.9296 129.9843 76.9296 130.4516 77.2112 130.7399 ZM 86.7061 117.0522 C 89.0131 117.0522 90.8833 118.9679 90.8833 121.3309 C 90.8833 123.694 89.0131 125.6096 86.7061 125.6096 C 84.3993 125.6096 82.5289 123.694 82.5289 121.3309 C 82.5289 118.9679 84.3993 117.0522 86.7061 117.0522 Z"
+                        Fill="{StaticResource GlyphBackgroundBrush}" Opacity="1"
+                        Stretch="Fill"/>
+
+                </Grid>
+                <TextBlock Text="{Binding Source={StaticResource DragDropStrings}, Path=DD_SearchLabel}" Style="{StaticResource BodyStyle}"
+                           Margin="10,0,0,0" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding Source={StaticResource DragDropStrings}, Path=DD_TextureLabel}" Style="{StaticResource BodyStyle}"
+                           Foreground="{StaticResource TextBoxFocusedBrush}" VerticalAlignment="Center" Margin="5,0,0,0"/>
+            </StackPanel>
+
+            <TextBlock Text="{Binding Source={StaticResource DragDropStrings}, Path=DD_ItemsLabel}" Foreground="#FF333333"
+                       VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10" FontSize="14"/>
+        </Grid>
+
+        <!-- #BEGIN SNIPPET# -->
+        <StackPanel x:Name="searchResults" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1">
+
+            <ig:DragDropManager.DragSource>
+                <ig:DragSource IsDraggable="True"
+                               Drop="SearchResults_Drop"
+                               DragStart="OnDragStart" />
+            </ig:DragDropManager.DragSource>
+
+            <StackPanel Orientation="Horizontal">
+                <ContentControl Style="{StaticResource imageContainerStyle}">
+                    <Image Height="83" Width="83" Source="/IGDragDropFramework;component/Images/Texture01.jpg" />
+                </ContentControl>
+                <ContentControl Style="{StaticResource imageContainerStyle}">
+                    <Image Height="83" Width="83" Source="/IGDragDropFramework;component/Images/Texture02.jpg"/>
+                </ContentControl>
+                <ContentControl Style="{StaticResource imageContainerStyle}">
+                    <Image Height="83" Width="83" Source="/IGDragDropFramework;component/Images/Texture03.jpg"/>
+                </ContentControl>
+                <ContentControl Style="{StaticResource imageContainerStyle}">
+                    <Image Height="83" Width="83" Source="/IGDragDropFramework;component/Images/Texture04.jpg"/>
+                </ContentControl>
+                <ContentControl Style="{StaticResource imageContainerStyle}">
+                    <Image Height="83" Width="83" Source="/IGDragDropFramework;component/Images/Texture05.jpg"/>
+                </ContentControl>
+                <ContentControl Style="{StaticResource imageContainerStyle}">
+                    <Image Height="83" Width="83" Source="/IGDragDropFramework;component/Images/Texture06.jpg"/>
+                </ContentControl>
+                <ContentControl Style="{StaticResource imageContainerStyle}">
+                    <Image Height="83" Width="83" Source="/IGDragDropFramework;component/Images/Texture07.jpg"/>
+                </ContentControl>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <ContentControl Style="{StaticResource imageContainerStyle}">
+                    <Image Height="83" Width="83" Source="/IGDragDropFramework;component/Images/Texture08.jpg"/>
+                </ContentControl>
+                <ContentControl Style="{StaticResource imageContainerStyle}">
+                    <Image Height="83" Width="83" Source="/IGDragDropFramework;component/Images/Texture09.jpg"/>
+                </ContentControl>
+                <ContentControl Style="{StaticResource imageContainerStyle}">
+                    <Image Height="83" Width="83" Source="/IGDragDropFramework;component/Images/Texture010.jpg"/>
+                </ContentControl>
+                <ContentControl Style="{StaticResource imageContainerStyle}">
+                    <Image Height="83" Width="83" Source="/IGDragDropFramework;component/Images/Texture011.jpg"/>
+                </ContentControl>
+                <ContentControl Style="{StaticResource imageContainerStyle}">
+                    <Image Height="83" Width="83" Source="/IGDragDropFramework;component/Images/Texture012.jpg"/>
+                </ContentControl>
+                <ContentControl Style="{StaticResource imageContainerStyle}">
+                    <Image Height="83" Width="83" Source="/IGDragDropFramework;component/Images/Texture013.jpg"/>
+                </ContentControl>
+                <ContentControl Style="{StaticResource imageContainerStyle}">
+                    <Image Height="83" Width="83" Source="/IGDragDropFramework;component/Images/Texture014.jpg" />
+                </ContentControl>
+            </StackPanel>
+        </StackPanel>
+
+        <Rectangle Grid.Row="1"  Height="1" VerticalAlignment="Top" Fill="#FFFFFFFF" Opacity="0.4" Margin="0,1"/>
+
+        <Grid  Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="80" />
+            </Grid.ColumnDefinitions>
+            <!-- Flag as both a DropTarget and DragSource.
+            DragChannels set to '1' so that items can only be Dragged
+            from here to the trash icon. -->
+
+            <ScrollViewer BorderBrush="{x:Null}" BorderThickness="0"
+                          Background="Transparent"
+                          HorizontalScrollBarVisibility="Auto"
+                          VerticalScrollBarVisibility="Hidden"
+                          Template="{DynamicResource SrollViewerControlTemplate}">
+                <StackPanel Background="{StaticResource UniformStackPanelBgBrush}"
+                            x:Name="lightbox"
+                            Orientation="Horizontal" Grid.Row="2">
+                    <ig:DragDropManager.DropTarget>
+                        <ig:DropTarget IsDropTarget="True" />
+                    </ig:DragDropManager.DropTarget>
+                    <ig:DragDropManager.DragSource>
+                        <ig:DragSource
+                            IsDraggable="True"
+                            DragChannels="1"
+                            Drop="Lightbox_Drop"
+                            DragEnter="Trash_DragEnter"
+                            DragLeave="Trash_DragLeave"
+                            DragStart="OnDragStart"/>
+                    </ig:DragDropManager.DragSource>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- TrashCan Icon -->
+            <Grid Grid.Column="1" Background="{StaticResource UniformStackPanelBgBrush}" >
+
+                <!-- Flag as DropTarget and Set DropChannels -->
+                <ig:DragDropManager.DropTarget>
+                    <ig:DropTarget IsDropTarget="True" DropChannels="1" />
+                </ig:DragDropManager.DropTarget>
+                <Path  x:Name="trash"
+                       Margin="0,0,0,0" Fill="{StaticResource GlyphBackgroundBrush}"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                       Height="32" Width="26"
+                       Stretch="Fill" Opacity="1"
+                       Data="M 896 250.9978 L 896 264.9954 C 896 265.4236 895.4297 265.9952 895 265.9952 C 894.5703 265.9952 894 265.4236 894 264.9954 L 894 250.9978 C 894 250.5696 894.5703 249.998 895 249.998 C 895.4297 249.998 896 250.5696 896 250.9978 ZM 890 250.9978 L 890 264.9954 C 890 265.4236 889.4297 265.9952 889 265.9952 C 888.5703 265.9952 888 265.4236 888 264.9954 L 888 250.9978 C 888 250.5696 888.5703 249.998 889 249.998 C 889.4297 249.998 890 250.5696 890 250.9978 ZM 884 250.9978 L 884 264.9954 C 884 265.4236 883.4297 265.9952 883 265.9952 C 882.5703 265.9952 882 265.4236 882 264.9954 L 882 250.9978 C 882 250.5696 882.5703 249.998 883 249.998 C 883.4297 249.998 884 250.5696 884 250.9978 ZM 878 245.9986 L 878 265.9952 C 878 265.9952 877.52 269.9945 882 269.9945 L 896 269.9945 C 896 269.9945 900 270.3176 900 265.9952 L 900 245.9986 L 878 245.9986 ZM 878.5 239.9997 C 877.1191 239.9997 876 241.1187 876 242.4992 L 876 243.999 L 902 243.999 L 902 242.4992 C 902 241.1187 900.8809 239.9997 899.5 239.9997 L 894 239.9997 L 894 239.6663 C 894 238.7461 893.2539 238 892.3333 238 L 885.6667 238 C 884.7461 238 884 238.7461 884 239.6663 L 884 239.9997 L 878.5 239.9997 Z" UseLayoutRounding="False"/>
+            </Grid>
+        </Grid>
+        <!-- #END SNIPPET# -->
+
+        <Border Grid.Row="2" CornerRadius="1"
+                Margin="28,-23,0,0"
+                Height="24"
+                Background="{StaticResource TabVisualBgBrush}"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top">
+            <Grid>
+                <TextBlock Text="{Binding Source={StaticResource DragDropStrings}, Path=DD_LightboxLabel, Converter={StaticResource UpperCaseConverter}}"
+                           Foreground="{StaticResource ForegroundBrush}" FontSize="11" FontWeight="{StaticResource FontSemiBold}" Opacity="0.7"
+                           HorizontalAlignment="Center" VerticalAlignment="Center" Padding="8,0"  />
+            </Grid>
+        </Border>
+    </Grid>
+</framework:SampleContainer>

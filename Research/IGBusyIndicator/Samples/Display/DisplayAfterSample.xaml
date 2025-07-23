@@ -1,0 +1,76 @@
+﻿<igSamples:SampleContainer x:Class="IGBusyIndicator.Samples.Display.DisplayAfterSample"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:igSamples="http://schemas.infragistics.com/xaml/samples"
+             xmlns:ig="http://schemas.infragistics.com/xaml"
+             xmlns:igEdit="http://infragistics.com/Editors"
+             xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+             xmlns:localResources="clr-namespace:IGBusyIndicator.Resources"
+             xmlns:converters="clr-namespace:IGBusyIndicator.Samples.DataProviders"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="700">
+
+    <igSamples:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGBusyIndicator;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <localResources:BusyIndicatorStrings x:Key="Strings" />
+            <converters:TimeSpanToSecondsConverter x:Key="TimeSpanToSecondsConverter" />
+        </ResourceDictionary>
+    </igSamples:SampleContainer.Resources>
+
+    <Grid>
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamBusyIndicator Name="BusyIndicator" IsBusy="{Binding Path=IsInProgress}" Animation="Azure" DisplayAfter="0:0:05"             
+                             IsIndicatorVisibleChanged="BusyIndicatorIsIndicatorVisibleChanged"
+                             BorderThickness="1" Padding="15"  BorderBrush="#FFE0E0E0" Background="#FFF5F5F5" >
+        <!-- #END SNIPPET# -->
+            <ig:XamBusyIndicator.Resources>
+                <Style TargetType="{x:Type igPrim:AzureBusyAnimationPresenter}">
+                    <Setter Property="Width" Value="160" />
+                    <Setter Property="Margin" Value="20,40,20,20" />
+                </Style>                
+            </ig:XamBusyIndicator.Resources>
+            <ig:XamBusyIndicator.OverlayStyle>
+                <Style TargetType="{x:Type Rectangle}">
+                    <Setter Property="Fill" Value="#ffcccccc" />
+                    <Setter Property="Opacity" Value="0.5" />
+                </Style>
+            </ig:XamBusyIndicator.OverlayStyle>
+            <ig:XamBusyIndicator.BusyContent>
+                <Button Content="{Binding Source={StaticResource Strings}, Path=Close}" Command="{Binding Path=CloseCommand}"
+                        Width="50" Style="{StaticResource IGGenericButton}" HorizontalAlignment="Right" Margin="0,0,5,5"/>
+            </ig:XamBusyIndicator.BusyContent>
+            
+            <Grid Width="200" Height="200">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Label Style="{StaticResource SamplesInnerNavigationLabelTitleStyle}" Grid.Row="0" Content="{Binding Source={StaticResource Strings}, Path=ElapsedTime}" Margin="-5,0,0,6"/>
+                <TextBlock Name="TxtBlockTicks" Grid.Row="1"
+                           Text="{Binding Text}" Style="{StaticResource BodyStyle}"/>
+
+                <Label Grid.Row="2" Content="{Binding Source={StaticResource Strings}, Path=BusyIndicator_DisplayAfter}" Style="{StaticResource SamplesInnerNavigationLabelTitleStyle}"  Margin="-5,15,0,5" />
+                    <igEdit:XamNumericEditor Grid.Row="3" Name="NumericInput" Value="{Binding ElementName=BusyIndicator, Mode=TwoWay, Path=DisplayAfter, Converter={StaticResource TimeSpanToSecondsConverter}}" 
+                                        Mask="{Binding Source={StaticResource Strings}, Path=Mask_Secs}" SpinButtonDisplayMode="Always"
+                                        IsEnabled="{Binding Path=IsEnabled}"
+                                        HorizontalAlignment="Stretch" />
+
+                <Button Content="{Binding Source={StaticResource Strings}, Path=ShowIndicator}" 
+                        Command="{Binding Path=ShowCommand}" IsEnabled="{Binding Path=IsEnabled}"
+                        Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Center" Style="{StaticResource IGGenericButton}" Margin="0,20,0,0" />
+            </Grid>            
+        </ig:XamBusyIndicator>  
+        
+        
+    </Grid>
+</igSamples:SampleContainer>

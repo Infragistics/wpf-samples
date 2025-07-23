@@ -1,0 +1,97 @@
+﻿<framework:SampleContainer x:Class="IGMultiColumnComboEditor.Samples.Organization.MCC_SpecifyingCustomFilter"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+             xmlns:ig="http://schemas.infragistics.com/xaml"
+             xmlns:res="clr-namespace:IGMultiColumnComboEditor.Resources"
+             xmlns:local="clr-namespace:IGMultiColumnComboEditor.Samples.Organization"
+             xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGMultiColumnComboEditor;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:MultiColumnComboEditorStrings x:Key="ComboStrings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <framework:SampleContainer.DataContext>
+        <local:DataProvider />
+    </framework:SampleContainer.DataContext>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamMultiColumnComboEditor x:Name="ComboEditor" ItemsSource="{Binding Path=Data, Mode=TwoWay}" 
+                                      Height="30" Width="400" 
+                                      HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                                      DisplayMemberPath="ContactName" AutoGenerateColumns="False"
+                                      FilterMode="FilterOnAllColumns">
+            <ig:XamMultiColumnComboEditor.Columns>
+                <ig:ImageComboColumn Key="ImageResourcePath" 
+                                     MaximumWidth="60" ImageWidth="50"
+                                     HeaderText="{Binding Source={StaticResource ComboStrings}, Path=Header_Photo}"/>
+                <ig:TextComboColumn Key="ContactName"
+                                    HeaderText="{Binding Source={StaticResource ComboStrings}, Path=Header_ContactName}"/>
+                <ig:TextComboColumn Key="CustomerID"
+                                    HeaderText="{Binding Source={StaticResource ComboStrings}, Path=Header_CustomerID}"/>
+                <ig:TextComboColumn Key="Country" />
+                <ig:TextComboColumn Key="City" />
+            </ig:XamMultiColumnComboEditor.Columns>
+        </ig:XamMultiColumnComboEditor>
+        <!-- #END SNIPPET# -->
+
+        <ListBox x:Name="ListBox_Output" 
+                 Grid.Row="1" Height="160" Margin="20,0" Width="640" 
+                 HorizontalAlignment="Center"
+                 BorderThickness="1"/>
+
+        <controls:OptionsPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Vertical" Grid.Column="0" Margin="10,0">
+                    <TextBlock Text="{Binding Source={StaticResource ComboStrings}, Path=CE_SelectFieldName}" 
+                               Height="20" FontWeight="Bold" />
+                    <ListBox x:Name="FieldsList" Width="150" Height="110" 
+                         ItemsSource="{Binding Path=FieldsList}" HorizontalAlignment="Left"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Grid.Column="1" Margin="10,0">
+                    <TextBlock Text="{Binding Source={StaticResource ComboStrings}, Path=CE_SelectOperator}" 
+                               Height="20" FontWeight="Bold" />
+                    <ListBox x:Name="OperatorsList" 
+                                 Width="150" Height="110" HorizontalAlignment="Left"
+                                 ItemsSource="{Binding Path=OperatorsList}"
+                                 SelectedValuePath="Operator" >
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding OperatorName}"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" Grid.Column="2" Height="100" VerticalAlignment="Top" Margin="10">
+                    <Button Content="{Binding Source={StaticResource ComboStrings},Path=CE_ApplyFilter}" 
+                            x:Name="Btn_Apply" Click="Btn_Apply_OnClick" Height="30" Width="200" Margin="0,20,0,5" />
+                    <Button Content="{Binding Source={StaticResource ComboStrings},Path=CE_ClearFilters}"
+                            x:Name="Btn_Clear" Click="Btn_Clear_OnClick" Height="30" Width="200" Margin="0,10,0,5" 
+                            VerticalAlignment="Top"/>
+                </StackPanel>
+            </Grid>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

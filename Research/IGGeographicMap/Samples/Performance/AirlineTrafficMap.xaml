@@ -1,0 +1,176 @@
+﻿<framework:SampleContainer 
+    x:Class="IGGeographicMap.Samples.AirlineTrafficMap"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="BindingHighDensityData Page"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:resources="clr-namespace:IGGeographicMap.Resources" xmlns:converters="clr-namespace:IGGeographicMap.Converters">
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGeographicMap;component/Assets/GlobalExtended.xaml" />
+                
+                
+                
+            </ResourceDictionary.MergedDictionaries>
+            <resources:AssetsLocalizer x:Key="AssetsLocalizer" />
+            <converters:AirplaneOpacityConverter x:Key="AirplaneOpacityConverter2"/>
+            <converters:AirplaneProgressConverter x:Key="AirplaneOpacityConverter"/>
+            <converters:AirplaneProgressVisibilityConverter x:Key="AirplaneVisibilityConverter"/>
+
+            <converters:AirportRadiusConverter x:Key="AirportRadiusConverter"/>
+            <converters:AirportRadiusVisibilityConverter x:Key="AirportRadiusVisibilityConverter"/>
+            
+            <SolidColorBrush x:Key="AirplaneBrush" Color="Black" />
+            <DataTemplate x:Key="AirplaneTemplate">
+                <Grid   >
+                    <Border Background="Transparent">
+                        <Polygon HorizontalAlignment="Center" VerticalAlignment="Center" 
+                             Opacity="{Binding Path=Item.Flight.Progress, Converter={StaticResource AirplaneOpacityConverter}}"
+                             Visibility="{Binding Path=Item.Flight.Progress, Converter={StaticResource AirplaneVisibilityConverter}}"
+                             Fill="{StaticResource AirplaneBrush}" 
+						 Points = "10,0 9,1 3,1 -3,10 -5,10 -2,1 -10,1 -12,4 -14,4 -12,0 -14,-4 -12,-4 -10,-1 -2,-1 -5,-10 -3,-10 3,-1 9,-1 10,0">
+                            <Polygon.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
+                                    <SkewTransform AngleX="0" AngleY="0"/>
+                                    <RotateTransform Angle="{Binding Path=Item.Bearing}" CenterX="0" CenterY="0"/>
+                                    <TranslateTransform X="5" Y="5"/>
+                                </TransformGroup>
+                            </Polygon.RenderTransform>
+                        </Polygon>
+                    </Border>
+                  
+                </Grid>
+            </DataTemplate>
+            <DataTemplate x:Key="AirportTemplate" >
+                <Grid >
+                    <Ellipse Stretch="Fill" Fill="{Binding Path=ActualItemBrush}" Width="5" Height="5"
+                             StrokeThickness="0.5">
+                    </Ellipse>
+                    <Ellipse  Fill="{Binding Path=ActualItemBrush}" 
+                              
+						  Height="{Binding Path=Item.FlightsTotal, Converter={StaticResource AirportRadiusConverter}}"
+						  Width="{Binding Path=Item.FlightsTotal, Converter={StaticResource AirportRadiusConverter}}"
+						  StrokeThickness="0"
+						  Opacity=".5"/>
+                    <Ellipse  Height="500" Width="500"  Opacity="0"/>
+
+                </Grid>
+            </DataTemplate>
+            <DataTemplate x:Key="SelectedFlightAirportTemplate" >
+                <Grid >
+                    <Ellipse Stretch="Fill" Fill="{Binding Path=ActualItemBrush}" Width="5" Height="5"
+                             StrokeThickness="0.5">
+                    </Ellipse>
+                </Grid>
+            </DataTemplate>
+            <Style TargetType="Path" x:Key="FlightPathStyle">
+                <Setter Property="StrokeThickness" Value="2.0" />
+                <Setter Property="Opacity" Value="0.5" />
+                <Setter Property="Stroke" Value="Red" />
+            </Style>
+            
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+    <Grid x:Name="LayoutRoot">
+        <ig:XamGeographicMap x:Name="GeoMap" ToolTipStyle="{StaticResource ToolTipStyle}"
+                             Zoomable="True"
+                              SeriesMouseLeftButtonUp="GeoMap_SeriesMouseLeftButtonUp"
+                             OverviewPlusDetailPaneStyle="{StaticResource GeographicWorldOPDStyle}"
+                             OverviewPlusDetailPaneVisibility="Collapsed">
+            <ig:XamGeographicMap.Series>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <!-- GeographicSymbolSeries with binding to locations of airports between passed/current flights  -->
+                <ig:GeographicSymbolSeries x:Name="AirportsSeries"
+                                           MarkerCollisionAvoidance="None" Opacity="0.5"
+                                           MaximumMarkers="2000" 
+                                           LatitudeMemberPath="Latitude"
+                                           LongitudeMemberPath="Longitude" 
+                                           MarkerTemplate="{StaticResource AirportTemplate}" >
+                    <ig:GeographicSymbolSeries.ToolTip>
+                            <StackPanel>
+                                <TextBlock Margin="2" Text="{Binding Path=MapStrings.XWGM_Airline_Airport, Source={StaticResource AssetsLocalizer}}" FontWeight="Bold" />
+                                <TextBlock Margin="2" Text="{Binding Path=Item.Name}" />
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Margin="2" Text="{Binding Path=MapStrings.XWGM_Airline_FlightsTotal, Source={StaticResource AssetsLocalizer}}" FontWeight="Bold" />
+                                    <TextBlock Margin="2" Text=": " />
+                                    <TextBlock Margin="2" Text="{Binding Path=Item.FlightsTotal}" />
+                                </StackPanel>
+                            </StackPanel>
+                    </ig:GeographicSymbolSeries.ToolTip>
+                </ig:GeographicSymbolSeries>
+                <!-- GeographicPolylineSeries with binding to locations of airports between selected flights -->
+                <ig:GeographicPolylineSeries x:Name="FlightsPathSeries" Brush="red"
+                                           ShapeMemberPath="" Opacity="0.5" Thickness="3"
+                                           ShapeStyle="{StaticResource FlightPathStyle}"    >
+                </ig:GeographicPolylineSeries>
+                <!-- GeographicSymbolSeries with binding to locations of current flights (airplanes) -->
+                <ig:GeographicSymbolSeries x:Name="AirplanesSeries"  
+                                            LatitudeMemberPath="Latitude"
+                                           LongitudeMemberPath="Longitude"
+                                           MarkerCollisionAvoidance="None"
+                                          MaximumMarkers="2000" 
+                                           MarkerTemplate="{StaticResource AirplaneTemplate}"
+                                                       >
+                    <ig:GeographicSymbolSeries.ToolTip>  
+                            <StackPanel>
+                                <TextBlock Margin="2" Text="{Binding Path=MapStrings.XWGM_Airline_FlightName, Source={StaticResource AssetsLocalizer}}" FontWeight="Bold" />
+                                <TextBlock Margin="2" Text="{Binding Path=Item.Name}" />
+                            </StackPanel>
+                    </ig:GeographicSymbolSeries.ToolTip>
+                </ig:GeographicSymbolSeries>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamGeographicMap.Series>
+        </ig:XamGeographicMap>
+
+        <TextBlock x:Name="MapDataSource" Text="{Binding Path=XW_Source_BTS, Source={StaticResource CommonStrings}}" 
+                   Style="{StaticResource SourceDataTextBoxStyle}" />
+        <TextBlock x:Name="OpenSourceCopyright" Text="{Binding Path=XW_OpenSourceCopyright, Source={StaticResource CommonStrings}}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Style="{StaticResource SourceTextblockStyle}"  />
+
+        <controls:OptionsPanel VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,0,0"
+                               HeaderText="{Binding Path=MapStrings.XWGM_MotionFramework, Source={StaticResource AssetsLocalizer}}">
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}"/>
+            </controls:OptionsPanel.Resources>
+            <StackPanel Orientation="Vertical" >
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="{StaticResource OptionsElementsMargin}">
+                    <TextBlock Text="{Binding Path=MapStrings.XWGM_Airline_FlightsProgress, Source={StaticResource AssetsLocalizer}}" />
+                    <TextBlock Text=": " Margin="-5,0,5,0"/>
+                    <TextBlock Text="{Binding Path=MotionSlider.Value, Mode=OneWay, StringFormat='hh:mm:ss'}" HorizontalAlignment="Right" />
+                </StackPanel>
+                <ig:XamDateTimeSlider Name="TimeSlider" ThumbValueChanged="OnTimeSliderValueChanged"
+                                      IsEnabled="{Binding Path=IsMotionSliderEnabled, Mode=OneWay}"
+                                      MinValue="{Binding Path=MotionSlider.MinValue, Mode=TwoWay}"
+                                      MaxValue="{Binding Path=MotionSlider.MaxValue, Mode=TwoWay}"
+                                      Value="{Binding Path=MotionSlider.Value, Mode=TwoWay}"
+                                      LargeChangeType="Hours" SmallChangeType="Minutes" 
+									  TrackClickAction="MoveToPoint" VerticalAlignment="Center" Width="200"
+									  DecreaseButtonVisibility="Visible" IncreaseButtonVisibility="Visible" 
+                                      FontSize="10" Grid.Column="1" Margin="{StaticResource OptionsElementsMargin}">
+                    <ig:XamDateTimeSlider.Thumb>
+                        <ig:XamSliderDateTimeThumb IsSnapToTickEnabled="False" IsTrackFillVisible="False"/>
+                    </ig:XamDateTimeSlider.Thumb>
+                </ig:XamDateTimeSlider>
+                <CheckBox Content="{Binding Path=MapStrings.XWGM_MotionFramework, Source={StaticResource AssetsLocalizer}}" 
+                          x:Name="MotionFrameworkCheckbox" Click="MotionFrameworkCheckbox_Click" IsChecked="True" 
+                          Margin="{StaticResource OptionsElementsMargin}" Visibility="Collapsed"/>
+                <Button  x:Name="TogglePlay" Click="TogglePlay_Click" Content="{Binding Path=MapStrings.XWGM_Airline_StartFlights, Source={StaticResource AssetsLocalizer}}"  />
+            </StackPanel>
+        </controls:OptionsPanel>
+        <Grid x:Name="MapLoadingContainer" Margin="0" Background="White" Canvas.ZIndex="1" Visibility="Collapsed" VerticalAlignment="Stretch">
+            <Border Background="Transparent" Opacity="0.7" CornerRadius="3" />
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                <TextBlock x:Name="MapLoadingStatus" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" Text="..." />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</framework:SampleContainer>

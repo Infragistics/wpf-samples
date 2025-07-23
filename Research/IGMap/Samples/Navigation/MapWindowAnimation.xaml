@@ -1,0 +1,77 @@
+﻿<igFramework:SampleContainer x:Class="IGMap.Samples.Navigation.MapWindowAnimation"
+             xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+             xmlns:providers="clr-namespace:Infragistics.Samples.Shared.DataProviders;assembly=Infragistics.Samples.Shared"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ig="http://schemas.infragistics.com/xaml"
+             xmlns:resources="clr-namespace:IGMap.Resources"
+             xmlns:sharedResources="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared"
+             xmlns:local="clr-namespace:IGMap.Converters" 
+             xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="400" >
+
+	<igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGMap;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <resources:MapStrings x:Key="Strings" />
+            <sharedResources:CommonStrings x:Key="CommonStrings" />
+            <local:MapAnimationModeConverter x:Key="MapAnimationModeConverter" />
+            <local:MapAnimationDurationConverter x:Key="MapAnimationDurationConverter" />
+            <ig:StringFormatConverter x:Key="StringFormatConverter" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+	<Grid x:Name="LayoutRoot" Margin="5"
+	      Background="White">
+
+        <!-- #BEGIN SNIPPET# -->
+        <!-- =========================================== -->
+        <ig:XamMap x:Name="igMap"
+		           WindowZoomMaximum="30" 
+                   WindowAnimationMode="Logarithmic"
+		           WindowAnimationDuration="{Binding ElementName=sldAnimationDuration, Path=Value, Converter={StaticResource MapAnimationDurationConverter}, Mode=TwoWay}">
+            <ig:XamMap.Resources>
+                <providers:ShapeFileProvider x:Key="ShapeFileProvider" ShapeFileRelativePath="/world" />
+            </ig:XamMap.Resources>
+			<ig:XamMap.Layers>
+				<ig:MapLayer IsClickable="False"
+				             LayerName="statesLayer"
+				             FillMode="RandomInterpolate"
+				             ToolTip="{}{Name}">
+                    <ig:MapLayer.Reader>
+                        <ig:ShapeFileReader DataMapping="Name=CNTRY_NAME; Caption=CODE; Value=POP_CNTRY" 
+                                            Uri="{Binding ShapeFileAbsolutePath, Source={StaticResource ShapeFileProvider}}">
+                        </ig:ShapeFileReader>
+                    </ig:MapLayer.Reader>
+                </ig:MapLayer>
+			</ig:XamMap.Layers>
+			<ig:MapNavigationPane ig:XamDock.Edge="InsideRight"
+			                      ig:XamDock.VerticalDockAlignment="Top"
+			                      Margin="15" />
+		</ig:XamMap>
+        <!-- =========================================== -->
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel HeaderText="{Binding Path=XW_Options, Source={StaticResource CommonStrings}}" 
+                               VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,15,15,15">
+            <StackPanel>
+                <TextBlock Text="{Binding XWM_MapAnimationMode, Source={StaticResource Strings}}" Margin="{StaticResource OptionsElementsMargin}"/>
+                <ComboBox x:Name="cmbAnimationType" SelectedIndex="2" SelectionChanged="cmbAnimationType_SelectionChanged" Width="150" Margin="{StaticResource OptionsElementsMargin}">
+                    <ComboBoxItem Content="{Binding XWM_MapAnimationMode_None, Source={StaticResource Strings}}" Tag="None" />
+                    <ComboBoxItem Content="{Binding XWM_MapAnimationMode_Linear, Source={StaticResource Strings}}" Tag="Linear" />
+                    <ComboBoxItem Content="{Binding XWM_MapAnimationMode_Logarithmic, Source={StaticResource Strings}}" Tag="Logarithmic" />
+                    <ComboBoxItem Content="{Binding XWM_MapAnimationMode_Trigonometric, Source={StaticResource Strings}}" Tag="Trigonometric" />
+                </ComboBox>
+                <TextBlock Text="{Binding XWM_MapAnimationDuration, Source={StaticResource Strings}}" Margin="{StaticResource OptionsElementsMargin}"/>
+                <Slider x:Name="sldAnimationDuration" Minimum="50" Value="2000" Maximum="5000" SmallChange="500" LargeChange="500" Margin="{StaticResource OptionsElementsMargin}"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock x:Name="txtAnimationDuration" Margin="{StaticResource OptionsTextRightMargin}" Text="{Binding ElementName=sldAnimationDuration, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}"/>
+                    <TextBlock Text="{Binding XWM_MapAnimationTime, Source={StaticResource Strings}}"/>
+                </StackPanel>
+            </StackPanel>
+        </controls:OptionsPanel>
+	</Grid>
+</igFramework:SampleContainer>

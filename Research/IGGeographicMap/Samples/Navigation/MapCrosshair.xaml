@@ -1,0 +1,91 @@
+﻿<framework:SampleContainer x:Class="IGGeographicMap.Samples.MapCrosshair"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="MapCrosshair Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:resources="clr-namespace:IGGeographicMap.Resources"
+      xmlns:shared="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared" 
+                             xmlns:custom="clr-namespace:IGGeographicMap.Extensions">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGeographicMap;component/Assets/GlobalExtended.xaml" />
+                
+                
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.Resources>
+            <resources:MapStrings x:Key="MapStrings" />
+            <shared:ModelStrings x:Key="ModelStrings" />
+            <Style x:Key="CrosshairLineStyle" TargetType="Line">
+                <Setter Property="Stroke" Value="Black"/>
+                <Setter Property="StrokeThickness" Value="1"/>
+            </Style>
+        </Grid.Resources>
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ========================================================================== -->
+        <!-- XamGeographicMap with enabled Crosshair lines -->
+        <ig:XamGeographicMap x:Name="GeoMap"
+                             PlotAreaBackground="{StaticResource GeoMapSbPlotAreaBackgroundBrush}"
+                             CrosshairVisibility="Visible"
+                             CrosshairLineStyle="{StaticResource CrosshairLineStyle}"
+                             MouseMove="OnMapMouseMove"
+                             OverviewPlusDetailPaneStyle="{StaticResource GeographicWorldOPDStyle}"
+                             OverviewPlusDetailPaneVisibility="Collapsed"
+                             Zoomable="True">
+            <!-- this is a custom behavior that changes visibility of individual vertical or 
+                 horizontal crosshair lines and by default, the GeoMap show or hides both of these lines. -->
+            <custom:GeoMapExtensions.CrosshairVisibility>
+                <custom:GeographicMapCrosshairVisibility ShowHorizontalCrosshair="True" 
+                                                         ShowVerticalCrosshair="True"/>
+            </custom:GeoMapExtensions.CrosshairVisibility>
+        </ig:XamGeographicMap>
+        <!-- ========================================================================== -->
+        <!-- #END SNIPPET# -->
+        <TextBlock x:Name="OpenSourceCopyright" Text="{Binding Path=XW_OpenSourceCopyright, Source={StaticResource CommonStrings}}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Style="{StaticResource SourceTextblockStyle}"  />
+        <controls:OptionsPanel HeaderText="{Binding Path=XWGM_MapCrosshair_MapCoordinates, Source={StaticResource MapStrings}}"
+                               HorizontalAlignment="Right">
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}"/>
+            </controls:OptionsPanel.Resources>
+            <StackPanel>
+                <Grid Margin="{StaticResource OptionsElementsMargin}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="0.5*"   />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="0.5*"   />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Margin="{StaticResource OptionsElementsMargin}">
+                        <TextBlock Text="{Binding Path=XWM_Longitude, Source={StaticResource ModelStrings}}" Margin="{StaticResource OptionsElementsMargin}"/>
+                        <TextBlock Text="{Binding Path=XWM_Latitude, Source={StaticResource ModelStrings}}"/>
+                    </StackPanel>
+                    <StackPanel Margin="{StaticResource OptionsElementsMargin}" Grid.Column="1">
+                        <TextBlock x:Name="LongitudeTextBlock" Foreground="{StaticResource ForegroundBrush}" Margin="{StaticResource OptionsElementsMargin}" Width="60" />
+                        <TextBlock x:Name="LatitudeTextBlock" Foreground="{StaticResource ForegroundBrush}" Width="60" />
+                    </StackPanel>
+                    <StackPanel Margin="{StaticResource OptionsElementsMargin}" Grid.Column="2">
+                        <TextBlock Text="X: " Margin="{StaticResource OptionsElementsMargin}"/>
+                        <TextBlock Text="Y: " />
+                    </StackPanel>
+                    <StackPanel Margin="{StaticResource OptionsElementsMargin}" Grid.Column="3">
+                        <TextBlock x:Name="XTextBlock" Foreground="{StaticResource ForegroundBrush}" Margin="{StaticResource OptionsElementsMargin}" Width="70" />
+                        <TextBlock x:Name="YTextBlock" Foreground="{StaticResource ForegroundBrush}" Width="70" />
+                    </StackPanel>
+                </Grid>
+                <CheckBox x:Name="ShowVerticalMapCrosshairCheckBox"  Content="{Binding Path=XWGM_MapCrosshair_ShowVerticalMapCrosshair, Source={StaticResource MapStrings}}" IsChecked="True" Click="ShowVerticalMapCrosshairCheckBox_Click" Margin="{StaticResource OptionsElementsMargin}"/>
+                <CheckBox x:Name="ShowHorizontalMapCrosshairCheckBox"  Content="{Binding Path=XWGM_MapCrosshair_ShowHorizontalMapCrosshair, Source={StaticResource MapStrings}}" IsChecked="True" Click="ShowHorizontalMapCrosshairCheckBox_Click"/>
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

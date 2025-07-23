@@ -1,0 +1,58 @@
+﻿<igFramework:SampleContainer x:Class="IGDataGrid.Samples.Display.HeaderPlacement"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="HeaderPlacement"
+      Loaded="Page_Loaded"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:igEditors="http://infragistics.com/Editors"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGDataGrid.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataGrid;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DataGridStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <Grid>
+        <igDP:XamDataGrid Theme="RoyalLight"
+                          x:Name="XamDataGrid1">
+            <!-- #BEGIN SNIPPET# -->
+            <igDP:XamDataGrid.FieldLayoutSettings>
+                <igDP:FieldLayoutSettings HeaderPlacement="OnTopOnly"
+                                          HeaderPlacementInGroupBy="OnTopOnly" />
+            </igDP:XamDataGrid.FieldLayoutSettings>
+            <!-- #END SNIPPET# -->
+        </igDP:XamDataGrid>
+
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource Strings}, Path=HeaderPlacement_Samp_ConfigArea_Header}"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Top"
+                               Margin="50">
+            <!--HeaderPlacement-->
+            <TextBlock Text="{Binding Source={StaticResource Strings}, Path=HeaderPlacement_Samp_ConfigArea_HeaderPlacement}"
+                       ToolTip="{Binding Source={StaticResource Strings}, Path=HeaderPlacement_Samp_ConfigArea_HeaderPlacement_Tooltip}"
+                       ToolTipService.ShowDuration="15000"
+                       Margin="{StaticResource OptionsElementsMargin}"/>
+            <igEditors:XamComboEditor ItemsSource="{DynamicResource enum_HeaderPlacement}" BorderBrush="{StaticResource TextBoxBorderBrush}"
+                                      Value="{Binding ElementName=XamDataGrid1, Path=FieldLayoutSettings.HeaderPlacement}"
+                                      Margin="{StaticResource OptionsElementsMargin}" Theme="RoyalLight"/>
+
+            <!--HeaderPlacementInGroupBy-->
+            <TextBlock Text="{Binding Source={StaticResource Strings}, Path=HeaderPlacement_Samp_ConfigArea_HeaderPlacementInGroupBy}"
+                       ToolTip="{Binding Source={StaticResource Strings}, Path=HeaderPlacement_Samp_ConfigArea_HeaderPlacementInGroupBy_Tooltip}"
+                       ToolTipService.ShowDuration="15000"
+                       Margin="{StaticResource OptionsElementsMargin}" />
+            <igEditors:XamComboEditor ItemsSource="{DynamicResource enum_HeaderPlacementInGroupBy}" BorderBrush="{StaticResource TextBoxBorderBrush}"
+                                      Value="{Binding ElementName=XamDataGrid1, Path=FieldLayoutSettings.HeaderPlacementInGroupBy}"
+                                      Theme="RoyalLight"/>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

@@ -1,0 +1,54 @@
+﻿<framework:SampleContainer x:Class="IGColorPicker.Samples.Editing.XamColorPickerAndXamDataGrid"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="XamColorPickerAndXamDataGrid"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:res="clr-namespace:IGColorPicker.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGColorPicker;component/Assets/Global.xaml"/>
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:ColorPickerStrings x:Key="GridStrings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamColorPicker Grid.Row="0"  x:Name="MyColorPicker" SelectedColorChanged="MyColorPicker_SelectedColorChanged"
+                           Width="212" Height="30" />
+        <!-- #END SNIPPET# -->
+
+        <igDP:XamDataGrid x:Name="MyDataGrid" Grid.Row="1" BorderThickness="0">
+            <igDP:XamDataGrid.FieldLayoutSettings>
+                <igDP:FieldLayoutSettings AutoGenerateFields="False" SelectionTypeCell="Single"/>
+            </igDP:XamDataGrid.FieldLayoutSettings>
+            <igDP:XamDataGrid.FieldSettings>
+                <igDP:FieldSettings Width="*" CellClickAction="SelectCell" />
+            </igDP:XamDataGrid.FieldSettings>
+            <igDP:XamDataGrid.FieldLayouts>
+                <igDP:FieldLayout>
+                    <igDP:TextField Name="CustomerID" Label="{Binding Path=XWG_Customers_CustomerID, Source={StaticResource GridStrings}}" />
+                    <igDP:TextField Name="Company" Label="{Binding Path=XWG_Customers_Company, Source={StaticResource GridStrings}}"/>
+                    <igDP:TextField Name="ContactName" Label="{Binding Path=XWG_Customers_ContactName, Source={StaticResource GridStrings}}"/>
+                    <igDP:TextField Name="ContactTitle" Label="{Binding Path=XWG_Customers_ContactTitle, Source={StaticResource GridStrings}}"/>
+                    <igDP:TextField Name="Region" Label="{Binding Path=XWG_Customers_Region, Source={StaticResource GridStrings}}"/>
+                    <igDP:TextField Name="Country" Label="{Binding Path=XWG_Customers_Country, Source={StaticResource GridStrings}}"/>
+                </igDP:FieldLayout>
+            </igDP:XamDataGrid.FieldLayouts>
+        </igDP:XamDataGrid>
+    </Grid>
+</framework:SampleContainer>

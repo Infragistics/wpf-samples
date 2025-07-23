@@ -1,0 +1,82 @@
+﻿<igFramework:SampleContainer x:Class="IGMap.Samples.Display.MapValueScales"
+             xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+             xmlns:providers="clr-namespace:Infragistics.Samples.Shared.DataProviders;assembly=Infragistics.Samples.Shared"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:ig="http://schemas.infragistics.com/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:resources="clr-namespace:IGMap.Resources"
+             xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="400" >
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGMap;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <resources:MapStrings x:Key="Strings" />
+            <Style x:Key="MapStyle" TargetType="ig:MapLayer">
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="FillMode" Value="RandomSelect" />
+                <Setter Property="ShadowFill" Value="#40000000" />
+                <Setter Property="Stroke" Value="#66FFFFFF" />
+                <Setter Property="StrokeThickness" Value="1" />
+                <Setter Property="Brushes" Value="#AACE38 #679b40" />
+                <Setter Property="ShadowOffset" Value="1,1" />
+            </Style>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <Grid x:Name="LayoutRoot"
+	     Margin="5">
+        <!-- #BEGIN SNIPPET# -->
+		<ig:XamMap x:Name="theMap"
+		           Margin="0"
+		           Background="Transparent"
+		           WindowZoomMaximum="30" 
+                   MapProjectionType="Mercator">
+			<ig:XamMap.Resources>
+                    <providers:ShapeFileProvider x:Key="ShapeFileProvider" ShapeFileRelativePath="/usa_st" />
+			</ig:XamMap.Resources>       
+			<ig:XamMap.Layers>
+				<ig:MapLayer LayerName="statesLayer"
+				             FillMode="Choropleth"
+				             Style="{StaticResource MapStyle}"
+				             ToolTip="{}{Name}: Pop. {Value:n0}">
+                    <ig:MapLayer.Reader>
+                        <ig:ShapeFileReader DataMapping="Name=STATE_NAME; Caption=STATE_ABBR; Value=POP1997" 
+                                            Uri="{Binding ShapeFileAbsolutePath, Source={StaticResource ShapeFileProvider}}">
+                        </ig:ShapeFileReader>
+                    </ig:MapLayer.Reader>
+				</ig:MapLayer>
+			</ig:XamMap.Layers>
+			<ig:MapColorSwatchPane Width="350"
+			                       Height="50"
+			                       Margin="0,0,0,15"
+			                       LabelFormatString="{}{0:0,,.0}M"
+			                       DisplayMode="Range"
+			                       ig:XamDock.Edge="InsideBottom"
+			                       ig:XamDock.HorizontalDockAlignment="Center"
+			                       LayerName="statesLayer" />
+			<ig:MapNavigationPane  Margin="15"
+			                      ig:XamDock.Edge="InsideRight" />
+		</ig:XamMap>
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel HeaderText="{Binding Path=XWM_ValueScales_SampleTitleLabel, Source={StaticResource Strings}}"
+                               VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,15,15,15">
+            <StackPanel>
+                <TextBlock HorizontalAlignment="Left" Text="{Binding Path=XWM_ValueScales_ValueScaleLabel, Source={StaticResource Strings}}" 
+                           Margin="{StaticResource OptionsElementsMargin}"/>
+                <ListBox x:Name="lbScaleSettings" Margin="0" SelectionChanged="lbo_SelectionChanged" >
+                    <ListBoxItem Content="{Binding Path=XWM_ValueScales_LinearLabel, Source={StaticResource Strings}}"  />
+                    <ListBoxItem Content="{Binding Path=XWM_ValueScales_LogarithmicLabel, Source={StaticResource Strings}}"  />
+                    <ListBoxItem Content="{Binding Path=XWM_ValueScales_50PerLabel, Source={StaticResource Strings}}"  />
+                    <ListBoxItem Content="{Binding Path=XWM_ValueScales_33PerLabel, Source={StaticResource Strings}}"  />
+                    <ListBoxItem Content="{Binding Path=XWM_ValueScales_20PerLabel, Source={StaticResource Strings}}"  />
+                    <ListBoxItem Content="{Binding Path=XWM_ValueScales_10PerLabel, Source={StaticResource Strings}}"  />
+                </ListBox>
+            </StackPanel>
+                
+        </controls:OptionsPanel>
+	</Grid>
+</igFramework:SampleContainer>

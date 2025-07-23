@@ -1,0 +1,78 @@
+﻿<framework:SampleContainer x:Class="IGTree.Samples.Organization.ExpandAndCollapseNodes"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="ExpandAndCollapseNodes Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGTree.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGTree;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamTree.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <res:TreeStrings x:Key="TreeStrings" />
+
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Image Source="{Binding Source='Tree/TreeBg_Book.png', Converter={StaticResource getImageConverter}}"
+               HorizontalAlignment="Right"/>
+        <!--#BEGIN SNIPPET#-->
+        <ig:XamTree x:Name="dataTree" Background="Transparent" BorderThickness="0,0,0,0" HorizontalAlignment="Left">
+            <ig:XamTree.HierarchicalItemTemplate>
+                <ig:HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                    <ig:HierarchicalDataTemplate.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{Binding Path=ImagePath}" Width="16" Height="16" Margin="0,0,10,0" />
+                                <TextBlock Text="{Binding Name}" Foreground="Gray" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ig:HierarchicalDataTemplate.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                        </StackPanel>
+                    </DataTemplate>
+                    <ig:HierarchicalDataTemplate.HierarchicalItemTemplate>
+                        <ig:HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                            <ig:HierarchicalDataTemplate.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding Path=ImagePath}" Width="16" Height="16" Margin="0,0,10,0" />
+                                        <TextBlock Text="{Binding Name}" Foreground="Gray" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ig:HierarchicalDataTemplate.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{Binding Path=ImagePath}" Width="16" Height="16" Margin="0,0,10,0" />
+                                    <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ig:HierarchicalDataTemplate>
+                    </ig:HierarchicalDataTemplate.HierarchicalItemTemplate>
+                </ig:HierarchicalDataTemplate>
+            </ig:XamTree.HierarchicalItemTemplate>
+        </ig:XamTree>
+        <!--#END SNIPPET#-->
+        <controls:OptionsPanel  HeaderText="{Binding Source={StaticResource TreeStrings}, Path=XWT_XAMLTree_ExpandCollapse}"
+                                Margin="400,80,0,0">
+            <RadioButton x:Name="ExpandAll" GroupName="NodeGroup"
+                         Content="{Binding Source={StaticResource TreeStrings}, Path=XWT_ShowHideNodes_ExpandAll}"
+                         Checked="ExpandAll_Checked" Margin="0,5,0,0"/>
+            <RadioButton x:Name="CollapseAll" GroupName="NodeGroup"
+                         Content="{Binding Source={StaticResource TreeStrings}, Path=XWT_ShowHideNodes_CollapseAll}"
+                         Checked="CollapseAll_Checked" Margin="0,5,0,0" IsChecked="True" />
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

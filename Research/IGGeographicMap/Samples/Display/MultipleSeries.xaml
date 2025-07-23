@@ -1,0 +1,163 @@
+﻿<framework:SampleContainer x:Class="IGGeographicMap.Samples.MultipleSeries"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="MultipleSeries Page"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+      xmlns:providers="clr-namespace:Infragistics.Samples.Shared.DataProviders;assembly=Infragistics.Samples.Shared"
+      xmlns:resources="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared" xmlns:custom="clr-namespace:IGGeographicMap.Custom.StyleSelectors">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                
+                
+                <ResourceDictionary Source="/IGGeographicMap;component/Assets/GlobalExtended.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <resources:ModelStrings x:Key="ModelStrings" />
+
+            <models:WorldCitiesDataSample x:Key="cities" />
+            
+            
+            <ig:ShapefileConverter x:Key="shapeTempFileSource"
+                ShapefileSource="/Infragistics.Samples.Services;component/shapefiles/Weather/SeaSurfaceTemp/sst_20110814.shp"
+                 DatabaseSource="/Infragistics.Samples.Services;component/shapefiles/Weather/SeaSurfaceTemp/sst_20110814.dbf" />
+
+            <ig:ShapefileConverter x:Key="shapeWorldFileSource"
+                ShapefileSource="/Infragistics.Samples.Services;component/shapefiles/world/world_countries_reg.shp"
+                 DatabaseSource="/Infragistics.Samples.Services;component/shapefiles/world/world_countries_reg.dbf" />
+           
+            <SolidColorBrush Color="#6D14546F" x:Key="TemperatureFreezingBrush" />
+            <SolidColorBrush Color="#6D2380A8" x:Key="TemperatureColdBrush" />
+            <SolidColorBrush Color="#6D879922" x:Key="TemperatureCoolBrush" />
+            <SolidColorBrush Color="#6DF7AA1B" x:Key="TemperatureNormalBrush" />
+            <SolidColorBrush Color="#6DE3720C" x:Key="TemperatureWarmBrush" />
+            <SolidColorBrush Color="#6DC62D36" x:Key="TemperatureHotBrush" />
+          
+            <Style TargetType="Path" x:Key="TemperatureFreezingStyle">
+                <Setter Property="Fill" Value="{StaticResource TemperatureFreezingBrush}" />
+                <Setter Property="StrokeThickness" Value="0" />
+            </Style>
+            <Style TargetType="Path" x:Key="TemperatureColdStyle">
+                <Setter Property="Fill" Value="{StaticResource TemperatureColdBrush}" />
+                <Setter Property="StrokeThickness" Value="0" />
+            </Style>
+            <Style TargetType="Path" x:Key="TemperatureCoolStyle">
+                <Setter Property="Fill" Value="{StaticResource TemperatureCoolBrush}" />
+                <Setter Property="StrokeThickness" Value="0" />
+            </Style>
+            <Style TargetType="Path" x:Key="TemperatureNormalStyle">
+                <Setter Property="Fill" Value="{StaticResource TemperatureNormalBrush}" />
+                <Setter Property="StrokeThickness" Value="0" />
+            </Style>
+            <Style TargetType="Path" x:Key="TemperatureWarmStyle">
+                <Setter Property="Fill" Value="{StaticResource TemperatureWarmBrush}" />
+                <Setter Property="StrokeThickness" Value="0" />
+            </Style>
+            <Style TargetType="Path" x:Key="TemperatureHotStyle">
+                <Setter Property="Fill" Value="{StaticResource TemperatureHotBrush}" />
+                <Setter Property="StrokeThickness" Value="0" />
+            </Style>
+
+            <SolidColorBrush Color="White" Opacity="0.5" x:Key="shapeWorldFill" />
+            <Style TargetType="Path" x:Key="shapeWorldStyle">
+                <Setter Property="Fill" Value="{StaticResource shapeWorldFill}" />
+                <Setter Property="Stroke" Value="DimGray" />
+            </Style>
+            <DataTemplate x:Key="shapeMarkerTemplate">
+                <Grid>
+                    <TextBlock Text="{Binding Path=Item.Fields[Contour]}" Foreground="Black" Margin="2" HorizontalAlignment="Center" />
+                </Grid>
+            </DataTemplate>
+            
+            <DataTemplate x:Key="shapeCityMarkerTemplate">
+                <Grid>
+                    <Canvas Margin="-12,-12,0,0">
+                        <Border Canvas.Left="12" Canvas.Top="1" BorderThickness="1" CornerRadius="1" BorderBrush="{StaticResource TooltipBorderBrush}" Background="{StaticResource TooltipBackgroundBrush}">
+                            <Grid>
+                                <StackPanel Orientation="Horizontal">
+                                    <Ellipse Width="10" Height="10" StrokeThickness="1" Margin="8 3 3 3" Fill="#FFA4BA29" Stroke="#FFA4BA29"/>
+                                    <TextBlock Text="{Binding Path=Item.Name}" VerticalAlignment="Center" Margin="3 3 8 3" />
+                                </StackPanel>
+
+                            </Grid>
+                        </Border>
+                    </Canvas>
+                </Grid>
+            </DataTemplate>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+
+        <ig:XamGeographicMap x:Name="GeoMap"
+                             BackgroundContent="{x:Null}"
+                             OverviewPlusDetailPaneVisibility="Collapsed"
+                             Zoomable="True">
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ========================================================================== -->
+            <ig:XamGeographicMap.Series>
+                <!-- ShapeSeries with binding to a shape files (SHP) showing temperatures -->
+                <ig:GeographicShapeSeries x:Name="shapeTempSeries"
+                                          MarkerCollisionAvoidance="Omit"
+                                          ShapeMemberPath="Points"
+                                          ItemsSource="{StaticResource shapeTempFileSource}"
+                                          MarkerTemplate="{StaticResource shapeMarkerTemplate}">
+                    <!-- StyleSelector with binding to data loaded from database file (DBF) -->
+                    <ig:GeographicShapeSeries.ShapeStyleSelector>
+                        <custom:RangeConditionalStyleSelector>
+                            <!-- custom style rules used for styling shape based on data values -->
+                            <custom:RangeConditionalStyleSelector.Rules>
+                                <custom:RangeConditionalStyleRule ValueMemberPath="Fields[Contour]" RangeMinValue="-30" RangeMaxValue="0" StyleToApply="{StaticResource TemperatureHotStyle}" />
+                                <custom:RangeConditionalStyleRule ValueMemberPath="Fields[Contour]" RangeMinValue="0" RangeMaxValue="6" StyleToApply="{StaticResource TemperatureColdStyle}" />
+                                <custom:RangeConditionalStyleRule ValueMemberPath="Fields[Contour]" RangeMinValue="6" RangeMaxValue="12" StyleToApply="{StaticResource TemperatureCoolStyle}" />
+                                <custom:RangeConditionalStyleRule ValueMemberPath="Fields[Contour]" RangeMinValue="12" RangeMaxValue="22" StyleToApply="{StaticResource TemperatureNormalStyle}" />
+                                <custom:RangeConditionalStyleRule ValueMemberPath="Fields[Contour]" RangeMinValue="22" RangeMaxValue="30" StyleToApply="{StaticResource TemperatureWarmStyle}" />
+                                <custom:RangeConditionalStyleRule ValueMemberPath="Fields[Contour]" RangeMinValue="30" RangeMaxValue="45" StyleToApply="{StaticResource TemperatureHotStyle}" />
+                            </custom:RangeConditionalStyleSelector.Rules>
+                        </custom:RangeConditionalStyleSelector>
+                    </ig:GeographicShapeSeries.ShapeStyleSelector>
+                    <ig:GeographicShapeSeries.ToolTip>
+                            <StackPanel Margin="4" Orientation="Horizontal" HorizontalAlignment="Left">
+                                <TextBlock Text="{Binding Path=XWM_Temperature, Source={StaticResource ModelStrings}}" FontWeight="Bold" Margin="2" />
+                                <TextBlock Text="{Binding Path=Item.Fields[Contour]}" Margin="4,2,2,2" />
+                            </StackPanel>
+                    </ig:GeographicShapeSeries.ToolTip>
+                </ig:GeographicShapeSeries>
+                <!-- ShapeSeries with binding to a shape files (SHP) showing world countries -->
+                <ig:GeographicShapeSeries x:Name="shapeWorldSeries"
+                                          MarkerCollisionAvoidance="None"
+                                          ItemsSource="{StaticResource shapeWorldFileSource}"
+                                          ShapeStyle="{StaticResource shapeWorldStyle}"
+                                          ShapeMemberPath="Points">
+                    <ig:GeographicShapeSeries.ToolTip>
+                        <Border BorderBrush="Gray" BorderThickness="1" Background="White">
+                            <StackPanel Margin="4" Orientation="Horizontal" HorizontalAlignment="Left">
+                                <TextBlock Text="{Binding Path=XWM_Country, Source={StaticResource ModelStrings}}" FontWeight="Bold" Margin="2" />
+                                <TextBlock Text="{Binding Path=Item.Fields[NAME]}" Margin="4,2,2,2" />
+                            </StackPanel>
+                        </Border>
+                    </ig:GeographicShapeSeries.ToolTip>
+                </ig:GeographicShapeSeries>
+                <!-- SymbolSeries for displaying  locations of cities -->
+                <ig:GeographicSymbolSeries MarkerTemplate="{StaticResource shapeCityMarkerTemplate}"
+                                           MarkerCollisionAvoidance="None"
+                                           ItemsSource="{StaticResource cities}"
+                                           LatitudeMemberPath="Latitude"
+                                           LongitudeMemberPath="Longitude">
+                </ig:GeographicSymbolSeries>
+            </ig:XamGeographicMap.Series>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+        </ig:XamGeographicMap>
+        <TextBlock x:Name="MapDataSource" Text="{Binding Path=XW_Source_USNA, Source={StaticResource CommonStrings}}" Style="{StaticResource SourceDataTextBoxStyle}"  />
+        
+                
+    </Grid>
+</framework:SampleContainer>

@@ -1,0 +1,86 @@
+﻿<igFramework:SampleContainer x:Class="IGMap.Samples.Performance.MapPerformance" 
+           xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+           xmlns:providers="clr-namespace:Infragistics.Samples.Shared.DataProviders;assembly=Infragistics.Samples.Shared"
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+           mc:Ignorable="d"
+           xmlns:ig="http://schemas.infragistics.com/xaml" 
+           xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+           xmlns:resources="clr-namespace:IGMap.Resources" d:DesignWidth="640" d:DesignHeight="480">
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGMap;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+
+            <resources:MapStrings x:Key="MapStrings" />
+            <ig:BrushCollection x:Key="MapBrushes">
+                <!-- Black -->
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF494949" />
+                    <GradientStop Color="#FF333333" Offset="1" />
+                </LinearGradientBrush>
+                <!-- Green -->
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFa4ba29" />
+                    <GradientStop Color="#FF879922" Offset="1" />
+                </LinearGradientBrush>
+                <!-- Gray -->
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFa8a8a8" />
+                    <GradientStop Color="#FF808080" Offset="1" />
+                </LinearGradientBrush>
+            </ig:BrushCollection>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <Grid x:Name="LayoutRoot">
+
+        <ig:XamMap x:Name="Map" WindowAnimationMode="Linear" WindowAnimationDuration="0:0:0.5">
+            <ig:MapNavigationPane ig:XamDock.Edge="InsideRight" Margin="10"/>
+            <ig:XamMap.Layers>
+                <ig:MapLayer x:Name="mapWorld"  >
+                    <!-- Note: Actual Shapefile is loaded in code-behind using absolute path and this XAML code is provided for your convenience -->
+                    <!--<ig:MapLayer.Reader>
+                        <ig:ShapeFileReader Uri="/ShapeFiles/world/world_countries" DataMapping="Caption=CNTRY_NAME" />
+                    </ig:MapLayer.Reader>-->
+                    <ig:MapLayer.Reader>
+                        <ig:ShapeFileReader DataMapping="Caption=CNTRY_NAME" >
+                            <ig:ShapeFileReader.Uri>
+                                <Binding Path="ShapeFileAbsolutePath">
+                                    <Binding.Source>
+                                        <providers:ShapeFileProvider ShapeFileRelativePath="/world/world_countries" />
+                                    </Binding.Source>
+                                </Binding>
+                            </ig:ShapeFileReader.Uri>
+                        </ig:ShapeFileReader>
+                    </ig:MapLayer.Reader>
+                </ig:MapLayer>
+
+                <ig:MapLayer x:Name="mapSymbols">
+                    <ig:MapLayer.ValueTemplate>
+                        <DataTemplate>
+                            <Ellipse Width="5" Height="5" Fill="{Binding Fill}">
+                            </Ellipse>
+                         </DataTemplate>
+                    </ig:MapLayer.ValueTemplate>
+                </ig:MapLayer>
+
+            </ig:XamMap.Layers>
+        </ig:XamMap>
+
+        <controls:OptionsPanel HeaderText="{Binding XWM_MapPerformance_Title, Source={StaticResource MapStrings}}"
+                               VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,15,10,10">
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ========================================================================== -->
+            <Button x:Name="LoadMapSymbolsButton" 
+                    Content="{Binding XWM_MapPerformance_LoadMapSymbols, Source={StaticResource MapStrings}}"
+                    Click="OnLoadMapSymbolsButtonClick"  Margin="5" />
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+        </controls:OptionsPanel>
+      
+    </Grid>
+</igFramework:SampleContainer>

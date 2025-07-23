@@ -1,0 +1,191 @@
+﻿<igFramework:SampleContainer x:Class="IGDataGrid.Samples.Display.FieldWidthAndHeight"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="FieldWidthAndHeight"
+      Loaded="Page_Loaded"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:igEditors="http://infragistics.com/Editors"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGDataGrid.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataGrid;component/Assets/Global.xaml" />
+                 
+            </ResourceDictionary.MergedDictionaries>
+            <res:DataGridStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <!-- #BEGIN SNIPPET# -->
+        <igDP:XamDataGrid x:Name="XamDataGrid1"
+                          Theme="RoyalLight"
+                          Grid.Row="1"
+                          Margin="0,10,0,0"
+                          VerticalAlignment="Top">
+            <igDP:XamDataGrid.FieldLayouts>
+                <igDP:FieldLayout>
+                    <igDP:Field Name="Publication"
+                                TextBlock.FontWeight="Bold">
+                        <igDP:Field.Settings>
+                            <igDP:FieldSettings CellMinWidth="100"
+                                                CellMaxWidth="300"
+                                                CellWidth="200" />
+                        </igDP:Field.Settings>
+                    </igDP:Field>
+                    <igDP:Field Name="Circulation"
+                                Width="InitialAuto">
+                        <igDP:Field.Settings>
+                            <igDP:FieldSettings>
+                                <igDP:FieldSettings.EditorStyle>
+                                    <Style TargetType="{x:Type igEditors:XamTextEditor}">
+                                        <Setter Property="HorizontalContentAlignment"
+                                                Value="Right" />
+                                    </Style>
+                                </igDP:FieldSettings.EditorStyle>
+                            </igDP:FieldSettings>
+                        </igDP:Field.Settings>
+                    </igDP:Field>
+                    <igDP:Field Name="AdRate" />
+                    <igDP:Field Name="CostPerThousand" />
+                    <igDP:FieldLayout.SummaryDefinitions>
+                        <igDP:SummaryDefinition Calculator="{x:Static igDP:SummaryCalculator.Sum}"
+                                                SourceFieldName="Circulation"
+                                                DisplayArea="BottomFixed"
+                                                TextBlock.FontWeight="Bold" />
+                        <igDP:SummaryDefinition Calculator="{x:Static igDP:SummaryCalculator.Average}"
+                                                SourceFieldName="AdRate"
+                                                DisplayArea="BottomFixed"
+                                                TextBlock.FontWeight="Bold" />
+                        <igDP:SummaryDefinition Calculator="{x:Static igDP:SummaryCalculator.Average}"
+                                                SourceFieldName="CostPerThousand"
+                                                DisplayArea="BottomFixed"
+                                                TextBlock.FontWeight="Bold" />
+                    </igDP:FieldLayout.SummaryDefinitions>
+                </igDP:FieldLayout>
+            </igDP:XamDataGrid.FieldLayouts>
+        </igDP:XamDataGrid>
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel IsMovable="False"
+                               Margin="{StaticResource GridsSamplesBottomPadding}"
+                               HeaderText="{Binding Source={StaticResource CommonStrings}, Path=ConfigurationPanel_Header_Options}">
+            <controls:OptionsPanel.Resources>
+                <Style x:Key="{x:Type Label}" TargetType="{x:Type Label}">
+                    <Setter Property="Margin" Value="-5,0,0,0" />
+                    <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+                </Style>
+            </controls:OptionsPanel.Resources>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Border 
+                        SnapsToDevicePixels="True"
+                        Padding="0">
+                    <Grid Margin="0">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}" >
+                                <Label Content="{Binding FieldWidthAndHeight_ConfigArea_Field, Source={StaticResource Strings}}"
+                                       ToolTip="{Binding FieldWidthAndHeight_ConfigArea_Field_ToolTip, Source={StaticResource Strings}}" MinWidth="80"/>
+                                <ComboBox x:Name="cboFields"
+                                          ToolTip="{Binding FieldWidthAndHeight_ConfigArea_Field_ToolTip, Source={StaticResource Strings}}"
+                                          Width="140"
+                                          DisplayMemberPath="Name"
+                                          SelectionChanged="cboFields_SelectionChanged" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}" >
+                                <Label Content="{Binding FieldWidthAndHeight_ConfigArea_MinWidth, Source={StaticResource Strings}}" MinWidth="80"/>
+                                <igEditors:XamNumericEditor Value="{Binding SelectedItem.Settings.CellMinWidth, ElementName=cboFields, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                            HorizontalAlignment="Left" Width="168" 
+                                                            Theme="RoyalLight" BorderBrush="{StaticResource TextBoxBorderBrush}"/>
+                                <Button Content="{Binding FieldWidthAndHeight_ConfigArea_ClearSetting, Source={StaticResource Strings}}"
+                                        Click="Button_Click_2" Margin="{StaticResource OptionsTextLeftMargin}"
+                                        ToolTip="{Binding FieldWidthAndHeight_ConfigArea_ClearSetting_ToolTip, Source={StaticResource Strings}}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}" >
+                                <Label Content="{Binding FieldWidthAndHeight_ConfigArea_MaxWidth, Source={StaticResource Strings}}" MinWidth="80"/>
+                                <igEditors:XamNumericEditor Value="{Binding SelectedItem.Settings.CellMaxWidth, ElementName=cboFields, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                            HorizontalAlignment="Left" Width="168" 
+                                                            Theme="RoyalLight" BorderBrush="{StaticResource TextBoxBorderBrush}"/>
+                                <Button Content="{Binding FieldWidthAndHeight_ConfigArea_ClearSetting, Source={StaticResource Strings}}"
+                                        Click="Button_Click_3"
+                                        Margin="{StaticResource OptionsTextLeftMargin}"
+                                        ToolTip="{Binding FieldWidthAndHeight_ConfigArea_ClearSetting_ToolTip, Source={StaticResource Strings}}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="{Binding FieldWidthAndHeight_ConfigArea_Width, Source={StaticResource Strings}}" MinWidth="80"/>
+                                <igEditors:XamNumericEditor x:Name="txtWidthValue"
+                                                            HorizontalAlignment="Left" Width="80" 
+                                                            Theme="RoyalLight" BorderBrush="{StaticResource TextBoxBorderBrush}"
+                                                            EditModeEnded="txtWidthValue_EditModeEnded">
+                                    <igEditors:XamNumericEditor.ValueConstraint>
+                                        <igEditors:ValueConstraint MinInclusive="0" />
+                                    </igEditors:XamNumericEditor.ValueConstraint>
+                                </igEditors:XamNumericEditor>
+                                <controls:EnumValuesProvider x:Name="cboFieldLengthUnitTypes"
+                                                             EnumType="igDP:FieldLengthUnitType"
+                                                             DisplayTemplate="ComboBox"
+                                                             Width="80" Margin="{StaticResource OptionsTextLeftMargin}"
+                                                             ValueChanged="cboFieldLengthUnitTypes_SelectionChanged" />
+                                <Button Content="{Binding FieldWidthAndHeight_ConfigArea_ClearSetting, Source={StaticResource Strings}}"
+                                        Click="Button_Click" Margin="{StaticResource OptionsTextLeftMargin}"
+                                        ToolTip="{Binding FieldWidthAndHeight_ConfigArea_ClearSetting_ToolTip, Source={StaticResource Strings}}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+                <StackPanel Orientation="Horizontal"
+                            Grid.Column="1"
+                            VerticalAlignment="Top">
+                    <Border Margin="20,0,0,0"
+                            SnapsToDevicePixels="true">
+                        <Grid>
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel Orientation="Horizontal"
+                                            Margin="{StaticResource OptionsElementsMargin}" >
+                                    <Label Content="{Binding FieldWidthAndHeight_ConfigArea_AutoSizeScope, Source={StaticResource Strings}}"/>
+                                    <controls:EnumValuesProvider x:Name="cboAutoSizeScope"
+                                                                 EnumType="igDP:FieldAutoSizeScope"
+                                                                 DisplayTemplate="ComboBox"
+                                                                 Width="120"
+                                                                 Value="{Binding FieldSettings.AutoSizeScope, ElementName=XamDataGrid1}"
+                                                                 />
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical">
+                                    <Label Content="{Binding FieldWidthAndHeight_ConfigArea_AutoSizeOptions, Source={StaticResource Strings}}"
+                                           HorizontalAlignment="Left" FontWeight="{StaticResource FontBold}"/>
+                                    <controls:EnumValuesProvider MaxWidth="250"
+                                                                 MaxHeight="140"
+                                                                 Margin="0,0,5,5"
+                                                                 EnumType="{x:Type igDP:FieldAutoSizeOptions}"
+                                                                 Value="{Binding FieldSettings.AutoSizeOptions, ElementName=XamDataGrid1}"
+                                                                 DisplayTemplate="CheckBoxList"
+                                                                 HorizontalAlignment="Left" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                    <Button Click="Button_Click_1"
+                            ToolTip="{Binding FieldWidthAndHeight_ConfigArea_ReloadData_ToolTip, Source={StaticResource Strings}}"
+                            VerticalAlignment="Center"
+                            Grid.Column="1"
+                            Margin="10,0"
+                            Content="{Binding FieldWidthAndHeight_ConfigArea_ReloadData, Source={StaticResource Strings}}"/>
+
+                </StackPanel>
+            </Grid>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

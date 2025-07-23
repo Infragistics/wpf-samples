@@ -1,0 +1,106 @@
+﻿<igFramework:SampleContainer 
+    x:Class="IGDataChart.Samples.Navigation.ChartZoombar"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="ChartZoombar Page"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared" >
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries> 
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Grid.DataContext>
+            <models:StockMarketDataCollection />
+        </Grid.DataContext>
+
+        <ig:XamDataChart x:Name="xmDataChart" Grid.Row="0"  
+                         IsHorizontalZoomEnabled="True" 
+                         IsVerticalZoomEnabled="False" 
+                         VerticalZoombarVisibility="Collapsed" 
+                         HorizontalZoombarVisibility="Collapsed" >
+            <ig:XamDataChart.Axes>
+                <ig:CategoryXAxis x:Name="xmXAxis" ItemsSource="{Binding}" 
+                                  Label="{Binding XDC_AxisLabelsFormat_Date, Source={StaticResource Strings}}">
+                </ig:CategoryXAxis>
+                <ig:NumericYAxis x:Name="xmYAxis">
+                </ig:NumericYAxis>
+            </ig:XamDataChart.Axes>
+            <ig:XamDataChart.Series>
+                <ig:FinancialPriceSeries DisplayType="Candlestick" 
+                                         OpenMemberPath="Open" 
+                                         CloseMemberPath="Close" 
+                                         HighMemberPath="High" LowMemberPath="Low" 
+                                         VolumeMemberPath="Volume" 
+                                         IsHighlightingEnabled="True" IsTransitionInEnabled="True"
+                                         ItemsSource="{Binding}" 
+                                         XAxis="{Binding ElementName=xmXAxis}" 
+                                         YAxis="{Binding ElementName=xmYAxis}">
+                </ig:FinancialPriceSeries>
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+
+        <!-- #BEGIN SNIPPET# -->
+        <!-- =================================================================================================================
+        To synchronize zoom/scale values of xamZoombar and xamDataChart controls, you can either
+        - bind xamDataChart control's HorizontalZoombar.Range to the xamZoombar control's Range property or
+        Range="{Binding ElementName=xmDataChart, Path=HorizontalZoombar.Range, Mode=TwoWay}"
+        - handle xamZoombar control's ZoomChanged events and xamDataChart control's WindowRectChanged events in code behind
+        ================================================================================================================= -->
+        <ig:XamZoombar x:Name="xmZoombar" Height="100" Grid.Row="1" Margin="1" Background="Transparent"  >
+            <ig:XamZoombar.HorizontalPreviewContent>
+                <ig:XamDataChart x:Name="xmPreviewDataChart"
+
+                                 HorizontalZoombarVisibility="Collapsed"
+                                 IsHorizontalZoomEnabled="True"
+                                 IsVerticalZoomEnabled="False"
+                                 VerticalZoombarVisibility="Collapsed"
+                                 IsHitTestVisible="False"
+                                 IsTabStop="False">
+                    <ig:XamDataChart.Axes>
+                        <ig:CategoryXAxis x:Name="xmPreviewXAxis" ItemsSource="{Binding}" 
+                                          Label="{Binding XDC_AxisLabelsFormat_Date, Source={StaticResource Strings}}">
+                            <ig:CategoryXAxis.LabelSettings>
+                                <ig:AxisLabelSettings Location="OutsideBottom" HorizontalAlignment="Center" Visibility="Collapsed" />
+                            </ig:CategoryXAxis.LabelSettings>
+                        </ig:CategoryXAxis>
+                        <ig:NumericYAxis x:Name="xmPreviewYAxis">
+                            <ig:NumericYAxis.LabelSettings>
+                                <ig:AxisLabelSettings Location="OutsideRight" HorizontalAlignment="Center" Visibility="Collapsed" />
+                            </ig:NumericYAxis.LabelSettings>
+                        </ig:NumericYAxis>
+                    </ig:XamDataChart.Axes>
+                    <ig:XamDataChart.Series>
+                        <ig:FinancialPriceSeries DisplayType="Candlestick" ItemsSource="{Binding}" 
+                                                 OpenMemberPath="Open" CloseMemberPath="Close" 
+                                                 HighMemberPath="High" LowMemberPath="Low" 
+                                                 VolumeMemberPath="Volume" 
+                                                 XAxis="{Binding ElementName=xmPreviewXAxis}" 
+                                                 YAxis="{Binding ElementName=xmPreviewYAxis}">
+                        </ig:FinancialPriceSeries>
+                    </ig:XamDataChart.Series>
+                </ig:XamDataChart>
+
+            </ig:XamZoombar.HorizontalPreviewContent>
+        </ig:XamZoombar>
+        <!-- ================================================================================================================= -->
+        <!-- #END SNIPPET# -->
+
+    </Grid>
+</igFramework:SampleContainer>

@@ -1,0 +1,43 @@
+﻿<framework:SampleContainer x:Class="IGSpellChecker.Samples.Localization.SpellCheckerResourceStrings"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="SpellCheckerResourceStrings"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGSpellChecker.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSpellChecker;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:SpellCheckerStrings x:Key="SpellCheckerStrings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid Background="{x:Null}" Height="240"  Width="450" VerticalAlignment="Center">
+            <TextBox x:Name="txtSpellCheck" Margin="5,5,5,51" AcceptsReturn="True"
+                     Text="{Binding Mode=OneWay, Source={StaticResource SpellCheckerStrings}, Path=XSP_LoremIpsum}"
+                     TextWrapping="Wrap" Padding="10" Style="{StaticResource SamplesTextBoxStyle}"/>
+            <Button x:Name="btnCheckSpelling"
+                    Content="{Binding Source={StaticResource SpellCheckerStrings} , Path=XSP_CheckSpelling_Button}"
+                    Click="btnCheckSpelling_Click" Margin="5,0,5,5"
+                    HorizontalAlignment="Stretch" Height="42" VerticalAlignment="Bottom"
+                    d:LayoutOverrides="GridBox" 
+                    />
+        </Grid>
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamSpellChecker x:Name="customSpellChecker">
+            <ig:XamSpellChecker.SpellCheckTargets>
+                <Binding ElementName="txtSpellCheck" Path="Text" Mode="TwoWay"/>
+            </ig:XamSpellChecker.SpellCheckTargets>
+        </ig:XamSpellChecker>
+        <!-- #END SNIPPET# -->
+    </Grid>
+</framework:SampleContainer>

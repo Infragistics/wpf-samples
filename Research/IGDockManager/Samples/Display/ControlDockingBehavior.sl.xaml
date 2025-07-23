@@ -1,0 +1,116 @@
+﻿<igFramework:SampleContainer x:Class="IGDockManager.Samples.Display.ControlDockingBehavior"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="Infragistics XAML Control Sample"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:res="clr-namespace:IGDockManager.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDockManager;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DockManagerStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <ig:XamDockManager x:Name="xamDockManager" >
+            <ig:XamDockManager.Content>
+                <ig:DocumentContentHost Orientation="Horizontal">
+                    <ig:DocumentContentHost.Panes >
+                        <ig:TabGroupPane>
+                            <ig:ContentPane Header="{Binding Source={StaticResource Strings},Path=Docking_StartPage}"
+                                            IsActivePane="True" IsDocumentPane="True"/>
+                            <ig:ContentPane Header="MainPage.xaml" IsDocumentPane="True" />
+                            <ig:ContentPane Header="MainPage.xaml.cs" IsDocumentPane="True" />
+                            <ig:ContentPane Header="App.xaml" IsDocumentPane="True" />
+                        </ig:TabGroupPane>
+                        <ig:TabGroupPane>
+                            <ig:ContentPane Header="App.xaml.cs" IsDocumentPane="True" />
+                        </ig:TabGroupPane>
+                    </ig:DocumentContentHost.Panes>
+                </ig:DocumentContentHost>
+            </ig:XamDockManager.Content>
+            <!--#BEGIN SNIPPET#-->
+            <ig:XamDockManager.Panes>
+                <ig:SplitPane Location="Right" Orientation="Vertical" >
+                    <ig:TabGroupPane Location="Top">
+                        <ig:ContentPane Header="{Binding Source={StaticResource Strings},Path=Docking_SolutionExplorer}"
+                                        IsActivePane="True"
+                                        AllowDockingBottom="{Binding ElementName=Chb_AllowDockingBottom, Path=IsChecked}"
+                                        AllowDockingLeft="{Binding ElementName=Chb_AllowDockingLeft, Path=IsChecked}"
+                                        AllowDockingRight="{Binding ElementName=Chb_AllowDockingRight, Path=IsChecked}"
+                                        AllowDockingTop="{Binding ElementName=Chb_AllowDockingTop, Path=IsChecked}">
+                            <ig:ContentPane.Content>
+                                <StackPanel Orientation="Vertical" Margin="5">
+                                    <CheckBox x:Name="Chb_AllowDockingBottom" 
+                                              Style="{StaticResource IGCheckBoxStyle}"
+                                              IsChecked="True" Content="AllowDockingBottom" />
+                                    <CheckBox x:Name="Chb_AllowDockingLeft" IsChecked="True"
+                                              Style="{StaticResource IGCheckBoxStyle}"
+                                              Content="AllowDockingLeft" />
+                                    <CheckBox x:Name="Chb_AllowDockingRight" IsChecked="True"
+                                              Style="{StaticResource IGCheckBoxStyle}"
+                                              Content="AllowDockingRight" />
+                                    <CheckBox x:Name="Chb_AllowDockingTop" IsChecked="True"
+                                              Style="{StaticResource IGCheckBoxStyle}"
+                                              Content="AllowDockingTop" />
+                                </StackPanel>
+                            </ig:ContentPane.Content>
+                        </ig:ContentPane>
+                        <ig:ContentPane Header="{Binding Source={StaticResource Strings},Path=Docking_TeamExplorer}" />
+                    </ig:TabGroupPane>
+                    <ig:ContentPane Header="{Binding Source={StaticResource Strings},Path=Docking_Properties}"
+                                    Location="Bottom"
+                                    AllowPinning="{Binding ElementName=Chb_AllowPinning,Path=IsChecked}"
+                                    AllowDocking="{Binding ElementName=Chb_AllowDocking, Path=IsChecked}"
+                                    AllowClose="{Binding ElementName=Chb_AllowClose, Path=IsChecked}" >
+                        <ig:ContentPane.Content>
+                            <StackPanel Orientation="Vertical" Margin="5">
+                                <CheckBox x:Name="Chb_AllowClose" IsChecked="True"
+                                          Style="{StaticResource IGCheckBoxStyle}"
+                                          Content="AllowClose" />
+                                <CheckBox x:Name="Chb_AllowPinning" IsChecked="True"
+                                          Style="{StaticResource IGCheckBoxStyle}"
+                                          Content="AllowPinning" />
+                                <CheckBox x:Name="Chb_AllowDocking" IsChecked="True"
+                                          Style="{StaticResource IGCheckBoxStyle}"
+                                          Content="AllowDocking" />
+                            </StackPanel>
+                        </ig:ContentPane.Content>
+                    </ig:ContentPane>
+                </ig:SplitPane>
+                <ig:TabGroupPane Location="Bottom" Height="200">
+                    <ig:ContentPane Header="{Binding Source={StaticResource Strings},Path=Docking_ErrorList}" />
+                    <ig:ContentPane Header="{Binding Source={StaticResource Strings},Path=Docking_Output}" IsActivePane="True"/>
+                    <ig:ContentPane Header="{Binding Source={StaticResource Strings},Path=Docking_History}" />
+                </ig:TabGroupPane>
+                <ig:ContentPane IsFloating="True" Header="{Binding Source={StaticResource Strings}, Path=Docking_FloatingPane}"
+                                FloatHeight="200" FloatWidth="300"
+                                FloatLeft="200" FloatTop="200"
+                                AllowInDocumentHost="{Binding ElementName=Chb_AllowInDocHost, Path=IsChecked}"
+                                AllowDockingInTabGroupPane="{Binding ElementName=Chb_AllowDockingInTabGroupPane,Path=IsChecked}"
+                                AllowDockingFloating="{Binding ElementName=Chb_AllowDockingFloating,Path=IsChecked}">
+                    <StackPanel Orientation="Vertical" Margin="5">
+                        <CheckBox x:Name="Chb_AllowInDocHost" IsChecked="True"
+                                  Style="{StaticResource IGCheckBoxStyle}"
+                                  Content="AllowInDocumentHost" />
+                        <CheckBox x:Name="Chb_AllowDockingInTabGroupPane" IsChecked="True"
+                                  Style="{StaticResource IGCheckBoxStyle}"
+                                  Content="AllowDockingInTabGroupPane" />
+                        <CheckBox x:Name="Chb_AllowDockingFloating" IsChecked="True"
+                                  Style="{StaticResource IGCheckBoxStyle}"
+                                  Content="AllowDockingFloating" />
+                    </StackPanel>
+                </ig:ContentPane>
+            </ig:XamDockManager.Panes>
+            <!--#END SNIPPET#-->
+        </ig:XamDockManager>
+    </Grid>
+</igFramework:SampleContainer>

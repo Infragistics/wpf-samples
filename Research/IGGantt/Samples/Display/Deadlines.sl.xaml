@@ -1,0 +1,90 @@
+﻿<framework:SampleContainer x:Class="IGGantt.Samples.Display.Deadlines"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:res="clr-namespace:IGGantt.Resources"
+    xmlns:views="clr-namespace:IGGantt.Samples.ViewModel"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="Deadlines">
+    
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Setting the IG theme -->
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamGantt.xaml" />
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamMenu.xaml" />
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamCalendar.xaml" />
+                <ResourceDictionary Source="/IGGantt;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <res:GanttStrings x:Key="Strings" />
+            
+            <views:ProjectViewModel x:Key="viewmodel" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+    
+    <framework:SampleContainer.DataContext>
+        <Binding Source="{StaticResource viewmodel}" />
+    </framework:SampleContainer.DataContext>
+   
+    <Grid x:Name="LayoutRoot" Background="White">
+        <ig:XamGantt Project="{Binding Project}" x:Name="gantt">
+            <ig:XamGantt.ViewProvider>
+                <ig:ListBackedProjectViewProvider>
+                    <ig:ListBackedProjectViewProvider.ViewItemsSource>
+                        <views:ProjectViewCollection>
+                            <ig:ProjectView Key="GanttChart" TableKey="Basic" />
+                        </views:ProjectViewCollection>
+                    </ig:ListBackedProjectViewProvider.ViewItemsSource>
+                    <ig:ListBackedProjectViewProvider.TableItemsSource>
+                        <views:ProjectTableCollection>
+                            <ig:ProjectTable Key="Basic">
+                                <ig:ProjectTable.Columns>
+                                    <ig:ProjectColumn Key="TaskName" />
+                                    <ig:ProjectColumn Key="Deadline" />
+                                    <ig:ProjectColumn Key="Indicators" />
+                                    <ig:ProjectColumn Key="IsManual" />
+                                    <ig:ProjectColumn Key="ManualDuration"  />
+                                    <ig:ProjectColumn Key="ManualStart"  />
+                                    <ig:ProjectColumn Key="ManualFinish"  />
+                                </ig:ProjectTable.Columns>
+                            </ig:ProjectTable>
+                        </views:ProjectTableCollection>
+                    </ig:ListBackedProjectViewProvider.TableItemsSource>
+                </ig:ListBackedProjectViewProvider>
+            </ig:XamGantt.ViewProvider>
+        </ig:XamGantt>
+        <controls:OptionsPanel HorizontalAlignment="Right"  
+                               VerticalAlignment="Bottom"
+                               Margin="30"
+                               Canvas.ZIndex="10"
+                               HeaderText="{Binding Source={StaticResource Strings}, Path=Deadlines_Header}">
+            <TextBlock Text="{Binding Source={StaticResource Strings},Path=DeadlinesNote}" 
+                       Margin="0,5"
+                       Width="240"
+                       TextWrapping="Wrap"
+                       HorizontalAlignment="Left"/>
+            <Border>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120" />
+                            <ColumnDefinition Width="120" />
+                        </Grid.ColumnDefinitions>
+                        <!--#BEGIN SNIPPET#-->
+                        <sdk:DatePicker x:Name="datePicker" Margin="3"/>
+                        <Button x:Name="Btn_SetDeadline" Grid.Column="1"
+                                Content="{Binding Source={StaticResource Strings},Path=SetDeadline}"  
+                                Click="Btn_SetDeadline_Click"
+                                Margin="3"/>
+                        <!--#END SNIPPET#-->
+                    </Grid>
+            </Border>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

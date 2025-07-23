@@ -1,0 +1,101 @@
+﻿<framework:SampleContainer x:Class="IGRichTextEditor.Samples.Editing.ClipboardSupport"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="ClipboardSupport Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+      xmlns:res="clr-namespace:IGRichTextEditor.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGRichTextEditor;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/IGRichTextEditor;component/Assets/Themes.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:RichTextEditorStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <ig:XamRichTextEditor x:Name="xamRichTextEditor1" Grid.Row="1" Margin="0,10,0,0" AllowDocumentViewSplitting="True"
+                              BorderThickness="1" BorderBrush="{StaticResource RichTextEditorBorderBrush}">
+            <ig:XamRichTextEditor.ClipboardSerializationProviders>
+                <ig:RtfSerializationProvider />
+                <ig:WordSerializationProvider />
+                <ig:HtmlSerializationProvider />
+            </ig:XamRichTextEditor.ClipboardSerializationProviders>
+        </ig:XamRichTextEditor>
+
+        <controls:OptionsPanel HeaderText="{Binding Path=ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}" Margin="0,0,0,10" Grid.Row="0" IsMovable="False">
+            <StackPanel Orientation="Horizontal" Margin="2">
+
+                <!-- #BEGIN SNIPPET# -->
+                <Button Margin="0,0,10,0" Tag="Cut" Click="Button_Click">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/IGRichTextEditor;component/Images/Cut.png" Margin="0,0,7,0" />
+                            <TextBlock Text="{Binding Path=Cut, Source={StaticResource CommonStrings}}" Margin="0,5,0,0" />
+                        </StackPanel>
+                    </Button.Content>
+                    <ig:Commanding.Command>
+                        <igPrim:RichTextEditorCommandSource CommandType="Cut" EventName="Click" />
+                    </ig:Commanding.Command>
+                </Button>
+
+                <Button Margin="0,0,10,0" Tag="Copy" Click="Button_Click">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/IGRichTextEditor;component/Images/Copy.png" Margin="0,0,7,0" />
+                            <TextBlock Text="{Binding Path=Copy, Source={StaticResource CommonStrings}}" Margin="0,5,0,0" />
+                        </StackPanel>
+                    </Button.Content>
+                    <ig:Commanding.Command>
+                        <igPrim:RichTextEditorCommandSource CommandType="Copy" EventName="Click" />
+                    </ig:Commanding.Command>
+                </Button>
+
+                <Button Tag="Paste" Click="Button_Click">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/IGRichTextEditor;component/Images/Paste.png" Margin="0,0,7,0" />
+                            <TextBlock Text="{Binding Path=Paste, Source={StaticResource CommonStrings}}" Margin="0,5,0,0" />
+                        </StackPanel>
+                    </Button.Content>
+                    <ig:Commanding.Command>
+                        <igPrim:RichTextEditorCommandSource CommandType="Paste" EventName="Click" />
+                    </ig:Commanding.Command>
+                </Button>
+                <!-- #END SNIPPET# -->
+
+            </StackPanel>
+        </controls:OptionsPanel>
+
+        <StackPanel Grid.Row="2" Margin="0,10,0,0">
+            <Border Height="150">
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalAlignment="Stretch" Margin="0 3" Style="{StaticResource IGScrollViewerStyle}">
+                    <TextBlock x:Name="txtEvents" VerticalAlignment="Stretch" />
+                </ScrollViewer>
+            </Border>
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="btnClear"
+                        Content="{Binding Source={StaticResource Strings}, Path=btnClearEvents}"
+                        Click="btnClear_Click" HorizontalAlignment="Center" Margin="0,5,5,0" />
+                <CheckBox x:Name="CancelEvents" IsChecked="False" Margin="0,8,0,0" Click="CancelEvents_Click" IsThreeState="False"
+                          Content="{Binding Source={StaticResource Strings}, Path=lblCancelCBEvents}" />
+            </StackPanel>
+        </StackPanel>
+
+    </Grid>
+</framework:SampleContainer>

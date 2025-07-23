@@ -1,0 +1,136 @@
+﻿<framework:SampleContainer x:Class="IGCalendar.Samples.Editing.CalendarMinMax"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="CalendarMinMax"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:primitives="clr-namespace:System.Windows.Controls.Primitives;assembly=System.Windows.Controls.Data"
+      xmlns:res="clr-namespace:IGCalendar.Resources"
+      xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGCalendar;component/Assets/Global.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <converters:VisibilityConverter x:Key="boolToVisibilityConverter"/>
+            <res:CalendarStrings x:Key="Strings" />
+            <Style x:Key="dateCellStyle" TargetType="sdk:DataGridCell">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+            </Style>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <!--#BEGIN SNIPPET#-->
+        <ig:XamCalendar x:Name="myCalendar" Grid.Row="1" Dimensions="1,3" AutoAdjustDimensions="False"
+                        MinDate="{Binding ElementName=dpMinDate, Path=SelectedDate, Mode=TwoWay}"
+                        MaxDate="{Binding ElementName=dpMaxDate, Path=SelectedDate, Mode=TwoWay}"
+                        DisabledDaysOfWeekVisibility="{Binding ElementName=chkDisabledDaysofWeekVisibility,
+            Path=IsChecked, Converter={StaticResource boolToVisibilityConverter}}"
+                        DisabledDaysOfWeek="{Binding Value, ElementName=disabledDaysOfWeek, Mode=TwoWay}">
+        </ig:XamCalendar>
+        <!--#END SNIPPET#-->
+        <controls:OptionsPanel Grid.RowSpan="2"  HeaderText="{Binding Source={StaticResource Strings}, Path=XamCalendar_Options}" Margin="20,20,0,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2">
+                    <sdk:DatePicker x:Name="dpDisableDate" ></sdk:DatePicker>
+                    <CheckBox x:Name="chkRange" VerticalAlignment="Center" Margin="5,0,2,0" Content="{Binding Source={StaticResource Strings}, Path=XamCalendar_To}"></CheckBox>
+                    <sdk:DatePicker x:Name="dpDisableDateRangeEnd" IsEnabled="{Binding ElementName=chkRange, Path=IsChecked}"></sdk:DatePicker>
+                    <Button x:Name="btnDisableDate" Margin="5,0,0,0" Content="{Binding Source={StaticResource Strings}, Path=XamCalendar_DisableRange}" Click="btnDisableDate_Click"></Button>
+                </StackPanel>
+
+                <sdk:DataGrid x:Name="grdDisabledDates" AutoGenerateColumns="False" Grid.Row="1" Grid.ColumnSpan="2"
+                              ItemsSource="{Binding ElementName=myCalendar, Path=DisabledDates, Mode=OneWay}"
+                              Margin="5,5,5,10" Height="100" VerticalScrollBarVisibility="Auto">
+                    <sdk:DataGrid.Columns>
+                        <sdk:DataGridTemplateColumn CanUserSort="False" CanUserResize="False" Width="Auto">
+                            <sdk:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button x:Name="btnRemove" Click="btnRemove_Click">
+                                        <Image>
+                                            <Image.Source>
+                                                <BitmapImage UriSource="/IGCalendar;component/Images/error.png" />
+                                            </Image.Source>
+                                        </Image>
+                                    </Button>
+                                </DataTemplate>
+                            </sdk:DataGridTemplateColumn.CellTemplate>
+                        </sdk:DataGridTemplateColumn>
+
+                        <sdk:DataGridTextColumn CanUserSort="False" IsReadOnly="True" Width="Auto"
+                                                Binding="{Binding Path=Start, StringFormat=\{0:d\}}" MaxWidth="110"
+                                                CellStyle="{StaticResource dateCellStyle}">
+                            <sdk:DataGridTextColumn.HeaderStyle>
+                                <Style TargetType="primitives:DataGridColumnHeader">
+                                    <Setter Property="ContentTemplate">
+                                        <Setter.Value>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Source={StaticResource Strings}, Path=XamCalendar_HeaderStart}" />
+                                            </DataTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </sdk:DataGridTextColumn.HeaderStyle>
+                        </sdk:DataGridTextColumn>
+                        <sdk:DataGridTextColumn CanUserSort="False" IsReadOnly="True" Width="Auto"
+                                                Binding="{Binding Path=End, StringFormat=\{0:d\}}" MaxWidth="110"
+                                                CellStyle="{StaticResource dateCellStyle}">
+                            <sdk:DataGridTextColumn.HeaderStyle>
+                                <Style TargetType="primitives:DataGridColumnHeader">
+                                    <Setter Property="ContentTemplate">
+                                        <Setter.Value>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Source={StaticResource Strings}, Path=XamCalendar_HeaderEnd}" />
+                                            </DataTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </sdk:DataGridTextColumn.HeaderStyle>
+                        </sdk:DataGridTextColumn>
+                    </sdk:DataGrid.Columns>
+                </sdk:DataGrid>
+
+                <TextBlock Text="{Binding Source={StaticResource Strings}, Path=XamCalendar_MinDate}" Margin="0,5,0,0" Grid.Row="2"/>
+                <sdk:DatePicker x:Name="dpMinDate" Margin="5,0" Grid.Row="2" Grid.Column="1" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
+
+                <TextBlock Text="{Binding Source={StaticResource Strings}, Path=XamCalendar_MaxDate}" Margin="0,5,0,0" Grid.Row="4"/>
+                <sdk:DatePicker x:Name="dpMaxDate" Margin="5,0" Grid.Row="4" Grid.Column="1"/>
+
+                <CheckBox x:Name="chkDisabledDaysofWeekVisibility" Content="{Binding XamCalendar_ShowDisabled, Source={StaticResource Strings}}" Grid.Column="4" VerticalAlignment="Center"/>
+                <ListBox x:Name="lstDisabledDaysofWeek" Grid.Column="2" Grid.Row="1" Grid.RowSpan="5" SelectionMode="Multiple"  SelectionChanged="lstDisabledDaysofWeek_SelectionChanged" >
+                    <ListBoxItem Content="{Binding XamCalendar_Monday, Source={StaticResource Strings}}" Tag="Monday" />
+                    <ListBoxItem Content="{Binding XamCalendar_Tuesday, Source={StaticResource Strings}}" Tag="Tuesday"/>
+                    <ListBoxItem Content="{Binding XamCalendar_Wednesday, Source={StaticResource Strings}}" Tag="Wednesday"/>
+                    <ListBoxItem Content="{Binding XamCalendar_Thursday, Source={StaticResource Strings}}" Tag="Thursday" />
+                    <ListBoxItem Content="{Binding XamCalendar_Friday, Source={StaticResource Strings}}" Tag="Friday" />
+                    <ListBoxItem Content="{Binding XamCalendar_Saturday, Source={StaticResource Strings}}" Tag="Saturday" />
+                    <ListBoxItem Content="{Binding XamCalendar_Sunday, Source={StaticResource Strings}}" Tag="Sunday" />
+                </ListBox>
+            </Grid>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

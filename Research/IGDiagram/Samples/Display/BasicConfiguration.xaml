@@ -1,0 +1,67 @@
+﻿<framework:SampleContainer x:Class="IGDiagram.Samples.Display.BasicConfiguration" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:ig="http://schemas.infragistics.com/xaml" xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" xmlns:res="clr-namespace:IGDiagram.Resources" mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700" Title="BasicConfiguration Page">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDiagram;component/Assets/Global.xaml" />
+                
+                <ResourceDictionary>
+                    <Style TargetType="{x:Type ig:DiagramNode}" BasedOn="{StaticResource {x:Type ig:DiagramNode}}">
+                        <Setter Property="FontSize" Value="14" />
+                    </Style>
+                    <res:DiagramStrings x:Key="diagramStrings" />
+
+                    <SolidColorBrush x:Key="DiagramNodeBrush1" Color="#FF9FB328" />
+                    <SolidColorBrush x:Key="DiagramNodeBrush2" Color="#FF7F8F20" />
+                    <SolidColorBrush x:Key="DiagramNodeBrush3" Color="#FFF96232" />
+                    <SolidColorBrush x:Key="DiagramNodeBrush4" Color="#FFC74E28" />
+                    <SolidColorBrush x:Key="DiagramNodeBrush5" Color="#FFDC3F76" />
+                    <SolidColorBrush x:Key="DiagramNodeBrush6" Color="#FFB0325E" />
+                    <SolidColorBrush x:Key="DiagramNodeBrush7" Color="#FF3F51B5" />
+                    <SolidColorBrush x:Key="DiagramNodeBrush8" Color="#FF324191" />
+                    <SolidColorBrush x:Key="DiagramNodeBrush9" Color="#FF9A9A9A" />
+                    <SolidColorBrush x:Key="DiagramNodeBrush10" Color="#FF7B7B7B" />
+
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ========================================================================== -->
+        <ig:XamDiagram x:Name="Diagram">
+            <ig:DiagramNode Key="node1" Fill="{StaticResource DiagramNodeBrush1}" Stroke="{StaticResource DiagramNodeBrush2}" StrokeThickness="1" ShapeType="RoundedRectangle" Height="60" Width="90" Content="{x:Static res:DiagramStrings.BasiConfiguration_NewPosition}" Position="50,50" Foreground="White" />
+            <ig:DiagramConnection StartNodeKey="node1" Stroke="{StaticResource DiagramNodeBrush2}" Fill="{StaticResource DiagramNodeBrush2}" EndNodeKey="node2" ConnectionType="Straight" />
+
+            <ig:DiagramNode Key="node2" Position="200,50" Fill="{StaticResource DiagramNodeBrush3}" Stroke="{StaticResource DiagramNodeBrush4}" StrokeThickness="1" ShapeType="RoundedRectangle" Height="60" Width="90" Content="{x:Static res:DiagramStrings.BasiConfiguration_HardWork}" Foreground="White"/>
+            <ig:DiagramConnection StartNodeKey="node2" Fill="{StaticResource DiagramNodeBrush4}" Stroke="{StaticResource DiagramNodeBrush4}" EndNodeKey="node3" ConnectionType="Straight" />
+
+
+            <ig:DiagramNode Key="node3" Fill="{StaticResource DiagramNodeBrush5}" Stroke="{StaticResource DiagramNodeBrush6}" StrokeThickness="1" ShapeType="RoundedRectangle" Height="60" Width="90" Content="{x:Static res:DiagramStrings.BasiConfiguration_Experience}" Position="350,50" Foreground="White"/>
+            <ig:DiagramConnection Fill="{StaticResource DiagramNodeBrush6}" Stroke="{StaticResource DiagramNodeBrush6}" StartNodeKey="node3" EndNodeKey="node4" />
+
+            <ig:DiagramNode Key="node4" Fill="{StaticResource DiagramNodeBrush7}" Stroke="{StaticResource DiagramNodeBrush8}" StrokeThickness="1" ShapeType="RoundedRectangle" Height="60" Width="90" Content="{x:Static res:DiagramStrings.BasiConfiguration_Promotion}" Position="500,50" Foreground="White"/>
+            <ig:DiagramConnection Fill="{StaticResource DiagramNodeBrush8}" Stroke="{StaticResource DiagramNodeBrush8}" StartNodeKey="node4" EndNodeKey="node5" />
+
+            <ig:DiagramNode Key="node5" Fill="{StaticResource DiagramNodeBrush9}" Stroke="{StaticResource DiagramNodeBrush10}" StrokeThickness="1" ShapeType="RoundedRectangle" Height="60" Width="90" Content="{x:Static res:DiagramStrings.BasiConfiguration_Retirement}" Position="500,200" Foreground="White" >
+
+                <ig:DiagramNode.ConnectionPoints>
+                    <ig:DiagramConnectionPoint Position=".5,1" />
+                </ig:DiagramNode.ConnectionPoints>
+            </ig:DiagramNode>
+            <ig:DiagramConnection StartNodeKey="node4" EndNodeConnectionPointName="Left" StartNodeConnectionPointName="Right" EndNodeKey="node1" />
+
+            <ig:DiagramConnection StartNodeKey="node4" EndNodeKey="node5" />
+        </ig:XamDiagram>
+        <!-- ========================================================================== -->
+        <!-- #END SNIPPET# -->
+        <Expander ExpandDirection="Left" Grid.Column="1" Header="{Binding Diagram_Toolbox_Upper, Source={StaticResource diagramStrings}}" Style="{StaticResource ToolBoxExpanderStyle}">
+            <ig:XamDiagramToolbox Width="260" />
+        </Expander>
+    </Grid>
+</framework:SampleContainer>

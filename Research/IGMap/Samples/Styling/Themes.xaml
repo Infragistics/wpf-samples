@@ -1,0 +1,69 @@
+﻿<igFramework:SampleContainer x:Class="IGMap.Samples.Styling.Themes" 
+           xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+           xmlns:providers="clr-namespace:Infragistics.Samples.Shared.DataProviders;assembly=Infragistics.Samples.Shared"
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+           mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="400" 
+           xmlns:ig="http://schemas.infragistics.com/xaml"
+           xmlns:sharedResources="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared"
+           xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+           xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared">
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- All themes are loaded from code behind and the following XAML code will apply only the IG theme-->
+                <!-- -->
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGMap;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+          
+            <sharedResources:CommonStrings x:Key="Strings" />
+            <converters:GetImagePathConverter x:Key="GetImageConverter" />
+            <Style x:Key="WorldThumbnailStyle" TargetType="Path">
+                <Setter Property="Fill">
+                    <Setter.Value>
+                        <ImageBrush ImageSource="{Binding Source='Maps/tinyWorld.png', Converter={StaticResource GetImageConverter}}" />
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    
+    <Grid x:Name="LayoutRoot" Width="Auto">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <ig:XamMap x:Name="igMap" WindowZoomMaximum="30" Grid.Row="1" >
+            <ig:XamMap.Layers>
+                <ig:MapLayer IsClickable="False" LayerName="statesLayer"
+                             FillMode="RandomInterpolate" ToolTip="{}{Name}">
+                    <ig:MapLayer.Reader>
+                        <ig:ShapeFileReader DataMapping="Name=CNTRY_NAME; Caption=CODE; Value=POP_CNTRY" >
+                            <ig:ShapeFileReader.Uri>
+                                <Binding Path="ShapeFileAbsolutePath">
+                                    <Binding.Source>
+                                        <providers:ShapeFileProvider ShapeFileRelativePath="/world" />
+                                    </Binding.Source>
+                                </Binding>
+                            </ig:ShapeFileReader.Uri>
+                        </ig:ShapeFileReader>
+                    </ig:MapLayer.Reader>
+                </ig:MapLayer>
+            </ig:XamMap.Layers>
+            <ig:MapNavigationPane ig:XamDock.Edge="InsideRight" ig:XamDock.VerticalDockAlignment="Top" Margin="10"/>
+        </ig:XamMap>
+        
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ================================================================================================== -->
+        <!-- Note theme are changed in code-behind -->
+        <controls:ThemeSelector x:Name="ThemeSelector" 
+                                HorizontalAlignment="Right"
+                                SelectionChanged="OnSelectionChanged"/>
+        <!-- ================================================================================================== -->
+        <!-- #END SNIPPET# -->
+    </Grid>
+</igFramework:SampleContainer>

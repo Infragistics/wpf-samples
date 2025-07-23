@@ -1,0 +1,100 @@
+﻿<framework:SampleContainer x:Class="IGTagCloud.Samples.Display.TagCloudScaleBreaks"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igEditors="http://infragistics.com/Editors"
+      xmlns:res="clr-namespace:IGTagCloud.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGTagCloud;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:TagCloudStrings x:Key="TagCloudStrings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid>
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamTagCloud x:Name="dataTagCloud"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        FontSize="14"
+                        ItemsSource="{Binding Path=Tags}"
+                        DisplayMemberPath="Content"
+                        WeightMemberPath="Weight"
+                        NavigateUriMemberPath="NavigateUri"
+                        TargetName="_blank"
+                        MinScale="1"
+                        MaxScale="5">
+            <ig:XamTagCloud.ScaleBreaks>
+                <ig:ScaleBreak StartWeight="10000" EndWeight="25000" Weight="10000"/>
+            </ig:XamTagCloud.ScaleBreaks>
+        </ig:XamTagCloud>
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel HeaderText="{Binding Path=XTC_ScalingConfigPanelHeader, Source={StaticResource TagCloudStrings}}" 
+                               HorizontalAlignment="Right" MinWidth="220" MinHeight="200">
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}"/>
+            </controls:OptionsPanel.Resources>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" MinWidth="80" />
+                    <ColumnDefinition MaxWidth="8" />
+                    <ColumnDefinition Width="Auto" MinWidth="80" />
+                    <ColumnDefinition MaxWidth="8" />
+                    <ColumnDefinition Width="Auto" MinWidth="80" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="{Binding ScaleBreak_StartWeight, Source={StaticResource TagCloudStrings}, StringFormat=\{0\}:}" Grid.Column="0" Grid.Row="0"/>
+                <igEditors:XamNumericEditor Mask="nnnnn" x:Name="valStartWeight" Grid.Column="0" Grid.Row="1" Theme="RoyalLight" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding ScaleBreak_EndWeight, Source={StaticResource TagCloudStrings}, StringFormat=\{0\}:}" Grid.Column="2" Grid.Row="0"/>
+                <igEditors:XamNumericEditor Mask="nnnnn" x:Name="valEndWeight" Grid.Column="2" Grid.Row="1" Theme="RoyalLight" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding ScaleBreak_Weight, Source={StaticResource TagCloudStrings}, StringFormat=\{0\}:}" Grid.Column="4" Grid.Row="0"/>
+                <igEditors:XamNumericEditor Mask="nnnnn" x:Name="valWeight" Grid.Column="4" Grid.Row="1" Theme="RoyalLight" VerticalAlignment="Center"/>
+
+                <Button x:Name="bntAddScaleBreak" Content="{Binding ScaleBreak_Add, Source={StaticResource TagCloudStrings}}" Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="2"
+                        Click="bntAddScaleBreak_Click" VerticalAlignment="Center" Margin="0,6,0,12"/>
+                <DataGrid x:Name="grdScaleBreaks" AutoGenerateColumns="False" ItemsSource="{Binding ElementName=dataTagCloud, Path=ScaleBreaks, Mode=OneWay}" MaxHeight="100" HorizontalAlignment="Stretch"
+                          VerticalScrollBarVisibility="Auto" CanUserReorderColumns="False" CanUserAddRows="False"  Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="5"
+                          BorderBrush="{StaticResource ListBoxBorderBrush}" Foreground="{StaticResource ForegroundBrush}" >
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn CanUserSort="False" CanUserResize="False" Width="Auto" MinWidth="20">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button x:Name="btnRemoveScaleBreak" Click="btnRemoveScaleBreak_Click" Width="50">
+                                        <Image Source="/IGTagCloud;component/Images/error.png" Stretch="None"/>
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn CanUserSort="False" IsReadOnly="True" Width="Auto"
+                                            Header="{Binding ScaleBreak_StartWeight, Source={StaticResource TagCloudStrings}}"
+                                            Binding="{Binding Path=StartWeight}" MaxWidth="110" />
+                        <DataGridTextColumn CanUserSort="False" IsReadOnly="True" Width="Auto"
+                                            Header="{Binding ScaleBreak_EndWeight, Source={StaticResource TagCloudStrings}}"
+                                            Binding="{Binding Path=EndWeight}" MaxWidth="110" />
+                        <DataGridTextColumn CanUserSort="False" IsReadOnly="True" Width="Auto"
+                                            Header="{Binding ScaleBreak_Weight, Source={StaticResource TagCloudStrings}}"
+                                            Binding="{Binding Path=Weight}" MaxWidth="110" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

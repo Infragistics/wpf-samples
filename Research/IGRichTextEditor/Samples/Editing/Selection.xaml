@@ -1,0 +1,132 @@
+﻿<framework:SampleContainer x:Class="IGRichTextEditor.Samples.Editing.Selection"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGRichTextEditor.Resources"
+    xmlns:helpers="clr-namespace:IGRichTextEditor.Samples.Helpers"
+    xmlns:conv="clr-namespace:IGRichTextEditor.Converters"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="Selection Page">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGRichTextEditor;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/IGRichTextEditor;component/Assets/Themes.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:RichTextEditorStrings x:Key="Strings" />
+            <conv:ForeColorsConverter x:Key="FGConv" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="80" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <controls:OptionsPanel
+            HeaderText="{Binding ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}"
+            Margin="0,10,0,10" Grid.Row="0" IsMovable="False">
+            <StackPanel Margin="2" Orientation="Horizontal">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10" MinHeight="22">
+                        <TextBlock Text="{Binding Path=lblSelectionStartIndex, Source={StaticResource Strings}}"
+                                   MinWidth="140" Margin="0,2,0,0" />
+                        <TextBox x:Name="startIndex" MinWidth="60" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10" MinHeight="22">
+                        <TextBlock Text="{Binding Path=lblSelectionEndIndex, Source={StaticResource Strings}}"
+                                   MinWidth="140" Margin="0,2,0,0" />
+                        <TextBox x:Name="endIndex" MinWidth="60" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button x:Name="bSelect" Content="{Binding Path=btnSelect, Source={StaticResource Strings}}"
+                                Click="bSelect_Click" />
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Margin="30,0,0,0" >
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10" MinHeight="22">
+                        <TextBlock  MinWidth="150" Text="{Binding Source={StaticResource ResourceKey=Strings}, Path=lblSelectionActiveColor}" />
+                    <ComboBox x:Name="cbFColor" MinWidth="50" Tag="cbAColor"
+                              ItemsSource="{Binding Path=ForeColors}"
+                              SelectedIndex="-1"
+                              DropDownClosed="cb_DropDownClosed">
+                        <ComboBox.DataContext>
+                            <helpers:PredefinedLists />
+                        </ComboBox.DataContext>
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <Rectangle Width="16" Height="16" Fill="{Binding Converter={StaticResource FGConv}}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10" MinHeight="22">
+                        <TextBlock Margin="0,5,0,0" MinWidth="150"
+                               Text="{Binding Source={StaticResource ResourceKey=Strings}, Path=lblSelectionInactiveColor}" />
+                    <ComboBox x:Name="cbBColor" MinWidth="50" Tag="cbIColor"
+                              ItemsSource="{Binding Path=ForeColors}"
+                              SelectedIndex="-1"
+                              DropDownClosed="cb_DropDownClosed">
+                        <ComboBox.DataContext>
+                            <helpers:PredefinedLists />
+                        </ComboBox.DataContext>
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <Rectangle Width="16" Height="16" Fill="{Binding Converter={StaticResource FGConv}}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </StackPanel>
+            </StackPanel>
+                </StackPanel>
+        </controls:OptionsPanel>
+
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamRichTextEditor x:Name="xamRichTextEditor1" Grid.Row="1" Margin="0,10,0,0" AllowDocumentViewSplitting="True"
+                              BorderThickness="1" BorderBrush="{StaticResource RichTextEditorBorderBrush}"
+                              SelectionChanged="xamRichTextEditor1_SelectionChanged">
+            <ig:XamRichTextEditor.ClipboardSerializationProviders>
+                <ig:RtfSerializationProvider />
+                <ig:WordSerializationProvider />
+                <ig:HtmlSerializationProvider />
+            </ig:XamRichTextEditor.ClipboardSerializationProviders>
+        </ig:XamRichTextEditor>
+        <!-- #END SNIPPET# -->
+
+        <TextBlock FontWeight="Bold" Grid.Row="2" Margin="0,10,0,0"
+            Text="{Binding Path=lblSelectedText, Source={StaticResource Strings}}" />
+
+        <Border Grid.Row="3">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Style="{StaticResource IGScrollViewerStyle}">
+                <TextBlock x:Name="selectedText" Margin="5,0,5,0" />
+            </ScrollViewer>
+        </Border>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="4">
+            <TextBlock Text="{Binding Path=lblSelectionStartIndex, Source={StaticResource Strings}}" FontWeight="Bold" MinWidth="150" />
+            <TextBlock x:Name="startSelection" Margin="0,0,5,0" />
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="5">
+            <TextBlock Text="{Binding Path=lblSelectionEndIndex, Source={StaticResource Strings}}" FontWeight="Bold" MinWidth="150" />
+            <TextBlock x:Name="endSelection" Margin="0,0,5,0" />
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="6">
+            <TextBlock Text="{Binding Path=lblSelectionLength, Source={StaticResource Strings}}" FontWeight="Bold" MinWidth="150" />
+            <TextBlock x:Name="lengthOfSelection" Margin="0,0,5,5" />
+        </StackPanel>
+    </Grid>
+</framework:SampleContainer>
