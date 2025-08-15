@@ -68,7 +68,7 @@ namespace IGGeographicMap.Samples.Data
             }
             else
             {
-                this.DialogInfoTextBlock.Text = MapStrings.XWGM_MissingBingMapKey;
+                this.DialogInfoTextBlock.Text = MapStrings.XWGM_MissingMicrosoftMapKey;
                 this.DialogInfoPanel.Visibility = Visibility.Visible;
             } 
         }

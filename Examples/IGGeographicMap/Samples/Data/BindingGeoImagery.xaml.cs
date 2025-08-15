@@ -2,6 +2,8 @@
 using System.Net;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using IGGeographicMap.Extensions;
 using IGGeographicMap.Models;
 using IGGeographicMap.Resources;
@@ -52,6 +54,12 @@ namespace IGGeographicMap.Samples.Data
             items.Add(new BingMapsImageryView { ImageryStyle = BingMapsImageryStyle.Aerial });
             items.Add(new BingMapsImageryView { ImageryStyle = BingMapsImageryStyle.AerialWithLabels });
             items.Add(new BingMapsImageryView { ImageryStyle = BingMapsImageryStyle.Road });
+
+            //items.Add(new AzureMapImageryView { ImageryStyle = AzureMapsImageryStyle.Imagery });
+            //items.Add(new AzureMapImageryView { ImageryStyle = AzureMapsImageryStyle.AerialWithLabels });
+            //items.Add(new AzureMapImageryView { ImageryStyle = AzureMapsImageryStyle.Road });
+
+
             //items.Add(new MapQuestImageryView { ImageryStyle = MapQuestImageryStyle.SatelliteMapStyle });
             //items.Add(new MapQuestImageryView { ImageryStyle = MapQuestImageryStyle.StreetMapStyle });
             // add Esri maps
@@ -91,7 +99,7 @@ namespace IGGeographicMap.Samples.Data
                     ShowBingMapsImagery((BingMapsImageryView)mapView);
                 else
                 {
-                    this.DialogInfoTextBlock.Text = MapStrings.XWGM_MissingBingMapKey;
+                    this.DialogInfoTextBlock.Text = MapStrings.XWGM_MissingMicrosoftMapKey;
                     this.DialogInfoPanel.Visibility = Visibility.Visible;
                 }
             }
@@ -129,12 +137,38 @@ namespace IGGeographicMap.Samples.Data
         private void ShowBingMapsImagery(BingMapsImageryView mapView)
         {
             string mapKey = this.BingMadeMapKey;
-
+            var mapImage = new Image();
             if (!String.IsNullOrEmpty(mapKey))
             {
                 var mapStyle = (Infragistics.Controls.Maps.BingMapsImageryStyle) mapView.ImageryStyle;
+                Uri mapURI = null;
+                switch (mapStyle)
+                {
+                    case Infragistics.Controls.Maps.BingMapsImageryStyle.Aerial:
+                        mapURI = new Uri(@"../../Resources/BingAerial.png", UriKind.RelativeOrAbsolute);
+                        break;
+                    case Infragistics.Controls.Maps.BingMapsImageryStyle.AerialWithLabels:
+                        mapURI = new Uri(@"../../Resources/BingAerialWithLabels.png", UriKind.RelativeOrAbsolute);
+                        break;
+                    case Infragistics.Controls.Maps.BingMapsImageryStyle.Road:
+                        mapURI = new Uri(@"../../Resources/BingRoad.png", UriKind.RelativeOrAbsolute);
+                        break;
+                    case Infragistics.Controls.Maps.BingMapsImageryStyle.CanvasDark:
+                        mapURI = new Uri(@"../../Resources/BingCanvasDark.png", UriKind.RelativeOrAbsolute);
+                        break;
+                    default:
+                        break;
+                }
                 
-                this.GeoMap.BackgroundContent = new BingMapsMapImagery { ImageryStyle = mapStyle, ApiKey = mapKey, IsDeferredLoad = false };
+                //Now that Bing is retired, basic keys are no longer valid, hence we are showing images. If you have a valid enterprise key you may comment this code out and uncomment out the BackgroundContent below applying the imagery instead and apply your own api key.
+                BitmapImage bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
+                bitmapImage.UriSource = mapURI;
+                bitmapImage.EndInit();
+                mapImage.Source = bitmapImage;
+                this.GeoMap.BackgroundContent = mapImage;
+                //this.GeoMap.BackgroundContent = new BingMapsMapImagery { ImageryStyle = mapStyle, ApiKey = mapKey, IsDeferredLoad = false };
+
             }
         }
         private void ButtonClick(object sender, RoutedEventArgs e)

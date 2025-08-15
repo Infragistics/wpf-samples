@@ -23,13 +23,19 @@ namespace IGGeographicMap.Samples.Data
             this.MapLoadingContainer.Visibility = System.Windows.Visibility.Visible;
             this.MapLoadingStatus.Text = CommonStrings.XW_SampleStatus_Loading;
 
-            this.GeoImageryViewComboBox.SelectedIndex = 1; 
+            this.GeoImageryViewComboBox.SelectedIndex = 0; 
             this.BingMadeMapKey = string.Empty;     //  visit http://www.bingmapsportal.com
             // this code block should be comment out when
             // you have your own keys for Bing Maps  
-            var mapKeyProvoder = new GeoImageryKeyProvider();
-            mapKeyProvoder.GetMapKeyCompleted += OnGetMapKeyCompleted;
-            mapKeyProvoder.GetMapKeys();
+
+            var series = this.GeoMap.Series.OfType<GeographicTileSeries>().First();
+            if (series.TileImagery is BingMapsMapImagery)
+            {
+                var mapKeyProvoder = new GeoImageryKeyProvider();
+                mapKeyProvoder.GetMapKeyCompleted += OnGetMapKeyCompleted;
+                mapKeyProvoder.GetMapKeys();
+            }
+           
         } 
         protected string BingMadeMapKey;
 
@@ -81,7 +87,7 @@ namespace IGGeographicMap.Samples.Data
                     ShowBingMapsImagery((BingMapsImageryView)mapView);
                 else
                 {
-                    this.DialogInfoTextBlock.Text = MapStrings.XWGM_MissingBingMapKey;
+                    this.DialogInfoTextBlock.Text = MapStrings.XWGM_MissingMicrosoftMapKey;
                     this.DialogInfoPanel.Visibility = Visibility.Visible;
                 }
             }
