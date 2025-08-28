@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Infragistics.Samples.Services;
+using Infragistics.Controls.Maps;
 
 namespace IGGeographicMap.Extensions
 {
@@ -17,6 +17,7 @@ namespace IGGeographicMap.Extensions
     /// </summary>
     public enum GeoImagerySource
     {
+        AzureMapsImagery,
         BingMapsImagery,
         MapQuestImagery,
         OpenStreetMapImagery, 
@@ -34,6 +35,22 @@ namespace IGGeographicMap.Extensions
     /// <summary>
     /// Represents a map view for the OpenStreetMap geo-imagery.
     /// </summary>
+    
+    public class AzureMapImageryView : GeoImageryView 
+    {
+        public AzureMapImageryView()
+        {
+            this.ImagerySource = GeoImagerySource.AzureMapsImagery;
+            this.ImageryStyle = AzureMapsImageryStyle.Imagery;
+        }
+        public AzureMapsImageryStyle ImageryStyle { get; set; }
+        public string ImageryName { get { return this.ImagerySource + " (" + this.ImageryStyle + ")"; } }
+        public override string ToString()
+        {
+            return this.ImageryName;
+        }
+    }
+    
     public class OpenStreetMapImageryView : GeoImageryView
     {
         public OpenStreetMapImageryView()
@@ -607,7 +624,7 @@ namespace IGGeographicMap.Extensions
             this.ImagerySource = GeoImagerySource.BingMapsImagery;
             this.ImageryStyle = BingMapsImageryStyle.Road;
         }
-        public BingMapsImageryStyle ImageryStyle { get; set; }
+        public Infragistics.Controls.Maps.BingMapsImageryStyle ImageryStyle { get; set; }
         public string ImageryName { get { return this.ImagerySource + " (" + this.ImageryStyle + ")"; } }
         public override string ToString()
         {

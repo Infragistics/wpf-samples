@@ -23,16 +23,27 @@ namespace IGGeographicMap.Samples.Data
             this.MapLoadingContainer.Visibility = System.Windows.Visibility.Visible;
             this.MapLoadingStatus.Text = CommonStrings.XW_SampleStatus_Loading;
 
-            this.GeoImageryViewComboBox.SelectedIndex = 1; 
-            this.BingMadeMapKey = string.Empty;     //  visit http://www.bingmapsportal.com
+            this.GeoImageryViewComboBox.SelectedIndex = 0;
+            this.AzureMadeMapKey = string.Empty;
+            //  visit https://learn.microsoft.com/en-us/azure/azure-maps/how-to-manage-account-keys
             // this code block should be comment out when
             // you have your own keys for Bing Maps  
-            var mapKeyProvoder = new GeoImageryKeyProvider();
-            mapKeyProvoder.GetMapKeyCompleted += OnGetMapKeyCompleted;
-            mapKeyProvoder.GetMapKeys();
+            this.BingMadeMapKey = string.Empty;    
+            //  visit http://www.bingmapsportal.com
+            // this code block should be comment out when
+            // you have your own keys for Bing Maps  
+
+            var series = this.GeoMap.Series.OfType<GeographicTileSeries>().First();
+            if (series.TileImagery is BingMapsMapImagery)
+            {
+                var mapKeyProvoder = new GeoImageryKeyProvider();
+                mapKeyProvoder.GetMapKeyCompleted += OnGetMapKeyCompleted;
+                mapKeyProvoder.GetMapKeys();
+            }
+           
         } 
         protected string BingMadeMapKey;
-
+        protected string AzureMadeMapKey;
         private void OnGetMapKeyCompleted(object sender, GetMapKeyCompletedEventArgs e)
         {
             if (e.Error != null) return;
@@ -75,13 +86,23 @@ namespace IGGeographicMap.Samples.Data
             {
                 ShowOpenStreetMapImagery();
             }
+            else if (mapView.ImagerySource == GeoImagerySource.AzureMapsImagery)
+            {
+                if (this.AzureMadeMapKey != string.Empty)
+                    ShowAzureMapsImagery((AzureMapImageryView)mapView);
+                else
+                {
+                    this.DialogInfoTextBlock.Text = MapStrings.XWGM_MissingMicrosoftMapKey;
+                    this.DialogInfoPanel.Visibility = Visibility.Visible;
+                }
+            }
             else if (mapView.ImagerySource == GeoImagerySource.BingMapsImagery)
             {
                 if (this.BingMadeMapKey != string.Empty)
                     ShowBingMapsImagery((BingMapsImageryView)mapView);
                 else
                 {
-                    this.DialogInfoTextBlock.Text = MapStrings.XWGM_MissingBingMapKey;
+                    this.DialogInfoTextBlock.Text = MapStrings.XWGM_MissingMicrosoftMapKey;
                     this.DialogInfoPanel.Visibility = Visibility.Visible;
                 }
             }
@@ -117,6 +138,20 @@ namespace IGGeographicMap.Samples.Data
                 series.TileImagery = new BingMapsMapImagery { ImageryStyle = mapStyle, ApiKey = mapKey, IsDeferredLoad = false };
             }
         }
+
+        private void ShowAzureMapsImagery(AzureMapImageryView mapView)
+        {
+            string mapKey = this.AzureMadeMapKey;
+
+            if (!String.IsNullOrEmpty(mapKey))
+            {
+                var mapStyle = (Infragistics.Controls.Maps.AzureMapsImageryStyle)mapView.ImageryStyle;
+
+                var series = this.GeoMap.Series.OfType<GeographicTileSeries>().First();
+                series.TileImagery = new AzureMapsMapImagery { ImageryStyle = mapStyle, ApiKey = mapKey };
+            }
+        }
+
         private void ButtonClick(object sender, RoutedEventArgs e)
         {
             this.DialogInfoPanel.Visibility = Visibility.Collapsed;

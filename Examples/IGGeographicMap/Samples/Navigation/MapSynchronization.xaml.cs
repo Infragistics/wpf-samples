@@ -46,7 +46,7 @@ namespace IGGeographicMap.Samples
                 if (element.Name == "BingMaps")
                 {
                     this.BingMadeMapKey = element.Key;
-                    this.ShowBingMapsImagery(new BingMapsImageryView { ImageryStyle = Infragistics.Samples.Services.BingMapsImageryStyle.Road });
+                    this.ShowBingMapsImagery(new BingMapsImageryView { ImageryStyle = Infragistics.Controls.Maps.BingMapsImageryStyle.Road });
                 }
             }
         }
