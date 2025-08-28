@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Infragistics.Samples.Services;
+using Infragistics.Controls.Maps;
 
 namespace IGGeographicMap.Extensions
 {
@@ -40,14 +40,15 @@ namespace IGGeographicMap.Extensions
     {
         public AzureMapImageryView()
         {
-            //this.ImageryStyle = "AzureMapsImageryStyle.Road";
+            this.ImagerySource = GeoImagerySource.AzureMapsImagery;
+            this.ImageryStyle = AzureMapsImageryStyle.Imagery;
         }
-
-        //public string ImageryName { get { return this.ImagerySource + " (" + this.ImageryStyle + ")"; } }
-        //public override string ToString()
-        //{
-        //    return this.ImageryName;
-        //}
+        public AzureMapsImageryStyle ImageryStyle { get; set; }
+        public string ImageryName { get { return this.ImagerySource + " (" + this.ImageryStyle + ")"; } }
+        public override string ToString()
+        {
+            return this.ImageryName;
+        }
     }
     
     public class OpenStreetMapImageryView : GeoImageryView
@@ -623,7 +624,7 @@ namespace IGGeographicMap.Extensions
             this.ImagerySource = GeoImagerySource.BingMapsImagery;
             this.ImageryStyle = BingMapsImageryStyle.Road;
         }
-        public BingMapsImageryStyle ImageryStyle { get; set; }
+        public Infragistics.Controls.Maps.BingMapsImageryStyle ImageryStyle { get; set; }
         public string ImageryName { get { return this.ImagerySource + " (" + this.ImageryStyle + ")"; } }
         public override string ToString()
         {
