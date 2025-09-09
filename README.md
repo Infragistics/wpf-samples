@@ -12,6 +12,8 @@ In order to run the showcases or samples browser, you will first need to clone t
 git clone https://github.com/Infragistics/wpf-samples.git
 ```
 
+# Ensure your targeting the Master Branch (not vnext) as may be targeting versions not yet publically available.
+
 # Running Samples Browser
 
 The Infragistics for WPF Samples Browser is a standalone application that contains samples for all controls provided in the Infragistics WPF product. It exists in the [Examples](./Examples) folder in this repository. In order to run it, you can follow these steps:
