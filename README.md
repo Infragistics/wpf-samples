@@ -12,7 +12,9 @@ In order to run the showcases or samples browser, you will first need to clone t
 git clone https://github.com/Infragistics/wpf-samples.git
 ```
 
-# Ensure your targeting the Master Branch (not vnext) as may be targeting versions not yet publically available.
+# Ensure your targeting the Master Branch (not vnext)
+
+vnext may be targeting versions not yet publically available and will cause issues.
 
 # Running Samples Browser
 
