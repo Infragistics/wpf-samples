@@ -67,14 +67,21 @@ jobs:
             Write-Warning "   -> The final output path does not exist. This could be a problem."
         }
         
-        echo "output_path=$fullOutputPath" >> $GITHUB_OUTPUT
+        echo "full_output_path=$fullOutputPath" >> $env:GITHUB_ENV
 
         Write-Host "9. output_path variable set for subsequent steps."
         Write-Host "--- End Path Determination Log ---"
         
     - name: Zip the build output
       run: |
-        Compress-Archive -Path "${{ steps.get_output_path.outputs.output_path }}\*" -DestinationPath "wpf-app-release.zip"
+        $outputPath = $env:full_output_path
+        Write-Host "Attempting to zip from path: $outputPath"
+        if ([string]::IsNullOrEmpty($outputPath) -or (-not (Test-Path -Path $outputPath))) {
+            Write-Warning "Source path is empty or does not exist. Skipping zip."
+            exit 1
+        }
+        Compress-Archive -Path "$outputPath\*" -DestinationPath "wpf-app-release.zip" -Force
+        Write-Host "Zipping complete."
 
     - name: Upload the zipped artifact
       uses: actions/upload-artifact@v4
