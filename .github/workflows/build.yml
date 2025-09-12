@@ -36,7 +36,7 @@ jobs:
       run: |
         $solutionFile = Get-Item -Path "Examples/Infragistics.Samples.WPF.sln"
         $baseDir = $solutionFile.DirectoryName
-        $csprojFile = Get-ChildItem -Path $baseDir -Filter -Recurse "Infragistics.SamplesBrowser.WPF.Source.csproj.csproj" | Select-Object -First 1
+        $csprojFile = Get-ChildItem -Path $baseDir -Recurse -Filter "Infragistics.SamplesBrowser.WPF.Source.csproj.csproj" | Select-Object -First 1
         $projectFile = [xml](Get-Content $csprojFile.FullName)
         $outputPath = $projectFile.Project.PropertyGroup | Where-Object { $_.Condition -like "*'Release|Any CPU'*" } | Select-Object -ExpandProperty OutputPath
         if (-not $outputPath) {
