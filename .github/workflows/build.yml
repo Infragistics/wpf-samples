@@ -36,15 +36,42 @@ jobs:
       run: |
         $solutionFile = Get-Item -Path "Examples/Infragistics.Samples.WPF.sln"
         $baseDir = $solutionFile.DirectoryName
+        Write-Host "--- Start Path Determination Log ---"
+        Write-Host "1. Starting path analysis."
+        Write-Host "2. Base directory for search: $baseDir"
+        
         $csprojFile = Get-ChildItem -Path $baseDir -Recurse -Filter "Infragistics.SamplesBrowser.WPF.Source.csproj" | Select-Object -First 1
+        Write-Host "3. csprojfile: $csprojFile.FullName"
+        
         $projectFile = [xml](Get-Content $csprojFile.FullName)
+
+        Write-Host "5. Searching .csproj for 'Release|AnyCPU' OutputPath..."
         $outputPath = $projectFile.Project.PropertyGroup | Where-Object { $_.Condition -like "*'Release|AnyCPU'*" } | Select-Object -ExpandProperty OutputPath
-        if (-not $outputPath) {
-          $outputPath = $projectFile.Project.PropertyGroup | Where-Object { -not $_.Condition } | Select-Object -ExpandProperty OutputPath
+        if ([string]::IsNullOrEmpty($outputPath)) {
+            Write-Host "   -> No matching OutputPath found for 'Release|Any CPU'. Trying fallback..."
+            # Fallback to the first non-conditional PropertyGroup
+            $outputPath = $projectFile.Project.PropertyGroup | Where-Object { -not $_.Condition } | Select-Object -ExpandProperty OutputPath
         }
+
+        if ([string]::IsNullOrEmpty($outputPath)) {
+            Write-Warning "   -> No OutputPath found in any PropertyGroup. Output path will be empty."
+            exit 1
+        }
+        Write-Host "6. Determined relative output path: $outputPath"
+
         $fullOutputPath = Join-Path -Path $baseDir -ChildPath $outputPath
+        Write-Host "7. Final calculated full output path: $fullOutputPath"
+
+        Write-Host "8. Checking if path exists: $(Test-Path -Path $fullOutputPath)"
+        if (-not (Test-Path -Path $fullOutputPath)) {
+            Write-Warning "   -> The final output path does not exist. This could be a problem."
+        }
+        
         echo "output_path=$fullOutputPath" >> $GITHUB_OUTPUT
-    
+
+        Write-Host "9. output_path variable set for subsequent steps."
+        Write-Host "--- End Path Determination Log ---"
+        
     - name: Zip the build output
       run: |
         Compress-Archive -Path "${{ steps.get_output_path.outputs.output_path }}\*" -DestinationPath "wpf-app-release.zip"
