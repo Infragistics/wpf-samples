@@ -1,0 +1,55 @@
+name: Build WPF Samples
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches:
+      - "main"
+
+jobs:
+  build:
+    # .NET Framework applications must be built on a Windows runner.
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+      with:
+        msbuild-architecture: x64
+
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v2
+
+    - name: Restore NuGet packages
+      run: nuget restore Examples/Infragistics.Samples.WPF.sln
+
+    - name: Build the solution
+      run: msbuild Examples/Infragistics.Samples.WPF.sln /p:Configuration=Release /p:Platform="x86"
+
+    - name: Get build output path
+      id: get_output_path
+      run: |
+        $solutionFile = Get-Item -Path "Examples/Infragistics.Samples.WPF.sln"
+        $baseDir = $solutionFile.DirectoryName
+        $csprojFile = Get-ChildItem -Path $baseDir -Filter -Recurse "Infragistics.SamplesBrowser.WPF.Source.csproj.csproj" | Select-Object -First 1
+        $projectFile = [xml](Get-Content $csprojFile.FullName)
+        $outputPath = $projectFile.Project.PropertyGroup | Where-Object { $_.Condition -like "*'Release|x86'*" } | Select-Object -ExpandProperty OutputPath
+        if (-not $outputPath) {
+          $outputPath = $projectFile.Project.PropertyGroup | Where-Object { -not $_.Condition } | Select-Object -ExpandProperty OutputPath
+        }
+        $fullOutputPath = Join-Path -Path $baseDir -ChildPath $outputPath
+        echo "output_path=$fullOutputPath" >> $GITHUB_OUTPUT
+    
+    - name: Zip the build output
+      run: |
+        Compress-Archive -Path "${{ steps.get_output_path.outputs.output_path }}\*" -DestinationPath "wpf-app-release.zip"
+
+    - name: Upload the zipped artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: wpf-app-release
+        path: wpf-app-release.zip
