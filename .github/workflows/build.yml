@@ -29,7 +29,7 @@ jobs:
       run: nuget restore Examples/Infragistics.Samples.WPF.sln
 
     - name: Build the solution
-      run: msbuild Examples/Infragistics.Samples.WPF.sln /p:Configuration=Release /p:Platform="x86"
+      run: msbuild Examples/Infragistics.Samples.WPF.sln /p:Configuration=Release /p:Platform="Any CPU"
 
     - name: Get build output path
       id: get_output_path
@@ -38,7 +38,7 @@ jobs:
         $baseDir = $solutionFile.DirectoryName
         $csprojFile = Get-ChildItem -Path $baseDir -Filter -Recurse "Infragistics.SamplesBrowser.WPF.Source.csproj.csproj" | Select-Object -First 1
         $projectFile = [xml](Get-Content $csprojFile.FullName)
-        $outputPath = $projectFile.Project.PropertyGroup | Where-Object { $_.Condition -like "*'Release|x86'*" } | Select-Object -ExpandProperty OutputPath
+        $outputPath = $projectFile.Project.PropertyGroup | Where-Object { $_.Condition -like "*'Release|Any CPU'*" } | Select-Object -ExpandProperty OutputPath
         if (-not $outputPath) {
           $outputPath = $projectFile.Project.PropertyGroup | Where-Object { -not $_.Condition } | Select-Object -ExpandProperty OutputPath
         }
