@@ -29,16 +29,14 @@ jobs:
       run: nuget restore Examples/Infragistics.Samples.WPF.sln
 
     - name: Build the solution
-      run: msbuild Examples/Infragistics.Samples.WPF.sln /p:Configuration=Release /p:Platform="Any CPU" /p:OutputPath="Output/"
+      run: |
+        $outputDir = "$env:GITHUB_WORKSPACE\build_output"
+        Write-Host "Building to specific directory: $outputDir"
+        msbuild Examples/Infragistics.Samples.WPF.sln /p:Configuration=Release /p:Platform="Any CPU" /p:OutputPath=$outputDir\
         
     - name: Zip the build output
       run: |
-        $outputPath = "./Output"
-        Write-Host "Attempting to zip from path: $outputPath"
-        if ([string]::IsNullOrEmpty($outputPath) -or (-not (Test-Path -Path $outputPath))) {
-            Write-Warning "Source path is empty or does not exist. Skipping zip."
-            exit 1
-        }
+        $outputPath = "$env:GITHUB_WORKSPACE\build_output"
         Compress-Archive -Path "$outputPath\*" -DestinationPath "wpf-app-release.zip" -Force
         Write-Host "Zipping complete."
 
