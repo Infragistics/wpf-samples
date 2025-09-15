@@ -34,14 +34,8 @@ jobs:
         Write-Host "Building to specific directory: $outputDir"
         msbuild Examples/Infragistics.Samples.WPF.sln /p:Configuration=Release /p:Platform="Any CPU" /p:OutputPath=$outputDir\
         
-    - name: Zip the build output
-      run: |
-        $outputPath = "$env:GITHUB_WORKSPACE\build_output"
-        Compress-Archive -Path "$outputPath\*" -DestinationPath "wpf-app-release.zip" -Force
-        Write-Host "Zipping complete."
-
-    - name: Upload the zipped artifact
+    - name: Upload the artifact
       uses: actions/upload-artifact@v4
       with:
         name: wpf-app-release
-        path: wpf-app-release.zip
+        path: build_output
