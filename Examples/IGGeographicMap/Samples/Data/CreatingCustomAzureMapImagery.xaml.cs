@@ -62,24 +62,20 @@ namespace IGGeographicMap.Samples.Data
 
             this.DialogInfoPanel.Visibility = Visibility.Collapsed;
 
-            if (this.AzureMadeMapKey != string.Empty)
-            {
-                ShowAzureMapsImagery((AzureMapImageryView)mapView);
-            }
-            else
-            {
-                this.DialogInfoTextBlock.Text = MapStrings.XWGM_MissingMicrosoftMapKey;
-                this.DialogInfoPanel.Visibility = Visibility.Visible;
-            } 
+            this.DialogInfoTextBlock.Text = MapStrings.XWGM_MissingMicrosoftMapKey;
+            this.DialogInfoPanel.Visibility = Visibility.Visible;
+
+            ShowAzureMapsImagery((AzureMapImageryView)mapView);
         }
 
         private void ShowAzureMapsImagery(AzureMapImageryView mapView)
         {
             string mapKey = this.AzureMadeMapKey;
             var mapImage = new Image();
-            if (!String.IsNullOrEmpty(mapKey))
+            var mapStyle = mapView.ImageryStyle;
+
+            if (String.IsNullOrEmpty(mapKey))
             {
-                var mapStyle = mapView.ImageryStyle;
                 Uri mapURI = null;
                 switch (mapStyle)
                 {
@@ -105,58 +101,34 @@ namespace IGGeographicMap.Samples.Data
                         break;
                 }
 
-                //Now that Bing is retired, basic keys are no longer valid, hence we are showing images. If you have a valid enterprise key you may comment this code out and uncomment out the BackgroundContent below applying the imagery instead and apply your own api key.
+                //Now that Bing is retired, basic keys are no longer valid with Azure, hence we are showing images. If you have a valid enterprise key you may comment this code out and uncomment out the BackgroundContent below applying the imagery instead and apply your own api key.
                 BitmapImage bitmapImage = new BitmapImage();
                 bitmapImage.BeginInit();
                 bitmapImage.UriSource = mapURI;
                 bitmapImage.EndInit();
                 mapImage.Source = bitmapImage;
                 this.GeoMap.BackgroundContent = mapImage;
-                //this.GeoMap.BackgroundContent = new BingMapsMapImagery { ImageryStyle = mapStyle, ApiKey = mapKey, IsDeferredLoad = false };
+            }
+            else
+            {
+                this.GeoMap.BackgroundContent = new AzureMapsImagery { ImageryStyle = mapStyle, ApiKey = this.AzureMadeMapKey };
             }
         }
-        //private void ShowBingMapsImagery(BingMapsImageryView mapView)
-        //{
-        //    string mapKey = this.BingMadeMapKey;
-
-        //    if (!String.IsNullOrEmpty(mapKey))
-        //    {
-        //        var bingMapsConnector = new BingMapsConnector();
-        //        bingMapsConnector.ImageryInitialized += OnImageryInitialized;
-        //        bingMapsConnector.ImageryStyle = mapView.ImageryStyle;
-        //        bingMapsConnector.ApiKey = mapKey;
-        //        try
-        //        {
-        //            bingMapsConnector.Initialize();
-        //        }
-        //        catch (Exception)
-        //        {
-        //            MessageBox.Show(MapStrings.GeoMapInternetRequired, MapStrings.GeoMapNoInternet, MessageBoxButton.OK, MessageBoxImage.Error);
-        //        }
-        //    }
-        //}
 
         public void OnImageryInitialized(object sender, EventArgs e)
         {
-
-            //Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background,
-            //   (Action)(() => UpdateAzureMaps(sender)));
         }
-        //private void UpdateBingMaps(object sender)
-        //{
-        //    // display geo-imagery from Bing Maps
-        //    //var connector = (BingMapsConnector)sender;
-        //    //this.GeoMap.BackgroundContent =
-        //    //    new BingMapsMapImagery()
-        //    //    {
-        //    //        TilePath = connector.TilePath,
-        //    //        SubDomains = connector.SubDomains
-        //    //    };
-        //}
+      
+        private void EnterAzureKey_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            this.AzureMadeMapKey = EnterAzureKey.Text;
+        }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void ButtonClick(object sender, RoutedEventArgs e)
         {
             this.DialogInfoPanel.Visibility = Visibility.Collapsed;
+            this.AzureMadeMapKey = EnterAzureKey.Text;
+            ShowAzureMapsImagery(((AzureMapImageryView)this.GeoImageryViewComboBox.SelectedValue));
         }
     }
 
