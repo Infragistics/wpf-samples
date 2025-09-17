@@ -41,7 +41,7 @@ namespace IGGeographicMap.Extensions
         public AzureMapImageryView()
         {
             this.ImagerySource = GeoImagerySource.AzureMapsImagery;
-            this.ImageryStyle = AzureMapsImageryStyle.Imagery;
+            this.ImageryStyle = AzureMapsImageryStyle.Satellite;
         }
         public AzureMapsImageryStyle ImageryStyle { get; set; }
         public string ImageryName { get { return this.ImagerySource + " (" + this.ImageryStyle + ")"; } }

@@ -55,11 +55,11 @@ namespace IGGeographicMap.Samples.Data
             items.Add(new BingMapsImageryView { ImageryStyle = BingMapsImageryStyle.CanvasDark });
             items.Add(new BingMapsImageryView { ImageryStyle = BingMapsImageryStyle.Road });
 
-            items.Add(new AzureMapImageryView { ImageryStyle = AzureMapsImageryStyle.Imagery });
+            items.Add(new AzureMapImageryView { ImageryStyle = AzureMapsImageryStyle.Satellite });
             items.Add(new AzureMapImageryView { ImageryStyle = AzureMapsImageryStyle.DarkGrey });
             items.Add(new AzureMapImageryView { ImageryStyle = AzureMapsImageryStyle.Road });
-            items.Add(new AzureMapImageryView { ImageryStyle = AzureMapsImageryStyle.HybridRoad });
-            items.Add(new AzureMapImageryView { ImageryStyle = AzureMapsImageryStyle.WeatherInfrared });
+            items.Add(new AzureMapImageryView { ImageryStyle = AzureMapsImageryStyle.HybridRoadOverlay });
+            items.Add(new AzureMapImageryView { ImageryStyle = AzureMapsImageryStyle.WeatherInfraredOverlay });
 
             //items.Add(new MapQuestImageryView { ImageryStyle = MapQuestImageryStyle.SatelliteMapStyle });
             //items.Add(new MapQuestImageryView { ImageryStyle = MapQuestImageryStyle.StreetMapStyle });
@@ -158,25 +158,25 @@ namespace IGGeographicMap.Samples.Data
                     case AzureMapsImageryStyle.DarkGrey:
                         mapURI = new Uri(@"../../Resources/AzureDarkGrey.png", UriKind.RelativeOrAbsolute);
                         break;
-                    case AzureMapsImageryStyle.HybridRoad:
+                    case AzureMapsImageryStyle.HybridRoadOverlay:
                         mapURI = new Uri(@"../../Resources/AzureHybridRoad.png", UriKind.RelativeOrAbsolute);
                         break;
                     case AzureMapsImageryStyle.Road:
                         mapURI = new Uri(@"../../Resources/AzureRoad.png", UriKind.RelativeOrAbsolute);
                         break;
-                    case AzureMapsImageryStyle.Imagery:
+                    case AzureMapsImageryStyle.Satellite:
                         mapURI = new Uri(@"../../Resources/AzureImagery.png", UriKind.RelativeOrAbsolute);
                         break;
-                    case AzureMapsImageryStyle.TrafficAbsolute:
+                    case AzureMapsImageryStyle.TrafficAbsoluteOverlay:
                         mapURI = new Uri(@"../../Resources/AzureTrafficAndRoad.png", UriKind.RelativeOrAbsolute);
                         break;
-                    case AzureMapsImageryStyle.WeatherInfrared:
+                    case AzureMapsImageryStyle.WeatherInfraredOverlay:
                         mapURI = new Uri(@"../../Resources/AzureWeatherInfraredRoad.png", UriKind.RelativeOrAbsolute);
                         break;
                     default:
                         break;
                 }
-                
+
                 //Now that Bing is retired, basic keys are no longer valid, hence we are showing images. If you have a valid enterprise key you may comment this code out and uncomment out the BackgroundContent below applying the imagery instead and apply your own api key.
                 BitmapImage bitmapImage = new BitmapImage();
                 bitmapImage.BeginInit();
@@ -186,6 +186,8 @@ namespace IGGeographicMap.Samples.Data
                 this.GeoMap.BackgroundContent = mapImage;
                 //this.GeoMap.BackgroundContent = new BingMapsMapImagery { ImageryStyle = mapStyle, ApiKey = mapKey, IsDeferredLoad = false };
             }
+            else
+                MessageBox.Show("Key must be added to display azure maps imagery","Azure Maps");
         }
         private void ShowBingMapsImagery(BingMapsImageryView mapView)
         {
