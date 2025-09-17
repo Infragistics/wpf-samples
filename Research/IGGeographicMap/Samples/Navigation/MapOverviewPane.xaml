@@ -1,0 +1,218 @@
+﻿<framework:SampleContainer 
+    x:Class="IGGeographicMap.Samples.MapOverviewPane"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="600" d:DesignWidth="800"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+      xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared" 
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"       
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+      xmlns:resources="clr-namespace:IGGeographicMap.Resources" 
+      xmlns:Common="clr-namespace:Infragistics.Samples.Shared.Models.Common;assembly=Infragistics.Samples.Shared" xmlns:providers="clr-namespace:Infragistics.Samples.Shared.DataProviders;assembly=Infragistics.Samples.Shared">
+ 
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGeographicMap;component/Assets/Global.xaml" />
+                
+                
+            </ResourceDictionary.MergedDictionaries>
+            <resources:AssetsLocalizer x:Key="AssetsLocalizer" />
+            <converters:GetImagePathConverter x:Key="GetImageConverter" />
+            <Style x:Key="OPDWorldStyle" TargetType="Path">
+                <Setter Property="Stroke" Value="Black"/>
+                <Setter Property="StrokeThickness" Value="1"/>
+                <Setter Property="Fill">
+                    <Setter.Value>
+                        <ImageBrush Stretch="Uniform" ImageSource="{Binding Source='Maps/geo_theme_ig.png', Converter={StaticResource GetImageConverter}}" />
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="OPDStyle" TargetType="ig:XamOverviewPlusDetailPane"  >
+                <Setter Property="ZoomTo100ButtonVisibility" Value="Collapsed" />
+                <Setter Property="InteractionStatesToolVisibility" Value="Visible" />
+                <Setter Property="ScaleToFitButtonToolTip" Value="{Binding Path=XWGM_OPD_ScaleToFitButtonToolTip, Source={StaticResource MapStrings}}" />
+                <Setter Property="ZoomLevelLargeChange" Value="0.2" />
+                <!-- thumbnail area of the whole world in the OverviewPlusDetailPane-->
+                <!--<Setter Property="WorldStyle" Value="{StaticResource OPDWorldStyle}" />-->
+                <!-- non-visible area of the world in the XamGeographicMap-->
+                <Setter Property="WindowStyle">
+                    <Setter.Value>
+                        <Style TargetType="Path">
+                            <Setter Property="Stroke" Value="DimGray"/>
+                            <Setter Property="StrokeThickness" Value="2"/>
+                            <Setter Property="Fill" Value="#3B888787"/>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ==========================================================================  -->
+        <!-- XamGeographicMap with enabled XamOverviewPlusDetailPane navigation control -->
+        <ig:XamGeographicMap x:Name="GeoMap" Grid.Column="1"  
+                             Zoomable="True"
+                             OverviewPlusDetailPaneHorizontalAlignment="Right"
+                             OverviewPlusDetailPaneVerticalAlignment="Bottom"
+                             OverviewPlusDetailPaneVisibility="Visible">
+            <!-- custom style for the OverviewPlusDetailPane navigation control -->
+            <ig:XamGeographicMap.OverviewPlusDetailPaneStyle>
+                <Style TargetType="ig:XamOverviewPlusDetailPane">
+                    <Setter Property="ZoomTo100ButtonVisibility" Value="Collapsed" />
+                    <Setter Property="InteractionStatesToolVisibility" Value="Visible" />
+                    <Setter Property="ScaleToFitButtonToolTip" Value="{Binding Path=XWGM_OPD_ScaleToFitButtonToolTip, Source={StaticResource MapStrings}}" />
+                    <Setter Property="ZoomLevelLargeChange" Value="0.2" />
+                    <!-- thumbnail area of the world in the XamOverviewPlusDetailPane-->
+                    <Setter Property="WorldStyle">
+                        <Setter.Value>
+                            <Style TargetType="Path">
+                                <Setter Property="StrokeThickness" Value="1"/>
+                                <Setter Property="Fill">
+                                    <Setter.Value>
+                                        <ImageBrush Stretch="Uniform" ImageSource="{Binding Source='Maps/geo_theme_ig.png', Converter={StaticResource GetImageConverter}}" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>  
+                        </Setter.Value> 
+                    </Setter>
+                    <!-- non-visible area of the world in the XamGeographicMap-->
+                    <Setter Property="WindowStyle">
+                        <Setter.Value> 
+                            <Style TargetType="Path">
+                                <Setter Property="Stroke" Value="DimGray"/>
+                                <Setter Property="StrokeThickness" Value="2"/>
+                                <Setter Property="Fill" Value="#3B888787"/>
+                            </Style> 
+                        </Setter.Value>
+                    </Setter> 
+                </Style>
+            </ig:XamGeographicMap.OverviewPlusDetailPaneStyle>
+        </ig:XamGeographicMap>
+        <!-- ========================================================================== -->
+        <!-- #END SNIPPET# -->
+        <TextBlock x:Name="OpenSourceCopyright" Grid.Column="1" Text="{Binding Path=XW_OpenSourceCopyright, Source={StaticResource CommonStrings}}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Style="{StaticResource SourceTextblockStyle}"  />
+        <controls:OptionsPanel Padding="0" HorizontalAlignment="Left" VerticalAlignment="Stretch" 
+                                Grid.Column="0" IsMovable="False" IsExpandable="False"
+                               HeaderText="{Binding Path=CommonStrings.XW_Options, Source={StaticResource AssetsLocalizer}}">
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}"/>
+            </controls:OptionsPanel.Resources>
+            <StackPanel Orientation="Vertical" >
+                <StackPanel Orientation="Vertical" >
+                    <TextBlock Text="{Binding Path=CommonStrings.XW_HorizontalAlignment, Source={StaticResource AssetsLocalizer}}" Margin="{StaticResource OptionsElementsMargin}"/>
+                    <ComboBox x:Name="OpdHorizontalAlignmentComboBox" SelectedIndex="0" Margin="{StaticResource OptionsElementsMargin}"
+                      SelectionChanged="OpdHorizontalAlignmentComboBox_SelectionChanged" Style="{StaticResource IGComboBoxStyle}">
+                        <ComboBox.ItemsSource>
+                            <models:HorizontalAlignmenList>
+                                <HorizontalAlignment>Right</HorizontalAlignment>
+                                <HorizontalAlignment>Center</HorizontalAlignment>
+                                <HorizontalAlignment>Left</HorizontalAlignment>
+                            </models:HorizontalAlignmenList>
+                        </ComboBox.ItemsSource>
+                    </ComboBox>
+                <!--</StackPanel>
+                <StackPanel Orientation="Vertical" >-->
+                    <TextBlock Text="{Binding Path=CommonStrings.XW_VerticalAlignment, Source={StaticResource AssetsLocalizer}}" Margin="{StaticResource OptionsElementsMargin}"/>
+                    <ComboBox x:Name="OpdVerticalAlignmentComboBox" SelectedIndex="0" Margin="{StaticResource OptionsElementsMargin}"
+                      SelectionChanged="OpdVerticalAlignmentComboBox_SelectionChanged" Style="{StaticResource IGComboBoxStyle}">
+                        <ComboBox.ItemsSource>
+                            <models:VerticalAlignmentList>
+                                <VerticalAlignment>Bottom</VerticalAlignment>
+                                <VerticalAlignment>Center</VerticalAlignment>
+                                <VerticalAlignment>Top</VerticalAlignment>
+                            </models:VerticalAlignmentList>
+                        </ComboBox.ItemsSource>
+                    </ComboBox>
+                </StackPanel>
+                <StackPanel Orientation="Vertical"  >
+                    <TextBlock Text="{Binding Path=MapStrings.XWGM_OPD_WorldThumbnail, Source={StaticResource AssetsLocalizer}}" Margin="{StaticResource OptionsElementsMargin}"/>
+                    <StackPanel Orientation="Horizontal">
+                        <ListBox x:Name="ThumbnailImagesListBox" BorderThickness="1,1,0,1" Padding="0,4,0,4" MaxWidth="540" SelectionChanged="ThumbnailImagesListBox_SelectionChanged" Style="{StaticResource IGListBoxStyle}" >
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Rectangle Fill="{Binding}" Margin="0" Width="50" Height="35" HorizontalAlignment="Center"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center"/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <ListBox.ItemsSource>
+                                <Common:ImageBrushCollection>
+                                    <ImageBrush Stretch="Uniform" ImageSource="{Binding Source='Maps/geo_preview_blue.png', Converter={StaticResource GetImageConverter}}" />
+                                    <ImageBrush Stretch="Uniform" ImageSource="{Binding Source='Maps/geo_preview_black.png', Converter={StaticResource GetImageConverter}}" />
+                                    <ImageBrush Stretch="Uniform" ImageSource="{Binding Source='Maps/geo_preview_green.png', Converter={StaticResource GetImageConverter}}" />
+                                    <ImageBrush Stretch="Uniform" ImageSource="{Binding Source='Maps/geo_preview_purple.png', Converter={StaticResource GetImageConverter}}" />
+                                    <ImageBrush Stretch="Uniform" ImageSource="{Binding Source='Maps/geo_preview_red.png', Converter={StaticResource GetImageConverter}}" />
+                                    <ImageBrush Stretch="Uniform" ImageSource="{Binding Source='Maps/geo_preview_orange.png', Converter={StaticResource GetImageConverter}}" />
+                                    <ImageBrush Stretch="Uniform" ImageSource="{Binding Source='Maps/geo_preview_gray.png', Converter={StaticResource GetImageConverter}}" />
+                                    <ImageBrush Stretch="Uniform" ImageSource="{Binding Source='Maps/geo_preview_white.png', Converter={StaticResource GetImageConverter}}" />
+                                </Common:ImageBrushCollection>
+                            </ListBox.ItemsSource>
+                        </ListBox>
+                        <ListBox x:Name="ThumbnailImagesListBox2" BorderThickness="0,1" Padding="0,4,0,4"  MaxWidth="540" SelectionChanged="ThumbnailImagesListBox_SelectionChanged" Style="{StaticResource IGListBoxStyle}" >
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Rectangle Fill="{Binding}" Margin="0" Width="50" Height="35" HorizontalAlignment="Center"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center"/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <ListBox.ItemsSource>
+                                <Common:ImageBrushCollection>
+                                    <ImageBrush Stretch="Uniform" ImageSource="{Binding Source='Maps/geo_preview_bing_road.png', Converter={StaticResource GetImageConverter}}" />
+                                    <ImageBrush Stretch="Uniform" ImageSource="{Binding Source='Maps/geo_preview_bing_aerial.png', Converter={StaticResource GetImageConverter}}" />
+                                    <ImageBrush Stretch="Uniform" ImageSource="{Binding Source='Maps/geo_preview_mapquest_aerial.png', Converter={StaticResource GetImageConverter}}" />
+                                    <ImageBrush Stretch="Uniform" ImageSource="{Binding Source='Maps/geo_preview_mapquest_road.png', Converter={StaticResource GetImageConverter}}" />
+                                    <ImageBrush Stretch="Uniform" ImageSource="{Binding Source='Maps/geo_preview_cloudmade_fineline.png', Converter={StaticResource GetImageConverter}}" />
+                                    <ImageBrush Stretch="Uniform" ImageSource="{Binding Source='Maps/geo_preview_cloudmade_redalert.png', Converter={StaticResource GetImageConverter}}" />
+                                </Common:ImageBrushCollection>
+                            </ListBox.ItemsSource>
+                        </ListBox>
+                        <ListBox x:Name="ThumbnailImagesListBox3" BorderThickness="0,1,1,1"  Padding="0,4,0,4"  MaxWidth="540" SelectionChanged="ThumbnailImagesListBox_SelectionChanged" Style="{StaticResource IGListBoxStyle}" >
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Rectangle Fill="{Binding}" Margin="0" Width="50" Height="35" HorizontalAlignment="Center"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center"/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <ListBox.ItemsSource>
+                                <Common:ImageBrushCollection>
+                                    <ImageBrush Stretch="Uniform" ImageSource="{Binding Source='Maps/geo_theme_ig.png', Converter={StaticResource GetImageConverter}}" />
+                                    <ImageBrush Stretch="Uniform" ImageSource="{Binding Source='Maps/geo_theme_office_2010.png', Converter={StaticResource GetImageConverter}}" />
+                                    <ImageBrush Stretch="Uniform" ImageSource="{Binding Source='Maps/geo_theme_office_2013.png', Converter={StaticResource GetImageConverter}}" />
+                                    <ImageBrush Stretch="Uniform" ImageSource="{Binding Source='Maps/geo_theme_default.png', Converter={StaticResource GetImageConverter}}" />
+                                    <ImageBrush Stretch="Uniform" ImageSource="{Binding Source='Maps/geo_theme_metro_dark.png', Converter={StaticResource GetImageConverter}}" />
+                                    <ImageBrush Stretch="Uniform" ImageSource="{Binding Source='Maps/geo_theme_metro_light.png', Converter={StaticResource GetImageConverter}}" />
+                                </Common:ImageBrushCollection>
+                            </ListBox.ItemsSource>
+                        </ListBox>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </controls:OptionsPanel>
+      
+    </Grid>
+</framework:SampleContainer>
+
+    
+    

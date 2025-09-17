@@ -1,0 +1,612 @@
+﻿<framework:SampleContainer x:Class="IGGantt.Samples.Editing.Commands"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:igRibbon="http://infragistics.com/Ribbon"
+    xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"   
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGGantt.Resources"
+    xmlns:converters="clr-namespace:IGGantt.Samples.Converters"
+    xmlns:viewmodel="clr-namespace:IGGantt.Samples.ViewModel"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="Commands Page">
+    
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                
+                <ResourceDictionary Source="/IGGantt;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <res:GanttStrings x:Key="Strings" />
+            <converters:InverseBooleanConverter x:Key="inverseBool" />
+            <viewmodel:ProjectViewModel x:Key="viewmodel" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+    
+    
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.DataContext>
+            <Binding Source="{StaticResource viewmodel}" />
+        </Grid.DataContext>
+
+        <igRibbon:XamRibbon x:Name="ribbon" 
+                            VerticalAlignment="Top"
+                            Theme="RoyalLight">
+            <!-- ApplicationMenu -->
+            <igRibbon:XamRibbon.ApplicationMenu>
+                <igRibbon:ApplicationMenu 
+                    RecentItemsHeader="{Binding Source={StaticResource Strings},Path=RecentItems_Header}"
+                    Image="/IGGantt;component/Images/defaultApplicationIcon.png">
+                    <igRibbon:ButtonTool x:Name="btn_Open" 
+                                         Caption="{Binding Source={StaticResource Strings},Path=Open}"
+                                         LargeImage="/IGGantt;component/Images/open_32x32.png"
+                                         Click="btn_Open_Click"/>
+                    <igRibbon:ApplicationMenu.RecentItems>
+                        <igRibbon:ButtonTool Caption="{Binding ProjectFile1, Source={StaticResource Strings}}"
+                                             Tag="ProjectFile1.xml"
+                                             Click="ButtonTool_Click"/>
+                        <igRibbon:ButtonTool Caption="{Binding ProjectFile2, Source={StaticResource Strings}}"
+                                             Tag="ProjectFile2.xml"
+                                             Click="ButtonTool_Click"/>
+                    </igRibbon:ApplicationMenu.RecentItems>
+                </igRibbon:ApplicationMenu>
+            </igRibbon:XamRibbon.ApplicationMenu>
+
+            <igRibbon:XamRibbon.Tabs>
+                <igRibbon:RibbonTabItem Header="{Binding Task_TabHeader, Source={StaticResource Strings}}">
+                    <igRibbon:RibbonGroup Id="Schedule" 
+                                          Caption="{Binding Schedule_Caption, Source={StaticResource Strings}}">
+                        <igRibbon:ToolHorizontalWrapPanel>
+                            <!-- #BEGIN SNIPPET# -->
+                            <igRibbon:ButtonTool Caption="{Binding Source={StaticResource Strings},Path=OutdentTask}"
+                                                 LargeImage="/IGGantt;component/Images/outdent_32x32.png"
+                                                 igRibbon:RibbonGroup.MaximumSize="ImageAndTextLarge">
+                                <igRibbon:ButtonTool.ToolTip>
+                                    <igRibbon:XamRibbonScreenTip 
+                                        Header="{Binding Source={StaticResource Strings},Path=Outdent_ScreenTip_Header}" 
+                                        FooterSeparatorVisibility="Collapsed">
+                                        <igRibbon:XamRibbonScreenTip.Content>
+                                            <TextBlock
+                                                Text="{Binding Source={StaticResource Strings},Path=Outdent_ScreenTip_Content}"
+                                                TextWrapping="Wrap"
+                                                VerticalAlignment="Center"/>
+                                        </igRibbon:XamRibbonScreenTip.Content>
+                                    </igRibbon:XamRibbonScreenTip>
+                                </igRibbon:ButtonTool.ToolTip>
+                                <ig:Commanding.Command>
+                                    <igPrim:GanttCommandSource 
+                                        TargetName="xamgantt"
+                                        CommandType="OutdentTask" 
+                                        EventName="Click"/>
+                                </ig:Commanding.Command>
+                            </igRibbon:ButtonTool>
+                            <!-- #END SNIPPET# -->
+                            <igRibbon:ButtonTool Caption="{Binding Source={StaticResource Strings},Path=IndentTask}"
+                                                 LargeImage="/IGGantt;component/Images/indent_32x32.png"
+                                                 igRibbon:RibbonGroup.MaximumSize="ImageAndTextLarge">
+                                <igRibbon:ButtonTool.ToolTip>
+                                    <igRibbon:XamRibbonScreenTip Header="{Binding Source={StaticResource Strings},Path=Indent_ScreenTip_Header}"
+                                                             FooterSeparatorVisibility="Collapsed">
+                                        <igRibbon:XamRibbonScreenTip.Content>
+                                            <TextBlock
+                                                Text="{Binding Source={StaticResource Strings},Path=Indent_ScreenTip_Content}"
+                                                TextWrapping="Wrap"
+                                                VerticalAlignment="Center"/>
+                                        </igRibbon:XamRibbonScreenTip.Content>
+                                    </igRibbon:XamRibbonScreenTip>
+                                </igRibbon:ButtonTool.ToolTip>
+                                <ig:Commanding.Command>
+                                    <igPrim:GanttCommandSource 
+                                        TargetName="xamgantt"
+                                        CommandType="IndentTask" 
+                                        EventName="Click"/>
+                                </ig:Commanding.Command>
+                            </igRibbon:ButtonTool>
+                        </igRibbon:ToolHorizontalWrapPanel>
+
+                        <igRibbon:SeparatorTool />
+
+                        <igRibbon:ToolVerticalWrapPanel>
+                            <igRibbon:ButtonTool Caption="{Binding Source={StaticResource Strings},Path=RespectLinks}"
+                                                 SmallImage="/IGGantt;component/Images/respectlinks_16x16.png">
+                                <igRibbon:ButtonTool.ToolTip>
+                                    <igRibbon:XamRibbonScreenTip Header="{Binding Source={StaticResource Strings},Path=RespectLinks}" 
+                                                                 FooterSeparatorVisibility="Collapsed"/>
+                                </igRibbon:ButtonTool.ToolTip>
+                                <ig:Commanding.Command>
+                                    <igPrim:GanttCommandSource 
+                                        TargetName="xamgantt"
+                                        CommandType="RespectLinks" 
+                                        EventName="Click"/>
+                                </ig:Commanding.Command>
+                            </igRibbon:ButtonTool>
+                            <igRibbon:ToggleButtonTool Caption="{Binding Source={StaticResource Strings},Path=Option_Inactivate}"
+                                                       IsChecked="{Binding ElementName=xamgantt, Path=AreSelectedTasksActive,Converter={StaticResource inverseBool},Mode=OneWay}"
+                                                       SmallImage="/IGGantt;component/Images/inactivate_16x16.png">
+                                <igRibbon:ToggleButtonTool.ToolTip>
+                                    <igRibbon:XamRibbonScreenTip Header="{Binding Source={StaticResource Strings},Path=InactiveTaskNote}"
+                                                             FooterSeparatorVisibility="Collapsed">
+                                        <igRibbon:XamRibbonScreenTip.Content>
+                                            <TextBlock
+                                                Text="{Binding Source={StaticResource Strings},Path=InactiveTask_Desc}"
+                                                TextWrapping="Wrap"
+                                                VerticalAlignment="Center"/>
+                                        </igRibbon:XamRibbonScreenTip.Content>
+                                    </igRibbon:XamRibbonScreenTip>
+                                </igRibbon:ToggleButtonTool.ToolTip>
+                                <ig:Commanding.Command>
+                                    <igPrim:GanttCommandSource 
+                                        TargetName="xamgantt"
+                                        CommandType="ToggleTaskActive" 
+                                        EventName="Click"/>
+                                </ig:Commanding.Command>
+                            </igRibbon:ToggleButtonTool >
+                        </igRibbon:ToolVerticalWrapPanel>
+                    </igRibbon:RibbonGroup>
+                    <igRibbon:RibbonGroup Id="Tasks" 
+                                          Caption="{Binding Tasks_Caption, Source={StaticResource Strings}}">
+                        <igRibbon:ToolHorizontalWrapPanel>
+                            <igRibbon:ToggleButtonTool Caption="{Binding Source={StaticResource Strings}, Path=Option_ManuallySchedule}" 
+                                                       igRibbon:RibbonGroup.MaximumSize="ImageAndTextLarge" 
+                                                       IsChecked="{Binding ElementName=xamgantt, Path=AreSelectedTasksManual, Mode=OneWay}"
+                                                       LargeImage="/IGGantt;component/Images/manual_32x32.png">
+                                <igRibbon:ToggleButtonTool.ToolTip>
+                                    <igRibbon:XamRibbonScreenTip Header="{Binding Source={StaticResource Strings},Path=Manually_ScreenTip_Header}"
+                                                                 FooterSeparatorVisibility="Collapsed">
+                                        <igRibbon:XamRibbonScreenTip.Content>
+                                            <TextBlock
+                                                Text="{Binding Source={StaticResource Strings},Path=Manually_ScreenTip_Content}"
+                                                TextWrapping="Wrap"
+                                                VerticalAlignment="Center"/>
+                                        </igRibbon:XamRibbonScreenTip.Content>
+                                    </igRibbon:XamRibbonScreenTip>
+                                </igRibbon:ToggleButtonTool.ToolTip>
+                                <ig:Commanding.Command>
+                                    <igPrim:GanttCommandSource 
+                                        TargetName="xamgantt"
+                                        CommandType="ChangeTaskToManual" 
+                                        EventName="Click"/>
+                                </ig:Commanding.Command>
+                            </igRibbon:ToggleButtonTool>
+                            <igRibbon:ToggleButtonTool Caption="{Binding Source={StaticResource Strings},Path=Option_AutoSchedule}" 
+                                                       igRibbon:RibbonGroup.MaximumSize="ImageAndTextLarge" 
+                                                       IsChecked="{Binding ElementName=xamgantt, Path=AreSelectedTasksManual,Converter={StaticResource inverseBool},Mode=OneWay}"
+                                                       LargeImage="/IGGantt;component/Images/auto_32x32.png">
+                                <igRibbon:ToggleButtonTool.ToolTip>
+                                    <igRibbon:XamRibbonScreenTip Header="{Binding Source={StaticResource Strings},Path=Auto_ScreenTip_Header}"
+                                                                 FooterSeparatorVisibility="Collapsed">
+                                        <igRibbon:XamRibbonScreenTip.Content>
+                                            <TextBlock
+                                                Text="{Binding Source={StaticResource Strings},Path=Auto_ScreenTip_Content}"
+                                                TextWrapping="Wrap"
+                                                VerticalAlignment="Center"/>
+                                        </igRibbon:XamRibbonScreenTip.Content>
+                                    </igRibbon:XamRibbonScreenTip>
+                                </igRibbon:ToggleButtonTool.ToolTip>
+                                <ig:Commanding.Command>
+                                    <igPrim:GanttCommandSource 
+                                        TargetName="xamgantt"
+                                        CommandType="ChangeTaskToAutomatic" 
+                                        EventName="Click"/>
+                                </ig:Commanding.Command>
+                            </igRibbon:ToggleButtonTool>
+                        </igRibbon:ToolHorizontalWrapPanel>
+                    </igRibbon:RibbonGroup>
+                    <igRibbon:RibbonGroup Id="Editing" 
+                                          Caption="{Binding Editing_Caption, Source={StaticResource Strings}}">
+                        <igRibbon:ToolHorizontalWrapPanel>
+                            <igRibbon:MenuTool igRibbon:RibbonGroup.MaximumSize="ImageAndTextLarge" 
+                                               ButtonType="Segmented"
+                                               Caption="{Binding Source={StaticResource Strings},Path=AddTask}"
+                                               HorizontalAlignment="Center"
+                                               LargeImage="/IGGantt;component/Images/newTask_32x32.png">
+                                <igRibbon:ButtonTool Caption="{Binding Source={StaticResource Strings},Path=AddSibling}">
+                                    <igRibbon:ButtonTool.ToolTip>
+                                        <igRibbon:XamRibbonScreenTip Header="{Binding Source={StaticResource Strings},Path=AddSibling}"
+                                                                 FooterSeparatorVisibility="Collapsed">
+                                            <igRibbon:XamRibbonScreenTip.Content>
+                                                <TextBlock
+                                                Text="{Binding Source={StaticResource Strings},Path=AddSibling_ScreenTip_Content}"
+                                                TextWrapping="Wrap"
+                                                VerticalAlignment="Center"/>
+                                            </igRibbon:XamRibbonScreenTip.Content>
+                                        </igRibbon:XamRibbonScreenTip>
+                                    </igRibbon:ButtonTool.ToolTip>
+                                    <ig:Commanding.Command>
+                                        <igPrim:GanttCommandSource 
+                                            TargetName="xamgantt"
+                                            CommandType="AddTask" 
+                                            EventName="Click"/>
+                                    </ig:Commanding.Command>
+                                </igRibbon:ButtonTool>
+                                <igRibbon:ButtonTool 
+                                    Caption="{Binding Source={StaticResource Strings},Path=AddSubtask}">
+                                    <igRibbon:ButtonTool.ToolTip>
+                                        <igRibbon:XamRibbonScreenTip Header="{Binding Source={StaticResource Strings},Path=AddSubtask}"
+                                                                 FooterSeparatorVisibility="Collapsed">
+                                            <igRibbon:XamRibbonScreenTip.Content>
+                                                <TextBlock
+                                                Text="{Binding Source={StaticResource Strings},Path=AddSubtask_ScreenTip_Content}"
+                                                TextWrapping="Wrap"
+                                                VerticalAlignment="Center"/>
+                                            </igRibbon:XamRibbonScreenTip.Content>
+                                        </igRibbon:XamRibbonScreenTip>
+                                    </igRibbon:ButtonTool.ToolTip>
+                                    <ig:Commanding.Command>
+                                        <igPrim:GanttCommandSource 
+                                            TargetName="xamgantt"
+                                            CommandType="AddSubtask" 
+                                            EventName="Click"/>
+                                    </ig:Commanding.Command>
+                                </igRibbon:ButtonTool>
+                            </igRibbon:MenuTool>
+                            <igRibbon:ButtonTool Caption="{Binding Source={StaticResource Strings},Path=InsertTask}"
+                                                 LargeImage="/IGGantt;component/Images/newTask_32x32.png"
+                                                 igRibbon:RibbonGroup.MaximumSize="ImageAndTextLarge">
+                                <igRibbon:ButtonTool.ToolTip>
+                                    <igRibbon:XamRibbonScreenTip Header="{Binding Source={StaticResource Strings},Path=InsertTask}"
+                                                                 FooterSeparatorVisibility="Collapsed">
+                                        <igRibbon:XamRibbonScreenTip.Content>
+                                            <TextBlock
+                                                Text="{Binding Source={StaticResource Strings},Path=Insert_ScreenTip_Content}"
+                                                TextWrapping="Wrap"
+                                                VerticalAlignment="Center"/>
+                                        </igRibbon:XamRibbonScreenTip.Content>
+                                    </igRibbon:XamRibbonScreenTip>
+                                </igRibbon:ButtonTool.ToolTip>
+                                <ig:Commanding.Command>
+                                    <igPrim:GanttCommandSource
+                                        TargetName="xamgantt"
+                                        CommandType="InsertTask" 
+                                        EventName="Click"/>
+                                </ig:Commanding.Command>
+                            </igRibbon:ButtonTool>
+                            <igRibbon:ButtonTool Caption="{Binding Source={StaticResource Strings},Path=DeleteTask}"
+                                                 LargeImage="/IGGantt;component/Images/deleteTask_32x32.png"
+                                                 igRibbon:RibbonGroup.MaximumSize="ImageAndTextLarge">
+                                <igRibbon:ButtonTool.ToolTip>
+                                    <igRibbon:XamRibbonScreenTip Header="{Binding Source={StaticResource Strings},Path=DeleteTask}"
+                                                                 FooterSeparatorVisibility="Collapsed">
+                                        <igRibbon:XamRibbonScreenTip.Content>
+                                            <TextBlock
+                                                Text="{Binding Source={StaticResource Strings},Path=Delete_ScreenTip_Content}"
+                                                TextWrapping="Wrap"
+                                                VerticalAlignment="Center"/>
+                                        </igRibbon:XamRibbonScreenTip.Content>
+                                    </igRibbon:XamRibbonScreenTip>
+                                </igRibbon:ButtonTool.ToolTip>
+                                <ig:Commanding.Command>
+                                    <igPrim:GanttCommandSource 
+                                        TargetName="xamgantt"
+                                        CommandType="DeleteTask" 
+                                        EventName="Click"/>
+                                </ig:Commanding.Command>
+                            </igRibbon:ButtonTool>
+                        </igRibbon:ToolHorizontalWrapPanel>
+                    </igRibbon:RibbonGroup>
+                </igRibbon:RibbonTabItem>
+                <igRibbon:RibbonTabItem Header="{Binding Source={StaticResource Strings},Path=Project}">
+                    <igRibbon:RibbonGroup Id="PrSchedule"
+                                          Caption="{Binding Source={StaticResource Strings},Path=Schedule_Caption}">
+                        <igRibbon:ButtonTool Caption="{Binding Source={StaticResource Strings},Path=CalculateProject}"
+                                             LargeImage="/IGGantt;component/Images/calculate_32x32.png"
+                                             igRibbon:RibbonGroup.MaximumSize="ImageAndTextLarge">
+                            <igRibbon:ButtonTool.ToolTip>
+                                <igRibbon:XamRibbonScreenTip Header="{Binding Source={StaticResource Strings},Path=CalculateProject}"
+                                                             FooterSeparatorVisibility="Collapsed">
+                                    <igRibbon:XamRibbonScreenTip.Content>
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock
+                                                    Text="{Binding Source={StaticResource Strings},Path=CalcPrj_ScreenTip_Content1}"
+                                                    TextWrapping="Wrap"
+                                                    VerticalAlignment="Center"/>
+                                            <TextBlock
+                                                Text="{Binding Source={StaticResource Strings},Path=CalcPrj_ScreenTip_Content2}"
+                                                TextWrapping="Wrap"
+                                                VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </igRibbon:XamRibbonScreenTip.Content>
+                                </igRibbon:XamRibbonScreenTip>
+                            </igRibbon:ButtonTool.ToolTip>
+                            <ig:Commanding.Command>
+                                <igPrim:GanttCommandSource 
+                                    TargetName="xamgantt"
+                                    CommandType="CalculateProject" 
+                                    EventName="Click"/>
+                            </ig:Commanding.Command>
+                        </igRibbon:ButtonTool>
+                        
+                        <igRibbon:SeparatorTool />
+
+                        <igRibbon:CheckBoxTool Content="{Binding Source={StaticResource Strings},Path=DisableAutoCalculation}"
+                                               Checked="CheckBoxTool_Checked"
+                                               Unchecked="CheckBoxTool_Unchecked"/>
+                    </igRibbon:RibbonGroup>
+                </igRibbon:RibbonTabItem>
+
+                <igRibbon:RibbonTabItem Header="{Binding View_TabHeader, Source={StaticResource Strings}}">
+                    <igRibbon:RibbonGroup Id="Data"
+                                          Caption="{Binding Data_Caption,Source={StaticResource Strings}}">
+                        <igRibbon:MenuTool igRibbon:RibbonGroup.MaximumSize="ImageAndTextLarge"
+                                           ButtonType="Segmented"
+                                           Caption="{Binding Source={StaticResource Strings},Path=Outline}"
+                                           LargeImage="/IGGantt;component/Images/outline_32x32.png"
+                                           HorizontalAlignment="Left">
+                            <igRibbon:ButtonTool Caption="{Binding Source={StaticResource Strings},Path=Option_ShowSubtasks}"
+                                                 SmallImage="/IGGantt;component/Images/plus_16x16.png">
+                                <igRibbon:ButtonTool.ToolTip>
+                                    <igRibbon:XamRibbonScreenTip Header="{Binding Source={StaticResource Strings},Path=ShowSubtasks_Header}"
+                                                             FooterSeparatorVisibility="Collapsed">
+                                        <igRibbon:XamRibbonScreenTip.Content>
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock
+                                                    Text="{Binding Source={StaticResource Strings},Path=ShowSubtasks_ScreenTip_Content}"
+                                                    TextWrapping="Wrap"
+                                                    VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </igRibbon:XamRibbonScreenTip.Content>
+                                    </igRibbon:XamRibbonScreenTip>
+                                </igRibbon:ButtonTool.ToolTip>
+                                <ig:Commanding.Command>
+                                    <igPrim:GanttCommandSource 
+                                        TargetName="xamgantt"
+                                        CommandType="ShowSubtasks" 
+                                        EventName="Click"/>
+                                </ig:Commanding.Command>
+                            </igRibbon:ButtonTool>
+                            <igRibbon:ButtonTool Caption="{Binding Source={StaticResource Strings},Path=Option_HideSubtasks}"
+                                                 SmallImage="/IGGantt;component/Images/minus_16x16.png">
+                                <igRibbon:ButtonTool.ToolTip>
+                                    <igRibbon:XamRibbonScreenTip Header="{Binding Source={StaticResource Strings},Path=HideSubtasks_Header}"
+                                                             FooterSeparatorVisibility="Collapsed">
+                                        <igRibbon:XamRibbonScreenTip.Content>
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock
+                                                    Text="{Binding Source={StaticResource Strings},Path=HideSubtasks_ScreenTip_Content}"
+                                                    TextWrapping="Wrap"
+                                                    VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </igRibbon:XamRibbonScreenTip.Content>
+                                    </igRibbon:XamRibbonScreenTip>
+                                </igRibbon:ButtonTool.ToolTip>
+                                <ig:Commanding.Command>
+                                    <igPrim:GanttCommandSource 
+                                        TargetName="xamgantt"
+                                        CommandType="HideSubtasks" 
+                                        EventName="Click"/>
+                                </ig:Commanding.Command>
+                            </igRibbon:ButtonTool>
+                        </igRibbon:MenuTool>
+                        <igRibbon:ButtonTool Caption="{Binding Source={StaticResource Strings},Path=ClearSort}"
+                                             LargeImage="/IGGantt;component/Images/clearSort_32x32.png"
+                                             igRibbon:RibbonGroup.MaximumSize="ImageAndTextLarge">
+                            <igRibbon:ButtonTool.ToolTip>
+                                <igRibbon:XamRibbonScreenTip Header="{Binding Source={StaticResource Strings},Path=ClearSort_Header}"
+                                                             FooterSeparatorVisibility="Collapsed">
+                                    <igRibbon:XamRibbonScreenTip.Content>
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock
+                                                    Text="{Binding Source={StaticResource Strings},Path=ClearSort_ScreenTip_Content}"
+                                                    TextWrapping="Wrap"
+                                                    VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </igRibbon:XamRibbonScreenTip.Content>
+                                </igRibbon:XamRibbonScreenTip>
+                            </igRibbon:ButtonTool.ToolTip>
+                            <ig:Commanding.Command>
+                                <igPrim:GanttCommandSource 
+                                    TargetName="xamgantt"
+                                    CommandType="ClearSort" 
+                                    EventName="Click"/>
+                            </ig:Commanding.Command>
+                        </igRibbon:ButtonTool>
+                    </igRibbon:RibbonGroup>
+                    <igRibbon:RibbonGroup Id="scrollToProject"
+                                          Caption="{Binding Source={StaticResource Strings},Path=ScrollToProject}">
+                        <igRibbon:ToolHorizontalWrapPanel>
+                            <igRibbon:ButtonTool Caption="{Binding Source={StaticResource Strings},Path=Start}"
+                                                 LargeImage="/IGGantt;component/Images/scrollBackward_32x32.png"
+                                                 igRibbon:RibbonGroup.MaximumSize="ImageAndTextLarge">
+                                <igRibbon:ButtonTool.ToolTip>
+                                    <igRibbon:XamRibbonScreenTip Header="{Binding Source={StaticResource Strings},Path=ScrollToPrjStart_Header}"
+                                                                 FooterSeparatorVisibility="Collapsed">
+                                        <igRibbon:XamRibbonScreenTip.Content>
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock
+                                                    Text="{Binding Source={StaticResource Strings},Path=ScrollToPrjStart_ScreenTip_Content}"
+                                                    TextWrapping="Wrap"
+                                                    VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </igRibbon:XamRibbonScreenTip.Content>
+                                    </igRibbon:XamRibbonScreenTip>
+                                </igRibbon:ButtonTool.ToolTip>
+                                <ig:Commanding.Command>
+                                    <igPrim:GanttCommandSource 
+                                        TargetName="xamgantt"
+                                        CommandType="ScrollToProjectStart" 
+                                        EventName="Click"/>
+                                </ig:Commanding.Command>
+                            </igRibbon:ButtonTool>
+                            <igRibbon:ButtonTool Caption="{Binding Source={StaticResource Strings},Path=Finish}"
+                                                 LargeImage="/IGGantt;component/Images/scrollForward_32x32.png"
+                                                 igRibbon:RibbonGroup.MaximumSize="ImageAndTextLarge">
+                                <igRibbon:ButtonTool.ToolTip>
+                                    <igRibbon:XamRibbonScreenTip Header="{Binding Source={StaticResource Strings},Path=ScrollToPrjFinish_Header}"
+                                                             FooterSeparatorVisibility="Collapsed">
+                                        <igRibbon:XamRibbonScreenTip.Content>
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock
+                                                    Text="{Binding Source={StaticResource Strings},Path=ScrollToPrjFinish_ScreenTip_Content}"
+                                                    TextWrapping="Wrap"
+                                                    VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </igRibbon:XamRibbonScreenTip.Content>
+                                    </igRibbon:XamRibbonScreenTip>
+                                </igRibbon:ButtonTool.ToolTip>
+                                <ig:Commanding.Command>
+                                    <igPrim:GanttCommandSource 
+                                        TargetName="xamgantt"
+                                        CommandType="ScrollToProjectFinish" 
+                                        EventName="Click"/>
+                                </ig:Commanding.Command>
+                            </igRibbon:ButtonTool>
+                        </igRibbon:ToolHorizontalWrapPanel>
+                    </igRibbon:RibbonGroup>
+
+                    <igRibbon:RibbonGroup Id="scrollToTask"
+                                          Caption="{Binding Source={StaticResource Strings},Path=ScrollToTask}">
+                        <igRibbon:ToolHorizontalWrapPanel>
+                            <igRibbon:ButtonTool Caption="{Binding Source={StaticResource Strings},Path=Start}"
+                                                 LargeImage="/IGGantt;component/Images/scrollBackward_32x32.png"
+                                                 igRibbon:RibbonGroup.MaximumSize="ImageAndTextLarge">
+                                <igRibbon:ButtonTool.ToolTip>
+                                    <igRibbon:XamRibbonScreenTip Header="{Binding Source={StaticResource Strings},Path=ScrollToTaskStart_Header}"
+                                                             FooterSeparatorVisibility="Collapsed">
+                                        <igRibbon:XamRibbonScreenTip.Content>
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock
+                                                    Text="{Binding Source={StaticResource Strings},Path=ScrollToTaskStart_ScreenTip_Content}"
+                                                    TextWrapping="Wrap"
+                                                    VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </igRibbon:XamRibbonScreenTip.Content>
+                                    </igRibbon:XamRibbonScreenTip>
+                                </igRibbon:ButtonTool.ToolTip>
+                                <ig:Commanding.Command>
+                                    <igPrim:GanttCommandSource 
+                                        TargetName="xamgantt"
+                                        CommandType="ScrollToTaskStart" 
+                                        EventName="Click"/>
+                                </ig:Commanding.Command>
+                            </igRibbon:ButtonTool>
+                            <igRibbon:ButtonTool Caption="{Binding Source={StaticResource Strings},Path=Finish}"
+                                                 LargeImage="/IGGantt;component/Images/scrollForward_32x32.png"
+                                                 igRibbon:RibbonGroup.MaximumSize="ImageAndTextLarge">
+                                <ig:Commanding.Command>
+                                    <igPrim:GanttCommandSource 
+                                        TargetName="xamgantt"
+                                        CommandType="ScrollToTaskFinish" 
+                                        EventName="Click"/>
+                                </ig:Commanding.Command>
+                            </igRibbon:ButtonTool>
+                        </igRibbon:ToolHorizontalWrapPanel>
+                    </igRibbon:RibbonGroup>
+
+                    <igRibbon:RibbonGroup Id="scrollToItem"
+                                      Caption="{Binding Source={StaticResource Strings},Path=ScrollToItem}">
+                        <igRibbon:ToolHorizontalWrapPanel>
+                            <igRibbon:ButtonTool Caption="{Binding Source={StaticResource Strings},Path=Previous}"
+                                                 LargeImage="/IGGantt;component/Images/scrollBackward_32x32.png"
+                                                 igRibbon:RibbonGroup.MaximumSize="ImageAndTextLarge">
+                                <igRibbon:ButtonTool.ToolTip>
+                                    <igRibbon:XamRibbonScreenTip Header="{Binding Source={StaticResource Strings},Path=PreviousItem_Header}"
+                                                             FooterSeparatorVisibility="Collapsed">
+                                        <igRibbon:XamRibbonScreenTip.Content>
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock
+                                                    Text="{Binding Source={StaticResource Strings},Path=PreviousItem_ScreenTip_Content}"
+                                                    TextWrapping="Wrap"
+                                                    VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </igRibbon:XamRibbonScreenTip.Content>
+                                    </igRibbon:XamRibbonScreenTip>
+                                </igRibbon:ButtonTool.ToolTip>
+                                <ig:Commanding.Command>
+                                    <igPrim:GanttCommandSource 
+                                        TargetName="xamgantt"
+                                        CommandType="ScrollToPreviousTimescaleItem" 
+                                        EventName="Click"/>
+                                </ig:Commanding.Command>
+                            </igRibbon:ButtonTool>
+                            <igRibbon:ButtonTool Caption="{Binding Source={StaticResource Strings},Path=Next}"
+                                                 LargeImage="/IGGantt;component/Images/scrollForward_32x32.png"
+                                                 igRibbon:RibbonGroup.MaximumSize="ImageAndTextLarge">
+                                <igRibbon:ButtonTool.ToolTip>
+                                    <igRibbon:XamRibbonScreenTip Header="{Binding Source={StaticResource Strings},Path=NextItem_Header}"
+                                                             FooterSeparatorVisibility="Collapsed">
+                                        <igRibbon:XamRibbonScreenTip.Content>
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock
+                                                    Text="{Binding Source={StaticResource Strings},Path=NextItem_ScreenTip_Content}"
+                                                    TextWrapping="Wrap"
+                                                    VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </igRibbon:XamRibbonScreenTip.Content>
+                                    </igRibbon:XamRibbonScreenTip>
+                                </igRibbon:ButtonTool.ToolTip>
+                                <ig:Commanding.Command>
+                                    <igPrim:GanttCommandSource 
+                                        TargetName="xamgantt"
+                                        CommandType="ScrollToNextTimescaleItem" 
+                                        EventName="Click"/>
+                                </ig:Commanding.Command>
+                            </igRibbon:ButtonTool>
+                        </igRibbon:ToolHorizontalWrapPanel>
+                    </igRibbon:RibbonGroup>
+
+                    <igRibbon:RibbonGroup Id="scrollToPage"
+                                          Caption="{Binding Source={StaticResource Strings},Path=ScrollToPage}">
+                        <igRibbon:ToolHorizontalWrapPanel>
+                                <igRibbon:ButtonTool Caption="{Binding Source={StaticResource Strings},Path=Previous}"
+                                                     LargeImage="/IGGantt;component/Images/scrollBackward_32x32.png"
+                                                     igRibbon:RibbonGroup.MaximumSize="ImageAndTextLarge">
+                                    <igRibbon:ButtonTool.ToolTip>
+                                        <igRibbon:XamRibbonScreenTip Header="{Binding Source={StaticResource Strings},Path=PrevPage_Header}"
+                                                             FooterSeparatorVisibility="Collapsed">
+                                            <igRibbon:XamRibbonScreenTip.Content>
+                                                <StackPanel Orientation="Vertical">
+                                                    <TextBlock
+                                                    Text="{Binding Source={StaticResource Strings},Path=PrevPage_ScreenTip_Content}"
+                                                    TextWrapping="Wrap"
+                                                    VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                            </igRibbon:XamRibbonScreenTip.Content>
+                                        </igRibbon:XamRibbonScreenTip>
+                                    </igRibbon:ButtonTool.ToolTip>
+                                    <ig:Commanding.Command>
+                                        <igPrim:GanttCommandSource
+                                            TargetName="xamgantt"
+                                            CommandType="ScrollToPreviousTimescalePage" 
+                                            EventName="Click"/>
+                                    </ig:Commanding.Command>
+                                </igRibbon:ButtonTool>
+                                <igRibbon:ButtonTool Caption="{Binding Source={StaticResource Strings},Path=Next}"
+                                                     LargeImage="/IGGantt;component/Images/scrollForward_32x32.png"
+                                                     igRibbon:RibbonGroup.MaximumSize="ImageAndTextLarge">
+                                    <igRibbon:ButtonTool.ToolTip>
+                                        <igRibbon:XamRibbonScreenTip Header="{Binding Source={StaticResource Strings},Path=NextPage_Header}"
+                                                             FooterSeparatorVisibility="Collapsed">
+                                            <igRibbon:XamRibbonScreenTip.Content>
+                                                <StackPanel Orientation="Vertical">
+                                                    <TextBlock
+                                                    Text="{Binding Source={StaticResource Strings},Path=NextPage_ScreenTip_Content}"
+                                                    TextWrapping="Wrap"
+                                                    VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                            </igRibbon:XamRibbonScreenTip.Content>
+                                        </igRibbon:XamRibbonScreenTip>
+                                    </igRibbon:ButtonTool.ToolTip>
+                                    <ig:Commanding.Command>
+                                        <igPrim:GanttCommandSource
+                                            TargetName="xamgantt"
+                                            CommandType="ScrollToNextTimescalePage" 
+                                            EventName="Click"/>
+                                    </ig:Commanding.Command>
+                                </igRibbon:ButtonTool>
+                            </igRibbon:ToolHorizontalWrapPanel>
+                    </igRibbon:RibbonGroup>
+                </igRibbon:RibbonTabItem>
+            </igRibbon:XamRibbon.Tabs>
+        </igRibbon:XamRibbon>
+            
+        <ig:XamGantt x:Name="xamgantt" Project="{Binding Project}" Grid.Row="1" />
+    </Grid>
+</framework:SampleContainer>

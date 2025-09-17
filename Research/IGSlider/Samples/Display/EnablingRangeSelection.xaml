@@ -1,0 +1,44 @@
+﻿<framework:SampleContainer x:Class="IGSlider.Samples.Display.EnablingRangeSelection"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSlider;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <Style x:Key="TransparentTrackFillStyle" TargetType="igPrim:TrackFill">
+                <Setter Property="Background" Value="Transparent" />
+            </Style>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid>
+        <Rectangle>
+            <Rectangle.Fill>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop x:Name="stop1" Color="#FF9D0F17" Offset="0" />
+                    <GradientStop x:Name="stop2" Color="#FFc62d36" Offset="{Binding Value, ElementName=thumb1, Mode=TwoWay}" />
+                    <GradientStop x:Name="stop3" Color="#FFF98421" Offset="{Binding Value, ElementName=thumb2, Mode=TwoWay}" />
+                    <GradientStop x:Name="stop4" Color="#FFe3720c" Offset="0.98" />
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamNumericRangeSlider x:Name="slider" MinValue="0.0" MaxValue="1.0" IsSelectionRangeEnabled="True"
+                                  IncreaseButtonVisibility="Collapsed" DecreaseButtonVisibility="Collapsed" VerticalAlignment="Bottom" Margin="5">
+            <ig:XamSliderNumericThumb Value="0.28" InteractionMode="Lock" Name="thumb1"
+                                      TrackFillStyle="{StaticResource TransparentTrackFillStyle}" />
+            <ig:XamSliderNumericThumb Value="0.62" InteractionMode="Lock" Name="thumb2" />
+        </ig:XamNumericRangeSlider>
+        <!-- #END SNIPPET# -->
+    </Grid>
+</framework:SampleContainer>

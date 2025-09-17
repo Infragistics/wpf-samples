@@ -1,0 +1,231 @@
+﻿<framework:SampleContainer 
+    x:Class="IGGeographicMap.Samples.GeoProportionalSeries"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700"
+    Title="Proportional Series"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:ex="clr-namespace:Infragistics.Samples.Controls;assembly=Infragistics.Samples.Services"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+    xmlns:providers="clr-namespace:Infragistics.Samples.Shared.DataProviders;assembly=Infragistics.Samples.Shared"
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:Resources="clr-namespace:IGGeographicMap.Resources">
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGeographicMap;component/Assets/Global.xaml" />
+                
+                
+            </ResourceDictionary.MergedDictionaries>
+            <Resources:AssetsLocalizer x:Key="AssetsLocalizer" />
+            <SolidColorBrush x:Key="SymbolOutsideScaleBrush" Color="#FF7F7E79"/>
+
+            <ex:ColorsPaletteCollection x:Key="SymbolBrushPalettes">
+                <ex:ColorsPalette>
+                    <Color>#FF1AA1E2</Color>
+                    <Color>#FF4AC4FF</Color>
+                    <Color>#FFB5CC2E</Color>
+                    <Color>#FFFFD034</Color>
+                    <Color>#FFFC8612</Color>
+                    <Color>#FFED4840</Color>
+                    <Color>#FF7D120D</Color>
+                </ex:ColorsPalette>
+                <ex:ColorsPalette>
+                    <Color>#FFDFCC41</Color>
+                    <Color>#FFE58220</Color>
+                    <Color>#FFA11A13</Color>
+                </ex:ColorsPalette>
+                <ex:ColorsPalette>
+                    <Color>#FF7EE874</Color>
+                    <Color>#FF409F37</Color>
+                    <Color>DarkGreen</Color>
+                </ex:ColorsPalette>
+                <ex:ColorsPalette>
+                    <Color>LightBlue</Color>
+                    <Color>DodgerBlue</Color>
+                    <Color>DarkBlue</Color>
+                </ex:ColorsPalette>
+                <ex:ColorsPalette>
+                    <Color>#FF9886D1</Color>
+                    <Color>#FF6F5BAF</Color>
+                    <Color>#FF2E1A6F</Color>
+                </ex:ColorsPalette>
+                <ex:ColorsPalette>
+                    <Color>#FFC986D1</Color>
+                    <Color>#FFA95CB1</Color>
+                    <Color>#FF621B6B</Color>
+                </ex:ColorsPalette>
+                <ex:ColorsPalette>
+                    <Color>#FFE8C87B</Color>
+                    <Color>#FFBF9E51</Color>
+                    <Color>#FF785A11</Color>
+                </ex:ColorsPalette>
+                <ex:ColorsPalette>
+                    <Color>LightGray</Color>
+                    <Color>DimGray</Color>
+                    <Color>Black</Color>
+                </ex:ColorsPalette>
+            </ex:ColorsPaletteCollection>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+    <Grid x:Name="LayoutRoot">
+        <ig:XamGeographicMap x:Name="GeoMap" ToolTipStyle="{StaticResource ToolTipStyle}"
+                             PlotAreaBackground="{StaticResource GeoMapSbPlotAreaBackgroundBrush}"
+                             OverviewPlusDetailPaneVisibility="Collapsed"
+                             Zoomable="True">
+            <ig:XamGeographicMap.Series>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ==========================================================================  -->
+                <!--Geographic Proportional Symbol Series with item source of cities of the world -->
+                <ig:GeographicProportionalSymbolSeries Opacity="0.8"
+                    x:Name="ProportionalSeries" 
+                    ItemsSource="{Binding Path=WorldCities}"
+                    LatitudeMemberPath="Latitude"
+                    LongitudeMemberPath="Longitude"
+                    MarkerType="Circle" MaximumMarkers="800"
+                    MarkerBrush="{StaticResource SymbolOutsideScaleBrush}" 
+                    RadiusMemberPath="Population" 
+                    FillMemberPath="Population">
+                    <!-- RadiusScale determines the size of symbol based on a data column mapped to RadiusMemberPath -->
+                    <ig:GeographicProportionalSymbolSeries.RadiusScale>
+                        <ig:SizeScale MaximumValue="75" MinimumValue="1" IsLogarithmic="False" LogarithmBase="2"/>
+                    </ig:GeographicProportionalSymbolSeries.RadiusScale>
+                    <!-- FillScale determines the fill of symbol based on a data column mapped to FillMemberPath -->
+                    <ig:GeographicProportionalSymbolSeries.FillScale>
+                        <ig:ValueBrushScale MaximumValue="25000000" MinimumValue="1000" IsLogarithmic="False" LogarithmBase="10" >
+                            <ig:ValueBrushScale.Brushes>
+                                <ig:BrushCollection>
+                                    <SolidColorBrush Color="#FF1AA1E2"/>
+                                    <SolidColorBrush Color="#FF4AC4FF"/>
+                                    <SolidColorBrush Color="#FFB5CC2E"/>
+                                    <SolidColorBrush Color="#FFFFD034"/>
+                                    <SolidColorBrush Color="#FFFC8612"/>
+                                    <SolidColorBrush Color="#FFED4840"/>
+                                    <SolidColorBrush Color="#FF7D120D"/>
+                                </ig:BrushCollection>
+                            </ig:ValueBrushScale.Brushes>
+                        </ig:ValueBrushScale>
+                    </ig:GeographicProportionalSymbolSeries.FillScale>
+                    <!-- custom marker template for GeographicProportionalSymbolSeries -->
+                    <ig:GeographicProportionalSymbolSeries.MarkerTemplate>
+                        <DataTemplate >
+                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MinWidth="3" MinHeight="3">
+                                <Ellipse Stretch="Fill" Fill="{Binding Path=ActualItemBrush}" Stroke="{Binding Path=ActualItemBrush}" 
+                                         StrokeThickness="0.5">
+                                    <Ellipse.Effect>
+                                        <DropShadowEffect ShadowDepth="0" BlurRadius="5" Opacity="0.23" Color="Black" />
+                                    </Ellipse.Effect>
+                                </Ellipse>
+                                <Ellipse Stretch="Fill" Fill="{Binding Path=ActualItemBrush}" Stroke="{Binding Path=ActualItemBrush}" 
+                                         StrokeThickness="0.5"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ig:GeographicProportionalSymbolSeries.MarkerTemplate>
+                     <!-- custom tooltip with bindings to values of individual items -->
+                    <ig:GeographicProportionalSymbolSeries.ToolTip>
+                        <Border >
+                            <StackPanel Margin="4">
+                                <TextBlock Text="{Binding Path=Item.CityName}" Margin="2"
+                                           Foreground="{StaticResource ForegroundBrush}" FontWeight="Bold"/>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
+                                    <TextBlock Text="{Binding Path=CommonStrings.XW_Population, Source={StaticResource AssetsLocalizer}}" 
+                                               Margin="2"  />
+                                    <TextBlock Text="{Binding Path=Item.Population, StringFormat='\{0:#,0,,.###\} M'}" 
+                                               Foreground="{StaticResource ForegroundBrush}" Margin="4,2,2,2" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </ig:GeographicProportionalSymbolSeries.ToolTip>
+                </ig:GeographicProportionalSymbolSeries>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamGeographicMap.Series>
+        </ig:XamGeographicMap>
+        <TextBlock x:Name="OpenSourceCopyright" Text="{Binding Path=XW_OpenSourceCopyright, Source={StaticResource CommonStrings}}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Style="{StaticResource SourceTextblockStyle}"  />
+        <controls:OptionsPanel VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0"
+                               HeaderText="{Binding Path=CommonStrings.XW_Options, Source={StaticResource AssetsLocalizer}}">
+        	<controls:OptionsPanel.Resources>
+        		<Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}">
+        			<Setter Property="VerticalAlignment" Value="Center"/>    		
+				</Style>     	
+			</controls:OptionsPanel.Resources>
+            <Grid Margin="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" MinHeight="20"/>
+                    <RowDefinition Height="auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="auto" MinHeight="20"/>
+                    <RowDefinition Height="auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="auto" MinHeight="20"/>
+                    <RowDefinition Height="auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                </Grid.RowDefinitions>
+                <!-- Radius Scale -->
+                <TextBlock Grid.Row="0" Text="{Binding Path=MapStrings.XWGM_RadiusScale, Source={StaticResource AssetsLocalizer}}" 
+                           Style="{StaticResource OptionsPanelTitleStyle}"/>
+                <StackPanel Orientation="Vertical"  Grid.Row="1">
+                    <StackPanel Orientation="Vertical" Margin="{StaticResource OptionsElementsMargin}">
+                        <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}">
+                            <TextBlock Text="{Binding Path=CommonStrings.XW_Minimum, Source={StaticResource AssetsLocalizer}}" />
+                            <TextBlock Text=":"/>
+                            <TextBlock Text="{Binding ElementName=RadiusMinSlider, Path=Value, StringFormat='0'}" Width="60" />
+                        </StackPanel>
+                        <Slider x:Name="RadiusMinSlider" Value="3" Minimum="2" Maximum="15" HorizontalAlignment="Stretch" 
+                                ValueChanged="radiusMinSlider_ValueChanged" />
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Margin="{StaticResource OptionsElementsMargin}">
+                        <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}">
+                            <TextBlock Text="{Binding Path=CommonStrings.XW_Maximum, Source={StaticResource AssetsLocalizer}}" />
+                            <TextBlock Text=":"/>
+                            <TextBlock Text="{Binding ElementName=RadiusMaxSlider, Path=Value, StringFormat='0'}" Width="60" />
+                        </StackPanel>
+                        <Slider x:Name="RadiusMaxSlider" Value="70" Minimum="15" Maximum="100" HorizontalAlignment="Stretch" 
+                                ValueChanged="radiusMaxSlider_ValueChanged" />
+                    </StackPanel>
+                </StackPanel>
+                <!-- Fill Scale -->
+                <TextBlock Grid.Row="2" Text="{Binding Path=MapStrings.XWGM_FillScale, Source={StaticResource AssetsLocalizer}}" 
+                           Style="{StaticResource OptionsPanelTitleStyle}" />
+                <StackPanel Orientation="Vertical" Grid.Row="3" Margin="{StaticResource OptionsElementsMargin}">
+                    <StackPanel Orientation="Vertical"  Margin="{StaticResource OptionsElementsMargin}">
+                        <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}">
+                            <TextBlock Text="{Binding Path=CommonStrings.XW_Minimum, Source={StaticResource AssetsLocalizer}}" />
+                            <TextBlock Text=":"/>
+                            <TextBlock Text="{Binding ElementName=FillScaleMinSlider, Path=Value, StringFormat='\{0:#,0,,.###\} M'}" Width="60" />
+                        </StackPanel>
+                        <Slider x:Name="FillScaleMinSlider" Value="1000" Minimum="1000" Maximum="1000000" 
+                                HorizontalAlignment="Stretch" ValueChanged="fillScaleMinSlider_ValueChanged" />
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" >
+                        <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}">
+                            <TextBlock Text="{Binding Path=CommonStrings.XW_Maximum, Source={StaticResource AssetsLocalizer}}" />
+                            <TextBlock Text=":"/>
+                            <TextBlock Text="{Binding ElementName=FillScaleMaxSlider, Path=Value, StringFormat='\{0:#,0,,.###\} M'}" Width="60" />
+                        </StackPanel>
+                        <Slider x:Name="FillScaleMaxSlider" Value="25000000" Minimum="1000000" Maximum="25000000" 
+                                HorizontalAlignment="Stretch" ValueChanged="fillScaleMaxSlider_ValueChanged" />
+                    </StackPanel>
+                </StackPanel>
+                <TextBlock Grid.Row="4" Text="{Binding Path=XWGM_BrushPalette, Source={StaticResource MapStrings}}" 
+                           Style="{StaticResource OptionsPanelTitleStyle}"/>
+                <StackPanel Orientation="Vertical" Grid.Row="5">
+                    <ComboBox x:Name="FillScaleBrushPaletteComboBox" SelectedIndex="0"  HorizontalAlignment="Stretch" Margin="{StaticResource OptionsElementsMargin}"
+                          ItemsSource="{StaticResource SymbolBrushPalettes}" 
+                          SelectionChanged="fillScaleBrushPaletteComboBox_SelectionChanged" >
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <ex:ColorsPaletteViewer PaletteColors="{Binding}" HorizontalAlignment="Stretch" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <CheckBox x:Name="FillScaleIsLogarithmicCheckbox" Content="{Binding Path=CommonStrings.XW_Logarithmic, Source={StaticResource AssetsLocalizer}}" IsChecked="False" Click="fillScaleIsLogarithmicCheckbox_Click"/>
+                </StackPanel>
+            </Grid>
+        </controls:OptionsPanel>
+        <TextBlock x:Name="MapDataSource" Text="{Binding Path=XW_Source_USGS, Source={StaticResource CommonStrings}}"
+                   Style="{StaticResource SourceDataTextBoxStyle}"  />
+       
+        
+
+    </Grid>
+</framework:SampleContainer>

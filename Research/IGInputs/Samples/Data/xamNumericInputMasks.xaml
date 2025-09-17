@@ -1,0 +1,107 @@
+﻿<framework:SampleContainer x:Class="IGInputs.Samples.Data.xamNumericInputMasks"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="xamNumericInputMasks"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGInputs.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <res:InputStrings x:Key="Strings"/>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGInputs;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="{Binding xamNumericInput, Source={StaticResource Strings}}" Foreground="{StaticResource ForegroundBrush}"
+                   Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="3,15,5,3"/>
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamNumericInput x:Name="numericInput"
+                            Grid.Row="1" Grid.Column="1"
+                            Width="200" Margin="0,15,3,3"
+                            DisplayMode="IncludeBoth"
+                            Mask="{Binding ElementName=masksComboBox, Path=SelectedItem.Tag}"
+                            TrimFractionalZeros="{Binding ElementName=chkTrimFractionalZeros, Path=IsChecked}"
+                            HorizontalAlignment="Left" SectionTabNavigation="NextSection" InvalidValueBehavior="DisplayErrorMessage" />
+        <!-- #END SNIPPET# -->
+        <TextBlock Text="{Binding Path=Value, Source={StaticResource Strings}}" Grid.Column="0" Grid.Row="2" 
+                   VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5" Foreground="{StaticResource ForegroundBrush}"/>
+        <TextBlock Text="{Binding ElementName=numericInput, Path=Value}" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+        <controls:OptionsPanel HeaderText="{Binding Path=Options, Source={StaticResource Strings}}" Margin="10,10,0,10" 
+                               Grid.ColumnSpan="2" Foreground="Black" IsMovable="False" HorizontalAlignment="Left">
+            <Grid>
+                <Grid.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                        <Setter Property="HorizontalAlignment" Value="Right"/>
+                        <Setter Property="Margin" Value="5 0"/>
+                    </Style>
+                </Grid.Resources>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding Path=SelectMask, Source={StaticResource Strings}}"/>
+                <ComboBox
+                    x:Name="masksComboBox" Grid.Column="1"
+                    SelectedIndex="0" Width="315" Margin="4">
+                    <ComboBoxItem Tag="{Binding Mask_Options21_Content, Source={StaticResource Strings}}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Mask_Options21_Header, Source={StaticResource Strings}, StringFormat='\{0\} '}"
+                                       Width="180" HorizontalAlignment="Right"></TextBlock>
+                            <TextBlock Text="{Binding Mask_Options21_Content, Source={StaticResource Strings}}"></TextBlock>
+                        </StackPanel>
+                    </ComboBoxItem>
+                    <ComboBoxItem Tag="{Binding Mask_Options22_Content, Source={StaticResource Strings}}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Mask_Options22_Header, Source={StaticResource Strings}, StringFormat='\{0\} '}"
+                                       Width="180" HorizontalAlignment="Right"></TextBlock>
+                            <TextBlock Text="{Binding Mask_Options22_Content, Source={StaticResource Strings}}"></TextBlock>
+                        </StackPanel>
+                    </ComboBoxItem>
+                    <ComboBoxItem Tag="{Binding Mask_Options23_Content, Source={StaticResource Strings}}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Mask_Options23_Header, Source={StaticResource Strings}, StringFormat='\{0\} '}"
+                                       Width="180" HorizontalAlignment="Right"></TextBlock>
+                            <TextBlock Text="{Binding Mask_Options23_Content, Source={StaticResource Strings}}"></TextBlock>
+                        </StackPanel>
+                    </ComboBoxItem>
+                    <ComboBoxItem Tag="{Binding Mask_Options24_Content, Source={StaticResource Strings}}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Mask_Options24_Header, Source={StaticResource Strings}, StringFormat='\{0\} '}"
+                                       Width="180" HorizontalAlignment="Right"></TextBlock>
+                            <TextBlock Text="{Binding Mask_Options24_Content, Source={StaticResource Strings}}"></TextBlock>
+                        </StackPanel>
+                    </ComboBoxItem>
+                </ComboBox>
+                <TextBlock Text="{Binding Path=TrimFractionalZeros, Source={StaticResource Strings}}" Grid.Row="1"/>
+                <CheckBox x:Name="chkTrimFractionalZeros" Grid.Row="1" Grid.Column="1" Margin="4"/>
+            </Grid>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

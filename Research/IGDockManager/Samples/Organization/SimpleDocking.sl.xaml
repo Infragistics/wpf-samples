@@ -1,0 +1,118 @@
+﻿<igFramework:SampleContainer x:Class="IGDockManager.Samples.Organization.SimpleDocking"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="Infragistics XAML Control Sample"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:res="clr-namespace:IGDockManager.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDockManager;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DockManagerStrings x:Key="Strings" />
+            <Style x:Key="BorderImageFrame" TargetType="Border">
+                <Setter Property="Padding" Value="5" />
+                <Setter Property="BorderBrush" Value="#CBCBCB" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="CornerRadius" Value="6" />
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FFFEFEFE" Offset="0" />
+                            <GradientStop Color="#FFE7E7E7" Offset="1" />
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Width" Value="110" />
+                <Setter Property="Height" Value="110" />
+            </Style>
+            <Style TargetType="TextBlock" x:Key="customStyle">
+                <Setter Property="FontWeight" Value="Bold" />
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+            <!-- Panes header templates -->
+            <DataTemplate x:Key="headerTemplateBrowser">
+                <StackPanel Orientation="Horizontal">
+                    <Image
+                        Source="/IGDockManager;component/Images/Folder16.png"
+                        Margin="3" Stretch="None" />
+                    <TextBlock Text="{Binding Source={StaticResource Strings}, Path=Docking_ImageBrowser}"
+                               Style="{Binding Source={StaticResource customStyle}}" />
+                </StackPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="headerTemplateImage">
+                <StackPanel Orientation="Horizontal">
+                    <Image
+                        Source="/IGDockManager;component/Images/Picture16.png"
+                        Margin="3" Stretch="None" />
+                    <TextBlock Text="{Binding Source={StaticResource Strings}, Path=Docking_ImagePreview}"
+                               Style="{Binding Source={StaticResource customStyle}}" />
+                </StackPanel>
+            </DataTemplate>
+
+            <!-- Pane navigator data templates -->
+            <!-- Description templates-->
+            <DataTemplate x:Key="PN_DescriptionTemplate1">
+                <StackPanel Orientation="Horizontal">
+                    <Image
+                        Source="/IGDockManager;component/Images/Folder16.png"
+                        Margin="3" Stretch="None" />
+                    <TextBlock Text="{Binding Source={StaticResource Strings}, Path=Docking_ImageBrowserShort}"
+                               Style="{Binding Source={StaticResource customStyle}}" />
+                </StackPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="PN_DescriptionTemplate2">
+                <StackPanel Orientation="Horizontal">
+                    <Image
+                        Source="/IGDockManager;component/Images/Picture16.png"
+                        Margin="3" Stretch="None" />
+                    <TextBlock Text="{Binding Source={StaticResource Strings}, Path=Docking_ImagePreviewShort}"
+                               Style="{Binding Source={StaticResource customStyle}}" />
+                </StackPanel>
+            </DataTemplate>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <!--#BEGIN SNIPPET#-->
+        <!-- Create xamDockManager control -->
+        <ig:XamDockManager x:Name="xamDockManager">
+            <!-- Add panes to the xamDockManager control's Panes collection -->
+            <ig:XamDockManager.Panes>
+                <!-- Add Content Pane with templated header and initial Width. -->
+                <ig:ContentPane HeaderTemplate="{StaticResource headerTemplateBrowser}"
+                                Width="200"
+                                NavigatorDescriptionTemplate="{StaticResource PN_DescriptionTemplate1}"
+                                NavigatorTitle="{Binding Source={StaticResource Strings}, Path=Docking_FolderText}">
+                    <!-- Add content to the pane -->
+                    <ig:ContentPane.Content>
+                        <ListBox x:Name="ImgList" SelectionChanged="ImgList_SelectionChanged"
+                                 Style="{StaticResource IGListBoxStyle}"/>
+                    </ig:ContentPane.Content>
+                </ig:ContentPane>
+                <!-- This Content Pane is docked to the right side of the xamDockManager control by setting the Location property. -->
+                <!-- Closing of this content pane is disabled. -->
+                <ig:ContentPane x:Name="CP_ImageContainer"
+                                HeaderTemplate="{Binding Source={StaticResource headerTemplateImage}}"
+                                NavigatorDescriptionTemplate="{StaticResource PN_DescriptionTemplate2}"
+                                NavigatorTitle="{Binding Source={StaticResource Strings}, Path=Docking_ImageText}"
+                                AllowClose="False"
+                                CloseButtonVisibility="Collapsed"
+                                Location="Right"
+                                Width="200">
+                    <ig:ContentPane.Content>
+                        <Border Style="{StaticResource BorderImageFrame}" />
+                    </ig:ContentPane.Content>
+                </ig:ContentPane>
+            </ig:XamDockManager.Panes>
+        </ig:XamDockManager>
+        <!--#END SNIPPET#-->
+    </Grid>
+</igFramework:SampleContainer>

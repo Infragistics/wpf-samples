@@ -1,0 +1,602 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Display.Series.SeriesErrorBars"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="700" d:DesignWidth="1000"
+      Title="SeriesErrorBars Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:local="clr-namespace:IGDataChart.Samples.Display.Series"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+      xmlns:resources="clr-namespace:IGDataChart.Resources"
+      xmlns:sharedResources="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <ig:StringFormatConverter x:Key="StringFormatConverter" />
+            <resources:DataChartStrings x:Key="ChartStrings" />
+            <sharedResources:CommonStrings x:Key="CommonStrings" />
+            <models:CategoryDataSample x:Key="CategoryData" />
+            <models:BubbleDataRandomSample x:Key="ScatterData">
+                <models:BubbleDataRandomSample.Settings>
+                    <models:BubbleDataSettings DataPoints="30" XMin="20" XMax="180" YMin="20" 
+                                               YMax="180" RadiusMin="100" RadiusMax="120" />
+                </models:BubbleDataRandomSample.Settings>
+            </models:BubbleDataRandomSample>
+          
+            <ig:BrushCollection x:Key="LineBrushes">
+                <SolidColorBrush Color="{StaticResource Color_021}"/>
+                <SolidColorBrush Color="{StaticResource Color_020}"/>
+                <SolidColorBrush Color="{StaticResource Color_022}"/>
+                <SolidColorBrush Color="{StaticResource Color_023}"/>
+                <SolidColorBrush Color="{StaticResource Color_024}"/>
+                <SolidColorBrush Color="{StaticResource Color_025}"/>
+                <SolidColorBrush Color="{StaticResource Color_026}"/>
+                <SolidColorBrush Color="{StaticResource Color_027}"/>
+                <SolidColorBrush Color="{StaticResource Color_028}"/>
+                <SolidColorBrush Color="{StaticResource Color_029}"/>
+            </ig:BrushCollection>
+
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <ig:XamDataChart Grid.Row="1" x:Name="LineChart" Tag="LineChart" Margin="0,0,0,0"
+                         IsHorizontalZoomEnabled="True" 
+                         IsVerticalZoomEnabled="True" >
+            <ig:XamDataChart.Axes>
+                <ig:CategoryXAxis x:Name="ctxAxis" ItemsSource="{StaticResource CategoryData}" 
+                                  Interval="2" Label="{}{Category}" />
+                <ig:NumericYAxis x:Name="nryAxis" MinimumValue="0" MaximumValue="140" />
+            </ig:XamDataChart.Axes>
+            <ig:XamDataChart.Series>
+
+                <ig:LineSeries x:Name="LineSeries" Thickness="1" MarkerType="Circle"
+                               ItemsSource="{StaticResource CategoryData}"
+                               ValueMemberPath="Value"
+                               XAxis="{Binding ElementName=ctxAxis}"
+                               YAxis="{Binding ElementName=nryAxis}" IsHighlightingEnabled="True" IsTransitionInEnabled="True">
+                    <!-- #BEGIN SNIPPET# -->
+                    <!-- ================================================================================== -->
+                    <!-- LineSeries with Error Bars calculated using the FixedValueCalculator -->
+                    <ig:LineSeries.ErrorBarSettings>
+                        <ig:CategoryErrorBarSettings EnableErrorBars="Both" ErrorBarCapLength="10"
+                                                     Stroke="Green" StrokeThickness="1" >
+                            <ig:CategoryErrorBarSettings.Calculator>
+                                <ig:FixedValueCalculator Value="5" />
+                            </ig:CategoryErrorBarSettings.Calculator>
+                        </ig:CategoryErrorBarSettings>
+                    </ig:LineSeries.ErrorBarSettings>
+                    <!-- ================================================================================== -->
+                    <!-- #END SNIPPET# -->
+                </ig:LineSeries>
+                <ig:LineSeries x:Name="LineSeries1" Thickness="1" MarkerType="Circle"  Visibility="Collapsed"
+                               ItemsSource="{StaticResource CategoryData}"
+                               ValueMemberPath="Value"
+                               XAxis="{Binding ElementName=ctxAxis}"
+                               YAxis="{Binding ElementName=nryAxis}" IsHighlightingEnabled="True" IsTransitionInEnabled="True">
+                    <!-- #BEGIN SNIPPET# -->
+                    <!-- ================================================================================== -->
+                    <!-- LineSeries with Error Bars provided by arbitrary values through the DataCalculator -->
+                    <ig:LineSeries.ErrorBarSettings>
+                        <ig:CategoryErrorBarSettings EnableErrorBars="Both" ErrorBarCapLength="10"
+                                                     Stroke="Green" StrokeThickness="1">
+                            <ig:CategoryErrorBarSettings.Calculator>
+                                <ig:DataCalculator ValueMemberPath="Value">
+                                    <ig:DataCalculator.ItemsSource>
+                                        <local:ErrorBarDataSample />
+                                    </ig:DataCalculator.ItemsSource>
+                                </ig:DataCalculator>
+                            </ig:CategoryErrorBarSettings.Calculator>
+                        </ig:CategoryErrorBarSettings>
+                    </ig:LineSeries.ErrorBarSettings>
+                    <!-- ================================================================================== -->
+                    <!-- #END SNIPPET# -->
+                </ig:LineSeries>
+                <ig:LineSeries x:Name="LineSeries2" Thickness="1" MarkerType="Circle" Visibility="Collapsed"
+                               ItemsSource="{StaticResource CategoryData}"
+                               ValueMemberPath="Value"
+                               XAxis="{Binding ElementName=ctxAxis}"
+                               YAxis="{Binding ElementName=nryAxis}" IsHighlightingEnabled="True" IsTransitionInEnabled="True">
+                    <!-- #BEGIN SNIPPET# -->
+                    <!-- ================================================================================== -->
+                    <!-- LineSeries with Error Bars calculated using the PercentageCalculator -->
+                    <ig:LineSeries.ErrorBarSettings>
+                        <ig:CategoryErrorBarSettings EnableErrorBars="Both" ErrorBarCapLength="10"
+                                                     Stroke="Green" StrokeThickness="1" >
+                            <ig:CategoryErrorBarSettings.Calculator>
+                                <ig:PercentageCalculator Value="2" />
+                            </ig:CategoryErrorBarSettings.Calculator>
+                        </ig:CategoryErrorBarSettings>
+                    </ig:LineSeries.ErrorBarSettings>
+                    <!-- ================================================================================== -->
+                    <!-- #END SNIPPET# -->
+                </ig:LineSeries>
+                <ig:LineSeries x:Name="LineSeries3" Thickness="1" MarkerType="Circle" Visibility="Collapsed"
+                               ItemsSource="{StaticResource CategoryData}"
+                               ValueMemberPath="Value"
+                               XAxis="{Binding ElementName=ctxAxis}"
+                               YAxis="{Binding ElementName=nryAxis}" IsHighlightingEnabled="True" IsTransitionInEnabled="True">
+                    <!-- #BEGIN SNIPPET# -->
+                    <!-- ================================================================================== -->
+                    <!-- LineSeries with Error Bars calculated using the StandardErrorCalculator -->
+                    <ig:LineSeries.ErrorBarSettings>
+                        <ig:CategoryErrorBarSettings EnableErrorBars="Both" ErrorBarCapLength="10"
+                                                     Stroke="Green" StrokeThickness="1">
+                            <ig:CategoryErrorBarSettings.Calculator>
+                                <ig:StandardErrorCalculator ItemsSource="{StaticResource CategoryData}" ValueMemberPath="Value" />
+                            </ig:CategoryErrorBarSettings.Calculator>
+                        </ig:CategoryErrorBarSettings>
+                    </ig:LineSeries.ErrorBarSettings>
+                    <!-- ================================================================================== -->
+                    <!-- #END SNIPPET# -->
+                </ig:LineSeries>
+                <ig:LineSeries x:Name="LineSeries4" Thickness="1" MarkerType="Circle" Visibility="Collapsed"
+                               ItemsSource="{StaticResource CategoryData}"
+                               ValueMemberPath="Value"
+                               XAxis="{Binding ElementName=ctxAxis}"
+                               YAxis="{Binding ElementName=nryAxis}" IsHighlightingEnabled="True" IsTransitionInEnabled="True">
+                    <!-- #BEGIN SNIPPET# -->
+                    <!-- ================================================================================== -->
+                    <!-- LineSeries with Error Bars calculated using the StandardDeviationCalculator -->
+                    <ig:LineSeries.ErrorBarSettings>
+                        <ig:CategoryErrorBarSettings EnableErrorBars="Both" ErrorBarCapLength="10"
+                                                     Stroke="Green" StrokeThickness="1">
+                            <ig:CategoryErrorBarSettings.Calculator>
+                                <ig:StandardDeviationCalculator ItemsSource="{StaticResource CategoryData}" ValueMemberPath="Value" />
+                            </ig:CategoryErrorBarSettings.Calculator>
+                        </ig:CategoryErrorBarSettings>
+                    </ig:LineSeries.ErrorBarSettings>
+                    <!-- ================================================================================== -->
+                    <!-- #END SNIPPET# -->
+                </ig:LineSeries>
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+        <ig:XamDataChart Grid.Row="1" x:Name="ScatterChart" Tag="ScatterChart" Margin="0,0,0,0"
+                         IsHorizontalZoomEnabled="True" 
+                         IsVerticalZoomEnabled="True" >
+            <ig:XamDataChart.Axes>
+                <ig:NumericXAxis x:Name="ScatterXAxis" MinimumValue="0" MaximumValue="200" />
+                <ig:NumericYAxis x:Name="ScatterYAxis" MinimumValue="0" MaximumValue="200" />
+            </ig:XamDataChart.Axes>
+            <ig:XamDataChart.Series>
+                <ig:ScatterSeries x:Name="ScatterSeries" ItemsSource="{StaticResource ScatterData}"
+                                  MarkerType="Circle" XMemberPath="X" YMemberPath="Y"
+                                  XAxis="{Binding ElementName=ScatterXAxis}"
+                                  YAxis="{Binding ElementName=ScatterYAxis}">
+                    <!-- #BEGIN SNIPPET# -->
+                    <!-- ================================================================================== -->
+                    <!-- ScatterSeries with Error Bars calculated using the FixedValueCalculator -->
+                    <ig:ScatterSeries.ErrorBarSettings>
+                        <ig:ScatterErrorBarSettings EnableErrorBarsHorizontal="Both"
+                                                    EnableErrorBarsVertical="Both"
+                                                    HorizontalErrorBarCapLength="10"
+                                                    HorizontalStroke="Green"
+                                                    HorizontalStrokeThickness="2"
+                                                    VerticalStroke="Green"
+                                                    VerticalErrorBarCapLength="10"
+                                                    VerticalStrokeThickness="2">
+                            <ig:ScatterErrorBarSettings.HorizontalCalculator>
+                                <ig:FixedValueCalculator Value="1" />
+                            </ig:ScatterErrorBarSettings.HorizontalCalculator>
+                            <ig:ScatterErrorBarSettings.VerticalCalculator>
+                                <ig:FixedValueCalculator Value="1" />
+                            </ig:ScatterErrorBarSettings.VerticalCalculator>
+                        </ig:ScatterErrorBarSettings>
+                    </ig:ScatterSeries.ErrorBarSettings>
+                    <!-- ================================================================================== -->
+                    <!-- #END SNIPPET# -->
+                </ig:ScatterSeries>
+                <ig:ScatterSeries x:Name="ScatterSeries1" ItemsSource="{StaticResource ScatterData}" Visibility="Collapsed"
+                                  MarkerType="Circle" XMemberPath="X" YMemberPath="Y"
+                                  XAxis="{Binding ElementName=ScatterXAxis}"
+                                  YAxis="{Binding ElementName=ScatterYAxis}">
+                    <!-- #BEGIN SNIPPET# -->
+                    <!-- ================================================================================== -->
+                    <!-- ScatterSeries with Error Bars provided by arbitrary values through the DataCalculator -->
+                    <ig:ScatterSeries.ErrorBarSettings>
+                        <ig:ScatterErrorBarSettings EnableErrorBarsHorizontal="Both"
+                                                    EnableErrorBarsVertical="Both"
+                                                    HorizontalErrorBarCapLength="10"
+                                                    HorizontalStroke="Green"
+                                                    HorizontalStrokeThickness="2"
+                                                    VerticalStroke="Green"
+                                                    VerticalErrorBarCapLength="10"
+                                                    VerticalStrokeThickness="2">
+                            <ig:ScatterErrorBarSettings.HorizontalCalculator>
+                                <ig:DataCalculator ValueMemberPath="Value">
+                                    <ig:DataCalculator.ItemsSource>
+                                        <local:ErrorBarDataSample />
+                                    </ig:DataCalculator.ItemsSource>
+                                </ig:DataCalculator>
+                            </ig:ScatterErrorBarSettings.HorizontalCalculator>
+                            <ig:ScatterErrorBarSettings.VerticalCalculator>
+                                <ig:DataCalculator ValueMemberPath="Value">
+                                    <ig:DataCalculator.ItemsSource>
+                                        <local:ErrorBarDataSample />
+                                    </ig:DataCalculator.ItemsSource>
+                                </ig:DataCalculator>
+                            </ig:ScatterErrorBarSettings.VerticalCalculator>
+                        </ig:ScatterErrorBarSettings>
+                    </ig:ScatterSeries.ErrorBarSettings>
+                    <!-- ================================================================================== -->
+                    <!-- #END SNIPPET# -->
+                </ig:ScatterSeries>
+                <ig:ScatterSeries x:Name="ScatterSeries2" ItemsSource="{StaticResource ScatterData}"  Visibility="Collapsed"
+                                  MarkerType="Circle" XMemberPath="X" YMemberPath="Y"
+                                  XAxis="{Binding ElementName=ScatterXAxis}"
+                                  YAxis="{Binding ElementName=ScatterYAxis}">
+                    <!-- #BEGIN SNIPPET# -->
+                    <!-- ================================================================================== -->
+                    <!-- ScatterSeries with Error Bars calculated using the PercentageCalculator -->
+                    <ig:ScatterSeries.ErrorBarSettings>
+                        <ig:ScatterErrorBarSettings EnableErrorBarsHorizontal="Both"
+                                                    EnableErrorBarsVertical="Both"
+                                                    HorizontalErrorBarCapLength="10"
+                                                    HorizontalStroke="Green"
+                                                    HorizontalStrokeThickness="2"
+                                                    HorizontalCalculatorReference="X"
+                                                    VerticalCalculatorReference="Y"
+                                                    VerticalStroke="Green"
+                                                    VerticalErrorBarCapLength="10"
+                                                    VerticalStrokeThickness="2">
+                            <ig:ScatterErrorBarSettings.HorizontalCalculator>
+                                <ig:PercentageCalculator Value="2" />
+                            </ig:ScatterErrorBarSettings.HorizontalCalculator>
+                            <ig:ScatterErrorBarSettings.VerticalCalculator>
+                                <ig:PercentageCalculator Value="2" />
+                            </ig:ScatterErrorBarSettings.VerticalCalculator>
+                        </ig:ScatterErrorBarSettings>
+                    </ig:ScatterSeries.ErrorBarSettings>
+                    <!-- ================================================================================== -->
+                    <!-- #END SNIPPET# -->
+                </ig:ScatterSeries>
+                <ig:ScatterSeries x:Name="ScatterSeries3" ItemsSource="{StaticResource ScatterData}"  Visibility="Collapsed"
+                                  MarkerType="Circle" XMemberPath="X" YMemberPath="Y"
+                                  XAxis="{Binding ElementName=ScatterXAxis}"
+                                  YAxis="{Binding ElementName=ScatterYAxis}">
+                    <!-- #BEGIN SNIPPET# -->
+                    <!-- ================================================================================== -->
+                    <!-- ScatterSeries with Error Bars calculated using the FixedValueCalculator -->
+                    <ig:ScatterSeries.ErrorBarSettings>
+                        <ig:ScatterErrorBarSettings EnableErrorBarsHorizontal="Both"
+                                                    EnableErrorBarsVertical="Both"
+                                                    HorizontalErrorBarCapLength="10"
+                                                    HorizontalStroke="Green"
+                                                    HorizontalStrokeThickness="2"
+                                                    VerticalStroke="Green"
+                                                    VerticalErrorBarCapLength="10"
+                                                    VerticalStrokeThickness="2">
+                            <ig:ScatterErrorBarSettings.HorizontalCalculator>
+                                <ig:StandardErrorCalculator ItemsSource="{StaticResource ScatterData}" ValueMemberPath="X" />
+                            </ig:ScatterErrorBarSettings.HorizontalCalculator>
+                            <ig:ScatterErrorBarSettings.VerticalCalculator>
+                                <ig:StandardErrorCalculator ItemsSource="{StaticResource ScatterData}" ValueMemberPath="Y" />
+                            </ig:ScatterErrorBarSettings.VerticalCalculator>
+                        </ig:ScatterErrorBarSettings>
+                    </ig:ScatterSeries.ErrorBarSettings>
+                    <!-- ================================================================================== -->
+                    <!-- #END SNIPPET# -->
+                </ig:ScatterSeries>
+                <ig:ScatterSeries x:Name="ScatterSeries4" ItemsSource="{StaticResource ScatterData}" Visibility="Collapsed"
+                                  MarkerType="Circle" XMemberPath="X" YMemberPath="Y"
+                                  XAxis="{Binding ElementName=ScatterXAxis}"
+                                  YAxis="{Binding ElementName=ScatterYAxis}">
+                    <!-- #BEGIN SNIPPET# -->
+                    <!-- ================================================================================== -->
+                    <!-- ScatterSeries with Error Bars calculated using the StandardDeviationCalculator -->
+                    <ig:ScatterSeries.ErrorBarSettings>
+                        <ig:ScatterErrorBarSettings EnableErrorBarsHorizontal="Both"
+                                                    EnableErrorBarsVertical="Both"
+                                                    HorizontalErrorBarCapLength="10"
+                                                    HorizontalStroke="Green"
+                                                    HorizontalStrokeThickness="2"
+                                                    VerticalStroke="Green"
+                                                    VerticalErrorBarCapLength="10"
+                                                    VerticalStrokeThickness="2">
+                            <ig:ScatterErrorBarSettings.HorizontalCalculator>
+                                <ig:StandardDeviationCalculator ItemsSource="{StaticResource ScatterData}" ValueMemberPath="X" />
+                            </ig:ScatterErrorBarSettings.HorizontalCalculator>
+                            <ig:ScatterErrorBarSettings.VerticalCalculator>
+                                <ig:StandardDeviationCalculator ItemsSource="{StaticResource ScatterData}" ValueMemberPath="Y" />
+                            </ig:ScatterErrorBarSettings.VerticalCalculator>
+                        </ig:ScatterErrorBarSettings>
+                    </ig:ScatterSeries.ErrorBarSettings>
+                    <!-- ================================================================================== -->
+                    <!-- #END SNIPPET# -->
+                </ig:ScatterSeries>
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+
+        <controls:OptionsPanel Grid.RowSpan="2" x:Name="ScatterErrorBarsOptionsPanel" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,20,0" Padding="2"
+                               HeaderText="{Binding XWDC_SeriesErrorBars_ScatterErrorBars, Source={StaticResource ChartStrings}}">
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}"/>
+                <Style TargetType="Slider" BasedOn="{StaticResource IGSliderStyle}" >
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+                <Style TargetType="ComboBox" BasedOn="{StaticResource IGComboBoxStyle}" >
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+            </controls:OptionsPanel.Resources>
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
+                <TextBlock Text="{Binding XWDC_SeriesErrorBars_HorizontalErrorBarsSettings, Source={StaticResource ChartStrings}}" Style="{StaticResource OptionsPanelTitleStyle}"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="90"/>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="30"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                        <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                        <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                        <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                        <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                        <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                        <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="{Binding XW_Property_Brush, Source={StaticResource CommonStrings}}" HorizontalAlignment="Left" />
+                    <ComboBox Grid.Column="1" Grid.ColumnSpan="2" x:Name="ScatterHorizontalErrorBarsBrush" ItemsSource="{StaticResource LineBrushes}" >
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Rectangle Fill="{Binding}" MinHeight="15" Width="200" HorizontalAlignment="Stretch" Margin="2" />
+                                </Grid>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                    <TextBlock Grid.Row="1" HorizontalAlignment="Left" Text="{Binding XW_Property_Thickness, Source={StaticResource CommonStrings}}" VerticalAlignment="Center" />
+                    <Slider Grid.Row="1" Grid.Column="1" x:Name="ScatterHorizontalErrorBarsThicknessSlider" Value="1.5" Minimum="0" Maximum="5" SmallChange="0.5" LargeChange="0.5" />
+                    <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Value, ConverterParameter=0.0, Converter={StaticResource StringFormatConverter}, ElementName=ScatterHorizontalErrorBarsThicknessSlider}" VerticalAlignment="Center" Margin="{StaticResource OptionsTextLeftMargin}"/>
+
+                    <TextBlock  Grid.Row="2" HorizontalAlignment="Left" Text="{Binding XWDC_SeriesErrorBars_CapLength, Source={StaticResource ChartStrings}}" VerticalAlignment="Center" />
+                    <Slider  Grid.Row="2" Grid.Column="1" x:Name="ScatterHorizontalErrorBarsCapLengthSliders" Value="8" Minimum="0" Maximum="20" SmallChange="1" LargeChange="1" />
+                    <TextBlock  Grid.Row="2" Grid.Column="2" Text="{Binding Value, ConverterParameter=0, Converter={StaticResource StringFormatConverter}, ElementName=ScatterHorizontalErrorBarsCapLengthSliders}" VerticalAlignment="Center"  Margin="{StaticResource OptionsTextLeftMargin}"/>
+
+                    <TextBlock Grid.Row="3" HorizontalAlignment="Left" Text="{Binding XWDC_SeriesErrorBars_DisplayType, Source={StaticResource ChartStrings}}" />
+                    <ComboBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" x:Name="ScatterHorizontalErrorBarsDisplayType" SelectedIndex="0" >
+                        <ig:EnableErrorBars>Both</ig:EnableErrorBars>
+                        <ig:EnableErrorBars>Positive</ig:EnableErrorBars>
+                        <ig:EnableErrorBars>Negative</ig:EnableErrorBars>
+                        <ig:EnableErrorBars>None</ig:EnableErrorBars>
+                    </ComboBox>
+
+                    <TextBlock Grid.Row="4" HorizontalAlignment="Left" Text="{Binding XWDC_SeriesErrorBars_CalculatorType, Source={StaticResource ChartStrings}}" />
+                    <ComboBox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" x:Name="ScatterHorizontalErrorBarsCalcType" >
+                        <local:ErrorBarCalculatorType>FixedValueCalculator</local:ErrorBarCalculatorType>
+                        <local:ErrorBarCalculatorType>PercentageCalculator</local:ErrorBarCalculatorType>
+                        <local:ErrorBarCalculatorType>StandardDeviationCalculator</local:ErrorBarCalculatorType>
+                        <local:ErrorBarCalculatorType>StandardErrorCalculator</local:ErrorBarCalculatorType>
+                        <local:ErrorBarCalculatorType>DataCalculator</local:ErrorBarCalculatorType>
+                    </ComboBox>
+
+                    <Grid x:Name="ScatterHorizontalErrorBarsFixedValueCalcPanel"  Grid.Row="5" Grid.ColumnSpan="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90"/>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="30"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock HorizontalAlignment="Left" Text="{Binding XWDC_SeriesErrorBars_FixedValue, Source={StaticResource ChartStrings}}" />
+                        <Slider Grid.Column="1" x:Name="ScatterHorizontalErrorBarsFixedValueCalcSlider" Value="10" Minimum="0" Maximum="20" SmallChange="1" LargeChange="1" />
+                        <TextBlock Grid.Column="2" Text="{Binding Value, ConverterParameter=0, Converter={StaticResource StringFormatConverter}, ElementName=ScatterHorizontalErrorBarsFixedValueCalcSlider}" VerticalAlignment="Center" Margin="{StaticResource OptionsTextLeftMargin}"/>
+                    </Grid>
+                    <Grid x:Name="ScatterHorizontalErrorBarsPercentageCalcPanel" Grid.Row="6" Grid.ColumnSpan="3" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90"/>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="30"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock HorizontalAlignment="Left" Text="{Binding XWDC_SeriesErrorBars_Percentage, Source={StaticResource ChartStrings}}" VerticalAlignment="Center" />
+                        <Slider Grid.Column="1" x:Name="ScatterHorizontalErrorBarsPercentageCalcSlider" Value="10" Minimum="0" Maximum="20" SmallChange="0.5" LargeChange="0.5" />
+                        <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Center" >
+                            <TextBlock Text="{Binding Value, ConverterParameter=0, Converter={StaticResource StringFormatConverter}, ElementName=ScatterHorizontalErrorBarsPercentageCalcSlider}"  VerticalAlignment="Center" Margin="{StaticResource OptionsTextLeftMargin}"/>
+                            <TextBlock Text="%" Width="15" VerticalAlignment="Center" TextAlignment="Center" />
+                        </StackPanel>
+                    </Grid>
+
+                </Grid>
+            </StackPanel>
+
+            <Rectangle Fill="{StaticResource SeparatorBrush}" Height="1" Stretch="Fill" Margin="0,8"></Rectangle>
+
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
+                <TextBlock Text="{Binding XWDC_SeriesErrorBars_VerticalErrorBarsSettings, Source={StaticResource ChartStrings}}" Style="{StaticResource OptionsPanelTitleStyle}"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="90"/>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="30"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                        <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                        <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                        <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                        <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                        <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                        <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="{Binding XW_Property_Brush, Source={StaticResource CommonStrings}}" VerticalAlignment="Center" TextAlignment="Center" HorizontalAlignment="Left" />
+                    <ComboBox x:Name="ScatterVerticalErrorBarsBrush" Grid.Column="1" Grid.ColumnSpan="2" ItemsSource="{StaticResource LineBrushes}" >
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Rectangle Fill="{Binding}" MinHeight="15" Width="200" HorizontalAlignment="Stretch" Margin="2" />
+                                </Grid>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                    <TextBlock Grid.Row="1" Text="{Binding XW_Property_Thickness, Source={StaticResource CommonStrings}}" HorizontalAlignment="Left" />
+                    <Slider Grid.Row="1" Grid.Column="1" x:Name="ScatterVerticalErrorBarsThicknessSlider" Value="1.5" Minimum="0" Maximum="5" SmallChange="0.5" LargeChange="0.5" />
+                    <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Value, ConverterParameter=0.0, Converter={StaticResource StringFormatConverter}, ElementName=ScatterVerticalErrorBarsThicknessSlider}" VerticalAlignment="Center" Margin="{StaticResource OptionsTextLeftMargin}" />
+
+                    <TextBlock Grid.Row="2" Text="{Binding XWDC_SeriesErrorBars_CapLength, Source={StaticResource ChartStrings}}" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                    <Slider Grid.Row="2" Grid.Column="1" x:Name="ScatterVerticalErrorBarsCapLengthSliders" Value="8" Minimum="0" Maximum="20" SmallChange="1" LargeChange="1"  />
+                    <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding Value, ConverterParameter=0, Converter={StaticResource StringFormatConverter}, ElementName=ScatterVerticalErrorBarsCapLengthSliders}" VerticalAlignment="Center" Margin="{StaticResource OptionsTextLeftMargin}"/>
+
+                    <TextBlock Grid.Row="3" Text="{Binding XWDC_SeriesErrorBars_DisplayType, Source={StaticResource ChartStrings}}" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                    <ComboBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" x:Name="ScatterVerticalErrorBarsDisplayType" SelectedIndex="0" Height="25">
+                        <ig:EnableErrorBars>Both</ig:EnableErrorBars>
+                        <ig:EnableErrorBars>Positive</ig:EnableErrorBars>
+                        <ig:EnableErrorBars>Negative</ig:EnableErrorBars>
+                        <ig:EnableErrorBars>None</ig:EnableErrorBars>
+                    </ComboBox>
+
+                    <TextBlock Grid.Row="4" Text="{Binding XWDC_SeriesErrorBars_CalculatorType, Source={StaticResource ChartStrings}}" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                    <ComboBox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" x:Name="ScatterVerticalErrorBarsCalcType" Height="25">
+                        <local:ErrorBarCalculatorType>FixedValueCalculator</local:ErrorBarCalculatorType>
+                        <local:ErrorBarCalculatorType>PercentageCalculator</local:ErrorBarCalculatorType>
+                        <local:ErrorBarCalculatorType>StandardDeviationCalculator</local:ErrorBarCalculatorType>
+                        <local:ErrorBarCalculatorType>StandardErrorCalculator</local:ErrorBarCalculatorType>
+                        <local:ErrorBarCalculatorType>DataCalculator</local:ErrorBarCalculatorType>
+                    </ComboBox>
+
+                    <Grid x:Name="ScatterVerticalErrorBarsFixedValueCalcPanel" Grid.Row="5" Grid.ColumnSpan="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90"/>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="30"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding XWDC_SeriesErrorBars_FixedValue, Source={StaticResource ChartStrings}}" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                        <Slider  Grid.Column="1" x:Name="ScatterVerticalErrorBarsFixedValueCalcSlider" Value="15" Minimum="0" Maximum="50" SmallChange="1" LargeChange="1" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="2" Text="{Binding Value, ConverterParameter=0, Converter={StaticResource StringFormatConverter}, ElementName=ScatterVerticalErrorBarsFixedValueCalcSlider}" VerticalAlignment="Center" Margin="{StaticResource OptionsTextLeftMargin}"/>
+                    </Grid>
+                    <Grid x:Name="ScatterVerticalErrorBarsPercentageCalcPanel" Grid.Row="6" Grid.ColumnSpan="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90"/>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="30"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding XWDC_SeriesErrorBars_Percentage, Source={StaticResource ChartStrings}}" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                        <Slider Grid.Column="1" x:Name="ScatterVerticalErrorBarsPercentageCalcSlider" Value="15" Minimum="0" Maximum="25" SmallChange="0.5" LargeChange="0.5" VerticalAlignment="Center" />
+                        <StackPanel Orientation="Horizontal" Grid.Column="2">
+                            <TextBlock Text="{Binding Value, ConverterParameter=0, Converter={StaticResource StringFormatConverter}, ElementName=ScatterVerticalErrorBarsPercentageCalcSlider}" VerticalAlignment="Center" Margin="{StaticResource OptionsTextLeftMargin}"/>
+                            <TextBlock Text="%" Width="15" VerticalAlignment="Center" TextAlignment="Left" />
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </StackPanel>
+        </controls:OptionsPanel>
+        <controls:OptionsPanel Grid.RowSpan="2" x:Name="LineErrorBarsOptionsPanel" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,20,0" 
+                               HeaderText="{Binding XWDC_SeriesErrorBars_LineErrorBars, Source={StaticResource ChartStrings}}">
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}"/>
+                <Style TargetType="Slider" BasedOn="{StaticResource IGSliderStyle}" >
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+                <Style TargetType="ComboBox" BasedOn="{StaticResource IGComboBoxStyle}" >
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+            </controls:OptionsPanel.Resources>            
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" >
+                <TextBlock Text="{Binding XWDC_SeriesErrorBars_ErrorBarsSettings, Source={StaticResource ChartStrings}}" HorizontalAlignment="Left" Style="{StaticResource OptionsPanelTitleStyle}"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="90"/>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="30"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                        <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                        <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                        <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                        <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                        <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                        <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="{Binding XW_Property_Brush, Source={StaticResource CommonStrings}}" HorizontalAlignment="Left" />
+                    <ComboBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" x:Name="LineErrorBarsBrush" ItemsSource="{StaticResource LineBrushes}" >
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Rectangle Fill="{Binding}" MinHeight="15" Width="200" HorizontalAlignment="Stretch" Margin="2" />
+                                </Grid>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                    <TextBlock  Grid.Row="1" Text="{Binding XW_Property_Thickness, Source={StaticResource CommonStrings}}" HorizontalAlignment="Left"/>
+                    <Slider Grid.Row="1" Grid.Column="1"  x:Name="LineErrorBarsThicknessSlider"  Value="1.5" Minimum="0" Maximum="5" SmallChange="0.5" LargeChange="0.5" />
+                    <TextBlock Grid.Row="1" Grid.Column="2"  Text="{Binding Value, ConverterParameter=0.0, Converter={StaticResource StringFormatConverter}, ElementName=LineErrorBarsThicknessSlider}" Margin="0" VerticalAlignment="Center" TextAlignment="Center" />
+
+                    <TextBlock Grid.Row="2" Text="{Binding XWDC_SeriesErrorBars_CapLength, Source={StaticResource ChartStrings}}" HorizontalAlignment="Left"/>
+                    <Slider Grid.Row="2" Grid.Column="1"  x:Name="LineErrorBarsCapLengthSliders"  Value="10" Minimum="0" Maximum="20" SmallChange="1" LargeChange="1" />
+                    <TextBlock Grid.Row="2" Grid.Column="2"  Text="{Binding Value, ConverterParameter=0, Converter={StaticResource StringFormatConverter}, ElementName=LineErrorBarsCapLengthSliders}" Margin="0" VerticalAlignment="Center" TextAlignment="Center" />
+
+                    <TextBlock Grid.Row="3" Text="{Binding XWDC_SeriesErrorBars_DisplayType, Source={StaticResource ChartStrings}}" HorizontalAlignment="Left"/>
+                    <ComboBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" x:Name="LineErrorBarsDisplayType"  SelectedIndex="0">
+                        <ig:EnableErrorBars>Both</ig:EnableErrorBars>
+                        <ig:EnableErrorBars>Positive</ig:EnableErrorBars>
+                        <ig:EnableErrorBars>Negative</ig:EnableErrorBars>
+                        <ig:EnableErrorBars>None</ig:EnableErrorBars>
+                    </ComboBox>
+
+                    <TextBlock Grid.Row="4"  Text="{Binding XWDC_SeriesErrorBars_CalculatorType, Source={StaticResource ChartStrings}}" HorizontalAlignment="Left" />
+                    <ComboBox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" x:Name="LineErrorBarsCalcType" >
+                        <local:ErrorBarCalculatorType>FixedValueCalculator</local:ErrorBarCalculatorType>
+                        <local:ErrorBarCalculatorType>PercentageCalculator</local:ErrorBarCalculatorType>
+                        <local:ErrorBarCalculatorType>StandardDeviationCalculator</local:ErrorBarCalculatorType>
+                        <local:ErrorBarCalculatorType>StandardErrorCalculator</local:ErrorBarCalculatorType>
+                        <local:ErrorBarCalculatorType>DataCalculator</local:ErrorBarCalculatorType>
+                    </ComboBox>
+
+                    <Grid x:Name="LineErrorBarsFixedValueCalcPanel" Grid.ColumnSpan="3" Grid.Row="5" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90"/>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="30"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding XWDC_SeriesErrorBars_FixedValue, Source={StaticResource ChartStrings}}" HorizontalAlignment="Left" />
+                        <Slider Grid.Column="1" x:Name="LineErrorBarsFixedValueCalcSlider" Value="5" Minimum="0" Maximum="20" SmallChange="1" LargeChange="1" />
+                        <TextBlock Grid.Column="2" Width="30" Text="{Binding Value, ConverterParameter=0, Converter={StaticResource StringFormatConverter}, ElementName=LineErrorBarsFixedValueCalcSlider}" Margin="0" VerticalAlignment="Center" TextAlignment="Center" />
+                    </Grid>
+                    <Grid x:Name="LineErrorBarsPercentageCalcPanel" Grid.ColumnSpan="3" Grid.Row="6">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90"/>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="30"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock  Text="{Binding XWDC_SeriesErrorBars_Percentage, Source={StaticResource ChartStrings}}" HorizontalAlignment="Left" />
+                        <Slider Grid.Column="1" x:Name="LineErrorBarsPercentageCalcSlider"   Value="10" Minimum="0" Maximum="20" SmallChange="0.5" LargeChange="0.5" />
+                        <StackPanel Orientation="horizontal" Grid.Column="2" >
+                            <TextBlock Margin="5 0 0 0" VerticalAlignment="Center" TextAlignment="Center" Text="{Binding Value, ConverterParameter=0, Converter={StaticResource StringFormatConverter}, ElementName=LineErrorBarsPercentageCalcSlider}" />
+                            <TextBlock Text="%" VerticalAlignment="Center" TextAlignment="Center" />
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </StackPanel>
+
+        </controls:OptionsPanel>
+        <Border Grid.Row="0" Margin="{StaticResource SampleInnerNavigationPadding}" HorizontalAlignment="Left">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding XWDC_Global_SeriesType, Source={StaticResource ChartStrings}}" Style="{StaticResource SamplesInnerNavigationTitleStyle}"/>
+                <ComboBox x:Name="SeriesTypeComboBox" Margin="4,0,2,0" Width="170" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource IGComboBoxStyle}"/>
+                <Button x:Name="PrevSeriesTypeButton" VerticalAlignment="Center" HorizontalAlignment="Center" Cursor="Hand" Margin="0,0,2,0" Content="" Style="{StaticResource IGPreviousButtonStyle}" />
+                <Button x:Name="NextSeriesTypeButton" VerticalAlignment="Center" HorizontalAlignment="Right" Cursor="Hand" Margin="0,0,2,0" Content="" Style="{StaticResource IGNextButtonStyle}"  />
+            </StackPanel>
+        </Border>
+
+    </Grid>
+</igFramework:SampleContainer>

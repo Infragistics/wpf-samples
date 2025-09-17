@@ -1,0 +1,100 @@
+﻿<framework:SampleContainer x:Class="IGSpreadsheet.Samples.Editing.EditingProtection"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared"
+    xmlns:conv="clr-namespace:IGSpreadsheet.Converters"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:igRibbon="http://infragistics.com/Ribbon"
+    xmlns:res="clr-namespace:IGSpreadsheet.Resources"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    DataContext="{Binding RelativeSource={RelativeSource Self}}"
+    Title="EditingProtection Page">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSpreadsheet;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:SpreadsheetStrings x:Key="Strings" />
+            <conv:ExcelDefaultableBooleanConverter x:Key="DefaultBoolConverter" />
+            <converters:BooleanInversionConverter x:Key="InvBoolConverter" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <ig:XamSpreadsheet Grid.Row="1" x:Name="xamSpreadsheet1" />
+
+        <igRibbon:XamRibbon Grid.Row="0" Theme="RoyalLight" ApplicationMenuMode="Office2007">
+            <igRibbon:XamRibbon.ApplicationMenu>
+                <igRibbon:ApplicationMenu Caption="{Binding Source={StaticResource Strings}, Path=btnFile}">
+                    <igRibbon:ButtonTool Caption="{Binding Source={StaticResource Strings}, Path=btnReloadFile}" Tag="Reload" Click="ButtonTool_Click"
+                                         LargeImage="/IGSpreadsheet;component/Images/Open_Large.png"/>
+                </igRibbon:ApplicationMenu>
+            </igRibbon:XamRibbon.ApplicationMenu>
+
+            <igRibbon:XamRibbon.Tabs>
+                <igRibbon:RibbonTabItem Header="{Binding Source={StaticResource Strings}, Path=btnProtection}">
+
+                    <igRibbon:RibbonGroup Caption="{Binding Source={StaticResource Strings}, Path=btnWorkbook}"
+                        IsEnabled="{Binding ElementName=xamSpreadsheet1, Path=IsInEditMode, Mode=OneWay, Converter={StaticResource InvBoolConverter}}">
+                        <!-- #BEGIN SNIPPET# -->
+                        <igRibbon:ToggleButtonTool Margin="5,0,5,0"
+                            Caption="{Binding Source={StaticResource Strings}, Path=btnProtectWorkbook}"
+                            igRibbon:RibbonGroup.MaximumSize="ImageAndTextLarge"
+                            LargeImage="/IGSpreadsheet;component/Images/ProtectWorkbook.png"
+                            IsChecked="{Binding ElementName=xamSpreadsheet1, Path=Workbook.Protected}">
+                        </igRibbon:ToggleButtonTool>
+                        <!-- #END SNIPPET# -->
+                    </igRibbon:RibbonGroup>
+
+                    <igRibbon:RibbonGroup Caption="{Binding Source={StaticResource Strings}, Path=btnWorksheet}"
+                        IsEnabled="{Binding ElementName=xamSpreadsheet1, Path=IsInEditMode, Mode=OneWay, Converter={StaticResource InvBoolConverter}}">
+                        <!-- #BEGIN SNIPPET# -->
+                        <igRibbon:ToggleButtonTool Margin="5,0,5,0"
+                            Caption="{Binding Source={StaticResource Strings}, Path=btnProtectWorksheet}"
+                            igRibbon:RibbonGroup.MaximumSize="ImageAndTextLarge"
+                            LargeImage="/IGSpreadsheet;component/Images/ProtectSheet.png"
+                            IsChecked="{Binding ElementName=xamSpreadsheet1, Path=ActiveWorksheet.Protected}">
+                        </igRibbon:ToggleButtonTool>
+                        <igRibbon:CheckBoxTool
+                            Caption="{Binding Source={StaticResource Strings}, Path=btnAllowDeletingColumns}"
+                            Click="SetAllowDeletingColumns"
+                            IsChecked="{Binding ElementName=xamSpreadsheet1, Path=ActiveWorksheet.Protection.AllowDeletingColumns, Mode=OneWay}" />
+                        <igRibbon:CheckBoxTool
+                            Caption="{Binding Source={StaticResource Strings}, Path=btnAllowDeletingRows}"
+                            Click="SetAllowDeletingRows"
+                            IsChecked="{Binding ElementName=xamSpreadsheet1, Path=ActiveWorksheet.Protection.AllowDeletingRows, Mode=OneWay}" />
+                        <igRibbon:CheckBoxTool
+                            Caption="{Binding Source={StaticResource Strings}, Path=btnAllowInsertingColumns}"
+                            Click="SetAllowInsertingColumns"
+                            IsChecked="{Binding ElementName=xamSpreadsheet1, Path=ActiveWorksheet.Protection.AllowInsertingColumns, Mode=OneWay}" />
+                        <igRibbon:CheckBoxTool
+                            Caption="{Binding Source={StaticResource Strings}, Path=btnAllowInsertingRows}"
+                            Click="SetAllowInsertingRows"
+                            IsChecked="{Binding ElementName=xamSpreadsheet1, Path=ActiveWorksheet.Protection.AllowInsertingRows, Mode=OneWay}" />
+                        <!-- #END SNIPPET# -->
+                    </igRibbon:RibbonGroup>
+
+                    <igRibbon:RibbonGroup Caption="{Binding Source={StaticResource Strings}, Path=btnCell}"
+                        IsEnabled="{Binding ElementName=xamSpreadsheet1, Path=IsInEditMode, Mode=OneWay, Converter={StaticResource InvBoolConverter}}">
+                        <igRibbon:CheckBoxTool
+                            Caption="{Binding Source={StaticResource Strings}, Path=btnCellLocked}"
+                            IsChecked="{Binding ElementName=xamSpreadsheet1, Path=ActiveSelectionCellRangeFormat.Locked, Converter={StaticResource DefaultBoolConverter}}" />
+                    </igRibbon:RibbonGroup>
+
+                </igRibbon:RibbonTabItem>
+            </igRibbon:XamRibbon.Tabs>
+        </igRibbon:XamRibbon>
+    </Grid>
+</framework:SampleContainer>

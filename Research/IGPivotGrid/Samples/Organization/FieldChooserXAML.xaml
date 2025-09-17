@@ -1,0 +1,88 @@
+﻿<framework:SampleContainer x:Class="IGPivotGrid.Samples.Organization.UsingFieldChooser"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="FieldChooser Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:localControls="clr-namespace:IGPivotGrid.Samples.Controls"
+      xmlns:res="clr-namespace:IGPivotGrid.Resources"
+      xmlns:tools="clr-namespace:Infragistics.Samples.Shared.Tools;assembly=Infragistics.Samples.Shared">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                
+                <ResourceDictionary Source="/IGPivotGrid;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <res:PivotGridStrings x:Key="Strings" />
+            <localControls:SampleFlatDataSourceCityVsProduct x:Key="FlatDataSource"/>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <ig:XamPivotGrid x:Name="pivotGrid" DataSource="{StaticResource FlatDataSource}" AllowCompactLayout="True">
+            <ig:XamPivotGrid.FieldChooser>
+                <!-- #BEGIN SNIPPET# -->
+                <ig:FieldChooser MaxHeight="350" MaxDropDownHeight="300"  IsOpen="True">
+                    <ig:FieldChooser.ColumnsGroupHeader>
+                        <TextBlock Text="{tools:ObjectValue DefaultValue=Columns, DataObject={StaticResource Strings}, PropertyName=XPG_Columns}" FontWeight="Bold"/>
+                    </ig:FieldChooser.ColumnsGroupHeader>
+                    <ig:FieldChooser.Columns>
+                        <ig:FieldChooserItem FieldUniqueName="[Product].[Product]" Content="{tools:ObjectValue DefaultValue=Product, DataObject={StaticResource Strings}, PropertyName=XPG_Products}" FieldOrdinal="2" />
+                        <ig:FieldChooserItem FieldUniqueName="[City].[City]" Content="{tools:ObjectValue DefaultValue=City, DataObject={StaticResource Strings}, PropertyName=XPG_Data_PropertyNames_City}" FieldOrdinal="1" />
+                        <ig:FieldChooserItem FieldUniqueName="[Date].[Date]" Content="{tools:ObjectValue DefaultValue=Date, DataObject={StaticResource Strings}, PropertyName=XPG_Data_PropertyNames_Date}" FieldOrdinal="3" />
+                        <ig:FieldChooserItem FieldUniqueName="[Seller].[Seller]" Content="{tools:ObjectValue DefaultValue=Seller, DataObject={StaticResource Strings}, PropertyName=XPG_Data_PropertyNames_Seller}" FieldOrdinal="0" />
+                    </ig:FieldChooser.Columns>
+                    <ig:FieldChooser.RowsGroupHeader>
+                        <TextBlock Text="{tools:ObjectValue DefaultValue=Rows, DataObject={StaticResource Strings}, PropertyName=XPG_Rows}" FontWeight="Bold"/>
+                    </ig:FieldChooser.RowsGroupHeader>
+                    <ig:FieldChooser.Rows>
+                        <ig:FieldChooserItem FieldUniqueName="[Product].[Product]" Content="{tools:ObjectValue DefaultValue=Product, DataObject={StaticResource Strings}, PropertyName=XPG_Products}" FieldOrdinal="2" />
+                        <ig:FieldChooserItem FieldUniqueName="[City].[City]" Content="{tools:ObjectValue DefaultValue=City, DataObject={StaticResource Strings}, PropertyName=XPG_Data_PropertyNames_City}" FieldOrdinal="1" />
+                        <ig:FieldChooserItem FieldUniqueName="[Date].[Date]" Content="{tools:ObjectValue DefaultValue=Date, DataObject={StaticResource Strings}, PropertyName=XPG_Data_PropertyNames_Date}" FieldOrdinal="3" />
+                        <ig:FieldChooserItem FieldUniqueName="[Seller].[Seller]" Content="{tools:ObjectValue DefaultValue=Seller, DataObject={StaticResource Strings}, PropertyName=XPG_Data_PropertyNames_Seller}" FieldOrdinal="0" />
+                    </ig:FieldChooser.Rows>
+                    <ig:FieldChooser.FiltersGroupHeader>
+                        <TextBlock Text="{tools:ObjectValue DefaultValue=Filters, DataObject={StaticResource Strings}, PropertyName=XPG_Filters}" FontWeight="Bold"/>
+                    </ig:FieldChooser.FiltersGroupHeader>
+                    <ig:FieldChooser.Filters>
+                        <ig:FieldChooserItem FieldUniqueName="[Product].[Product]" Content="{tools:ObjectValue DefaultValue=Product, DataObject={StaticResource Strings}, PropertyName=XPG_Products}" />
+                        <ig:FieldChooserItem FieldUniqueName="[City].[City]" Content="{tools:ObjectValue DefaultValue=City, DataObject={StaticResource Strings}, PropertyName=XPG_Data_PropertyNames_City}" />
+                        <ig:FieldChooserItem FieldUniqueName="[Date].[Date]" Content="{tools:ObjectValue DefaultValue=Date, DataObject={StaticResource Strings}, PropertyName=XPG_Data_PropertyNames_Date}" />
+                        <ig:FieldChooserItem FieldUniqueName="[Seller].[Seller]" Content="{tools:ObjectValue DefaultValue=Seller, DataObject={StaticResource Strings}, PropertyName=XPG_Data_PropertyNames_Seller}" />
+                    </ig:FieldChooser.Filters>
+                    <ig:FieldChooser.MeasuresGroupHeader>
+                        <TextBlock Text="{tools:ObjectValue DefaultValue=Measures, DataObject={StaticResource Strings}, PropertyName=XPG_Measures}" FontWeight="Bold"/>
+                    </ig:FieldChooser.MeasuresGroupHeader>
+                    <ig:FieldChooser.Measures>
+                        <ig:FieldChooserItem FieldUniqueName="AmountOfSale" Content="{tools:ObjectValue DefaultValue='Amount of Sale', DataObject={StaticResource Strings}, PropertyName=XPG_Data_AmountOfSale_DisplayName}" FieldOrdinal="2" />
+                        <ig:FieldChooserItem FieldUniqueName="NumberOfUnits" Content="{tools:ObjectValue DefaultValue='Units Sold', DataObject={StaticResource Strings}, PropertyName=XPG_Data_NumberOfUnits_DisplayName}" FieldOrdinal="1" />
+                        <ig:FieldChooserItem FieldUniqueName="UnitPrice" Content="{tools:ObjectValue DefaultValue='Unit Price', DataObject={StaticResource Strings}, PropertyName=XPG_Data_UnitPrice_DisplayName}" FieldOrdinal="3" />
+                        <ig:FieldChooserItem FieldUniqueName="Value" Content="{tools:ObjectValue DefaultValue=Value, DataObject={StaticResource Strings}, PropertyName=XPG_Data_Value_DisplayName}" FieldOrdinal="0" />
+                    </ig:FieldChooser.Measures>
+                </ig:FieldChooser>
+                <!-- #END SNIPPET# -->
+            </ig:XamPivotGrid.FieldChooser>
+        </ig:XamPivotGrid>
+
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource CommonStrings}, Path=XW_Options}" Margin="300 300 0 0">
+            <CheckBox Content="{tools:ObjectValue DefaultValue='StaysOpen', DataObject={StaticResource Strings}, PropertyName=XPG_UsingFieldChooser_StaysOpen}"
+                      IsChecked="{Binding ElementName=pivotGrid, Path=FieldChooser.StaysOpen, Mode=TwoWay}" />
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

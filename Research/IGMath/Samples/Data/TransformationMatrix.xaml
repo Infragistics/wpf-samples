@@ -1,0 +1,114 @@
+﻿<framework:SampleContainer x:Class="IGMath.Samples.Data.TransformationMatrix"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="TransformationMatrix"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGMath.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGMath;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:MathStrings x:Key="Strings" />
+            <converters:StringFormatConverter x:Key="StringFormatConverter" />
+
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <!-- #BEGIN SNIPPET# -->
+        <Canvas x:Name="canvas" Height="1" Width="1" HorizontalAlignment="Center" VerticalAlignment="Center" Background="Black">
+            <Polygon x:Name="polygon" Opacity="1" Fill="{StaticResource GlyphPressedBackgroundBrush}" StrokeStartLineCap="Round" StrokeThickness="0" StrokeEndLineCap="Round" StrokeLineJoin="Round">
+                <Polygon.Effect>
+                    <DropShadowEffect ShadowDepth="0" BlurRadius="10" Opacity=".3" />
+                </Polygon.Effect>
+            </Polygon>
+        </Canvas>
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel HeaderText="{Binding  Source={StaticResource Strings}, Path=Options}" Margin="10,10,0,0">
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}"/>
+                <Style TargetType="Slider" BasedOn="{StaticResource IGSliderStyle}" >
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+                <Style TargetType="ComboBox" BasedOn="{StaticResource IGComboBoxStyle}" >
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+            </controls:OptionsPanel.Resources>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30" />
+                    <ColumnDefinition Width="120" />
+                    <ColumnDefinition Width="50" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="{Binding  Source={StaticResource Strings}, Path=Shape}"
+                           Grid.ColumnSpan="3"/>
+                <ComboBox x:Name="shapeCombo" 
+                          SelectionChanged="shapeCombo_SelectionChanged"
+                          SelectedIndex="0" Grid.Row="1" Grid.ColumnSpan="3">
+                    <ComboBoxItem Content="{Binding  Source={StaticResource Strings}, Path=Square}" Tag="0" />
+                    <ComboBoxItem Content="{Binding  Source={StaticResource Strings}, Path=Triangle}" Tag="1" />
+                    <ComboBoxItem Content="{Binding  Source={StaticResource Strings}, Path=Pentagram}" Tag="2" />
+                    <ComboBoxItem Content="{Binding  Source={StaticResource Strings}, Path=Sandglass}" Tag="3" />
+                </ComboBox>
+                <TextBlock Text="{Binding  Source={StaticResource Strings}, Path=RotationAngle}"
+                           Grid.Row="2" Grid.ColumnSpan="3" />
+                <Slider x:Name="angleSlider"
+                        Grid.ColumnSpan="2" Grid.Row="3"
+                        Value="45" Minimum="0" Maximum="360"
+                        SmallChange="10" LargeChange="10"/>
+                <TextBlock Margin="{StaticResource OptionsTextLeftMargin}" Grid.Row="3" Grid.Column="2" Text="{Binding Value, ConverterParameter=0.0, Converter={StaticResource StringFormatConverter}, ElementName=angleSlider}" HorizontalAlignment="Left" />
+                <TextBlock Text="{Binding  Source={StaticResource Strings}, Path=Scale}"
+                           Grid.Row="4" Grid.ColumnSpan="3" />
+
+                <TextBlock Text="X: " Grid.Row="5" HorizontalAlignment="Right" />
+                <Slider x:Name="xScaleSlider"
+                        Grid.Row="5" Grid.Column="1" 
+                        Value="100" Minimum="0" Maximum="150"
+                        SmallChange="0.25" LargeChange="10" />
+                <TextBlock Grid.Row="5" Grid.Column="2" Margin="{StaticResource OptionsTextLeftMargin}" Text="{Binding Value, ConverterParameter=0.0, Converter={StaticResource StringFormatConverter}, ElementName=xScaleSlider}" HorizontalAlignment="Left" />
+
+                <TextBlock Text="Y: " Grid.Row="6" HorizontalAlignment="Right" />
+                <Slider Grid.Row="6" Grid.Column="1" x:Name="yScaleSlider"  Value="100" Minimum="0" Maximum="150" SmallChange="0.25" LargeChange="10" />
+                <TextBlock Grid.Row="6" Grid.Column="2" Margin="{StaticResource OptionsTextLeftMargin}" Text="{Binding Value, ConverterParameter=0.0, Converter={StaticResource StringFormatConverter}, ElementName=yScaleSlider}" HorizontalAlignment="Left" />
+
+                <TextBlock Text="{Binding  Source={StaticResource Strings}, Path=Translation}"
+                           Grid.Row="7" Grid.ColumnSpan="3" />
+
+                <TextBlock Text="X: " Grid.Row="8" HorizontalAlignment="Right" />
+                <Slider Grid.Row="8" x:Name="xTranslationSlider" Value="0" Minimum="-100" Maximum="100" SmallChange="10" LargeChange="10" Grid.Column="1"  />
+                <TextBlock Grid.Row="8" Margin="{StaticResource OptionsTextLeftMargin}" Text="{Binding Value, ConverterParameter=0.0, Converter={StaticResource StringFormatConverter}, ElementName=xTranslationSlider}" Grid.Column="2" HorizontalAlignment="Left" />
+
+                <TextBlock Text="Y: " Grid.Row="9" HorizontalAlignment="Right" />
+                <Slider Grid.Row="9"  x:Name="yTranslationSlider" Value="0" Minimum="-100" Maximum="100" SmallChange="10" LargeChange="10"  Grid.Column="1"  />
+                <TextBlock Grid.Row="9" Margin="{StaticResource OptionsTextLeftMargin}" Text="{Binding Value, ConverterParameter=0.0, Converter={StaticResource StringFormatConverter}, ElementName=yTranslationSlider}" Grid.Column="2" HorizontalAlignment="Left" />
+                <!-- #BEGIN SNIPPET# -->
+                <Button x:Name="transformButton"
+                        Content="{Binding  Source={StaticResource Strings}, Path=Transform}"
+                        Click="transformButton_Click" 
+                        Grid.Row="10" Grid.ColumnSpan="4" />
+                <!-- #END SNIPPET# -->
+            </Grid>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

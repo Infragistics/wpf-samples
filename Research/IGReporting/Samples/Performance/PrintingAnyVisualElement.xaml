@@ -1,0 +1,95 @@
+﻿<igFramework:SampleContainer x:Class="IGReporting.Samples.Performance.PrintingAnyVisualElement"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="PrintingAnyVisualElement"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:igRep="http://infragistics.com/Reporting"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models.Series;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGReporting.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGReporting;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/IGReporting;component/Assets/ReportProgressControlStyle.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:ReportingStrings x:Key="ReportingStrings" />
+            <models:StackableDataCollection x:Key="stackedData" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <!-- DataChart control -->
+        <ig:XamDataChart
+            x:Name="XamChart1"
+            Grid.Row="1"
+            MaxHeight="500"
+            MaxWidth="650">
+            <ig:XamDataChart.Axes>
+                <ig:CategoryYAxis x:Name="xmYAxis" ItemsSource="{StaticResource stackedData}" Label="{}{Region}">
+                    <ig:CategoryYAxis.LabelSettings>
+                        <ig:AxisLabelSettings Location="OutsideLeft" />
+                    </ig:CategoryYAxis.LabelSettings>
+                </ig:CategoryYAxis>
+                <ig:NumericXAxis x:Name="xmXAxis" MinimumValue="0" />
+            </ig:XamDataChart.Axes>
+            <ig:XamDataChart.Series>
+                <ig:BarSeries ItemsSource="{StaticResource stackedData}"
+                              ValueMemberPath="Model1"
+                              Title="{Binding XWDC_DataModel_StackedData_BMV, Source={StaticResource ReportingStrings}}"
+                              XAxis="{Binding ElementName=xmXAxis}"
+                              YAxis="{Binding ElementName=xmYAxis}" />
+                <ig:BarSeries ItemsSource="{StaticResource stackedData}"
+                              ValueMemberPath="Model2"
+                              Title="{Binding XWDC_DataModel_StackedData_Auti, Source={StaticResource ReportingStrings}}"
+                              XAxis="{Binding ElementName=xmXAxis}"
+                              YAxis="{Binding ElementName=xmYAxis}" />
+                <ig:BarSeries ItemsSource="{StaticResource stackedData}"
+                              ValueMemberPath="Model3"
+                              Title="{Binding XWDC_DataModel_StackedData_Masda, Source={StaticResource ReportingStrings}}"
+                              XAxis="{Binding ElementName=xmXAxis}"
+                              YAxis="{Binding ElementName=xmYAxis}" />
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+
+        <!-- #BEGIN SNIPPET# -->
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource ReportingStrings}, Path=Reporting_ProgressArea_Header}" IsMovable="False" Margin="0,10,0,10">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Margin="0, 0, 10, 0" VerticalAlignment="top" Orientation="Horizontal">
+                    <Button
+                        x:Name="btnPrint"
+                        Click="btnPrint_Click"
+                        Margin="0, 0, 10, 0"
+                        VerticalAlignment="Center"
+                        Tag="{Binding Source={StaticResource ReportingStrings}, Path=Reporting_PrintButton_Content}"
+                        Style="{DynamicResource IconButtonStyle}">
+                        <Path Data="{StaticResource PrintIcon}" Width="12" Height="11" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=ContentControl}}" Stretch="Fill" Margin="0,0,-2,0"/>
+                    </Button>
+                    <Button
+                        x:Name="btnExport"
+                        Click="btnExport_Click"
+                        Margin="0, 0, 0, 0"
+                        VerticalAlignment="Center"
+                        Tag="{Binding Source={StaticResource ReportingStrings}, Path=Reporting_ExportButton_Content}"
+                        Style="{DynamicResource IconButtonStyle}">
+                        <Path Data="{StaticResource ExportIcon}" Width="12" Height="11" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=ContentControl}}" Stretch="Fill" Margin="0,0,-2,0"/>
+                    </Button>
+                </StackPanel>
+                <igRep:ReportProgressControl x:Name="progressInfo" Width="200"/>
+            </StackPanel>
+        </controls:OptionsPanel>
+        <!-- #END SNIPPET# -->
+    </Grid>
+</igFramework:SampleContainer>

@@ -1,0 +1,86 @@
+﻿<igFramework:SampleContainer x:Class="IGDataGrid.Samples.Display.ConditionalFormatting"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="ConditionalFormatting"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:localConv="clr-namespace:IGDataGrid.Converters"
+      xmlns:res="clr-namespace:IGDataGrid.Resources"
+      xmlns:igThemes="http://infragistics.com/Themes">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataGrid;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <localConv:RateToGradientStopConverter x:Key="rateToGradientStopConverter" />
+            <localConv:PassingToColorConverter x:Key="passingToColorConverter" />
+            <XmlDataProvider x:Key="QuarterbackData" />
+
+            <res:DataGridStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid>
+        <igDP:XamDataGrid x:Name="XamDataGrid1" Theme="RoyalLight"
+                          DataSource="{Binding Source={StaticResource QuarterbackData}, XPath=season}">
+            <igDP:XamDataGrid.Resources>
+                <Style TargetType="{x:Type igDP:DataRecordPresenter}" BasedOn="{x:Static igThemes:DataPresenterRoyalLight.DataRecordPresenter}">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <SolidColorBrush Color="{Binding Path=Cells[pct].Value, Converter={StaticResource passingToColorConverter}}" 
+                                             Opacity="0.3" />
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+                <Style TargetType="igDP:DataRecordCellArea" BasedOn="{x:Static igThemes:DataPresenterRoyalLight.DataRecordCellArea}">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <SolidColorBrush Color="{Binding Path=Cells[pct].Value,
+                                Converter={StaticResource passingToColorConverter}}" Opacity="0"/>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </igDP:XamDataGrid.Resources>
+            <igDP:XamDataGrid.FieldLayoutSettings>
+                <igDP:FieldLayoutSettings AutoGenerateFields="False" />
+            </igDP:XamDataGrid.FieldLayoutSettings>
+            <!-- #BEGIN SNIPPET# -->
+            <igDP:XamDataGrid.FieldLayouts>
+                <igDP:FieldLayout>
+                    <igDP:Field Name="year"
+                                Label="{Binding CondForm_Year, Source={StaticResource Strings}}" />
+                    <igDP:Field Name="team"
+                                Label="{Binding CondForm_Team, Source={StaticResource Strings}}" />
+                    <igDP:Field Name="qbrate"
+                                Label="{Binding CondForm_Rating, Source={StaticResource Strings}}">
+                        <igDP:Field.Settings>
+                            <igDP:FieldSettings CellWidth="70"
+                                                LabelWidth="70">
+                                <igDP:FieldSettings.CellValuePresenterStyle>
+                                    <Style TargetType="{x:Type igDP:CellValuePresenter}">
+                                        <Setter Property="Background"
+                                                Value="{Binding Path=Cells[qbrate].Value, Converter={StaticResource rateToGradientStopConverter}}">
+                                        </Setter>
+                                    </Style>
+                                </igDP:FieldSettings.CellValuePresenterStyle>
+                            </igDP:FieldSettings>
+                        </igDP:Field.Settings>
+                    </igDP:Field>
+                    <igDP:Field Name="rushs"
+                                Label="{Binding CondForm_Rushes, Source={StaticResource Strings}}" />
+                    <igDP:Field Name="comp"
+                                Label="{Binding CondForm_Completions, Source={StaticResource Strings}}" />
+                    <igDP:Field Name="pct"
+                                Label="{Binding CondForm_Passing, Source={StaticResource Strings}}" />
+                </igDP:FieldLayout>
+            </igDP:XamDataGrid.FieldLayouts>
+            <!-- #END SNIPPET# -->
+        </igDP:XamDataGrid>
+    </Grid>
+</igFramework:SampleContainer>

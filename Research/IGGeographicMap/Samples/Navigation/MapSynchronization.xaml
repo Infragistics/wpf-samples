@@ -1,0 +1,95 @@
+﻿<framework:SampleContainer 
+    x:Class="IGGeographicMap.Samples.MapSynchronization"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+      xmlns:custom="clr-namespace:IGGeographicMap.Extensions">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGeographicMap;component/Assets/Global.xaml" />
+                
+                
+            </ResourceDictionary.MergedDictionaries>
+           
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*" MinHeight="200"/>
+            <RowDefinition Height="0.5*" MinHeight="200"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.5*"  MinWidth="300"/>
+            <ColumnDefinition Width="0.5*"  MinWidth="300"/>
+        </Grid.ColumnDefinitions>
+            
+        <!-- #BEGIN SNIPPET# --> 
+        <!-- ==========================================================================  -->
+         <!--#1 XamGeographicMap with Map Quest imagery-->  
+        <ig:XamGeographicMap x:Name="GeoMap1" Grid.Row="1" Grid.Column="1"
+                             PlotAreaBackground="{StaticResource GeoMapSbPlotAreaBackgroundBrush}"
+                             Zoomable="True"
+                             OverviewPlusDetailPaneVisibility="Collapsed">
+            <ig:SyncManager.SyncSettings>
+                <ig:SyncSettings SyncChannel="syncGroup1" SynchronizeHorizontally="True" SynchronizeVertically="True" />
+            </ig:SyncManager.SyncSettings>
+            <ig:XamGeographicMap.BackgroundContent>
+                <ig:BingMapsMapImagery/>
+            </ig:XamGeographicMap.BackgroundContent>
+        </ig:XamGeographicMap>
+        <!-- #2 XamGeographicMap with Open Street Maps imagery -->
+        <ig:XamGeographicMap x:Name="GeoMap2" Grid.Row="0" Grid.Column="1"
+                             PlotAreaBackground="{StaticResource GeoMapSbPlotAreaBackgroundBrush}"
+                             Zoomable="True"
+                            OverviewPlusDetailPaneVisibility="Collapsed">
+            <ig:SyncManager.SyncSettings>
+                <ig:SyncSettings SyncChannel="syncGroup1" SynchronizeHorizontally="True" SynchronizeVertically="True" />
+            </ig:SyncManager.SyncSettings>
+            <ig:XamGeographicMap.BackgroundContent>
+                <ig:OpenStreetMapImagery />
+            </ig:XamGeographicMap.BackgroundContent>
+        </ig:XamGeographicMap>
+        <!-- #3 XamGeographicMap with Bing Maps imagery (loaded in code-behind) -->
+        <ig:XamGeographicMap x:Name="GeoMap3" Grid.Row="1" Grid.Column="0"
+                             PlotAreaBackground="{StaticResource GeoMapSbPlotAreaBackgroundBrush}"
+                             Zoomable="True"
+                             WindowScale="0.7"
+                             WindowPositionHorizontal="0.15"
+                             WindowPositionVertical="0.1"
+                             OverviewPlusDetailPaneVisibility="Collapsed">
+            <ig:SyncManager.SyncSettings>
+                <ig:SyncSettings SyncChannel="syncGroup1" SynchronizeHorizontally="True" SynchronizeVertically="True" />
+            </ig:SyncManager.SyncSettings>
+        </ig:XamGeographicMap>
+        <!-- #4 XamGeographicMap with ESRI Maps imagery (loaded in code-behind) -->
+        <ig:XamGeographicMap x:Name="GeoMap4" Grid.Row="0" Grid.Column="0"
+                             PlotAreaBackground="{StaticResource GeoMapSbPlotAreaBackgroundBrush}"
+                             Zoomable="True"
+                             WindowScale="0.7"
+                             WindowPositionHorizontal="0.15"
+                             WindowPositionVertical="0.1"
+                             OverviewPlusDetailPaneVisibility="Collapsed">
+            <ig:SyncManager.SyncSettings>
+                <ig:SyncSettings SyncChannel="syncGroup1" SynchronizeHorizontally="True" SynchronizeVertically="True" />
+            </ig:SyncManager.SyncSettings>
+        </ig:XamGeographicMap>
+        <!-- ========================================================================== -->
+        <!-- #END SNIPPET# -->
+        <!--<TextBlock Text="{Binding Path=XW_Source_MapQuest, Source={StaticResource CommonStrings}}" Grid.Row="0" Grid.Column="0" Style="{StaticResource SourceDataTextBoxStyle}" />-->
+        <TextBlock Text="{Binding Path=XW_OpenSourceCopyright, Source={StaticResource CommonStrings}}" Grid.Row="0" Grid.Column="1" Style="{StaticResource SourceDataTextBoxStyle}" />
+        <TextBlock Text="{Binding Path=XW_Source_BingMaps, Source={StaticResource CommonStrings}}" Grid.Row="1" Grid.Column="0" Style="{StaticResource SourceDataTextBoxStyle}" />
+        <TextBlock Text="{Binding Path=XW_Source_ESRI, Source={StaticResource CommonStrings}}" Grid.Row="0" Grid.Column="0" Style="{StaticResource SourceDataTextBoxStyle}" />
+        <TextBlock Text="{Binding Path=XW_Source_ESRI, Source={StaticResource CommonStrings}}" Grid.Row="1" Grid.Column="1" Style="{StaticResource SourceDataTextBoxStyle}" />
+
+    </Grid>
+</framework:SampleContainer>
+
+    

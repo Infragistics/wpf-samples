@@ -1,0 +1,77 @@
+﻿<framework:SampleContainer x:Class="IGMap.Samples.Navigation.MapDrillDown"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:providers="clr-namespace:Infragistics.Samples.Shared.DataProviders;assembly=Infragistics.Samples.Shared" 
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="MapDrillDown Page">
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGMap;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+             
+            <providers:ShapeFileProvider x:Key="regionShapeFileProvider" ShapeFileRelativePath="/America/usa_regions_group" />
+            <providers:ShapeFileProvider x:Key="statesShapeFileProvider" ShapeFileRelativePath="/America/usa_states_group" />
+            <providers:ShapeFileProvider x:Key="countiesShapeFileProvider" ShapeFileRelativePath="/America/usa_counties_mod" />
+          
+            <ig:BrushCollection x:Key="MapLayerBrushes1">
+                <SolidColorBrush >#FF9FB328</SolidColorBrush>
+            </ig:BrushCollection>
+            <ig:BrushCollection x:Key="MapLayerBrushes2">
+                <SolidColorBrush >#FF9FB328</SolidColorBrush>
+            </ig:BrushCollection>
+            <ig:BrushCollection x:Key="MapLayerBrushes3">
+                <SolidColorBrush >#FF9FB328</SolidColorBrush>
+            </ig:BrushCollection>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+   
+    <Grid x:Name="LayoutRoot" Background="White">
+  
+        <ig:XamMap x:Name="shapeMap" Margin="0,0,0,0"  ElementClick="OnMapElementClick" 
+                   IsZoomable="False" IsPannable="True" Background="Transparent"  
+                    WindowAnimationMode="Trigonometric" WindowAnimationDuration="0:0:1.5"
+                   MouseRightButtonDown="shapeMap_MouseRightButtonDown"  >
+            <!-- #BEGIN SNIPPET# -->
+            <!-- Map drill-down functionality is implemented in code-behiind -->
+            <ig:XamMap.Layers>
+                <!-- MapLayer with U.S. regions shape file -->
+                <ig:MapLayer LayerName="regionsLayer" StrokeThickness="0.75" Stroke="#FF626E18" ToolTip="{}{RegionName}" VisibleFromScale="0"  
+                             FillMode="RandomSelect" Brushes="{StaticResource MapLayerBrushes1}" Imported="OnMapLayerImported"   
+                               >
+                    <ig:MapLayer.Reader>
+                        <ig:ShapeFileReader Uri="{Binding ShapeFileAbsolutePath, Source={StaticResource regionShapeFileProvider}}" 
+                                            DataMapping="RegionName=NAME"/>
+                    </ig:MapLayer.Reader>
+                </ig:MapLayer>
+                <!-- MapLayer with U.S. states shape file -->
+                <ig:MapLayer LayerName="statesLayer" StrokeThickness="0.75"  Stroke="#FF626E18"   ToolTip="{}{StateCode}" IsVisible="False" VisibleFromScale="0"  
+                             FillMode="RandomSelect" Brushes="{StaticResource MapLayerBrushes2}" Imported="OnMapLayerImported"   >
+                    <ig:MapLayer.Reader>
+                        <ig:ShapeFileReader Uri="{Binding ShapeFileAbsolutePath, Source={StaticResource statesShapeFileProvider}}" 
+                                            DataMapping="StateName=STATE_NAME;StateCode=STATE_ABBR;StateRegion=REGION"  />
+                    </ig:MapLayer.Reader>
+                </ig:MapLayer>
+                <!-- MapLayer with U.S. counties shape file -->
+                <ig:MapLayer LayerName="countiesLayer" StrokeThickness="0.75" Stroke="#FF626E18"   ToolTip="{}{CountyName}, {StateCode}" IsVisible="False" VisibleFromScale="0"  
+                             FillMode="RandomSelect" Brushes="{StaticResource MapLayerBrushes3}" Imported="OnMapLayerImported" 
+                               >
+                    <ig:MapLayer.Reader>
+                        <ig:ShapeFileReader Uri="{Binding ShapeFileAbsolutePath, Source={StaticResource countiesShapeFileProvider}}" 
+                                            DataMapping="CountyName=COUNTY;StateCode=STATE"/>
+                    </ig:MapLayer.Reader>
+                </ig:MapLayer>
+            </ig:XamMap.Layers>
+            <!-- #END SNIPPET# -->
+            <ig:MapNavigationPane x:Name="mapNavigationPane" Margin="15" Visibility="Collapsed" VerticalAlignment="Top" 
+                                  ig:XamDock.Edge="InsideRight">
+            </ig:MapNavigationPane>
+        </ig:XamMap>
+    </Grid>
+</framework:SampleContainer>

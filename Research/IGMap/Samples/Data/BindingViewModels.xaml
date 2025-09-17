@@ -1,0 +1,82 @@
+﻿<igFramework:SampleContainer x:Class="IGMap.Samples.Data.BindingViewModels"
+             xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:ig="http://schemas.infragistics.com/xaml"
+             xmlns:resources="clr-namespace:IGMap.Resources" 
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="400" >
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGMap;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <resources:MapStrings x:Key="Strings" />
+            <LinearGradientBrush  x:Key="MapMarkerBackground" EndPoint="0,1">
+                <GradientStop Color="White" />
+                <GradientStop Color="#77ffffff" Offset="1" />
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="MapMarkerStroke" EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="Transparent" Offset="0"/>
+                <GradientStop Color="White" Offset="1"/>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="MapMarkerPointStroke" EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="Transparent" Offset="0"/>
+                <GradientStop Color="White" Offset="1"/>
+            </LinearGradientBrush>
+            <RadialGradientBrush x:Key="MapMarkerPointFill" RadiusY="0.582" RadiusX="0.582" Center="0.505,0.577" GradientOrigin="0.505,0.577">
+                <GradientStop Color="#FF2D330B" Offset="1"/>
+                <GradientStop Color="#FFA4BA29" Offset="0.695"/>
+            </RadialGradientBrush>
+            <DropShadowEffect x:Key="MapMerkerEffect" BlurRadius="5"  ShadowDepth="3" Color="DimGray" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <Grid x:Name="LayoutRoot" Margin="5" Background="#FFB4CFCF">
+
+        <ig:XamMap x:Name="shapeMap" Grid.ColumnSpan="2" 
+                   WindowAnimationMode="Logarithmic" WindowZoomMaximum="50" 
+                   IsAutoWorldRect="False" MapProjectionType="SphericalMercator" Loaded="OnMapLoaded">
+            <ig:XamMap.MapTileSource>
+                <ig:OpenStreetMapTileSource x:Name="openStreetsTileSource" />
+            </ig:XamMap.MapTileSource>
+
+            <!-- #BEGIN SNIPPET# -->
+            <ig:XamMap.Layers>
+                <!--this MapLayer maps data to a view model of geo-locations -->
+                <ig:MapLayer x:Name="mapLayer" Brushes="Transparent">
+                    <ig:MapLayer.ValueTemplate>                        
+                        <!--this DataTemplate represents a geo-location on the map-->
+                        <DataTemplate>
+                            <Grid Background="White" >
+                                <ToolTipService.ToolTip>
+                                    <ToolTip  Content="{Binding ToolTip}"/>
+                                </ToolTipService.ToolTip>
+                                <!--<Canvas Margin="0" >-->
+                                <Border BorderThickness="1" CornerRadius="4" 
+                                        Background="{StaticResource MapMarkerBackground}" >
+                                        <Grid >                                        
+                                            <Rectangle RadiusX="3" RadiusY="3" Stroke="{StaticResource MapMarkerStroke}" />
+                                            <StackPanel Orientation="Horizontal">
+                                                <Ellipse Width="10" Height="10" StrokeThickness="1" Margin="3" 
+                                                         Stroke="{StaticResource MapMarkerPointStroke}"
+                                                         Fill="{StaticResource MapMarkerPointFill}">
+                                                </Ellipse>                                                
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                <!--</Canvas>-->
+                            </Grid>
+                        </DataTemplate>
+                    </ig:MapLayer.ValueTemplate>
+                </ig:MapLayer>
+            </ig:XamMap.Layers>
+            <!-- #END SNIPPET# -->
+
+            <ig:MapNavigationPane ig:XamDock.Edge="InsideRight" Margin="15" />
+
+        </ig:XamMap>
+        <TextBlock x:Name="OpenSourceCopyright" Text="{Binding Path=XW_OpenSourceCopyright, Source={StaticResource CommonStrings}}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5" FontFamily="Georgia" FontSize="12" FontWeight="Normal" Foreground="#FF999999"  />
+    </Grid>
+</igFramework:SampleContainer>

@@ -1,0 +1,44 @@
+﻿<Window x:Class="Infragistics.Framework.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"  
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+        Title="Infragistics Samples" Height="600" Width="600"               
+        xmlns:ig="http://schemas.infragistics.com/xaml"
+        Background="{StaticResource AppBackground}" 
+        Padding="0" Margin="0">
+    <Grid Margin="10 10 40 10" x:Name="RootLayout" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <ig:Legend x:Name="Legend"  Grid.Row="0" Orientation="Vertical"/>
+        
+        <ig:XamDataChart x:Name="Chart" Grid.Row="1" Legend="{Binding ElementName=Legend}"
+                        >
+            <ig:XamDataChart.Axes>
+              <ig:CategoryXAxis x:Name="xAxis"  Label="{}{Year}" Gap="0.75" />  
+                <ig:NumericYAxis x:Name="yAxis" MinimumValue="0" MaximumValue="140" Interval="20" 
+                                 Title="Millions of Births"      />                   
+            </ig:XamDataChart.Axes>
+            
+            <ig:XamDataChart.Series>            
+                <ig:StackedSplineSeries MarkerType="Circle" x:Name="stackedSeries"
+                                        XAxis="{Binding ElementName=xAxis}"
+                                        YAxis="{Binding ElementName=yAxis}" 
+                                        IsCustomCategoryStyleAllowed="True" 
+                                        AssigningCategoryStyle="stackedSeries_AssigningCategoryStyle"
+                                         ShowDefaultTooltip="false">
+                    <ig:StackedSplineSeries.Series>                        
+                        <ig:StackedFragmentSeries Title="Asia"         ValueMemberPath="Asia"      />
+                        <ig:StackedFragmentSeries Title="Africa"       ValueMemberPath="Africa"          />
+                        <ig:StackedFragmentSeries Title="Europe"       ValueMemberPath="Europe"        />
+                        <!--<ig:StackedFragmentSeries Title="NorthAmerica" ValueMemberPath="NorthAmerica" />
+                        <ig:StackedFragmentSeries Title="SouthAmerica" ValueMemberPath="SouthAmerica" />
+                        <ig:StackedFragmentSeries Title="Oceania"      ValueMemberPath="Oceania"      />-->
+                    </ig:StackedSplineSeries.Series>
+                </ig:StackedSplineSeries>        
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+        
+    </Grid>
+</Window>

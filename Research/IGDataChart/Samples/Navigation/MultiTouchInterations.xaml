@@ -1,0 +1,145 @@
+﻿<igFramework:SampleContainer 
+	  x:Class="IGDataChart.Samples.Editing.MultiTouchInterations"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"  d:DesignHeight="500" d:DesignWidth="700"
+      Title="MultiTouchInterations Page"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:resources="clr-namespace:IGDataChart.Resources"
+      xmlns:samples="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <resources:AssetsLocalizer x:Key="AssetsLocalizer" />
+            <samples:RandomDataCollection x:Key="data1" />
+            <samples:RandomDataCollection x:Key="data2" />
+            <samples:RandomDataCollection x:Key="data3" />
+           
+            <DataTemplate x:Key="customLegendItemTemplate">
+                <StackPanel Orientation="Horizontal" Margin="1" Visibility="{Binding Series.Visibility}" Opacity="{Binding Series.Opacity}">
+                    <ContentPresenter Content="{Binding}" ContentTemplate="{Binding Series.LegendItemBadgeTemplate}" />
+                    <ContentPresenter Content="{Binding Series.Title, TargetNullValue=Series Title}" />
+                </StackPanel>
+            </DataTemplate>
+            <SolidColorBrush x:Key="CrosshairToolTipBackground" Color="#FFDAD8D8"/>
+            <SolidColorBrush x:Key="CrosshairToolTipStroke" Color="#FFB9B9B9"/>
+            <!--  Crosshair TooltipItem Template  -->
+            <DataTemplate x:Key="CrosshairTooltipItemTemplate">
+                <StackPanel Orientation="Vertical">
+                    <ContentPresenter Content="{Binding ItemContext}" ContentTemplate="{Binding Series.LegendItemBadgeTemplate}" />
+                    <ContentPresenter Content="{Binding SubContent}" />
+                </StackPanel>
+            </DataTemplate>
+
+            <Style TargetType="{x:Type ig:Legend}">
+                <Setter Property="Background" Value="{StaticResource LegendBackgroundBrush}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource LegendBorderBrush}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+                <Setter Property="FontWeight" Value="{StaticResource FontSemiBold}"/>
+            </Style>
+            
+        </ResourceDictionary>
+
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" MinHeight="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ========================================================================== -->
+        <ig:XamDataChart x:Name="DataChart" Grid.Row="1"
+                         Legend="{Binding ElementName=theLegend}"
+                         IsDragCrosshairEnabled="True"
+                         CrosshairVisibility="Visible"
+                         OverviewPlusDetailPaneVisibility="Visible"
+                         IsVerticalZoomEnabled="True"
+                         IsHorizontalZoomEnabled="True">
+            <ig:XamDataChart.Axes>
+                <ig:CategoryXAxis x:Name="xAxis" Label="{}{Label}" ItemsSource="{StaticResource data1}">
+                </ig:CategoryXAxis>
+                <ig:NumericYAxis x:Name="yAxis">
+                </ig:NumericYAxis>
+            </ig:XamDataChart.Axes>
+            <ig:XamDataChart.Series>
+                <ig:LineSeries x:Name="line1" 
+                               Title="{Binding XWDC_DataModel_CompanyFinanceCategory_Marketing, Source={StaticResource Strings}}"
+                               MarkerType="None" Thickness="3"
+                               ItemsSource="{StaticResource data1}"
+                               XAxis="{Binding ElementName=xAxis}"
+                               YAxis="{Binding ElementName=yAxis}"
+                               ValueMemberPath="Value" >
+                    <ig:LineSeries.ToolTip>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="{Binding Series.Title}" FontWeight="Bold" />
+                            <TextBlock Text="{Binding Item.Value, StringFormat=0.0}" Foreground="{StaticResource ForegroundBrush}"/>
+                        </StackPanel>
+                    </ig:LineSeries.ToolTip>
+                </ig:LineSeries>
+                <ig:LineSeries x:Name="line2" 
+                               Title="{Binding XWDC_DataModel_CompanyFinanceCategory_Development, Source={StaticResource Strings}}"
+                               MarkerType="None" Thickness="3"
+                               ItemsSource="{StaticResource data2}"
+                               XAxis="{Binding ElementName=xAxis}"
+                               YAxis="{Binding ElementName=yAxis}"
+                               ValueMemberPath="Value"  >
+                     <ig:LineSeries.ToolTip>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="{Binding Series.Title}" FontWeight="Bold" />
+                            <TextBlock Text="{Binding Item.Value, StringFormat=0.0}" Foreground="{StaticResource ForegroundBrush}"/>
+                        </StackPanel>
+                    </ig:LineSeries.ToolTip>
+                </ig:LineSeries>
+                <ig:LineSeries x:Name="line3" 
+                               Title="{Binding XWDC_DataModel_CompanyFinanceCategory_CustomerSupport, Source={StaticResource Strings}}"
+                               MarkerType="None" Thickness="3"
+                               ItemsSource="{StaticResource data3}"
+                               XAxis="{Binding ElementName=xAxis}"
+                               YAxis="{Binding ElementName=yAxis}"
+                               ValueMemberPath="Value"  >
+                    <ig:LineSeries.ToolTip>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="{Binding Series.Title}" FontWeight="Bold" />
+                            <TextBlock Text="{Binding Item.Value, StringFormat=0.0}" Foreground="{StaticResource ForegroundBrush}"/>
+                        </StackPanel>
+                    </ig:LineSeries.ToolTip>
+                </ig:LineSeries>
+
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+        <!-- ========================================================================== -->
+        <!-- #END SNIPPET# -->
+        <Border Margin="20" VerticalAlignment="Top" Grid.Row="1"
+                HorizontalAlignment="Right" Visibility="Collapsed">
+            <ig:Legend x:Name="theLegend" Margin="0"
+                       Padding="5"
+                       Content="{Binding XWDC_DataModel_CompanyFinance_Spending, Source={StaticResource Strings}}"
+                       HorizontalAlignment="Stretch"
+                       VerticalAlignment="Stretch">
+            </ig:Legend>
+        </Border>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Stretch">
+            <CheckBox x:Name="ShowCrosshairLinesCheckBox" 
+                  Click="ShowCrosshairLinesCheckBox_Click"
+                  IsChecked="True"  Margin="{StaticResource OptionsElementsMargin}" 
+                  Content="{Binding Path=ChartStrings.XWGM_MultiTouch_ShowCrosshairLines, Source={StaticResource AssetsLocalizer}}" >
+            </CheckBox>
+            <CheckBox x:Name="ShowCrosshairTootlipsOnDragCheckBox" 
+                  Click="ShowCrosshairTootlipsOnDragCheckBox_Click"
+                  IsChecked="True" 
+                  Content="{Binding Path=ChartStrings.XWGM_MultiTouch_ShowCrosshairTooltips, Source={StaticResource AssetsLocalizer}}" >
+            </CheckBox>
+        </StackPanel>
+    </Grid>
+
+</igFramework:SampleContainer>

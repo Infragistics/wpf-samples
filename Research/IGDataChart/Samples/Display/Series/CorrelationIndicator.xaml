@@ -1,0 +1,202 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Display.Series.CorrelationIndicator"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="CorrelationIndicator Page"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:local="clr-namespace:IGDataChart.Samples.Display.Series" 
+      xmlns:resources="clr-namespace:IGDataChart.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <resources:DataChartStrings x:Key="Strings" />
+            <ig:AxisLabelSettings x:Key="XAxisLabelSettings" Location="OutsideBottom" Visibility="Collapsed" Extent="30" />
+            <ig:AxisLabelSettings x:Key="YAxisLabelSettings" Location="OutsideLeft" Visibility="Collapsed" Extent="50" />
+
+            <ig:StringFormatConverter x:Key="StringFormatConverter" />
+
+            <local:CorrelationDataSample x:Key="RandomData">
+                <local:CorrelationDataSample.Settings>
+                    <local:CorrelationDataSettings DataDistribution="Random" DataPoints="150" />
+                </local:CorrelationDataSample.Settings>
+            </local:CorrelationDataSample>
+
+            <local:CorrelationDataSample x:Key="DecreasingData">
+                <local:CorrelationDataSample.Settings>
+                    <local:CorrelationDataSettings DataDistribution="RandomlyDecreasing"  />
+                </local:CorrelationDataSample.Settings>
+            </local:CorrelationDataSample>
+
+            <local:CorrelationDataSample x:Key="IncreasingData">
+                <local:CorrelationDataSample.Settings>
+                    <local:CorrelationDataSettings DataDistribution="RandomlyIncreasing" />
+                </local:CorrelationDataSample.Settings>
+            </local:CorrelationDataSample>
+
+            <local:CorrelationDataSample x:Key="LinearData">
+                <local:CorrelationDataSample.Settings>
+                    <local:CorrelationDataSettings DataDistribution="RandomlyIncreasing" YRange="10" />
+                </local:CorrelationDataSample.Settings>
+            </local:CorrelationDataSample>
+
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ========================================================================== -->
+            <ig:CorrelationCalculator x:Key="CorrelationCalculator1"
+                                      XMemberPath="X" YMemberPath="Y"
+                                      ItemsSource="{StaticResource RandomData}">
+            </ig:CorrelationCalculator>
+            <ig:CorrelationCalculator x:Key="CorrelationCalculator2"
+                                      XMemberPath="X" YMemberPath="Y"
+                                      ItemsSource="{StaticResource DecreasingData}">
+            </ig:CorrelationCalculator>
+            <ig:CorrelationCalculator x:Key="CorrelationCalculator3"
+                                      XMemberPath="X" YMemberPath="Y"
+                                      ItemsSource="{StaticResource IncreasingData}">
+            </ig:CorrelationCalculator>
+            <ig:CorrelationCalculator x:Key="CorrelationCalculator4"
+                                      XMemberPath="X" YMemberPath="Y"
+                                      ItemsSource="{StaticResource LinearData}">
+            </ig:CorrelationCalculator>
+
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+            <Style TargetType="{x:Type ig:Legend}">
+                <Setter Property="Background" Value="{StaticResource LegendBackgroundBrush}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource LegendBorderBrush}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+            </Style>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Grid.Column="0">
+            <ig:XamDataChart Visibility="Visible" PlotAreaBorderBrush="Transparent"
+                             IsHorizontalZoomEnabled="False" HorizontalZoombarVisibility="Collapsed"
+                             IsVerticalZoomEnabled="False" VerticalZoombarVisibility="Collapsed"
+                             Legend="{Binding ElementName=legend1}"
+                             Margin="5">
+                <ig:XamDataChart.Axes>
+                    <ig:NumericXAxis x:Name="xAxis1" LabelSettings="{StaticResource XAxisLabelSettings}" Interval="10" MinimumValue="0" MaximumValue="100" />
+                    <ig:NumericYAxis x:Name="yAxis1" LabelSettings="{StaticResource YAxisLabelSettings}" MinimumValue="0" MaximumValue="1000" />
+                </ig:XamDataChart.Axes>
+                <ig:XamDataChart.Series>
+                    <!-- #BEGIN SNIPPET# -->
+                    <!-- ========================================================================== -->
+                    <ig:ScatterSeries Title="{Binding Value, Source={StaticResource CorrelationCalculator1}, Converter={StaticResource StringFormatConverter}, ConverterParameter='0.00'}"
+                                      ItemsSource="{StaticResource RandomData}"
+                                      MarkerType="Circle"
+                                      XMemberPath="X" YMemberPath="Y"
+                                      XAxis="{Binding ElementName=xAxis1}"
+                                      YAxis="{Binding ElementName=yAxis1}">
+                    </ig:ScatterSeries>
+                    <!-- ========================================================================== -->
+                    <!-- #END SNIPPET# -->
+                </ig:XamDataChart.Series>
+            </ig:XamDataChart>
+            <ig:Legend Visibility="Visible" x:Name="legend1" Content="{Binding XWDC_CorrelationIndicator_DataCorrelation, Source={StaticResource Strings}}"
+                       VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,25,10,0"/>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="0">
+            <ig:XamDataChart Visibility="Visible" PlotAreaBorderBrush="Transparent"
+                             IsHorizontalZoomEnabled="False" HorizontalZoombarVisibility="Collapsed"
+                             IsVerticalZoomEnabled="False" VerticalZoombarVisibility="Collapsed"
+                             Legend="{Binding ElementName=legend2}"
+                             Margin="5">
+                <ig:XamDataChart.Axes>
+                    <ig:NumericXAxis x:Name="xAxis2" LabelSettings="{StaticResource XAxisLabelSettings}" Interval="10" MinimumValue="0" MaximumValue="100" />
+                    <ig:NumericYAxis x:Name="yAxis2" LabelSettings="{StaticResource YAxisLabelSettings}" MinimumValue="0" MaximumValue="1000" />
+                </ig:XamDataChart.Axes>
+                <ig:XamDataChart.Series>
+                    <!-- #BEGIN SNIPPET# -->
+                    <!-- ========================================================================== -->
+                    <ig:ScatterSeries Title="{Binding Value, Source={StaticResource CorrelationCalculator2}, Converter={StaticResource StringFormatConverter}, ConverterParameter='0.00'}"
+                                      ItemsSource="{StaticResource DecreasingData}"
+                                      MarkerType="Circle" MarkerBrush="{StaticResource ChartSeriesBrush8}" MarkerOutline="Transparent"
+                                      XMemberPath="X" YMemberPath="Y"
+                                      XAxis="{Binding ElementName=xAxis2}"
+                                      YAxis="{Binding ElementName=yAxis2}">
+                    </ig:ScatterSeries>
+                    <!-- ========================================================================== -->
+                    <!-- #END SNIPPET# -->
+
+                </ig:XamDataChart.Series>
+            </ig:XamDataChart>
+            <ig:Legend Visibility="Visible" x:Name="legend2" Content="{Binding XWDC_CorrelationIndicator_DataCorrelation, Source={StaticResource Strings}}"
+                       VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,25,10,0"/>
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="1">
+            <ig:XamDataChart Visibility="Visible" PlotAreaBorderBrush="Transparent"
+                             IsHorizontalZoomEnabled="False" HorizontalZoombarVisibility="Collapsed"
+                             IsVerticalZoomEnabled="False" VerticalZoombarVisibility="Collapsed"
+                             Legend="{Binding ElementName=legend3}"
+                             Margin="5">
+                <ig:XamDataChart.Axes>
+                    <ig:NumericXAxis x:Name="xAxis3" LabelSettings="{StaticResource XAxisLabelSettings}" Interval="10" MinimumValue="0" MaximumValue="100" />
+                    <ig:NumericYAxis x:Name="yAxis3" LabelSettings="{StaticResource YAxisLabelSettings}" MinimumValue="0" MaximumValue="1000" />
+                </ig:XamDataChart.Axes>
+                <ig:XamDataChart.Series>
+                    <!-- #BEGIN SNIPPET# -->
+                    <!-- ========================================================================== -->
+                    <ig:ScatterSeries Title="{Binding Value, Source={StaticResource CorrelationCalculator3}, Converter={StaticResource StringFormatConverter}, ConverterParameter='0.00'}"
+                                      ItemsSource="{StaticResource IncreasingData}"
+                                      MarkerType="Circle"
+                                      XMemberPath="X" YMemberPath="Y" MarkerBrush="{StaticResource ChartSeriesBrush5}" MarkerOutline="Transparent"
+                                      XAxis="{Binding ElementName=xAxis3}"
+                                      YAxis="{Binding ElementName=yAxis3}">
+                    </ig:ScatterSeries>
+                    <!-- ========================================================================== -->
+                    <!-- #END SNIPPET# -->
+
+                </ig:XamDataChart.Series>
+            </ig:XamDataChart>
+            <ig:Legend Visibility="Visible" x:Name="legend3" Content="{Binding XWDC_CorrelationIndicator_DataCorrelation, Source={StaticResource Strings}}"
+                       VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,25,10,0"/>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="1">
+            <ig:XamDataChart Visibility="Visible" PlotAreaBorderBrush="Transparent"
+                             IsHorizontalZoomEnabled="False" HorizontalZoombarVisibility="Collapsed"
+                             IsVerticalZoomEnabled="False" VerticalZoombarVisibility="Collapsed"
+                             Legend="{Binding ElementName=legend4}"
+                             Margin="5">
+                <ig:XamDataChart.Axes>
+                    <ig:NumericXAxis x:Name="xAxis4" LabelSettings="{StaticResource XAxisLabelSettings}" Interval="10" MinimumValue="0" MaximumValue="100" />
+                    <ig:NumericYAxis x:Name="yAxis4" LabelSettings="{StaticResource YAxisLabelSettings}" MinimumValue="0" MaximumValue="1000" />
+                </ig:XamDataChart.Axes>
+                <ig:XamDataChart.Series>
+                    <!-- #BEGIN SNIPPET# -->
+                    <!-- ========================================================================== -->
+                    <ig:ScatterSeries Title="{Binding Value, Source={StaticResource CorrelationCalculator4}, Converter={StaticResource StringFormatConverter}, ConverterParameter='0.00'}"
+                                      ItemsSource="{StaticResource LinearData}"
+                                      MarkerType="Circle" MarkerBrush="{StaticResource ChartSeriesBrush3}" MarkerOutline="Transparent"
+                                      XMemberPath="X" YMemberPath="Y"
+                                      XAxis="{Binding ElementName=xAxis4}"
+                                      YAxis="{Binding ElementName=yAxis4}">
+                    </ig:ScatterSeries>
+                    <!-- ========================================================================== -->
+                    <!-- #END SNIPPET# -->
+                </ig:XamDataChart.Series>
+            </ig:XamDataChart>
+            <ig:Legend Visibility="Visible" x:Name="legend4" Content="{Binding XWDC_CorrelationIndicator_DataCorrelation, Source={StaticResource Strings}}"
+                       VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,25,10,0"/>
+        </Grid>
+
+    </Grid>
+</igFramework:SampleContainer>

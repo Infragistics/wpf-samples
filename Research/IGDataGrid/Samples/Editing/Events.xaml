@@ -1,0 +1,206 @@
+﻿<igFramework:SampleContainer x:Class="IGDataGrid.Samples.Editing.Events"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="Events"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGDataGrid.Resources"
+      xmlns:System="clr-namespace:System;assembly=mscorlib">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataGrid;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DataGridStrings x:Key="Strings" />
+
+            <XmlDataProvider x:Key="QuarterbackData" />
+            <Style x:Key="GridSplitterPreviewStyle">
+                <Setter Property="Control.Template">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <Rectangle Fill="#80000000" />
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style TargetType="{x:Type GridSplitter}">
+                <Setter Property="Background"
+                        Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />
+                <Setter Property="PreviewStyle"
+                        Value="{StaticResource GridSplitterPreviewStyle}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type GridSplitter}">
+                            <Grid Width="Auto"
+                                  Height="Auto">
+                                <Rectangle Stroke="{x:Null}"
+                                           HorizontalAlignment="Stretch"
+                                           Width="Auto"
+                                           Fill="{DynamicResource trayBG2}"
+                                           Margin="0,0,0,0"
+                                           VerticalAlignment="Stretch" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="200" />
+        </Grid.RowDefinitions>
+        <Grid HorizontalAlignment="Stretch"
+              VerticalAlignment="Stretch"
+              Width="Auto"
+              Height="Auto"
+              Grid.Row="1">
+            <ListBox x:Name="lbEvents"
+                     Margin="0,40,0,0" />
+            <TextBlock FontSize="12"
+                       Style="{StaticResource SamplesTitleStyle}"
+                       HorizontalAlignment="Left"
+                       Margin="0,15,0,0"
+                       Text="{Binding Source={StaticResource Strings}, Path=EventsArea_Header}"
+                       VerticalAlignment="Top" />
+        </Grid>
+        <!-- #BEGIN SNIPPET# -->
+        <igDP:XamDataGrid Grid.Row="0"
+                          x:Name="XamDataGrid1"
+                          Theme="RoyalLight"
+                          DataSource="{Binding Source={StaticResource QuarterbackData}, XPath=season}"
+                          CellActivating="XamDataGrid1_CellActivating"
+                          CellActivated="XamDataGrid1_CellActivated"
+                          EditModeStarting="XamDataGrid1_EditModeStarting"
+                          EditModeStarted="XamDataGrid1_EditModeStarted"
+                          EditModeEnding="XamDataGrid1_EditModeEnding"
+                          EditModeEnded="XamDataGrid1_EditModeEnded"
+                          InitializeRecord="XamDataGrid1_InitializeRecord"
+                          RecordActivating="XamDataGrid1_RecordActivating"
+                          RecordActivated="XamDataGrid1_RecordActivated"
+                          RecordDeactivating="XamDataGrid1_RecordDeactivating"
+                          SelectedItemsChanging="XamDataGrid1_SelectedItemsChanging"
+                          SelectedItemsChanged="XamDataGrid1_SelectedItemsChanged">
+            <!-- #END SNIPPET# -->
+            <igDP:XamDataGrid.FieldLayouts>
+                <igDP:FieldLayout>
+                    <igDP:FieldLayout.Fields>
+                        <!--
+                        NOTE: Most of these fields have their EditAsType set because the data source is XML.
+                        The XamDataGrid treats XML data as strings unless you specify otherwise.
+                        -->
+                        <igDP:Field Name="year" Label="Year">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type System:Int32}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="team" Label="Team" />
+                        <igDP:Field Name="games" Label="Games">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type System:Int32}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="qbrate" Label="Rating">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type System:Double}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="comp" Label="Completions">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type System:Int32}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="att" Label="Attempts">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type System:Int32}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="pct" Label="Passing %">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type System:Double}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="passingyards" Label="Total Passing Yards">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type System:Int32}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="passingyardsperattempt" Label="Passing Yards/Attempt">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type System:Double}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="passingyardspergame" Label="Passing Yards/Game">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type System:Double}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="passingtd" Label="Passing Touchdowns">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type System:Int32}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="int" Label="Interceptions">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type System:Int32}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="rushs" Label="Rushes">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type System:Int32}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="rushyrds" Label="Rushing Yards">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type System:Int32}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="rushyardspergame" Label="Rushing Yard/Game">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type System:Double}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="rushavg" Label="Rushing Average">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type System:Double}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="rushtd" Label="Rushing Touchdowns">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type System:Int32}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="sack" Label="Sacks">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type System:Int32}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="yardslost" Label="Yards Lost">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type System:Int32}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="fum" Label="Fumbles"
+                                    Visibility="Collapsed" />
+                        <igDP:Field Name="fuml" Label="Fumbles Lost"
+                                    Visibility="Collapsed" />
+                    </igDP:FieldLayout.Fields>
+                </igDP:FieldLayout>
+            </igDP:XamDataGrid.FieldLayouts>
+        </igDP:XamDataGrid>
+        <GridSplitter HorizontalAlignment="Stretch"
+                      VerticalAlignment="Top"
+                      Width="Auto"
+                      Height="7"
+                      Background="#FFC19BE8"
+                      Grid.Row="1"
+                      ResizeDirection="Rows"
+                      d:IsHidden="True" />
+    </Grid>
+</igFramework:SampleContainer>

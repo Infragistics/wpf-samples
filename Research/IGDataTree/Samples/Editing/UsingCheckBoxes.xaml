@@ -1,0 +1,83 @@
+﻿<framework:SampleContainer x:Class="IGDataTree.Samples.Editing.UsingCheckBoxes"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="UsingCheckBoxes"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGDataTree.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataTree;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:DataTreeStrings x:Key="DataTreeStrings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid>
+        <ig:XamDataTree x:Name="MyTree">
+            <!-- #BEGIN SNIPPET# -->
+            <ig:XamDataTree.CheckBoxSettings>
+                <ig:CheckBoxSettings
+                    CheckBoxVisibility="Visible"
+                    CheckBoxMode="Manual"
+                    IsCheckBoxThreeState="True"/>
+            </ig:XamDataTree.CheckBoxSettings>
+            <!-- #END SNIPPET# -->
+            <ig:XamDataTree.GlobalNodeLayouts>
+                <ig:NodeLayout Key="ChapterLayout"
+                               TargetTypeName="Book"
+                               DisplayMemberPath="Title">
+                    <ig:NodeLayout.ExpandedIconTemplate>
+                        <DataTemplate>
+                            <Image Source="/IGDataTree;component/Images/PageIcon.png" />
+                        </DataTemplate>
+                    </ig:NodeLayout.ExpandedIconTemplate>
+                    <ig:NodeLayout.CollapsedIconTemplate>
+                        <DataTemplate>
+                            <Image Source="/IGDataTree;component/Images/BookIcon.png" />
+                        </DataTemplate>
+                    </ig:NodeLayout.CollapsedIconTemplate>
+                </ig:NodeLayout>
+                <ig:NodeLayout Key="TitleLayout"
+                               TargetTypeName="Chapter"
+                               DisplayMemberPath="Title">
+                    <ig:NodeLayout.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/IGDataTree;component/Images/PageIcon.png" />
+                                <TextBlock Text="{Binding Data.Title}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ig:NodeLayout.ItemTemplate>
+                </ig:NodeLayout>
+            </ig:XamDataTree.GlobalNodeLayouts>
+        </ig:XamDataTree>
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource CommonStrings}, Path=ConfigurationPanel_Header_Options}"
+                               HorizontalAlignment="Right" VerticalAlignment="Top"
+                               Margin="50" MinWidth="150">
+            <TextBlock Text="{Binding XDT_UsingCheckBoxes, Source={StaticResource DataTreeStrings}}"
+                       Margin="{StaticResource OptionsElementsMargin}"/>
+            <controls:EnumValuesProvider x:Name="cbEnableCheckBox"
+                                         EnumType="Visibility"
+                                         DisplayTemplate="ComboBox"
+                                         Value="{Binding ElementName=MyTree, Path=CheckBoxSettings.CheckBoxVisibility, Mode=TwoWay}"
+                                         Height="25" Margin="{StaticResource OptionsElementsMargin}"/>
+            <controls:EnumValuesProvider x:Name="lbCheckBoxMode"
+                                         EnumType="ig:TreeCheckBoxMode"
+                                         DisplayTemplate="RadioButtonList"
+                                         Value="{Binding ElementName=MyTree, Path=CheckBoxSettings.CheckBoxMode, Mode=TwoWay}"/>
+            <CheckBox x:Name="EnableCheckBoxTriState"
+                      IsEnabled="True"
+                      IsChecked="{Binding CheckBoxSettings.IsCheckBoxThreeState, ElementName=MyTree, Mode=TwoWay}" 
+                      Content="{Binding Source={StaticResource DataTreeStrings}, Path=XDT_CheckBoxes_EnableTristate}"/>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

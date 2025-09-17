@@ -1,0 +1,68 @@
+﻿<igFramework:SampleContainer x:Class="IGTreemap.Samples.TreemapResourceStrings" 
+                             xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"  
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+                             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                             mc:Ignorable="d" 
+                             xmlns:ig="http://schemas.infragistics.com/xaml" 
+                             xmlns:resources="clr-namespace:IGTreemap.Resources" 
+                             xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared">
+	<igFramework:SampleContainer.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+                
+                <ResourceDictionary Source="/IGTreemap;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/IGTreemap;component/Assets/TreemapStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+			<resources:TreemapStrings x:Key="Strings" />
+			<models:WorldDataModel x:Key="WorldDataModel" />
+		</ResourceDictionary>
+	</igFramework:SampleContainer.Resources>
+	<Grid x:Name="LayoutRoot" Width="Auto">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<ToggleButton Checked="ToggleButton_Checked" Unchecked="ToggleButton_Unchecked"
+                      Content="{Binding XWT_Toggle_Error_Message, Source={StaticResource Strings}}" 
+                      HorizontalAlignment="Center" Margin="0,0,0,5"  Style="{StaticResource IGToggleButtonStyle}" />
+		<Border Grid.Row="1"  BorderThickness="1"
+                BorderBrush="{StaticResource TreemapContainerStroke}"
+                Background="{StaticResource TreemapContainerFill}">
+			<!-- #BEGIN SNIPPET# -->
+			<ig:XamTreemap x:Name="treemap" DataContext="{StaticResource WorldDataModel}" 
+                           ItemsSource="{Binding CountryDataRecords}" Margin="3">
+             <ig:XamTreemap.ToolTipStyle>
+                <Style TargetType="ToolTip" BasedOn="{StaticResource ToolTipStyle}"/>
+            </ig:XamTreemap.ToolTipStyle>
+
+				<ig:XamTreemap.DefaultStyle>
+					<Style TargetType="ig:TreemapNode">
+						<Setter Property="Padding" Value="0" />
+						<Setter Property="Template">
+							<Setter.Value>
+								<ControlTemplate TargetType="ig:TreemapNode">
+									<ig:NodesPanel x:Name="NodesPanel" />
+								</ControlTemplate>
+							</Setter.Value>
+						</Setter>
+					</Style>
+				</ig:XamTreemap.DefaultStyle>
+
+				<ig:XamTreemap.NodeBinders>
+                    <ig:NodeBinder TargetTypeName="CountryDataModel" ValuePath="PublicDebt" 
+                                   TextPath="CountryCode" NodeStyle="{StaticResource TreemapNodeStyle}" 
+                                   ToolTipContentTemplate="{StaticResource ToolTipDataTemplate}"/>
+				</ig:XamTreemap.NodeBinders>
+
+				<ig:XamTreemap.ValueMappers>
+					<ig:ColorMapper TargetProperty="Fill" ValuePath="PublicDebt" 
+                                    From="#FF3AB5E9" To="#FF185170" />
+				</ig:XamTreemap.ValueMappers>
+			</ig:XamTreemap>
+		    <!-- #END SNIPPET# -->
+		</Border>
+        
+	</Grid>
+</igFramework:SampleContainer>

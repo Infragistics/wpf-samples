@@ -1,0 +1,155 @@
+﻿<framework:SampleContainer x:Class="IGComboEditor.Samples.Display.ReadOnlyAndAutoCompleteCombo"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="ReadOnlyAndAutoCompleteCombo"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGComboEditor.Resources" 
+      xmlns:data="clr-namespace:IGComboEditor.Samples.Data">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGComboEditor;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:ComboEditorStrings x:Key="ComboStrings" />
+            <SolidColorBrush x:Key="TextBlockForegroundBrush" Color="#FF666666"/>
+            <Style x:Key="HeaderStyleBold" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="11"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+            </Style>
+            <Style x:Key="HeaderStyle" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="11"/>
+            </Style>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <framework:SampleContainer.DataContext>
+        <data:CustomersDataSource />
+    </framework:SampleContainer.DataContext>
+
+    <Grid x:Name="LayoutRoot">
+        <ScrollViewer BorderBrush="{x:Null}" x:Name="scroll" VerticalScrollBarVisibility="Auto">
+            <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                
+                <TextBlock Text="{Binding CE_Standard_ReadOnlyComboTxt, Source={StaticResource ComboStrings}}"
+                           Margin="10"
+                           Foreground="{StaticResource TextBlockForegroundBrush}"
+                           VerticalAlignment="Center" Grid.Row="0" Grid.ColumnSpan="2"
+                           TextWrapping="Wrap" Style="{StaticResource HeaderStyleBold}" />
+                <TextBlock Text="{Binding CE_Standard_ReadOnlyCombo, Source={StaticResource ComboStrings}}"
+                           Foreground="{StaticResource TextBlockForegroundBrush}"
+                           Style="{StaticResource HeaderStyle}"
+                           Grid.Row="1" Grid.Column="0" Margin="10" VerticalAlignment="Center" />
+                <!-- #BEGIN SNIPPET# -->
+                <!-- Standard Readonly Combobox -->
+                <ig:XamComboEditor x:Name="readOnlyCombo"
+                                   IsEditable="False" ItemsSource="{Binding Path=Customers}"
+                                   EmptyText="{Binding CE_SelectCompany, Source={StaticResource ComboStrings}}"
+                                   DisplayMemberPath="Company"  Width="300" Margin="10"
+                                   VerticalAlignment="Center" HorizontalAlignment="Left"
+                                   Grid.Row="1" Grid.Column="1"/>
+                <!-- #END SNIPPET# -->
+                <TextBlock Text="{Binding CE_Standard_GoogleStyleFullListTxt, Source={StaticResource ComboStrings}}"
+                           Margin="10"
+                           Foreground="{StaticResource TextBlockForegroundBrush}"
+                           VerticalAlignment="Center" Grid.Row="2" Grid.ColumnSpan="2"
+                           TextWrapping="Wrap" Style="{StaticResource HeaderStyleBold}"/>
+                <TextBlock Grid.Row="3" Grid.Column="0"
+                           Text="{Binding CE_Standard_GoogleStyleFullList, Source={StaticResource ComboStrings}}"
+                           Foreground="{StaticResource TextBlockForegroundBrush}"
+                           Style="{StaticResource HeaderStyle}"
+                           VerticalAlignment="Center" Margin="10" />
+                <!-- #BEGIN SNIPPET# -->
+                <!-- Google Suggest Style - full items list -->
+                <ig:XamComboEditor x:Name="googleStyleComboFullList"
+                                   IsEditable="True" AllowFiltering="False" ItemsSource="{Binding Path=Customers}"
+                                   DisplayMemberPath="ContactName"
+                                   EmptyText="{Binding CE_SelectContactName, Source={StaticResource ComboStrings}}"
+                                   Width="300" Margin="10"
+                                   VerticalAlignment="Center" HorizontalAlignment="Left"
+                                   Grid.Row="3" Grid.Column="1"/>
+                <!-- #END SNIPPET# -->
+                <TextBlock Text="{Binding CE_Standard_GoogleStyleFilteredTxt, Source={StaticResource ComboStrings}}"
+                           Margin="10,10,10,10"
+                           Foreground="{StaticResource TextBlockForegroundBrush}"
+                           VerticalAlignment="Center" Grid.Row="4" Grid.ColumnSpan="2"
+                           TextWrapping="Wrap" Style="{StaticResource HeaderStyleBold}" />
+                <TextBlock Grid.Row="5" Grid.Column="0"
+                           Text="{Binding CE_Standard_GoogleStyleFiltered, Source={StaticResource ComboStrings}}"
+                           Foreground="{StaticResource TextBlockForegroundBrush}"
+                           Style="{StaticResource HeaderStyle}"
+                           VerticalAlignment="Center" Margin="10" />
+                <!-- #BEGIN SNIPPET# -->
+                <!-- Google Suggest Style - filtered items list -->
+                <ig:XamComboEditor x:Name="googleStyleComboFiltered" Grid.Row="5" Grid.Column="1"
+                                   IsEditable="True" AllowFiltering="True" ItemsSource="{Binding Path=Customers}"
+                                   DisplayMemberPath="AddressOne"
+                                   EmptyText="{Binding CE_SelectAddress, Source={StaticResource ComboStrings}}"
+                                   Width="300" Margin="10"
+                                   VerticalAlignment="Center" HorizontalAlignment="Left" />
+                <!-- #END SNIPPET# -->
+                <TextBlock Text="{Binding CE_Standard_AutoCompleteTxt, Source={StaticResource ComboStrings}}"
+                           Margin="10,10,10,10"
+                           Foreground="{StaticResource TextBlockForegroundBrush}"
+                           VerticalAlignment="Center" Grid.Row="6" Grid.ColumnSpan="2"
+                           TextWrapping="Wrap" Style="{StaticResource HeaderStyleBold}" />
+                <TextBlock Grid.Row="7" Grid.Column="0"
+                           Text="{Binding CE_Standard_AutoComplete, Source={StaticResource ComboStrings}}"
+                           Foreground="{StaticResource TextBlockForegroundBrush}"
+                           Style="{StaticResource HeaderStyle}"
+                           VerticalAlignment="Center" Margin="10" />
+                <!-- #BEGIN SNIPPET# -->
+                <!-- Autocomplete Style -->
+                <ig:XamComboEditor x:Name="autoCompleteCombo"
+                                   IsEditable="True" AllowFiltering="True" AutoComplete="True"
+                                   ItemsSource="{Binding Path=Customers}" DisplayMemberPath="City"
+                                   EmptyText="{Binding CE_SelectCity, Source={StaticResource ComboStrings}}"
+                                   Width="300" Margin="10"
+                                   VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="7" Grid.Column="1" />
+                <!-- #END SNIPPET# -->
+                <TextBlock Text="{Binding CE_Standard_NoPopupTxt, Source={StaticResource ComboStrings}}"
+                           Margin="10"
+                           Foreground="{StaticResource TextBlockForegroundBrush}"
+                           VerticalAlignment="Center" Grid.Row="8" Grid.ColumnSpan="2"
+                           TextWrapping="Wrap" Style="{StaticResource HeaderStyleBold}"/>
+                <TextBlock Grid.Row="9" Grid.Column="0"
+                           Text="{Binding CE_Standard_NoPopup, Source={StaticResource ComboStrings}}"
+                           Foreground="{StaticResource TextBlockForegroundBrush}"
+                           Style="{StaticResource HeaderStyle}"
+                           VerticalAlignment="Center" Margin="10" />
+                <!-- #BEGIN SNIPPET# -->
+                <!-- Autocomplete Style - No Popup -->
+                <ig:XamComboEditor x:Name="autoCompleteNoPopup" Grid.Row="9" Grid.Column="1"
+                                   IsEditable="True" AllowFiltering="True" AutoComplete="True"
+                                   DisplayMemberPath="Country"
+                                   OpenDropDownOnTyping="False" ItemsSource="{Binding Path=Customers}"
+                                   EmptyText="{Binding CE_SelectCountry, Source={StaticResource ComboStrings}}"
+                                   Width="300" Margin="10"
+                                   VerticalAlignment="Center" HorizontalAlignment="Left" />
+                <!-- #END SNIPPET# -->
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</framework:SampleContainer>

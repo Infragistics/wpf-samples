@@ -1,0 +1,307 @@
+﻿<igFramework:SampleContainer x:Class="IGDataGrid.Samples.Style.ExcelExportStyling"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="ExcelExportStyling"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:igExcelExporter="http://infragistics.com/ExcelExporter"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:igWindows="http://infragistics.com/Windows"
+      xmlns:res="clr-namespace:IGDataGrid.Resources"
+      xmlns:System="clr-namespace:System;assembly=mscorlib">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataGrid;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DataGridStrings x:Key="Strings" />
+
+            <igExcelExporter:DataPresenterExcelExporter x:Key="Exporter" />
+            <ObjectDataProvider x:Key="odpChildRecordCollectionSpacing"
+                                MethodName="GetValues"
+                                ObjectType="{x:Type System:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="igExcelExporter:ChildRecordCollectionSpacing" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+            <ObjectDataProvider x:Key="odpFileLimitBehaviour"
+                                MethodName="GetValues"
+                                ObjectType="{x:Type System:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="igExcelExporter:FileLimitBehaviour" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <igDP:XamDataGrid Theme="RoyalLight"
+                          x:Name="XamDataGrid1"
+                          Grid.Row="1">
+            <!-- #BEGIN SNIPPET# -->
+            <igDP:XamDataGrid.FieldSettings>
+                <!-- Enable summaries on the XamDataGrid -->
+                <igDP:FieldSettings AllowSummaries="true"
+                                    SummaryUIType="MultiSelect"
+                                    SummaryDisplayArea="BottomFixed">
+                    <!-- Set the format of the exported CELLS here on XamDataGrid.FieldSettings
+                    which will apply to all the exported CELLS.  We will override this
+                    for the OrderID CELLS below -->
+                    <igExcelExporter:DataPresenterExcelExporter.ExcelCellFormatSettings>
+                        <igExcelExporter:FormatSettings BorderColor="Blue"
+                                                        BorderStyle="Thin"
+                                                        BottomBorderColor="#FF999999"
+                                                        BottomBorderStyle="Thin"
+                                                        FillPattern="Solid"
+                                                        FillPatternBackgroundColor="#FFDBEEF3"
+                                                        FillPatternForegroundColor="#FFDBEEF3"
+                                                        FontColor="Gray"
+                                                        FontFamily="Arial"
+                                                        FontStrikeout="False"
+                                                        FontStyle="Normal"
+                                                        FontWeight="Normal"
+                                                        FormatString=""
+                                                        Indent="0"
+                                                        LeftBorderColor="#FF999999"
+                                                        LeftBorderStyle="Thin"
+                                                        Locked="True"
+                                                        RightBorderColor="#FF999999"
+                                                        RightBorderStyle="Thin"
+                                                        Rotation="0"
+                                                        ShrinkToFit="False"
+                                                        TopBorderColor="#FF999999"
+                                                        TopBorderStyle="Thin"
+                                                        WrapText="True">
+
+                            <!-- The FontSize will default to using DeviceIndependentUnits, so specify that
+                            the should be measured in Points so that the number we specify here is the number
+                            that will appear in the exported worksheet -->
+                            <igExcelExporter:FormatSettings.FontSize>
+                                <igWindows:DeviceUnitLength Value="12"
+                                                            UnitType="Point" />
+                            </igExcelExporter:FormatSettings.FontSize>
+                        </igExcelExporter:FormatSettings>
+                    </igExcelExporter:DataPresenterExcelExporter.ExcelCellFormatSettings>
+
+                    <!-- Set the format of the exported FIELD LABELS here on XamDataGrid.FieldSettings
+                    which will apply to all the exported FIELD LABELS.  We will override this
+                    for the OrderID FIELD LABELS below -->
+                    <igExcelExporter:DataPresenterExcelExporter.ExcelLabelFormatSettings>
+                        <igExcelExporter:FormatSettings BorderColor="#FF999999"
+                                                        BorderStyle="Thin"
+                                                        FillPattern="Solid"
+                                                        FillPatternBackgroundColor="#FF8064A2"
+                                                        FillPatternForegroundColor="#FFB2A1C7"
+                                                        FontColor="White"
+                                                        FontFamily="Arial"
+                                                        FontWeight="Bold"
+                                                        HorizontalAlignment="Right">
+
+                            <!-- The FontSize will default to using DeviceIndependentUnits, so specify that
+                            the should be measured in Points so that the number we specify here is the number
+                            that will appear in the exported worksheet -->
+                            <igExcelExporter:FormatSettings.FontSize>
+                                <igWindows:DeviceUnitLength Value="12"
+                                                            UnitType="Point" />
+                            </igExcelExporter:FormatSettings.FontSize>
+                        </igExcelExporter:FormatSettings>
+                    </igExcelExporter:DataPresenterExcelExporter.ExcelLabelFormatSettings>
+
+                    <igExcelExporter:DataPresenterExcelExporter.ExcelSummaryCellFormatSettings>
+                        <igExcelExporter:FormatSettings FontColor="White"
+                                                        BorderStyle="Double"
+                                                        FillPattern="Solid"
+                                                        FontWeight="Bold"
+                                                        FillPatternBackgroundColor="Orange"
+                                                        FillPatternForegroundColor="Orange">
+                            <!-- The FontSize will default to using DeviceIndependentUnits, so specify that
+                            the should be measured in Points so that the number we specify here is the number
+                            that will appear in the exported worksheet -->
+                            <igExcelExporter:FormatSettings.FontSize>
+                                <igWindows:DeviceUnitLength Value="15"
+                                                            UnitType="Point" />
+                            </igExcelExporter:FormatSettings.FontSize>
+                        </igExcelExporter:FormatSettings>
+                    </igExcelExporter:DataPresenterExcelExporter.ExcelSummaryCellFormatSettings>
+
+                </igDP:FieldSettings>
+            </igDP:XamDataGrid.FieldSettings>
+            <!-- #END SNIPPET# -->
+            <igDP:XamDataGrid.FieldLayouts>
+                <igDP:FieldLayout Key="Order Details"
+                                  KeyMatchingEnforced="True">
+                    <!-- Enable the Filter Record in the 'OnTop' location -->
+                    <igDP:FieldLayout.Settings>
+                        <igDP:FieldLayoutSettings FilterUIType="FilterRecord"
+                                                  FilterRecordLocation="OnTopFixed" />
+                    </igDP:FieldLayout.Settings>
+
+                    <!-- Setup some summary calculations. -->
+                    <igDP:FieldLayout.SummaryDefinitions>
+                        <igDP:SummaryDefinition Key="qty"
+                                                SourceFieldName="Quantity"
+                                                Calculator="Count" />
+                        <igDP:SummaryDefinition Key="price"
+                                                SourceFieldName="UnitPrice"
+                                                Calculator="Average" />
+                    </igDP:FieldLayout.SummaryDefinitions>
+
+                    <!-- Setup a GroupBy field. -->
+                    <igDP:FieldLayout.SortedFields>
+                        <igDP:FieldSortDescription FieldName="OrderID"
+                                                   Direction="Ascending"
+                                                   IsGroupBy="True" />
+                    </igDP:FieldLayout.SortedFields>
+                    <!-- Override the format settings specified above on on XamDataGrid.FieldSettings
+                    for the exported 'OrderID' CELLS. -->
+                    <igDP:Field Name="OrderID">
+                        <igDP:Field.Settings>
+                            <igDP:FieldSettings>
+                                <igExcelExporter:DataPresenterExcelExporter.ExcelCellFormatSettings>
+                                    <igExcelExporter:FormatSettings BorderColor="#FF999999"
+                                                                    FontColor="Gray"
+                                                                    FontWeight="Bold"
+                                                                    FontFamily="Arial"
+                                                                    FillPattern="Solid"
+                                                                    FillPatternBackgroundColor="#FFDBEEF3"
+                                                                    FillPatternForegroundColor="#FFDBEEF3"
+                                                                    HorizontalAlignment="Right">
+
+                                        <!-- The FontSize will default to using DeviceIndependentUnits, so specify that
+                                        the should be measured in Points so that the number we specify here is the number
+                                        that will appear in the exported worksheet -->
+                                        <igExcelExporter:FormatSettings.FontSize>
+                                            <igWindows:DeviceUnitLength Value="12"
+                                                                        UnitType="Point" />
+                                        </igExcelExporter:FormatSettings.FontSize>
+                                    </igExcelExporter:FormatSettings>
+                                </igExcelExporter:DataPresenterExcelExporter.ExcelCellFormatSettings>
+
+                                <!-- Overide the format settings specified above on XamDataGrid.FieldSettings
+                                for the exported OrderID FIELD LABELS below -->
+                                <igExcelExporter:DataPresenterExcelExporter.ExcelLabelFormatSettings>
+                                    <igExcelExporter:FormatSettings BorderColor="#FF999999"
+                                                                    BorderStyle="Thin"
+                                                                    FillPattern="Solid"
+                                                                    FillPatternBackgroundColor="#FF8064A2"
+                                                                    FillPatternForegroundColor="#FF8064A2"
+                                                                    FontColor="White"
+                                                                    FontFamily="Arial"
+                                                                    FontWeight="Bold">
+
+                                        <!-- The FontSize will default to using DeviceIndependentUnits, so specify that
+                                        the should be measured in Points so that the number we specify here is the number
+                                        that will appear in the exported worksheet -->
+                                        <igExcelExporter:FormatSettings.FontSize>
+                                            <igWindows:DeviceUnitLength Value="12"
+                                                                        UnitType="Point" />
+                                        </igExcelExporter:FormatSettings.FontSize>
+                                    </igExcelExporter:FormatSettings>
+                                </igExcelExporter:DataPresenterExcelExporter.ExcelLabelFormatSettings>
+                            </igDP:FieldSettings>
+                        </igDP:Field.Settings>
+                    </igDP:Field>
+                </igDP:FieldLayout>
+            </igDP:XamDataGrid.FieldLayouts>
+        </igDP:XamDataGrid>
+
+        <controls:OptionsPanel  HeaderText="{Binding ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}"
+                                IsMovable="False" Margin="{StaticResource GridsSamplesBottomPadding}">
+            <UniformGrid Rows="6"
+                         Columns="2">
+                <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}">
+                    <Label Content="{Binding Options_ChildRecordCollectionSpacing, Source={StaticResource Strings}}" 
+                           Style="{StaticResource LabelStyle}"
+                           VerticalAlignment="Center" FontWeight="{StaticResource FontSemiBold}" Margin="{StaticResource OptionsTextRightMargin}"/>
+                    <ComboBox	x:Name="cboChildRecordCollectionSpacing"
+                                SelectedItem="{Binding ChildRecordCollectionSpacing}"
+                                ItemsSource="{Binding Source={StaticResource odpChildRecordCollectionSpacing}}"
+                                Width="100"
+                                Height="23" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}">
+                    <Label Content="{Binding Options_FileLimitBehaviour, Source={StaticResource Strings}}"
+                           Style="{StaticResource LabelStyle}"
+                           VerticalAlignment="Center" FontWeight="{StaticResource FontSemiBold}" Margin="{StaticResource OptionsTextRightMargin}"/>
+                    <ComboBox	x:Name="cboFileLimitBehaviour"
+                                SelectedItem="{Binding FileLimitBehaviour}"
+                                ItemsSource="{Binding Source={StaticResource odpFileLimitBehaviour}}"
+                                Width="120"
+                                Height="23" />
+                </StackPanel>
+                <CheckBox	x:Name="chkExcludeExpandedState"
+                            Content="{Binding Options_ExcludeExpandedState, Source={StaticResource Strings}}"
+                            IsChecked="{Binding ExcludeExpandedState}"
+                            VerticalContentAlignment="Center"
+                            VerticalAlignment="Center" />
+                <CheckBox	x:Name="chkExcludeFieldLayoutSettings"
+                            Content="{Binding Options_ExcludeFieldLayoutSettings, Source={StaticResource Strings}}"
+                            IsChecked="{Binding ExcludeFieldLayoutSettings}"
+                            VerticalContentAlignment="Center"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left" />
+                <CheckBox	x:Name="chkExcludeFieldSettings"
+                            Content="{Binding Options_ExcludeFieldSettings, Source={StaticResource Strings}}"
+                            IsChecked="{Binding ExcludeFieldSettings}"
+                            VerticalContentAlignment="Center"
+                            VerticalAlignment="Center"/>
+                <CheckBox	x:Name="chkExcludeGroupBySettings"
+                            Content="{Binding Options_ExcludeGroupBySettings, Source={StaticResource Strings}}"
+                            IsChecked="{Binding ExcludeGroupBySettings}"
+                            VerticalContentAlignment="Center"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left" />
+                <CheckBox	x:Name="chkExcludeRecordFilters"
+                            Content="{Binding Options_ExcludeRecordFilters, Source={StaticResource Strings}}"
+                            IsChecked="{Binding ExcludeRecordFilters}"
+                            VerticalContentAlignment="Center"
+                            VerticalAlignment="Center"/>
+                <CheckBox	x:Name="chkExcludeRecordVisibility"
+                            Content="{Binding Options_ExcludeRecordVisibility, Source={StaticResource Strings}}"
+                            IsChecked="{Binding ExcludeRecordVisibility}"
+                            VerticalContentAlignment="Center"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left" />
+                <CheckBox	x:Name="chkExcludeSortOrder"
+                            Content="{Binding Options_ExcludeSortOrder, Source={StaticResource Strings}}"
+                            IsChecked="{Binding ExcludeSortOrder}"
+                            VerticalContentAlignment="Center"
+                            VerticalAlignment="Center"/>
+                <CheckBox	x:Name="chkExcludeSummaries"
+                            Content="{Binding Options_ExcludeSummaries, Source={StaticResource Strings}}"
+                            IsChecked="{Binding ExcludeSummaries}"
+                            VerticalContentAlignment="Center"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left" />
+
+                <TextBlock Text=" "
+                           TextWrapping="Wrap"
+                           HorizontalAlignment="Left" />
+                <Button x:Name="btnExport"
+                        FontWeight="Bold"
+                        Click="btnExport_Click"
+                        Style="{DynamicResource IconButtonStyle}"
+                        Tag="{Binding Export_Custom_Cell_Styling_ButtonText, Source={StaticResource Strings}}"
+                        d:LayoutOverrides="Width, Height"
+                        Margin="0,3,0,0"
+                        HorizontalAlignment="Left">
+                    <Path Data="{StaticResource ExportIcon}" Width="12" Height="11" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=ContentControl}}" Stretch="Fill" Margin="0,0,-2,0"/>
+                </Button>
+            </UniformGrid>
+        </controls:OptionsPanel>
+        <Grid Height="17"
+              Width="17"
+              Background="{x:Null}"
+              HorizontalAlignment="Left"
+              VerticalAlignment="Top" />
+    </Grid>
+</igFramework:SampleContainer>

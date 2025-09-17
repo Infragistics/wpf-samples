@@ -1,0 +1,51 @@
+﻿<framework:SampleContainer x:Class="IGTagCloud.Samples.Display.TagCloudOverflow"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:primitives="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls"
+      xmlns:res="clr-namespace:IGTagCloud.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGTagCloud;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamTagCloud.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <res:TagCloudStrings x:Key="TagCloudStrings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <!--#BEGIN SNIPPET#-->
+        <ig:XamTagCloud  x:Name="dataTagCloud"
+                         HorizontalAlignment="Stretch"
+                         VerticalAlignment="Stretch"
+                         VerticalContentAlignment="Stretch"
+                         FontSize="28"
+                         ItemsSource="{Binding Path=Tags}"
+                         DisplayMemberPath="Content"
+                         WeightMemberPath="Weight"
+                         NavigateUriMemberPath="NavigateUri"
+                         TargetName="_blank"
+                         TabNavigation="Cycle"
+                         XamTagCloudClipped="dataTagCloud_XamTagCloudClipped"
+                         Margin="0,0,0,25"
+                         Grid.Column="0" MaxScale=".8" MinScale=".4"/>
+        <!--#END SNIPPET#-->
+        <HyperlinkButton x:Name="SeeMoreLink" Content="{Binding Source={StaticResource TagCloudStrings}, Path=XTC_Overflow_HyperlinkSeeMore}"
+                         Visibility="Collapsed" Click="SeeMoreLink_Click" VerticalAlignment="Bottom" HorizontalAlignment="Left"
+                         Margin="0,0,0,5" />
+        <primitives:GridSplitter x:Name="splitter" HorizontalAlignment="Left" Grid.Column="1"/>
+    </Grid>
+</framework:SampleContainer>

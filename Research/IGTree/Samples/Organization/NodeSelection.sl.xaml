@@ -1,0 +1,76 @@
+﻿<framework:SampleContainer x:Class="IGTree.Samples.Organization.NodeSelection"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="NodeSelection Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGTree.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGTree;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamTree.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <res:TreeStrings x:Key="TreeStrings" />
+
+            <!-- Options Panel Radio Button Style-->
+            <Style x:Key="OptionsPanelRadioStyle" TargetType="ListBoxItem">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ListBoxItem">
+                            <Grid Background="Transparent">
+                                <RadioButton IsHitTestVisible="False"   IsChecked="{TemplateBinding IsSelected}">
+                                    <ContentPresenter></ContentPresenter>
+                                </RadioButton>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Image Source="{Binding Source='Tree/TreeBg_Rss.png', Converter={StaticResource getImageConverter}}"
+               HorizontalAlignment="Right"/>
+        <!--#BEGIN SNIPPET#-->
+        <ig:XamTree x:Name="dataTree" BorderThickness="0,0,0,0" Background="#FFFFFFFF" HorizontalAlignment="Left"
+                    SelectionChanged="dataTree_SelectionChanged" SelectionType="Extended" >
+            <ig:XamTree.HierarchicalItemTemplate>
+                <ig:HierarchicalDataTemplate ItemsSource="{Binding Path=Children}">
+                    <ig:HierarchicalDataTemplate.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{Binding Path=ImagePath}" Width="16" Height="16" />
+                                <TextBlock Text="{Binding Path=Name}" Foreground="Gray" Margin="5,0,0,0"  />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ig:HierarchicalDataTemplate.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{Binding Path=ImagePath}" Width="16" Height="16" />
+                            <TextBlock Text="{Binding Path=Name}" FontWeight="Bold" Margin="5,0,0,0"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ig:HierarchicalDataTemplate>
+            </ig:XamTree.HierarchicalItemTemplate>
+        </ig:XamTree>
+        <!--#END SNIPPET#-->
+
+        <controls:OptionsPanel  HeaderText="{Binding Source={StaticResource TreeStrings}, Path=XWT_XAMLTree_ConfigPanelHeader}"
+                                Margin="400,80,0,0">
+            <ListBox x:Name="lbNodeSelectionType" ItemContainerStyle="{StaticResource OptionsPanelRadioStyle}"
+                     SelectionChanged="lbNodeSelectionType_SelectionChanged" Margin="0,0,0,10" />
+            <TextBlock x:Name="SelectedNode" Width="200" HorizontalAlignment="Left" TextWrapping="Wrap" />
+            <ListBox x:Name="SelectedNodes" MinHeight="30" />
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

@@ -1,0 +1,147 @@
+﻿<framework:SampleContainer x:Class="IGSlider.Samples.Navigation.SliderNavigationSettings"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGSlider.Resources">
+
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <res:SliderStrings x:Key="Strings" />
+            <converters:VisibilityConverter x:Key="converter" />
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSlider;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Image Source="../../Images/Sunset.jpg"
+               Stretch="Uniform"
+               Width="400">
+            <Image.RenderTransform>
+                <RotateTransform CenterX="200"
+                                 CenterY="200"
+                                 x:Name="rotateTranform"
+                                 Angle="0" />
+            </Image.RenderTransform>
+        </Image>
+
+        <Grid Height="60"
+              VerticalAlignment="Bottom"
+              Margin="140,0,140,20">
+            <!-- #BEGIN SNIPPET# -->
+            <ig:XamNumericRangeSlider x:Name="slider"
+                                      MinValue="-100"
+                                      MaxValue="100"
+                                      Width="300"
+                                      HorizontalAlignment="Center"
+                                      EnableKeyboardNavigation="{Binding IsChecked, ElementName=keyboardNav}"
+                                      IsMouseWheelEnabled="{Binding IsChecked, ElementName=isMouseWheelEnabled}"
+                                      IncreaseButtonVisibility="{Binding IsChecked, ElementName=increaseButtonVisibility, Converter={StaticResource converter}}"
+                                      DecreaseButtonVisibility="{Binding IsChecked, ElementName=decreaseButtonVisibility, Converter={StaticResource converter}}"
+                                      TrackClickAction="MoveToPoint"
+                                      SmallChange="{Binding Text, ElementName=smallChange, Mode=OneWay}"
+                                      LargeChange="{Binding Text, ElementName=largeChange,Mode=OneWay}"
+                                      IsDirectionReversed="{Binding IsChecked, ElementName=isDirectionReversed}">
+                <ig:XamSliderNumericThumb Value="{Binding Angle, ElementName=rotateTranform, Mode=TwoWay}"
+                                          IsDragEnabled="{Binding IsChecked, ElementName=isDragEnabled}"
+                                          IsSnapToTickEnabled="{Binding IsChecked, ElementName=isSnapToTickEnabled}">
+                    <!--<ig:XamSliderNumericThumb.TrackFillBrush>
+                        <LinearGradientBrush EndPoint="0.5,1"
+                                             StartPoint="0.5,0">
+                            <GradientStop Color="#FF3AB5E9" />
+                            <GradientStop Color="#FF2380A8" Offset="1" />
+                        </LinearGradientBrush>
+                    </ig:XamSliderNumericThumb.TrackFillBrush>-->
+                </ig:XamSliderNumericThumb>
+                <ig:XamNumericRangeSlider.TickMarks>
+                    <ig:SliderTickMarks NumberOfTickMarks="10"
+                                        UseFrequency="False"
+                                        IncludeSliderEnds="True" />
+                </ig:XamNumericRangeSlider.TickMarks>
+            </ig:XamNumericRangeSlider>
+            <!-- #END SNIPPET# -->
+        </Grid>
+
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource CommonStrings}, Path=ConfigurationPanel_Header_Options}"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Top"
+                               Margin="50">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Margin="10,0">
+                    <TextBlock Text="{Binding Path=Slider_Navigation_SliderPropertiesLabel, Source={StaticResource Strings}}" Margin="{StaticResource OptionsTextTopBottomMargin}"/>
+                    <CheckBox x:Name="keyboardNav"
+                              Content="{Binding Slider_Navigation_KeyboardNavigationLabel, Source={StaticResource Strings}}"
+                              IsChecked="True"
+                              Margin="0,0,0,5" />
+                    <CheckBox x:Name="isMouseWheelEnabled"
+                              Content="{Binding Slider_Navigation_IsMouseWheelEnabledLabel, Source={StaticResource Strings}}"
+                              IsChecked="True"
+                              Margin="0,0,0,5" />
+                    <CheckBox x:Name="increaseButtonVisibility"
+                              Content="{Binding Slider_Navigation_IncreaseButtonVisibilityLabel, Source={StaticResource Strings}}"
+                              IsChecked="True"
+                              Margin="0,0,0,5" />
+                    <CheckBox x:Name="decreaseButtonVisibility"
+                              Content="{Binding Slider_Navigation_DecreaseButtonVisibilityLabel, Source={StaticResource Strings}}"
+                              IsChecked="True"/>
+                </StackPanel>
+                <StackPanel Margin="10,0">
+                    <TextBlock Text="{Binding Path=Slider_Navigation_TrackClickActionLabel, Source={StaticResource Strings}}" Margin="{StaticResource OptionsTextTopBottomMargin}"/>
+                    <StackPanel Orientation="vertical"
+                                Margin="{StaticResource OptionsElementsMargin}"
+                                HorizontalAlignment="Left">
+                        <controls:EnumValuesProvider x:Name="trackClickAction"
+                                                     EnumType="ig:SliderTrackClickAction"
+                                                     DisplayTemplate="ComboBox"
+                                                     SelectedEnumIndex="0"
+                                                     Width="120"
+                                                     Value="{Binding ElementName=slider, Path=TrackClickAction, Mode=TwoWay}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}">
+                        <TextBlock Text="{Binding Slider_Navigation_SmallChangeLabel, Source={StaticResource Strings}}"
+                                   VerticalAlignment="Center"/>
+                        <TextBlock x:Name="smallChange"
+                                   Text="20"
+                                   Width="30"
+                                   Margin="5,0"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal"
+                                Margin="{StaticResource OptionsElementsMargin}">
+                        <TextBlock Text="{Binding Slider_Navigation_LargeChangeLabel, Source={StaticResource Strings}}"
+                                   VerticalAlignment="Center"/>
+                        <TextBlock x:Name="largeChange"
+                                   Text="40"
+                                   Width="30"
+                                   Margin="5,0"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <CheckBox x:Name="isDirectionReversed"
+                              Content="{Binding Slider_Navigation_IsDirectionReversedLabel, Source={StaticResource Strings}}"
+                              IsChecked="False" />
+                </StackPanel>
+                <StackPanel Margin="10,0">
+                    <TextBlock Text="{Binding Path=Slider_Navigation_ThumbPropertiesLabel, Source={StaticResource Strings}}" Margin="{StaticResource OptionsTextTopBottomMargin}"/>
+                    <CheckBox x:Name="isDragEnabled"
+                              Content="{Binding Slider_Navigation_IsDragEnabledLabel, Source={StaticResource Strings}}"
+                              IsChecked="True"
+                              Margin="{StaticResource OptionsElementsMargin}" />
+                    <CheckBox x:Name="isSnapToTickEnabled"
+                              Content="{Binding Slider_Navigation_IsSnapToTickEnabledLabel, Source={StaticResource Strings}}"
+                              IsChecked="True" />
+                </StackPanel>
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

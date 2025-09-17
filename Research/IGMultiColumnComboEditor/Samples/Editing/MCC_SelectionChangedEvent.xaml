@@ -1,0 +1,85 @@
+﻿<framework:SampleContainer x:Class="IGMultiColumnComboEditor.Samples.Editing.MCC_SelectionChangedEvent"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+             xmlns:data="clr-namespace:IGMultiColumnComboEditor.Samples.Data"
+             xmlns:res="clr-namespace:IGMultiColumnComboEditor.Resources"
+             xmlns:ig="http://schemas.infragistics.com/xaml"
+             xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGMultiColumnComboEditor;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            
+            <res:MultiColumnComboEditorStrings x:Key="ComboStrings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <framework:SampleContainer.DataContext>
+        <data:CustomersDataSource />
+    </framework:SampleContainer.DataContext>
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="250"/>
+        </Grid.RowDefinitions>
+     
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamMultiColumnComboEditor x:Name="ComboEditor" 
+                                      ItemsSource="{Binding Path=Customers}"
+                                      AutoGenerateColumns="False"
+                                      Height="30" Width="300"
+                                      DisplayMemberPath="ContactName"
+                                      AllowMultipleSelection="True"
+                                      SelectionChanged="XWComboEditor_SelectionChanged"
+                                      CheckBoxVisibility="Visible">
+            <ig:XamMultiColumnComboEditor.Columns>
+                <ig:TextComboColumn Key="ContactName" />
+                <ig:TextComboColumn Key="Company" />
+                <ig:TextComboColumn Key="Country" />
+                <ig:TextComboColumn Key="City" />
+            </ig:XamMultiColumnComboEditor.Columns>  
+        </ig:XamMultiColumnComboEditor>
+
+        <ListBox Grid.Row="1" x:Name="eventsListBox"/>
+
+        <Button Grid.Row="1"
+                Margin="3"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Content="Clear"
+                Click="ButtonBase_OnClick" />
+
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel  HeaderText="{Binding CE_SelectionChanged_Info, Source={StaticResource ComboStrings}}">
+            <StackPanel Orientation="Vertical" Margin="5">
+                <TextBlock Width="150"
+                           Margin="0,0,0,10"
+                           x:Name="txtBlockName" />
+                <TextBlock Width="150"
+                           Margin="0,0,0,10"
+                           x:Name="txtBlockTitle" />
+                <TextBlock Width="150"
+                           Margin="0,0,0,10"
+                           x:Name="txtBlockPhone" />
+                <TextBlock Width="150"
+                           Margin="0,0,0,10"
+                           x:Name="txtBlockCompany" />
+                <TextBlock Width="150"
+                           Margin="0,0,0,10"
+                           x:Name="txtBlockCity" />
+            </StackPanel>
+            <StackPanel Margin="5">
+                <Image Visibility="Collapsed"
+                       x:Name="image"
+                       Height="70" />
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

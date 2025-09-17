@@ -1,0 +1,68 @@
+<framework:SampleContainer  
+    x:Class="IGBulletGraph.BasicConfiguration"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700" Title="SimpleData Page"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+    xmlns:res="clr-namespace:IGBulletGraph.Resources" >
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGBulletGraph;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:BulletGraphStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="auto" />
+        </Grid.ColumnDefinitions>
+        <Border Margin="0,0,0,20"
+                Grid.ColumnSpan="2"
+                BorderBrush="#FFEAEAEA"
+                BorderThickness="0">
+            <StackPanel>
+                <TextBlock Text="{Binding Path=FiscalYear_Header, Source={StaticResource Strings}}"
+                           Style="{StaticResource SamplesBigTitleStyle}"
+                           Margin="{StaticResource BottomPaddingLarge}" />
+                <!-- #BEGIN SNIPPET# -->
+                <ig:XamBulletGraph x:Name="xamBulletGraph_Basic" 
+                                   Height="80"
+                                   Margin="-20,30,-20,20" 
+                                   VerticalAlignment="Center"
+                                   MinimumValue="0"
+                                   MaximumValue="25"
+                                   Interval="5"
+                                   MinorTickCount="4"
+                                   TargetValue="21"
+                                   Value="17"
+                                   LabelFormat="{}{0}K"
+                                   FontFamily="{StaticResource FontFamily}" FontSize="{StaticResource FontSize}" >
+                    <ig:XamBulletGraph.Ranges>
+                        <ig:XamLinearGraphRange StartValue="0" EndValue="15" />
+                        <ig:XamLinearGraphRange StartValue="15" EndValue="20" />
+                        <ig:XamLinearGraphRange StartValue="20" EndValue="25"  />
+                    </ig:XamBulletGraph.Ranges>
+                </ig:XamBulletGraph>
+                <!-- #END SNIPPET# -->
+            </StackPanel>
+        </Border>
+        <TextBlock Grid.Row="1"
+                   Grid.Column="0" 
+                   HorizontalAlignment="Left" 
+                   VerticalAlignment="Top"
+                   TextWrapping="Wrap"                    
+                   Style="{StaticResource BodyStyle}"
+                   Text="{Binding Path=FiscalYear_SideDescription, Source={StaticResource Strings}}"/>
+   
+    </Grid>
+</framework:SampleContainer>

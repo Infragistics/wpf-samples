@@ -1,0 +1,47 @@
+
+
+
+WPF samples browser 2.0 has the following improvemnts
+
+
+===================================================================
+- combined projects:
+Infragistics.Samples.Framework.WPF >> Infragistics.Samples.Framework
+Infragistics.Samples.Shared.WPF    >> Infragistics.Samples.Framework
+Infragistics.Samples.Services.WPF  >> Infragistics.Samples.Framework
+
+
+- moved SampleBrowser logic to SamplesManager in Infragistics.Samples.Framework 
+- moved SampleBrowser tree to SamplesNavigator in Infragistics.Samples.Framework
+
+- converted TableOfContents.xml to TOC.JSON exported to sample.JSON
+
+
+
+===================================================================
+- simplified sample projects
+    - converted sample projectes to application projects that use SamplesManager
+
+
+
+===================================================================
+- simplified Infragistics.Samples.Assets.WPF projects
+    - removed files not used by samples: .xml, .shp, .json
+    - moved .dict files to IGSpellCheck project
+
+    - consider new Data Providers:
+
+      public static class DataProvider 
+      {
+            public void LoadXML(string filePath) {}
+            public void LoadCVS(string filePath) {}
+            public void LoadJSON(string filePath) {}
+      }
+
+      public class DataSoource : List<DataModel> 
+      {
+            public DataSoource()
+            {
+                var content = DataProvider.LoadXML("");
+            }
+      }

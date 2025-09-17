@@ -1,0 +1,80 @@
+﻿<framework:SampleContainer x:Class="IGOrgChart.Samples.Data.OrgChartEvents"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+    xmlns:model="clr-namespace:IGOrgChart.Model"
+    xmlns:res="clr-namespace:IGOrgChart.Resources"
+    mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700"
+    Title="OrgChartEvents Page">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGOrgChart;component/Assets/Global.xaml" />
+                
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:OrgChartStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Width="Auto">
+
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamOrgChart x:Name="OrgChart"
+                        ZoomLevel="1"
+                        ItemsSource="{Binding DepartmentGroups}"
+                        Loaded="OrgChart_Loaded"
+                        NodeControlAttachedEvent="OrgChart_NodeControlAttachedEvent"
+                        NodeLayoutAssigned="OrgChart_NodeLayoutAssigned"
+                        NodeMouseLeftButtonDown="OrgChart_NodeMouseLeftButtonDown"
+                        NodeMouseLeftButtonUp="OrgChart_NodeMouseLeftButtonUp"
+                        NodeMouseMove="OrgChart_NodeMouseMove"
+                        NodeMouseRightButtonDown="OrgChart_NodeMouseRightButtonDown"
+                        NodeMouseRightButtonUp="OrgChart_NodeMouseRightButtonUp"
+                        NodeMouseWheel="OrgChart_NodeMouseWheel"
+                        SelectedNodesCollectionChanged="OrgChart_SelectedNodesCollectionChanged">
+        <!-- #END SNIPPET# -->
+            
+            <!--Set the data context of the OrgChart-->
+            <ig:XamOrgChart.DataContext>                
+                <model:DepartmentModel />
+            </ig:XamOrgChart.DataContext>
+            
+            <ig:XamOrgChart.GlobalNodeLayouts>
+                <!--Global Node Layouts-->
+                <ig:OrgChartNodeLayout TargetTypeName="DepartmentGroup"
+                                       DisplayMemberPath="GroupName" />
+
+                <ig:OrgChartNodeLayout TargetTypeName="Department"
+                                       DisplayMemberPath="DepartmentName" />
+
+                <ig:OrgChartNodeLayout TargetTypeName="EmployeePosition"
+                                       DisplayMemberPath="PositionName" />
+
+                <ig:OrgChartNodeLayout TargetTypeName="Employee"
+                                       DisplayMemberPath="FullName" />
+            </ig:XamOrgChart.GlobalNodeLayouts>
+            
+        </ig:XamOrgChart>
+        
+        <!--Options Panel with the Events-->
+        <controls:OptionsPanel HeaderText="{Binding OrgChart_Events, Source={StaticResource Strings}}"
+                               HorizontalAlignment="Right">
+            <StackPanel>
+                <Border BorderBrush="{StaticResource ListBoxBorderBrush}" BorderThickness="1" Margin="{StaticResource OptionsElementsMargin}">
+                    <ScrollViewer x:Name="ScrollViewerOutput" Width="220" Height="150" >
+                        <TextBlock x:Name="TextBlockOutput" Margin="4"/>
+                    </ScrollViewer>
+                </Border>
+                <Button Content="{Binding OrgChart_Clear, Source={StaticResource Strings}}" 
+                        Click="Button_Click"/>
+            </StackPanel>
+        </controls:OptionsPanel>
+        
+    </Grid>
+</framework:SampleContainer>

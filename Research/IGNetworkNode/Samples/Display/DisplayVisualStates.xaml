@@ -1,0 +1,77 @@
+﻿<framework:SampleContainer x:Class="IGNetworkNode.Samples.Display.DisplayVisualStates" 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:common="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared" 
+    xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGNetworkNode.Resources"                         
+    mc:Ignorable="d" d:DesignHeight="400" d:DesignWidth="700">
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGNetworkNode;component/Assets/Global.xaml" />
+                <!--
+                -->
+            </ResourceDictionary.MergedDictionaries>
+            <common:CommonStrings x:Key="CommonStrings"/>
+            <res:NetworkNodeStrings x:Key="XNN_Strings"/>
+            <models:NetworkNodeAttendanceData x:Key="SampleTestData"/>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+    <Grid x:Name="LayoutRoot" Width="Auto">
+        
+        <ig:XamNetworkNode x:Name="xnn" 
+                           SelectionType="Multiple"
+                           ItemsSource="{Binding Nodes, Source={StaticResource SampleTestData}}">
+            <ig:XamNetworkNode.GlobalNodeLayouts>
+                <ig:NetworkNodeNodeLayout                    
+                    TargetTypeName="NodeModel"                    
+                    DisplayMemberPath="Label"                    
+                    ToolTipMemberPath="ToolTip"                    
+                    ConnectionsMemberPath="Connections"                    
+                    ConnectionTargetMemberPath="Target"                    
+                    ConnectionWeightMemberPath="Weight" 
+                    />
+            </ig:XamNetworkNode.GlobalNodeLayouts>
+        </ig:XamNetworkNode>
+         
+        <controls:OptionsPanel HeaderText="{Binding XW_Options, Source={StaticResource CommonStrings}}"
+                               HorizontalAlignment="Right">
+            <StackPanel>
+                <CheckBox  Name="cb_NormalState" Margin="{StaticResource OptionsElementsMargin}"
+                    Content="{Binding XNN_NormalState, Source={StaticResource XNN_Strings}}" 
+                    HorizontalAlignment="Left" IsChecked="False"  IsThreeState="False"  Checked="cb_NormalState_Checked" Unchecked="cb_NormalState_Unchecked" />
+                <CheckBox  Name="cb_FocusState" Margin="{StaticResource OptionsElementsMargin}"
+                    Content="{Binding XNN_FocusState, Source={StaticResource XNN_Strings}}" 
+                    HorizontalAlignment="Left" IsChecked="False"  IsThreeState="False"  Checked="cb_FocusState_Checked" Unchecked="cb_FocusState_Unchecked" />
+                <CheckBox  Name="cb_SelectState" Margin="{StaticResource OptionsElementsMargin}"
+                    Content="{Binding XNN_SelectState, Source={StaticResource XNN_Strings}}" 
+                    HorizontalAlignment="Left" IsChecked="False"  IsThreeState="False"  Checked="cb_SelectState_Checked" Unchecked="cb_SelectState_Unchecked" />
+                <CheckBox  Name="cb_EditState" Margin="{StaticResource OptionsElementsMargin}"
+                    Content="{Binding XNN_EditState, Source={StaticResource XNN_Strings}}" 
+                    HorizontalAlignment="Left" IsChecked="False"  IsThreeState="False"  Checked="cb_EditState_Checked" Unchecked="cb_EditState_Unchecked" />
+                
+                <Button Name="btn_Select_All" Margin="{StaticResource OptionsElementsMargin}"
+                        Content="{Binding XNN_SelectAll, Source={StaticResource XNN_Strings}}" HorizontalAlignment="Stretch" Click="btn_Select_All_Click" />
+                <Button Name="btn_Edit_All" Margin="{StaticResource OptionsElementsMargin}"
+                        Content="{Binding XNN_Set_EditingAll, Source={StaticResource XNN_Strings}}" HorizontalAlignment="Stretch" Click="btn_Edit_All_Click" />
+                <Button Name="btn_ClearSelection" 
+					    Content="{Binding XNN_ClearSelection, Source={StaticResource XNN_Strings}}" HorizontalAlignment="Stretch" Click="btn_ClearSelection_Click" />
+            
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ================================================================================================== -->
+                <!-- Note theme are changed in code-behind -->
+                <controls:ThemeSelector x:Name="ThemeSelector" 
+                                        HorizontalAlignment="Right"
+                                        SelectionChanged="OnSelectionChanged"/>
+                <!-- ================================================================================================== -->
+                <!-- #END SNIPPET# -->
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>
+

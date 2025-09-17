@@ -1,0 +1,114 @@
+﻿<igFramework:SampleContainer x:Class="IGDockManager.Samples.Organization.DockingMultiplePanesInTabGroupPane"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="Infragistics XAML Control Sample"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:res="clr-namespace:IGDockManager.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDockManager;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DockManagerStrings x:Key="Strings" />
+            <Style x:Key="BorderImageFrame" TargetType="Border">
+                <Setter Property="Padding" Value="5" />
+                <Setter Property="BorderBrush" Value="#CBCBCB" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="CornerRadius" Value="6" />
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FFFEFEFE" Offset="0" />
+                            <GradientStop Color="#FFE7E7E7" Offset="1" />
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Width" Value="110" />
+                <Setter Property="Height" Value="110" />
+            </Style>
+            <!-- Custom Tab header template -->
+            <DataTemplate x:Key="tabHeaderTemplate">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Source={StaticResource Strings},Path=Docking_TabHeaderText}" />
+                </StackPanel>
+            </DataTemplate>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <!-- Add xamDockManager control -->
+        <ig:XamDockManager x:Name="xamDockManager">
+            <ig:XamDockManager.Panes>
+                <!--#BEGIN SNIPPET#-->
+                <!-- Add TabGroupPane container to arrange panes as tabs and dock it to the left side.-->
+                <ig:TabGroupPane Location="Left" Width="200" >
+                    <!-- Add the first active Content Pane with Image that will appear when pane is unpinned. -->
+                    <!-- Custom Tab Header template is created and applied and it is with different image.-->
+                    <ig:ContentPane Header="{Binding Source={StaticResource Strings}, Path=Docking_ImageBrowser}"
+                                    Name="imgBrowser"
+                                    IsActivePane="True"
+                                    Image="/IGDockManager;component/Images/Folder16.png"
+                                    TabHeaderTemplate="{Binding Source={StaticResource tabHeaderTemplate}}">
+                        <ig:ContentPane.Content>
+                            <ListBox x:Name="ImgList" BorderBrush="Transparent" BorderThickness="0"
+                                     Style="{StaticResource IGListBoxStyle}"
+                                     SelectionChanged="ImgList_SelectionChanged"
+                                     SelectedIndex="{Binding ElementName=PreviewSlider, Path=Value, Mode=TwoWay}" />
+                        </ig:ContentPane.Content>
+                    </ig:ContentPane>
+                    <ig:ContentPane Header="{Binding Source={StaticResource Strings},Path=Docking_Configuration}"
+                                    Location="Right">
+                        <StackPanel Orientation="Vertical" Margin="5">
+                            <TextBlock Text="{Binding Source={StaticResource Strings},Path=Docking_ImgSlider}" Padding="0,5,0,5"/>
+                            <Slider
+                                x:Name="PreviewSlider"
+                                Style="{StaticResource IGSliderStyle}"
+                                Minimum="0" Maximum="13"/>
+                            <TextBlock Text="{Binding Source={StaticResource Strings}, Path=Docking_OpacitySlider}"
+                                       Padding="0,5,0,5"/>
+                            <Slider
+                                x:Name="OpacitySlider"
+                                Style="{StaticResource IGSliderStyle}"
+                                Minimum="0" Maximum="1"
+                                IsDirectionReversed="True"
+                                Value="{Binding ElementName=ImageBorder, Path=Opacity, Mode=TwoWay}"
+                                SmallChange="0.2"/>
+                        </StackPanel>
+                    </ig:ContentPane>
+                </ig:TabGroupPane>
+                <!--#END SNIPPET#-->
+                <ig:ContentPane x:Name="CP_ImageContainer"
+                                Header="{Binding Source={StaticResource Strings},Path=Docking_ImagePreview}"
+                                AllowClose="False"
+                                CloseButtonVisibility="Collapsed"
+                                Location="Right"
+                                Width="200">
+                    <ig:ContentPane.Content>
+                        <Border Style="{StaticResource BorderImageFrame}" x:Name="ImageBorder"/>
+                    </ig:ContentPane.Content>
+                </ig:ContentPane>
+                <ig:ContentPane Header="{Binding Source={StaticResource Strings}, Path=Docking_PinBehavior}"
+                                IsFloating="True" AllowClose="False" FloatWidth="250"
+                                CloseButtonVisibility="Collapsed"
+                                FloatLeft="450" FloatTop="350">
+                    <StackPanel Orientation="Vertical" Margin="5">
+                        <TextBlock Margin="0,0,0,5" TextWrapping="Wrap"
+                                   Text="{Binding Source={StaticResource Strings},Path=Docking_PinBehaviorDesc}" />
+                        <RadioButton x:Name="Rb_ActivePane" Content="ActivePane"
+                                     Style="{StaticResource IGRadioButtonStyle}"
+                                     Click="Rb_ActivePane_Click" />
+                        <RadioButton x:Name="Rb_AllPanes" Content="AllPanes"
+                                     Style="{StaticResource IGRadioButtonStyle}"
+                                     Click="Rb_AllPanes_Click" IsChecked="True"/>
+                    </StackPanel>
+                </ig:ContentPane>
+            </ig:XamDockManager.Panes>
+        </ig:XamDockManager>
+    </Grid>
+</igFramework:SampleContainer>

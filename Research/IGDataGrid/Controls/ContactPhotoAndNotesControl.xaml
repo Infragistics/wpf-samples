@@ -1,0 +1,146 @@
+﻿<local:ContactAdornerControlBase 
+  x:Class="IGDataGrid.Controls.ContactPhotoAndNotesControl"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:local="clr-namespace:IGDataGrid.Controls"
+  Background="Transparent"
+  IsTabStop="True"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d">
+    <local:ContactAdornerControlBase.Resources>
+        <Style x:Key="CloseButton" TargetType="{x:Type Button}">
+            <Setter Property="MinHeight" Value="25"/>
+            <Setter Property="MinWidth" Value="10"/>
+            <Setter Property="Padding" Value="2,1,2,1"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="1,1,1,1"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FFFFFFFF" Offset="0"/>
+                        <GradientStop Color="#FFE1E1E1" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="BorderBrush" Value="#FF999999"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid x:Name="Grid" Width="12" Height="12">
+                            <Ellipse Fill="#FFBFBCBC" Stroke="{x:Null}" Margin="0,0,0,0" x:Name="ellipse"/>
+                            <Path
+								x:Name="CheckMark"
+								StrokeThickness="2"
+								SnapsToDevicePixels="True"
+								Data="M0,0L14,14 M0,14L14,0"
+								Stroke="#FFFFFFFF" Stretch="Fill" Margin="2,2,2,2"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Fill" TargetName="ellipse" Value="#FF8C8B8B"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True"/>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="#FFCCCCCC"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </local:ContactAdornerControlBase.Resources>
+    <local:ContactPhotoAndNotesControl_Root x:Name="root">
+        <Grid>
+            <Rectangle 
+        Fill="White" 
+        HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+        Margin="1"
+        RadiusX="4" RadiusY="4" 
+        >
+                <Rectangle.BitmapEffect>
+                    <DropShadowBitmapEffect />
+                </Rectangle.BitmapEffect>
+            </Rectangle>
+
+            <Border Background="WhiteSmoke" BorderBrush="LightGray" BorderThickness="1" CornerRadius="4">
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="80" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="250" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock 
+            Grid.Row="0" Grid.Column="0"
+            FontWeight="Bold" 
+            Text="{Binding Path=NickName, Mode=OneWay}" 
+            TextAlignment="Left" Margin="5,5,0,5" FontSize="14" VerticalAlignment="Top" 
+            />
+
+                    <Button 
+            Grid.Row="0" Grid.Column="1"
+            Command="Close" 
+            Content="X"              
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            VerticalContentAlignment="Center"
+            MinHeight="18" MaxHeight="18" Height="12"
+            Padding="0"
+            Width="12" Style="{DynamicResource CloseButton}" Background="#FF9B9696" BorderBrush="{x:Null}"
+            />
+
+                    <TextBlock 
+            FontWeight="Bold"
+            HorizontalAlignment="Left"
+            Text="{Binding Path=Header_AllNumbers, ElementName=root}"
+            />
+
+                    <Border 
+            Grid.Row="1" Grid.Column="0"
+            BorderBrush="#88AAAAAA" 
+            BorderThickness="1"
+            CornerRadius="4"
+            HorizontalAlignment="Center" VerticalAlignment="Top"
+            Width="76" Height="76"
+            >
+                        <Border.Background>
+                            <ImageBrush ImageSource="{Binding Path=ImageUri}" />
+                        </Border.Background>
+                    </Border>
+
+                    <TextBlock 
+            Grid.Row="1" Grid.Column="1" 
+            FontWeight="Bold"
+            HorizontalAlignment="Left" VerticalAlignment="Top"
+            Text="{Binding Path=Header_Notes, ElementName=root}" Margin="6,0,0,0"        
+            />
+
+                    <TextBox 
+            x:FieldModifier="private"
+            x:Name="textBox"
+            AcceptsReturn="True"
+            BorderThickness="0"
+            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+            MaxLines="10"   
+            Text="{Binding Path=Notes, UpdateSourceTrigger=PropertyChanged}" 
+            TextWrapping="Wrap"  
+            BorderBrush="{x:Null}" 
+            Grid.Row="1" Grid.Column="1" Margin="5,20,0,0"
+            />
+
+                    <Rectangle Stroke="{x:Null}" SnapsToDevicePixels="True" Grid.RowSpan="1" Grid.Row="1" Grid.Column="1" Height="1" VerticalAlignment="Top" Margin="7,16,0,0" StrokeThickness="0" Opacity="0.35">
+                        <Rectangle.Fill>
+                            <LinearGradientBrush EndPoint="1,0" StartPoint="0,0">
+                                <GradientStop Color="#FF000000" Offset="0"/>
+                                <GradientStop Color="#00000000" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </Grid>
+            </Border>
+        </Grid>
+    </local:ContactPhotoAndNotesControl_Root>
+</local:ContactAdornerControlBase>

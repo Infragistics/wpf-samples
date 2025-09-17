@@ -1,0 +1,95 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Editing.ChartCrosshairs"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="ChartCrosshairs Page"
+      xmlns:custom="clr-namespace:IGDataChart.Custom.Behaviors"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <models:NumericDataModel x:Key="randomData1" d:IsDataSource="True" />
+            <models:NumericDataModel x:Key="randomData2" d:IsDataSource="True" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <ig:XamDataChart Name="XamDataChart1"  Grid.Row="0"
+                         CrosshairVisibility="Visible" Margin="0,0,0,20"
+                         DataContext="{Binding Source={StaticResource randomData1}}">
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ========================================================================== -->
+            <!-- Notice that this Crosshair behavior is implemented locally and you will need to copy it
+            if you want to show only vertical or horizontal crosshairs otherwise both crosshairs will be displayed -->
+            <!-- ========================================================================== -->
+            <custom:ChartCrosshairBehaviors.CrosshairVisibility>
+                <custom:ChartCrosshairVisibilityBehavior ShowHorizontalCrosshair="False" ShowVerticalCrosshair="True"/>
+            </custom:ChartCrosshairBehaviors.CrosshairVisibility>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+            <ig:XamDataChart.Axes>
+                <ig:CategoryXAxis x:Name="xAxis" ItemsSource="{Binding Data}">
+                    <ig:CategoryXAxis.LabelSettings>
+                        <ig:AxisLabelSettings Visibility="Collapsed" />
+                    </ig:CategoryXAxis.LabelSettings>
+                </ig:CategoryXAxis>
+                <ig:NumericYAxis x:Name="yAxis" >
+                    <ig:NumericYAxis.LabelSettings >
+                        <ig:AxisLabelSettings Visibility="Collapsed" />
+                    </ig:NumericYAxis.LabelSettings>
+                </ig:NumericYAxis>
+            </ig:XamDataChart.Axes>
+            <ig:XamDataChart.Series>
+                <ig:LineSeries ItemsSource="{Binding Data}"
+                               Brush="{StaticResource ChartSeriesBrush3}"
+                               MarkerType="None"
+                               XAxis="{Binding ElementName=xAxis}"
+                               YAxis="{Binding ElementName=yAxis}"
+                               ValueMemberPath="Y" IsHighlightingEnabled="True" IsTransitionInEnabled="True" />
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+        <ig:XamDataChart Name="xamDataChart2" Grid.Row="1" 
+                         DataContext="{Binding Source={StaticResource randomData2}}"
+                         CrosshairVisibility="Visible" >
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ========================================================================== -->
+            <custom:ChartCrosshairBehaviors.CrosshairVisibility>
+                <custom:ChartCrosshairVisibilityBehavior ShowHorizontalCrosshair="True" ShowVerticalCrosshair="False" />
+            </custom:ChartCrosshairBehaviors.CrosshairVisibility>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+            <ig:XamDataChart.Axes>
+                <ig:CategoryXAxis x:Name="xAxis2" ItemsSource="{Binding Data}">
+                    <ig:CategoryXAxis.LabelSettings>
+                        <ig:AxisLabelSettings Visibility="Collapsed" />
+                    </ig:CategoryXAxis.LabelSettings>
+                </ig:CategoryXAxis>
+                <ig:NumericYAxis x:Name="yAxis2" >
+                    <ig:NumericYAxis.LabelSettings >
+                        <ig:AxisLabelSettings Visibility="Collapsed" />
+                    </ig:NumericYAxis.LabelSettings>
+                </ig:NumericYAxis>
+            </ig:XamDataChart.Axes>
+            <ig:XamDataChart.Series>
+                <ig:LineSeries ItemsSource="{Binding Data}"
+                               Brush="{StaticResource ChartSeriesBrush4}"
+                               MarkerType="None"
+                               XAxis="{Binding ElementName=xAxis2}"
+                               YAxis="{Binding ElementName=yAxis2}"
+                               ValueMemberPath="Y" IsHighlightingEnabled="True" IsTransitionInEnabled="True" />
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+    </Grid>
+</igFramework:SampleContainer>

@@ -1,0 +1,139 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Layers.CrosshairLayers"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+    d:DesignHeight="600" d:DesignWidth="800"  xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+    xmlns:resources="clr-namespace:IGDataChart.Resources"
+    xmlns:local="clr-namespace:IGDataChart.Samples.Layers"
+    xmlns:custom="clr-namespace:IGDataChart.Custom.AnnotationLayers">
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                 
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            
+            <resources:DataChartStrings x:Key="Strings" />
+         
+            <Style TargetType="ig:LineSeries"  >
+                <Setter Property="IsTransitionInEnabled" Value="False"/>
+                <Setter Property="IsHighlightingEnabled" Value="True"/>
+                <Setter Property="ShowDefaultTooltip" Value="True"/>
+                <Setter Property="MarkerType" Value="Circle"/>
+                <Setter Property="Thickness" Value="2"/>
+            </Style>
+            <local:PopulationViewModel x:Key="VM" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White" DataContext="{StaticResource VM}">
+
+        <ig:XamDataChart x:Name="DataChart" 
+                         IsHorizontalZoomEnabled="True" 
+                         IsVerticalZoomEnabled="True"   >
+           <ig:XamDataChart.Axes>
+                <ig:CategoryXAxis x:Name="XAxis" Interval="1"
+                                  ItemsSource="{Binding USA}" 
+                                  Label="{}{Year}">
+                </ig:CategoryXAxis>
+                <ig:NumericYAxis x:Name="YAxis" Label="{}{} M"
+                                 Title="{Binding XWDC_WorldData_Types_Population, Source={StaticResource Strings}}">
+                    <ig:NumericYAxis.LabelSettings>
+                        <ig:AxisLabelSettings Location="OutsideRight" Margin="5 0 5 0" />
+                    </ig:NumericYAxis.LabelSettings>
+                </ig:NumericYAxis>
+            </ig:XamDataChart.Axes>
+
+            <ig:XamDataChart.Series> 
+                <ig:LineSeries ValueMemberPath="ValueInMln" 
+                               DataContext="{Binding USA}" 
+                               ItemsSource="{Binding}"
+                               Title="{Binding Country}"
+                               XAxis="{Binding ElementName=XAxis}"
+                               YAxis="{Binding ElementName=YAxis}" >
+                </ig:LineSeries>
+                <ig:LineSeries ValueMemberPath="ValueInMln" 
+                               DataContext="{Binding RUS}" 
+                               ItemsSource="{Binding}"
+                               Title="{Binding Country}"
+                               XAxis="{Binding ElementName=XAxis}"
+                               YAxis="{Binding ElementName=YAxis}" >
+                </ig:LineSeries>      
+                
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:CrosshairLayer x:Name="Crosshairs"
+                    Opacity="1"
+                    Thickness="1.5"
+                    UseInterpolation="True"
+                    IsAxisAnnotationEnabled="True"
+                    YAxisAnnotationInterpolatedValuePrecision="0" 
+                    XAxisAnnotationInterpolatedValuePrecision="0"
+                    XAxisAnnotationTextColor="White"
+                    XAxisAnnotationBackground="#676767"
+                    XAxisAnnotationOutline="#676767"
+                    VerticalLineStroke="#3E3E3E" /> 
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart.Series>
+
+        </ig:XamDataChart>
+        <controls:OptionsPanel HeaderText="{Binding XWDC_DataChart_Options, Source={StaticResource Strings}}"
+                               VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0 0 0 0"  >
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+                <Style TargetType="Slider" BasedOn="{StaticResource IGSliderStyle}" >
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+                <Style TargetType="ComboBox" BasedOn="{StaticResource IGComboBoxStyle}" >
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>   
+                <Style TargetType="CheckBox" BasedOn="{StaticResource IGCheckBoxStyle}" >
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="Margin" Value="0 2 0 2"/>
+                </Style>                   
+            </controls:OptionsPanel.Resources>
+            <StackPanel DataContext="{Binding ElementName=Crosshairs}">
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding XWDC_Thickness, Source={StaticResource Strings}}" />
+                    <TextBlock Text="{Binding Path=Thickness, StringFormat='0.0'}" />
+                </StackPanel>
+                <Slider Minimum="1" Maximum="20" SmallChange="1" LargeChange="1" 
+                        Value="{Binding Path=Thickness, Mode=TwoWay}" />
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding XWDC_Opacity, Source={StaticResource Strings}}" />
+                    <TextBlock Text="{Binding Path=Opacity, StringFormat='0.0'}" />
+                </StackPanel> 
+                <Slider Minimum="0" Maximum="1" SmallChange=".2" LargeChange=".2" 
+                        Value="{Binding Path=Opacity, Mode=TwoWay}" />  
+                 
+                <CheckBox Content="{Binding XWDC_HorizontalCrosshairVisibilty, Source={StaticResource Strings}}" 
+                          IsChecked="True" Click="HorizontalCrosshairVisibilty_OnChecked"/>
+                 
+                <CheckBox Content="{Binding XWDC_VerticalCrosshairVisibilty, Source={StaticResource Strings}}" 
+                          IsChecked="True" Click="VerticalCrosshairVisibilty_OnChecked"/>
+                 
+                <CheckBox Content="{Binding XWDC_UseInterpolation, Source={StaticResource Strings}}" 
+                          IsChecked="{Binding UseInterpolation}" />
+                
+                <CheckBox Content="{Binding XWDC_EnableAnnotations, Source={StaticResource Strings}}" 
+                          IsChecked="{Binding IsAxisAnnotationEnabled}" />
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+    </igFramework:SampleContainer>
+
+
+
+
+

@@ -1,0 +1,191 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Navigation.ChartNavigation"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="ChartNavigation Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+      xmlns:resources="clr-namespace:IGDataChart.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+
+            <ig:StringFormatConverter x:Key="StringFormatConverter" />
+            <resources:DataChartStrings x:Key="Strings" />
+            <converters:VisibilityConverter x:Key="VisibilityConverter" />
+
+            <!--Navigation Control Resources-->
+            <!-- ========================================================================== -->
+
+            <!-- ========================================================================== -->
+
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <Grid x:Name="LayoutRoot">
+
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ========================================================================== -->
+        <ig:XamDataChart x:Name="xmDataChart"
+                         Grid.Row="1"
+                         DefaultInteraction="DragZoom"
+                         DragModifier="Shift"
+                         PanModifier="Control"
+                         WindowPositionHorizontal="0"
+                         WindowPositionVertical="0"
+                         WindowScaleHorizontal="1"
+                         WindowScaleVertical="1"
+                         IsHorizontalZoomEnabled="{Binding ElementName=chbHorizontallyZoomable, Path=IsChecked}"
+                         HorizontalZoombarVisibility="{Binding ElementName=chbHorizontalZoombarVisibility, Path=IsChecked, Converter={StaticResource VisibilityConverter}}"
+                         IsVerticalZoomEnabled="{Binding ElementName=chbVerticallyZoomable, Path=IsChecked}"
+                         VerticalZoombarVisibility="{Binding ElementName=chbVerticalZoombarVisibility, Path=IsChecked, Converter={StaticResource VisibilityConverter}}">
+            <ig:XamDataChart.DataContext>
+                <models:StockMarketDataCollection  />
+            </ig:XamDataChart.DataContext>
+            <ig:XamDataChart.Axes>
+                <ig:CategoryXAxis x:Name="xmXAxis" ItemsSource="{Binding}" Label="{Binding XDC_AxisLabelsFormat_Date, Source={StaticResource Strings}}">
+                    <ig:CategoryXAxis.LabelSettings>
+                        <ig:AxisLabelSettings Extent="35" Location="OutsideBottom" HorizontalAlignment="Center" />
+                    </ig:CategoryXAxis.LabelSettings>
+                </ig:CategoryXAxis>
+                <ig:NumericYAxis x:Name="xmYAxis">
+                    <ig:NumericYAxis.LabelSettings>
+                        <ig:AxisLabelSettings Location="OutsideLeft" Extent="40" HorizontalAlignment="Center" />
+                    </ig:NumericYAxis.LabelSettings>
+                </ig:NumericYAxis>
+            </ig:XamDataChart.Axes>
+
+            <ig:XamDataChart.Series>
+                <ig:RangeColumnSeries ItemsSource="{Binding}"
+                                      HighMemberPath="High"
+                                      LowMemberPath="Low"
+                                      Thickness="1"
+                                      XAxis="{Binding ElementName=xmXAxis}"
+                                      YAxis="{Binding ElementName=xmYAxis}" 
+                                      IsHighlightingEnabled="True" IsTransitionInEnabled="True">
+                </ig:RangeColumnSeries>
+            </ig:XamDataChart.Series>
+
+        </ig:XamDataChart>
+        <!-- ========================================================================== -->
+        <!-- #END SNIPPET# -->
+
+        <controls:OptionsPanel HeaderText="{Binding XW_Settings, Source={StaticResource CommonStrings}}" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="10">
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}"/>
+                <Style TargetType="Slider" BasedOn="{StaticResource IGSliderStyle}" >
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+                <Style TargetType="ComboBox" BasedOn="{StaticResource IGComboBoxStyle}" >
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+            </controls:OptionsPanel.Resources>
+            <TextBlock Text="{Binding XWDC_ChartNavigation_Interactions, Source={StaticResource Strings}}" Style="{StaticResource OptionsPanelTitleStyle}"/>
+
+            <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}">
+                <TextBlock Text="{Binding XWDC_ChartNavigation_Default, Source={StaticResource Strings}}" Width="140" VerticalAlignment="Center"/>
+                <ComboBox x:Name="cmbInteractionState" SelectionChanged="OnDefaultInteractionSelectionChanged" SelectedIndex="0" Width="90" >
+                    <ComboBoxItem Tag="DragZoom" Content="{Binding XWDC_ChartNavigation_DefaultInteractionDragZoom, Source={StaticResource Strings}}"/>
+                    <ComboBoxItem Tag="DragPan" Content="{Binding XWDC_ChartNavigation_DefaultInteractionDragPan, Source={StaticResource Strings}}"/>
+                    <ComboBoxItem Tag="None" Content="{Binding XWDC_ChartNavigation_DefaultInteractionNone, Source={StaticResource Strings}}"/>
+                </ComboBox>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}">
+                <TextBlock Text="{Binding XWDC_ChartNavigation_PanModifier, Source={StaticResource Strings}}" Width="140" VerticalAlignment="Center"/>
+                <ComboBox x:Name="cmbPanModifier" SelectionChanged="OnPanModifierSelectionChanged" SelectedIndex="0" Width="90" >
+                    <ComboBoxItem Tag="Control" Content="{Binding XWDC_ChartNavigation_ModifierControl, Source={StaticResource Strings}}"></ComboBoxItem>
+                    <ComboBoxItem Tag="Alt" Content="{Binding XWDC_ChartNavigation_ModifierAlt, Source={StaticResource Strings}}"></ComboBoxItem>
+                    <ComboBoxItem Tag="Shift" Content="{Binding XWDC_ChartNavigation_ModifierShift, Source={StaticResource Strings}}"></ComboBoxItem>
+                    <ComboBoxItem Tag="None" Content="{Binding XWDC_ChartNavigation_ModifierNone, Source={StaticResource Strings}}"></ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}">
+                <TextBlock Text="{Binding XWDC_ChartNavigation_DragModifier, Source={StaticResource Strings}}" Width="140"/>
+                <ComboBox x:Name="cmbDragModifier" SelectionChanged="OnDragModifierSelectionChanged" SelectedIndex="0" Width="90" >
+                    <ComboBoxItem Tag="Shift" Content="{Binding XWDC_ChartNavigation_ModifierShift, Source={StaticResource Strings}}"></ComboBoxItem>
+                    <ComboBoxItem Tag="Alt" Content="{Binding XWDC_ChartNavigation_ModifierAlt, Source={StaticResource Strings}}"></ComboBoxItem>
+                    <ComboBoxItem Tag="Control" Content="{Binding XWDC_ChartNavigation_ModifierControl, Source={StaticResource Strings}}"></ComboBoxItem>
+                    <ComboBoxItem Tag="None" Content="{Binding XWDC_ChartNavigation_ModifierNone, Source={StaticResource Strings}}"></ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+            <Rectangle Fill="{StaticResource SeparatorBrush}" Height="1" Stretch="Fill" Margin="{StaticResource OptionsElementsMargin}"/>
+
+            <TextBlock Text="{Binding XWDC_ChartNavigation_VerticalZooming, Source={StaticResource Strings}}" Style="{StaticResource OptionsPanelTitleStyle}"/>
+            <CheckBox x:Name="chbVerticallyZoomable" IsChecked="True" Content="{Binding XWDC_ChartNavigation_EnableZooming, Source={StaticResource Strings}}" Margin="{StaticResource OptionsElementsMargin}"/>
+            <CheckBox x:Name="chbVerticalZoombarVisibility" IsChecked="True" Content="{Binding XWDC_ChartNavigation_ShowZoombar, Source={StaticResource Strings}}" Margin="{StaticResource OptionsElementsMargin}"/>
+
+            <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}">
+                <TextBlock Text="{Binding XWDC_ChartNavigation_Zoom, Source={StaticResource Strings}}" VerticalAlignment="Center" ></TextBlock>
+                <Slider x:Name="sldVerticalZoom" IsEnabled="{Binding ElementName=chbVerticallyZoomable, Path=IsChecked}" Width="120" Tag="VerticalZoomSlider" Value="1" Minimum="0.01" Maximum="1" Orientation="Horizontal"/>
+                <TextBlock Text="{Binding ElementName=sldVerticalZoom, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0.0000'}" Margin="{StaticResource OptionsTextLeftMargin}"/>
+            </StackPanel>
+
+            <Rectangle Fill="{StaticResource SeparatorBrush}" Height="1" Stretch="Fill" Margin="{StaticResource OptionsElementsMargin}"/>
+            
+            <TextBlock Text="{Binding XWDC_ChartNavigation_HorizontalZooming, Source={StaticResource Strings}}" Style="{StaticResource OptionsPanelTitleStyle}"/>
+            <CheckBox x:Name="chbHorizontallyZoomable" IsChecked="True" Content="{Binding XWDC_ChartNavigation_EnableZooming, Source={StaticResource Strings}}" Margin="{StaticResource OptionsElementsMargin}"/>
+            <CheckBox x:Name="chbHorizontalZoombarVisibility" IsChecked="True" Content="{Binding XWDC_ChartNavigation_ShowZoombar, Source={StaticResource Strings}}" Margin="{StaticResource OptionsElementsMargin}"/>
+
+            <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}">
+                <TextBlock Text="{Binding XWDC_ChartNavigation_Zoom, Source={StaticResource Strings}}" VerticalAlignment="Center"/>
+                <Slider x:Name="sldHorizontalZoom" IsEnabled="{Binding ElementName=chbHorizontallyZoomable, Path=IsChecked}" Tag="HorizontalZoomSlider" Value="1" Minimum="0.01" Maximum="1" Width="120" Orientation="Horizontal"/>
+                <TextBlock Text="{Binding ElementName=sldHorizontalZoom, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0.0000'}" VerticalAlignment="Center" Margin="{StaticResource OptionsTextLeftMargin}"/>
+            </StackPanel>
+
+            <Rectangle Fill="{StaticResource SeparatorBrush}" Height="1" Stretch="Fill" Margin="{StaticResource OptionsElementsMargin}"/>
+            <TextBlock Text="{Binding XWDC_ChartNavigation_Panning, Source={StaticResource Strings}}" Style="{StaticResource OptionsPanelTitleStyle}"/>
+
+            <Grid HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="80" Height="80">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <!-- ========================================================================== -->
+                <!--NOTE: Refer code behind to learn how these navigation controls interact with xamDataChart-->
+                <Button Tag="PanNorthButton" Click="OnPanButtonClick" Content="N" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Center" Grid.Column="1" Style="{StaticResource ArrowButtonStyle}"></Button>
+                <Button Tag="PanWestButton" Click="OnPanButtonClick" Content="W" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0,0,0" Grid.Row="1" Style="{StaticResource ArrowButtonStyle}" RenderTransformOrigin="0.5,0.5">
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <RotateTransform Angle="-90" />
+                        </TransformGroup>
+                    </Button.RenderTransform>
+                </Button>
+                <Button Tag="PanEastButton" Click="OnPanButtonClick" Content="E" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,5,0" Grid.Column="2" Grid.Row="1" Style="{StaticResource ArrowButtonStyle}" RenderTransformOrigin="0.5,0.5">
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <RotateTransform Angle="90" />
+                        </TransformGroup>
+                    </Button.RenderTransform>
+                </Button>
+                <Button Tag="PanSouthButton" Click="OnPanButtonClick" Content="S" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,5" Grid.Column="1" Grid.Row="2" Style="{StaticResource ArrowButtonStyle}" RenderTransformOrigin="0.5,0.5">
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="-1" />
+                        </TransformGroup>
+                    </Button.RenderTransform>
+                </Button>
+                <Button Tag="FitWindowButton" Click="OnPanButtonClick" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Visible" Style="{StaticResource CrossButtonStyle}" Grid.Column="1" Grid.Row="1"/>
+                <!-- ========================================================================== -->
+            </Grid>
+        </controls:OptionsPanel>
+
+    </Grid>
+</igFramework:SampleContainer>

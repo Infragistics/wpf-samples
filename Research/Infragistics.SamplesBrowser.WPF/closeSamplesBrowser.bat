@@ -1,0 +1,3 @@
+echo closing Infragistics SamplesBrowser app ...
+taskkill /f /fi "pid gt 0" /im Infragistics.SamplesBrowser.exe
+pause

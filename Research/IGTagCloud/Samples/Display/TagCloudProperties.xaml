@@ -1,0 +1,72 @@
+﻿<framework:SampleContainer x:Class="IGTagCloud.Samples.Display.TagCloudProperties"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:converters="clr-namespace:IGTagCloud.Converters"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGTagCloud.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGTagCloud;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:TagCloudStrings x:Key="TagCloudStrings" />
+            <converters:MaxLengthStringConverter x:Key="maxLengthStringConverter"/>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid Margin="10,10,10,10">
+        <Rectangle Fill="#FFEEEEEE" RadiusX="5" RadiusY="5"/>
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamTagCloud  x:Name="dataTagCloud"
+                         HorizontalAlignment="Stretch"
+                         VerticalAlignment="Stretch"
+                         HorizontalContentAlignment="Center"
+                         VerticalContentAlignment="Center"
+                         ItemsSource="{Binding Path=Tags}"
+                         DisplayMemberPath="Content"
+                         WeightMemberPath="Weight"
+                         NavigateUriMemberPath="NavigateUri"
+                         TargetName="_blank"
+                         Margin="10,10,10,10"
+                         MinScale="0"
+                         MaxScale="3"/>
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel HeaderText="{Binding Path=XTC_ScalingConfigPanelHeader, Source={StaticResource TagCloudStrings}}" 
+                               HorizontalAlignment="Right" Width="200">
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}"/>
+            </controls:OptionsPanel.Resources>
+            <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}">
+                <TextBlock FontWeight="Bold" Text="{Binding Source={StaticResource TagCloudStrings}, Path=XTC_MinScale}"/>
+                <TextBlock Text=":"/>
+                <TextBlock Text="{Binding Path=Value, ElementName=MinScale, Converter={StaticResource maxLengthStringConverter},
+                    ConverterParameter=4}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}">
+                <TextBlock Text="0" VerticalAlignment="Center"/>
+                <Slider x:Name="MinScale" Width="160" ValueChanged="MinScale_ValueChanged" />
+                <TextBlock Text="10" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}">
+                <TextBlock FontWeight="Bold" Text="{Binding Source={StaticResource TagCloudStrings}, Path=XTC_MaxScale}"/>
+                <TextBlock Text=":"/>
+                <TextBlock Text="{Binding Path=Value, ElementName=MaxScale, Converter={StaticResource maxLengthStringConverter},
+                    ConverterParameter=4}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="0" VerticalAlignment="Center"/>
+                <Slider x:Name="MaxScale" Width="160" ValueChanged="MaxScale_ValueChanged"/>
+                <TextBlock Text="10" VerticalAlignment="Center"/>
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

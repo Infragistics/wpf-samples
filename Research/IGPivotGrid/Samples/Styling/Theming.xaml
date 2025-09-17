@@ -1,0 +1,56 @@
+﻿<framework:SampleContainer x:Class="IGPivotGrid.Samples.Styling.Theming"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="Theming Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:local="clr-namespace:IGPivotGrid.Samples.Controls"
+      xmlns:res="clr-namespace:IGPivotGrid.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries> 
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGPivotGrid;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <local:SampleFlatDataSourceDateVsProduct x:Key="FlatDataSource" />
+            <res:PivotGridStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Width="Auto" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ================================================================================================== -->
+        <!-- Note theme are changed in code-behind -->
+        <controls:ThemeSelector x:Name="ThemeSelector" Grid.ColumnSpan="2"
+                                HorizontalAlignment="Right"
+                                SelectionChanged="OnSelectionChanged"/>
+        <!-- ================================================================================================== -->
+        <!-- #END SNIPPET# -->
+
+        <ig:XamPivotGrid x:Name="pivotGrid"
+                         Grid.Row="1"
+                         DataSource="{StaticResource FlatDataSource}"
+                         AllowCompactLayout="True" />
+
+        <ig:Expander Grid.Column="1" Grid.Row="1">
+            <ig:XamPivotDataSelector x:Name="dataSelector"
+                                     DataSource="{StaticResource FlatDataSource}" />
+        </ig:Expander>
+        
+    </Grid>
+</framework:SampleContainer>

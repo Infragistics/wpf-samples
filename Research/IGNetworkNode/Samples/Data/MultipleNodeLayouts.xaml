@@ -1,0 +1,53 @@
+﻿<framework:SampleContainer x:Class="IGNetworkNode.Samples.Data.MultipleNodeLayouts" 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:common="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared" 
+    xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGNetworkNode.Resources" 
+    mc:Ignorable="d" d:DesignHeight="400" d:DesignWidth="700">
+
+    <!-- ========================================================================== -->
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGNetworkNode;component/Assets/Global.xaml" />
+                
+                
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+    <!-- ========================================================================== -->
+
+    <Grid x:Name="LayoutRoot" Width="Auto">
+        <Grid.Resources>
+            <models:NetworkNodeCompanyData x:Key="SampleData" />
+            <Style x:Key="SpecialNodeStyle" TargetType="ig:NetworkNodeNodeControl">
+                <Setter Property="Background" Value="{StaticResource ChartSeriesBrush2}"/>
+                <Setter Property="Foreground" Value="{StaticResource ForegroundDarkBrush}" />
+            </Style>
+        </Grid.Resources>
+        <ig:XamNetworkNode x:Name="xnn"
+                           ItemsSource="{Binding Nodes, Source={StaticResource SampleData}}">
+            <!-- #BEGIN SNIPPET# -->
+            <ig:XamNetworkNode.GlobalNodeLayouts>
+                <ig:NetworkNodeNodeLayout
+                    TargetTypeName="NodeModel"
+                    DisplayMemberPath="Label"
+                    ConnectionsMemberPath="Connections"
+                    ConnectionTargetMemberPath="Target" />
+                <ig:NetworkNodeNodeLayout
+                    TargetTypeName="SpecialNodeModel"
+                    NodeStyle="{StaticResource SpecialNodeStyle}"
+                    DisplayMemberPath="Label"
+                    ConnectionsMemberPath="Connections"
+                    ConnectionTargetMemberPath="Target" />
+            </ig:XamNetworkNode.GlobalNodeLayouts>
+            <!-- #END SNIPPET# -->
+        </ig:XamNetworkNode>
+
+    </Grid>
+</framework:SampleContainer>

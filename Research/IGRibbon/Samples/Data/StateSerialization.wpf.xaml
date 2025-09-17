@@ -1,0 +1,106 @@
+﻿<framework:SampleContainer x:Class="IGRibbon.Samples.Data.StateSerialization"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="StateSerializationPage"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:igRibbon="http://infragistics.com/Ribbon"
+      xmlns:res="clr-namespace:IGRibbon.Resources"
+      xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGRibbon;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:RibbonStrings x:Key="RibbonStrings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <!-- To See the Serialization in action please look in the CodeView to see what's taking place behind the scenes. -->
+    <Grid Margin="0,0,0,10">
+        <!-- #BEGIN SNIPPET# -->
+        <igRibbon:XamRibbon x:Name="xamRibbon" VerticalAlignment="Top" Theme="RoyalLight">
+            <igRibbon:XamRibbon.Tabs>
+                <igRibbon:RibbonTabItem Header="{Binding Shared_Tab_Format_Header, Source={StaticResource RibbonStrings}}">
+                    <!-- RibbonGroup-->
+                    <igRibbon:RibbonGroup Id="Clipboard" Caption="{Binding Shared_Tab_Format_Group_Clipboard_Caption,
+                        Source={StaticResource RibbonStrings}}">
+                        <igRibbon:ToolHorizontalWrapPanel>
+                            <igRibbon:ButtonTool
+                                Caption="{Binding ElementName=root, Path=Tab_Format_Group_Clipboard_Button_Paste}"
+                                igRibbon:RibbonGroup.MaximumSize="ImageAndTextLarge"
+                                SmallImage="/IGRibbon;component/Images/Paste_16x16.png"
+                                LargeImage="/IGRibbon;component/Images/Paste_32x32.png"/>
+                            <igRibbon:ButtonGroup>
+                                <igRibbon:ButtonTool Id="cutTool" SmallImage="/IGRibbon;component/Images/EditCut.png"/>
+                                <igRibbon:ButtonTool Id="copyTool" SmallImage="/IGRibbon;component/Images/EditCopy.png"/>
+                            </igRibbon:ButtonGroup>
+                            <igRibbon:ButtonGroup>
+                                <igRibbon:ButtonTool Id="undoTool" SmallImage="/IGRibbon;component/Images/EditUndo.png"/>
+                                <igRibbon:ButtonTool Id="redoTool" SmallImage="/IGRibbon;component/Images/EditRedo.png"/>
+                            </igRibbon:ButtonGroup>
+                        </igRibbon:ToolHorizontalWrapPanel>
+                    </igRibbon:RibbonGroup>
+                    <!-- End RibbonGroup-->
+                    <!-- RibbonGroup-->
+                    <igRibbon:RibbonGroup Id="Text Style" Caption="{Binding Shared_Tab_Format_Group_TextStyle_Caption,
+                        Source={StaticResource RibbonStrings}}">
+                        <igRibbon:ToolHorizontalWrapPanel>
+                            <igRibbon:ButtonGroup>
+                                <igRibbon:ToggleButtonTool x:Name="boldTool" SmallImage="/IGRibbon;component/Images/Bold.png"/>
+                                <igRibbon:ToggleButtonTool x:Name="italicTool" SmallImage="/IGRibbon;component/Images/Italic.png"/>
+                                <igRibbon:ToggleButtonTool x:Name="underlineTool" SmallImage="/IGRibbon;component/Images/Underline.png"/>
+                            </igRibbon:ButtonGroup>
+                            <igRibbon:ButtonGroup>
+                                <igRibbon:RadioButtonTool IsChecked="True" SmallImage="/IGRibbon;component/Images/LeftAlign.png"/>
+                                <igRibbon:RadioButtonTool SmallImage="/IGRibbon;component/Images/CenterAlign.png"/>
+                                <igRibbon:RadioButtonTool SmallImage="/IGRibbon;component/Images/RightAlign.png"/>
+                                <igRibbon:RadioButtonTool SmallImage="/IGRibbon;component/Images/JustifyAlign.png"/>
+                            </igRibbon:ButtonGroup>
+                        </igRibbon:ToolHorizontalWrapPanel>
+                    </igRibbon:RibbonGroup>
+                    <!-- End RibbonGroup-->
+                    <!-- RibbonGroup-->
+                    <igRibbon:RibbonGroup Id="FontGlobal" Caption="{Binding Shared_Tab_Format_Group_GlobalFont_Caption,
+                        Source={StaticResource RibbonStrings}}">
+                        <igRibbon:ToolHorizontalWrapPanel>
+                            <igRibbon:ComboEditorTool
+                                Id="fontFamilyCombo"
+                                x:Name="fontFamilyCombo"
+                                DropDownResizeMode="VerticalOnly"
+                                IsEditable="False"
+                                EditAreaWidth="148.0">
+                            </igRibbon:ComboEditorTool>
+                            <igRibbon:ComboEditorTool
+                                Id="fontSizeCombo"
+                                x:Name="fontSizeCombo"
+                                IsEditable="False"
+                                DropDownResizeMode="VerticalOnly"
+                                EditAreaWidth="118.0"
+                                ValueType="{x:Type sys:Double}">
+                            </igRibbon:ComboEditorTool>
+                            <igRibbon:MenuTool igRibbon:RibbonGroup.MaximumSize="ImageOnly" SmallImage="/IGRibbon;component/Images/FontColor.png">
+                                <TextBlock Text="{Binding Shared_Tab_Format_Group_GlobalFont_ColorMenu_Color,
+                                    Source={StaticResource RibbonStrings}}"/>
+                            </igRibbon:MenuTool>
+                        </igRibbon:ToolHorizontalWrapPanel>
+                    </igRibbon:RibbonGroup>
+                    <!-- End RibbonGroup-->
+                    <!-- RibbonGroup-->
+                    <igRibbon:RibbonGroup Id="Presets" Caption="{Binding Shared_Tab_Format_Group_Presets_Caption,
+                        Source={StaticResource RibbonStrings}}" />
+                    <!-- End RibbonGroup-->
+                </igRibbon:RibbonTabItem>
+                <igRibbon:RibbonTabItem Header="{Binding Shared_Tab_Insert_Header, Source={StaticResource RibbonStrings}}">
+                    <igRibbon:RibbonGroup Id="ClipArt" Caption="{Binding Shared_Tab_Insert_Group_ClipArt_Caption,
+                        Source={StaticResource RibbonStrings}}" />
+                </igRibbon:RibbonTabItem>
+            </igRibbon:XamRibbon.Tabs>
+        </igRibbon:XamRibbon>
+        <!-- #END SNIPPET# -->
+    </Grid>
+</framework:SampleContainer>

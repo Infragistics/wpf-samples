@@ -1,0 +1,54 @@
+﻿<framework:SampleContainer x:Class="IGSyntaxEditor.Samples.Navigation.NavigatingDocumentTokens"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="NavigatingDocumentParts Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGSyntaxEditor.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamSyntaxEditor.xaml" />
+                <ResourceDictionary Source="/IGSyntaxEditor;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:SyntaxEditorStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="70" />
+        </Grid.RowDefinitions>
+
+        <controls:OptionsPanel HeaderText="{Binding Path=ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}"
+                               Margin="0,0,0,10" Grid.Row="0" IsMovable="False">
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="buttonLoad" Content="{Binding Path=OpenFile, Source={StaticResource Strings}}" Click="buttonLoad_Click" Margin="0,0,15,0" />
+                <Button x:Name="btnCreateScanner" Content="{Binding Path=btnScannerCreate, Source={StaticResource Strings}}" Click="btnCreateScanner_Click" Margin="0,0,5,0" />
+                <Button x:Name="btnDestroyScanner" Content="{Binding Path=btnScannerDestroy, Source={StaticResource Strings}}" Click="btnDestroyScanner_Click" IsEnabled="False" Margin="0,0,15,0" />
+                <Button x:Name="btnPrevToken" Content="{Binding Path=btnTokenPrevious, Source={StaticResource Strings}}" Click="btnPrevToken_Click" IsEnabled="False" Margin="0,0,5,0" />
+                <Button x:Name="btnNextToken" Content="{Binding Path=btnTokenNext, Source={StaticResource Strings}}" Click="btnNextToken_Click" IsEnabled="False" Margin="0,0,5,0" />
+            </StackPanel>
+        </controls:OptionsPanel>
+
+        <ig:XamSyntaxEditor x:Name="xamSyntaxEditor1" Grid.Row="1" SplitOptions="SplittingNotAllowed" ErrorDisplayMode="Never"
+        Background="{StaticResource SyntaxEditorBackground}" BorderBrush="{StaticResource SyntaxEditorBorderBrush}" BorderThickness="1"
+        LineNumberMarginBackground="{StaticResource SyntaxEditorBackground}" LineNumberMarginForeground="{StaticResource LineNumberMarginForegroundBrush}">
+            <ig:XamSyntaxEditor.Document>
+                <ig:TextDocument />
+            </ig:XamSyntaxEditor.Document>
+        </ig:XamSyntaxEditor>
+
+        <TextBox x:Name="tb1" Grid.Row="2" FontFamily="Consolas" Margin="0,12,0,0" Style="{StaticResource SamplesTextBoxStyle}" />
+
+    </Grid>
+</framework:SampleContainer>

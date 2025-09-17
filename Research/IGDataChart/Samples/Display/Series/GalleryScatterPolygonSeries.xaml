@@ -1,0 +1,65 @@
+﻿<igFramework:SampleContainer 
+    x:Class="IGDataChart.Samples.Display.Series.GalleryScatterPolygonSeries"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700" 
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ex="clr-namespace:Infragistics.Samples.Controls;assembly=Infragistics.Samples.Services"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared"
+    xmlns:local="clr-namespace:IGDataChart.Samples.Display.Series">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <local:RoomList x:Key="RoomList"/>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <ig:XamDataChart x:Name="DataChart" PlotAreaMargin="10"
+                         Title="{Binding XWDC_FloorPlan_Title, Source={StaticResource Strings}}"
+                         Subtitle="{Binding XWDC_FloorPlan_Subtitle, Source={StaticResource Strings}}">
+            <ig:XamDataChart.Axes>
+                <ig:NumericXAxis x:Name="XAxis" Label="{Binding XWDC_FloorPlan_LabelFormat, Source={StaticResource Strings}}"/>
+                <ig:NumericYAxis x:Name="YAxis" Label="{Binding XWDC_FloorPlan_LabelFormat, Source={StaticResource Strings}}"/>
+            </ig:XamDataChart.Axes>
+
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ========================================================================== -->
+            <ig:XamDataChart.Series>
+                <ig:ScatterPolygonSeries
+                    x:Name="ScatterPolygonSeries" 
+                    Title="Scatter Polygon Series"
+                    Opacity="1" 
+                    ItemsSource="{StaticResource RoomList}"
+                    XAxis="{Binding ElementName=XAxis}" 
+                    YAxis="{Binding ElementName=YAxis}"
+                    ShapeMemberPath="Points"
+                    Outline="White">
+                    <ig:ScatterPolygonSeries.MarkerTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontSize="16"
+                                           Text="{Binding Path=Item.Label}"
+                                           Foreground="{Binding Path=Series.ActualMarkerBrush}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ig:ScatterPolygonSeries.MarkerTemplate>
+                </ig:ScatterPolygonSeries>
+            </ig:XamDataChart.Series>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+        </ig:XamDataChart>
+    </Grid>
+</igFramework:SampleContainer>

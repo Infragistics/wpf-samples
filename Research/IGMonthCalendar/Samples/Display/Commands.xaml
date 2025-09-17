@@ -1,0 +1,226 @@
+﻿<igFramework:SampleContainer x:Class="IGMonthCalendar.Samples.Display.Commands"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="Commands"
+      xmlns:igEditors="http://infragistics.com/Editors"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGMonthCalendar.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGMonthCalendar;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:MonthCalendarStrings x:Key="Strings" />
+            <Style TargetType="{x:Type Button}"
+                   BasedOn="{StaticResource IGGenericButton}">
+                <Setter Property="Margin"
+                        Value="0,2,0,2" />
+                <Setter Property="CommandTarget"
+                        Value="{Binding ElementName=xamCalendar}" />
+            </Style>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <StackPanel>
+        <ScrollViewer Height="300"
+                      HorizontalScrollBarVisibility="Disabled"
+                      MaxHeight="300"
+                      MinWidth="605"
+                      MinHeight="200"
+                      x:Name="scrollViewer"
+                      VerticalScrollBarVisibility="Auto">
+            <Border CornerRadius="3,3,3,3"
+                    Background="#4CCCCCCC">
+                <Grid Margin="5,5,5,5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <!-- Zoom -->
+                    <TextBlock Text="{Binding Source={StaticResource Strings}, Path=ZoomCommands_Label}"
+                               Grid.Row="0"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Top" />
+                    <Border Background="{x:Null}"
+                            CornerRadius="3"
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            Margin="5,2,0,2"
+                            BorderBrush="#FFD4D4D4"
+                            BorderThickness="1,1,1,1">
+                        <WrapPanel ItemWidth="160"
+                                   Orientation="Horizontal"
+                                   Margin="2,2,2,2">
+                            <Button Command="{x:Static igEditors:MonthCalendarCommands.ZoomOutCalendarMode}"
+                                    Content="{Binding Source={StaticResource Strings}, Path=ZoomOut_Button}" />
+                            <Button Command="{x:Static igEditors:MonthCalendarCommands.ZoomInCalendarMode}"
+                                    Content="{Binding Source={StaticResource Strings}, Path=ZoomIn_Button}" />
+                        </WrapPanel>
+                    </Border>
+                    <!-- Scroll -->
+                    <TextBlock Text="{Binding Source={StaticResource Strings}, Path=ScrollCommands_Label}"
+                               Grid.Row="1"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Top" />
+                    <Border Background="{x:Null}"
+                            CornerRadius="3"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            Margin="5,2,0,2"
+                            BorderBrush="#FFD4D4D4"
+                            BorderThickness="1,1,1,1">
+                        <WrapPanel ItemWidth="160"
+                                   Orientation="Horizontal"
+                                   Margin="2,2,2,2">
+                            <Button Command="{x:Static igEditors:MonthCalendarCommands.ScrollPreviousGroups}"
+                                    Content="{Binding Source={StaticResource Strings}, Path=ScrollPreviousGroups_Button}" />
+                            <Button Command="{x:Static igEditors:MonthCalendarCommands.ScrollPreviousGroup}"
+                                    Content="{Binding Source={StaticResource Strings}, Path=ScrollPreviousGroup_Button}" />
+                            <Button Command="{x:Static igEditors:MonthCalendarCommands.ScrollNextGroup}"
+                                    Content="{Binding Source={StaticResource Strings}, Path=ScrollNextGroup_Button}" />
+                            <Button Command="{x:Static igEditors:MonthCalendarCommands.ScrollNextGroups}"
+                                    Content="{Binding Source={StaticResource Strings}, Path=ScrollNextGroups_Button}" />
+                        </WrapPanel>
+                    </Border>
+                    <!-- Navigate Item -->
+                    <TextBlock Text="{Binding Source={StaticResource Strings}, Path=NavigateItemCommands_Label}"
+                               Grid.Row="2"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Top" />
+                    <Border Background="{x:Null}"
+                            CornerRadius="3"
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            Margin="5,2,0,2"
+                            BorderBrush="#FFD4D4D4"
+                            BorderThickness="1,1,1,1">
+                        <WrapPanel ItemWidth="160"
+                                   Orientation="Horizontal"
+                                   Margin="2,2,2,2">
+                            <Button Command="{x:Static igEditors:MonthCalendarCommands.PreviousItem}"
+                                    Content="{Binding Source={StaticResource Strings}, Path=PreviousItem_Button}" />
+                            <Button Command="{x:Static igEditors:MonthCalendarCommands.NextItem}"
+                                    Content="{Binding Source={StaticResource Strings}, Path=NextItem_Button}" />
+                            <Button Command="{x:Static igEditors:MonthCalendarCommands.PreviousItemRow}"
+                                    Content="{Binding Source={StaticResource Strings}, Path=PreviousItemRow_Button}" />
+                            <Button Command="{x:Static igEditors:MonthCalendarCommands.NextItemRow}"
+                                    Content="{Binding Source={StaticResource Strings}, Path=NextItemRow_Button}" />
+                        </WrapPanel>
+                    </Border>
+                    <!-- Navigate Group -->
+                    <TextBlock Text="{Binding Source={StaticResource Strings}, Path=NavigateGroupCommands_Label}"
+                               Grid.Row="3"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Top" />
+                    <Border Background="{x:Null}"
+                            CornerRadius="3"
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            Margin="5,2,0,2"
+                            BorderBrush="#FFD4D4D4"
+                            BorderThickness="1,1,1,1">
+                        <WrapPanel ItemWidth="160"
+                                   Orientation="Horizontal"
+                                   Margin="2,2,2,2">
+                            <Button Command="{x:Static igEditors:MonthCalendarCommands.PreviousGroup}"
+                                    Content="{Binding Source={StaticResource Strings}, Path=PreviousGroup_Button}" />
+                            <Button Command="{x:Static igEditors:MonthCalendarCommands.NextGroup}"
+                                    Content="{Binding Source={StaticResource Strings}, Path=NextGroup_Button}" />
+                            <Button Command="{x:Static igEditors:MonthCalendarCommands.FirstItemOfGroup}"
+                                    Content="{Binding Source={StaticResource Strings}, Path=FirstItemGroup_Button}" />
+                            <Button Command="{x:Static igEditors:MonthCalendarCommands.LastItemOfGroup}"
+                                    Content="{Binding Source={StaticResource Strings}, Path=LastItemOfGroup_Button}" />
+                            <Button Command="{x:Static igEditors:MonthCalendarCommands.FirstItemOfFirstGroup}"
+                                    Content="{Binding Source={StaticResource Strings}, Path=FirstItemFirstGroup_Button}" />
+                            <Button Command="{x:Static igEditors:MonthCalendarCommands.LastItemOfLastGroup}"
+                                    Content="{Binding Source={StaticResource Strings}, Path=LastItemOfLastGroup_Button}" />
+                        </WrapPanel>
+                    </Border>
+                    <!-- Misc -->
+                    <TextBlock Text="{Binding Source={StaticResource Strings}, Path=MiscCommands_Label}"
+                               Grid.Row="4"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Top" />
+                    <Border Background="{x:Null}"
+                            CornerRadius="3"
+                            Grid.Row="4"
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            Margin="5,2,0,2"
+                            d:IsHidden="True"
+                            BorderBrush="#FFD4D4D4"
+                            BorderThickness="1,1,1,1">
+                        <WrapPanel ItemWidth="160"
+                                   Orientation="Horizontal"
+                                   Margin="2,2,2,2">
+                            <Button Command="{x:Static igEditors:MonthCalendarCommands.ToggleActiveDateSelection}"
+                                    Content="{Binding Source={StaticResource Strings}, Path=ToggleSelection_Button}" />
+                            <Button Command="{x:Static igEditors:MonthCalendarCommands.Today}"
+                                    Content="{Binding Source={StaticResource Strings}, Path=Today_Button}" />
+                            <Button Command="{x:Static igEditors:MonthCalendarCommands.ActivateSelectedDate}"
+                                    Content="{Binding Source={StaticResource Strings}, Path=ActivateSelectedDate_Button}" />
+                        </WrapPanel>
+                    </Border>
+                    <!-- ActivateDate -->
+                    <TextBlock Text="{Binding Source={StaticResource Strings}, Path=DateToActivate_Label}"
+                               Grid.Row="5"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Center" />
+                    <Border Grid.Row="5"
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            CornerRadius="3,3,3,3"
+                            Background="{x:Null}"
+                            Margin="5,2,0,2"
+                            BorderBrush="#FFD4D4D4"
+                            BorderThickness="1,1,1,1">
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="2,2,2,2">
+                            <igEditors:XamDateTimeEditor x:Name="dateToActivate"
+                                                         Width="150"
+                                                         BorderBrush="#FF898989" 
+                                                         Theme="RoyalLight"/>
+                            <Button Command="{x:Static igEditors:MonthCalendarCommands.ActivateDate}"
+                                    CommandParameter="{Binding Path=Value, ElementName=dateToActivate}"
+                                    Content="{Binding Source={StaticResource Strings}, Path=ActivateDate_Button}"
+                                    Margin="8,2,0,2" />
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Border>
+        </ScrollViewer>
+        <!-- #BEGIN SNIPPET# -->
+        <igEditors:XamMonthCalendar Theme="RoyalLight"
+                                    Margin="10,10,0,10"
+                                    x:Name="xamCalendar">
+            <igEditors:XamMonthCalendar.Resources>
+                <Style TargetType="{x:Type igEditors:XamMonthCalendar}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=Dispatcher.Thread.CurrentUICulture.Name}"
+                                     Value="ja-JP">
+                            <Setter Property="DayOfWeekHeaderFormat"
+                                    Value="SingleCharacter" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </igEditors:XamMonthCalendar.Resources>
+        </igEditors:XamMonthCalendar>
+        <!-- #END SNIPPET# -->
+    </StackPanel>
+</igFramework:SampleContainer>

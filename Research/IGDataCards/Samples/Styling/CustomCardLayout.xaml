@@ -1,0 +1,470 @@
+﻿<igFramework:SampleContainer x:Class="IGDataCards.Samples.Styling.CustomCardLayout"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="CustomCardLayout"
+      xmlns:data="clr-namespace:Infragistics.Samples.Shared.Models.DataPresenter;assembly=Infragistics.Samples.Shared"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataCards;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <ObjectDataProvider x:Key="employeeData"
+                                ObjectType="{x:Type data:EmployeeData}" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid>
+        <Grid.Resources>
+            <Style TargetType="{x:Type igDP:LabelPresenter}"
+                   x:Key="hiddenLabel">
+                <Setter Property="Visibility"
+                        Value="Collapsed" />
+            </Style>
+
+            <Style TargetType="{x:Type igDP:LabelPresenter}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <TextBlock VerticalAlignment="Center"
+                                       Margin="7,2,7,6"
+                                       Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" />
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!--Begin CellValuePresenter style for images-->
+            <Style TargetType="{x:Type igDP:CellValuePresenter}"
+                   x:Key="cvpEmployeeImage">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type igDP:CellValuePresenter}">
+                            <Grid Width="{TemplateBinding Width}"
+                                  Height="{TemplateBinding Height}">
+
+                                <Border Margin="0,1,0,0"
+                                        x:Name="MainBorder"
+                                        Grid.Row="0"
+                                        Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        CornerRadius="{TemplateBinding CornerRadius}" />
+                                <Image Margin="{TemplateBinding Padding}"
+                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                       Source="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}" />
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsFieldSelected"
+                                                   Value="True" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="Background"
+                                            TargetName="MainBorder"
+                                            Value="{Binding Path=BackgroundFieldSelected, RelativeSource={RelativeSource TemplatedParent, AncestorType={x:Null}}}" />
+                                    <Setter Property="BorderBrush"
+                                            TargetName="MainBorder"
+                                            Value="{Binding Path=BorderFieldSelectedBrush, RelativeSource={RelativeSource TemplatedParent, AncestorType={x:Null}}}" />
+                                </MultiTrigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsSelected"
+                                                   Value="True" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="Background"
+                                            TargetName="MainBorder"
+                                            Value="{Binding Path=BackgroundSelected, RelativeSource={RelativeSource TemplatedParent, AncestorType={x:Null}}}" />
+                                    <Setter Property="BorderBrush"
+                                            TargetName="MainBorder"
+                                            Value="{Binding Path=BorderSelectedBrush, RelativeSource={RelativeSource TemplatedParent, AncestorType={x:Null}}}" />
+                                </MultiTrigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsActive"
+                                                   Value="True" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="Background"
+                                            TargetName="MainBorder"
+                                            Value="{Binding Path=BackgroundActive, RelativeSource={RelativeSource TemplatedParent, AncestorType={x:Null}}}" />
+                                    <Setter Property="BorderBrush"
+                                            TargetName="MainBorder"
+                                            Value="{Binding Path=BorderActiveBrush, RelativeSource={RelativeSource TemplatedParent, AncestorType={x:Null}}}" />
+                                </MultiTrigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="HighlightAsPrimary"
+                                                   Value="True" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="Background"
+                                            TargetName="MainBorder"
+                                            Value="{Binding Path=BackgroundPrimary, RelativeSource={RelativeSource TemplatedParent, AncestorType={x:Null}}}" />
+                                    <Setter Property="BorderBrush"
+                                            TargetName="MainBorder"
+                                            Value="{Binding Path=BorderPrimaryBrush, RelativeSource={RelativeSource TemplatedParent, AncestorType={x:Null}}}" />
+                                </MultiTrigger>
+                                <Trigger Property="IsMouseOver"
+                                         Value="True">
+                                    <Setter Property="Background"
+                                            TargetName="MainBorder"
+                                            Value="{Binding Path=BackgroundHover, RelativeSource={RelativeSource TemplatedParent, AncestorType={x:Null}}}" />
+                                    <Setter Property="BorderBrush"
+                                            TargetName="MainBorder"
+                                            Value="{Binding Path=BorderHoverBrush, RelativeSource={RelativeSource TemplatedParent, AncestorType={x:Null}}}" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <!--End CellValuePresenter Style for images-->
+
+            <!--Begin CardHeaderPresenter Style-->
+            <Style TargetType="{x:Type igDP:CardHeaderPresenter}">
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <LinearGradientBrush StartPoint="0,0"
+                                             EndPoint="0,1">
+                            <LinearGradientBrush.GradientStops>
+                                <GradientStopCollection>
+                                    <GradientStop Offset="0"
+                                                  Color="#FF9595a8" />
+                                    <GradientStop Offset="1"
+                                                  Color="#FF343439" />
+                                </GradientStopCollection>
+                            </LinearGradientBrush.GradientStops>
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Foreground"
+                        Value="White" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type igDP:CardHeaderPresenter}">
+                            <ControlTemplate.Resources>
+                                <Storyboard x:Key="GlassAnimate">
+                                    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
+                                                                   Storyboard.TargetName="rectangle"
+                                                                   Storyboard.TargetProperty="(UIElement.Opacity)">
+                                        <SplineDoubleKeyFrame KeyTime="00:00:00.1500000"
+                                                              Value="1" />
+                                        <SplineDoubleKeyFrame KeyTime="00:00:00.3000000"
+                                                              Value="0" />
+                                    </DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
+                                                                   Storyboard.TargetName="path"
+                                                                   Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                                        <SplineDoubleKeyFrame KeyTime="00:00:00.1500000"
+                                                              Value="79.332" />
+                                        <SplineDoubleKeyFrame KeyTime="00:00:00.3000000"
+                                                              Value="132.321" />
+                                    </DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
+                                                                   Storyboard.TargetName="path"
+                                                                   Storyboard.TargetProperty="(UIElement.Opacity)">
+                                        <SplineDoubleKeyFrame KeyTime="00:00:00.1500000"
+                                                              Value="1" />
+                                        <SplineDoubleKeyFrame KeyTime="00:00:00.3000000"
+                                                              Value="0" />
+                                    </DoubleAnimationUsingKeyFrames>
+                                    <ObjectAnimationUsingKeyFrames BeginTime="00:00:00"
+                                                                   Storyboard.TargetName="path"
+                                                                   Storyboard.TargetProperty="(UIElement.Visibility)">
+                                        <DiscreteObjectKeyFrame KeyTime="00:00:00.3000000"
+                                                                Value="{x:Static Visibility.Visible}" />
+                                        <DiscreteObjectKeyFrame KeyTime="00:00:00.3000001"
+                                                                Value="{x:Static Visibility.Collapsed}" />
+                                    </ObjectAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </ControlTemplate.Resources>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Rectangle x:Name="rec"
+                                           Fill="White"
+                                           Grid.Row="1" />
+                                <Path x:Name="curve"
+                                      Width="42"
+                                      Height="5"
+                                      Data="M 0,5 C0,5 43,5 43,5 45,5 50.5,3.5 52.5,2.5 54.5,1.5 60,0 62,0 62,0 0,0 0,0 0,0 0,5 0,5 z"
+                                      Stretch="Fill"
+                                      HorizontalAlignment="Left"
+                                      Grid.Row="1"
+                                      Grid.ColumnSpan="3"
+                                      SnapsToDevicePixels="True">
+                                    <Path.Fill>
+                                        <LinearGradientBrush StartPoint="0,0"
+                                                             EndPoint="0,1">
+                                            <LinearGradientBrush.GradientStops>
+                                                <GradientStopCollection>
+                                                    <GradientStop Offset="0"
+                                                                  Color="#FF343439" />
+                                                    <GradientStop Offset="1"
+                                                                  Color="#FF000000" />
+                                                </GradientStopCollection>
+                                            </LinearGradientBrush.GradientStops>
+                                        </LinearGradientBrush>
+                                    </Path.Fill>
+                                </Path>
+                                <Border x:Name="Bd"
+                                        Background="{TemplateBinding Background}"
+                                        CornerRadius="2,2,0,0"
+                                        Grid.ColumnSpan="3"
+                                        SnapsToDevicePixels="True" />
+                                <ContentPresenter x:Name="CardHeader"
+                                                  HorizontalAlignment="Stretch"
+                                                  VerticalAlignment="Center"
+                                                  Grid.Column="2"
+                                                  Margin="5" />
+                                <Path Height="12"
+                                      Data="M 0,9.28 C17.07,10.95 41.44,12 68.5,12 96.08,12 120.88,10.91 138,9.18 138,9.18 138,0 138,0 138,0 0,0 0,0 0,0 0,9.28 0,9.28 z"
+                                      Stretch="Fill"
+                                      Grid.ColumnSpan="3"
+                                      VerticalAlignment="Top">
+                                    <Path.Fill>
+                                        <LinearGradientBrush StartPoint="0,0"
+                                                             EndPoint="0,1">
+                                            <LinearGradientBrush.GradientStops>
+                                                <GradientStopCollection>
+                                                    <GradientStop Offset="0"
+                                                                  Color="#19FFFFFF" />
+                                                    <GradientStop Offset="1"
+                                                                  Color="#7FFFFFFF" />
+                                                </GradientStopCollection>
+                                            </LinearGradientBrush.GradientStops>
+                                        </LinearGradientBrush>
+                                    </Path.Fill>
+                                </Path>
+                                <Rectangle Grid.ColumnSpan="3"
+                                           Height="1"
+                                           VerticalAlignment="Top">
+                                    <Rectangle.Fill>
+                                        <LinearGradientBrush EndPoint="1,0"
+                                                             StartPoint="0,0">
+                                            <GradientStop Offset="0" />
+                                            <GradientStop Color="#7FFFFFFF"
+                                                          Offset="1" />
+                                        </LinearGradientBrush>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <Rectangle Fill="#7F000000"
+                                           Width="1"
+                                           HorizontalAlignment="Right"
+                                           Grid.RowSpan="2"
+                                           SnapsToDevicePixels="True" />
+                                <Rectangle Fill="#3FFFFFFF"
+                                           Width="1"
+                                           HorizontalAlignment="Left"
+                                           Grid.Column="1"
+                                           Grid.RowSpan="2"
+                                           SnapsToDevicePixels="True" />
+                                <Rectangle x:Name="rectangle"
+                                           SnapsToDevicePixels="True"
+                                           Grid.ColumnSpan="3"
+                                           Opacity="0">
+                                    <Rectangle.Fill>
+                                        <LinearGradientBrush EndPoint="0.5,1"
+                                                             StartPoint="0.5,0">
+                                            <GradientStop Color="White"
+                                                          Offset="0" />
+                                            <GradientStop Offset="1" />
+                                        </LinearGradientBrush>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <Path x:Name="path"
+                                      Width="Auto"
+                                      Grid.RowSpan="2"
+                                      Data="M 35,0 C35,0 0,35 0,35 0,35 5,35 5,35 5,35 40,0 40,0 40,0 35,0 35,0 zM 43,0 C43,0 8,35 8,35 8,35 23,35 23,35 23,35 58,0 58,0 58,0 43,0 43,0 z"
+                                      Opacity="0"
+                                      RenderTransformOrigin="0.5,0.5"
+                                      Grid.ColumnSpan="3"
+                                      HorizontalAlignment="Left"
+                                      Margin="-10,0,0,-10"
+                                      Stretch="Fill"
+                                      Height="27"
+                                      VerticalAlignment="Top">
+                                    <Path.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform />
+                                            <SkewTransform />
+                                            <RotateTransform />
+                                            <TranslateTransform />
+                                        </TransformGroup>
+                                    </Path.RenderTransform>
+                                    <Path.Fill>
+                                        <LinearGradientBrush StartPoint="0,0"
+                                                             EndPoint="0,1">
+                                            <LinearGradientBrush.GradientStops>
+                                                <GradientStopCollection>
+                                                    <GradientStop Offset="0"
+                                                                  Color="#3fffffff" />
+                                                    <GradientStop Offset="1"
+                                                                  Color="#CCFFFFFF" />
+                                                </GradientStopCollection>
+                                            </LinearGradientBrush.GradientStops>
+                                        </LinearGradientBrush>
+                                    </Path.Fill>
+                                </Path>
+                                <Button x:Name="ToggleEmptyCellsCollapsedStateButton"
+                                        Grid.Column="1"
+                                        Command="{x:Static igDP:DataPresenterCommands.ToggleEmptyCardCellsCollapsedState}"
+                                        CommandParameter="{Binding}"
+                                        Style="{DynamicResource {x:Static igDP:CardHeaderPresenter.CollapseEmptyCellsButtonStyleKey}}"
+                                        Visibility="{Binding Card.CollapseEmptyCellsButtonVisibility, Mode=OneWay,
+                                    RelativeSource={x:Static RelativeSource.TemplatedParent}}"
+                                        HorizontalAlignment="Left"
+                                        Width="10"
+                                        Margin="5,0" />
+                                <Button x:Name="ToggleCollapsedStateButton"
+                                        Command="{x:Static igDP:DataPresenterCommands.ToggleCardCollapsedState}"
+                                        CommandParameter="{Binding}"
+                                        Style="{DynamicResource {x:Static igDP:CardHeaderPresenter.CollapseCardButtonStyleKey}}"
+                                        Visibility="{Binding Card.CollapseCardButtonVisibility, Mode=OneWay,
+                                    RelativeSource={x:Static RelativeSource.TemplatedParent}}"
+                                        Width="15"
+                                        HorizontalAlignment="Left"
+                                        Margin="5,0"
+                                        Foreground="White" />
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <DataTrigger Binding="{Binding IsActive, RelativeSource={x:Static RelativeSource.TemplatedParent}}"
+                                             Value="True">
+                                    <DataTrigger.ExitActions>
+                                        <StopStoryboard BeginStoryboardName="GlassAnimate_BeginStoryboard" />
+                                    </DataTrigger.ExitActions>
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard x:Name="GlassAnimate_BeginStoryboard"
+                                                         Storyboard="{StaticResource GlassAnimate}" />
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsCollapsed, RelativeSource={x:Static RelativeSource.TemplatedParent}}"
+                                             Value="True">
+                                    <Setter TargetName="rec"
+                                            Property="Visibility"
+                                            Value="Collapsed" />
+                                    <Setter TargetName="curve"
+                                            Property="Visibility"
+                                            Value="Collapsed" />
+                                </DataTrigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsActive, RelativeSource={x:Static RelativeSource.TemplatedParent}}"
+                                 Value="True">
+                        <Setter Property="Background">
+                            <Setter.Value>
+                                <LinearGradientBrush StartPoint="0,0"
+                                                     EndPoint="0,1">
+                                    <LinearGradientBrush.GradientStops>
+                                        <GradientStopCollection>
+                                            <GradientStop Offset="0"
+                                                          Color="#FF8181bc" />
+                                            <GradientStop Offset="1"
+                                                          Color="#FF343439" />
+                                        </GradientStopCollection>
+                                    </LinearGradientBrush.GradientStops>
+                                </LinearGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <!--End CardHeaderPresenter Style-->
+
+        </Grid.Resources>
+        <!-- #BEGIN SNIPPET# -->
+        <igDP:XamDataCards Name="xamDataCards1"
+                           DataSource="{Binding Source={StaticResource employeeData}, Path=EmployeeDataCollection}"
+                           Theme="RoyalLight">
+
+            <igDP:XamDataCards.ViewSettings>
+                <igDP:CardViewSettings HeaderPath="EmployeeName" />
+            </igDP:XamDataCards.ViewSettings>
+
+            <igDP:XamDataCards.FieldLayoutSettings>
+                <igDP:FieldLayoutSettings AutoArrangeCells="Never"
+                                          AutoGenerateFields="False"
+                                          HighlightPrimaryField="SameAsOtherFields"
+                                          DataRecordSizingMode="SizableSynchronized" />
+            </igDP:XamDataCards.FieldLayoutSettings>
+
+            <igDP:XamDataCards.FieldLayouts>
+                <igDP:FieldLayout>
+                    <igDP:Field Name="PhotoFileUri"
+                                RowSpan="3">
+                        <igDP:Field.Settings>
+                            <igDP:FieldSettings LabelPresenterStyle="{StaticResource hiddenLabel}"
+                                                CellValuePresenterStyle="{StaticResource cvpEmployeeImage}" />
+                        </igDP:Field.Settings>
+                    </igDP:Field>
+
+                    <igDP:Field Name="EmployeeName"
+                                Column="1">
+                        <igDP:Field.Settings>
+                            <igDP:FieldSettings LabelPresenterStyle="{StaticResource hiddenLabel}" />
+                        </igDP:Field.Settings>
+                    </igDP:Field>
+
+                    <igDP:Field Name="City"
+                                Column="1"
+                                Row="2">
+                        <igDP:Field.Settings>
+                            <igDP:FieldSettings LabelPresenterStyle="{StaticResource hiddenLabel}" />
+                        </igDP:Field.Settings>
+                    </igDP:Field>
+
+                    <igDP:Field Name="Department"
+                                Column="1"
+                                Row="1">
+                        <igDP:Field.Settings>
+                            <igDP:FieldSettings LabelPresenterStyle="{StaticResource hiddenLabel}" />
+                        </igDP:Field.Settings>
+                    </igDP:Field>
+
+                    <igDP:Field Name="Address1"
+                                Row="7"
+                                ColumnSpan="2" />
+                    <igDP:Field Name="Address2"
+                                Row="4"
+                                ColumnSpan="2" />
+                    <igDP:Field Name="CellNumber"
+                                Row="5"
+                                ColumnSpan="2" />
+                    <igDP:Field Name="Email"
+                                Row="6"
+                                ColumnSpan="2" />
+                    <igDP:Field Name="PhoneNumber"
+                                Row="8"
+                                ColumnSpan="2" />
+                    <igDP:Field Name="State"
+                                Row="9"
+                                ColumnSpan="2" />
+                    <igDP:Field Name="Zip"
+                                Row="10"
+                                ColumnSpan="2" />
+                    <igDP:Field Name="History"
+                                Row="11"
+                                ColumnSpan="2" />
+                </igDP:FieldLayout>
+            </igDP:XamDataCards.FieldLayouts>
+
+        </igDP:XamDataCards>
+        <!-- #END SNIPPET# -->
+    </Grid>
+</igFramework:SampleContainer>

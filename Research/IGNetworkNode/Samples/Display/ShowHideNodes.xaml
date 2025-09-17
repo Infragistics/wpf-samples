@@ -1,0 +1,64 @@
+﻿<framework:SampleContainer x:Class="IGNetworkNode.Samples.Display.ShowHideNodes" 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:common="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared" 
+    xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared" 
+    xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared" 
+    xmlns:local="clr-namespace:IGNetworkNode.Samples.Display" 
+    xmlns:res="clr-namespace:IGNetworkNode.Resources"                         
+    mc:Ignorable="d" d:DesignHeight="400" d:DesignWidth="700">
+
+    <!-- ========================================================================== -->
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGNetworkNode;component/Assets/Global.xaml" />
+                
+                
+            </ResourceDictionary.MergedDictionaries>
+            <common:CommonStrings x:Key="CommonStrings"/>
+            <res:NetworkNodeStrings x:Key="XNN_Strings"/>
+            <local:SampleTestData x:Key="SampleTestData"/>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+    <!-- ========================================================================== -->
+    <Grid x:Name="LayoutRoot" Width="Auto" >
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamNetworkNode x:Name="xnn"
+                           SelectionType="Multiple"
+                           ItemsSource="{Binding Nodes, Source={StaticResource SampleTestData}}">
+            <ig:XamNetworkNode.GlobalNodeLayouts>
+                <ig:NetworkNodeNodeLayout                    
+                    TargetTypeName="NodeModel"                    
+                    DisplayMemberPath="Label"                    
+                    ToolTipMemberPath="ToolTip"                    
+                    ConnectionsMemberPath="Connections"                    
+                    ConnectionTargetMemberPath="Target"                    
+                    ConnectionWeightMemberPath="Weight" 
+                    />
+            </ig:XamNetworkNode.GlobalNodeLayouts>
+        </ig:XamNetworkNode>
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel HeaderText="{Binding XW_Options, Source={StaticResource CommonStrings}}" 
+                               HorizontalAlignment="Right">
+            <StackPanel>
+                <CheckBox Name="cb_EnableExpansion" Margin="{StaticResource OptionsElementsMargin}"
+                    Content="{Binding XNN_EnableExpansionIndicators, Source={StaticResource XNN_Strings}}" 
+                    HorizontalAlignment="Left" IsChecked="False"  IsThreeState="False"  
+					Checked="cb_EnableExpansion_Checked" 
+					Unchecked="cb_EnableExpansion_Unchecked"/>
+                <Button Name="btn_ShowHide"
+                    Content="{Binding XNN_ShowHide, Source={StaticResource XNN_Strings}}" 
+                    HorizontalAlignment="Stretch"
+                    Click="btn_ShowHide_Click"
+                    />
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>
+

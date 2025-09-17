@@ -1,0 +1,99 @@
+﻿<UserControl x:Class="Infragistics.Samples.Shared.Controls.EnumValuesProvider"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Infragistics.Samples.Shared.Controls"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             x:Name="EnumValuesProviderPage">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Infragistics.Samples.Shared;component/Assets/IGControlStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="EnumValuesProviderListStyle" TargetType="ListBoxItem">
+                <Setter Property="HorizontalContentAlignment" Value="{Binding Path=HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType=ItemsControl}}"/>
+                <Setter Property="VerticalContentAlignment" Value="{Binding Path=VerticalContentAlignment, RelativeSource={RelativeSource AncestorType=ItemsControl}}"/>
+                <Setter Property="Padding" Value="2,0,0,0"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ListBoxItem">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="EnumValuesProviderCheckBoxListStyle" TargetType="local:EnumValuesProvider">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="local:EnumValuesProvider">
+                            <ListBox Name="listBox" ItemContainerStyle="{StaticResource EnumValuesProviderListStyle}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="#00FFFFFF" BorderBrush="#00FFFFFF" ItemsSource="{TemplateBinding EnumValueHolders}" Margin="0,3,0,0" Loaded="control_Loaded">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <CheckBox Padding="1" 
+                                                  Margin="{StaticResource OptionsElementsMargin}"
+                                                  IsChecked="{Binding IsChecked}"
+                                                  Content="{Binding Name}" />
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel />
+                                        <!--<WrapPanel Orientation="Horizontal" ItemWidth="110" ScrollViewer.HorizontalScrollBarVisibility="Disabled" />-->
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                            </ListBox>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="EnumValuesProviderRadioButtonListStyle" TargetType="local:EnumValuesProvider">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="local:EnumValuesProvider">
+                            <ListBox Name="listBox" ItemContainerStyle="{StaticResource EnumValuesProviderListStyle}" 
+                                     ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" 
+                                     Background="#00FFFFFF" BorderBrush="#00FFFFFF" ItemsSource="{TemplateBinding EnumValueHolders}" Margin="0,3,0,0" 
+                                     Loaded="control_Loaded">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <RadioButton Padding="1" 
+                                                     Margin="{StaticResource OptionsElementsMargin}"
+                                                     IsChecked="{Binding IsChecked, Mode=TwoWay}"
+                                                     Content="{Binding Name}" GroupName="defaultGroup"/>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel/>
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                            </ListBox>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="EnumValuesProviderComboBoxStyle" TargetType="local:EnumValuesProvider">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="local:EnumValuesProvider">
+                            <ComboBox ItemsSource="{TemplateBinding EnumValueHolders}" SelectionChanged="ComboBox_SelectionChanged" SelectedIndex="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectedEnumIndex, Mode=TwoWay}" Loaded="control_Loaded">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Name}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+</UserControl>

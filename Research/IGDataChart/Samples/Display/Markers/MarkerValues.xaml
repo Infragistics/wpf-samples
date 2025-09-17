@@ -1,0 +1,111 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Display.Markers.MarkerValues"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="MarkerValues Page"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <models:CategoryDataSample x:Key="CategoryData" />
+            <DropShadowEffect x:Key="MarkerEffect" ShadowDepth="1" BlurRadius="5" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <ig:XamDataChart x:Name="CustomMarkerChart" Grid.Row="0" Margin="0,0,0,20" >
+            <ig:XamDataChart.Axes>
+                <ig:CategoryXAxis x:Name="categoryXAxis1"  ItemsSource="{StaticResource CategoryData}" Label="{}{Index}">
+                    <ig:CategoryXAxis.LabelSettings>
+                        <ig:AxisLabelSettings Visibility="Collapsed"></ig:AxisLabelSettings>
+                    </ig:CategoryXAxis.LabelSettings>
+                </ig:CategoryXAxis>
+                <ig:NumericYAxis x:Name="numricYAxis1"  MinimumValue="20" MaximumValue="120">
+                </ig:NumericYAxis>
+            </ig:XamDataChart.Axes>
+            <ig:XamDataChart.Series>
+                <ig:RangeColumnSeries ItemsSource="{StaticResource CategoryData}"
+                                      HighMemberPath="High" LowMemberPath="Low"
+                                      MarkerBrush="{StaticResource ChartSeriesBrush2}"
+                                      MarkerOutline="{StaticResource ChartSeriesBrush2}"
+                                      XAxis="{Binding ElementName=categoryXAxis1}"
+                                      YAxis="{Binding ElementName=numricYAxis1}" 
+                                      IsHighlightingEnabled="True" IsTransitionInEnabled="True">
+                    <!-- #BEGIN SNIPPET# -->
+                    <!-- ========================================================================== -->
+                    <!-- MarkerTemplate with TextBlock mapped to the Change property of CategoryDataPoint item -->  
+                    <!-- ========================================================================== -->
+                    <ig:RangeColumnSeries.MarkerTemplate>
+                        <DataTemplate>
+                            <Grid Width="40" Margin="0,0,0,0">
+                                <StackPanel HorizontalAlignment="Stretch">
+                                    <Polygon Width="20" Points="0, 8 4, 0 8, 8" Stretch="Fill" Fill="{Binding ActualItemBrush}" Stroke="{Binding Series.ActualMarkerOutline}" StrokeThickness="0.5" />
+                                    <TextBlock Margin="2" Text="{Binding Item.Change, StringFormat=0}" Foreground="White"   FontSize="12" HorizontalAlignment="Center" />
+                                    <Polygon Width="20" Points="0, 0 4, 8 8, 0" Stretch="Fill" Fill="{Binding ActualItemBrush}" Stroke="{Binding Series.ActualMarkerOutline}" StrokeThickness="0.5" />
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ig:RangeColumnSeries.MarkerTemplate>
+                    <!-- ========================================================================== -->
+                    <!-- #END SNIPPET# -->
+                </ig:RangeColumnSeries>
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+        <ig:XamDataChart x:Name="SimpleMarkerChart" Grid.Row="1">
+            <ig:XamDataChart.Axes>
+                <ig:CategoryXAxis x:Name="categoryXAxis2"  ItemsSource="{StaticResource CategoryData}"  Label="{}{Index}">
+                    <ig:CategoryXAxis.LabelSettings>
+                        <ig:AxisLabelSettings Visibility="Collapsed"></ig:AxisLabelSettings>
+                    </ig:CategoryXAxis.LabelSettings>
+                </ig:CategoryXAxis>
+                <ig:NumericYAxis x:Name="numricYAxis2"  MinimumValue="20" MaximumValue="120">
+                </ig:NumericYAxis>
+            </ig:XamDataChart.Axes>
+            <ig:XamDataChart.Series>
+                <ig:ColumnSeries ItemsSource="{StaticResource CategoryData}"
+                                 ValueMemberPath="Value"
+                                 XAxis="{Binding ElementName=categoryXAxis2}"
+                                 YAxis="{Binding ElementName=numricYAxis2}" 
+                                 MarkerBrush="{StaticResource ChartSeriesBrush2}"
+                                 MarkerOutline="{StaticResource ChartSeriesBrush2}"
+                                 IsHighlightingEnabled="True" IsTransitionInEnabled="True">
+                    <!-- #BEGIN SNIPPET# -->
+                    <!-- ========================================================================== -->
+                    <!-- MarkerTemplate with TextBlock mapped to the Value property of CategoryDataPoint item -->
+                    <!-- ========================================================================== -->
+                    <ig:ColumnSeries.MarkerTemplate>
+                        <DataTemplate>
+                            <Grid Width="40" Height="25" Margin="0,0,0,0">
+                                <Border CornerRadius="1" Background="{Binding ActualItemBrush}" 
+                                        BorderBrush="{Binding Series.ActualMarkerOutline}">
+                                    <TextBlock Margin="2"
+                                               Text="{Binding Item.Value, StringFormat=0}"
+                                               Foreground="{StaticResource LightForegroundBrush}"
+                                               FontSize="12"
+                                               HorizontalAlignment="Center" />
+                                </Border>
+                            </Grid>
+                        </DataTemplate>
+                    </ig:ColumnSeries.MarkerTemplate>
+                    <!-- ========================================================================== -->
+                    <!-- #END SNIPPET# -->
+                </ig:ColumnSeries>
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+    </Grid>
+</igFramework:SampleContainer>

@@ -1,0 +1,83 @@
+﻿<igFramework:SampleContainer x:Class="IGGrid.Samples.Editing.PasteOperation"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="PasteOperation Page"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGGrid.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGrid;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:GridStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+        <ig:XamGrid x:Name="igGridSource" AutoGenerateColumns="False" ColumnWidth="*" Grid.RowSpan="2" >
+            <ig:XamGrid.Columns>
+                <ig:TextColumn Key="Name" HeaderText="{Binding Path=XWG_Grid_ProductName, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="Category" HeaderText="{Binding Path=XWG_Grid_ProductCategory, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="UnitPrice" HeaderText="{Binding Path=XWG_Grid_UnitPrice, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="UnitsInStock" HeaderText="{Binding Path=XWG_Grid_UnitsStock, Source={StaticResource Strings}}" />
+            </ig:XamGrid.Columns>
+
+            <!-- Define the kind of selection that occurs on cell click event in the xamGrid control. -->
+            <!-- In this case multiple data rows can be selected. -->
+            <ig:XamGrid.SelectionSettings>
+                <ig:SelectionSettings CellClickAction="SelectRow" RowSelection="Multiple" />
+            </ig:XamGrid.SelectionSettings>
+            <!-- Enable the copy clipboard operation for the first xamGrid and exclude the header text. -->
+            <ig:XamGrid.ClipboardSettings>
+                <ig:ClipboardSettings AllowCopy="True" CopyOptions="ExcludeHeaders" CopyType="Default" />
+            </ig:XamGrid.ClipboardSettings>
+
+            <ig:XamGrid.FilteringSettings>
+                <ig:FilteringSettings AllowFiltering="FilterRowTop" />
+            </ig:XamGrid.FilteringSettings>
+        </ig:XamGrid>
+
+        <ig:XamGrid x:Name="igGridTarget" AutoGenerateColumns="False" ColumnWidth="*" Grid.Column="1" Grid.Row="0" >
+            <ig:XamGrid.Columns>
+                <ig:TextColumn Key="Name" HeaderText="{Binding Path=XWG_Grid_ProductName, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="Category" HeaderText="{Binding Path=XWG_Grid_ProductCategory, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="UnitPrice" HeaderText="{Binding Path=XWG_Grid_UnitPrice, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="UnitsInStock" HeaderText="{Binding Path=XWG_Grid_UnitsStock, Source={StaticResource Strings}}" />
+            </ig:XamGrid.Columns>
+            <!-- #BEGIN SNIPPET# -->
+            <!-- Enable the paste operation for the target xamGrid control. -->
+            <ig:XamGrid.ClipboardSettings>
+                <ig:ClipboardSettings AllowPaste="True" />
+            </ig:XamGrid.ClipboardSettings>
+            <!-- #END SNIPPET# -->
+
+            <ig:XamGrid.SummaryRowSettings>
+                <ig:SummaryRowSettings AllowSummaryRow="Top" />
+            </ig:XamGrid.SummaryRowSettings>
+        </ig:XamGrid>
+
+        <Button x:Name="BtnClearData" Click="BtnClearData_Click"
+                Content="{Binding Path=XG_KeyFeatures_PasteOperation_BtnText, Source={StaticResource Strings}}"
+                Grid.Column="1" Grid.Row="1"
+                Height="25" Width="100" Margin="0,3,0,3"
+                VerticalAlignment="Bottom" HorizontalAlignment="Right" 
+                Style="{StaticResource IGGenericButton}"/>
+        
+    </Grid>
+</igFramework:SampleContainer>

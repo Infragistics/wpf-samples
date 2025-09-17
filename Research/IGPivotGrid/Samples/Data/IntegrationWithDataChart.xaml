@@ -1,0 +1,70 @@
+﻿<framework:SampleContainer x:Class="IGPivotGrid.Samples.Data.IntegrationWithDataChart"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:local="clr-namespace:IGPivotGrid.Samples.Controls"
+    xmlns:res="clr-namespace:IGPivotGrid.Resources"
+    mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700"
+    Title="IntegrationWithDataChart Page">
+    
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGPivotGrid;component/Assets/Global.xaml" />
+                
+               
+            </ResourceDictionary.MergedDictionaries>
+
+            <local:SampleFlatDataSourceSellerVsProduct x:Key="FlatDataSource" />
+            <res:PivotGridStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+   
+    <Grid x:Name="LayoutRoot" Background="White" Width="Auto">        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" MaxHeight="400"/>
+        </Grid.RowDefinitions>
+
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ========================================================================== -->
+        <!-- PivotGrid -->
+        <ig:XamPivotGrid 
+            x:Name="pivotGrid" 
+            DataSource="{StaticResource FlatDataSource}" 
+            AllowCompactLayout="True" />
+
+        <!-- DataSelector -->
+        <ig:Expander 
+            Grid.Row="0" Grid.Column="1" Grid.RowSpan="2">
+            <ig:XamPivotDataSelector x:Name="dataSelector" DataSource="{StaticResource FlatDataSource}" />
+        </ig:Expander>
+
+        <!-- DataChart with OlapAxis -->
+        <ig:XamDataChart Grid.Row="1" Grid.Column="0"
+            x:Name="xmOlapDataChart"  
+            VerticalZoombarVisibility="Visible" 
+            IsVerticalZoomEnabled="True" 
+            HorizontalZoombarVisibility="Visible"
+            IsHorizontalZoomEnabled="True">
+            <ig:XamDataChart.Axes>
+                <ig:OlapXAxis 
+                    x:Name="olapXAxis"
+                    DataSource="{StaticResource FlatDataSource}" 
+                    OlapAxisSource="Columns"
+                    DefaultSeries="ColumnSeries"   
+                    YAxis="{Binding ElementName=xmYAxis1}"/>
+                <ig:NumericYAxis x:Name="xmYAxis1" MinimumValue="0" />
+            </ig:XamDataChart.Axes>
+        </ig:XamDataChart>
+        <!-- ========================================================================== -->
+        <!-- #END SNIPPET# -->
+    </Grid>
+</framework:SampleContainer>

@@ -1,0 +1,123 @@
+﻿<igFramework:SampleContainer
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="ScheduleViewWorkingHours"
+      x:Class="IGSchedule.Samples.Display.ScheduleViewWorkingHours"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared"
+      xmlns:data="clr-namespace:IGSchedule.DataSource"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igEdit="http://infragistics.com/Editors"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGSchedule.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <converters:FormatConverter x:Key="timeConverter" />
+            <converters:GetImageConverter x:Key="getImageConverter" />
+            <DataTemplate x:Key="TimeTemplate">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="{Binding Converter={StaticResource timeConverter}, ConverterParameter=HH, Mode=OneWay}" FontSize="20" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Converter={StaticResource timeConverter}, ConverterParameter=mm, Mode=OneWay}" VerticalAlignment="Top"/>
+                </StackPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="StartTimeTemplate">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="{Binding Start, Converter={StaticResource timeConverter}, ConverterParameter=HH, Mode=OneWay}" FontSize="20" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Start, Converter={StaticResource timeConverter}, ConverterParameter=mm, Mode=OneWay}" VerticalAlignment="Top"/>
+                </StackPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="EndTimeTemplate">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="{Binding End, Converter={StaticResource timeConverter},ConverterParameter=HH, Mode=OneWay}" FontSize="20" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding End, Converter={StaticResource timeConverter},ConverterParameter=mm, Mode=OneWay}" VerticalAlignment="Top"/>
+                </StackPanel>
+            </DataTemplate>
+            <res:ScheduleStrings x:Key="resStrings" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSchedule;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <igFramework:SampleContainer.DataContext>
+        <data:ScheduleData x:Name="Data"/>
+    </igFramework:SampleContainer.DataContext>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <!-- #BEGIN SNIPPET# -->
+        <ig:ListScheduleDataConnector x:Name="scheduleDataConnector"
+                                      ResourceItemsSource="{Binding Resources}"
+                                      ResourceCalendarItemsSource="{Binding Calendars}"
+                                      AppointmentItemsSource="{Binding Appointments}"
+                                      TaskItemsSource="{Binding Tasks}"
+                                      JournalItemsSource="{Binding Journals}">
+        </ig:ListScheduleDataConnector>
+
+        <ig:XamScheduleDataManager x:Name="dataManager" DataConnector="{Binding ElementName=scheduleDataConnector}"
+                                   CurrentUserId="own3">
+            <ig:XamScheduleDataManager.CalendarGroups>
+                <ig:CalendarGroup InitialCalendarIds="own3"/>
+            </ig:XamScheduleDataManager.CalendarGroups>
+        </ig:XamScheduleDataManager>
+
+        <ig:XamScheduleView x:Name="scheduleView" DataManager="{Binding ElementName=dataManager}"
+                            ShowWorkingHoursOnly="{Binding ElementName=chkWorkingHours, Path=IsChecked}" />
+        <!-- #END SNIPPET# -->
+
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource CommonStrings}, Path=ConfigurationPanel_Header_Options}"
+                               Grid.Column="1" IsMovable="False" >
+            <TextBlock Text="{Binding ActiveDate, Source={StaticResource resStrings}}" Margin="{StaticResource OptionsTextTopBottomMargin}"/>
+            <igEdit:XamDateTimeEditor x:Name="dtPicker" ValueChanged="dtPicker_SelectedDateChanged" Margin="{StaticResource OptionsElementsMargin}" />
+            <CheckBox x:Name="chkWorkingHours" IsChecked="True" Content="{Binding TimeslotVisibility, Source={StaticResource resStrings}}" 
+                      Margin="{StaticResource OptionsElementsMargin}" />
+            <Border Margin="0,10,0,0">
+                <StackPanel>
+                    <DataGrid x:Name="grdHours" AutoGenerateColumns="False"
+                              ItemsSource="{Binding ElementName=dataManager, Path=Settings.WorkingHours}"
+                              Margin="{StaticResource OptionsElementsMargin}"
+                              MaxHeight="165" VerticalScrollBarVisibility="Auto">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn CanUserSort="False">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button x:Name="btnRemove" Click="btnRemove_Click">
+                                            <Image Source="{Binding Source='Icons/stop.png', Converter={StaticResource getImageConverter}}"/>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn CanUserSort="False" IsReadOnly="True"
+                                                    Header="{Binding HeaderStart, Source={StaticResource resStrings}}"
+                                                    Width="46"
+                                                    CellTemplate="{StaticResource StartTimeTemplate}"
+                                                    />
+                            <DataGridTemplateColumn CanUserSort="False" IsReadOnly="True"
+                                                    Header="{Binding HeaderEnd, Source={StaticResource resStrings}}"
+                                                    Width="46"
+                                                    CellTemplate="{StaticResource EndTimeTemplate}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <TextBlock Text="{Binding WorkTimeStart, Source={StaticResource resStrings}}" Margin="{StaticResource OptionsTextTopBottomMargin}" />
+                    <ComboBox x:Name="cboStart" Margin="{StaticResource OptionsElementsMargin}" SelectionChanged="cboStart_SelectionChanged" ItemTemplate="{StaticResource TimeTemplate}" Height="28" />
+
+                    <TextBlock Text="{Binding WorkTimeEnd, Source={StaticResource resStrings}}"  Margin="{StaticResource OptionsTextTopBottomMargin}"/>
+                    <ComboBox x:Name="cboEnd" Margin="{StaticResource OptionsElementsMargin}" ItemTemplate="{StaticResource TimeTemplate}" Height="28" />
+
+                    <Button x:Name="btnAdd" Content="{Binding ButtonAdd, Source={StaticResource resStrings}}" Click="btnAdd_Click" Margin="10" />
+                </StackPanel>
+            </Border>
+        </controls:OptionsPanel>
+
+    </Grid>
+</igFramework:SampleContainer>

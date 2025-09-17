@@ -1,0 +1,68 @@
+﻿<framework:SampleContainer x:Class="IGSparkline.Samples.Display.AdjustRanges" 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+    xmlns:resCommon="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared"
+    xmlns:res="clr-namespace:IGSparkline.Resources"
+    xmlns:data="clr-namespace:IGSparkline.Model"
+    mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700">
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSparkline;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <resCommon:CommonStrings x:Key="CommonStrings"/>
+            <res:SparklineStrings x:Key="SparklineStrings"/>
+            <data:TestData x:Key="testdata"/>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Width="Auto" >
+        <StackPanel Name="sp1" Orientation="Vertical" Margin="5" Width="450" HorizontalAlignment="Left">
+            <!-- #BEGIN SNIPPET# -->
+            <ig:XamSparkline 
+                Name="xamSparkline1" 
+                ItemsSource="{StaticResource testdata}"
+                ValueMemberPath="Value"
+                DisplayType="Column"
+                BorderThickness="1"
+                Width="Auto" Height="250"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Top"
+                NormalRangeVisibility="Visible"
+                NormalRangeMinimum="{Binding Value, ElementName=sliderMINRange}"
+                NormalRangeMaximum="{Binding Value, ElementName=sliderMAXRange}"
+                LineThickness="1"/>
+            <!-- #END SNIPPET# -->
+        </StackPanel>
+        <controls:OptionsPanel HeaderText="{Binding XW_Options, Source={StaticResource CommonStrings}}" HorizontalAlignment="Right">
+            <StackPanel>
+                <!-- Normal Range -->
+                <CheckBox Name="CheckBoxRange" 
+                          IsThreeState="False" 
+                          IsChecked="True"
+                          Content="{Binding XSL_AdjustRanges, Source={StaticResource SparklineStrings}}" 
+                          Click="CheckBoxRange_Click"   Margin="3"/>
+                <Slider Name="sliderMINRange" Value="1" Minimum="-2" Maximum="9" Margin="3"/>
+                <Slider Name="sliderMAXRange" Value="4" Minimum="-2" Maximum="9" Margin="3"/>
+
+                <!-- Chart types -->
+                <TextBlock Text="{Binding XSL_ChartTypes, Source={StaticResource SparklineStrings}}" HorizontalAlignment="Stretch" Margin="3" />
+                <ComboBox 
+                    x:Name="ComboBoxChartType" 
+                    HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Center"
+                    SelectionChanged="ComboBoxChartType_SelectionChanged" Margin="3">
+                    <ComboBoxItem Content="{Binding XSL_LineChart, Source={StaticResource SparklineStrings}}"/>
+                    <ComboBoxItem Content="{Binding XSL_AreaChart, Source={StaticResource SparklineStrings}}"/>
+                    <ComboBoxItem Content="{Binding XSL_ColumnChart, Source={StaticResource SparklineStrings}}" IsSelected="True"/>
+                    <ComboBoxItem Content="{Binding XSL_WinLossChart, Source={StaticResource SparklineStrings}}"/>
+                </ComboBox>
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

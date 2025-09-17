@@ -1,0 +1,50 @@
+﻿<igFramework:SampleContainer x:Class="IGTreemap.Samples.Theming"
+                 xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 mc:Ignorable="d"
+                 xmlns:ig="http://schemas.infragistics.com/xaml"
+                 Title="Infragistics XAML Control Sample"
+                 xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+                 xmlns:Resources="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared" 
+                             xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>                
+                <ResourceDictionary Source="/IGTreemap;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <models:ManufacturerModel x:Key="ManufacturerModel" />
+            <Resources:CommonStrings x:Key="CommonStrings" />
+        </ResourceDictionary>
+	</igFramework:SampleContainer.Resources>
+
+	<Grid x:Name="LayoutRoot" Width="Auto"> 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+		<ig:XamTreemap Grid.Row="1" DataContext="{StaticResource ManufacturerModel}" ItemsSource="{Binding Manufacturers}">
+			<ig:XamTreemap.NodeBinders>
+				<ig:NodeBinder TargetTypeName="Manufacturer" ValuePath="Revenue" TextPath="Name" ItemsSourcePath="Products" />
+
+				<ig:NodeBinder TargetTypeName="Product" ValuePath="StandardCost" TextPath="Name" ItemsSourcePath="InventoryEntries" />
+
+				<ig:NodeBinder TargetTypeName="InventoryEntry" ValuePath="Quantity" TextPath="Shelf" />
+
+			</ig:XamTreemap.NodeBinders>
+		</ig:XamTreemap> 
+        
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ================================================================================================== -->
+        <!-- Note theme are changed in code-behind -->
+        <controls:ThemeSelector x:Name="ThemeSelector" 
+                                HorizontalAlignment="Right"
+                                SelectionChanged="OnSelectionChanged"/>
+        <!-- ================================================================================================== -->
+        <!-- #END SNIPPET# -->
+    </Grid>
+</igFramework:SampleContainer>

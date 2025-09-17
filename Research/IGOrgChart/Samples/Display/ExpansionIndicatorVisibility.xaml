@@ -1,0 +1,76 @@
+﻿<framework:SampleContainer x:Class="IGOrgChart.Samples.Display.ExpansionIndicatorVisibility"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+    xmlns:model="clr-namespace:IGOrgChart.Model"
+    xmlns:res="clr-namespace:IGOrgChart.Resources"
+    xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+    mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700"
+    Title="ExpansionIndicatorVisibility Page">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>    
+            <res:OrgChartStrings x:Key="Strings" />
+            <igPrim:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGOrgChart;component/Assets/Global.xaml" />
+                
+                
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>          
+
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Width="Auto">
+
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamOrgChart ItemsSource="{Binding DepartmentGroups}"
+                        ZoomLevel="1"
+                        ExpansionIndicatorVisibility="{Binding IsChecked, ElementName=CheckBoxGlobalVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
+        <!-- #END SNIPPET# -->
+            
+            <!--Set the data context of the OrgChart-->
+            <ig:XamOrgChart.DataContext>                
+                <model:DepartmentModel />
+            </ig:XamOrgChart.DataContext>
+
+            <ig:XamOrgChart.GlobalNodeLayouts>
+                <!-- #BEGIN SNIPPET# -->
+                <!--ExpansionIndicatorVisibility can be set per Node Layout (it will override the global visibility)-->
+                <ig:OrgChartNodeLayout x:Name="DepartmentGroupLayout"
+                                       TargetTypeName="DepartmentGroup"
+                                       DisplayMemberPath="GroupName"
+                                       ExpansionIndicatorVisibility="Visible" />
+
+                <ig:OrgChartNodeLayout x:Name="DepartmentLayout"
+                                       TargetTypeName="Department"
+                                       DisplayMemberPath="DepartmentName" />
+                                       <!--You can set the visibilitye per Node Layout using ExpansionIndicatorVisibility="Visible"-->
+
+                <ig:OrgChartNodeLayout x:Name="EmployeePositionLayout"
+                                       TargetTypeName="EmployeePosition"
+                                       DisplayMemberPath="PositionName" />
+                                       <!--You can set the visibilitye per Node Layout using ExpansionIndicatorVisibility="Visible"-->
+
+                <ig:OrgChartNodeLayout x:Name="EmployeeLayout"
+                                       TargetTypeName="Employee"
+                                       DisplayMemberPath="FullName" />
+                                       <!--You can set the visibilitye per Node Layout using ExpansionIndicatorVisibility="Visible"-->
+                <!-- #END SNIPPET# -->
+            </ig:XamOrgChart.GlobalNodeLayouts>
+            
+        </ig:XamOrgChart>
+        
+        <!--Options Panel with the Expansion Indicator Visibility settings-->
+        <controls:OptionsPanel HeaderText="{Binding OrgChart_ExpansionIndicatorVisibility, Source={StaticResource Strings}}"
+                               MinWidth="200" HorizontalAlignment="Right">
+            
+            <CheckBox x:Name="CheckBoxGlobalVisibility" Content="{Binding OrgChart_ToggleVisibility, Source={StaticResource Strings}}" IsChecked="True" />
+            
+        </controls:OptionsPanel>        
+    </Grid>
+</framework:SampleContainer>

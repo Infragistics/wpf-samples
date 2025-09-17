@@ -1,0 +1,95 @@
+﻿<igFramework:SampleContainer x:Class="IGZoombar.Samples.Display.DataChartZoombars"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="BubbleSeries Page"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+     >
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                  
+                <!-- this loads IG styles for MS controls -->
+                <!--<ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />-->
+            </ResourceDictionary.MergedDictionaries>
+            <models:WorldDataViewSource x:Key="WorldCountriesHighIncome" Filter="OnFilterHighIncome" />
+            <models:WorldDataViewSource x:Key="WorldCountriesMediumIncome" Filter="OnFilterMediumIncome" />
+            <models:WorldDataViewSource x:Key="WorldCountriesLowIncome" Filter="OnFilterLowIncome" />
+            
+            
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ========================================================================== -->
+        <ig:XamDataChart x:Name="Chart" Margin="0,0,30,0"
+                         Legend="{Binding ElementName=Legend}"
+                         IsHorizontalZoomEnabled="True" HorizontalZoombarVisibility="Visible"
+                         VerticalZoomable="True" VerticalZoombarVisibility="Visible" >
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+            <ig:XamDataChart.Axes>
+                <ig:NumericXAxis x:Name="XAxis" 
+                                 MinimumValue="10000" MaximumValue="10000000000" IsLogarithmic="True"
+                                 Label="{}{0:#,0,,.##} M"   >
+                </ig:NumericXAxis>
+                <ig:NumericYAxis x:Name="YAxis" 
+                                 IsLogarithmic="True" 
+                                 LogarithmBase="10" 
+                                 Label="{}{:N0} %">
+                </ig:NumericYAxis>
+            </ig:XamDataChart.Axes>
+            <ig:XamDataChart.Series>
+                <ig:BubbleSeries XMemberPath="Population"
+                                 YMemberPath="PublicDebt"
+                                 RadiusMemberPath="GdpPerCapita"
+                                 FillMemberPath="GdpPerCapita"
+                                 MarkerType="Circle" ShowDefaultTooltip="True"
+                                 XAxis="{Binding ElementName=XAxis}"
+                                 YAxis="{Binding ElementName=YAxis}"
+                                 Title="High Income"
+                                 ItemsSource="{Binding Source={StaticResource WorldCountriesHighIncome}}">
+                    <ig:BubbleSeries.RadiusScale>
+                        <ig:SizeScale  IsLogarithmic="False" MinimumValue="35" MaximumValue="70"  />
+                    </ig:BubbleSeries.RadiusScale>
+                </ig:BubbleSeries>
+                <ig:BubbleSeries XMemberPath="Population"
+                                 YMemberPath="PublicDebt"
+                                 RadiusMemberPath="GdpPerCapita"
+                                 FillMemberPath="GdpPerCapita"
+                                 MarkerType="Circle" 
+                                 XAxis="{Binding ElementName=XAxis}"
+                                 YAxis="{Binding ElementName=YAxis}"
+                                 Title="Medium Income"
+                                 ItemsSource="{Binding Source={StaticResource WorldCountriesMediumIncome}}">
+                    <ig:BubbleSeries.RadiusScale>
+                        <ig:SizeScale  IsLogarithmic="False" MinimumValue="20" MaximumValue="35"  />
+                    </ig:BubbleSeries.RadiusScale>
+                </ig:BubbleSeries>
+                <ig:BubbleSeries XMemberPath="Population"
+                                 YMemberPath="PublicDebt"
+                                 RadiusMemberPath="GdpPerCapita"
+                                 FillMemberPath="GdpPerCapita"
+                                 MarkerType="Circle" 
+                                 XAxis="{Binding ElementName=XAxis}"
+                                 YAxis="{Binding ElementName=YAxis}"
+                                 Title="Low Income"
+                                 ItemsSource="{Binding Source={StaticResource WorldCountriesLowIncome}}">
+                    <ig:BubbleSeries.RadiusScale>
+                        <ig:SizeScale  IsLogarithmic="False" MinimumValue="5" MaximumValue="20"  />
+                    </ig:BubbleSeries.RadiusScale>
+                </ig:BubbleSeries>
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+        <ig:Legend x:Name="Legend" HorizontalAlignment="Center"  Visibility="Collapsed"
+                   VerticalAlignment="Top" Margin="10" Content="World Countries">
+        </ig:Legend>
+    </Grid>
+</igFramework:SampleContainer>
+

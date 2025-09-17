@@ -1,0 +1,44 @@
+﻿<igFramework:SampleContainer x:Class="IGGrid.Samples.Data.BindingDataTable"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:igFramework="http://schemas.infragistics.com/xaml/samples"
+             xmlns:ig="http://schemas.infragistics.com/xaml"        
+             xmlns:viewModel="clr-namespace:IGGrid.Samples.Data"
+             xmlns:res="clr-namespace:IGGrid.Resources"
+             mc:Ignorable="d"
+             d:DesignHeight="500" d:DesignWidth="700" >
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGrid;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+
+            <res:GridStrings x:Key="GridStrings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    
+    <igFramework:SampleContainer.DataContext>
+        <viewModel:DataProvider />
+    </igFramework:SampleContainer.DataContext>
+    
+    <Grid>
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamGrid x:Name="DataGrid" ItemsSource="{Binding Path=DataViewOrders, Mode=TwoWay}" 
+                    DataObjectRequested="OnDataObjectRequested" ColumnWidth="*" AutoGenerateColumns="False">
+            <ig:XamGrid.AddNewRowSettings>
+                <ig:AddNewRowSettings AllowAddNewRow="Top" />
+            </ig:XamGrid.AddNewRowSettings>
+            
+            <ig:XamGrid.Columns>
+                <ig:TextColumn Key="CustomerID" HeaderText="{Binding Source={StaticResource GridStrings}, Path=XWG_Customers_CustomerID}" />
+                <ig:TextColumn Key="CompanyName" HeaderText="{Binding Source={StaticResource GridStrings}, Path=XWG_Customers_Company}" />
+                <ig:TextColumn Key="ContactName" HeaderText="{Binding Source={StaticResource GridStrings}, Path=XWG_Customers_ContactName}" />
+            </ig:XamGrid.Columns>
+        </ig:XamGrid>
+        <!-- #END SNIPPET# -->
+    </Grid>
+</igFramework:SampleContainer>

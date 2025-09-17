@@ -1,0 +1,68 @@
+﻿<Page x:Class="IGResourceWasher.Samples.Display.Features"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="Features"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:igThemes="http://infragistics.com/Themes"
+      xmlns:res="clr-namespace:IGResourceWasher.Resources">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGResourceWasher;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:ResourceWasherStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid x:Name="LayoutRoot" Width="Auto" >
+        <Grid.Resources>
+            <!-- #BEGIN SNIPPET# -->
+            <igThemes:ResourceWasher AutoWash="True" x:Name="resWasher1" >
+                <igThemes:ResourceWasher.SourceDictionary>
+                    <igThemes:DataPresenterRoyalLight />
+                </igThemes:ResourceWasher.SourceDictionary>
+            </igThemes:ResourceWasher>
+            <!-- #END SNIPPET# -->
+        </Grid.Resources>
+
+        <igDP:XamDataGrid x:Name="dataGrid">
+            <igDP:XamDataGrid.FieldLayoutSettings>
+                <igDP:FieldLayoutSettings AutoGenerateFields="False"/>
+            </igDP:XamDataGrid.FieldLayoutSettings>
+            <igDP:XamDataGrid.FieldSettings>
+                <igDP:FieldSettings AllowSummaries="True" Width="*"/>
+            </igDP:XamDataGrid.FieldSettings>
+            <igDP:XamDataGrid.FieldLayouts>
+                <igDP:FieldLayout>
+                    <igDP:FieldLayout.SortedFields>
+                        <igDP:FieldSortDescription FieldName="Category" IsGroupBy="True" />
+                    </igDP:FieldLayout.SortedFields>
+                    <igDP:TextField Name="SKU" Label="{Binding Path=XWG_Grid_ProductSKU, Source={StaticResource Strings}}"/>
+                    <igDP:TextField Name="Name" Label="{Binding Path=XWG_Grid_ProductName, Source={StaticResource Strings}}" />
+                    <igDP:TextField Name="Category" Label="{Binding Path=XWG_Grid_ProductCategory, Source={StaticResource Strings}}"/>
+                    <igDP:TextField Name="Supplier" Label="{Binding Path=XWG_Supplier, Source={StaticResource Strings}}" />
+                    <igDP:TextField Name="QuantityPerUnit" Label="{Binding Path=XWG_Data_QuantityLabel, Source={StaticResource Strings}}"/>
+                    <igDP:TextField Name="UnitPrice" Label="{Binding Path=XWG_Grid_UnitPrice, Source={StaticResource Strings}}" Format="{}{0:C}"/>
+                    <igDP:TextField Name="UnitsInStock" Label="{Binding Path=XWG_Data_UnitStockLabel, Source={StaticResource Strings}}" />
+                </igDP:FieldLayout>
+            </igDP:XamDataGrid.FieldLayouts>
+        </igDP:XamDataGrid>
+
+        <controls:OptionsPanel Margin="450,100,0,0" HeaderText="{Binding Source={StaticResource CommonStrings}, Path=SelectAColor}">
+            <ComboBox x:Name="cboWashMode" SelectionChanged="cboWashMode_SelectionChanged" >
+                <ComboBoxItem Content="SoftLightBlend"/>
+                <ComboBoxItem Content="HueSaturationReplacement"/>
+            </ComboBox>
+            <!--TODO: add ColorPicker in .Shared project-->
+            <controls:ucColorPicker x:Name="ColorPicker" SelectedColorChanged="ColorPicker_SelectedColorChanged"/>
+        </controls:OptionsPanel>
+
+    </Grid>
+</Page>

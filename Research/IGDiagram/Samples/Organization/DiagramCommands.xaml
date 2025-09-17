@@ -1,0 +1,208 @@
+﻿<framework:SampleContainer x:Class="IGDiagram.Samples.Data.DiagramCommands"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"  
+    xmlns:res="clr-namespace:IGDiagram.Resources"                       
+    xmlns:igRibbon="http://infragistics.com/Ribbon"  
+    xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="DiagramCommands Page">
+    
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDiagram;component/Assets/Global.xaml" />
+                
+                <ResourceDictionary>
+                    <res:DiagramStrings x:Key="diagramStrings" />
+                    <DataTemplate x:Key="undoRedoToolItem">
+                        <TextBlock Text="{Binding ShortDescription}"
+                                   Margin="-30,-5"
+                                   Padding="30,5">
+                    <ig:Commanding.Command>
+                        <ig:UndoManagerCommandSource EventName="MouseLeftButtonDown"
+                                                     CommandType="UndoRedoHistoryItem"
+                                                     ParameterBinding="{Binding }" />    
+                    </ig:Commanding.Command>
+                        </TextBlock>
+                    </DataTemplate>
+                    <converters:VisibilityToBoolConverter x:Key="con" />
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>            
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+
+        <igRibbon:XamRibbon x:Name="myRibbon" Theme="RoyalLight">
+            <igRibbon:XamRibbon.Tabs>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <igRibbon:RibbonTabItem Header="{Binding DiagramCommands_Commands, Source={StaticResource diagramStrings}}" >
+                    <igRibbon:RibbonGroup Caption="{Binding DiagramCommands_ActionHistory, Source={StaticResource diagramStrings}}">
+                        <igRibbon:MenuTool Caption="{Binding DiagramCommands_Undo, Source={StaticResource diagramStrings}}" 
+                                           Command="Undo" 
+                                           CommandTarget="{Binding ElementName=Diagram}"                                                       
+                                           ItemsSource="{Binding ElementName=Diagram, Path=UndoManager.UndoHistory}"                                                                                  
+                                           ItemTemplate="{StaticResource undoRedoToolItem}"
+                                           ButtonType="Segmented"
+                                           SmallImage="/IGDiagram;component/Images/Undo32.png"/>
+
+                        <igRibbon:MenuTool Caption="{Binding DiagramCommands_Redo, Source={StaticResource diagramStrings}}" 
+                                           Command="Redo" 
+                                           CommandTarget="{Binding ElementName=Diagram}"      
+                                           ItemsSource="{Binding ElementName=Diagram, Path=UndoManager.RedoHistory}"                                     
+                                           ItemTemplate="{StaticResource undoRedoToolItem}"
+                                           ButtonType="Segmented"
+                                           SmallImage="/IGDiagram;component/Images/Redo32.png"/>                       
+                    </igRibbon:RibbonGroup>
+                    <igRibbon:RibbonGroup Caption="{Binding DiagramCommands_Selection, Source={StaticResource diagramStrings}}">
+                        <igRibbon:ButtonTool Caption="{Binding DiagramCommands_SelectAll, Source={StaticResource diagramStrings}}" 
+                                             Command="SelectAll" 
+                                             CommandTarget="{Binding ElementName=Diagram}" 
+                                             igRibbon:RibbonGroup.MaximumSize="ImageAndTextLarge" 
+                                             LargeImage="/IGDiagram;component/Images/SelectAll64.png"/>
+                    </igRibbon:RibbonGroup>
+                    <igRibbon:RibbonGroup Caption="{Binding DiagramCommands_SelectedNode, Source={StaticResource diagramStrings}}">
+                        <igRibbon:ButtonTool Caption="{Binding DiagramCommands_Paste, Source={StaticResource diagramStrings}}"
+                                             Command="Paste" CommandTarget="{Binding ElementName=Diagram}"
+                                             igRibbon:RibbonGroup.MaximumSize="ImageAndTextLarge" 
+                                             LargeImage="/IGDiagram;component/Images/Paste32.png"/>
+                        <igRibbon:ButtonTool Caption="{Binding DiagramCommands_Cut, Source={StaticResource diagramStrings}}"
+                                             Command="Cut" 
+                                             CommandTarget="{Binding ElementName=Diagram}"
+                                             SmallImage="/IGDiagram;component/Images/Cut32.png"/>
+                        <igRibbon:ButtonTool Caption="{Binding DiagramCommands_Copy, Source={StaticResource diagramStrings}}" 
+                                             Command="Copy" 
+                                             CommandTarget="{Binding ElementName=Diagram}"
+                                             SmallImage="/IGDiagram;component/Images/Copy32.png"/>
+                        <igRibbon:ButtonTool Caption="{Binding DiagramCommands_Delete, Source={StaticResource diagramStrings}}" 
+                                             Command="Delete" 
+                                             CommandTarget="{Binding ElementName=Diagram}"
+                                             SmallImage="/IGDiagram;component/Images/Delete32.png"/>
+                        <igRibbon:ButtonTool Caption="{Binding DiagramCommands_Edit, Source={StaticResource diagramStrings}}" 
+                                             Command="{x:Static ig:DiagramCommands.EnterEditMode}" 
+                                             CommandTarget="{Binding ElementName=Diagram}"
+                                             SmallImage="/IGDiagram;component/Images/Edit32.png"/>
+                    </igRibbon:RibbonGroup>
+                    <igRibbon:RibbonGroup Caption="{Binding DiagramCommands_ZIndex, Source={StaticResource diagramStrings}}">
+                        <igRibbon:ButtonTool Caption="{Binding DiagramCommands_Forward, Source={StaticResource diagramStrings}}"
+                                             Command="{x:Static ig:DiagramCommands.BringForward}"
+                                             CommandTarget="{Binding ElementName=Diagram}"
+                                             LargeImage="/IGDiagram;component/Images/bring-forward.png" />
+                        <igRibbon:ButtonTool Caption="{Binding DiagramCommands_Backward, Source={StaticResource diagramStrings}}"
+                                             Command="{x:Static ig:DiagramCommands.SendBackward}"
+                                             CommandTarget="{Binding ElementName=Diagram}"
+                                             SmallImage="/IGDiagram;component/Images/send-backward.png" />
+                        <igRibbon:ButtonTool Caption="{Binding DiagramCommands_BringToFront, Source={StaticResource diagramStrings}}"
+                                             Command="{x:Static ig:DiagramCommands.BringToFront}"
+                                             CommandTarget="{Binding ElementName=Diagram}"
+                                             SmallImage="/IGDiagram;component/Images/bring-to-front.png" />
+                        <igRibbon:ButtonTool Caption="{Binding DiagramCommands_SendToBack, Source={StaticResource diagramStrings}}"
+                                             Command="{x:Static ig:DiagramCommands.SendToBack}"
+                                             CommandTarget="{Binding ElementName=Diagram}"
+                                             SmallImage="/IGDiagram;component/Images/send-to-back.png" />
+                    </igRibbon:RibbonGroup>
+                    <igRibbon:RibbonGroup Caption="{Binding DiagramCommands_OptionsPane, Source={StaticResource diagramStrings}}">
+                        <igRibbon:ButtonTool Caption="{Binding DiagramCommands_ShowOptionsPane, Source={StaticResource diagramStrings}}" 
+                                             Command="{x:Static ig:DiagramCommands.ShowOptionsPane}" 
+                                             CommandTarget="{Binding ElementName=Diagram}"
+                                             SmallImage="/IGDiagram;component/Images/Settings32.png"/>
+                        <igRibbon:CheckBoxTool Caption="{Binding DiagramCommands_OptionsPaneVisibility, Source={StaticResource diagramStrings}}"
+                                               IsThreeState="True"
+                                               IsChecked="{Binding ElementName=Diagram, Path=OptionsPaneVisibility, Converter={StaticResource con}}"/>
+                    </igRibbon:RibbonGroup>
+                    <igRibbon:RibbonGroup Caption="{Binding DiagramCommands_Tools, Source={StaticResource diagramStrings}}">
+                        <igRibbon:RadioButtonTool Caption="{Binding DiagramCommands_Pointer, Source={StaticResource diagramStrings}}"
+                                                  Checked="ToolsRadioButton_Checked"
+                                                  IsChecked="True"
+                                                  LargeImage="/IGDiagram;component/Images/pointer-tool.png" />
+                        <igRibbon:RadioButtonTool Caption="{Binding DiagramCommands_Connector, Source={StaticResource diagramStrings}}"
+                                                  Checked="ToolsRadioButton_Checked"
+                                                  LargeImage="/IGDiagram;component/Images/connector.png" /> 
+                    </igRibbon:RibbonGroup>
+                    <igRibbon:RibbonGroup Caption="{Binding DiagramCommands_ConnectorPointsDisplayMode, Source={StaticResource diagramStrings}}">
+                        <igRibbon:RadioButtonTool Caption="{Binding DiagramCommands_Auto, Source={StaticResource diagramStrings}}"
+                                                  Checked="ConnectionsDisplayModeRadioButton_Checked"
+                                                  SmallImage="/IGDiagram;component/Images/auto.png"
+                                                  IsChecked="True" />
+                        <igRibbon:RadioButtonTool Caption="{Binding DiagramCommands_MouseOver, Source={StaticResource diagramStrings}}"
+                                                  Checked="ConnectionsDisplayModeRadioButton_Checked"
+                                                  SmallImage="/IGDiagram;component/Images/hover.png" />
+                        <igRibbon:RadioButtonTool Caption="{Binding DiagramCommands_Always, Source={StaticResource diagramStrings}}"
+                                                  Checked="ConnectionsDisplayModeRadioButton_Checked"
+                                                  SmallImage="/IGDiagram;component/Images/always.png" />
+                        <igRibbon:RadioButtonTool Caption="{Binding DiagramCommands_Never, Source={StaticResource diagramStrings}}"
+                                                  Checked="ConnectionsDisplayModeRadioButton_Checked"
+                                                  SmallImage="/IGDiagram;component/Images/never.png" />
+                    </igRibbon:RibbonGroup>
+                    <igRibbon:RibbonGroup Caption="{Binding DiagramCommands_DragInteraction, Source={StaticResource diagramStrings}}">
+                        <igRibbon:RadioButtonTool Caption="{Binding DiagramCommands_Select, Source={StaticResource diagramStrings}}"
+                                                  Checked="DragInteractionRadioButton_Checked"
+                                                  IsChecked="True"
+                                                  LargeImage="/IGDiagram;component/Images/cross.png" />
+                        <igRibbon:RadioButtonTool Caption="{Binding DiagramCommands_Pan, Source={StaticResource diagramStrings}}"
+                                                  Checked="DragInteractionRadioButton_Checked"
+                                                  LargeImage="/IGDiagram;component/Images/Pan.png" />
+                        <igRibbon:RadioButtonTool Caption="{Binding DiagramCommands_Zoom, Source={StaticResource diagramStrings}}"
+                                                  Checked="DragInteractionRadioButton_Checked"
+                                                  LargeImage="/IGDiagram;component/Images/zoom.png" />                        
+                        <igRibbon:RadioButtonTool Caption="{Binding DiagramCommands_None, Source={StaticResource diagramStrings}}"
+                                                  Checked="DragInteractionRadioButton_Checked"
+                                                  LargeImage="/IGDiagram;component/Images/none.png" />
+                    </igRibbon:RibbonGroup>
+                </igRibbon:RibbonTabItem>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </igRibbon:XamRibbon.Tabs> 
+        </igRibbon:XamRibbon>
+
+        <ig:XamDiagram x:Name="Diagram" Grid.Row="1" >
+            <ig:DiagramNode Key="start" ShapeType="Ellipse" Position="290,0" Width="50" Height="50" />
+            <ig:DiagramNode Key="decision1" ShapeType="Rhombus" Position="275,100" Width="80" Height="80" />
+            <ig:DiagramNode Key="requestOffers" Content="{x:Static res:DiagramStrings.ActivityDiagram_RequestOffers}" Position="50,180" Width="120" Height="40" />
+            <ig:DiagramNode Key="authenticateUser" Content="{x:Static res:DiagramStrings.ActivityDiagram_AuthenticateUser}" Position="255,240" Width="120" Height="40" />
+            <ig:DiagramNode Key="decision2" ShapeType="Rhombus" Position="440,370" Width="80" Height="80" />
+            <ig:DiagramNode Key="decision3" ShapeType="Rhombus" Position="520,550" Width="80" Height="80" />
+            <ig:DiagramNode Key="fork" Fill="#555" Stroke="#444" Position="90,300" Width="220" Height="25" />
+            <ig:DiagramNode Key="requestInternalOffers" Content="{x:Static res:DiagramStrings.ActivityDiagram_RequestInternalOffers}" Position="10,370" Width="120" Height="40" />
+            <ig:DiagramNode Key="requestExternalOffers" Content="{x:Static res:DiagramStrings.ActivityDiagram_RequestExternalOffers}" Position="270,370" Width="120" Height="40" />
+            <ig:DiagramNode Key="join" Position="90,450" Width="220" Height="25" Fill="#555" Stroke="#444" />
+            <ig:DiagramNode Key="displayOffers" Content="{x:Static res:DiagramStrings.ActivityDiagram_DisplayOffers}" Position="140,550" Width="120" Height="40" />
+
+            <ig:DiagramNode Key="end" Fill="#555" Stroke="#444" Position="175,650" Width="50" Height="50">
+                <ig:DiagramNode.Geometry>
+                    <GeometryGroup>
+                        <EllipseGeometry RadiusX=".8" RadiusY=".8" />
+                        <EllipseGeometry RadiusX="1" RadiusY="1" />
+                        <EllipseGeometry RadiusX="1" RadiusY="1" />
+                    </GeometryGroup>
+                </ig:DiagramNode.Geometry>
+            </ig:DiagramNode>
+            <ig:DiagramConnection StartNodeKey="start" EndNodeKey="decision1" />
+            <ig:DiagramConnection StartNodeKey="decision1" EndNodeKey="requestOffers" Content="{x:Static res:DiagramStrings.ActivityDiagram_UserAuthenticated}" EndNodeConnectionPointName="Top" />
+            <ig:DiagramConnection StartNodeKey="decision1" EndNodeKey="authenticateUser" Content="{x:Static res:DiagramStrings.ActivityDiagram_UserNotAuthenticated}" StartNodeConnectionPointName="Bottom" />
+            <ig:DiagramConnection StartNodeKey="requestOffers" EndNodeKey="fork" StartNodeConnectionPointName="Bottom" EndNodeConnectionPointName="Top" />
+            <ig:DiagramConnection StartNodeKey="fork" EndNodeKey="requestInternalOffers" StartNodeConnectionPointName="Left" EndNodeConnectionPointName="Top" />
+            <ig:DiagramConnection StartNodeKey="fork" EndNodeKey="requestExternalOffers" StartNodeConnectionPointName="Right" EndNodeConnectionPointName="Top" />
+            <ig:DiagramConnection StartNodeKey="requestInternalOffers" EndNodeKey="join" StartNodeConnectionPointName="Bottom" EndNodeConnectionPointName="Left" />
+            <ig:DiagramConnection StartNodeKey="requestExternalOffers" EndNodeKey="join" StartNodeConnectionPointName="Bottom" EndNodeConnectionPointName="Right" />
+            <ig:DiagramConnection StartNodeKey="join" EndNodeKey="displayOffers" />
+            <ig:DiagramConnection StartNodeKey="displayOffers" EndNodeKey="end" />
+
+            <ig:DiagramConnection StartNodeKey="authenticateUser" EndNodeKey="decision2" EndNodeConnectionPointName="Left" />
+            <ig:DiagramConnection StartNodeKey="decision2" EndNodeKey="decision1" Content="{x:Static res:DiagramStrings.ActivityDiagram_AuthenticationSuccessful}" StartNodeConnectionPointName="Top" EndNodeConnectionPointName="Right" />
+            <ig:DiagramConnection StartNodeKey="decision2" EndNodeKey="decision3" Content="{x:Static res:DiagramStrings.ActivityDiagram_AuthenticationFailed}" StartNodeConnectionPointName="Bottom" EndNodeConnectionPointName="Left" />
+            <ig:DiagramConnection StartNodeKey="decision3" EndNodeKey="decision1" Content="{x:Static res:DiagramStrings.ActivityDiagram_NumberOfAuthenticationRetriesNotExceeded}" StartNodeConnectionPointName="Right" EndNodeConnectionPointName="Right" />
+            <ig:DiagramConnection StartNodeKey="decision3" EndNodeKey="end" Content="{x:Static res:DiagramStrings.ActivityDiagram_NumberOfAuthenticationRetriesExceeded}" StartNodeConnectionPointName="Bottom" EndNodeConnectionPointName="Right" />
+        </ig:XamDiagram>
+    </Grid>
+</framework:SampleContainer>

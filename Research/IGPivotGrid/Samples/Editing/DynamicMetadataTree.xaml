@@ -1,0 +1,74 @@
+﻿<framework:SampleContainer x:Class="IGPivotGrid.Samples.Editing.DynamicMetadataTree"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="DynamicMetadataTree Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:local="clr-namespace:IGPivotGrid.Samples.Controls"
+      xmlns:res="clr-namespace:IGPivotGrid.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGPivotGrid;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:PivotGridStrings x:Key="Strings" />
+            <local:SampleFlatDataSourceSellerVsProduct x:Key="FlatDataSource" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <ig:XamPivotGrid x:Name="pivotGrid"
+                         DataSource="{StaticResource FlatDataSource}"
+                         AllowCompactLayout="True"/>
+
+        <ig:Expander Grid.Column="1" IsExpanded="True">
+            <!-- #BEGIN SNIPPET# -->
+            <ig:XamPivotDataSelector x:Name="dataSelector" DataSource="{StaticResource FlatDataSource}" />
+            <!-- #END SNIPPET# -->
+        </ig:Expander>
+
+        <controls:OptionsPanel HeaderText="{Binding ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}"
+                               Margin="230,5,5,5">
+            <Grid MaxHeight="430">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Button x:Name="LoadPreset1" Click="LoadPreset1_Click"
+                        Content="{Binding XPG_DynamicMetadataTree_Preset_1, Source={StaticResource Strings}}" Margin="0,0,0,5" />
+                <Button x:Name="LoadPreset2" Click="LoadPreset2_Click" Grid.Row="1"
+                        Content="{Binding XPG_DynamicMetadataTree_Preset_2, Source={StaticResource Strings}}" />
+                <Border Grid.Row="2" Margin="{StaticResource OptionsElementsMargin}" VerticalAlignment="Top">
+                    <ig:XamDataTree x:Name="dimentionDataTree" MaxWidth="230" Height="Auto">
+                        <ig:XamDataTree.CheckBoxSettings>
+                            <ig:CheckBoxSettings CheckBoxVisibility="Visible" IsCheckBoxThreeState="False"/>
+                        </ig:XamDataTree.CheckBoxSettings>
+                        <ig:XamDataTree.GlobalNodeLayouts>
+                            <ig:NodeLayout
+                                Key="MeasuresLayout"
+                                TargetTypeName="HierarchicalItem"
+                                IsExpandedMemberPath="ExpandWhenInitialized"
+                                DisplayMemberPath="Caption"/>
+                        </ig:XamDataTree.GlobalNodeLayouts>
+                    </ig:XamDataTree>
+                </Border>
+                <Button x:Name="ResetDataSource" Click="ResetDataSource_Click" Grid.Row="3"
+                        Content="{Binding XPG_DynamicMetadataTree_LoadFromTree, Source={StaticResource Strings}}"
+                        HorizontalAlignment="Right"/>
+            </Grid>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

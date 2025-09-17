@@ -1,0 +1,98 @@
+﻿<framework:SampleContainer x:Class="IGGrid.Samples.Display.ConditionalFormattingRules"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="ConditionalFormattingRules Page"
+      xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGGrid.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGrid;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <converters:GetImageConverter x:Key="getImageConverter" />
+            <res:GridStrings x:Key="Strings" />
+            
+            <Style x:Key="FontBoldStyle" TargetType="ig:CellControl" >
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+            </Style>
+            
+            <Style x:Key="FontItalicStyle" TargetType="ig:CellControl" >
+                <Setter Property="FontSize" Value="10"/>
+                <Setter Property="FontStyle" Value="Italic"/>
+            </Style>
+                            
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" >
+        
+        <ig:XamGrid x:Name="dataGrid" AutoGenerateColumns="False" ColumnWidth="*">
+            <!-- #BEGIN SNIPPET# -->
+            <ig:XamGrid.ConditionalFormattingSettings>
+                <ig:ConditionalFormattingSettings AllowConditionalFormatting="True"/>
+            </ig:XamGrid.ConditionalFormattingSettings>
+            <!-- #END SNIPPET# -->
+            <ig:XamGrid.Columns>
+                <ig:TextColumn Key="SKU" HeaderText="{Binding Path=XWG_Grid_ProductSKU, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="Name" HeaderText="{Binding Path=XWG_Grid_ProductName, Source={StaticResource Strings}}" />             
+                <ig:TextColumn Key="Category" Width="120" HorizontalContentAlignment="Stretch" 
+                               HeaderText="{Binding Path=XWG_Grid_ProductCategory, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="UnitPrice" FormatString="{}{0:C}"
+                               HeaderText="{Binding Path=XWG_Grid_UnitPrice, Source={StaticResource Strings}}" >                   
+                    <ig:TextColumn.ConditionalFormatCollection>
+                        <ig:LessThanConditionalFormatRule Value="5.00" StyleToApply="{StaticResource FontItalicStyle}" />
+                        <ig:GreaterThanConditionalFormatRule Value="20" StyleToApply="{StaticResource FontBoldStyle}"  />
+                    </ig:TextColumn.ConditionalFormatCollection>
+                </ig:TextColumn>
+                <ig:TemplateColumn Key="UnitsOnOrder" HeaderText="{Binding Path=XWG_Grid_UnitsOnOrder, Source={StaticResource Strings}}" >
+                    <ig:TemplateColumn.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=UnitsOnOrder}" />
+                        </DataTemplate>
+                    </ig:TemplateColumn.ItemTemplate>
+                    <!-- #BEGIN SNIPPET# -->
+                    <ig:TemplateColumn.ConditionalFormatCollection>
+                        <ig:IconConditionalFormatRule IsTerminalRule="True">
+                            <ig:IconConditionalFormatRule.Rules>
+                                <ig:ConditionalFormatIcon ValueType="Number" Value="10" Operator="GreaterThan">
+                                    <ig:ConditionalFormatIcon.Icon>
+                                        <DataTemplate>
+                                            <Image Source="{Binding Source='Icons/green1.png', Converter={StaticResource getImageConverter}}" />
+                                        </DataTemplate>
+                                    </ig:ConditionalFormatIcon.Icon>
+                                </ig:ConditionalFormatIcon>
+                                <ig:ConditionalFormatIcon ValueType="Number" Value="0" Operator="GreaterThan">
+                                    <ig:ConditionalFormatIcon.Icon>
+                                        <DataTemplate>
+                                            <Image Source="{Binding Source='Icons/orange.png', Converter={StaticResource getImageConverter}}" />
+                                        </DataTemplate>
+                                    </ig:ConditionalFormatIcon.Icon>
+                                </ig:ConditionalFormatIcon>
+                            </ig:IconConditionalFormatRule.Rules>
+                        </ig:IconConditionalFormatRule>
+                    </ig:TemplateColumn.ConditionalFormatCollection>
+                    <!-- #END SNIPPET# -->
+                </ig:TemplateColumn>
+
+                <ig:TextColumn Key="UnitsInStock" HeaderText="{Binding Path=XWG_Grid_UnitsStock, Source={StaticResource Strings}}" >
+                    <ig:TextColumn.ConditionalFormatCollection>
+                        <ig:DataBarConditionalFormatRule DataBarDirection="UnidirectionalLeftToRight" MaximumValue="50">
+                            <ig:DataBarConditionalFormatRule.DataBrush>
+                                <SolidColorBrush Color="#FFBDCB6B" />
+                            </ig:DataBarConditionalFormatRule.DataBrush>
+                        </ig:DataBarConditionalFormatRule>
+                    </ig:TextColumn.ConditionalFormatCollection>
+                </ig:TextColumn>
+            </ig:XamGrid.Columns>
+        </ig:XamGrid>        
+    </Grid>
+</framework:SampleContainer>

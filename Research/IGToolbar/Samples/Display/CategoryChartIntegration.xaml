@@ -1,0 +1,48 @@
+﻿<igFramework:SampleContainer x:Class="IGToolbar.Samples.CategoryChartIntegration"
+                 xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 mc:Ignorable="d"
+                 xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+                 xmlns:ig="http://schemas.infragistics.com/xaml"
+                 Title="Infragistics XAML Control Sample">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>                
+                <ResourceDictionary Source="/IGToolbar;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <models:EnergyProductionModel x:Key="DataViewModel" />
+        </ResourceDictionary>
+	</igFramework:SampleContainer.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ========================================================================== -->
+            <!-- Category Chart Toolbar Integration -->
+            <ig:XamToolbar
+        Name="Toolbar"
+        Target="{Binding ElementName=chart}"
+        Orientation="Horizontal">
+            </ig:XamToolbar>
+        </Grid>
+        <Grid Grid.Row="2">
+            <ig:XamCategoryChart
+        IsHorizontalZoomEnabled="true"
+        Name="chart" DataContext="{StaticResource DataViewModel}"
+                ItemsSource="{Binding EnergySampleData}">
+                
+               
+            </ig:XamCategoryChart>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+        </Grid>
+    </Grid>
+</igFramework:SampleContainer>
