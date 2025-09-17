@@ -148,7 +148,7 @@ namespace IGGeographicMap.Samples.Data
                 var mapStyle = (Infragistics.Controls.Maps.AzureMapsImageryStyle)mapView.ImageryStyle;
 
                 var series = this.GeoMap.Series.OfType<GeographicTileSeries>().First();
-                series.TileImagery = new AzureMapsMapImagery { ImageryStyle = mapStyle, ApiKey = mapKey };
+                series.TileImagery = new AzureMapsImagery { ImageryStyle = mapStyle, ApiKey = mapKey };
             }
         }
 
