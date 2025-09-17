@@ -55,11 +55,11 @@ namespace IGGeographicMap.Samples.Data
             items.Add(new BingMapsImageryView { ImageryStyle = BingMapsImageryStyle.CanvasDark });
             items.Add(new BingMapsImageryView { ImageryStyle = BingMapsImageryStyle.Road });
 
-            items.Add(new AzureMapImageryView { ImageryStyle = AzureMapsImageryStyle.Imagery });
+            items.Add(new AzureMapImageryView { ImageryStyle = AzureMapsImageryStyle.Satellite });
             items.Add(new AzureMapImageryView { ImageryStyle = AzureMapsImageryStyle.DarkGrey });
             items.Add(new AzureMapImageryView { ImageryStyle = AzureMapsImageryStyle.Road });
-            items.Add(new AzureMapImageryView { ImageryStyle = AzureMapsImageryStyle.HybridRoad });
-            items.Add(new AzureMapImageryView { ImageryStyle = AzureMapsImageryStyle.WeatherInfrared });
+            items.Add(new AzureMapImageryView { ImageryStyle = AzureMapsImageryStyle.HybridRoadOverlay });
+            items.Add(new AzureMapImageryView { ImageryStyle = AzureMapsImageryStyle.WeatherInfraredOverlay });
 
             //items.Add(new MapQuestImageryView { ImageryStyle = MapQuestImageryStyle.SatelliteMapStyle });
             //items.Add(new MapQuestImageryView { ImageryStyle = MapQuestImageryStyle.StreetMapStyle });
@@ -96,13 +96,10 @@ namespace IGGeographicMap.Samples.Data
             }
             else if (mapView.ImagerySource == GeoImagerySource.AzureMapsImagery)
             {
-                if (this.BingMadeMapKey != string.Empty)
-                    ShowAzureMapsImagery((AzureMapImageryView)mapView);
-                else
-                {
-                    this.DialogInfoTextBlock.Text = MapStrings.XWGM_MissingMicrosoftMapKey;
-                    this.DialogInfoPanel.Visibility = Visibility.Visible;
-                }
+                this.DialogInfoTextBlock.Text = MapStrings.XWGM_MissingMicrosoftMapKey;
+                this.DialogInfoPanel.Visibility = Visibility.Visible;
+
+                ShowAzureMapsImagery((AzureMapImageryView)mapView);
             }
             else if (mapView.ImagerySource == GeoImagerySource.BingMapsImagery)
             {
@@ -149,28 +146,29 @@ namespace IGGeographicMap.Samples.Data
         {
             string mapKey = this.AzureMadeMapKey;
             var mapImage = new Image();
+            var mapStyle = mapView.ImageryStyle;
+
             if (String.IsNullOrEmpty(mapKey))
             {
-                var mapStyle = mapView.ImageryStyle;
                 Uri mapURI = null;
                 switch (mapStyle)
                 {
                     case AzureMapsImageryStyle.DarkGrey:
                         mapURI = new Uri(@"../../Resources/AzureDarkGrey.png", UriKind.RelativeOrAbsolute);
                         break;
-                    case AzureMapsImageryStyle.HybridRoad:
+                    case AzureMapsImageryStyle.HybridRoadOverlay:
                         mapURI = new Uri(@"../../Resources/AzureHybridRoad.png", UriKind.RelativeOrAbsolute);
                         break;
                     case AzureMapsImageryStyle.Road:
                         mapURI = new Uri(@"../../Resources/AzureRoad.png", UriKind.RelativeOrAbsolute);
                         break;
-                    case AzureMapsImageryStyle.Imagery:
+                    case AzureMapsImageryStyle.Satellite:
                         mapURI = new Uri(@"../../Resources/AzureImagery.png", UriKind.RelativeOrAbsolute);
                         break;
-                    case AzureMapsImageryStyle.TrafficAbsolute:
+                    case AzureMapsImageryStyle.TrafficAbsoluteOverlay:
                         mapURI = new Uri(@"../../Resources/AzureTrafficAndRoad.png", UriKind.RelativeOrAbsolute);
                         break;
-                    case AzureMapsImageryStyle.WeatherInfrared:
+                    case AzureMapsImageryStyle.WeatherInfraredOverlay:
                         mapURI = new Uri(@"../../Resources/AzureWeatherInfraredRoad.png", UriKind.RelativeOrAbsolute);
                         break;
                     default:
@@ -186,7 +184,12 @@ namespace IGGeographicMap.Samples.Data
                 this.GeoMap.BackgroundContent = mapImage;
                 //this.GeoMap.BackgroundContent = new BingMapsMapImagery { ImageryStyle = mapStyle, ApiKey = mapKey, IsDeferredLoad = false };
             }
+            else
+            {
+                this.GeoMap.BackgroundContent = new AzureMapsImagery { ImageryStyle = mapStyle, ApiKey = this.AzureMadeMapKey };
+            }
         }
+
         private void ShowBingMapsImagery(BingMapsImageryView mapView)
         {
             string mapKey = this.BingMadeMapKey;
@@ -228,6 +231,13 @@ namespace IGGeographicMap.Samples.Data
         private void ButtonClick(object sender, RoutedEventArgs e)
         {
             this.DialogInfoPanel.Visibility = Visibility.Collapsed;
+            this.AzureMadeMapKey = EnterAzureKey.Text;
+            ShowAzureMapsImagery(((AzureMapImageryView)this.GeoImageryViewComboBox.SelectedValue));
+        }
+
+        private void EnterAzureKey_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            this.AzureMadeMapKey = EnterAzureKey.Text;
         }
     }
 

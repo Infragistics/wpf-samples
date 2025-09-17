@@ -41,10 +41,10 @@ namespace IGGeographicMap.Samples.Data
                 if (element.Name == "AzureMaps") this.AzureMadeMapKey = element.Key;
             }
 
-            var azureMapsConnector = new AzureMapsMapImagery();
+            var azureMapsConnector = new AzureMapsImagery();
             GeoMap.BackgroundContent = azureMapsConnector;
             azureMapsConnector.ApiKey = AzureMadeMapKey;
-            azureMapsConnector.ImageryStyle = Infragistics.Controls.Maps.AzureMapsImageryStyle.Imagery; //mapView.ImageryStyle;
+            azureMapsConnector.ImageryStyle = Infragistics.Controls.Maps.AzureMapsImageryStyle.Satellite; //mapView.ImageryStyle;
         }
 
         private void OnSampleLoaded(object sender, RoutedEventArgs e)
@@ -86,19 +86,19 @@ namespace IGGeographicMap.Samples.Data
                     case AzureMapsImageryStyle.DarkGrey:
                         mapURI = new Uri(@"../../Resources/AzureDarkGrey.png", UriKind.RelativeOrAbsolute);
                         break;
-                    case AzureMapsImageryStyle.HybridRoad:
+                    case AzureMapsImageryStyle.HybridRoadOverlay:
                         mapURI = new Uri(@"../../Resources/AzureHybridRoad.png", UriKind.RelativeOrAbsolute);
                         break;
                     case AzureMapsImageryStyle.Road:
                         mapURI = new Uri(@"../../Resources/AzureRoad.png", UriKind.RelativeOrAbsolute);
                         break;
-                    case AzureMapsImageryStyle.Imagery:
+                    case AzureMapsImageryStyle.Satellite:
                         mapURI = new Uri(@"../../Resources/AzureImagery.png", UriKind.RelativeOrAbsolute);
                         break;
-                    case AzureMapsImageryStyle.TrafficAbsolute:
+                    case AzureMapsImageryStyle.TrafficAbsoluteOverlay:
                         mapURI = new Uri(@"../../Resources/AzureTrafficAndRoad.png", UriKind.RelativeOrAbsolute);
                         break;
-                    case AzureMapsImageryStyle.WeatherInfrared:
+                    case AzureMapsImageryStyle.WeatherInfraredOverlay:
                         mapURI = new Uri(@"../../Resources/AzureWeatherInfraredRoad.png", UriKind.RelativeOrAbsolute);
                         break;
                     default:
