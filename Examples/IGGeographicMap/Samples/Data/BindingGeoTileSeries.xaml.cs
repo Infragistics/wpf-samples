@@ -1,16 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
+﻿using IGGeographicMap.Extensions;
+using IGGeographicMap.Resources;
+using Infragistics.Controls.Maps;
 using Infragistics.Samples.Framework;
 using Infragistics.Samples.Shared.DataProviders;
 using Infragistics.Samples.Shared.Models;
-using IGGeographicMap.Extensions;
-using IGGeographicMap.Resources;
-using Infragistics.Controls.Maps;
-using System.Collections.Specialized;
 using Infragistics.Samples.Shared.Resources;
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace IGGeographicMap.Samples.Data
 {
@@ -88,13 +89,10 @@ namespace IGGeographicMap.Samples.Data
             }
             else if (mapView.ImagerySource == GeoImagerySource.AzureMapsImagery)
             {
-                if (this.AzureMadeMapKey != string.Empty)
-                    ShowAzureMapsImagery((AzureMapImageryView)mapView);
-                else
-                {
-                    this.DialogInfoTextBlock.Text = MapStrings.XWGM_MissingMicrosoftMapKey;
-                    this.DialogInfoPanel.Visibility = Visibility.Visible;
-                }
+                this.DialogInfoTextBlock.Text = MapStrings.XWGM_MissingMicrosoftMapKey;
+                this.DialogInfoPanel.Visibility = Visibility.Visible;
+
+                ShowAzureMapsImagery((AzureMapImageryView)mapView);
             }
             else if (mapView.ImagerySource == GeoImagerySource.BingMapsImagery)
             {
@@ -142,20 +140,62 @@ namespace IGGeographicMap.Samples.Data
         private void ShowAzureMapsImagery(AzureMapImageryView mapView)
         {
             string mapKey = this.AzureMadeMapKey;
+            var mapImage = new Image();
+            var mapStyle = mapView.ImageryStyle;
 
-            if (!String.IsNullOrEmpty(mapKey))
+            if (String.IsNullOrEmpty(mapKey))
             {
-                var mapStyle = (Infragistics.Controls.Maps.AzureMapsImageryStyle)mapView.ImageryStyle;
+                Uri mapURI = null;
+                switch (mapStyle)
+                {
+                    case AzureMapsImageryStyle.DarkGrey:
+                        mapURI = new Uri(@"../../Resources/AzureDarkGrey.png", UriKind.RelativeOrAbsolute);
+                        break;
+                    case AzureMapsImageryStyle.HybridRoadOverlay:
+                        mapURI = new Uri(@"../../Resources/AzureHybridRoad.png", UriKind.RelativeOrAbsolute);
+                        break;
+                    case AzureMapsImageryStyle.Road:
+                        mapURI = new Uri(@"../../Resources/AzureRoad.png", UriKind.RelativeOrAbsolute);
+                        break;
+                    case AzureMapsImageryStyle.Satellite:
+                        mapURI = new Uri(@"../../Resources/AzureImagery.png", UriKind.RelativeOrAbsolute);
+                        break;
+                    case AzureMapsImageryStyle.TrafficAbsoluteOverlay:
+                        mapURI = new Uri(@"../../Resources/AzureTrafficAndRoad.png", UriKind.RelativeOrAbsolute);
+                        break;
+                    case AzureMapsImageryStyle.WeatherInfraredOverlay:
+                        mapURI = new Uri(@"../../Resources/AzureWeatherInfraredRoad.png", UriKind.RelativeOrAbsolute);
+                        break;
+                    default:
+                        break;
+                }
 
-                var series = this.GeoMap.Series.OfType<GeographicTileSeries>().First();
-                series.TileImagery = new AzureMapsImagery { ImageryStyle = mapStyle, ApiKey = mapKey };
+                //Now that Bing is retired, basic keys are no longer valid, hence we are showing images. If you have a valid enterprise key you may comment this code out and uncomment out the BackgroundContent below applying the imagery instead and apply your own api key.
+                BitmapImage bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
+                bitmapImage.UriSource = mapURI;
+                bitmapImage.EndInit();
+                mapImage.Source = bitmapImage;
+                this.GeoMap.BackgroundContent = mapImage;
+                
+            }
+            else
+            {
+                this.GeoMap.BackgroundContent = new AzureMapsImagery { ImageryStyle = mapStyle, ApiKey = this.AzureMadeMapKey };
             }
         }
 
         private void ButtonClick(object sender, RoutedEventArgs e)
         {
             this.DialogInfoPanel.Visibility = Visibility.Collapsed;
+            this.AzureMadeMapKey = EnterAzureKey.Text;
+            ShowAzureMapsImagery(((AzureMapImageryView)this.GeoImageryViewComboBox.SelectedValue));
 
+        }
+
+        private void EnterAzureKey_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            this.AzureMadeMapKey = this.EnterAzureKey.Text;
         }
     }
 
