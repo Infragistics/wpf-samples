@@ -149,7 +149,7 @@ namespace IGGeographicMap.Samples.Data
         {
             string mapKey = this.AzureMadeMapKey;
             var mapImage = new Image();
-            if (!String.IsNullOrEmpty(mapKey))
+            if (String.IsNullOrEmpty(mapKey))
             {
                 var mapStyle = mapView.ImageryStyle;
                 Uri mapURI = null;
