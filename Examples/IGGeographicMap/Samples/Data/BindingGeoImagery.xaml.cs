@@ -2,6 +2,7 @@
 using IGGeographicMap.Models;
 using IGGeographicMap.Resources;
 using IGGeographicMap.Samples.Custom;               // GeoMapAdapter
+using Infragistics.Controls.Charts;
 using Infragistics.Controls.Maps;
 using Infragistics.Samples.Shared.DataProviders;    // GeoImageryKeyProvider
 using Infragistics.Samples.Shared.Models;
@@ -97,8 +98,10 @@ namespace IGGeographicMap.Samples.Data
             else if (mapView.ImagerySource == GeoImagerySource.AzureMapsImagery)
             {
                 this.DialogInfoTextBlock.Text = MapStrings.XWGM_MissingMicrosoftMapKey;
-                this.DialogInfoPanel.Visibility = Visibility.Visible;
-
+                if (String.IsNullOrEmpty(AzureMadeMapKey))
+                {
+                    this.DialogInfoPanel.Visibility = Visibility.Visible;
+                }
                 ShowAzureMapsImagery((AzureMapImageryView)mapView);
             }
             else if (mapView.ImagerySource == GeoImagerySource.BingMapsImagery)

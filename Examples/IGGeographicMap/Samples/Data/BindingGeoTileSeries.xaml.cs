@@ -90,8 +90,10 @@ namespace IGGeographicMap.Samples.Data
             else if (mapView.ImagerySource == GeoImagerySource.AzureMapsImagery)
             {
                 this.DialogInfoTextBlock.Text = MapStrings.XWGM_MissingMicrosoftMapKey;
-                this.DialogInfoPanel.Visibility = Visibility.Visible;
-
+                if (String.IsNullOrEmpty(AzureMadeMapKey))
+                {
+                    this.DialogInfoPanel.Visibility = Visibility.Visible;
+                }
                 ShowAzureMapsImagery((AzureMapImageryView)mapView);
             }
             else if (mapView.ImagerySource == GeoImagerySource.BingMapsImagery)

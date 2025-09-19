@@ -63,8 +63,10 @@ namespace IGGeographicMap.Samples.Data
             this.DialogInfoPanel.Visibility = Visibility.Collapsed;
 
             this.DialogInfoTextBlock.Text = MapStrings.XWGM_MissingMicrosoftMapKey;
-            this.DialogInfoPanel.Visibility = Visibility.Visible;
-
+            if (String.IsNullOrEmpty(AzureMadeMapKey))
+            {
+                this.DialogInfoPanel.Visibility = Visibility.Visible;
+            }
             ShowAzureMapsImagery((AzureMapImageryView)mapView);
         }
 
