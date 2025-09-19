@@ -64,6 +64,10 @@ namespace IGGeographicMap.Samples.Data
             {
                 this.DialogInfoPanel.Visibility = Visibility.Visible;
             }
+            else
+            {
+                this.DialogInfoPanel.Minimize();
+            }
             ShowAzureMapsImagery((AzureMapImageryView)mapView);
             if (((IGGeographicMap.Extensions.AzureMapImageryView)this.GeoImageryViewComboBox.SelectedValue).ImageryStyle == AzureMapsImageryStyle.WeatherInfraredOverlay 
                 || ((IGGeographicMap.Extensions.AzureMapImageryView)this.GeoImageryViewComboBox.SelectedValue).ImageryStyle == AzureMapsImageryStyle.WeatherRadarOverlay)

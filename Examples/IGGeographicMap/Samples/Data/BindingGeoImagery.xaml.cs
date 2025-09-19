@@ -127,7 +127,14 @@ namespace IGGeographicMap.Samples.Data
         }
         private void ShowAzureMapsImagery(AzureMapImageryView mapView)
         {
-            this.DialogInfoPanel.Visibility = Visibility.Visible;
+            if (String.IsNullOrEmpty(AzureMadeMapKey))
+            {
+                this.DialogInfoPanel.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                this.DialogInfoPanel.Minimize();
+            }
 
             string mapKey = this.AzureMadeMapKey;
             var mapImage = new Image();

@@ -134,7 +134,15 @@ namespace IGGeographicMap.Samples.Data
             string mapKey = this.AzureMadeMapKey;
             var mapImage = new Image();
             var mapStyle = mapView.ImageryStyle;
-            this.DialogInfoPanel.Visibility = Visibility.Visible;
+            if (String.IsNullOrEmpty(AzureMadeMapKey))
+            {
+                this.DialogInfoPanel.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                this.DialogInfoPanel.Minimize();
+            }
+
             GeoMapAdapter.ZoomMapToLocation(this.GeoMap, GeoLocations.CityNewYork, 2);
             if (String.IsNullOrEmpty(mapKey))
             {
