@@ -174,16 +174,16 @@ namespace IGGeographicMap.Samples.Data
                         mapURI = new Uri(@"../../Resources/AzureWeatherInfraredRoad.png", UriKind.RelativeOrAbsolute);
                         break;
                     case AzureMapsImageryStyle.TrafficDelayOverlay:
-                        mapURI = new Uri(@"../../Resources/AzureTrafficAndRoad.png", UriKind.RelativeOrAbsolute);
+                        mapURI = new Uri(@"../../Resources/AzureTrafficDelay.png", UriKind.RelativeOrAbsolute);
                         break;
                     case AzureMapsImageryStyle.TrafficReducedOverlay:
-                        mapURI = new Uri(@"../../Resources/AzureTrafficAndRoad.png", UriKind.RelativeOrAbsolute);
+                        mapURI = new Uri(@"../../Resources/AzureTrafficReduced.png", UriKind.RelativeOrAbsolute);
                         break;
                     case AzureMapsImageryStyle.TrafficRelativeDarkOverlay:
-                        mapURI = new Uri(@"../../Resources/AzureTrafficAndRoad.png", UriKind.RelativeOrAbsolute);
+                        mapURI = new Uri(@"../../Resources/AzureDarkGrey.png", UriKind.RelativeOrAbsolute);
                         break;
                     case AzureMapsImageryStyle.TrafficRelativeOverlay:
-                        mapURI = new Uri(@"../../Resources/AzureTrafficAndRoad.png", UriKind.RelativeOrAbsolute);
+                        mapURI = new Uri(@"../../Resources/AzureTrafficLight.png", UriKind.RelativeOrAbsolute);
                         break;
                     default:
                         break;
