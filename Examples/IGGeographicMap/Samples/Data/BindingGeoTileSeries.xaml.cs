@@ -68,26 +68,26 @@ namespace IGGeographicMap.Samples.Data
 
             var mapView = (GeoImageryView)e.AddedItems[0];
             if (mapView == null) return;
-            this.DialogInfoPanel.Visibility = Visibility.Collapsed;
             this.GeoMap.BackgroundContent = null;
             var series = this.GeoMap.Series.OfType<GeographicTileSeries>().First();
             series.TileImagery = null;
             // display geo-imagery based on selected map view
             if (mapView.ImagerySource == GeoImagerySource.OpenStreetMapImagery)
             {
+                this.DialogInfoPanel.Visibility = Visibility.Collapsed;
+
                 ShowOpenStreetMapImagery();
             }
             else if (mapView.ImagerySource == GeoImagerySource.EsriMapImagery)
             {
+                this.DialogInfoPanel.Visibility = Visibility.Collapsed;
+
                 ShowEsriOnlineMapImagery();
             }
             else if (mapView.ImagerySource == GeoImagerySource.AzureMapsImagery)
             {
                 this.DialogInfoTextBlock.Text = MapStrings.XWGM_MissingMicrosoftMapKey;
-                if (String.IsNullOrEmpty(AzureMadeMapKey))
-                {
-                    this.DialogInfoPanel.Visibility = Visibility.Visible;
-                }
+               
                 ShowAzureMapsImagery((AzureMapImageryView)mapView);
 
                 if (((IGGeographicMap.Extensions.AzureMapImageryView)this.GeoImageryViewComboBox.SelectedValue).ImageryStyle == AzureMapsImageryStyle.WeatherInfraredOverlay
@@ -134,6 +134,7 @@ namespace IGGeographicMap.Samples.Data
             string mapKey = this.AzureMadeMapKey;
             var mapImage = new Image();
             var mapStyle = mapView.ImageryStyle;
+            this.DialogInfoPanel.Visibility = Visibility.Visible;
             GeoMapAdapter.ZoomMapToLocation(this.GeoMap, GeoLocations.CityNewYork, 2);
             if (String.IsNullOrEmpty(mapKey))
             {

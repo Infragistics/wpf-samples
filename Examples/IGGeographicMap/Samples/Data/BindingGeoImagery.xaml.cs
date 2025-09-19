@@ -58,28 +58,29 @@ namespace IGGeographicMap.Samples.Data
             var mapView = (GeoImageryView) e.AddedItems[0];
             if (mapView == null) return;
             
-            this.DialogInfoPanel.Visibility = Visibility.Collapsed;
-
             // display geo-imagery based on selected map view
             if (mapView.ImagerySource == GeoImagerySource.OpenStreetMapImagery)
             {
+                this.DialogInfoPanel.Visibility = Visibility.Collapsed;
+
                 ShowOpenStreetMapImagery();
             }            
             else if (mapView.ImagerySource == GeoImagerySource.EsriMapImagery)
             {
+                this.DialogInfoPanel.Visibility = Visibility.Collapsed;
+
                 ShowEsriOnlineMapImagery((EsriMapImageryView)mapView);
             }
             else if (mapView.ImagerySource == GeoImagerySource.MapQuestImagery)
             {
+                this.DialogInfoPanel.Visibility = Visibility.Collapsed;
+
                 ShowMapQuestImagery((MapQuestImageryView)mapView);
             }
             else if (mapView.ImagerySource == GeoImagerySource.AzureMapsImagery)
             {
                 this.DialogInfoTextBlock.Text = MapStrings.XWGM_MissingMicrosoftMapKey;
-                if (String.IsNullOrEmpty(AzureMadeMapKey))
-                {
-                    this.DialogInfoPanel.Visibility = Visibility.Visible;
-                }
+                
                 ShowAzureMapsImagery((AzureMapImageryView)mapView);
 
                 if (((IGGeographicMap.Extensions.AzureMapImageryView)this.GeoImageryViewComboBox.SelectedValue).ImageryStyle == AzureMapsImageryStyle.WeatherInfraredOverlay
@@ -126,6 +127,8 @@ namespace IGGeographicMap.Samples.Data
         }
         private void ShowAzureMapsImagery(AzureMapImageryView mapView)
         {
+            this.DialogInfoPanel.Visibility = Visibility.Visible;
+
             string mapKey = this.AzureMadeMapKey;
             var mapImage = new Image();
             var mapStyle = mapView.ImageryStyle;

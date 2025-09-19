@@ -59,8 +59,6 @@ namespace IGGeographicMap.Samples.Data
             var mapView = (GeoImageryView)e.AddedItems[0];
             if (mapView == null) return;
 
-            this.DialogInfoPanel.Visibility = Visibility.Collapsed;
-
             this.DialogInfoTextBlock.Text = MapStrings.XWGM_MissingMicrosoftMapKey;
             if (String.IsNullOrEmpty(AzureMadeMapKey))
             {
