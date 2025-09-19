@@ -21,6 +21,11 @@
         </ResourceDictionary>
     </igFramework:SampleContainer.Resources>
     <Grid x:Name="LayoutRoot">
+        <Grid.Resources>
+            <DataTemplate x:Key="MinHeaderTemplate">
+                <TextBlock Text="Azure Key"    />
+            </DataTemplate>
+        </Grid.Resources>
         <ig:XamGeographicMap x:Name="GeoMap" 
                              Background="Transparent" 
                              PlotAreaBackground="Transparent"
@@ -48,17 +53,7 @@
                     <extensions:GeoImageryViews>
                         <!-- OpenStreetMapImageryView  -->
                         <extensions:OpenStreetMapImageryView />
-                        <!-- Esri MapImageryView added in code behind  -->
-                        <extensions:EsriMapImageryView ImageryStyle="WorldStreetMap"/>
-                        <extensions:EsriMapImageryView ImageryStyle="WorldTopographicMap"/>
-                        <extensions:EsriMapImageryView ImageryStyle="WorldImageryMap"/>
-                        <extensions:EsriMapImageryView ImageryStyle="WorldOceansMap"/>
-                        <extensions:EsriMapImageryView ImageryStyle="WorldTerrainMap"/>
-                        <extensions:EsriMapImageryView ImageryStyle="WorldDeLormesMap"/>
-                        <extensions:EsriMapImageryView ImageryStyle="WorldLightGrayMap"/>
-                        <extensions:EsriMapImageryView ImageryStyle="WorldPhysicalMap"/>
-                        <extensions:EsriMapImageryView ImageryStyle="WorldAdministrativeOverlay"/>
-
+                        
                         <!-- AzureMapsImageryView  -->
                         <extensions:AzureMapImageryView ImageryStyle="Satellite"  />
                         <extensions:AzureMapImageryView ImageryStyle="DarkGrey"  />
@@ -76,6 +71,18 @@
                         <extensions:AzureMapImageryView ImageryStyle="LabelsRoadOverlay"  />
                         <extensions:AzureMapImageryView ImageryStyle="TerraOverlay"/>
 
+                        <!-- Esri MapImageryView added in code behind  -->
+                        <extensions:EsriMapImageryView ImageryStyle="WorldStreetMap"/>
+                        <extensions:EsriMapImageryView ImageryStyle="WorldTopographicMap"/>
+                        <extensions:EsriMapImageryView ImageryStyle="WorldImageryMap"/>
+                        <extensions:EsriMapImageryView ImageryStyle="WorldOceansMap"/>
+                        <extensions:EsriMapImageryView ImageryStyle="WorldTerrainMap"/>
+                        <extensions:EsriMapImageryView ImageryStyle="WorldDeLormesMap"/>
+                        <extensions:EsriMapImageryView ImageryStyle="WorldLightGrayMap"/>
+                        <extensions:EsriMapImageryView ImageryStyle="WorldPhysicalMap"/>
+                        <extensions:EsriMapImageryView ImageryStyle="WorldAdministrativeOverlay"/>
+
+
                     </extensions:GeoImageryViews>
                 </ListBox.ItemsSource>
                 <!-- ============================================================================================= -->
@@ -83,14 +90,14 @@
             </ListBox>
         </controls:OptionsPanel>
 
-        <ig:XamDialogWindow x:Name="DialogInfoPanel" 
+        <ig:XamDialogWindow x:Name="DialogInfoPanel" Header="Azure Key"
                             HorizontalAlignment="Left"
 						    Margin="15" VerticalAlignment="Top" Width="250"
 							Visibility="Collapsed"  IsResizable="False" 
 							MinimizeButtonVisibility="Visible"   
 							MaximizeButtonVisibility="Collapsed" 
                             CloseButtonVisibility="Collapsed" 
-							IsModal="False" StartupPosition="Center" >
+							IsModal="False" StartupPosition="Center" MinimizedWidth="300" MinimizedHeaderTemplate="{StaticResource MinHeaderTemplate}">
             
             <StackPanel>
                 <TextBlock x:Name="DialogInfoTextBlock"  TextWrapping="Wrap"

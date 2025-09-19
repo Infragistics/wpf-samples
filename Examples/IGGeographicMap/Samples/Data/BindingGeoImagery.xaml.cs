@@ -219,6 +219,11 @@ namespace IGGeographicMap.Samples.Data
         {
             this.AzureMadeMapKey = EnterAzureKey.Text;
         }
+
+        private void DialogInfoPanel_WindowStateChanged(object sender, Infragistics.Controls.Interactions.WindowStateChangedEventArgs e)
+        {
+            
+        }
     }
 
  
