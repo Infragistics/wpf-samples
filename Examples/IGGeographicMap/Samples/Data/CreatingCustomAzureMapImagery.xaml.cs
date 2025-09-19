@@ -166,7 +166,7 @@ namespace IGGeographicMap.Samples.Data
         {
             this.AzureMadeMapKey = EnterAzureKey.Text;
             ShowAzureMapsImagery(((AzureMapImageryView)this.GeoImageryViewComboBox.SelectedValue));
-            
+            this.DialogInfoPanel.Minimize();
         }
 
     }
