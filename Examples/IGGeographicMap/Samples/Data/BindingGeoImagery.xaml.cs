@@ -200,7 +200,6 @@ namespace IGGeographicMap.Samples.Data
 
         private void ButtonClick(object sender, RoutedEventArgs e)
         {
-            this.DialogInfoPanel.Visibility = Visibility.Collapsed;
             this.AzureMadeMapKey = EnterAzureKey.Text;
             ShowAzureMapsImagery(((AzureMapImageryView)this.GeoImageryViewComboBox.SelectedValue));
         }
