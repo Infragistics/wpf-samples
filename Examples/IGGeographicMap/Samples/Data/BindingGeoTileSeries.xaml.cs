@@ -12,6 +12,7 @@ using System.Linq;
 using System.Net;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 
@@ -99,7 +100,6 @@ namespace IGGeographicMap.Samples.Data
                 else
                 {
                     GeoMapAdapter.ZoomMapToLocation(this.GeoMap, GeoLocations.CityNewYork, 2);
-
                 }
 
             }
@@ -168,31 +168,31 @@ namespace IGGeographicMap.Samples.Data
                         mapURI = new Uri(@"../../Resources/AzureWeatherInfraredRoad.png", UriKind.RelativeOrAbsolute);
                         break;
                     case AzureMapsImageryStyle.WeatherRadarOverlay:
-                        mapURI = new Uri(@"../../Resources/AzureWeatherInfraredRoad.png", UriKind.RelativeOrAbsolute);
+                        mapURI = new Uri(@"../../Resources/AzureWeatherRadar.png", UriKind.RelativeOrAbsolute);
                         break;
                     case AzureMapsImageryStyle.HybridDarkGreyOverlay:
-                        mapURI = new Uri(@"../../Resources/AzureDarkGrey.png", UriKind.RelativeOrAbsolute);
+                        mapURI = new Uri(@"../../Resources/AzureHybridDarkGrey.png", UriKind.RelativeOrAbsolute);
                         break;
                     case AzureMapsImageryStyle.LabelsDarkGreyOverlay:
-                        mapURI = new Uri(@"../../Resources/AzureDarkGrey.png", UriKind.RelativeOrAbsolute);
+                        mapURI = new Uri(@"../../Resources/AzureLabelsDarkGrey.png", UriKind.RelativeOrAbsolute);
                         break;
                     case AzureMapsImageryStyle.LabelsRoadOverlay:
-                        mapURI = new Uri(@"../../Resources/AzureRoad.png", UriKind.RelativeOrAbsolute);
+                        mapURI = new Uri(@"../../Resources/AzureLabelsRoad.png", UriKind.RelativeOrAbsolute);
                         break;
                     case AzureMapsImageryStyle.TerraOverlay:
-                        mapURI = new Uri(@"../../Resources/AzureWeatherInfraredRoad.png", UriKind.RelativeOrAbsolute);
+                        mapURI = new Uri(@"../../Resources/AzureTerraOverlay.png", UriKind.RelativeOrAbsolute);
                         break;
                     case AzureMapsImageryStyle.TrafficDelayOverlay:
                         mapURI = new Uri(@"../../Resources/AzureTrafficDelay.png", UriKind.RelativeOrAbsolute);
                         break;
                     case AzureMapsImageryStyle.TrafficReducedOverlay:
-                        mapURI = new Uri(@"../../Resources/AzureTrafficReduced.png", UriKind.RelativeOrAbsolute);
+                        mapURI = new Uri(@"../../Resources/AzureTrafficLight.png", UriKind.RelativeOrAbsolute);
                         break;
                     case AzureMapsImageryStyle.TrafficRelativeDarkOverlay:
                         mapURI = new Uri(@"../../Resources/AzureDarkGrey.png", UriKind.RelativeOrAbsolute);
                         break;
                     case AzureMapsImageryStyle.TrafficRelativeOverlay:
-                        mapURI = new Uri(@"../../Resources/AzureTrafficLight.png", UriKind.RelativeOrAbsolute);
+                        mapURI = new Uri(@"../../Resources/AzureTrafficRelative.png", UriKind.RelativeOrAbsolute);
                         break;
                     default:
                         break;
@@ -211,7 +211,10 @@ namespace IGGeographicMap.Samples.Data
             }
             else
             {
-                this.GeoMap.BackgroundContent = new AzureMapsImagery { ImageryStyle = mapStyle, ApiKey = this.AzureMadeMapKey };
+                var series = this.GeoMap.Series.OfType<GeographicTileSeries>().First();
+                series.TileImagery = new AzureMapsImagery { ImageryStyle = mapStyle, ApiKey = this.AzureMadeMapKey };
+                this.GeoMap.BackgroundContent = new OpenStreetMapImagery { Opacity = 0.25 };
+
             }
         }
 
