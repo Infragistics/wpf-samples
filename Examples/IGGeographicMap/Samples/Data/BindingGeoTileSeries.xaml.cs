@@ -88,7 +88,7 @@ namespace IGGeographicMap.Samples.Data
             else if (mapView.ImagerySource == GeoImagerySource.AzureMapsImagery)
             {
                 this.DialogInfoTextBlock.Text = MapStrings.XWGM_MissingMicrosoftMapKey;
-               
+                this.DialogInfoPanel.Visibility = Visibility.Visible;
                 ShowAzureMapsImagery((AzureMapImageryView)mapView);
 
                 if (((IGGeographicMap.Extensions.AzureMapImageryView)this.GeoImageryViewComboBox.SelectedValue).ImageryStyle == AzureMapsImageryStyle.WeatherInfraredOverlay
@@ -229,6 +229,11 @@ namespace IGGeographicMap.Samples.Data
         private void EnterAzureKey_TextChanged(object sender, TextChangedEventArgs e)
         {
             this.AzureMadeMapKey = this.EnterAzureKey.Text;
+        }
+
+        private void ButtonClick2(object sender, RoutedEventArgs e)
+        {
+            EnterAzureKey.Text = String.Empty;
         }
     }
 

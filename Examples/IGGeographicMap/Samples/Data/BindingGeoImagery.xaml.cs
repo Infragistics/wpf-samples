@@ -79,6 +79,7 @@ namespace IGGeographicMap.Samples.Data
             }
             else if (mapView.ImagerySource == GeoImagerySource.AzureMapsImagery)
             {
+                this.DialogInfoPanel.Visibility = Visibility.Visible;
                 this.DialogInfoTextBlock.Text = MapStrings.XWGM_MissingMicrosoftMapKey;
                 
                 ShowAzureMapsImagery((AzureMapImageryView)mapView);
@@ -219,10 +220,9 @@ namespace IGGeographicMap.Samples.Data
         {
             this.AzureMadeMapKey = EnterAzureKey.Text;
         }
-
-        private void DialogInfoPanel_WindowStateChanged(object sender, Infragistics.Controls.Interactions.WindowStateChangedEventArgs e)
+        private void ButtonClick2(object sender, RoutedEventArgs e)
         {
-            
+            EnterAzureKey.Text = String.Empty;
         }
     }
 
