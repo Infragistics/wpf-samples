@@ -3,7 +3,6 @@ using IGGeographicMap.Models;
 using IGGeographicMap.Resources;
 using IGGeographicMap.Samples.Custom;               // GeoMapAdapter
 using Infragistics.Controls.Maps;
-using Infragistics.Samples.Services;                // BingMapsConnector
 using Infragistics.Samples.Shared.DataProviders;    // GeoImageryKeyProvider
 using Infragistics.Samples.Shared.Models;
 using System;
@@ -22,7 +21,7 @@ namespace IGGeographicMap.Samples.Data
             InitializeComponent();
           
             // must provide your own keys for Azure Maps to display geo-imagery in the Geographic Map control
-            this.AzureMadeMapKey = string.Empty;     //  visit https://learn.microsoft.com/en-us/azure/azure-maps/how-to-manage-account-keys
+            this.AzureMadeMapKey = string.Empty;     //  visit https://learn.microsoft.com/en-us/azure/azure-maps/azure-maps-authentication
 
             // this code block should be comment out when you have your own keys for Azure Maps
             var mapKeyProvoder = new GeoImageryKeyProvider();
@@ -68,6 +67,18 @@ namespace IGGeographicMap.Samples.Data
                 this.DialogInfoPanel.Visibility = Visibility.Visible;
             }
             ShowAzureMapsImagery((AzureMapImageryView)mapView);
+            if (((IGGeographicMap.Extensions.AzureMapImageryView)this.GeoImageryViewComboBox.SelectedValue).ImageryStyle == AzureMapsImageryStyle.WeatherInfraredOverlay 
+                || ((IGGeographicMap.Extensions.AzureMapImageryView)this.GeoImageryViewComboBox.SelectedValue).ImageryStyle == AzureMapsImageryStyle.WeatherRadarOverlay)
+            {
+                this.GeoMap.ResetZoom();
+
+            }
+            else
+            {
+                GeoMapAdapter.ZoomMapToLocation(this.GeoMap, GeoLocations.CityNewYork, 2);
+
+            }
+
         }
 
         private void ShowAzureMapsImagery(AzureMapImageryView mapView)
@@ -99,11 +110,38 @@ namespace IGGeographicMap.Samples.Data
                     case AzureMapsImageryStyle.WeatherInfraredOverlay:
                         mapURI = new Uri(@"../../Resources/AzureWeatherInfraredRoad.png", UriKind.RelativeOrAbsolute);
                         break;
+                    case AzureMapsImageryStyle.WeatherRadarOverlay:
+                        mapURI = new Uri(@"../../Resources/AzureWeatherInfraredRoad.png", UriKind.RelativeOrAbsolute);
+                        break;
+                    case AzureMapsImageryStyle.HybridDarkGreyOverlay:
+                        mapURI = new Uri(@"../../Resources/AzureDarkGrey.png", UriKind.RelativeOrAbsolute);
+                        break;
+                    case AzureMapsImageryStyle.LabelsDarkGreyOverlay:
+                        mapURI = new Uri(@"../../Resources/AzureDarkGrey.png", UriKind.RelativeOrAbsolute);
+                        break;
+                    case AzureMapsImageryStyle.LabelsRoadOverlay:
+                        mapURI = new Uri(@"../../Resources/AzureRoad.png", UriKind.RelativeOrAbsolute);
+                        break;
+                    case AzureMapsImageryStyle.TerraOverlay:
+                        mapURI = new Uri(@"../../Resources/AzureWeatherInfraredRoad.png", UriKind.RelativeOrAbsolute);
+                        break;
+                    case AzureMapsImageryStyle.TrafficDelayOverlay:
+                        mapURI = new Uri(@"../../Resources/AzureTrafficAndRoad.png", UriKind.RelativeOrAbsolute);
+                        break;
+                    case AzureMapsImageryStyle.TrafficReducedOverlay:
+                        mapURI = new Uri(@"../../Resources/AzureTrafficAndRoad.png", UriKind.RelativeOrAbsolute);
+                        break;
+                    case AzureMapsImageryStyle.TrafficRelativeDarkOverlay:
+                        mapURI = new Uri(@"../../Resources/AzureTrafficAndRoad.png", UriKind.RelativeOrAbsolute);
+                        break;
+                    case AzureMapsImageryStyle.TrafficRelativeOverlay:
+                        mapURI = new Uri(@"../../Resources/AzureTrafficAndRoad.png", UriKind.RelativeOrAbsolute);
+                        break;
                     default:
                         break;
                 }
 
-                //Now that Bing is retired, basic keys are no longer valid with Azure, hence we are showing images. If you have a valid enterprise key you may comment this code out and uncomment out the BackgroundContent below applying the imagery instead and apply your own api key.
+                //Basic keys are no longer valid with Azure, hence we are showing images. If you have a valid enterprise key you may comment this code out and uncomment out the BackgroundContent below applying the imagery instead and apply your own api key.
                 BitmapImage bitmapImage = new BitmapImage();
                 bitmapImage.BeginInit();
                 bitmapImage.UriSource = mapURI;
@@ -131,7 +169,9 @@ namespace IGGeographicMap.Samples.Data
             this.DialogInfoPanel.Visibility = Visibility.Collapsed;
             this.AzureMadeMapKey = EnterAzureKey.Text;
             ShowAzureMapsImagery(((AzureMapImageryView)this.GeoImageryViewComboBox.SelectedValue));
+            
         }
+
     }
 
 

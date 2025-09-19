@@ -385,7 +385,7 @@ namespace Infragistics.SamplesBrowser.WelcomePages.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create highly detailed, thematic geographical maps using an innovative feature set that includes custom shape templates, the ability to render polylines and polyshapes, Map Progression, Scatter Area Plots, an intuitive Overview Pane and much more. The xamGeographicMap enables users to deep zoom into satellite, aerial, remote sensing, street map, or other kinds of tiled imagery from external geospatial imagery services, including Bing Maps and OpenStreetMap..
+        ///   Looks up a localized string similar to Create highly detailed, thematic geographical maps using an innovative feature set that includes custom shape templates, the ability to render polylines and polyshapes, Map Progression, Scatter Area Plots, an intuitive Overview Pane and much more. The xamGeographicMap enables users to deep zoom into satellite, aerial, remote sensing, street map, or other kinds of tiled imagery from external geospatial imagery services, including Azure Maps and OpenStreetMap..
         /// </summary>
         public static string GeographicMap_Welcome_Paragraph_1 {
             get {
@@ -421,7 +421,7 @@ namespace Infragistics.SamplesBrowser.WelcomePages.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create expressive business intelligence solutions with stunning WPF maps that tap your business’ geographic and geospatial data with rich functionality and styling. The xamMap uses the Shapefile format to render any geometric shape, including geographic maps, seating charts and floor plans. Also it enables users to deep zoom into satellite, aerial, remote sensing, street map, or other kinds of tiled imagery from external geospatial imagery services, including Bing Maps and OpenStreetMap..
+        ///   Looks up a localized string similar to Create expressive business intelligence solutions with stunning WPF maps that tap your business’ geographic and geospatial data with rich functionality and styling. The xamMap uses the Shapefile format to render any geometric shape, including geographic maps, seating charts and floor plans. Also it enables users to deep zoom into satellite, aerial, remote sensing, street map, or other kinds of tiled imagery from external geospatial imagery services, including Azure Maps and OpenStreetMap..
         /// </summary>
         public static string Map_Welcome_Paragraph_1 {
             get {

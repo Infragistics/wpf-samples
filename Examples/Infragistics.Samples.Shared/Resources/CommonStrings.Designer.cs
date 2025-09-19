@@ -935,6 +935,7 @@ namespace Infragistics.Samples.Shared.Resources {
         
         /// <summary>
         ///   Looks up a localized string similar to SOURCE: Microsoft BingMaps, @ OpenStreetMap contributors.
+        ///   Looks up a localized string similar to SOURCE: Microsoft AzureMaps, @ OpenStreetMap contributors.
         /// </summary>
         public static string XW_Source_GeoImagery {
             get {
