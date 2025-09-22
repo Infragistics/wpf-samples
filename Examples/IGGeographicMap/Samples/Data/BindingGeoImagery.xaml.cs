@@ -150,7 +150,7 @@ namespace IGGeographicMap.Samples.Data
                         mapURI = new Uri(@"../../Resources/AzureDarkGrey.png", UriKind.RelativeOrAbsolute);
                         break;
                     case AzureMapsImageryStyle.HybridRoadOverlay:
-                        mapURI = new Uri(@"../../Resources/AzureHybridRoad.png", UriKind.RelativeOrAbsolute);
+                        mapURI = new Uri(@"../../Resources/AzureHybridRoad2.png", UriKind.RelativeOrAbsolute);
                         break;
                     case AzureMapsImageryStyle.Road:
                         mapURI = new Uri(@"../../Resources/AzureRoad.png", UriKind.RelativeOrAbsolute);
