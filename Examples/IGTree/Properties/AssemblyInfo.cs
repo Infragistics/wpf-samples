@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using Infragistics.Samples.Core;        // provides AssemblyDesigner
 
-// General Information about an assembly is controlled through the following 
+// General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("IGTree")]
@@ -19,15 +19,17 @@ using Infragistics.Samples.Core;        // provides AssemblyDesigner
 [assembly: AssemblyVersion(AssemblyDesigner.AssemblyVersion)]
 [assembly: AssemblyFileVersion(AssemblyDesigner.AssemblyVersion)]
 
-// Setting ComVisible to false makes the types in this assembly not visible 
-// to COM components.  If you need to access a type in this assembly from 
+[assembly: InternalsVisibleTo("Infragistics.SamplesBrowser")]
+
+// Setting ComVisible to false makes the types in this assembly not visible
+// to COM components.  If you need to access a type in this assembly from
 // COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("e714cdbc-060d-4f9f-a0f3-10a033f40e2a")]
 
-//In order to begin building localizable applications, set 
+//In order to begin building localizable applications, set
 //<UICulture>CultureYouAreCodingWith</UICulture> in your .csproj file
 //inside a <PropertyGroup>.  For example, if you are using US english
 //in your source files, set the <UICulture> to en-US.  Then uncomment

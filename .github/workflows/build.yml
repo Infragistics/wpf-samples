@@ -1,0 +1,41 @@
+name: Build WPF Samples
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    # .NET Framework applications must be built on a Windows runner.
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+      with:
+        msbuild-architecture: x64
+
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v2
+
+    - name: Restore NuGet packages
+      run: nuget restore Examples/Infragistics.Samples.WPF.sln
+
+    - name: Build the solution
+      run: |
+        $outputDir = "$env:GITHUB_WORKSPACE\build_output"
+        Write-Host "Building to specific directory: $outputDir"
+        msbuild Examples/Infragistics.Samples.WPF.sln /p:Configuration=Release /p:Platform="Any CPU" /p:OutputPath=$outputDir\
+        
+    - name: Upload the artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: wpf-app-release
+        path: build_output

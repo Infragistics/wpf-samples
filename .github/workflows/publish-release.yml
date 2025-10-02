@@ -1,0 +1,58 @@
+name: Create Release and Upload Artifact
+
+on:
+  push:
+    tags:
+      - 'v*.*.*' # Trigger this workflow only when a new tag is pushed
+
+jobs:
+  build_and_release:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+      with:
+        msbuild-architecture: x64
+
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v2
+
+    - name: Restore NuGet packages
+      run: nuget restore Examples/Infragistics.Samples.WPF.sln
+
+    - name: Build the solution with forced output directory
+      run: |
+        $outputDir = "$env:GITHUB_WORKSPACE\build_output"
+        Write-Host "Building to specific directory: $outputDir"
+        msbuild Examples/Infragistics.Samples.WPF.sln /p:Configuration=Release /p:Platform="Any CPU" /p:OutputPath=$outputDir\
+
+    - name: Zip the build output
+      run: |
+        $outputPath = "$env:GITHUB_WORKSPACE\build_output"
+        Compress-Archive -Path "$outputPath\*" -DestinationPath "wpf-app-release.zip" -Force
+        Write-Host "Zipping complete."
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./wpf-app-release.zip
+        asset_name: wpf-app-release.zip
+        asset_content_type: application/zip
