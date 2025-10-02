@@ -18,7 +18,6 @@ namespace IGGeographicMap.Extensions
     public enum GeoImagerySource
     {
         AzureMapsImagery,
-        BingMapsImagery,
         MapQuestImagery,
         OpenStreetMapImagery, 
         EsriMapImagery,
@@ -612,27 +611,7 @@ namespace IGGeographicMap.Extensions
         #endregion
     }
     #endregion
-    
-    #region BingMap Imagery View
-    /// <summary>
-    /// Represents a map view for the BingsMap geo-imagery. 
-    /// </summary>
-    public class BingMapsImageryView : GeoImageryView
-    {
-        public BingMapsImageryView()
-        {
-            this.ImagerySource = GeoImagerySource.BingMapsImagery;
-            this.ImageryStyle = BingMapsImageryStyle.Road;
-        }
-        public Infragistics.Controls.Maps.BingMapsImageryStyle ImageryStyle { get; set; }
-        public string ImageryName { get { return this.ImagerySource + " (" + this.ImageryStyle + ")"; } }
-        public override string ToString()
-        {
-            return this.ImageryName;
-        }
-    } 
-    #endregion
-
+ 
     #region MapQuest Imagery View
     /// <summary>
     /// Represents a map view for the MapQuest geo-imagery. 

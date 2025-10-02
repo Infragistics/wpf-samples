@@ -24,26 +24,16 @@ namespace IGGeographicMap.Samples
             this.MapLoadingStatus.Text = CommonStrings.XW_SampleStatus_Loading;
 
             this.TileImageryShapeComboBox.SelectedIndex = 1; 
-            this.BingMadeMapKey = string.Empty;     //  visit http://www.bingmapsportal.com
             // this code block should be comment out when
-            // you have your own keys for Bing Maps  
             var mapKeyProvoder = new GeoImageryKeyProvider();
             mapKeyProvoder.GetMapKeyCompleted += OnGetMapKeyCompleted;
             mapKeyProvoder.GetMapKeys();
 
         } 
-        protected string BingMadeMapKey;
 
         private void OnGetMapKeyCompleted(object sender, GetMapKeyCompletedEventArgs e)
         {
             if (e.Error != null) return;
-
-            foreach (var element in e.Result)
-            {
-                if (element.Name == "BingMaps") this.BingMadeMapKey = element.Key; 
-            }
-            var series = this.GeoMap.Series.OfType<GeographicTileSeries>().First();
-            series.TileImagery = new BingMapsMapImagery { ImageryStyle = BingMapsImageryStyle.Aerial, ApiKey = BingMadeMapKey, IsDeferredLoad = false };
         }
  
         private void OnShapefileImportCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)

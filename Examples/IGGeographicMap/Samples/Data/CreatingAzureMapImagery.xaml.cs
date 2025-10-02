@@ -2,47 +2,48 @@
 using IGGeographicMap.Models;
 using IGGeographicMap.Resources;
 using IGGeographicMap.Samples.Custom;               // GeoMapAdapter
-using Infragistics.Controls.Charts;
 using Infragistics.Controls.Maps;
 using Infragistics.Samples.Shared.DataProviders;    // GeoImageryKeyProvider
 using Infragistics.Samples.Shared.Models;
 using System;
-using System.Net;
+using System.Globalization;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
 namespace IGGeographicMap.Samples.Data
 {
-    public partial class BindingGeoImagery : Infragistics.Samples.Framework.SampleContainer
+    public partial class CreatingAzureMapImagery : Infragistics.Samples.Framework.SampleContainer
     {
-        public BindingGeoImagery()
-        {
+        public CreatingAzureMapImagery()
+        {         
             InitializeComponent();
+          
+            // must provide your own keys for Azure Maps to display geo-imagery in the Geographic Map control
+            this.AzureMadeMapKey = string.Empty;     //  visit https://learn.microsoft.com/en-us/azure/azure-maps/azure-maps-authentication
 
-            // must provide your own keys for Azure Maps
-            // to display geo-imagery in the Geographic Map control
-            this.AzureMadeMapKey = string.Empty;
-            // this code block should be comment out when
-            // you have your own keys for Azure Maps  
+            // this code block should be comment out when you have your own keys for Azure Maps
             var mapKeyProvoder = new GeoImageryKeyProvider();
             mapKeyProvoder.GetMapKeyCompleted += OnGetMapKeyCompleted;
             mapKeyProvoder.GetMapKeys();
 
             this.Loaded += OnSampleLoaded;
         }
-
-        // must provide your own key for Azure Maps to display geo-imagery in the Geographic Map control
-        protected string AzureMadeMapKey; //  visit https://learn.microsoft.com/en-us/azure/azure-maps/azure-maps-authentication
+        protected string AzureMadeMapKey;
 
         private void OnGetMapKeyCompleted(object sender, GetMapKeyCompletedEventArgs e)
         {
             if (e.Error != null) return;
-
             foreach (var element in e.Result)
             {
                 if (element.Name == "AzureMaps") this.AzureMadeMapKey = element.Key;
             }
+
+            var azureMapsConnector = new AzureMapsImagery();
+            GeoMap.BackgroundContent = azureMapsConnector;
+            azureMapsConnector.ApiKey = AzureMadeMapKey;
+            azureMapsConnector.ImageryStyle = Infragistics.Controls.Maps.AzureMapsImageryStyle.Satellite; //mapView.ImageryStyle;
         }
 
         private void OnSampleLoaded(object sender, RoutedEventArgs e)
@@ -55,79 +56,10 @@ namespace IGGeographicMap.Samples.Data
         {
             if (this.GeoMap == null) return;
 
-            var mapView = (GeoImageryView) e.AddedItems[0];
+            var mapView = (GeoImageryView)e.AddedItems[0];
             if (mapView == null) return;
-            
-            // display geo-imagery based on selected map view
-            if (mapView.ImagerySource == GeoImagerySource.OpenStreetMapImagery)
-            {
-                this.DialogInfoPanel.Visibility = Visibility.Collapsed;
 
-                ShowOpenStreetMapImagery();
-            }            
-            else if (mapView.ImagerySource == GeoImagerySource.EsriMapImagery)
-            {
-                this.DialogInfoPanel.Visibility = Visibility.Collapsed;
-
-                ShowEsriOnlineMapImagery((EsriMapImageryView)mapView);
-            }
-            else if (mapView.ImagerySource == GeoImagerySource.MapQuestImagery)
-            {
-                this.DialogInfoPanel.Visibility = Visibility.Collapsed;
-
-                ShowMapQuestImagery((MapQuestImageryView)mapView);
-            }
-            else if (mapView.ImagerySource == GeoImagerySource.AzureMapsImagery)
-            {
-                this.DialogInfoPanel.Visibility = Visibility.Visible;
-                this.DialogInfoTextBlock.Text = MapStrings.XWGM_MissingMicrosoftMapKey;
-                
-                ShowAzureMapsImagery((AzureMapImageryView)mapView);
-
-                if (((IGGeographicMap.Extensions.AzureMapImageryView)this.GeoImageryViewComboBox.SelectedValue).ImageryStyle == AzureMapsImageryStyle.WeatherInfraredOverlay
-                || ((IGGeographicMap.Extensions.AzureMapImageryView)this.GeoImageryViewComboBox.SelectedValue).ImageryStyle == AzureMapsImageryStyle.WeatherRadarOverlay)
-                {
-                    this.GeoMap.ResetZoom();
-
-                }
-                else
-                {
-                    GeoMapAdapter.ZoomMapToLocation(this.GeoMap, GeoLocations.CityNewYork, 2);
-
-                }
-            }
-
-        }
-
-        private void ShowOpenStreetMapImagery()
-        {
-            this.GeoMap.BackgroundContent = new OpenStreetMapImagery();
-        }
-
-        private void ShowEsriOnlineMapImagery(EsriMapImageryView mapView)
-        {
-            GeoMapAdapter.ZoomMapToLocation(this.GeoMap, GeoLocations.CityNewYork, 2);
-
-            ServicePointManager.SecurityProtocol = (SecurityProtocolType)768 | (SecurityProtocolType)3072;
-            var esriMap = new ArcGISOnlineMapImagery();
-            //esriMap.MapServerUri = "http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer";
-
-            esriMap.MapServerUri = mapView.ImageryServer;
-
-            this.GeoMap.BackgroundContent = esriMap;
-        }
-        private void ShowMapQuestImagery(MapQuestImageryView mapView)
-        {
-            GeoMapAdapter.ZoomMapToLocation(this.GeoMap, GeoLocations.CityNewYork, 2);
-
-            if (mapView.ImageryStyle == MapQuestImageryStyle.StreetMapStyle)
-                this.GeoMap.BackgroundContent = new MapQuestStreetImagery();
-
-            else if (mapView.ImageryStyle == MapQuestImageryStyle.SatelliteMapStyle)
-                this.GeoMap.BackgroundContent = new MapQuestSatelliteImagery();
-        }
-        private void ShowAzureMapsImagery(AzureMapImageryView mapView)
-        {
+            this.DialogInfoTextBlock.Text = MapStrings.XWGM_MissingMicrosoftMapKey;
             if (String.IsNullOrEmpty(AzureMadeMapKey))
             {
                 this.DialogInfoPanel.Visibility = Visibility.Visible;
@@ -136,7 +68,23 @@ namespace IGGeographicMap.Samples.Data
             {
                 this.DialogInfoPanel.Minimize();
             }
+            ShowAzureMapsImagery((AzureMapImageryView)mapView);
+            if (((IGGeographicMap.Extensions.AzureMapImageryView)this.GeoImageryViewComboBox.SelectedValue).ImageryStyle == AzureMapsImageryStyle.WeatherInfraredOverlay 
+                || ((IGGeographicMap.Extensions.AzureMapImageryView)this.GeoImageryViewComboBox.SelectedValue).ImageryStyle == AzureMapsImageryStyle.WeatherRadarOverlay)
+            {
+                this.GeoMap.ResetZoom();
 
+            }
+            else
+            {
+                GeoMapAdapter.ZoomMapToLocation(this.GeoMap, GeoLocations.CityNewYork, 2);
+
+            }
+
+        }
+
+        private void ShowAzureMapsImagery(AzureMapImageryView mapView)
+        {
             string mapKey = this.AzureMadeMapKey;
             var mapImage = new Image();
             var mapStyle = mapView.ImageryStyle;
@@ -194,8 +142,8 @@ namespace IGGeographicMap.Samples.Data
                     default:
                         break;
                 }
-                
-                //Basic keys are no longer optional, hence we are showing images. If you have a valid enterprise key you may comment this code out and uncomment out the BackgroundContent below applying the imagery instead and apply your own api key.
+
+                //Basic keys are no longer valid with Azure, hence we are showing images. If you have a valid enterprise key you may comment this code out and uncomment out the BackgroundContent below applying the imagery instead and apply your own api key.
                 BitmapImage bitmapImage = new BitmapImage();
                 bitmapImage.BeginInit();
                 bitmapImage.UriSource = mapURI;
@@ -206,7 +154,17 @@ namespace IGGeographicMap.Samples.Data
             else
             {
                 this.GeoMap.BackgroundContent = new AzureMapsImagery { ImageryStyle = mapStyle, ApiKey = this.AzureMadeMapKey };
+                
             }
+        }
+
+        public void OnImageryInitialized(object sender, EventArgs e)
+        {
+        }
+      
+        private void EnterAzureKey_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            this.AzureMadeMapKey = EnterAzureKey.Text;
         }
 
         private void ButtonClick(object sender, RoutedEventArgs e)
@@ -216,16 +174,11 @@ namespace IGGeographicMap.Samples.Data
             this.DialogInfoPanel.Minimize();
         }
 
-        private void EnterAzureKey_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            this.AzureMadeMapKey = EnterAzureKey.Text;
-        }
         private void ButtonClick2(object sender, RoutedEventArgs e)
         {
             EnterAzureKey.Text = String.Empty;
         }
     }
 
- 
-}
 
+}
