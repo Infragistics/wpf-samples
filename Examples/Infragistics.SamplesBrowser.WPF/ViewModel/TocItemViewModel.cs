@@ -95,7 +95,7 @@ namespace Infragistics.SamplesBrowser.ViewModel
                 {
                     Status = "UPD";
                 }
-                else if (newCount > 0 || updCount > 0)
+                else if (newCount > 0 || updCount > 0 || betaCount > 0)
                 {
                     Status = "UPD"; 
                 }
