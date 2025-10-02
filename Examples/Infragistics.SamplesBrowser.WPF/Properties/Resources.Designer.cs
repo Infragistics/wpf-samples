@@ -179,7 +179,7 @@ namespace Infragistics.SamplesBrowser.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to CTP.
+        ///   Looks up a localized string similar to PREVIEW.
         /// </summary>
         public static string SampleStatusCTP {
             get {
@@ -197,7 +197,7 @@ namespace Infragistics.SamplesBrowser.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to UPD.
+        ///   Looks up a localized string similar to UPDATED.
         /// </summary>
         public static string SampleStatusUpdated {
             get {

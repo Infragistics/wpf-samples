@@ -264,11 +264,11 @@ namespace Infragistics.SamplesBrowser.ViewModel
                 if (toc1.IsUpdated != toc2.IsUpdated)
                     return toc1.IsUpdated ? -1 : 1;
 
-                if (toc1.IsCtp != toc2.IsCtp)
-                    return toc1.IsCtp ? -1 : 1;
+                if (toc1.IsPreview != toc2.IsPreview)
+                    return toc1.IsPreview ? -1 : 1;
 
-                if (toc1.IsBETA != toc2.IsBETA)
-                    return toc1.IsBETA ? -1 : 1;
+                //if (toc1.IsBETA != toc2.IsBETA)
+                //    return toc1.IsBETA ? -1 : 1;
             //}
 
             string name1 = toc1.Name ?? string.Empty;  
