@@ -75,34 +75,29 @@ namespace Infragistics.SamplesBrowser.ViewModel
                 ReleaseVersion = this.Children.Max(c => c.ReleaseVersion);
 
                 var newCount = this.Children.Count(c => c.Status == "NEW");
-                var ctpCount = this.Children.Count(c => c.Status == "CTP");
-                var updCount = this.Children.Count(c => c.Status == "UPD");
-                var betaCount = this.Children.Count(c => c.Status == "BETA");
+                var ctpCount = this.Children.Count(c => c.Status == "PREVIEW");
+                var updCount = this.Children.Count(c => c.Status == "UPDATED");
 
                 if (newCount == this.Children.Count)
                 { 
                     Status = "NEW"; 
                 }
-                else if (betaCount == this.Children.Count)  
-                {
-                    Status = "BETA";
-                }
                 else if (ctpCount == this.Children.Count)  
                 {
-                    Status = "CTP";
+                    Status = "PREVIEW";
                 }
                 else if (updCount == this.Children.Count)  
                 {
-                    Status = "UPD";
+                    Status = "UPDATED";
                 }
-                else if (newCount > 0 || updCount > 0 || betaCount > 0)
+                else if (newCount > 0 || updCount > 0 || ctpCount > 0)
                 {
-                    Status = "UPD"; 
+                    Status = "UPDATED"; 
                 }
                 else if (ctpCount > 0)
                 {
                     if (ReleaseVersion == currentVersion)
-                        Status = "UPD";
+                        Status = "UPDATED";
                     else
                         Status = "OLD";
                 }
@@ -115,7 +110,7 @@ namespace Infragistics.SamplesBrowser.ViewModel
             { 
                 if (double.IsNaN(ReleaseVersion))
                 { 
-                    if (Status == "NEW" || Status == "UPD")
+                    if (Status == "NEW" || Status == "UPDATED")
                     {
                         ReleaseVersion = currentVersion;
                     }
@@ -135,7 +130,7 @@ namespace Infragistics.SamplesBrowser.ViewModel
                 }
                 else
                 {
-                    if (Status != "NEW" && Status != "CTP" && Status != "UPD" && Status != "OLD" && Status != "BETA")
+                    if (Status != "NEW" && Status != "UPDATED" && Status != "OLD" && Status != "PREVIEW")
                     {
                         Status = "ERR";
                         Debug.WriteLine("WARNING sample has unknown Status attribute: " + info);
@@ -240,7 +235,7 @@ namespace Infragistics.SamplesBrowser.ViewModel
         {
             get
             {
-                return Status == "UPD";
+                return Status == "UPDATED";
             }
         }
 
@@ -249,33 +244,17 @@ namespace Infragistics.SamplesBrowser.ViewModel
         #region CTP
 
         /// <summary>
-        /// Determines whether the control's release is CTP.
+        /// Determines whether the control's release is PREVIEW.
         /// </summary>
-        public bool IsCtp
+        public bool IsPreview
         {
             get
             {
-                return Status == "CTP";
+                return Status == "PREVIEW";
             }
         }
 
-        #endregion // IsCtp
-
-        #region BETA
-
-        /// <summary>
-        /// Determines whether the control's release is BETA.
-        /// </summary>
-        public bool IsBETA
-        {
-            get
-            {
-                return Status == "BETA";
-            }
-        }
-
-        #endregion // BETA
-
+        #endregion 
 
         #endregion // Presentation Properties
 
@@ -303,7 +282,7 @@ namespace Infragistics.SamplesBrowser.ViewModel
 
         public override string ToString()
         {
-            return this.Name + " IsNew=" + this.IsNew + " IsCtp=" + this.IsCtp + " IsBETA=" + this.IsBETA + " Status=" + this.Status;
+            return this.Name + " IsNew=" + this.IsNew + " IsPreview=" + this.IsPreview + " IsUpdated=" + this.IsUpdated + " Status=" + this.Status;
         }
     }
 }
