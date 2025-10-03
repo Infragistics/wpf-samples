@@ -213,7 +213,7 @@ namespace IGGeographicMap.Samples.Data
             {
                 var series = this.GeoMap.Series.OfType<GeographicTileSeries>().First();
                 series.TileImagery = new AzureMapsImagery { ImageryStyle = mapStyle, ApiKey = this.AzureMadeMapKey };
-                this.GeoMap.BackgroundContent = new OpenStreetMapImagery { Opacity = 0.25 };
+                this.GeoMap.BackgroundContent = new AzureMapsImagery { ImageryStyle = AzureMapsImageryStyle.DarkGrey, ApiKey = this.AzureMadeMapKey };
 
             }
         }
