@@ -113,6 +113,59 @@ namespace Infragistics.SamplesBrowser.ViewModel
                     Status = "OLD";
                 }
             }
+            else // sample
+            {
+                if (double.IsNaN(ReleaseVersion))
+                {
+                    // If ReleaseVersion is missing, try to infer from Status
+                    if (Status == "NEW" || Status == "UPDATED")
+                    {
+                        ReleaseVersion = currentVersion;
+                    }
+
+                    if (ReleaseVersion == currentVersion)
+                    {
+                        Status = "UPDATED";
+                    }
+                    else
+                    {
+                        ReleaseVersion = 10.1;
+                        Debug.WriteLine("WARNING sample is missing ReleaseVersion attribute: " + info);
+                        Status = string.Empty;
+                    }
+                }
+
+                if (string.IsNullOrEmpty(Status))
+                {
+                    if (ReleaseVersion == currentVersion)
+                    {
+                        // New sample for current release
+                        Status = "NEW";
+                    }
+                    else
+                    {
+                        // Default to OLD if no other status
+                        Status = "OLD";
+                    }
+                }
+                else
+                {
+                    // Validate known values
+                    if (Status != "NEW" && Status != "UPDATED" &&
+                        Status != "OLD" && Status != "PREVIEW")
+                    {
+                        Status = "ERR";
+                        Debug.WriteLine("WARNING sample has unknown Status attribute: " + info);
+                    }
+                }
+
+                // Final fallback
+                if (string.IsNullOrEmpty(Status))
+                {
+                    Status = "OLD";
+                }
+            }
+
         }
 
         #endregion // Initialization
