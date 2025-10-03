@@ -189,7 +189,7 @@ namespace IGGeographicMap.Samples.Data
                         mapURI = new Uri(@"../../Resources/AzureTrafficLight.png", UriKind.RelativeOrAbsolute);
                         break;
                     case AzureMapsImageryStyle.TrafficRelativeDarkOverlay:
-                        mapURI = new Uri(@"../../Resources/AzureDarkGrey.png", UriKind.RelativeOrAbsolute);
+                        mapURI = new Uri(@"../../Resources/azure_traffic_relative_dark.png", UriKind.RelativeOrAbsolute);
                         break;
                     case AzureMapsImageryStyle.TrafficRelativeOverlay:
                         mapURI = new Uri(@"../../Resources/AzureTrafficRelative.png", UriKind.RelativeOrAbsolute);
@@ -213,7 +213,7 @@ namespace IGGeographicMap.Samples.Data
             {
                 var series = this.GeoMap.Series.OfType<GeographicTileSeries>().First();
                 series.TileImagery = new AzureMapsImagery { ImageryStyle = mapStyle, ApiKey = this.AzureMadeMapKey };
-                this.GeoMap.BackgroundContent = new OpenStreetMapImagery { Opacity = 0.25 };
+                this.GeoMap.BackgroundContent = new AzureMapsImagery { ImageryStyle = AzureMapsImageryStyle.DarkGrey, ApiKey = this.AzureMadeMapKey };
 
             }
         }

@@ -134,7 +134,7 @@ namespace IGGeographicMap.Samples.Data
                         mapURI = new Uri(@"../../Resources/AzureTrafficLight.png", UriKind.RelativeOrAbsolute);
                         break;
                     case AzureMapsImageryStyle.TrafficRelativeDarkOverlay:
-                        mapURI = new Uri(@"../../Resources/AzureDarkGrey.png", UriKind.RelativeOrAbsolute);
+                        mapURI = new Uri(@"../../Resources/azure_traffic_relative_dark.png", UriKind.RelativeOrAbsolute);
                         break;
                     case AzureMapsImageryStyle.TrafficRelativeOverlay:
                         mapURI = new Uri(@"../../Resources/AzureTrafficRelative.png", UriKind.RelativeOrAbsolute);
