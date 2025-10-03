@@ -79,20 +79,27 @@ namespace Infragistics.SamplesBrowser.ViewModel
                 var updCount = this.Children.Count(c => c.Status == "UPDATED");
 
                 if (newCount == this.Children.Count)
-                { 
-                    Status = "NEW"; 
+                {
+                    Status = "NEW";
                 }
-                else if (ctpCount == this.Children.Count)  
+                else if (ctpCount == this.Children.Count)
                 {
                     Status = "PREVIEW";
                 }
-                else if (updCount == this.Children.Count)  
+                else if (updCount == this.Children.Count)
                 {
-                    Status = "UPDATED";
+                    // mark parent UPDATED only if children are updated in *this* release
+                    if (ReleaseVersion == currentVersion)
+                        Status = "UPDATED";
+                    else
+                        Status = string.Empty; // don’t show anything
                 }
                 else if (newCount > 0 || updCount > 0 || ctpCount > 0)
                 {
-                    Status = "UPDATED"; 
+                    if (ReleaseVersion == currentVersion)
+                        Status = "UPDATED";
+                    else
+                        Status = string.Empty;
                 }
                 else if (ctpCount > 0)
                 {
@@ -101,41 +108,10 @@ namespace Infragistics.SamplesBrowser.ViewModel
                     else
                         Status = "OLD";
                 }
-                else 
+                else
                 {
                     Status = "OLD";
                 }
-            }
-            else // sample
-            { 
-                if (double.IsNaN(ReleaseVersion))
-                { 
-                    if (Status == "NEW" || Status == "UPDATED")
-                    {
-                        ReleaseVersion = currentVersion;
-                    }
-                    else
-                    {
-                        ReleaseVersion = 10.1;
-                        Debug.WriteLine("WARNING sample is missing ReleaseVersion attribute: " + info);
-                    } 
-                }
-                 
-                if (string.IsNullOrEmpty(Status))
-                {
-                    if (ReleaseVersion == currentVersion)
-                        Status = "NEW";
-                    else
-                        Status = "OLD";
-                }
-                else
-                {
-                    if (Status != "NEW" && Status != "UPDATED" && Status != "OLD" && Status != "PREVIEW")
-                    {
-                        Status = "ERR";
-                        Debug.WriteLine("WARNING sample has unknown Status attribute: " + info);
-                    } 
-                } 
             }
         }
 
