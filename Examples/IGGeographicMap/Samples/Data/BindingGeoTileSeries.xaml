@@ -36,6 +36,11 @@
     </framework:SampleContainer.Resources>
 
     <Grid x:Name="LayoutRoot">
+        <Grid.Resources>
+            <DataTemplate x:Key="MinHeaderTemplate">
+                <TextBlock Text="Azure Key"    />
+            </DataTemplate>
+        </Grid.Resources>
         <ig:XamGeographicMap x:Name="GeoMap"
                              Zoomable="True"
                              OverviewPlusDetailPaneStyle="{StaticResource GeographicWorldOPDStyle}"
@@ -67,12 +72,24 @@
                     <extensions:GeoImageryViews>
                         <!-- OpenStreetMapImageryView  -->
                         <extensions:OpenStreetMapImageryView />
-                        <!-- BingMapsImageryView  -->
-                        <extensions:BingMapsImageryView ImageryStyle="Aerial" />
-                        <extensions:BingMapsImageryView ImageryStyle="AerialWithLabels" />
-                        <extensions:BingMapsImageryView ImageryStyle="Road" />
                         <!-- ArcGISOnlineMapImagery  -->
                         <extensions:EsriMapImageryView />
+                        <!-- AzureMapImagery  -->
+                        <!--<extensions:AzureMapImageryView ImageryStyle="Satellite"  />
+                        <extensions:AzureMapImageryView ImageryStyle="DarkGrey"  />
+                        <extensions:AzureMapImageryView ImageryStyle="Road"  />-->
+                        <extensions:AzureMapImageryView ImageryStyle="HybridRoadOverlay"/>
+                        <extensions:AzureMapImageryView ImageryStyle="TrafficAbsoluteOverlay"/>
+                        <extensions:AzureMapImageryView ImageryStyle="TrafficDelayOverlay"  />
+                        <extensions:AzureMapImageryView ImageryStyle="TrafficReducedOverlay"  />
+                        <extensions:AzureMapImageryView ImageryStyle="TrafficRelativeOverlay"/>
+                        <extensions:AzureMapImageryView ImageryStyle="TrafficRelativeDarkOverlay"/>
+                        <extensions:AzureMapImageryView ImageryStyle="WeatherInfraredOverlay"/>
+                        <extensions:AzureMapImageryView ImageryStyle="WeatherRadarOverlay"/>
+                        <extensions:AzureMapImageryView ImageryStyle="HybridDarkGreyOverlay"  />
+                        <extensions:AzureMapImageryView ImageryStyle="LabelsDarkGreyOverlay"  />
+                        <extensions:AzureMapImageryView ImageryStyle="LabelsRoadOverlay"  />
+                        <extensions:AzureMapImageryView ImageryStyle="TerraOverlay"/>
                     </extensions:GeoImageryViews>
                 </ListBox.ItemsSource>
                 <!-- ============================================================================================= -->
@@ -84,15 +101,18 @@
                             HorizontalAlignment="Left"
 						    Margin="15" VerticalAlignment="Top" Width="250"
 							Visibility="Collapsed"  IsResizable="False" 
-							MinimizeButtonVisibility="Collapsed"   
+							MinimizeButtonVisibility="Visible"   
 							MaximizeButtonVisibility="Collapsed" 
                             CloseButtonVisibility="Collapsed" 
-							IsModal="False" StartupPosition="Manual" >
+							IsModal="False" StartupPosition="Center" MinimizedWidth="300" MinimizedHeaderTemplate="{StaticResource MinHeaderTemplate}">
 
             <StackPanel>
                 <TextBlock x:Name="DialogInfoTextBlock"  TextWrapping="Wrap"
-                           Text="{Binding Path=XWGM_MissingBingMapKey, Source={StaticResource MapStrings}}" Margin="5"/>
+               Text="{Binding Path=XWGM_MissingMicrosoftMapKey, Source={StaticResource MapStrings}}" Margin="5"/>
+                <TextBox x:Name="EnterAzureKey" TextChanged="EnterAzureKey_TextChanged"></TextBox>
                 <Button Content="OK" Click="ButtonClick" Margin="5" Style="{StaticResource IGGenericButton}"/>
+                <Button Content="Clear" Click="ButtonClick2" Margin="5" Style="{StaticResource IGGenericButton}"/>
+
             </StackPanel>
         </ig:XamDialogWindow>
 

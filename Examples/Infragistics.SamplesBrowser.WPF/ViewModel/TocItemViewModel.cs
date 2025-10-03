@@ -75,73 +75,97 @@ namespace Infragistics.SamplesBrowser.ViewModel
                 ReleaseVersion = this.Children.Max(c => c.ReleaseVersion);
 
                 var newCount = this.Children.Count(c => c.Status == "NEW");
-                var ctpCount = this.Children.Count(c => c.Status == "CTP");
-                var updCount = this.Children.Count(c => c.Status == "UPD");
-                var betaCount = this.Children.Count(c => c.Status == "BETA");
+                var ctpCount = this.Children.Count(c => c.Status == "PREVIEW");
+                var updCount = this.Children.Count(c => c.Status == "UPDATED");
 
                 if (newCount == this.Children.Count)
-                { 
-                    Status = "NEW"; 
-                }
-                else if (betaCount == this.Children.Count)  
                 {
-                    Status = "BETA";
+                    Status = "NEW";
                 }
-                else if (ctpCount == this.Children.Count)  
+                else if (ctpCount == this.Children.Count)
                 {
-                    Status = "CTP";
+                    Status = "PREVIEW";
                 }
-                else if (updCount == this.Children.Count)  
+                else if (updCount == this.Children.Count)
                 {
-                    Status = "UPD";
+                    // mark parent UPDATED only if children are updated in *this* release
+                    if (ReleaseVersion == currentVersion)
+                        Status = "UPDATED";
+                    else
+                        Status = string.Empty; // don’t show anything
                 }
-                else if (newCount > 0 || updCount > 0)
+                else if (newCount > 0 || updCount > 0 || ctpCount > 0)
                 {
-                    Status = "UPD"; 
+                    if (ReleaseVersion == currentVersion)
+                        Status = "UPDATED";
+                    else
+                        Status = string.Empty;
                 }
                 else if (ctpCount > 0)
                 {
                     if (ReleaseVersion == currentVersion)
-                        Status = "UPD";
-                    else
-                        Status = "OLD";
-                }
-                else 
-                {
-                    Status = "OLD";
-                }
-            }
-            else // sample
-            { 
-                if (double.IsNaN(ReleaseVersion))
-                { 
-                    if (Status == "NEW" || Status == "UPD")
-                    {
-                        ReleaseVersion = currentVersion;
-                    }
-                    else
-                    {
-                        ReleaseVersion = 10.1;
-                        Debug.WriteLine("WARNING sample is missing ReleaseVersion attribute: " + info);
-                    } 
-                }
-                 
-                if (string.IsNullOrEmpty(Status))
-                {
-                    if (ReleaseVersion == currentVersion)
-                        Status = "NEW";
+                        Status = "UPDATED";
                     else
                         Status = "OLD";
                 }
                 else
                 {
-                    if (Status != "NEW" && Status != "CTP" && Status != "UPD" && Status != "OLD" && Status != "BETA")
+                    Status = "OLD";
+                }
+            }
+            else // sample
+            {
+                if (double.IsNaN(ReleaseVersion))
+                {
+                    // If ReleaseVersion is missing, try to infer from Status
+                    if (Status == "NEW" || Status == "UPDATED")
+                    {
+                        ReleaseVersion = currentVersion;
+                    }
+
+                    if (ReleaseVersion == currentVersion)
+                    {
+                        Status = "UPDATED";
+                    }
+                    else
+                    {
+                        ReleaseVersion = 10.1;
+                        Debug.WriteLine("WARNING sample is missing ReleaseVersion attribute: " + info);
+                        Status = string.Empty;
+                    }
+                }
+
+                if (string.IsNullOrEmpty(Status))
+                {
+                    if (ReleaseVersion == currentVersion)
+                    {
+                        // New sample for current release
+                        Status = "NEW";
+                    }
+                    else
+                    {
+                        // Default to OLD if no other status
+                        Status = "OLD";
+                    }
+                }
+                else
+                {
+                    // Validate known values
+                    if (Status != "NEW" && Status != "UPDATED" &&
+                        Status != "OLD" && Status != "PREVIEW")
                     {
                         Status = "ERR";
                         Debug.WriteLine("WARNING sample has unknown Status attribute: " + info);
-                    } 
-                } 
+                    }
+                }
+
+                // Final fallback
+                if (string.IsNullOrEmpty(Status))
+                {
+                    Status = "OLD";
+                }
             }
+
         }
 
         #endregion // Initialization
@@ -240,7 +264,7 @@ namespace Infragistics.SamplesBrowser.ViewModel
         {
             get
             {
-                return Status == "UPD";
+                return Status == "UPDATED";
             }
         }
 
@@ -249,33 +273,17 @@ namespace Infragistics.SamplesBrowser.ViewModel
         #region CTP
 
         /// <summary>
-        /// Determines whether the control's release is CTP.
+        /// Determines whether the control's release is PREVIEW.
         /// </summary>
-        public bool IsCtp
+        public bool IsPreview
         {
             get
             {
-                return Status == "CTP";
+                return Status == "PREVIEW";
             }
         }
 
-        #endregion // IsCtp
-
-        #region BETA
-
-        /// <summary>
-        /// Determines whether the control's release is BETA.
-        /// </summary>
-        public bool IsBETA
-        {
-            get
-            {
-                return Status == "BETA";
-            }
-        }
-
-        #endregion // BETA
-
+        #endregion 
 
         #endregion // Presentation Properties
 
@@ -303,7 +311,7 @@ namespace Infragistics.SamplesBrowser.ViewModel
 
         public override string ToString()
         {
-            return this.Name + " IsNew=" + this.IsNew + " IsCtp=" + this.IsCtp + " IsBETA=" + this.IsBETA + " Status=" + this.Status;
+            return this.Name + " IsNew=" + this.IsNew + " IsPreview=" + this.IsPreview + " IsUpdated=" + this.IsUpdated + " Status=" + this.Status;
         }
     }
 }

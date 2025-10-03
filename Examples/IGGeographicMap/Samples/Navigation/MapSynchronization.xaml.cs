@@ -15,20 +15,15 @@ namespace IGGeographicMap.Samples
         {
             InitializeComponent();
 
-            // must provide your own keys for Bing Maps
-            // to display geo-imagery in the Geographic Map control
-            this.BingMadeMapKey = string.Empty;     //  visit www.bingmapsportal.com
-
+            
             // this code block should be comment out when
-            // you have your own keys for Bing Maps
+            // you have your own keys for Azure Maps
             var mapKeyProvoder = new GeoImageryKeyProvider();
             mapKeyProvoder.GetMapKeyCompleted += OnGetMapKeyCompleted;
             mapKeyProvoder.GetMapKeys();
             
             this.Loaded += OnSampleLoaded;
         }
-
-        protected string BingMadeMapKey; 
 
         private void OnSampleLoaded(object sender, RoutedEventArgs e)
         {
@@ -41,14 +36,6 @@ namespace IGGeographicMap.Samples
         {
             if (e.Error != null) return;
 
-            foreach (var element in e.Result)
-            {
-                if (element.Name == "BingMaps")
-                {
-                    this.BingMadeMapKey = element.Key;
-                    this.ShowBingMapsImagery(new BingMapsImageryView { ImageryStyle = Infragistics.Samples.Services.BingMapsImageryStyle.Road });
-                }
-            }
         }
 
         private void ShowEsriMapImagery()
@@ -56,20 +43,6 @@ namespace IGGeographicMap.Samples
             var publicMap = new ArcGISOnlineMapImagery();
             publicMap.MapServerUri = "http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer";
             this.GeoMap4.BackgroundContent = publicMap;
-        }
-        
-        private void ShowBingMapsImagery(BingMapsImageryView mapView)
-        {
-            string mapKey = this.BingMadeMapKey;
-
-            if (!String.IsNullOrEmpty(mapKey))
-            {
-                var mapStyle = (Infragistics.Controls.Maps.BingMapsImageryStyle)mapView.ImageryStyle;
-                var mapStyle2 = Infragistics.Samples.Services.BingMapsImageryStyle.AerialWithLabels;
-
-                this.GeoMap1.BackgroundContent = new BingMapsMapImagery { ImageryStyle = mapStyle, ApiKey = mapKey, IsDeferredLoad = false };
-                this.GeoMap3.BackgroundContent = new BingMapsMapImagery { ImageryStyle = (Infragistics.Controls.Maps.BingMapsImageryStyle)mapStyle2, ApiKey = mapKey, IsDeferredLoad = false };
-            }
         }
     }
 }

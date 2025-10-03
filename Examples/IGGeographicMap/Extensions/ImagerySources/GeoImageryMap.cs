@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Infragistics.Samples.Services;
+using Infragistics.Controls.Maps;
 
 namespace IGGeographicMap.Extensions
 {
@@ -17,7 +17,7 @@ namespace IGGeographicMap.Extensions
     /// </summary>
     public enum GeoImagerySource
     {
-        BingMapsImagery,
+        AzureMapsImagery,
         MapQuestImagery,
         OpenStreetMapImagery, 
         EsriMapImagery,
@@ -34,6 +34,22 @@ namespace IGGeographicMap.Extensions
     /// <summary>
     /// Represents a map view for the OpenStreetMap geo-imagery.
     /// </summary>
+    
+    public class AzureMapImageryView : GeoImageryView 
+    {
+        public AzureMapImageryView()
+        {
+            this.ImagerySource = GeoImagerySource.AzureMapsImagery;
+            this.ImageryStyle = AzureMapsImageryStyle.Satellite;
+        }
+        public AzureMapsImageryStyle ImageryStyle { get; set; }
+        public string ImageryName { get { return this.ImagerySource + " (" + this.ImageryStyle + ")"; } }
+        public override string ToString()
+        {
+            return this.ImageryName;
+        }
+    }
+    
     public class OpenStreetMapImageryView : GeoImageryView
     {
         public OpenStreetMapImageryView()
@@ -595,27 +611,7 @@ namespace IGGeographicMap.Extensions
         #endregion
     }
     #endregion
-    
-    #region BingMap Imagery View
-    /// <summary>
-    /// Represents a map view for the BingsMap geo-imagery. 
-    /// </summary>
-    public class BingMapsImageryView : GeoImageryView
-    {
-        public BingMapsImageryView()
-        {
-            this.ImagerySource = GeoImagerySource.BingMapsImagery;
-            this.ImageryStyle = BingMapsImageryStyle.Road;
-        }
-        public BingMapsImageryStyle ImageryStyle { get; set; }
-        public string ImageryName { get { return this.ImagerySource + " (" + this.ImageryStyle + ")"; } }
-        public override string ToString()
-        {
-            return this.ImageryName;
-        }
-    } 
-    #endregion
-
+ 
     #region MapQuest Imagery View
     /// <summary>
     /// Represents a map view for the MapQuest geo-imagery. 

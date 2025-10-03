@@ -1,4 +1,4 @@
-﻿<igFramework:SampleContainer x:Class="IGGeographicMap.Samples.Data.CreatingCustomBingMapImagery" 
+﻿<igFramework:SampleContainer x:Class="IGGeographicMap.Samples.Data.CreatingAzureMapImagery" 
            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -12,14 +12,16 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/IGGeographicMap;component/Assets/GlobalExtended.xaml" />
-                
-                
-                
             </ResourceDictionary.MergedDictionaries>
             <strings:MapStrings x:Key="MapStrings" />
         </ResourceDictionary>
     </igFramework:SampleContainer.Resources>
     <Grid x:Name="LayoutRoot">
+        <Grid.Resources>
+            <DataTemplate x:Key="MinHeaderTemplate">
+                <TextBlock Text="Azure Key"    />
+            </DataTemplate>
+        </Grid.Resources>
         <ig:XamGeographicMap x:Name="GeoMap" 
                              Background="Transparent" 
                              PlotAreaBackground="Transparent"
@@ -37,10 +39,21 @@
                 <!-- ============================================================================================= -->
                 <ListBox.ItemsSource>
                     <extensions:GeoImageryViews>
-                       <!-- BingMapsImageryView  -->
-                        <extensions:BingMapsImageryView ImageryStyle="Aerial" />
-                        <extensions:BingMapsImageryView ImageryStyle="AerialWithLabels" />
-                        <extensions:BingMapsImageryView ImageryStyle="Road" />
+                       <!-- AzureMapsImageryView  -->
+                        <extensions:AzureMapImageryView ImageryStyle="Satellite"  />
+                        <extensions:AzureMapImageryView ImageryStyle="DarkGrey"  />
+                        <extensions:AzureMapImageryView ImageryStyle="Road"  />
+                        <extensions:AzureMapImageryView ImageryStyle="HybridRoadOverlay"/>
+                        <extensions:AzureMapImageryView ImageryStyle="TrafficAbsoluteOverlay"/>
+                        <extensions:AzureMapImageryView ImageryStyle="TrafficDelayOverlay"  />
+                        <extensions:AzureMapImageryView ImageryStyle="TrafficReducedOverlay"  />
+                        <extensions:AzureMapImageryView ImageryStyle="TrafficRelativeOverlay"/>
+                        <extensions:AzureMapImageryView ImageryStyle="WeatherInfraredOverlay"/>
+                        <extensions:AzureMapImageryView ImageryStyle="WeatherRadarOverlay"/>
+                        <extensions:AzureMapImageryView ImageryStyle="HybridDarkGreyOverlay"  />
+                        <extensions:AzureMapImageryView ImageryStyle="LabelsDarkGreyOverlay"  />
+                        <extensions:AzureMapImageryView ImageryStyle="LabelsRoadOverlay"  />
+                        <extensions:AzureMapImageryView ImageryStyle="TerraOverlay"/>
                     </extensions:GeoImageryViews>
                 </ListBox.ItemsSource>
                 <!-- ============================================================================================= -->
@@ -52,15 +65,19 @@
                             HorizontalAlignment="Left"
 						    Margin="15" VerticalAlignment="Top" Width="250"
 							Visibility="Collapsed"  IsResizable="False" 
-							MinimizeButtonVisibility="Collapsed"   
+							MinimizeButtonVisibility="Visible"   
 							MaximizeButtonVisibility="Collapsed" 
                             CloseButtonVisibility="Collapsed" 
-							IsModal="False" StartupPosition="Manual" >
+							IsModal="False" StartupPosition="Center" MinimizedWidth="300" MinimizedHeaderTemplate="{StaticResource MinHeaderTemplate}">
 
             <StackPanel>
                 <TextBlock x:Name="DialogInfoTextBlock"  TextWrapping="Wrap"
-                           Text="{Binding Path=XWGM_MissingBingMapKey, Source={StaticResource MapStrings}}" Margin="5"/>
-                <Button Content="OK" Click="Button_Click" Margin="5" Style="{StaticResource IGGenericButton}"/>
+               Text="{Binding Path=XWGM_MissingMicrosoftMapKey, Source={StaticResource MapStrings}}" Margin="5">
+                </TextBlock>
+                <TextBox x:Name="EnterAzureKey" TextChanged="EnterAzureKey_TextChanged">
+                </TextBox>
+                <Button Content="OK" Click="ButtonClick" Margin="5" Style="{StaticResource IGGenericButton}"/>
+                <Button Content="Clear" Click="ButtonClick2" Margin="5" Style="{StaticResource IGGenericButton}"/>
             </StackPanel>
         </ig:XamDialogWindow>
 

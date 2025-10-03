@@ -1042,11 +1042,11 @@ namespace IGGeographicMap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You must provide your own API key for Bing Maps in code-behind of this sample to display geographic imagery from Bing Maps in the background content of the Geographic Map control..
+        ///   Looks up a localized string similar to You must provide your own API key for Azure Maps of this sample to display geographic imagery from these providers in the background content of the Geographic Map control..
         /// </summary>
-        public static string XWGM_MissingBingMapKey {
+        public static string XWGM_MissingMicrosoftMapKey {
             get {
-                return ResourceManager.GetString("XWGM_MissingBingMapKey", resourceCulture);
+                return ResourceManager.GetString("XWGM_MissingMicrosoftMapKey", resourceCulture);
             }
         }
         
