@@ -1,5 +1,6 @@
 ﻿using IGGeographicMap.Extensions;
 using IGGeographicMap.Resources;
+using Infragistics.Controls.Charts;
 using Infragistics.Controls.Maps;
 using Infragistics.Samples.Framework;
 using Infragistics.Samples.Shared.DataProviders;
@@ -211,9 +212,16 @@ namespace IGGeographicMap.Samples.Data
             }
             else
             {
-                var series = this.GeoMap.Series.OfType<GeographicTileSeries>().First();
-                series.TileImagery = new AzureMapsImagery { ImageryStyle = mapStyle, ApiKey = this.AzureMadeMapKey };
-                this.GeoMap.BackgroundContent = new AzureMapsImagery { ImageryStyle = AzureMapsImageryStyle.DarkGrey, ApiKey = this.AzureMadeMapKey };
+                this.GeoMap.Series.Clear();
+                
+                this.GeoMap.Series.Add(new GeographicTileSeries { TileImagery = new AzureMapsImagery { ImageryStyle = mapStyle, ApiKey = this.AzureMadeMapKey }});
+
+                if (mapStyle.ToString().Contains("Traffic") || mapStyle.ToString().Contains("Weather")) 
+                {
+                    this.GeoMap.BackgroundContent = new AzureMapsImagery { ImageryStyle = AzureMapsImageryStyle.DarkGrey, ApiKey = this.AzureMadeMapKey };
+                }
+                else
+                    this.GeoMap.BackgroundContent = new AzureMapsImagery { ImageryStyle = AzureMapsImageryStyle.Satellite, ApiKey = this.AzureMadeMapKey };
 
             }
         }
