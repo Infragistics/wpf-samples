@@ -3,6 +3,7 @@ using System.Windows;
 using IGSpreadsheet.Resources;
 using IGSpreadsheet.Shared;
 using System.Threading;
+using Infragistics.Controls.Grids;
 
 namespace IGSpreadsheet.Samples.Data
 {
