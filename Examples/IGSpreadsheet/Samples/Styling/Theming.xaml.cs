@@ -10,7 +10,7 @@ using System.Windows.Controls;
 
 namespace IGSpreadsheet.Samples.Style
 {
-    public partial class Theming : SampleContainer
+    public partial class Theming : Infragistics.Samples.Framework.SampleContainer
     {
         public Theming()
         {
