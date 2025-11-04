@@ -1,3 +1,4 @@
+using System;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
@@ -15,17 +16,21 @@ namespace Infragistics.Samples.Assets.Providers
         /// </summary>
         public static Assembly GetStorageAssembly()
         {
-            return Assembly.GetExecutingAssembly();
+            return typeof(StorageProvider).Assembly;
         }
+
         public static string GetStorageAssemblyAbsolutePath()
         {
-            string path = Assembly.GetExecutingAssembly().CodeBase;
-            path = path.Substring(8);
-            path = Path.GetDirectoryName(path);
-            var dir = new DirectoryInfo(path);
-            path = dir.FullName + Path.DirectorySeparatorChar + "Storage" ;
-            return path;
+            // Prefer this assembly's location; fall back to AppContext for single-file or special hosts
+            var asm = typeof(StorageProvider).Assembly;
+            var baseDir = Path.GetDirectoryName(asm.Location);
+            if (string.IsNullOrEmpty(baseDir))
+            {
+                baseDir = AppContext.BaseDirectory;
+            }
+            return Path.Combine(baseDir!, "Storage");
         }
+
         /// <summary>
         /// Returns the name of an assembly object that contains storage assets
         /// </summary>
@@ -60,15 +65,17 @@ namespace Infragistics.Samples.Assets.Providers
         /// </summary>
         public static string LocalizePath(string path, bool cultureSpecific)
         {
-            if (cultureSpecific && Thread.CurrentThread.CurrentCulture.Name.ToLower() == "ja-jp")
+            var locale = (cultureSpecific && string.Equals(Thread.CurrentThread.CurrentCulture.Name, "ja-JP", StringComparison.OrdinalIgnoreCase))
+                ? "ja"
+                : "en";
+
+            // Use forward slashes for pack URIs, directory separator for file system paths
+            if (path.StartsWith("pack://", StringComparison.OrdinalIgnoreCase))
             {
-                path += "/ja"; //ja-jp
+                return path + "/" + locale;
             }
-            else
-            {
-                path += "/en"; // en-us
-            }
-            return path ;
+
+            return Path.Combine(path, locale);
         }
 
         #region Gml Files
@@ -139,23 +146,15 @@ namespace Infragistics.Samples.Assets.Providers
         /// </summary>
         public static string GetStorageMdbPath(string dataSourceName, CultureInfo cultureInfo)
         {
-            string appPath = Assembly.GetExecutingAssembly().CodeBase;
-            appPath = appPath.Substring(8);
-            appPath = Path.GetDirectoryName(appPath);
-            DirectoryInfo dir = new DirectoryInfo(appPath);
-            appPath = dir.FullName;
-            string dbPath = appPath + Path.DirectorySeparatorChar + "Storage" + Path.DirectorySeparatorChar;
-
-            if (cultureInfo.Name.ToLower() == "ja-jp")
+            var baseDir = Path.GetDirectoryName(typeof(StorageProvider).Assembly.Location);
+            if (string.IsNullOrEmpty(baseDir))
             {
-                dbPath += "ja" + Path.DirectorySeparatorChar;
-            }
-            else
-            {
-                dbPath += "en" + Path.DirectorySeparatorChar;
+                baseDir = AppContext.BaseDirectory;
             }
 
-            dbPath += "mdb" + Path.DirectorySeparatorChar + dataSourceName;
+            var dbRoot = Path.Combine(baseDir!, "Storage");
+            dbRoot = Path.Combine(dbRoot, string.Equals(cultureInfo.Name, "ja-JP", StringComparison.OrdinalIgnoreCase) ? "ja" : "en");
+            var dbPath = Path.Combine(dbRoot, "mdb", dataSourceName);
             return dbPath;
         }
 
@@ -171,13 +170,12 @@ namespace Infragistics.Samples.Assets.Providers
         public static string GetDictionaryStoragePath(string dictionaryName)
         {
             //TODO: use GetStorageAbsolutePath(false) + "dictionaries" + Path.DirectorySeparatorChar + dictionaryName;
-            string path = Assembly.GetExecutingAssembly().CodeBase;
-            path = path.Substring(8);
-            path = Path.GetDirectoryName(path);
-            DirectoryInfo dir = new DirectoryInfo(path);
-            path = dir.FullName + Path.DirectorySeparatorChar + "Storage" + Path.DirectorySeparatorChar
-                + "dictionaries" + Path.DirectorySeparatorChar + dictionaryName;
-            return path;
+            var baseDir = Path.GetDirectoryName(typeof(StorageProvider).Assembly.Location);
+            if (string.IsNullOrEmpty(baseDir))
+            {
+                baseDir = AppContext.BaseDirectory;
+            }
+            return Path.Combine(baseDir!, "Storage", "dictionaries", dictionaryName);
         } 
         #endregion
 
@@ -213,14 +211,14 @@ namespace Infragistics.Samples.Assets.Providers
         /// </summary>
         public static string GetStorageShapeFilePath()
         {
-            return StorageProvider.GetStorageAbsolutePath(false) + "/shapefiles/";
+            return Path.Combine(StorageProvider.GetStorageAbsolutePath(false), "shapefiles") + Path.DirectorySeparatorChar;
         }
         /// <summary>
         /// Returns the localized full path for a given shape file (.SHP) 
         /// </summary>
         public static string GetStorageShapeFilePath(string shapefileName)
         {
-            return StorageProvider.GetStorageShapeFilePath() + shapefileName;
+            return Path.Combine(StorageProvider.GetStorageShapeFilePath(), shapefileName);
         }
         /// <summary>
         /// Returns the localized full path for all shape database files (.DBF) 
@@ -228,14 +226,14 @@ namespace Infragistics.Samples.Assets.Providers
         /// </summary>
         public static string GetStorageShapeDatabasePath()
         {
-            return StorageProvider.GetStorageAbsolutePath(false) + "/shapefiles/";
+            return Path.Combine(StorageProvider.GetStorageAbsolutePath(false), "shapefiles") + Path.DirectorySeparatorChar;
         }
         /// <summary>
         /// Returns the localized full path for a given shape database file (.DBF) 
         /// </summary>
         public static string GetStorageShapeDatabasePath(string shapeDatabaseName)
         {
-            return StorageProvider.GetStorageShapeDatabasePath() + shapeDatabaseName;
+            return Path.Combine(StorageProvider.GetStorageShapeDatabasePath(), shapeDatabaseName);
         } 
         #endregion
 
