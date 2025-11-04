@@ -1,4 +1,4 @@
-﻿using Infragistics.Samples.Framework;
+using Infragistics.Samples.Framework;
 
 namespace IGThemeManager.Samples.Display
 {
