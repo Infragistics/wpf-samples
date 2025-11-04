@@ -21,7 +21,7 @@ namespace IGSpreadsheet.Samples.Editing
 
         private void LoadFile()
         {
-            Stream stream = Tools.GetLocalizedFileAsStream("Sample1.xlsx");
+            Stream stream = IGSpreadsheet.Samples.Shared.Tools.GetLocalizedFileAsStream("Sample1.xlsx");
             Workbook wb = Workbook.Load(stream);
             if (wb != null)
             {
