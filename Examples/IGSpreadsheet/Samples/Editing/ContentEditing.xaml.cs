@@ -1,5 +1,5 @@
 ﻿using Infragistics.Samples.Framework;
-using IGSpreadsheet.Shared;
+using IGSpreadsheet.Samples.Shared;
 using Infragistics.Documents.Excel;
 using Infragistics.Windows.Editors;
 using Infragistics.Windows.Ribbon;
