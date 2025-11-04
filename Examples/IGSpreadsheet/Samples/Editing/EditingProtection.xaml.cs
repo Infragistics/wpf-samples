@@ -7,7 +7,7 @@ using System.Windows;
 
 namespace IGSpreadsheet.Samples.Editing
 {
-    public partial class EditingProtection : SampleContainer
+    public partial class EditingProtection : Infragistics.Samples.Framework.SampleContainer
     {
         public EditingProtection()
         {
