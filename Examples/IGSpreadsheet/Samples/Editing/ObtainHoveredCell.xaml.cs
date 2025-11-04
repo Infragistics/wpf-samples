@@ -1,5 +1,4 @@
 ﻿using IGSpreadsheet.Resources;
-using IGSpreadsheet.Samples.Shared;
 using IGSpreadsheet.Shared;
 using Infragistics.Controls.Grids;
 using Infragistics.Documents.Excel;
@@ -8,7 +7,7 @@ using System.Windows;
 
 namespace IGSpreadsheet.Samples.Editing
 {
-    public partial class ObtainHoveredCell : SampleContainer
+    public partial class ObtainHoveredCell
     {
         public ObtainHoveredCell()
         {
