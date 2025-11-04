@@ -10,7 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Infragistics.Samples.Framework;
+using IGSpreadsheet.Samples.Shared;
 using System.IO;
 using IGSpreadsheet.Samples.Shared;
 using Infragistics.Documents.Excel;
