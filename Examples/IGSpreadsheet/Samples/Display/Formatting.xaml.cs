@@ -21,7 +21,7 @@ namespace IGSpreadsheet.Samples.Display
     /// <summary>
     /// Interaction logic for Formatting.xaml
     /// </summary>
-    public partial class Formatting : SampleContainer
+    public partial class Formatting
     {
         public Formatting()
         {
