@@ -4,6 +4,7 @@ using IGSpreadsheet.Resources;
 using IGSpreadsheet.Shared;
 using System.Threading;
 using Infragistics.Controls.Grids;
+using Infragistics.Samples.Framework;
 
 namespace IGSpreadsheet.Samples.Data
 {
