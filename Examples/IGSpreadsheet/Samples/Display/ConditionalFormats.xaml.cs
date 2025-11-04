@@ -1,6 +1,5 @@
 ﻿using IGSpreadsheet.Samples.Shared;
 using Infragistics.Documents.Excel;
-using Infragistics.Samples.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
