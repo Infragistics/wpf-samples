@@ -1,4 +1,4 @@
-﻿using IGSpreadsheet.Samples.Shared;
+using IGSpreadsheet.Samples.Shared;
 using Infragistics.Documents.Excel;
 using Infragistics.Documents.Excel.Sorting;
 using System;

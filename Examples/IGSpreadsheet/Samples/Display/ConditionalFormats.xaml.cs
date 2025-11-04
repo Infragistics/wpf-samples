@@ -1,4 +1,4 @@
-﻿using IGSpreadsheet.Samples.Shared;
+﻿using Infragistics.Samples.Framework;
 using Infragistics.Documents.Excel;
 using System;
 using System.Collections.Generic;
