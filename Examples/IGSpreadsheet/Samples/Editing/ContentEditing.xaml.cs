@@ -1,4 +1,4 @@
-﻿using Infragistics.Samples.Framework;
+using Infragistics.Samples.Framework;
 using IGSpreadsheet.Samples.Shared;
 using Infragistics.Documents.Excel;
 using Infragistics.Windows.Editors;
