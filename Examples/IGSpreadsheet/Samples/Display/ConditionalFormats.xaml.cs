@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using IGSpreadsheet.Samples.Shared;
 
 namespace IGSpreadsheet.Samples.Display
 {
