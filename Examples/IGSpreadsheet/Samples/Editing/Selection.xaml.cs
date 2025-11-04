@@ -2,6 +2,7 @@
 using IGSpreadsheet.Shared;
 using Infragistics.Documents.Excel;
 using System.IO;
+using Infragistics.Samples.Framework;
 
 namespace IGSpreadsheet.Samples.Editing
 {
