@@ -74,7 +74,7 @@ namespace IGSpreadsheet.Samples.Data
 
             // add an image to the worksheet
             // create a stream to the image
-            Stream stream = Tools.GetLocalizedFileAsStream("browsers.jpg");
+            Stream stream = IGSpreadsheet.Samples.Shared.Tools.GetLocalizedFileAsStream("browsers.jpg");
             // create an image from the stream
             System.Drawing.Image img = System.Drawing.Image.FromStream(stream);
             Graphics gfx = Graphics.FromImage(img);
@@ -82,10 +82,10 @@ namespace IGSpreadsheet.Samples.Data
             WorksheetImage wsi = new WorksheetImage(img);
             // set image object bounds
             wsi.SetBoundsInTwips(ws,
-                new Rect(Tools.PixelsToTwips(70),
-                Tools.PixelsToTwips(50),
-                Tools.PixelsToTwips(img.Width / 2),
-                Tools.PixelsToTwips(img.Height / 2)));
+                new Rect(IGSpreadsheet.Samples.Shared.Tools.PixelsToTwips(70),
+                IGSpreadsheet.Samples.Shared.Tools.PixelsToTwips(50),
+                IGSpreadsheet.Samples.Shared.Tools.PixelsToTwips(img.Width / 2),
+                IGSpreadsheet.Samples.Shared.Tools.PixelsToTwips(img.Height / 2)));
             // set image border
             wsi.Outline = ShapeOutline.FromColor(Colors.Black);
             // add the image to the shapes collection of the worksheet
