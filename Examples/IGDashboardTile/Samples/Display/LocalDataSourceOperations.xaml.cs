@@ -34,5 +34,12 @@ namespace IGDashboardTile.Samples.Display
 
             InitializeComponent();
         }
+
+        // Manually provide InitializeComponent to ensure XAML is loaded when codegen is skipped
+        private void InitializeComponent()
+        {
+            var resourceLocater = new Uri("/IGDashboardTile;component/Samples/Display/LocalDataSourceOperations.xaml", UriKind.Relative);
+            Application.LoadComponent(this, resourceLocater);
+        }
     }
 }
