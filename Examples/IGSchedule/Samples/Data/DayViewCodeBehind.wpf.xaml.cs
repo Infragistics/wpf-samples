@@ -51,7 +51,7 @@ namespace IGSchedule.Samples.Data
                 if (chkAddingMode.IsChecked == true && cboGroups.SelectedIndex != -1)
                 {
                     int index = cboGroups.SelectedIndex;
-                    calGroup = dataManager.CalendarGroups[index];
+                    calGroup = this.dataManager.CalendarGroups[index];
                     calGroup.Calendars.Add(calendar);
                 }
                 else
