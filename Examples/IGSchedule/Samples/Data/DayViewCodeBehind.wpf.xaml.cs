@@ -58,7 +58,7 @@ namespace IGSchedule.Samples.Data
                 {
                     calGroup = new CalendarGroup();
                     calGroup.Calendars.Add(calendar);
-                    dataManager.CalendarGroups.Add(calGroup);
+                    this.dataManager.CalendarGroups.Add(calGroup);
                 }
             }
         }
