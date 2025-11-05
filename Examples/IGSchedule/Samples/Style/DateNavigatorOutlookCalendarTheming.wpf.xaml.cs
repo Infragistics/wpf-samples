@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using Infragistics.Controls.Schedules;
@@ -12,10 +12,12 @@ namespace IGSchedule.Samples.Style
     public partial class DateNavigatorOutlookCalendarTheming : SampleContainer
     {
         ResourceDictionary dictionary;
+        private XamScheduleDataManager dataManager;
 
         public DateNavigatorOutlookCalendarTheming()
         {
             InitializeComponent(); 
+            this.dataManager = this.FindName("dataManager") as XamScheduleDataManager;
             this.SampleDisposed += DayViewTheming_SampleDisposed;
         }
 
