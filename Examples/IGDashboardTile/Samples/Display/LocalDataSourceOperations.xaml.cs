@@ -1,4 +1,4 @@
-﻿using Infragistics.Controls.Dashboards;
+using Infragistics.Controls.Dashboards;
 using Infragistics.Controls.DataSource;
 using Infragistics.Samples.Framework;
 using Infragistics.Samples.Shared.Models;
