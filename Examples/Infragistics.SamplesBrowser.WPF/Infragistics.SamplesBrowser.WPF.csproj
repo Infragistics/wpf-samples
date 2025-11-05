@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net47</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Infragistics.SamplesBrowser</RootNamespace>
@@ -26,6 +26,9 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <UseWPF>true</UseWPF>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+    <ApplicationIcon>Images\Icons\SamplesBrowser_WPF.ico</ApplicationIcon>
+    <StartupObject>Infragistics.SamplesBrowser.App</StartupObject>
+    <PreBuildEvent>taskkill /f /fi "pid gt 0" /im Infragistics.SamplesBrowser.exe</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <OutputPath>..\Output\</OutputPath>
@@ -35,12 +38,6 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>..\Output\</OutputPath>
     <DefineConstants>TRACE;WPF</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>Images\Icons\SamplesBrowser_WPF.ico</ApplicationIcon>
-  </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject>Infragistics.SamplesBrowser.App</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <OutputPath>bin\DebugWPF\</OutputPath>
@@ -69,6 +66,7 @@
     <Reference Include="PresentationFramework.Classic" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <PackageReference Include="Infragistics.WPF.Trial" Version="25.1.117" />
   </ItemGroup>
   <ItemGroup>
     <AppDesigner Include="Properties\" />
@@ -328,11 +326,4 @@
   <ItemGroup>
     <Resource Include="Images\Icons\IGToolbar.png" />
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Infragistics.WPF.Trial" Version="25.1.117" />
-  </ItemGroup>
-  <PropertyGroup />
-  <PropertyGroup>
-    <PreBuildEvent>taskkill /f /fi "pid gt 0" /im Infragistics.SamplesBrowser.exe</PreBuildEvent>
-  </PropertyGroup>
 </Project>
