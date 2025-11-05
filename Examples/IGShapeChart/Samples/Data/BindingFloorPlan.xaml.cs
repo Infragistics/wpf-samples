@@ -1,4 +1,4 @@
-﻿using Infragistics.Controls.Charts;
+using Infragistics.Controls.Charts;
 using Infragistics.Samples.Framework;
 using System;
 using System.Collections.Generic;
