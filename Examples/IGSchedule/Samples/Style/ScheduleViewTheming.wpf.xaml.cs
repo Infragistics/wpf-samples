@@ -17,6 +17,7 @@ namespace IGSchedule.Samples.Style
     public partial class ScheduleViewTheming : SampleContainer
     {
         ResourceDictionary dictionary;
+        private XamScheduleDataManager dataManager => this.scheduleView?.DataManager as XamScheduleDataManager;
 
         public ScheduleViewTheming()
         {
