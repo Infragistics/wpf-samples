@@ -318,4 +318,16 @@
   <ItemGroup>
     <Resource Include="Images\Icons\IGToolbar.png" />
   </ItemGroup>
+  <!-- Ensure WPF XAML is compiled: include App.xaml and all XAML pages -->
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml" />
+    <Page Include="**\*.xaml" Exclude="App.xaml" />
+    <Page Include="**\*.wpf.xaml" />
+    <Compile Update="**\*.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="**\*.wpf.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>
