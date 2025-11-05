@@ -35,7 +35,7 @@ namespace IGSchedule.Samples.Data
             if (selectedResource != null)
             {
                 CalendarGroup calGroup;
-                var resource = dataManager.ResourceItems.GetResourceFromId(selectedResource.Id1);
+                var resource = this.dataManager.ResourceItems.GetResourceFromId(selectedResource.Id1);
                 ResourceCalendar calendar = resource.Calendars.First(c => c.Id == cboResourceCalendars.SelectedItem.ToString());
 
                 // in case the user added it to another group, remove it first 
