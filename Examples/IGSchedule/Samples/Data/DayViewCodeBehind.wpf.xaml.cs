@@ -39,7 +39,7 @@ namespace IGSchedule.Samples.Data
                 ResourceCalendar calendar = resource.Calendars.First(c => c.Id == cboResourceCalendars.SelectedItem.ToString());
 
                 // in case the user added it to another group, remove it first 
-                CalendarGroup groupWithCalendarAdded = dataManager.CalendarGroups.FirstOrDefault(cg => cg.Calendars.Contains(calendar));
+                CalendarGroup groupWithCalendarAdded = this.dataManager.CalendarGroups.FirstOrDefault(cg => cg.Calendars.Contains(calendar));
                 if (groupWithCalendarAdded != null)
                 {
                     groupWithCalendarAdded.Calendars.Remove(calendar);
