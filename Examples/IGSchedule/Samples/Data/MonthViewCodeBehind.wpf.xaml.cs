@@ -13,10 +13,12 @@ namespace IGSchedule.Samples.Data
     /// </summary>
     public partial class MonthViewCodeBehind : SampleContainer
     {
+        private MyScheduleDataManager dataManager;
         public MonthViewCodeBehind()
         {
             InitializeComponent();
             DataContext = new MyScheduleData();
+            dataManager = new MyScheduleDataManager();
             ((MyScheduleData)DataContext).DataLoadingCompleted += new DataLoadingCompletedEventHandler(MonthViewCodeBehind_DataLoadingCompleted);
             this.dataManager.DialogFactory = new ScheduleDialogFactory();
         }
