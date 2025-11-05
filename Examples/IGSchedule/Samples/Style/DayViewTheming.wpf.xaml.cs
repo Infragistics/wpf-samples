@@ -17,6 +17,7 @@ namespace IGSchedule.Samples.Style
     public partial class DayViewTheming : SampleContainer
     {
         ResourceDictionary dictionary;
+        private XamScheduleDataManager dataManager;
 
         public DayViewTheming()
         {
