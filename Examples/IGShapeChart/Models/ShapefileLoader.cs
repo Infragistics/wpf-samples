@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using System.Windows;
+using System.Windows; // use WPF Point
 
 namespace IGShapeChart.Samples
 { 
@@ -21,7 +21,7 @@ namespace IGShapeChart.Samples
 
             if (!string.IsNullOrEmpty(FilePath))
             {
-                var path = FilePath.Replace(".shp","").Replace(".dbf",""); 
+                var path = FilePath.Replace(".shp",""").Replace(".dbf","""); 
                  
                 Shapefile.ShapefileSource = new Uri(path + ".shp", UriKind.RelativeOrAbsolute);
                 Shapefile.DatabaseSource  = new Uri(path + ".dbf", UriKind.RelativeOrAbsolute);
@@ -119,7 +119,7 @@ namespace IGShapeChart.Samples
 
     public static class ShapeExtensions
     {
-        public static void OffsetBy(this List<List<Point>> points, double offsetX, double offsetY)
+        public static void OffsetBy(this List<List<System.Windows.Point>> points, double offsetX, double offsetY)
         {
             foreach (var shape in points)
             {
@@ -132,11 +132,11 @@ namespace IGShapeChart.Samples
                     if (!double.IsNaN(offsetY))
                         y += offsetY;
 
-                    shape[i] = new Point(x, y);
+                    shape[i] = new System.Windows.Point(x, y);
                 }
             }
         }
-        public static void SwapXY(this List<List<Point>> points)
+        public static void SwapXY(this List<List<System.Windows.Point>> points)
         {
             foreach (var shape in points)
             {
@@ -144,7 +144,7 @@ namespace IGShapeChart.Samples
                 {
                     var x = shape[i].X;
                     var y = shape[i].Y;  
-                    shape[i] = new Point(y, x);
+                    shape[i] = new System.Windows.Point(y, x);
                 }
             }
         }
