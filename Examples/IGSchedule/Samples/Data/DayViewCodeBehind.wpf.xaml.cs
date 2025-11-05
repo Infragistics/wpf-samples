@@ -44,7 +44,7 @@ namespace IGSchedule.Samples.Data
                 {
                     groupWithCalendarAdded.Calendars.Remove(calendar);
                     if (groupWithCalendarAdded.Calendars.Count == 0)
-                        dataManager.CalendarGroups.Remove(groupWithCalendarAdded);
+                        this.dataManager.CalendarGroups.Remove(groupWithCalendarAdded);
                 }
 
                 //determine where to add the calendar
