@@ -9,7 +9,6 @@
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
     <UseWPF>true</UseWPF>
-    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>..\Output\</OutputPath>
@@ -27,7 +26,6 @@
     <PackageReference Include="Infragistics.WPF.Menus.Trial" Version="25.1.117" />
     <PackageReference Include="Infragistics.WPF.Ribbon.Trial" Version="25.1.117" />
     <PackageReference Include="Infragistics.WPF.Schedules.Dialogs.Trial" Version="25.1.117" />
-    <PackageReference Include="Infragistics.WPF.Schedules.Exchange.Trial" Version="25.1.117" />
     <PackageReference Include="Infragistics.WPF.Schedules.Trial" Version="25.1.117" />
   </ItemGroup>
   <ItemGroup>
@@ -36,5 +34,10 @@
   <ItemGroup>
     <ProjectReference Include="..\Infragistics.Samples.Framework\Infragistics.Samples.Framework.WPF.csproj" />
     <ProjectReference Include="..\Infragistics.Samples.Shared\Infragistics.Samples.Shared.WPF.csproj" />
+  </ItemGroup>
+  <!-- Exclude Exchange sample (not supported on net8.0-windows) -->
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net8.0-windows' ">
+    <Page Remove="Samples\Data\ExchangeDataConnector.wpf.xaml" />
+    <Compile Remove="Samples\Data\ExchangeDataConnector.wpf.xaml.cs" />
   </ItemGroup>
 </Project>

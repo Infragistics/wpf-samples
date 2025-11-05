@@ -13,14 +13,12 @@ namespace IGSchedule.Samples.Data
     /// </summary>
     public partial class MonthViewCodeBehind : SampleContainer
     {
-        private MyScheduleDataManager dataManager;
+        private XamScheduleDataManager DataManager => this.FindName("dataManager") as XamScheduleDataManager;
         public MonthViewCodeBehind()
         {
             InitializeComponent();
             DataContext = new MyScheduleData();
-            dataManager = new MyScheduleDataManager();
             ((MyScheduleData)DataContext).DataLoadingCompleted += new DataLoadingCompletedEventHandler(MonthViewCodeBehind_DataLoadingCompleted);
-            this.dataManager.DialogFactory = new ScheduleDialogFactory();
         }
         
 
@@ -35,6 +33,7 @@ namespace IGSchedule.Samples.Data
             if (selectedResource != null)
             {
                 CalendarGroup calGroup;
+                var dataManager = DataManager;
                 var resource = dataManager.ResourceItems.GetResourceFromId(selectedResource.Id1);
                 ResourceCalendar calendar = resource.Calendars.First(c => c.Id == cboResourceCalendars.SelectedItem.ToString());
 
@@ -85,3 +84,4 @@ namespace IGSchedule.Samples.Data
         }
     }
 }
+

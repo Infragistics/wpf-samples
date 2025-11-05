@@ -1,21 +1,8 @@
 using Infragistics.Controls.Dashboards;
-using Infragistics.Controls.DataSource;
 using Infragistics.Samples.Framework;
 using Infragistics.Samples.Shared.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace IGDashboardTile.Samples.Display
 {
@@ -33,13 +20,6 @@ namespace IGDashboardTile.Samples.Display
             PieChartDashboardTileFeature.Register();
 
             InitializeComponent();
-        }
-
-        // Manually provide InitializeComponent to ensure XAML is loaded when codegen is skipped
-        private void InitializeComponent()
-        {
-            var resourceLocater = new Uri("/IGDashboardTile;component/Samples/Display/LocalDataSourceOperations.xaml", UriKind.Relative);
-            Application.LoadComponent(this, resourceLocater);
         }
     }
 }

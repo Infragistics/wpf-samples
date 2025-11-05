@@ -17,7 +17,7 @@ namespace IGSchedule.Samples.Style
     public partial class ScheduleViewTheming : SampleContainer
     {
         ResourceDictionary dictionary;
-        private XamScheduleDataManager dataManager => this.scheduleView?.DataManager as XamScheduleDataManager;
+        private XamScheduleDataManager DataManager => this.scheduleView?.DataManager as XamScheduleDataManager;
 
         public ScheduleViewTheming()
         {
@@ -60,18 +60,18 @@ namespace IGSchedule.Samples.Style
 
         private void ColorScheme_Changed(object sender, RoutedEventArgs e)
         {
-            if (dataManager != null)
+            if (DataManager != null)
             {
                 RadioButton rbtn = sender as RadioButton;
                 if (rbtn != null)
                 {
                     if (rbtn.Tag.ToString().StartsWith("IGTheme"))
                     {
-                        dataManager.ColorScheme = new IGColorScheme();
+                        DataManager.ColorScheme = new IGColorScheme();
                     }
                     else if (rbtn.Tag.ToString().StartsWith("Null"))
                     {
-                        dataManager.ClearValue(XamScheduleDataManager.ColorSchemeProperty);
+                        DataManager.ClearValue(XamScheduleDataManager.ColorSchemeProperty);
                     }
                     else
                     {
@@ -80,13 +80,13 @@ namespace IGSchedule.Samples.Style
                         {
                             var scheme2007 = new Office2007ColorScheme();
                             scheme2007.OfficeColorScheme = (OfficeColorScheme)int.Parse(rbtn.Tag.ToString().Substring(5));
-                            dataManager.ColorScheme = scheme2007;
+                            DataManager.ColorScheme = scheme2007;
                         }
                         else
                         {
                             var scheme2010 = new Office2010ColorScheme();
                             scheme2010.OfficeColorScheme = (OfficeColorScheme)int.Parse(rbtn.Tag.ToString().Substring(5));
-                            dataManager.ColorScheme = scheme2010;
+                            DataManager.ColorScheme = scheme2010;
                         }
                     }
                 }

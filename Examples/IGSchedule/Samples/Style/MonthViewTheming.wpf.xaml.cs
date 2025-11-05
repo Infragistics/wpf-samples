@@ -17,7 +17,7 @@ namespace IGSchedule.Samples.Style
     public partial class MonthViewTheming : SampleContainer
     {
         ResourceDictionary dictionary;
-        private XamScheduleDataManager dataManager;
+        private XamScheduleDataManager DataManager => this.FindName("dataManager") as XamScheduleDataManager;
 
         public MonthViewTheming()
         {
@@ -31,6 +31,7 @@ namespace IGSchedule.Samples.Style
 
         private void ColorScheme_Changed(object sender, RoutedEventArgs e)
         {
+            var dataManager = DataManager;
             if (dataManager != null)
             {
                 RadioButton rbtn = sender as RadioButton;
@@ -109,3 +110,4 @@ namespace IGSchedule.Samples.Style
         }
     }
 }
+

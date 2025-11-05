@@ -10,16 +10,14 @@
     <SccProvider>SAK</SccProvider>
     <UseWindowsForms>true</UseWindowsForms>
     <UseWPF>true</UseWPF>
-    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>..\Output\</OutputPath>
-    <BaseIntermediateOutputPath>obj\WPF\</BaseIntermediateOutputPath>
     <DefineConstants>TRACE;DEBUG;WPF</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>..\Output\</OutputPath>
-    <BaseIntermediateOutputPath>obj\WPF\</BaseIntermediateOutputPath>
     <DefineConstants>TRACE;WPF</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
@@ -35,5 +33,13 @@
   <ItemGroup>
     <Resource Include="Resources\Ballon_New_Year.jpg" />
     <Resource Include="Resources\butterfly1.jpg" />
+  </ItemGroup>
+  <!-- Prevent App.xaml from being treated as ApplicationDefinition in this class library to fix MC1002/BG1003 -->
+  <ItemGroup>
+    <ApplicationDefinition Remove="App.xaml" />
+    <Page Update="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 </Project>

@@ -12,12 +12,11 @@ namespace IGSchedule.Samples.Style
     public partial class DateNavigatorOutlookCalendarTheming : SampleContainer
     {
         ResourceDictionary dictionary;
-        private XamScheduleDataManager dataManager;
+        private XamScheduleDataManager DataManager => this.FindName("dataManager") as XamScheduleDataManager;
 
         public DateNavigatorOutlookCalendarTheming()
         {
             InitializeComponent(); 
-            this.dataManager = this.FindName("dataManager") as XamScheduleDataManager;
             this.SampleDisposed += DayViewTheming_SampleDisposed;
         }
 
@@ -56,6 +55,7 @@ namespace IGSchedule.Samples.Style
 
         private void ColorScheme_Changed(object sender, RoutedEventArgs e)
         {
+            var dataManager = DataManager;
             if (dataManager != null)
             {
                 RadioButton rbtn = sender as RadioButton;
@@ -107,3 +107,4 @@ namespace IGSchedule.Samples.Style
         }
     }
 }
+
