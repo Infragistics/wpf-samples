@@ -14,6 +14,7 @@ namespace IGSchedule.Samples.Organization
     public partial class XamOutlookCalendarMultiResources : SampleContainer
     {
         ScheduleData mydata = new ScheduleData();
+        private Infragistics.Controls.Schedules.XamScheduleDataManager dataManager => this.FindName("dataManager") as Infragistics.Controls.Schedules.XamScheduleDataManager;
 
         public XamOutlookCalendarMultiResources()
         {
