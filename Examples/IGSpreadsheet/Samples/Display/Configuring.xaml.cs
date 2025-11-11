@@ -1,7 +1,6 @@
-﻿using IGSpreadsheet.Samples.Shared;
+﻿using Infragistics.Samples.Framework;
 using IGSpreadsheet.Shared;
 using Infragistics.Documents.Excel;
-using Infragistics.Samples.Framework;
 using Infragistics.Windows.Ribbon;
 using System.IO;
 using System.Windows;
@@ -22,7 +21,7 @@ namespace IGSpreadsheet.Samples.Display
 
         private void LoadFile()
         {
-            Stream stream = Tools.GetLocalizedFileAsStream("Sample1.xlsx");
+            Stream stream = IGSpreadsheet.Samples.Shared.Tools.GetLocalizedFileAsStream("Sample1.xlsx");
             Workbook wb = Workbook.Load(stream);
             if (wb != null)
             {

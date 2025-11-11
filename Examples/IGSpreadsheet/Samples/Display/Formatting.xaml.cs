@@ -10,7 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Infragistics.Samples.Framework;
+using IGSpreadsheet.Samples.Shared;
 using System.IO;
 using IGSpreadsheet.Samples.Shared;
 using Infragistics.Documents.Excel;
@@ -21,7 +21,7 @@ namespace IGSpreadsheet.Samples.Display
     /// <summary>
     /// Interaction logic for Formatting.xaml
     /// </summary>
-    public partial class Formatting : SampleContainer
+    public partial class Formatting
     {
         public Formatting()
         {

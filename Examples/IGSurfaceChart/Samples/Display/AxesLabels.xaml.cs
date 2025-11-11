@@ -1,4 +1,4 @@
-﻿using Infragistics.Samples.Framework;
+using Infragistics.Samples.Framework;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;

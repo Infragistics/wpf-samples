@@ -2,152 +2,170 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Windows;
+using System.IO;
 
 namespace IGShapeChart.Samples
-{ 
+{
+    // Simplified loader: restore original inheritance (List<ShapefileRecord>) so chart series creation works.
+    // FilePath can be either a base path without extension or full .shp path.
     public class ShapefileLoader : List<ShapefileRecord>, INotifyPropertyChanged
-    {   
-        private ShapefileConverter Shapefile;
+    {
+        private ShapefileConverter _converter;
+
+        private void EnsureConverter()
+        {
+            if (_converter != null) return;
+            _converter = new ShapefileConverter();
+            _converter.ImportCompleted += (s, e) => UpdateShapes();
+        }
+
         private void LoadShapes()
         {
-            if (Shapefile == null)
+            if (string.IsNullOrWhiteSpace(FilePath)) return;
+            EnsureConverter();
+
+            string shpPath;
+            string dbfPath;
+
+            if (FilePath.EndsWith(".shp", StringComparison.OrdinalIgnoreCase))
             {
-                Shapefile = new ShapefileConverter();
-                Shapefile.ImportCompleted += (s, e) => { UpdateShapes(); }; 
+                shpPath = FilePath;
+                dbfPath = Path.ChangeExtension(FilePath, ".dbf");
+            }
+            else
+            {
+                // treat as base path (without extensions)
+                shpPath = FilePath + ".shp";
+                dbfPath = FilePath + ".dbf";
             }
 
-            if (!string.IsNullOrEmpty(FilePath))
+            // If user passed a component path ("/IGShapeChart;component/...") keep it; if it's an absolute file path add file:// scheme.
+            UriKind kind = UriKind.RelativeOrAbsolute;
+            if (Path.IsPathRooted(shpPath))
             {
-                var path = FilePath.Replace(".shp","").Replace(".dbf",""); 
-                 
-                Shapefile.ShapefileSource = new Uri(path + ".shp", UriKind.RelativeOrAbsolute);
-                Shapefile.DatabaseSource  = new Uri(path + ".dbf", UriKind.RelativeOrAbsolute);
+                var fullBase = Path.GetFullPath(shpPath);
+                shpPath = fullBase; // will be absolute path
+                dbfPath = Path.GetFullPath(dbfPath);
+                kind = UriKind.Absolute;
             }
-         }
+
+            _converter.ShapefileSource = new Uri(shpPath, kind);
+            _converter.DatabaseSource = new Uri(dbfPath, kind);
+        }
 
         private void UpdateShapes()
         {
             this.Clear();
-            if (this.Shapefile == null) return;
+            if (_converter == null) return;
 
-            var newRecrods = new List<ShapefileRecord>();
-
-            if (this.FilterValue == null || string.IsNullOrEmpty(this.FilterValue.ToString()))
+            foreach (var record in _converter)
             {
-                newRecrods.AddRange(this.Shapefile);
-            }
-            else
-            { 
-                foreach (var record in this.Shapefile)
-                { 
+                // Filter by field value if requested
+                if (FilterValue != null && record.Fields != null)
+                {
+                    bool match = false;
                     foreach (var field in record.Fields)
                     {
-                        if (field.Equals(this.FilterValue))
-                        {
-                            newRecrods.Add(record);
-                            break;
-                        }
-                    } 
+                        if (field != null && field.Equals(FilterValue)) { match = true; break; }
+                    }
+                    if (!match) continue;
                 }
-            }
 
-            if (!double.IsNaN(this.OffsetX) ||
-                !double.IsNaN(this.OffsetY))
-            {
-                foreach (var record in newRecrods)
-                { 
-                    record.Points.OffsetBy(this.OffsetX, this.OffsetY); 
+                // Apply offsets / swap only on a copy of points
+                if (!double.IsNaN(OffsetX) || !double.IsNaN(OffsetY) || SwapXY)
+                {
+                    for (int i = 0; i < record.Points.Count; i++)
+                    {
+                        var poly = record.Points[i];
+                        for (int p = 0; p < poly.Count; p++)
+                        {
+                            var pt = poly[p];
+                            double x = pt.X;
+                            double y = pt.Y;
+                            if (!double.IsNaN(OffsetX)) x += OffsetX;
+                            if (!double.IsNaN(OffsetY)) y += OffsetY;
+                            if (SwapXY)
+                            {
+                                var tmp = x; x = y; y = tmp;
+                            }
+                            poly[p] = new System.Windows.Point(x, y);
+                        }
+                    }
                 }
+
+                this.Add(record);
             }
-            if (this.SwapXY)
-            {
-                foreach (var record in newRecrods)
-                { 
-                    record.Points.SwapXY(); 
-                }
-            }
-            this.AddRange(newRecrods); 
         }
-         
-        private string _FilePath; 
+
+        private string _filePath;
         public string FilePath
         {
-            get { return _FilePath; }
-            set { if (_FilePath == value) return; _FilePath = value; LoadShapes(); OnPropertyChanged("FilePath"); }
+            get => _filePath;
+            set
+            {
+                if (_filePath == value) return;
+                _filePath = value;
+                LoadShapes();
+                OnPropertyChanged(nameof(FilePath));
+            }
         }
 
-        private object _FilterValue; 
+        private object _filterValue;
         public object FilterValue
         {
-            get { return _FilterValue; }
-            set { if (_FilterValue == value) return; _FilterValue = value; UpdateShapes(); OnPropertyChanged("FilterValue"); }
+            get => _filterValue;
+            set
+            {
+                if (Equals(_filterValue, value)) return;
+                _filterValue = value;
+                UpdateShapes();
+                OnPropertyChanged(nameof(FilterValue));
+            }
         }
 
-        private double _OffsetX = double.NaN; 
+        private double _offsetX = double.NaN;
         public double OffsetX
         {
-            get { return _OffsetX; }
-            set { if (_OffsetX == value) return; _OffsetX = value; UpdateShapes(); OnPropertyChanged("OffsetX"); }
+            get => _offsetX;
+            set
+            {
+                if (_offsetX.Equals(value)) return;
+                _offsetX = value;
+                UpdateShapes();
+                OnPropertyChanged(nameof(OffsetX));
+            }
         }
 
-        private double _OffsetY = double.NaN; 
+        private double _offsetY = double.NaN;
         public double OffsetY
         {
-            get { return _OffsetY; }
-            set { if (_OffsetY == value) return; _OffsetY = value; UpdateShapes(); OnPropertyChanged("OffsetY"); }
+            get => _offsetY;
+            set
+            {
+                if (_offsetY.Equals(value)) return;
+                _offsetY = value;
+                UpdateShapes();
+                OnPropertyChanged(nameof(OffsetY));
+            }
         }
 
-        private bool _SwapXY = false; 
+        private bool _swapXY;
         public bool SwapXY
         {
-            get { return _SwapXY; }
-            set { if (_SwapXY == value) return; _SwapXY = value; UpdateShapes(); OnPropertyChanged("SwapXY"); }
+            get => _swapXY;
+            set
+            {
+                if (_swapXY == value) return;
+                _swapXY = value;
+                UpdateShapes();
+                OnPropertyChanged(nameof(SwapXY));
+            }
         }
-
 
         public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName = "")
+        protected virtual void OnPropertyChanged(string propertyName)
         {
-            if (this.PropertyChanged != null)
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName)); 
-        }
-
-    }
-
-    public static class ShapeExtensions
-    {
-        public static void OffsetBy(this List<List<Point>> points, double offsetX, double offsetY)
-        {
-            foreach (var shape in points)
-            {
-                for (int i = 0; i < shape.Count; i++)
-                {
-                    var x = shape[i].X;
-                    var y = shape[i].Y;
-                    if (!double.IsNaN(offsetX))
-                        x += offsetX;
-                    if (!double.IsNaN(offsetY))
-                        y += offsetY;
-
-                    shape[i] = new Point(x, y);
-                }
-            }
-        }
-        public static void SwapXY(this List<List<Point>> points)
-        {
-            foreach (var shape in points)
-            {
-                for (int i = 0; i < shape.Count; i++)
-                {
-                    var x = shape[i].X;
-                    var y = shape[i].Y;  
-                    shape[i] = new Point(y, x);
-                }
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
-    
 }

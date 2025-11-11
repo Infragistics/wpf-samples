@@ -14,6 +14,7 @@ namespace IGSchedule.Samples.Organization
     public partial class XamOutlookCalendarMultiResources : SampleContainer
     {
         ScheduleData mydata = new ScheduleData();
+        private Infragistics.Controls.Schedules.XamScheduleDataManager DataManager => this.FindName("dataManager") as Infragistics.Controls.Schedules.XamScheduleDataManager;
 
         public XamOutlookCalendarMultiResources()
         {
@@ -32,29 +33,29 @@ namespace IGSchedule.Samples.Organization
 
             if (checkBox.IsChecked == true)
             {
-                if ((this.groupCheck.IsChecked == true) && (dataManager.CalendarGroups.Count() > 0))
+                if ((this.groupCheck.IsChecked == true) && (DataManager.CalendarGroups.Count() > 0))
                 {
                     var calendarmy = mydata.Calendars.First(c => c.OwningResourceId == curOwningResourceId);
-                    dataManager.CalendarGroups.First().Calendars.Add(calendarmy);
+                    DataManager.CalendarGroups.First().Calendars.Add(calendarmy);
                 }
                 else
                 {
                     CalendarGroup calGroup = new CalendarGroup();
                     ResourceCalendar calendarmy = mydata.Calendars.First(c => c.OwningResourceId == curOwningResourceId);
                     calGroup.Calendars.Add(calendarmy);
-                    dataManager.CalendarGroups.Add(calGroup);
+                    DataManager.CalendarGroups.Add(calGroup);
                 }
             }
             else
             {
-                var groupToRemove = dataManager.CalendarGroups.Where(cg => cg.Calendars.Where(cal => cal.OwningResourceId == curOwningResourceId).Count() > 0).FirstOrDefault();
+                var groupToRemove = DataManager.CalendarGroups.Where(cg => cg.Calendars.Where(cal => cal.OwningResourceId == curOwningResourceId).Count() > 0).FirstOrDefault();
                 var calre = groupToRemove.Calendars.Where(c => c.OwningResourceId == curOwningResourceId).FirstOrDefault();
 
-                dataManager.CalendarGroups.First(cg => cg.Calendars.Where(cal => cal.OwningResourceId == curOwningResourceId).Count() > 0).Calendars.Remove(calre);
+                DataManager.CalendarGroups.First(cg => cg.Calendars.Where(cal => cal.OwningResourceId == curOwningResourceId).Count() > 0).Calendars.Remove(calre);
 
                 if (groupToRemove.Calendars.Count() == 0)
                 {
-                    dataManager.CalendarGroups.Remove(groupToRemove);
+                    DataManager.CalendarGroups.Remove(groupToRemove);
                 }
             }
         }

@@ -1,14 +1,13 @@
 ﻿using IGSpreadsheet.Samples.Shared;
 using IGSpreadsheet.Shared;
 using Infragistics.Documents.Excel;
-using Infragistics.Samples.Framework;
 using Infragistics.Windows.Ribbon;
 using System.IO;
 using System.Windows;
 
 namespace IGSpreadsheet.Samples.Editing
 {
-    public partial class EditingProtection : SampleContainer
+    public partial class EditingProtection : Infragistics.Samples.Framework.SampleContainer
     {
         public EditingProtection()
         {

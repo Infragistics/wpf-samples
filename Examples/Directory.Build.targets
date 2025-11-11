@@ -1,0 +1,15 @@
+<Project>
+  <!-- Prevent App.xaml from being treated as ApplicationDefinition in class libraries.
+       Let SDK defaults include App.xaml as Page once. -->
+  <ItemGroup Condition=" '$(OutputType)' != 'WinExe' ">
+    <ApplicationDefinition Remove="**\App.xaml" />
+  </ItemGroup>
+
+  <!-- Avoid compiling generated assembly attributes from obj/** when custom BaseIntermediateOutputPath creates multiple obj trees (e.g., WPF, x86) -->
+  <ItemGroup>
+    <Compile Remove="obj\**\*.AssemblyInfo.cs" />
+    <Compile Remove="obj\**\*.AssemblyAttributes.cs" />
+    <Compile Remove="$(BaseIntermediateOutputPath)**\*.AssemblyInfo.cs" />
+    <Compile Remove="$(BaseIntermediateOutputPath)**\*.AssemblyAttributes.cs" />
+  </ItemGroup>
+</Project>

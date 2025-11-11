@@ -1,15 +1,13 @@
 ﻿using IGSpreadsheet.Resources;
-using IGSpreadsheet.Samples.Shared;
 using IGSpreadsheet.Shared;
 using Infragistics.Controls.Grids;
 using Infragistics.Documents.Excel;
-using Infragistics.Samples.Framework;
 using System.IO;
 using System.Windows;
 
 namespace IGSpreadsheet.Samples.Editing
 {
-    public partial class ObtainHoveredCell : SampleContainer
+    public partial class ObtainHoveredCell
     {
         public ObtainHoveredCell()
         {
@@ -23,7 +21,7 @@ namespace IGSpreadsheet.Samples.Editing
 
         private void LoadFile()
         {
-            Stream stream = Tools.GetLocalizedFileAsStream("Sample1.xlsx");
+            Stream stream = IGSpreadsheet.Samples.Shared.Tools.GetLocalizedFileAsStream("Sample1.xlsx");
             Workbook wb = Workbook.Load(stream);
             if (wb != null)
             {

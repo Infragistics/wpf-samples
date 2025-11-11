@@ -1,6 +1,5 @@
-﻿using IGSpreadsheet.Samples.Shared;
+﻿using Infragistics.Samples.Framework;
 using Infragistics.Documents.Excel;
-using Infragistics.Samples.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using IGSpreadsheet.Samples.Shared;
 
 namespace IGSpreadsheet.Samples.Display
 {

@@ -1,8 +1,8 @@
 ﻿using IGSpreadsheet.Samples.Shared;
 using IGSpreadsheet.Shared;
 using Infragistics.Documents.Excel;
-using Infragistics.Samples.Framework;
 using System.IO;
+using Infragistics.Samples.Framework;
 
 namespace IGSpreadsheet.Samples.Editing
 {

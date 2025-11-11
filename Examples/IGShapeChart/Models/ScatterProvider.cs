@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic; 
-using System.Windows; 
+using Point = System.Windows.Point;
 
 namespace IGShapeChart.Samples
 { 

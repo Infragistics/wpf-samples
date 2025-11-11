@@ -1,10 +1,7 @@
 ﻿using IGSpreadsheet.Samples.Shared;
 using IGSpreadsheet.Shared;
-using Infragistics.Documents.Excel;
-using Infragistics.Samples.Framework;
 using Infragistics.Samples.Shared.Models;
-using Infragistics.Samples.Shared.Resources;
-using Infragistics.Samples.Shared.Tools;
+using Infragistics.Documents.Excel;
 using Infragistics.Themes;
 using System;
 using System.Collections.Generic;
@@ -14,7 +11,7 @@ using System.Windows.Controls;
 
 namespace IGSpreadsheet.Samples.Style
 {
-    public partial class Theming : SampleContainer
+    public partial class Theming : Infragistics.Samples.Framework.SampleContainer
     {
         public Theming()
         {

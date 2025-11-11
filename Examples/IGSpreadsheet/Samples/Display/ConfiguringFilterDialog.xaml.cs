@@ -1,8 +1,8 @@
 ﻿using IGSpreadsheet.Samples.Shared;
+using Infragistics.Samples.Framework;
 using IGSpreadsheet.Shared;
 using Infragistics.Documents.Excel;
 using Infragistics.Documents.Excel.Filtering;
-using Infragistics.Samples.Framework;
 using Infragistics.Windows.Ribbon;
 using System;
 using System.Collections;

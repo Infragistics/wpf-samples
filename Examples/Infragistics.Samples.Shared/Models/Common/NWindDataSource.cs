@@ -65,6 +65,36 @@ namespace Infragistics.Samples.Shared.Models.Common
             }
         }
 
+        // Candidate providers – Jet is 32-bit only; ACE works on 64-bit and modern .NET when Access DB Engine is installed.
+        private static readonly string[] OleDbProviders = new[]
+        {
+            "Microsoft.ACE.OLEDB.16.0",   // Office 2016+ Access Database Engine
+            "Microsoft.ACE.OLEDB.12.0",   // Office 2007+ Access Database Engine
+            "Microsoft.Jet.OLEDB.4.0"     // Legacy Jet (32-bit only)
+        };
+
+        private static string ResolveOleDbProvider(string dbPath)
+        {
+            foreach (var provider in OleDbProviders)
+            {
+                try
+                {
+                    using (var test = new OleDbConnection($"Provider={provider};Data Source={dbPath};"))
+                    {
+                        test.Open();
+                        return provider; // first provider that opens successfully
+                    }
+                }
+                catch
+                {
+                    // ignore and try next
+                }
+            }
+            throw new InvalidOperationException(
+                "No suitable OLE DB provider found. Install the Microsoft Access Database Engine (ACE 16.0 or 12.0) or run the Samples Browser as x86 to use Jet. " +
+                "Providers tried: " + string.Join(", ", OleDbProviders));
+        }
+
         private static DataSet FetchData(NWindTable? table, bool createRelationConstraints, CultureInfo cultureInfo = null, int recordLimit = 0)
         {
             DataSet ds = new DataSet();
@@ -77,7 +107,20 @@ namespace Infragistics.Samples.Shared.Models.Common
                 dbPath = StorageProvider.GetStorageMdbPath(new System.Globalization.CultureInfo("en-US"));
             }
 
-            OleDbConnection oleConnection = new OleDbConnection(@"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + dbPath);
+            string provider;
+            try
+            {
+                provider = ResolveOleDbProvider(dbPath);
+            }
+            catch (InvalidOperationException ex)
+            {
+                // Provide more helpful diagnostic info and fail fast – samples will show message instead of crashing.
+                Debug.WriteLine("NWindDataSource: " + ex.Message);
+                // Return empty dataset so calling code can still proceed without hard exception.
+                return ds;
+            }
+
+            OleDbConnection oleConnection = new OleDbConnection($"Provider={provider};Data Source={dbPath};");
 
             OleDbCommand oleCustomersCommand = new OleDbCommand("SELECT * FROM Customers", oleConnection);
             OleDbCommand oleOrdersCommand = new OleDbCommand("SELECT * FROM Orders", oleConnection);
@@ -109,7 +152,8 @@ namespace Infragistics.Samples.Shared.Models.Common
                 {
                     oleAdapter.Fill(ds, 0, recordLimit, "Orders");
                 }
-                InitializeAutoIncrementField(ds.Tables["Orders"], "OrderID");
+                if (ds.Tables.Contains("Orders"))
+                    InitializeAutoIncrementField(ds.Tables["Orders"], "OrderID");
             }
 
             if (table == null || table == NWindTable.OrderDetails)
@@ -118,7 +162,7 @@ namespace Infragistics.Samples.Shared.Models.Common
                 oleAdapter.Fill(ds, "Order Details");
             }
 
-            if (table == null)
+            if (table == null && ds.Tables.Count >= 3 && ds.Tables.Contains("Customers") && ds.Tables.Contains("Orders") && ds.Tables.Contains("Order Details"))
             {
                 ds.Relations.Add(new DataRelation("CustomerOrders", ds.Tables["Customers"].Columns["CustomerID"], ds.Tables["Orders"].Columns["CustomerID"], createRelationConstraints));
                 ds.Relations.Add(new DataRelation("OrdersOrderDetails", ds.Tables["Orders"].Columns["OrderID"], ds.Tables["Order Details"].Columns["OrderID"], createRelationConstraints));
@@ -129,6 +173,7 @@ namespace Infragistics.Samples.Shared.Models.Common
 
         private static void InitializeAutoIncrementField(DataTable dt, string columnName)
         {
+            if (!dt.Columns.Contains(columnName)) return;
             DataColumn column = dt.Columns[columnName];
             column.AutoIncrement = true;
             column.AutoIncrementSeed = -1;

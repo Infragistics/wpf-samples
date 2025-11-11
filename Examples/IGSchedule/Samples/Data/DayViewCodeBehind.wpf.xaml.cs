@@ -35,30 +35,30 @@ namespace IGSchedule.Samples.Data
             if (selectedResource != null)
             {
                 CalendarGroup calGroup;
-                var resource = dataManager.ResourceItems.GetResourceFromId(selectedResource.Id1);
+                var resource = this.dataManager.ResourceItems.GetResourceFromId(selectedResource.Id1);
                 ResourceCalendar calendar = resource.Calendars.First(c => c.Id == cboResourceCalendars.SelectedItem.ToString());
 
                 // in case the user added it to another group, remove it first 
-                CalendarGroup groupWithCalendarAdded = dataManager.CalendarGroups.FirstOrDefault(cg => cg.Calendars.Contains(calendar));
+                CalendarGroup groupWithCalendarAdded = this.dataManager.CalendarGroups.FirstOrDefault(cg => cg.Calendars.Contains(calendar));
                 if (groupWithCalendarAdded != null)
                 {
                     groupWithCalendarAdded.Calendars.Remove(calendar);
                     if (groupWithCalendarAdded.Calendars.Count == 0)
-                        dataManager.CalendarGroups.Remove(groupWithCalendarAdded);
+                        this.dataManager.CalendarGroups.Remove(groupWithCalendarAdded);
                 }
 
                 //determine where to add the calendar
                 if (chkAddingMode.IsChecked == true && cboGroups.SelectedIndex != -1)
                 {
                     int index = cboGroups.SelectedIndex;
-                    calGroup = dataManager.CalendarGroups[index];
+                    calGroup = this.dataManager.CalendarGroups[index];
                     calGroup.Calendars.Add(calendar);
                 }
                 else
                 {
                     calGroup = new CalendarGroup();
                     calGroup.Calendars.Add(calendar);
-                    dataManager.CalendarGroups.Add(calGroup);
+                    this.dataManager.CalendarGroups.Add(calGroup);
                 }
             }
         }

@@ -1,7 +1,7 @@
-﻿using IGSpreadsheet.Samples.Shared;
+using Infragistics.Samples.Framework;
+using IGSpreadsheet.Samples.Shared;
 using IGSpreadsheet.Shared;
 using Infragistics.Documents.Excel;
-using Infragistics.Samples.Framework;
 using Infragistics.Windows.Editors;
 using Infragistics.Windows.Ribbon;
 using System.IO;

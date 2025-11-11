@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using Infragistics.Controls.Schedules;
@@ -12,6 +12,7 @@ namespace IGSchedule.Samples.Style
     public partial class DateNavigatorOutlookCalendarTheming : SampleContainer
     {
         ResourceDictionary dictionary;
+        private XamScheduleDataManager DataManager => this.FindName("dataManager") as XamScheduleDataManager;
 
         public DateNavigatorOutlookCalendarTheming()
         {
@@ -54,6 +55,7 @@ namespace IGSchedule.Samples.Style
 
         private void ColorScheme_Changed(object sender, RoutedEventArgs e)
         {
+            var dataManager = DataManager;
             if (dataManager != null)
             {
                 RadioButton rbtn = sender as RadioButton;
@@ -105,3 +107,4 @@ namespace IGSchedule.Samples.Style
         }
     }
 }
+
