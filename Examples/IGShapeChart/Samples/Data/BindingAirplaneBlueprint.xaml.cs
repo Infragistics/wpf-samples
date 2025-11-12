@@ -4,7 +4,8 @@ using Infragistics.Samples.Framework;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel; 
+using System.ComponentModel;
+using System.IO;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -20,12 +21,16 @@ namespace IGShapeChart.Samples
 
             this.Loaded += OnSampleLoaded;
 
-            ShapefileLoader loader1 = new ShapefileLoader() { OffsetX = -306, OffsetY = 0, FilePath = "/IGShapeChart;component/shapefiles/airplane-shape.shp" };
-            ShapefileLoader loader2 = new ShapefileLoader() { OffsetX = -153, OffsetY = 0, FilePath = "/IGShapeChart;component/shapefiles/airplane-seats.shp", FilterValue = "First" };
-            ShapefileLoader loader3 = new ShapefileLoader() { OffsetX = -153, OffsetY = 0, FilePath = "/IGShapeChart;component/shapefiles/airplane-seats.shp", FilterValue = "Business" };
-            ShapefileLoader loader4 = new ShapefileLoader() { OffsetX = -153, OffsetY = 0, FilePath = "/IGShapeChart;component/shapefiles/airplane-seats.shp", FilterValue = "Travel+" };
-            ShapefileLoader loader5 = new ShapefileLoader() { OffsetX = -153, OffsetY = 0, FilePath = "/IGShapeChart;component/shapefiles/airplane-seats.shp", FilterValue = "Travel" };
-            ShapefileLoader loader6 = new ShapefileLoader() { OffsetX = -153, OffsetY = 0, FilePath = "/IGShapeChart;component/shapefiles/airplane-seats.shp", FilterValue = "Global" };
+            string basePath = Path.GetFullPath(
+    Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+        @"..\..\..\..\IGShapeChart\Shapefiles"));
+
+            ShapefileLoader loader1 = new ShapefileLoader() { FilePath = System.IO.Path.Combine(basePath, "airplane-shape.shp") };
+            ShapefileLoader loader2 = new ShapefileLoader() { FilePath = System.IO.Path.Combine(basePath, "airplane-seats.shp"), FilterValue = "First" };
+            ShapefileLoader loader3 = new ShapefileLoader() { FilePath = System.IO.Path.Combine(basePath, "airplane-seats.shp"), FilterValue = "Business" };
+            ShapefileLoader loader4 = new ShapefileLoader() { FilePath = System.IO.Path.Combine(basePath, "airplane-seats.shp"), FilterValue = "Travel+" };
+            ShapefileLoader loader5 = new ShapefileLoader() { FilePath = System.IO.Path.Combine(basePath, "airplane-seats.shp"), FilterValue = "Travel" };
+            ShapefileLoader loader6 = new ShapefileLoader() { FilePath = System.IO.Path.Combine(basePath, "airplane-seats.shp"), FilterValue = "Global" };
 
             Data = new ObservableCollection<ShapefileLoader>();
             Data.Add(loader1);
