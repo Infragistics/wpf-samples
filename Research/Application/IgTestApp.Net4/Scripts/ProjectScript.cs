@@ -41,8 +41,8 @@ namespace Infragistics.Samples.Browser
 
             if (string.IsNullOrEmpty(ProjectDirectory))
             {
-                ProjectDirectory = "C:\\WORK\\wpf-samples\\Research\\IGDiagram";
-                //ProjectDirectory = "C:\\WORK\\wpf-samples\\Research";
+                //ProjectDirectory = "C:\\WORK\\wpf-samples\\Research\\IGDiagram";
+                ProjectDirectory = "C:\\WORK\\wpf-samples\\Research";
             }
 
             var version = "25.1";
@@ -86,28 +86,129 @@ namespace Infragistics.Samples.Browser
 
         }
 
+
+        private static Dictionary<string, string> NugetAssembliesToDir = new Dictionary<string, string>()
+        {
+{ "InfragisticsWPF.Controls.Barcodes.BarcodeReader", "Infragistics.WPF.BarcodeReader" },
+{ "InfragisticsWPF.Controls.Barcodes", "Infragistics.WPF.Barcodes" },
+{ "InfragisticsWPF.Calculations.XamCalculationManager", "Infragistics.WPF.CalculationManager" },
+{ "InfragisticsWPF.Controls.Editors.XamCalendar", "Infragistics.WPF.Calendar" },
+{ "InfragisticsWPF.Controls.Charts.Olap", "Infragistics.WPF.Charts.Olap" },
+{ "InfragisticsWPF.Controls.Charts.XamDataChart", "Infragistics.WPF.Charts" },
+{ "InfragisticsWPF.Controls.Editors.XamColorPicker", "Infragistics.WPF.ColorPicker" },
+{ "InfragisticsWPF.Controls.Grids.XGrid", "Infragistics.WPF.Controls.Grids.XamXGrid" },
+{ "InfragisticsWPF.Controls.Dashboards", "Infragistics.WPF.Dashboards" },
+{ "InfragisticsWPF.DataPresenter.CalculationAdapter", "Infragistics.WPF.DataGrids.Calculation" },
+{ "InfragisticsWPF.DataPresenter.ExcelExporter", "Infragistics.WPF.DataGrids.Excel" },
+{ "InfragisticsWPF.DataPresenter", "Infragistics.WPF.DataGrids" },
+{ "InfragisticsWPF.DataPresenter.WordWriter", "Infragistics.WPF.DataGrids.Word" },
+{ "InfragisticsWPF.Controls.Menus.XamDataTree", "Infragistics.WPF.DataTree" },
+{ "InfragisticsWPF.Controls.Charts.XamDiagram", "Infragistics.WPF.Diagram" },
+{ "InfragisticsWPF.Controls.Interactions.XamDialogWindow", "Infragistics.WPF.DialogWindow" },
+{ "InfragisticsWPF.Documents.Excel", "Infragistics.WPF.Excel" },
+{ "InfragisticsWPF.Controls.Charts.XamFinancialChart", "Infragistics.WPF.FinancialChart" },
+{ "InfragisticsWPF.Controls.Interactions.XamFormulaEditor", "Infragistics.WPF.FormulaEditor" },
+{ "InfragisticsWPF.Controls.Schedules.XamGantt", "Infragistics.WPF.Gantt" },
+{ "InfragisticsWPF.Controls.Gauges", "Infragistics.WPF.Gauges" },
+{ "InfragisticsWPF.Controls.Maps.XamGeographicMap", "Infragistics.WPF.GeographicMap" },
+{ "InfragisticsWPF.Controls.Inputs", "Infragistics.WPF.Inputs" },
+{ "InfragisticsWPF.Controls.Layouts", "Infragistics.WPF.Layouts" },
+{ "InfragisticsWPF.Controls.Menus.XamMenu", "Infragistics.WPF.Menus" },
+{ "InfragisticsWPF.Controls.Maps.XamNetworkNode", "Infragistics.WPF.NetworkNode" },
+{ "InfragisticsWPF.Controls.Maps.XamOrgChart", "Infragistics.WPF.OrgChart" },
+{ "InfragisticsWPF.Controls.Grids.XamPivotDataSlicer", "Infragistics.WPF.PivotDataSlicer" },
+{ "InfragisticsWPF.Controls.Grids.XamPivotGrid", "Infragistics.WPF.PivotGrid" },
+{ "InfragisticsWPF.Controls.Editors.XamPropertyGrid", "Infragistics.WPF.PropertyGrid" },
+{ "InfragisticsWPF.Controls.Menus.XamRadialMenu", "Infragistics.WPF.RadialMenu" },
+{ "InfragisticsWPF.Documents.RichTextDocument.Html", "Infragistics.WPF.RichTextDocument.Html" },
+{ "InfragisticsWPF.Documents.RichTextDocument.Rtf", "Infragistics.WPF.RichTextDocument.Rtf" },
+{ "InfragisticsWPF.Documents.RichTextDocument", "Infragistics.WPF.RichTextDocument" },
+{ "InfragisticsWPF.Documents.RichTextDocument.Word", "Infragistics.WPF.RichTextDocument.Word" },
+{ "InfragisticsWPF.Controls.Editors.XamRichTextEditor", "Infragistics.WPF.RichTextEditor" },
+{ "InfragisticsWPF.Controls.SchedulesDialogs", "Infragistics.WPF.Schedules.Dialogs" },
+{ "InfragisticsWPF.Controls.SchedulesExchangeConnector", "Infragistics.WPF.Schedules.Exchange" },
+{ "InfragisticsWPF.Controls.Schedules", "Infragistics.WPF.Schedules" },
+{ "InfragisticsWPF.Controls.Editors.XamSlider", "Infragistics.WPF.Slider" },
+{ "InfragisticsWPF.Controls.Charts.XamSparkline", "Infragistics.WPF.Sparkline" },
+{ "InfragisticsWPF.Controls.Interactions.XamSpellChecker", "Infragistics.WPF.SpellChecker" },
+{ "InfragisticsWPF.Controls.Grids.XamSpreadsheet.ChartAdapter", "Infragistics.WPF.Spreadsheet.Charts" },
+{ "InfragisticsWPF.Controls.Grids.XamSpreadsheet", "Infragistics.WPF.Spreadsheet" },
+{ "InfragisticsWPF.Controls.Charts.XamSurfaceChart3D", "Infragistics.WPF.SurfaceChart3D" },
+{ "InfragisticsWPF.Controls.Editors.XamSyntaxEditor", "Infragistics.WPF.SyntaxEditor" },
+{ "InfragisticsWPF.Controls.Menus.XamTagCloud", "Infragistics.WPF.TagCloud" },
+{ "InfragisticsWPF.Documents.TextDocument.CSharp", "Infragistics.WPF.TextDocument.CSharp" },
+{ "InfragisticsWPF.Documents.TextDocument", "Infragistics.WPF.TextDocument" },
+{ "InfragisticsWPF.Documents.TextDocument.TSql", "Infragistics.WPF.TextDocument.TSql" },
+{ "InfragisticsWPF.Documents.TextDocument.VisualBasic", "Infragistics.WPF.TextDocument.VisualBasic" },
+{ "InfragisticsWPF.Controls.Layouts.XamTileManager", "Infragistics.WPF.TileManager" },
+{ "InfragisticsWPF.Controls.Timelines.XamTimeline", "Infragistics.WPF.Timeline" },
+{ "InfragisticsWPF.Controls.Charts.XamTreemap", "Infragistics.WPF.Treemap" },
+{ "InfragisticsWPF.Documents.IO", "Infragistics.WPF.Word" },
+{ "InfragisticsWPF.Controls.Navigation.XamZoomSlider", "Infragistics.WPF.ZoomSlider" },
+        };
+
+        public static void MapNugetAssemblies()
+        {
+            var nugetDirectory = "C:\\WORK\\wpf-samples\\Research\\packages";
+            var files = Directory.GetFiles(nugetDirectory, "InfragisticsWPF*.dll", SearchOption.AllDirectories).ToList();
+            Debug.WriteLine("Found in " + files.Count + " project files in " + ProjectDirectory + ":");
+
+            foreach (string path in files)
+            { 
+                if (path.Contains(".Design")) continue;
+                if (path.Contains(".resources.")) continue;
+
+                var assmbStart = path.LastIndexOf("Infragistics");
+                var assmbEnd   = path.LastIndexOf(".dll");
+                var assmb = path.Substring(assmbStart, assmbEnd - assmbStart);
+
+                var dirStart = path.IndexOf("Infragistics");
+                var dirEnd = path.LastIndexOf(".Trial");
+                var dir = path.Substring(dirStart, dirEnd - dirStart);
+
+                var assmbDir = dir.Replace("Infragistics.WPF", "InfragisticsWPF");
+                if (assmbDir != assmb)
+                {
+                    //NugetAssembliesToDir.Add(assmb, dir);
+
+                    Debug.WriteLine("{ \"" + assmb + "\", \"" + dir + "\" },");
+                    //Debug.WriteLine(path.Replace("C:\\WORK\\wpf-samples\\Research", "") + "\t\t\t" + dir + "\t" + assmb);
+
+                }
+                //actualAssemblies.Add(path);
+            }
+
+
+            //Debug.WriteLine(NugetAssembliesToDir);
+        }
+
         public static List<string> GetProjects()
         {
             Initalize();
 
             var files = Directory.GetFiles(ProjectDirectory, "IG*.csproj", SearchOption.AllDirectories).ToList();
-            Debug.WriteLine("Found in " + files .Count + " project files in " + ProjectDirectory + ":");
-            //foreach (string file in files)
-            //{
-            //    Debug.WriteLine(file);
-            //}
+            Debug.WriteLine("Found in " + files.Count + " project files in " + ProjectDirectory + ":");
 
-            return files;
+            var filteredFiles = new List<string>();
+            foreach (string path in files)
+            {
+                if (path.Contains("IgFramework.Net8")) continue;
+                if (path.Contains("IgTestApp.Net4")) continue;
+
+                filteredFiles.Add(path);
+                Debug.WriteLine(path);
+            } 
+            return filteredFiles;
         }
 
         public static void List()
         {
-
             var files = GetProjects();
-
-            
+            foreach (string file in files)
+            {
+                Debug.WriteLine(file);
+            }
         }
-
 
         public static void UpdateProjects()
         {
@@ -124,13 +225,12 @@ namespace Infragistics.Samples.Browser
         { 
             Debug.WriteLine(path);
 
-            var lines = File.ReadAllLines(path).ToList();
-            for (int i = 0; i < lines.Count; i++)
-            {
-                var line = lines[i];
-                lines[i] = UpdateProjectLine(i, line);
-            }
-
+            //var lines = File.ReadAllLines(path).ToList();
+            //for (int i = 0; i < lines.Count; i++)
+            //{
+            //    var line = lines[i];
+            //    lines[i] = UpdateProjectLine(i, line);
+            //}
             //File.WriteAllLines(path, lines);
 
         }
@@ -160,8 +260,8 @@ namespace Infragistics.Samples.Browser
                     var assemblyEndStr = ".v";
                     if (!line.Contains(assemblyEndStr)) assemblyEndStr = ".dll";
 
-                    var assemblyStartStr = "\\InfragisticsWPF";
-                    if (!line.Contains(assemblyStartStr)) assemblyStartStr = "\\InfragisticsWPF4";
+                    var assemblyStartStr = "InfragisticsWPF";
+                    if (!line.Contains(assemblyStartStr)) assemblyStartStr = "InfragisticsWPF4";
                     
                     var assemblyStart = line.LastIndexOf(assemblyStartStr);
                     var assemblyEnd = line.LastIndexOf(assemblyEndStr);
@@ -193,18 +293,28 @@ namespace Infragistics.Samples.Browser
 
         static string GetAssemlyHintPath(string assemblyName)
         {
-
             assemblyName = assemblyName.Replace("InfragisticsWPF4", Target.Prefix);
             assemblyName = assemblyName.Replace("InfragisticsWPF", Target.Prefix);
             //assemblyName += 
 
-            var hintDirectory = Target.Directory;
+            var hintDirectory = Target.Directory + "\\";
             if (Target.Build == IgTargetBuild.Nuget)
             {
-                // <HintPath>..\packages\Infragistics.WPF.Editors.Trial.25.1.117\lib\net40\InfragisticsWPF.Editors.dll</HintPath>
-                hintDirectory += assemblyName.Replace(Target.Prefix, "Infragistics.WPF");
-                hintDirectory += Target.VersionPrefix + "" + Target.VersionNumber + "" + Target.VersionSuffix;
-                hintDirectory += "" + assemblyName + Target.Suffix;
+                if (NugetAssembliesToDir.ContainsKey(assemblyName))
+                {
+                    // <HintPath>..\packages\Infragistics.WPF.Timeline.Trial.25.1.22\lib\net40\InfragisticsWPF.Controls.Timelines.XamTimeline.dll</HintPath>
+                    hintDirectory += NugetAssembliesToDir[assemblyName];
+                    hintDirectory += Target.VersionPrefix + "" + Target.VersionNumber + "" + Target.VersionSuffix;
+                    hintDirectory += "\\" + assemblyName + Target.Suffix;
+                }
+                else
+                {
+                    // <HintPath>..\packages\Infragistics.WPF.DataVisualization.Trial.25.1.22\lib\net40\InfragisticsWPF.DataVisualization.dll</HintPath>
+                    hintDirectory += assemblyName.Replace(Target.Prefix, "Infragistics.WPF");
+                    hintDirectory += Target.VersionPrefix + "" + Target.VersionNumber + "" + Target.VersionSuffix;
+                    hintDirectory += "\\" + assemblyName + Target.Suffix;
+                }
+                    
             }
             else if (Target.Build == IgTargetBuild.Production)
             {

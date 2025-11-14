@@ -30,7 +30,8 @@ namespace Infragistics.Samples.Browser
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             //ProjectScript.List();
-            ProjectScript.UpdateProjects(); 
+            //ProjectScript.MapNugetAssemblies();
+            ProjectScript.UpdateProjects();
 
         }
     }
