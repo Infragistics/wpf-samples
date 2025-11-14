@@ -19,14 +19,15 @@ namespace Infragistics.Samples.Framework
             this.Initialized += OnSampleContainerInitialized;
             this.SnapsToDevicePixels = true;
 
+            // TODO-MT re-add to IgShared
             // pre-loading themes 
-            ThemesInitalizer.Add(new IgTheme());
-            ThemesInitalizer.Add(new MetroTheme());
-            ThemesInitalizer.Add(new MetroDarkTheme());
-            ThemesInitalizer.Add(new Office2010BlueTheme());
-            ThemesInitalizer.Add(new Office2013Theme());
-            ThemesInitalizer.Add(new RoyalDarkTheme());
-            ThemesInitalizer.Add(new RoyalLightTheme()); 
+            //ThemesInitalizer.Add(new IgTheme());
+            //ThemesInitalizer.Add(new MetroTheme());
+            //ThemesInitalizer.Add(new MetroDarkTheme());
+            //ThemesInitalizer.Add(new Office2010BlueTheme());
+            //ThemesInitalizer.Add(new Office2013Theme());
+            //ThemesInitalizer.Add(new RoyalDarkTheme());
+            //ThemesInitalizer.Add(new RoyalLightTheme()); 
         }
         public List<BuiltInThemeBase> ThemesInitalizer = new List<BuiltInThemeBase>();
 

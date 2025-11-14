@@ -24,13 +24,13 @@ namespace Infragistics.Samples.Framework
         static ThemeLoader()
         {
             Themes = new Dictionary<ThemeType, ThemeBase>();
-            Themes.Add(ThemeType.RoyalLight, new RoyalLightTheme());
-            Themes.Add(ThemeType.RoyalDark,  new RoyalDarkTheme());
-            Themes.Add(ThemeType.MetroDark,  new MetroDarkTheme());
-            Themes.Add(ThemeType.MetroLight, new MetroTheme());
-            Themes.Add(ThemeType.Office2010, new Office2010BlueTheme());
-            Themes.Add(ThemeType.Office2013, new Office2013Theme());
-            Themes.Add(ThemeType.IG,         new IgTheme());
+            //Themes.Add(ThemeType.RoyalLight, new RoyalLightTheme());
+            //Themes.Add(ThemeType.RoyalDark,  new RoyalDarkTheme());
+            //Themes.Add(ThemeType.MetroDark,  new MetroDarkTheme());
+            //Themes.Add(ThemeType.MetroLight, new MetroTheme());
+            //Themes.Add(ThemeType.Office2010, new Office2010BlueTheme());
+            //Themes.Add(ThemeType.Office2013, new Office2013Theme());
+            //Themes.Add(ThemeType.IG,         new IgTheme());
             Themes.Add(ThemeType.Default,    null);
         }
 
@@ -63,13 +63,14 @@ namespace Infragistics.Samples.Shared.Models
     {
         public ThemeList()
         {
-            this.Add(new ThemeInfo ("RoyalLight", new RoyalLightTheme(), CommonStrings.XW_ThemeSupport_RoyalLight ));
-            this.Add(new ThemeInfo ("RoyalDark",  new RoyalDarkTheme(), CommonStrings.XW_ThemeSupport_RoyalDark ));
-            this.Add(new ThemeInfo ("MetroLight", new MetroTheme(), CommonStrings.XW_ThemeSupport_Metro ));
-            this.Add(new ThemeInfo ("MetroDark",  new MetroDarkTheme(),  CommonStrings.XW_ThemeSupport_MetroDark ));
-            this.Add(new ThemeInfo ("Office2010", new Office2010BlueTheme(), CommonStrings.XW_ThemeSupport_Office2010BlueTheme ));
-            this.Add(new ThemeInfo ("Office2013", new Office2013Theme(),  CommonStrings.XW_ThemeSupport_Office2013Theme ));
-            this.Add(new ThemeInfo ("IG", new IgTheme(), CommonStrings.XW_ThemeSupport_IGTheme ));
+            // TODO-MT re-add to IgShared
+            //this.Add(new ThemeInfo ("RoyalLight", new RoyalLightTheme(), CommonStrings.XW_ThemeSupport_RoyalLight ));
+            //this.Add(new ThemeInfo ("RoyalDark",  new RoyalDarkTheme(), CommonStrings.XW_ThemeSupport_RoyalDark ));
+            //this.Add(new ThemeInfo ("MetroLight", new MetroTheme(), CommonStrings.XW_ThemeSupport_Metro ));
+            //this.Add(new ThemeInfo ("MetroDark",  new MetroDarkTheme(),  CommonStrings.XW_ThemeSupport_MetroDark ));
+            //this.Add(new ThemeInfo ("Office2010", new Office2010BlueTheme(), CommonStrings.XW_ThemeSupport_Office2010BlueTheme ));
+            //this.Add(new ThemeInfo ("Office2013", new Office2013Theme(),  CommonStrings.XW_ThemeSupport_Office2013Theme ));
+            //this.Add(new ThemeInfo ("IG", new IgTheme(), CommonStrings.XW_ThemeSupport_IGTheme ));
             this.Add(new ThemeInfo ("Default",  null, CommonStrings.XW_ThemeSupport_DefaultTheme ));
         }
     }
