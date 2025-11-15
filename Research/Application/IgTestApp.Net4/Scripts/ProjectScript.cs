@@ -186,17 +186,19 @@ namespace Infragistics.Samples.Browser
         {
             Initalize();
 
-            var files = Directory.GetFiles(ProjectDirectory, "IG*.csproj", SearchOption.AllDirectories).ToList();
+            var files = Directory.GetFiles(ProjectDirectory, "*.csproj", SearchOption.AllDirectories).ToList();
             Debug.WriteLine("Found in " + files.Count + " project files in " + ProjectDirectory + ":");
 
             var filteredFiles = new List<string>();
             foreach (string path in files)
             {
-                if (path.Contains("IgFramework.Net8")) continue;
-                if (path.Contains("IgTestApp.Net4")) continue;
+                if (!path.Contains("IG") && !path.Contains("Infragistics.")) continue;
+
+                //if (path.Contains("IgFramework.Net8")) continue;
+                //if (path.Contains("IgTestApp.Net4")) continue;
 
                 filteredFiles.Add(path);
-                Debug.WriteLine(path);
+                //Debug.WriteLine(path);
             } 
             return filteredFiles;
         }
@@ -221,17 +223,31 @@ namespace Infragistics.Samples.Browser
             }
         }
 
+        static bool projectUpdated = false;
         public static void UpdateProjectFile(string path)
         { 
-            Debug.WriteLine(path);
+            //Debug.WriteLine(path);
 
-            //var lines = File.ReadAllLines(path).ToList();
-            //for (int i = 0; i < lines.Count; i++)
-            //{
-            //    var line = lines[i];
-            //    lines[i] = UpdateProjectLine(i, line);
-            //}
-            //File.WriteAllLines(path, lines);
+            projectUpdated = false;
+
+            var lines = File.ReadAllLines(path).ToList();
+            for (int i = 0; i < lines.Count; i++)
+            {
+                var line = lines[i];
+                lines[i] = UpdateProjectLine(i, line);
+            }
+
+            if (projectUpdated)
+            {
+                Debug.WriteLine("UDPATED " + path);
+                File.WriteAllLines(path, lines);
+            }
+            else
+            {
+                Debug.WriteLine("SKIPPED " + path);
+            }
+
+
 
         }
 
@@ -252,7 +268,11 @@ namespace Infragistics.Samples.Browser
                     var refrenceLine = GetAssemlyRefrence(assemblyOldName);
 
                     //Debug.WriteLine(lineID + ": \n" + line + " -> \n" + refrenceLine);
-                    line = refrenceLine;
+                    if (line != refrenceLine)
+                    {
+                        line = refrenceLine;
+                        projectUpdated = true;
+                    }
                 }
 
                 if (line.Contains("HintPath")) // <HintPath>..\packages\Infragistics.WPF.Ribbon.Trial.25.1.117\lib\net40\InfragisticsWPF.Ribbon.dll</HintPath>
@@ -269,8 +289,12 @@ namespace Infragistics.Samples.Browser
 
                     var hintPath = GetAssemlyHintPath(assemblyName);
 
-                    Debug.WriteLine(lineID + ": \n" + line + " -> \n" + hintPath);
-                    line = hintPath;
+                    //Debug.WriteLine(lineID + ": \n" + line + " -> \n" + hintPath); 
+                    if (line != hintPath)
+                    {
+                        line = hintPath;
+                        projectUpdated = true;
+                    }
                 }
             }
             return line;
@@ -279,8 +303,8 @@ namespace Infragistics.Samples.Browser
         static string GetAssemlyRefrence(string assemblyName)
         {
 
-            assemblyName = assemblyName.Replace("InfragisticsWPF4.", Target.Prefix);
-            assemblyName = assemblyName.Replace("InfragisticsWPF.", Target.Prefix);
+            assemblyName = assemblyName.Replace("InfragisticsWPF4", Target.Prefix);
+            assemblyName = assemblyName.Replace("InfragisticsWPF", Target.Prefix);
 
             if (Target.Build != IgTargetBuild.Nuget)
             {

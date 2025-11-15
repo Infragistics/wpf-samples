@@ -31,8 +31,9 @@ namespace Infragistics.Samples.Browser
         {
             //ProjectScript.List();
             //ProjectScript.MapNugetAssemblies();
-            ProjectScript.UpdateProjects();
+            //ProjectScript.UpdateProjects();
 
+            TocScript.PortToJson();
         }
     }
 }
