@@ -27,15 +27,15 @@ namespace Infragistics.Framework.Browser
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             SamplesManager = DataContext as SamplesManager;
-            var asmb = SamplesManager.AppType.Assembly.FullName;
-            asmb = asmb.Replace(".", " ");
-            var parts = asmb.Split(',').ToList();
-            var title = parts[0] + " " + this.Title;
-            if (!title.StartsWith(""))
-            {
-                title = "Infragistics " + title;
-            }
-            this.Title = title;  
+            //var asmb = SamplesManager.AppType.Assembly.FullName;
+            //asmb = asmb.Replace(".", " ");
+            //var parts = asmb.Split(',').ToList();
+            //var title = parts[0] + " " + this.Title;
+            //if (!title.StartsWith(""))
+            //{
+            //    title = "Infragistics " + title;
+            //}
+            //this.Title = title;  
 
             if (SamplesManager.SelectedSample == -1)
             {
@@ -47,21 +47,21 @@ namespace Infragistics.Framework.Browser
 
         private void OnSamplesSelectorChanged(object sender, SelectionChangedEventArgs e)
         {
-            var sample = this.SamplesSelector.SelectedItem as SamplesViewModel;
-            if (sample == null) return;
+            //var sample = this.SamplesSelector.SelectedItem as SamplesViewModel;
+            //if (sample == null) return;
 
-            if (SamplesManager == null) return;
+            //if (SamplesManager == null) return;
 
-            var sampleView = sample.CreateView<UserControl>();
-            sampleView.HorizontalAlignment = HorizontalAlignment.Stretch;
-            sampleView.VerticalAlignment = VerticalAlignment.Stretch;
+            //var sampleView = sample.CreateView<UserControl>();
+            //sampleView.HorizontalAlignment = HorizontalAlignment.Stretch;
+            //sampleView.VerticalAlignment = VerticalAlignment.Stretch;
 
-            if (this.SampleContainer != null &&
-                this.SampleContainer.Children != null)
-            {
-                this.SampleContainer.Children.Clear();
-                this.SampleContainer.Children.Add(sampleView);
-            }
+            //if (this.SampleContainer != null &&
+            //    this.SampleContainer.Children != null)
+            //{
+            //    this.SampleContainer.Children.Clear();
+            //    this.SampleContainer.Children.Add(sampleView);
+            //}
         }
     }
 }
