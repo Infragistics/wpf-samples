@@ -18,6 +18,8 @@ namespace Infragistics.Samples
         } 
         public double CurrentVersion { get; set; }
         public List<TocControl> Controls { get; set; }
+        //public int ControlsCount { get; set; }
+        //public int SamplesCount { get; set; }
     }
 
     public class TocControl
@@ -27,6 +29,7 @@ namespace Infragistics.Samples
             Categories = new List<TocCategory>();
         }
         public string Control { get; set; }
+        //public int SamplesCount { get; set; }
         public List<TocCategory> Categories { get; set; } 
     }
 
@@ -85,7 +88,7 @@ namespace Infragistics.Samples
             foreach (var xc in xmlTOC.Children) // Controls
             {
                 var tocControl = new TocControl();
-                tocControl.Control = xc.Name;
+                tocControl.Control = xc.Name.Replace("Xam", "");
 
                 foreach (var xcat in xc.Children) // Categories
                 {
@@ -111,13 +114,20 @@ namespace Infragistics.Samples
 
                         tocCat.Samples.Add(tocSample);
                     }
+                    tocCat.Samples.Sort((toc1, toc2) => SortToc(toc1, toc2));
+
                     tocControl.Categories.Add(tocCat);
                 }
+
+                tocControl.Categories.Sort((toc1, toc2) => SortToc(toc1, toc2));
+
                 tocRoot.Controls.Add(tocControl);
 
                 //if (tocRoot.Controls.Count > 1) break;
 
             }
+
+            tocRoot.Controls.Sort((toc1, toc2) => SortToc(toc1, toc2));
 
             var testTOC = new TocRoot();
 
@@ -131,6 +141,9 @@ namespace Infragistics.Samples
             var json = JsonConvert.SerializeObject(tocRoot, jset);
 
             //var json = System.Text.Json.JsonSerializer.Serialize(testTOC);
+
+            json = json.Replace("\"Path\":\"IG", "\"Path\":\"/IG");
+
 
             var NL = "\r\n";
             json = json.Replace("{\"CurrentVersion\":", NL + Tabs() + "{\n" + Indent() + "\"CurrentVersion\": ");
@@ -193,5 +206,45 @@ namespace Infragistics.Samples
             tabIndent--; return Tabs();
         }
 
+
+        public static int SortToc(TocControl toc1, TocControl toc2)
+        {
+            string name1 = toc1.Control ?? string.Empty;
+            string name2 = toc2.Control ?? string.Empty;
+
+            return name1.CompareTo(name2);
+        }
+
+        public static int SortToc(TocCategory toc1, TocCategory toc2)
+        {  
+            string name1 = toc1.Category ?? string.Empty;
+            string name2 = toc2.Category ?? string.Empty;
+
+            return name1.CompareTo(name2);
+        }
+
+        public static int SortToc(TocSample toc1, TocSample toc2)
+        {
+            //if (toc1.ReleaseVersion == CurrentVersion ||
+            //    toc2.ReleaseVersion == CurrentVersion)
+            //{
+
+            // MT skip sorting by status
+            //if (toc1.IsNew != toc2.IsNew)
+            //    return toc1.IsNew ? -1 : 1;
+            //if (toc1.IsUpdated != toc2.IsUpdated)
+            //    return toc1.IsUpdated ? -1 : 1;
+            //if (toc1.IsPreview != toc2.IsPreview)
+            //    return toc1.IsPreview ? -1 : 1;
+
+            //if (toc1.IsBETA != toc2.IsBETA)
+            //    return toc1.IsBETA ? -1 : 1;
+            //}
+
+            string name1 = toc1.NameEN ?? string.Empty;
+            string name2 = toc2.NameEN ?? string.Empty;
+
+            return name1.CompareTo(name2);
+        }
     }
 }
