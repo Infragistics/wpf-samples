@@ -15,11 +15,13 @@ namespace Infragistics.Samples
         public TocRoot()
         { 
             Controls = new List<TocControl>();
+            SamplesTotal = 0;
+            ControlsCount = 0;
         } 
         public double CurrentVersion { get; set; }
+        public int SamplesTotal { get; set; }
+        public int ControlsCount { get; set; }
         public List<TocControl> Controls { get; set; }
-        //public int ControlsCount { get; set; }
-        //public int SamplesCount { get; set; }
     }
 
     public class TocControl
@@ -27,9 +29,10 @@ namespace Infragistics.Samples
         public TocControl()
         { 
             Categories = new List<TocCategory>();
+            SamplesCount = 0;
         }
         public string Control { get; set; }
-        //public int SamplesCount { get; set; }
+        public int SamplesCount { get; set; }
         public List<TocCategory> Categories { get; set; } 
     }
 
@@ -112,6 +115,8 @@ namespace Infragistics.Samples
                             System.Diagnostics.Debug.WriteLine("WARNING " + tocSample.Assembly + " " + tocSample.Path);
                         }
 
+                        tocControl.SamplesCount++;
+                        tocRoot.SamplesTotal++;
                         tocCat.Samples.Add(tocSample);
                     }
                     tocCat.Samples.Sort((toc1, toc2) => SortToc(toc1, toc2));
@@ -121,6 +126,7 @@ namespace Infragistics.Samples
 
                 tocControl.Categories.Sort((toc1, toc2) => SortToc(toc1, toc2));
 
+                tocRoot.ControlsCount++;
                 tocRoot.Controls.Add(tocControl);
 
                 //if (tocRoot.Controls.Count > 1) break;
@@ -147,9 +153,12 @@ namespace Infragistics.Samples
 
             var NL = "\r\n";
             json = json.Replace("{\"CurrentVersion\":", NL + Tabs() + "{\n" + Indent() + "\"CurrentVersion\": ");
+            json = json.Replace("\"SamplesTotal\":", NL + Tabs() + "\"SamplesTotal\": ");
+            json = json.Replace("\"ControlsCount\":", NL + Tabs() + "\"ControlsCount\": ");
             json = json.Replace("\"Controls\":", NL + Tabs() + "\"Controls\": ");
 
             json = json.Replace("{\"Control\":", NL + Indent() + "{\n" + Indent() + "\"Control\": ");
+            json = json.Replace("\"SamplesCount\":", NL + Tabs() + "\"SamplesCount\": ");
             json = json.Replace("\"Categories\":", NL + Tabs() + "\"Categories\": ");
 
             json = json.Replace("{\"Category\":", NL + Indent() + "{\n" + Indent() + "\"Category\": ");
