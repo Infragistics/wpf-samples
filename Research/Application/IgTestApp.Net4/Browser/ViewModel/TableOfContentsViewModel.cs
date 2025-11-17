@@ -32,17 +32,17 @@ namespace Infragistics.SamplesBrowser.ViewModel
                 xdoc = XDocument.Parse(xDocString);
 
                 var fieldDisplayName = "displayName";
-                var fieldDescription = "description";
+                //var fieldDescription = "description";
 
                 if (Thread.CurrentThread.CurrentCulture.Name.StartsWith("ja"))
                 {
                     fieldDisplayName = "displayNameJA";
-                    fieldDescription = "descriptionJA";
+                    //fieldDescription = "descriptionJA";
                 }
                 else
                 {
                     fieldDisplayName = "displayNameEN";
-                    fieldDescription = "descriptionEN";
+                    //fieldDescription = "descriptionEN";
                 }
 
                 List<ControlViewModel> controls =

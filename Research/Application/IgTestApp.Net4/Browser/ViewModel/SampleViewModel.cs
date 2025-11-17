@@ -14,10 +14,6 @@ namespace Infragistics.SamplesBrowser.ViewModel
             this.DescriptionJP = descriptionJP.Trim() ?? String.Empty;
             this.NameJP = nameJP.Trim() ?? String.Empty;
 
-            if (codeFiles == null)
-            {
-                var st = "";
-            }
             this.CodeFiles = codeFiles;
             this.HasCodeFiles = codeFiles != null && codeFiles.Count > 0;
         } 

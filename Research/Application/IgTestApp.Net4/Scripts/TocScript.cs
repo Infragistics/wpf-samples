@@ -10,63 +10,6 @@ using System.Threading.Tasks;
 
 namespace Infragistics.Samples
 {
-    public class TocRoot
-    {
-        public TocRoot()
-        { 
-            Controls = new List<TocControl>();
-            SamplesTotal = 0;
-            ControlsCount = 0;
-        } 
-        public double CurrentVersion { get; set; }
-        public int SamplesTotal { get; set; }
-        public int ControlsCount { get; set; }
-        public List<TocControl> Controls { get; set; }
-    }
-
-    public class TocControl
-    {
-        public TocControl()
-        { 
-            Categories = new List<TocCategory>();
-            SamplesCount = 0;
-        }
-        public string Control { get; set; }
-        public int SamplesCount { get; set; }
-        public List<TocCategory> Categories { get; set; } 
-    }
-
-    public class TocCategory
-    {
-        public TocCategory()
-        { 
-            Samples = new List<TocSample>();
-        }
-        public string Category { get; set; }
-        public List<TocSample> Samples { get; set; } 
-    }
-
-    public class TocSample
-    {
-        public TocSample()
-        { 
-        }
-
-        //[JsonProperty]
-        public string NameEN { get; set; }
-        public string NameJP { get; set; }
-
-        public string DescriptionEN { get; set; }
-        public string DescriptionJP { get; set; }
-
-        public string Status { get; set; }
-        public double Version { get; set; }
-
-        public string Assembly { get; set; }
-        public string Path { get; set; } 
-
-    }
-
     public static class TocScript
     {
 
@@ -75,13 +18,15 @@ namespace Infragistics.Samples
 
         }
 
+        // convert TOC.xml to TOC.json
         public static void PortToJson()
         {
             // System.Threading.Tasks.Extensions
             Initialize();
 
-            var xml = "/;component/TableOfContents.xml";
-            var xmlTOC = TableOfContentsViewModel.Create(xml);
+            var xmlPath = "/;component/TableOfContents.xml"; 
+            System.Diagnostics.Debug.WriteLine("loading... " + xmlPath);
+            var xmlTOC = TableOfContentsViewModel.Create(xmlPath);
 
             var tocRoot = new TocRoot();
             //tocRoot.ReleaseVersion = xmlTOC.ReleaseVersion.ToString();
@@ -137,10 +82,8 @@ namespace Infragistics.Samples
 
             var testTOC = new TocRoot();
 
-            var jsonTab = "    ";
-
             var jset = new JsonSerializerSettings();
-            jset.Formatting = Formatting.Indented;
+            //jset.Formatting = Formatting.Indented;
             jset.Formatting = Formatting.None;  
            
             //var json = JsonConvert.SerializeObject(testTOC, jset);
@@ -148,9 +91,12 @@ namespace Infragistics.Samples
 
             //var json = System.Text.Json.JsonSerializer.Serialize(testTOC);
 
+            // fixing TOC
             json = json.Replace("\"Path\":\"IG", "\"Path\":\"/IG");
 
 
+
+            // custom formatting TOC
             var NL = "\r\n";
             json = json.Replace("{\"CurrentVersion\":", NL + Tabs() + "{\n" + Indent() + "\"CurrentVersion\": ");
             json = json.Replace("\"SamplesTotal\":", NL + Tabs() + "\"SamplesTotal\": ");
@@ -193,10 +139,12 @@ namespace Infragistics.Samples
             json = json.Replace("}E1", "" + "}");
             json = json.Replace("]E2", NL + Undent() + "]");
             json = json.Replace("}E3", NL + Undent() + "}");
-             
-            System.Diagnostics.Debug.WriteLine(json);
 
-            File.WriteAllText("C:\\WORK\\wpf-samples\\Research\\Application\\IgTestApp.Net4\\TOC.json", json);
+            //System.Diagnostics.Debug.WriteLine(json);
+
+            var jsonPath = "C:\\WORK\\wpf-samples\\Research\\Application\\IgTestApp.Net4\\TOC.json";
+            System.Diagnostics.Debug.WriteLine("saving... " + jsonPath);
+            File.WriteAllText(jsonPath, json);
         }
 
         private static int tabIndent = 0;

@@ -130,7 +130,7 @@ namespace Infragistics.SamplesBrowser.ViewModel
                     else
                     {
                         ReleaseVersion = 10.1;
-                        Debug.WriteLine("WARNING sample is missing ReleaseVersion attribute: " + info);
+                        //Debug.WriteLine("WARNING sample is missing ReleaseVersion attribute: " + info);
                         Status = string.Empty;
                     }
                 }
