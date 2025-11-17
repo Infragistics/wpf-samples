@@ -187,7 +187,7 @@ namespace Infragistics.Samples
              
             System.Diagnostics.Debug.WriteLine(json);
 
-            File.WriteAllText("C:\\WORK\\wpf-samples\\Research\\Application\\IgTestApp.Net4\\TableOfContents.json", json);
+            File.WriteAllText("C:\\WORK\\wpf-samples\\Research\\Application\\IgTestApp.Net4\\TOC.json", json);
         }
 
         private static int tabIndent = 0;
