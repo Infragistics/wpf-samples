@@ -23,7 +23,7 @@ namespace Infragistics.SamplesBrowser.ViewModel
             xmlResourceFilePath = "/;component/TableOfContents.xml";
 
             using (Stream stream = App.GetResourceStream(xmlResourceFilePath))
-            { 
+            {
                 var xdoc = XDocument.Load(stream);
                 var xDocString = xdoc.ToString();
                 xDocString = xDocString.Replace("xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"", "");
@@ -46,12 +46,12 @@ namespace Infragistics.SamplesBrowser.ViewModel
                 }
 
                 List<ControlViewModel> controls =
-                (from controlElem in xdoc.Descendants(xs+"Controls").Elements(xs+"Control")
+                (from controlElem in xdoc.Descendants(xs + "Controls").Elements(xs + "Control")
                  select new ControlViewModel(
                      controlElem.Element(xs + "icon").GetString(),
                      controlElem.Element(xs + "displayName").GetString(),
                      controlElem.Element(xs + "welcome").GetString(),
-                     "Infragistics.SamplesBrowser", 
+                     "Infragistics.SamplesBrowser",
                      GetReleaseVersion(controlElem),
                      (from subcategoryElem in controlElem.Element(xs + "Categories").Elements(xs + "Category")
                           .Where(c => c.Descendants(xs + "Sample").Count() > 0)
@@ -109,10 +109,10 @@ namespace Infragistics.SamplesBrowser.ViewModel
                 //      System.Diagnostics.Debug.WriteLine((i+1).ToString("00") + " " + samples[i]);
                 //    }
                 //}
-           
-                var sb = xdoc.Element(xs+"SamplesBrowser");
-                var currentVersion = sb.Attribute(xs+"currentVersion").GetDouble();
-               
+
+                var sb = xdoc.Element(xs + "SamplesBrowser");
+                var currentVersion = sb.Attribute(xs + "currentVersion").GetDouble();
+
                 return new TableOfContentsViewModel(controls, currentVersion);
             }
         }
@@ -120,13 +120,13 @@ namespace Infragistics.SamplesBrowser.ViewModel
         static double GetReleaseVersion(XElement elem)
         {
             var releaseVersion = elem.Attribute("releaseVersion");
-            if (releaseVersion == null)            
-                return double.NaN;            
+            if (releaseVersion == null)
+                return double.NaN;
             else
                 return double.Parse(releaseVersion.Value, CultureInfo.InvariantCulture);
         }
         static string GetStatus(XElement elem)
-        {  
+        {
             var status = elem.Attribute("status");
             if (status == null)
             {
@@ -141,7 +141,7 @@ namespace Infragistics.SamplesBrowser.ViewModel
         {
             if (elem.Element(xs + "CodeFiles") != null)
             {
-                            
+
                 // remove the "Samples\" part from the path of the code file
                 var startfileElement = elem.Element(xs + "CodeFiles").Elements(xs + "CodeFile").FirstOrDefault(f => f.Attribute("isStartUp").GetBool());
                 if (startfileElement != null)
@@ -152,7 +152,7 @@ namespace Infragistics.SamplesBrowser.ViewModel
                         .Replace(@"/", @"\");
                 }
                 else
-                    return null;               
+                    return null;
             }
             else return null;
         }
@@ -167,14 +167,13 @@ namespace Infragistics.SamplesBrowser.ViewModel
                 var codePaths = CodeFiles.Select(cf => cf.Attribute("path").GetString()).Where(p => !p.EndsWith(".cs")).ToList();
 
                 return codePaths;
-                
 
-                //// remove the "Samples\" part from the path of the code file               
+                // remove the "Samples\" part from the path of the code file               
                 //var paths = elem.Element(xs + "CodeFiles").Elements(xs + "CodeFile")
-                   
+
                 //    .Select(cf => cf.Attribute("path").GetString()).ToList()
-                //    //.Select(fp => fp.Substring(fp.IndexOf(@"/Samples/") + 9).Replace(@"/", @"\"))
-                //    .Where(p => !p.EndsWith(startupFilename) && !p.EndsWith(startupFilename+".cs"))
+                //    .Select(fp => fp.Substring(fp.IndexOf(@"/Samples/") + 9).Replace(@"/", @"\"))
+                //    .Where(p => !p.EndsWith(startupFilename) && !p.EndsWith(startupFilename + ".cs"))
                 //        .ToList();
                 //if (paths == null || paths.Count == 0)
                 //    return null;
@@ -197,11 +196,11 @@ namespace Infragistics.SamplesBrowser.ViewModel
 
             // sort controls by new, update, ctp, name
             controls.Sort((toc1, toc2) => SortTocItems(toc1, toc2));
-            
+
             var dict = new Dictionary<string, int>();
             dict.Add("Charts", 0);
             dict.Add("Maps", 0);
-            dict.Add("Gauges", 0); 
+            dict.Add("Gauges", 0);
             dict.Add("Grids", 0);
             dict.Add("Editors", 0);
             dict.Add("Other", 0);
@@ -213,7 +212,7 @@ namespace Infragistics.SamplesBrowser.ViewModel
                 // sort categories by new, update, ctp, name
                 var categories = control.Children;
                 categories.Sort((toc1, toc2) => SortTocItems(toc1, toc2));
-                
+
                 var count = 0;
                 foreach (var category in categories)
                 {
@@ -238,15 +237,15 @@ namespace Infragistics.SamplesBrowser.ViewModel
                 else if (control.Name.Contains("Editor"))
                     dict["Editors"] += count;
                 else if (control.Name.Contains("Framework") ||
-                         control.Name.Contains("Washer")  ||
+                         control.Name.Contains("Washer") ||
                          control.Name.Contains("Excel") ||
                          control.Name.Contains("Math") ||
-                         control.Name.Contains("Word")  ||
+                         control.Name.Contains("Word") ||
                          control.Name.Contains("Engine") ||
                          control.Name.Contains("Manager") ||
                          control.Name.Contains("Reporting"))
                     dict["Framework"] += count;
-                
+
                 else dict["Other"] += count;
 
                 dict["Total"] += count;
@@ -262,27 +261,28 @@ namespace Infragistics.SamplesBrowser.ViewModel
 
             _searchCommand = new SearchTableOfContentsCommand(this);
             _clearSearchCommand = new ClearTableOfContentsSearchCommand(this);
-        } 
+        }
         private int SortTocItems(TocItemViewModel toc1, TocItemViewModel toc2)
-        { 
+        {
             //if (toc1.ReleaseVersion == CurrentVersion ||
             //    toc2.ReleaseVersion == CurrentVersion)
             //{
-                if (toc1.IsNew != toc2.IsNew)
-                    return toc1.IsNew ? -1 : 1;
-                 
-                if (toc1.IsUpdated != toc2.IsUpdated)
-                    return toc1.IsUpdated ? -1 : 1;
 
-                if (toc1.IsCtp != toc2.IsCtp)
-                    return toc1.IsCtp ? -1 : 1;
+            if (toc1.IsNew != toc2.IsNew)
+                return toc1.IsNew ? -1 : 1;
 
-                if (toc1.IsBETA != toc2.IsBETA)
-                    return toc1.IsBETA ? -1 : 1;
+            if (toc1.IsUpdated != toc2.IsUpdated)
+                return toc1.IsUpdated ? -1 : 1;
+
+            if (toc1.IsPreview != toc2.IsPreview)
+                return toc1.IsPreview ? -1 : 1;
+
+            //if (toc1.IsBETA != toc2.IsBETA)
+            //    return toc1.IsBETA ? -1 : 1;
             //}
 
-            string name1 = toc1.Name ?? string.Empty;  
-            string name2 = toc2.Name ?? string.Empty; 
+            string name1 = toc1.Name ?? string.Empty;
+            string name2 = toc2.Name ?? string.Empty;
 
             return name1.CompareTo(name2);
         }
