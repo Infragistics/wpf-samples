@@ -1,17 +1,20 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "Generated Schema",
-  "description": "Generated from JSON data", 
+  "title": "Samples Browser TOC.json Schema",
+  "description": "Provides JSON schema to validate TOC.json in Samples Browser", 
   "required": [ "Controls", "CurrentVersion" ],
   "type": "object",
   "properties": {
-    "CurrentVersion": { "type": "number", "minimum": 8, "maximum": 50,  "multipleOf": 0.1 },
+    "CurrentVersion": { "type": "number", "minimum": 20, "maximum": 50,  "multipleOf": 0.1 },
+    "SamplesTotal": { "type": "number", "minimum": 0,  "multipleOf": 1 },
+    "ControlsCount": { "type": "number", "minimum": 0,  "multipleOf": 1 },
     "Controls": {
       "required": [ "Categories", "Control" ],
       "type": "array",
       "items": {
         "type": "object",
         "properties": {
+          "SamplesCount": { "type": "number", "minimum": 0,  "multipleOf": 1 },
           "Control": { "type": "string", "pattern": "^[a-zA-Z0-9\\s]*$" },
           "Categories": {
             "required": [ "Category", "Samples" ],
@@ -19,7 +22,7 @@
             "items": {
               "type": "object",
               "properties": {
-                "Category": { "type": "string", "pattern": "^[X]*" },
+                "Category": { "type": "string" },
                 "Samples": {
                   "type": "array",
                   "minItems": 1,
