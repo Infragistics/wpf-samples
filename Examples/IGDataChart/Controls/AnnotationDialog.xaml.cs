@@ -75,6 +75,12 @@ namespace IGDataChart.Controls
 
             editor.onDidChangeModelContent(updatePreview);
             updatePreview();
+            window.addEventListener('resize', () => {{
+                requestAnimationFrame(() => {{
+                    editor.layout();
+                }});
+            }});
+
         }});
     </script>
 </body>
