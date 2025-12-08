@@ -93,20 +93,22 @@ namespace IGDataChart.Samples.Layers
             }
 
             await wv.EnsureCoreWebView2Async();
-
-            var html = Markdown.ToHtml(args.AnnotationInfo.AnnotationData);
-
-            var info = args.AnnotationInfo;
-            var bg = info.MainColor;
-
-
-
-            html = Regex.Replace(html, "<a ", "<a target=\"_blank\" ");
-
-            if (!html.Equals(wv.Tag))
+            if (args.AnnotationInfo.AnnotationData != null)
             {
-                wv.Tag = html;
-                wv.NavigateToString(html);
+                var html = Markdown.ToHtml(args.AnnotationInfo.AnnotationData);
+
+                var info = args.AnnotationInfo;
+                var bg = info.MainColor;
+
+
+
+                html = Regex.Replace(html, "<a ", "<a target=\"_blank\" ");
+
+                if (!html.Equals(wv.Tag))
+                {
+                    wv.Tag = html;
+                    wv.NavigateToString(html);
+                }
             }
         }
     }
