@@ -1,0 +1,59 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Layers.UserAnnotationLayer"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+        xmlns:ig="http://schemas.infragistics.com/xaml"
+        xmlns:local="clr-namespace:IGDataChart.Samples.Layers"
+        xmlns:resources="clr-namespace:IGDataChart.Resources"
+        mc:Ignorable="d"
+        Title="UserAnnotationLayer">
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <local:PopulationViewModel x:Key="VM" />
+            <resources:DataChartStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <ig:XamToolbar Target="{Binding ElementName=Chart}"/>
+
+        <ig:XamDataChart x:Name="Chart" Grid.Row="1" UserAnnotationInformationRequested="Chart_UserAnnotationInformationRequested"
+                   IsHorizontalZoomEnabled="True" UserAnnotationToolTipContentUpdating="Chart_UserAnnotationToolTipContentUpdating"
+                   IsVerticalZoomEnabled="True" IsUserAnnotationsEnabled="True"
+                         DataContext="{StaticResource VM}">
+            <ig:XamDataChart.Axes>
+                <ig:CategoryXAxis x:Name="xAxis" ItemsSource="{Binding USA}" Label="{}{Year}" />
+                <ig:NumericYAxis x:Name="yAxis" Label="{}{} M" 
+                                 Title="{Binding XWDC_WorldData_Types_Population, Source={StaticResource Strings}}"/>
+            </ig:XamDataChart.Axes>
+
+            <ig:XamDataChart.Series>
+                <ig:LineSeries ValueMemberPath="ValueInMln" 
+                               DataContext="{Binding USA}" 
+                               ItemsSource="{Binding}"
+                               Title="{Binding Country}"
+                               XAxis="{Binding ElementName=xAxis}"
+                               YAxis="{Binding ElementName=yAxis}" >
+                </ig:LineSeries>
+                <ig:LineSeries ValueMemberPath="ValueInMln" 
+                               DataContext="{Binding RUS}" 
+                               ItemsSource="{Binding}"
+                               Title="{Binding Country}"
+                               XAxis="{Binding ElementName=xAxis}"
+                               YAxis="{Binding ElementName=yAxis}" >
+                </ig:LineSeries>
+
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+    </Grid>
+</igFramework:SampleContainer>

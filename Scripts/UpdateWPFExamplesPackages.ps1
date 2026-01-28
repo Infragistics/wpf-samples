@@ -1,52 +1,69 @@
 ﻿
-$old1 = '25.1.7'
-$new1 = '25.1.9'
 
-$old2 = '25.1.20251.7'
-$new2 = '25.1.20251.9'
+$assemblyShortVerOld = '25.1.17'
+$assemblyShortVerNew = '25.2.59'
 
-$repoLoc = 'C:\Work\wpf-samples\Examples'
+$assemblyPartsVerOld = $assemblyShortVerOld -split '\.'
+$assemblyPartsVerNew = $assemblyShortVerNew -split '\.'
+
+# '25.2.59' -> '25.2.2025259'
+$assemblyLongVerOld = ($assemblyPartsVerOld[0] + "." + $assemblyPartsVerOld[1] + ".20" + $assemblyPartsVerOld[0] + $assemblyPartsVerOld[1] + "." + $assemblyPartsVerOld[2]).Trim();
+$assemblyLongVerNew = ($assemblyPartsVerNew[0] + "." + $assemblyPartsVerNew[1] + ".20" + $assemblyPartsVerNew[0] + $assemblyPartsVerNew[1] + "." + $assemblyPartsVerNew[2]).Trim();
+
+# $repoLocation = 'C:\Work\wpf-samples'
+$repoLocation = '.\..'
 ###############################
 
-Write-Host "updating csproj files"
-$files = Get-ChildItem -Path $repoLoc -filter *.csproj -Recurse
+Write-Host "this script is replacing:"
+Write-Host "-" $assemblyShortVerOld "with" $assemblyShortVerNew "version and"
+Write-Host "-" $assemblyLongVerOld "with" $assemblyLongVerNew "version"
+
+# Write-Host "replacing " $assemblyLongVerOld " with " $assemblyLongVerNew " version..."
+
+$files = Get-ChildItem -Path $repoLocation -filter *.csproj -Recurse
+Write-Host "updating" $files.Count "*.csproj files in" $repoLocation "folder:"
+
 foreach ($file in $files) {
-   
-    $sel = Select-String -Path $file.FullName -Pattern $old1 -SimpleMatch;
-    if ($sel){
+    $isFileUpdated = $false;
+    $isMatchingLongVersion = Select-String -Path $file.FullName -Pattern $assemblyLongVerOld -SimpleMatch;
+    if ($isMatchingLongVersion){
         $content = Get-Content -Path $file.FullName;
-        $updated = $content.Replace($old1,$new1);
+        $updated = $content.Replace($assemblyLongVerOld, $assemblyLongVerNew);
         Set-Content -Path $file.FullName -Value $updated; 
-        Write-Host $file.FullName 
+        $isFileUpdated = $true;
     }
-    else
+
+    $isMatchingShortVersion = Select-String -Path $file.FullName -Pattern $assemblyShortVerOld -SimpleMatch;
+    if ($isMatchingShortVersion){
+        $content = Get-Content -Path $file.FullName;
+        $updated = $content.Replace($assemblyShortVerOld, $assemblyShortVerNew);
+        Set-Content -Path $file.FullName -Value $updated; 
+        $isFileUpdated = $true;
+    }
+
+    if ($isFileUpdated) 
     {
-       Write-Host "file " + $file.FullName + " did not need updating"
+        Write-Host $file.FullName "- file updated";
     }
-    $sel2 = Select-String -Path $file.FullName -Pattern $old2 -SimpleMatch;
-    if ($sel){
-        $content = Get-Content -Path $file.FullName;
-        $updated = $content.Replace($old2,$new2);
-        Set-Content -Path $file.FullName -Value $updated; 
-        Write-Host $file.FullName 
+    else 
+    {
+        # Write-Host $file.FullName "- file did not need updating"
     }
 }
 
-$repoLoc = 'C:\Work\wpf-samples\Examples'
+$files = Get-ChildItem -Path $repoLocation -filter packages.config -Recurse
+Write-Host "updating" $files.Count "*.config files in" $repoLocation "folder:"
 
-Write-Host "updating packages files"
-$files = Get-ChildItem -Path $repoLoc -filter packages.config -Recurse
 foreach ($file in $files) {
-   
-    $sel = Select-String -Path $file.FullName -Pattern $old1 -SimpleMatch;
-    if ($sel){
+    $isMatchingShortVersion = Select-String -Path $file.FullName -Pattern $assemblyShortVerOld -SimpleMatch;
+    if ($isMatchingShortVersion){
         $content = Get-Content -Path $file.FullName;
-        $updated = $content.Replace($old1,$new1);
+        $updated = $content.Replace($assemblyShortVerOld, $assemblyShortVerNew);
         Set-Content -Path $file.FullName -Value $updated; 
+        Write-Host $file.FullName "- file updated";
     }
     else
     {
-       Write-Host "file " + $file.FullName + " did not need updating"
+        # Write-Host $file.FullName "file did not need updating";
     }
-   
 }
