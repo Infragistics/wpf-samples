@@ -1,0 +1,77 @@
+﻿<framework:SampleContainer x:Class="IGBulletGraph.Samples.Styling.Theming"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="Theming Page"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGBulletGraph.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGBulletGraph;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:BulletGraphStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid Background="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Border BorderThickness="1">
+                <!-- #BEGIN SNIPPET# -->
+                <ig:XamBulletGraph x:Name="BulletGraph" InnerMargin="10,14,25,14" Height="90" Margin="0,40,0,0" d:LayoutOverrides="Height">
+                    <ig:XamBulletGraph.Scale>
+                        <ig:QuantitativeScale Minimum="0" Maximum="30" Interval="5">
+                            <ig:QuantitativeScale.TickMarkGroup>
+                                <ig:BulletGraphTickMarkGroup />
+                            </ig:QuantitativeScale.TickMarkGroup>
+                            <ig:QuantitativeScale.LabelGroup>
+                                <ig:BulletGraphLabelGroup StringFormat="{}{0} K" />
+                            </ig:QuantitativeScale.LabelGroup>
+
+                            <ig:QuantitativeScale.Ranges>
+                                <ig:QualitativeRange Value="14" />
+                                <ig:QualitativeRange Value="25" />
+                            </ig:QuantitativeScale.Ranges>
+
+                        </ig:QuantitativeScale>
+
+                    </ig:XamBulletGraph.Scale>
+
+                    <ig:XamBulletGraph.FeaturedMeasures>
+                        <ig:FeaturedMeasure Value="26" StartExtent="0.4" EndExtent="0.6" Width="0" />
+                    </ig:XamBulletGraph.FeaturedMeasures>
+
+                    <ig:XamBulletGraph.ComparativeMeasures>
+                        <ig:ComparativeMeasure Value="22" Width="3" EndExtent="1" StartExtent="0" />
+                    </ig:XamBulletGraph.ComparativeMeasures>
+
+                </ig:XamBulletGraph>
+                <!-- #END SNIPPET# -->
+            </Border>
+            <TextBlock Style="{StaticResource BodyStyle}" Grid.Row="1" Margin="0,50,0,0" d:LayoutOverrides="Height" VerticalAlignment="Top" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding XWBG_BulletGraphOfficeTheme_Description, Source={StaticResource Strings}}" Width="480" />
+            <Image Height="185" HorizontalAlignment="Right" VerticalAlignment="Center" Width="185" Grid.Row="1" Stretch="Fill" Grid.Column="1" Source="/IGBulletGraph;component/Images/Report.png" d:LayoutOverrides="GridBox" RenderTransformOrigin="0.5,0.5" Margin="0,0,16,0">
+                <Image.RenderTransform>
+                    <ScaleTransform ScaleY="0.75" ScaleX="0.75" />
+                </Image.RenderTransform>
+            </Image>
+
+        </Grid>
+        <Border Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,3,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <ComboBox x:Name="themeComboBox" Margin="4,0,2,0" DisplayMemberPath="Name" HorizontalAlignment="Left" VerticalAlignment="Center"
+                          Style="{StaticResource IGComboBoxStyle}" ItemContainerStyle="{StaticResource IGComboBoxItemStyle}"/>
+                <Button x:Name="btnPrevious" HorizontalAlignment="Center" Cursor="Hand" Margin="0,0,2,0" Content="&lt;" Style="{StaticResource IGGenericButton}" Width="22"/>
+                <Button x:Name="btnNext" HorizontalAlignment="Center" Cursor="Hand" Margin="0,0,2,0" Content="&gt;" Style="{StaticResource IGGenericButton}" Width="22"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</framework:SampleContainer>

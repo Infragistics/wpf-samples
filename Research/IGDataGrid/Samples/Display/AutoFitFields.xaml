@@ -1,0 +1,116 @@
+﻿<igFramework:SampleContainer x:Class="IGDataGrid.Samples.Display.AutoFitFields"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="AutoFitFields"
+      Loaded="Page_Loaded"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGDataGrid.Resources"
+      xmlns:System="clr-namespace:System;assembly=mscorlib">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataGrid;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DataGridStrings x:Key="Strings" />
+            <ObjectDataProvider x:Key="odpAutoFitMode"
+                                MethodName="GetValues"
+                                ObjectType="{x:Type System:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="igDP:AutoFitMode" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid>
+        <!--
+        The XamDataGrid includes an AutoFit property which defaults to null (nothing in VB).
+        When set to null, AutoFitResolved returns the default for the current View which
+        is false for most views. When set to False then AutoFitResolved returns false and
+        AutoFit is not active.  When AutoFit resolves to true then the FieldLayoutSettings.AutoFitMode
+        (if set) determines the type of AutoFit that is performed.
+        -->
+        <!-- #BEGIN SNIPPET# -->
+        <igDP:XamDataGrid AutoFit="True"
+                          x:Name="XamDataGrid1"
+                          Theme="RoyalLight">
+            <!-- #END SNIPPET# -->
+            <igDP:XamDataGrid.FieldLayouts>
+                <igDP:FieldLayout>
+                    <!-- Only show the first 4 fields to keep the display simple -->
+                    <igDP:Field Name="CustomerID" Visibility="Visible" />
+                    <igDP:Field Name="CompanyName" Visibility="Visible" />
+                    <igDP:Field Name="ContactName" Visibility="Visible" />
+                    <igDP:Field Name="ContactTitle" Visibility="Visible" />
+                    <igDP:Field Name="Address" Visibility="Collapsed" />
+                    <igDP:Field Name="City" Visibility="Collapsed" />
+                    <igDP:Field Name="Region" Visibility="Collapsed" />
+                    <igDP:Field Name="PostalCode" Visibility="Collapsed" />
+                    <igDP:Field Name="Country" Visibility="Collapsed" />
+                    <igDP:Field Name="Phone" Visibility="Collapsed" />
+                    <igDP:Field Name="Fax" Visibility="Collapsed" />
+                </igDP:FieldLayout>
+            </igDP:XamDataGrid.FieldLayouts>
+        </igDP:XamDataGrid>
+
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource CommonStrings}, Path=ConfigurationPanel_Header_Options}"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               Margin="400 10 0 0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <CheckBox x:Name="cboAutoFit"
+                          Grid.Row="1"
+                          HorizontalAlignment="Left"
+                          IsChecked="{Binding AutoFit, ElementName=XamDataGrid1}"
+                          ToolTip="{Binding AutoFitFields_ConfigArea_EnableFieldAutoFit_ToolTip, Source={StaticResource Strings}}"
+                          Height="22"
+                          Content="{Binding AutoFitFields_ConfigArea_EnableFieldAutoFit, Source={StaticResource Strings}}"
+                          IsThreeState="True"
+                          Margin="{StaticResource OptionsElementsMargin}" />
+                <TextBlock Grid.Row="2"
+                           Text="{Binding AutoFitFields_ConfigArea_AutoFitMode, Source={StaticResource Strings}}"
+                           ToolTip="{Binding AutoFitFields_ConfigArea_AutoFitMode_ToolTip, Source={StaticResource Strings}}"
+                           IsEnabled="{Binding AutoFit, ElementName=XamDataGrid1}"
+                           Margin="{StaticResource OptionsTextTopBottomMargin}"/>
+                <ComboBox Grid.Row="3"
+                          HorizontalAlignment="Left"
+                          ItemsSource="{Binding Source={StaticResource odpAutoFitMode}}"
+                          SelectedItem="{Binding FieldLayoutSettings.AutoFitMode, ElementName=XamDataGrid1}"
+                          ToolTip="{Binding AutoFitFields_ConfigArea_AutoFitMode_ToolTip, Source={StaticResource Strings}}"
+                          Width="170"
+                          Height="22"
+                          IsEnabled="{Binding AutoFit, ElementName=XamDataGrid1}"
+                          Margin="{StaticResource OptionsElementsMargin}"/>
+                
+                <StackPanel Grid.Row="4" Orientation="Horizontal">
+                     <CheckBox HorizontalAlignment="Left"
+                               Checked="useStarSizing_Checked"
+                               Unchecked="useStarSizing_Checked"
+                               ToolTip="{Binding AutoFitFields_ConfigArea_AutoFit_StarSizing_ToolTip, Source={StaticResource Strings}}"
+                               VerticalAlignment="top" />
+                    <TextBlock Text="{Binding AutoFitFields_ConfigArea_AutoFit_StarSizing, Source={StaticResource Strings}}"
+                               TextWrapping="Wrap"
+                               Width="150" 
+                               VerticalAlignment="Top"
+                               Margin=" 0 -2 0 0"/>
+                </StackPanel>
+               
+              
+            </Grid>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

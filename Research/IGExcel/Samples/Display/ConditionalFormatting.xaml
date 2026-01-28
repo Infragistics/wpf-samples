@@ -1,0 +1,74 @@
+﻿<igFramework:SampleContainer x:Class="IGExcel.Samples.Display.ConditionalFormatting"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:res="clr-namespace:IGExcel.Resources" 
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:conv="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:local="clr-namespace:IGExcel.Samples.Display"
+      Loaded="Sample_Loaded"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+      Title="ConditionalFormatting">
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGExcel;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:ExcelStrings x:Key="Strings" />
+            <conv:FormatConverter x:Key="FormatConverter" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <DataGrid x:Name="dataGrid"
+                  AutoGenerateColumns="False"
+                  ItemsSource="{Binding Path=Products}"
+                  CanUserSortColumns="False"
+                  CanUserReorderColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="{Binding Source={StaticResource Strings}, Path=ExcelEngine_DataGrid_SKU}"
+                                    Binding="{Binding SKU}" />
+                <DataGridTextColumn Header="{Binding Source={StaticResource Strings}, Path=ExcelEngine_DataGrid_ProductName}"
+                                    Binding="{Binding Name}" />
+                <DataGridTextColumn Header="{Binding Source={StaticResource Strings}, Path=ExcelEngine_DataGrid_Category}"
+                                    Binding="{Binding Category}" />
+                <DataGridTextColumn Header="{Binding Source={StaticResource Strings}, Path=ExcelEngine_DataGrid_Supplier}"
+                                    Binding="{Binding Supplier}" />
+                <DataGridCheckBoxColumn Header="{Binding Source={StaticResource Strings}, Path=ExcelEngine_DataGrid_OnBackOrder}"
+                                        Binding="{Binding OnBackOrder}" />
+                <DataGridTextColumn Header="{Binding Source={StaticResource Strings}, Path=ExcelEngine_DataGrid_QuantityPerUnit}"
+                                    Binding="{Binding QuantityPerUnit}" />
+                <DataGridTemplateColumn Header="{Binding Source={StaticResource Strings}, Path=ExcelEngine_DataGrid_UnitPrice}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding UnitPrice, Converter={StaticResource FormatConverter}, ConverterParameter=\{0:C\}}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="{Binding Source={StaticResource Strings}, Path=ExcelEngine_DataGrid_UnitsInStock}"
+                                    Binding="{Binding UnitsInStock}" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <controls:OptionsPanel HeaderText="{Binding ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Top">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="{Binding Source={StaticResource Strings}, Path=ExcelEngine_OptionsLabel}"
+                           Margin="{StaticResource OptionsElementsMargin}" />
+                <ComboBox Width="200"
+                          Margin="{StaticResource OptionsElementsMargin}" 
+                          x:Name="ComboBox_ExcelFormat" />
+                <!-- #BEGIN SNIPPET# -->
+                <Button Width="200"
+                        x:Name="TestExcel"
+                        Click="TestExcel_Click"
+                        Content="{Binding Source={StaticResource Strings}, Path=Excel_ButtonCaptionExport}" />
+                <!-- #END SNIPPET# -->
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

@@ -1,0 +1,287 @@
+﻿<igFramework:SampleContainer 
+    x:Class="IGDataChart.Samples.Display.Series.GalleryScatterContourSeries"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700" 
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ex="clr-namespace:Infragistics.Samples.Controls;assembly=Infragistics.Samples.Services"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Models;assembly=Infragistics.Samples.Services" >
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+ 
+            <ig:StringFormatConverter x:Key="StringFormatConverter" />
+            <ex:BrushPaletteCollection x:Key="BrushPalettes">
+                <!-- Brush Collection 0 -->
+                <ex:BrushPalette>
+                    <SolidColorBrush Color="#FF8670CB"/>
+                    <SolidColorBrush Color="#FF513E8C"/>
+                    <SolidColorBrush Color="#FF003F5E"/>
+                    <SolidColorBrush Color="#FF0C6B99"/>
+                    <SolidColorBrush Color="#FF1AA1E2"/>
+                    <SolidColorBrush Color="#FF4AC4FF"/>
+                    <SolidColorBrush Color="#FFB5CC2E"/>
+                    <SolidColorBrush Color="#FFFFD034"/>
+                    <SolidColorBrush Color="#FFFC8612"/>
+                    <SolidColorBrush Color="#FFED4840"/>
+                </ex:BrushPalette>
+                <!-- Brush Collection 1 -->
+                <ex:BrushPalette >
+                    <SolidColorBrush Color="#FF1AA1E2"/>
+                    <SolidColorBrush Color="#FF189AD9"/>
+                    <SolidColorBrush Color="#FF1692CE"/>
+                    <SolidColorBrush Color="#FF1385BC"/>
+                    <SolidColorBrush Color="#FF0F79AB"/>
+                    <SolidColorBrush Color="#FF0C6B99"/>
+                    <SolidColorBrush Color="#FF095E88"/>
+                    <SolidColorBrush Color="#FF055277"/>
+                    <SolidColorBrush Color="#FF024669"/>
+                    <SolidColorBrush Color="#FF003F5E"/>
+                </ex:BrushPalette>
+                <!-- Brush Collection 2 -->
+                <ex:BrushPalette>
+                    <SolidColorBrush Color="#FFED4840"/>
+                    <SolidColorBrush Color="#FFE6433C"/>
+                    <SolidColorBrush Color="#FFDB3D37"/>
+                    <SolidColorBrush Color="#FFD13532"/>
+                    <SolidColorBrush Color="#FFC42E2C"/>
+                    <SolidColorBrush Color="#FFB82526"/>
+                    <SolidColorBrush Color="#FFAC1E1F"/>
+                    <SolidColorBrush Color="#FF9F1519"/>
+                    <SolidColorBrush Color="#FF951015"/>
+                    <SolidColorBrush Color="#FF8D0B11"/>
+                </ex:BrushPalette>
+                <!-- Brush Collection 3 -->
+                <ex:BrushPalette>
+                    <SolidColorBrush Color="#FFB5CC2E"/>
+                    <SolidColorBrush Color="#FFAEC62A"/>
+                    <SolidColorBrush Color="#FFA6BD25"/>
+                    <SolidColorBrush Color="#FF9DB420"/>
+                    <SolidColorBrush Color="#FF94AA1A"/>
+                    <SolidColorBrush Color="#FF8BA115"/>
+                    <SolidColorBrush Color="#FF81960E"/>
+                    <SolidColorBrush Color="#FF778C09"/>
+                    <SolidColorBrush Color="#FF708504"/>
+                    <SolidColorBrush Color="#FF6B7E01"/>
+                </ex:BrushPalette>
+                <!-- Brush Collection 4 -->
+                <ex:BrushPalette>
+                    <SolidColorBrush Color="#FFFFD034"/>
+                    <SolidColorBrush Color="#FFFDC82C"/>
+                    <SolidColorBrush Color="#FFF8BA21"/>
+                    <SolidColorBrush Color="#FFF3AB16"/>
+                    <SolidColorBrush Color="#FFED9A07"/>
+                    <SolidColorBrush Color="#FFE68A00"/>
+                    <SolidColorBrush Color="#FFE17900"/>
+                    <SolidColorBrush Color="#FFDD6B00"/>
+                    <SolidColorBrush Color="#FFD85B00"/>
+                    <SolidColorBrush Color="#FFD55100"/>
+                </ex:BrushPalette>
+                <!-- Brush Collection 5 -->
+                <ex:BrushPalette>
+                    <SolidColorBrush Color="#FF8670CB"/>
+                    <SolidColorBrush Color="#FF7F69C2"/>
+                    <SolidColorBrush Color="#FF7762B9"/>
+                    <SolidColorBrush Color="#FF6F5BB0"/>
+                    <SolidColorBrush Color="#FF6854A7"/>
+                    <SolidColorBrush Color="#FF604D9E"/>
+                    <SolidColorBrush Color="#FF584594"/>
+                    <SolidColorBrush Color="#FF513E8C"/>
+                    <SolidColorBrush Color="#FF493782"/>
+                    <SolidColorBrush Color="#FF402E77"/>
+                </ex:BrushPalette>
+                <!-- Brush Collection 6 -->
+                <ex:BrushPalette>
+                    <SolidColorBrush Color="#FFFC8612"/>
+                    <SolidColorBrush Color="#FFEE7811"/>
+                    <SolidColorBrush Color="#FFE46E11"/>
+                    <SolidColorBrush Color="#FFDA6410"/>
+                    <SolidColorBrush Color="#FFCF590F"/>
+                    <SolidColorBrush Color="#FFC6500F"/>
+                    <SolidColorBrush Color="#FFBC460E"/>
+                    <SolidColorBrush Color="#FFB23C0E"/>
+                    <SolidColorBrush Color="#FFA8320D"/>
+                    <SolidColorBrush Color="#FF9C260D"/>
+                </ex:BrushPalette>
+                <!-- Brush Collection 7 -->
+                <ex:BrushPalette>
+                    <SolidColorBrush Color="#FF8FA426"/>
+                    <SolidColorBrush Color="#FF79942F"/>
+                    <SolidColorBrush Color="#FF6C8B34"/>
+                    <SolidColorBrush Color="#FF5D813A"/>
+                    <SolidColorBrush Color="#FF4D7540"/>
+                    <SolidColorBrush Color="#FF3E6B46"/>
+                    <SolidColorBrush Color="#FF2F604B"/>
+                    <SolidColorBrush Color="#FF225751"/>
+                    <SolidColorBrush Color="#FF134C57"/>
+                    <SolidColorBrush Color="#FF003F5E"/>
+                </ex:BrushPalette>
+                <!-- Brush Collection 8 -->
+                <ex:BrushPalette>
+                    <SolidColorBrush Color="#FFFDCF34"/>
+                    <SolidColorBrush Color="#FFEBC62F"/>
+                    <SolidColorBrush Color="#FFDBBE2B"/>
+                    <SolidColorBrush Color="#FFCDB628"/>
+                    <SolidColorBrush Color="#FFC2B125"/>
+                    <SolidColorBrush Color="#FFB3A921"/>
+                    <SolidColorBrush Color="#FFA4A11E"/>
+                    <SolidColorBrush Color="#FF999C1B"/>
+                    <SolidColorBrush Color="#FF8B9417"/>
+                    <SolidColorBrush Color="#FF798B13"/>
+                </ex:BrushPalette>
+                <!-- Brush Collection 9 -->
+                <ex:BrushPalette>
+                    <SolidColorBrush Color="#FFFDCE34"/>
+                    <SolidColorBrush Color="#FFF2B432"/>
+                    <SolidColorBrush Color="#FFEBA531"/>
+                    <SolidColorBrush Color="#FFE29230"/>
+                    <SolidColorBrush Color="#FFDA802F"/>
+                    <SolidColorBrush Color="#FFD3702E"/>
+                    <SolidColorBrush Color="#FFCB5E2D"/>
+                    <SolidColorBrush Color="#FFC1492B"/>
+                    <SolidColorBrush Color="#FFB9372A"/>
+                    <SolidColorBrush Color="#FFB12529"/>
+                </ex:BrushPalette>
+                <!-- Brush Collection 10 -->
+                
+            </ex:BrushPaletteCollection>
+       
+            <Style TargetType="{x:Type Slider}"  > 
+                <Setter Property="Margin" Value="{StaticResource OptionsElementsMargin}"/>
+                <Setter Property="SmallChange" Value="1"/> 
+                <Setter Property="LargeChange" Value="1"/> 
+                <Setter Property="VerticalAlignment" Value="Stretch"/> 
+            </Style>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+ 
+        <ig:XamDataChart x:Name="DataChart" Margin="0,0,30,0" Grid.Row="1"
+                         GridMode="BeforeSeries"> 
+            <ig:XamDataChart.Axes>
+                <ig:NumericXAxis x:Name="XAxis"  />
+                <ig:NumericYAxis x:Name="YAxis"  />
+            </ig:XamDataChart.Axes> 
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ========================================================================== -->
+            <ig:XamDataChart.Series>                
+                <ig:ScatterContourSeries 
+                    x:Name="ScatterContourSeries" 
+                    Title="Scatter Contour Series"
+                    XAxis="{Binding ElementName=XAxis}" 
+                    YAxis="{Binding ElementName=YAxis}"
+                    Thickness="3" 
+                    ShowDefaultTooltip="True" 
+                    XMemberPath="X" 
+                    YMemberPath="Y" 
+                    ValueMemberPath="Z" >
+                    <ig:ScatterContourSeries.ItemsSource>
+                        <models:CosXPlusCosY />
+                    </ig:ScatterContourSeries.ItemsSource>
+                    <ig:ScatterContourSeries.ValueResolver>
+                        <ig:LinearContourValueResolver ValueCount="10" x:Name="ValueResolver" />
+                    </ig:ScatterContourSeries.ValueResolver>
+                    <ig:ScatterContourSeries.FillScale>
+                        <ig:ValueBrushScale 
+                            x:Name="FillScale" 
+                            MinimumValue="-2"
+                            MaximumValue="2" IsLogarithmic="False">
+                            <ig:ValueBrushScale.Brushes>
+                                <ig:BrushCollection >
+                                    <SolidColorBrush Color="#FF8670CB"/>
+                                    <SolidColorBrush Color="#FF513E8C"/>
+                                    <SolidColorBrush Color="#FF003F5E"/>
+                                    <SolidColorBrush Color="#FF0C6B99"/>
+                                    <SolidColorBrush Color="#FF4AC4FF"/>
+                                    <SolidColorBrush Color="#FFB5CC2E"/>
+                                    <SolidColorBrush Color="#FFFFD034"/>
+                                    <SolidColorBrush Color="#FFFC8612"/>
+                                    <SolidColorBrush Color="#FFED4840"/>
+                                </ig:BrushCollection>
+                            </ig:ValueBrushScale.Brushes>
+                        </ig:ValueBrushScale>
+                    </ig:ScatterContourSeries.FillScale>
+                </ig:ScatterContourSeries>         
+            </ig:XamDataChart.Series>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+        </ig:XamDataChart>
+   
+        <controls:OptionsPanel
+            VerticalAlignment="Stretch" 
+            HorizontalAlignment="Right" 
+            Margin="0" Grid.RowSpan="2"
+            HeaderText="{Binding XWDC_DataChart_Options, Source={StaticResource Strings}}" >
+            
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}"/>
+            </controls:OptionsPanel.Resources>                                    
+            <!--TODO use BrushPaletteSelector when BrushCollection.Equals is fixes
+            <ex:BrushPaletteSelector Height="20" Width="120" Visibility="Collapsed"
+                x:Name="BrushPaletteSelector" 
+                SelectedIndex="0"
+                SelectedItem="{Binding ElementName=FillScale, Path=Brushes, Mode=TwoWay}" >
+            </ex:BrushPaletteSelector>-->
+
+            <ComboBox x:Name="BrushPaletteComboBox" Margin="{StaticResource OptionsElementsMargin}" SelectedIndex="0"  HorizontalAlignment="Stretch" 
+                      ItemsSource="{StaticResource BrushPalettes}" 
+                      SelectionChanged="OnBrushPaletteChanged" >
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <ex:BrushPaletteViewer PaletteBrushes="{Binding}" HorizontalAlignment="Stretch" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}">
+                <TextBlock Text="{Binding XWDC_Chart_MinimumValue, Source={StaticResource Strings}}" VerticalAlignment="Center"  />
+                <TextBlock Text="{Binding ElementName=FillScale, Path=MinimumValue, StringFormat='  0'}" VerticalAlignment="Center" HorizontalAlignment="Right"  />
+            </StackPanel>
+            <Slider Value="{Binding ElementName=FillScale, Path=MinimumValue, Mode=TwoWay}" 
+                    Minimum="-10" 
+                    Maximum="10">
+            </Slider>
+            <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}">
+                <TextBlock Text="{Binding XWDC_Chart_MaximumValue, Source={StaticResource Strings}}" VerticalAlignment="Center"  />
+                <TextBlock Text="{Binding ElementName=FillScale, Path=MaximumValue, StringFormat='  0'}" VerticalAlignment="Center" HorizontalAlignment="Right"  />
+            </StackPanel>
+            <Slider Value="{Binding ElementName=FillScale, Path=MaximumValue, Mode=TwoWay}" 
+                    Minimum="-10" 
+                    Maximum="10" >
+            </Slider>
+           <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}">
+                <TextBlock Text="{Binding XWDC_Thickness, Source={StaticResource Strings}}" VerticalAlignment="Center"  />
+                <TextBlock Text="{Binding ElementName=ScatterContourSeries, Path=Thickness, StringFormat='  0'}" VerticalAlignment="Center" HorizontalAlignment="Right"  />
+            </StackPanel>
+            <Slider Value="{Binding ElementName=ScatterContourSeries, Path=Thickness, Mode=TwoWay}" 
+                    Minimum="0" 
+                    Maximum="10">
+            </Slider>
+            
+           <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}">
+                <TextBlock Text="{Binding XWDC_Contours, Source={StaticResource Strings}}" VerticalAlignment="Center"  />
+                <TextBlock Text="{Binding ElementName=ValueResolver, Path=ValueCount, StringFormat='  0'}"
+                           VerticalAlignment="Center" HorizontalAlignment="Right"  />
+            </StackPanel>
+            <Slider Value="{Binding ElementName=ValueResolver, Path=ValueCount, Mode=TwoWay}"  
+                    Minimum="1" 
+                    Maximum="20" >
+            </Slider>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

@@ -1,0 +1,354 @@
+﻿<igFramework:SampleContainer 
+    x:Class="IGDataChart.Samples.Display.Series.GalleryScatterSeries"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="ScatterSeries Page"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:services="clr-namespace:Infragistics.Models;assembly=Infragistics.Samples.Services"
+    xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+      
+      xmlns:resources="clr-namespace:IGDataChart.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <resources:DataChartStrings x:Key="Strings" />
+           
+            <ig:SizeScale x:Key="SizeScale" MinimumValue="10" MaximumValue="60" />
+        
+           
+            <services:CosXPlusCosY x:Key="TrigometricDataSource" />
+            <models:WorldDataViewSource x:Key="CountriesHighIncome" Filter="OnFilterHighIncome" />
+            <models:WorldDataViewSource x:Key="CountriesMediumIncome" Filter="OnFilterMediumIncome" />
+            <models:WorldDataViewSource x:Key="CountriesLowIncome" Filter="OnFilterLowIncome" />
+
+            <ContentControl x:Key="SeriesTootlip">
+                <StackPanel Orientation="Vertical" >
+                    <TextBlock Margin="2" FontWeight="Bold" Text="{Binding Item.CountryName}"/>
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Margin="2">
+                            <TextBlock Text="{Binding XWDC_WorldData_Types_GdpPerCapita, Source={StaticResource Strings}}"></TextBlock>
+                            <TextBlock Text="{Binding XWDC_WorldData_Types_PublicDebt, Source={StaticResource Strings}}"></TextBlock>
+                            <TextBlock Text="{Binding XWDC_WorldData_Types_Population, Source={StaticResource Strings}}"></TextBlock>
+                        </StackPanel>
+                        <StackPanel Margin="2">
+                            <TextBlock Text="{Binding Item.GdpPerCapita,StringFormat='\{0:C0\}'}"></TextBlock>
+                            <TextBlock Text="{Binding Item.PublicDebt, StringFormat='\{0:N1\} %'}"></TextBlock>
+                            <TextBlock Text="{Binding Item.Population, StringFormat='\{0:#,0,,.###\} M'}"></TextBlock>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </ContentControl>
+            <Style TargetType="{x:Type ig:MarkerSeries}" x:Key="SeriesBaseStyle">
+                <Setter Property="ToolTip" Value="{StaticResource SeriesTootlip}"/>
+                <Setter Property="MarkerType" Value="Circle"/> 
+            </Style>
+            <Style TargetType="{x:Type ig:ScatterLineSeries}" BasedOn="{StaticResource SeriesBaseStyle}"/>
+            <Style TargetType="{x:Type ig:ScatterSplineSeries}" BasedOn="{StaticResource SeriesBaseStyle}"/>
+            <Style TargetType="{x:Type ig:ScatterSeries}" BasedOn="{StaticResource SeriesBaseStyle}"/>
+
+            <Style TargetType="{x:Type ig:BubbleSeries}" BasedOn="{StaticResource SeriesBaseStyle}"> 
+                <Setter Property="RadiusScale" Value="{StaticResource SizeScale}"/> 
+            </Style>
+            
+            <Style TargetType="{x:Type ig:Legend}">
+                <Setter Property="Background" Value="{StaticResource LegendBackgroundBrush}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource LegendBorderBrush}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+            </Style>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Margin="0 0 20 0" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ig:XamDataChart x:Name="LineChart"  Grid.Row="1" Legend="{Binding ElementName=Legend}" >
+            <ig:XamDataChart.Axes> 
+                <ig:NumericXAxis x:Name="XAxis" 
+                                 Title="{Binding XWDC_WorldData_Types_Population, Source={StaticResource Strings}}"
+                                 MinimumValue="10000" MaximumValue="10000000000" IsLogarithmic="True"
+                                 Label="{}{0:#,0,,.##} M"   >
+                </ig:NumericXAxis>
+                <ig:NumericYAxis x:Name="YAxis" 
+                                 Title="{Binding XWDC_WorldData_Types_GdpPerCapita, Source={StaticResource Strings}}" 
+                                 IsLogarithmic="True" 
+                                 LogarithmBase="10" 
+                                 Label="{}{0:#,0,.##} K" >
+                </ig:NumericYAxis>
+            </ig:XamDataChart.Axes>
+            <!-- #BEGIN SNIPPET#   -->
+            <!-- ========================================================================== -->
+            <ig:XamDataChart.Series>
+                <ig:ScatterLineSeries XAxis="{Binding ElementName=XAxis}"
+                                      YAxis="{Binding ElementName=YAxis}"
+                                      Title="{Binding XWDC_GalleryBubbleSeries_HighIncome, Source={StaticResource Strings}}"
+                                      ItemsSource="{Binding Source={StaticResource CountriesHighIncome}}"
+                                      XMemberPath="Population"
+                                      YMemberPath="GdpPerCapita">
+                </ig:ScatterLineSeries>
+                <ig:ScatterLineSeries XAxis="{Binding ElementName=XAxis}"
+                                      YAxis="{Binding ElementName=YAxis}"
+                                      Title="{Binding XWDC_GalleryBubbleSeries_MediumIncome, Source={StaticResource Strings}}"
+                                      ItemsSource="{Binding Source={StaticResource CountriesMediumIncome}}"
+                                      XMemberPath="Population"
+                                      YMemberPath="GdpPerCapita">
+                </ig:ScatterLineSeries>
+                <ig:ScatterLineSeries XAxis="{Binding ElementName=XAxis}"
+                                      YAxis="{Binding ElementName=YAxis}"
+                                      Title="{Binding XWDC_GalleryBubbleSeries_LowIncome, Source={StaticResource Strings}}"
+                                      ItemsSource="{Binding Source={StaticResource CountriesLowIncome}}"
+                                      XMemberPath="Population"
+                                      YMemberPath="GdpPerCapita">
+                </ig:ScatterLineSeries>
+            </ig:XamDataChart.Series>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+        </ig:XamDataChart>
+        <ig:XamDataChart x:Name="SplineChart"  Grid.Row="1"  Legend="{Binding ElementName=Legend}">
+            <ig:XamDataChart.Axes> 
+                <ig:NumericXAxis x:Name="SplineXAxis" 
+                                 Title="{Binding XWDC_WorldData_Types_Population, Source={StaticResource Strings}}"
+                                 MinimumValue="10000" MaximumValue="10000000000" IsLogarithmic="True"
+                                 Label="{}{0:#,0,,.##} M"   >
+                </ig:NumericXAxis>
+                <ig:NumericYAxis x:Name="SplineYAxis" 
+                                 Title="{Binding XWDC_WorldData_Types_GdpPerCapita, Source={StaticResource Strings}}" 
+                                 IsLogarithmic="True" 
+                                 LogarithmBase="10" 
+                                 Label="{}{0:#,0,.##} K" >
+                </ig:NumericYAxis>
+            </ig:XamDataChart.Axes>
+            <!-- #BEGIN SNIPPET#   -->
+            <!-- ========================================================================== -->
+            <ig:XamDataChart.Series>
+                <ig:ScatterSplineSeries XAxis="{Binding ElementName=SplineXAxis}"
+                                        YAxis="{Binding ElementName=SplineYAxis}"
+                                        Title="{Binding XWDC_GalleryBubbleSeries_HighIncome, Source={StaticResource Strings}}"
+                                        ItemsSource="{Binding Source={StaticResource CountriesHighIncome}}"
+                                        XMemberPath="Population"
+                                        YMemberPath="GdpPerCapita">
+                </ig:ScatterSplineSeries>
+                <ig:ScatterSplineSeries XAxis="{Binding ElementName=SplineXAxis}"
+                                        YAxis="{Binding ElementName=SplineYAxis}"
+                                        Title="{Binding XWDC_GalleryBubbleSeries_MediumIncome, Source={StaticResource Strings}}"
+                                        ItemsSource="{Binding Source={StaticResource CountriesMediumIncome}}"
+                                        XMemberPath="Population"
+                                        YMemberPath="GdpPerCapita">
+                </ig:ScatterSplineSeries>
+                <ig:ScatterSplineSeries XAxis="{Binding ElementName=SplineXAxis}"
+                                        YAxis="{Binding ElementName=SplineYAxis}"
+                                        Title="{Binding XWDC_GalleryBubbleSeries_LowIncome, Source={StaticResource Strings}}"
+                                        ItemsSource="{Binding Source={StaticResource CountriesLowIncome}}"
+                                        XMemberPath="Population"
+                                        YMemberPath="GdpPerCapita">
+                </ig:ScatterSplineSeries>
+            </ig:XamDataChart.Series>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+        </ig:XamDataChart>
+        <ig:XamDataChart x:Name="MarkerChart"  Grid.Row="1"  Legend="{Binding ElementName=Legend}">
+            <ig:XamDataChart.Axes> 
+                <ig:NumericXAxis x:Name="MarkerXAxis" 
+                                 Title="{Binding XWDC_WorldData_Types_Population, Source={StaticResource Strings}}"
+                                 MinimumValue="10000" MaximumValue="10000000000" IsLogarithmic="True"
+                                 Label="{}{0:#,0,,.##} M"   >
+                </ig:NumericXAxis>
+                <ig:NumericYAxis x:Name="MarkerYAxis" 
+                                 Title="{Binding XWDC_WorldData_Types_GdpPerCapita, Source={StaticResource Strings}}" 
+                                 IsLogarithmic="True" 
+                                 LogarithmBase="10" 
+                                 Label="{}{0:#,0,.##} K" >
+                </ig:NumericYAxis>
+            </ig:XamDataChart.Axes>
+            <!-- #BEGIN SNIPPET#   -->
+            <!-- ========================================================================== -->
+            <ig:XamDataChart.Series>
+                <ig:ScatterSeries XAxis="{Binding ElementName=MarkerXAxis}"
+                                  YAxis="{Binding ElementName=MarkerYAxis}"
+                                  Title="{Binding XWDC_GalleryBubbleSeries_HighIncome, Source={StaticResource Strings}}"
+                                  ItemsSource="{Binding Source={StaticResource CountriesHighIncome}}"
+                                  XMemberPath="Population"
+                                  YMemberPath="GdpPerCapita">
+                </ig:ScatterSeries>
+                <ig:ScatterSeries XAxis="{Binding ElementName=MarkerXAxis}"
+                                  YAxis="{Binding ElementName=MarkerYAxis}"
+                                  Title="{Binding XWDC_GalleryBubbleSeries_MediumIncome, Source={StaticResource Strings}}"
+                                  ItemsSource="{Binding Source={StaticResource CountriesMediumIncome}}"
+                                  XMemberPath="Population"
+                                  YMemberPath="GdpPerCapita">
+                </ig:ScatterSeries>
+                <ig:ScatterSeries XAxis="{Binding ElementName=MarkerXAxis}"
+                                  YAxis="{Binding ElementName=MarkerYAxis}"
+                                  Title="{Binding XWDC_GalleryBubbleSeries_LowIncome, Source={StaticResource Strings}}"
+                                  ItemsSource="{Binding Source={StaticResource CountriesLowIncome}}"
+                                  XMemberPath="Population"
+                                  YMemberPath="GdpPerCapita">
+                </ig:ScatterSeries>
+            </ig:XamDataChart.Series>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+        </ig:XamDataChart>
+        <ig:XamDataChart x:Name="BubbleChart"  Grid.Row="1" Legend="{Binding ElementName=Legend}" >
+            <ig:XamDataChart.Axes> 
+                <ig:NumericXAxis x:Name="BubbleXAxis" 
+                                 Title="{Binding XWDC_WorldData_Types_Population, Source={StaticResource Strings}}"
+                                 MinimumValue="10000" MaximumValue="10000000000" IsLogarithmic="True"
+                                 Label="{}{0:#,0,,.##} M"   >
+                </ig:NumericXAxis>
+                <ig:NumericYAxis x:Name="BubbleYAxis" 
+                                 Title="{Binding XWDC_WorldData_Types_GdpPerCapita, Source={StaticResource Strings}}" 
+                                 IsLogarithmic="True" 
+                                 LogarithmBase="10" 
+                                 Label="{}{0:#,0,.##} K" >
+                </ig:NumericYAxis>
+            </ig:XamDataChart.Axes>
+            <!-- #BEGIN SNIPPET#   -->
+            <!-- ========================================================================== -->
+            <ig:XamDataChart.Series>
+                <ig:BubbleSeries XMemberPath="Population"
+                                 YMemberPath="GdpPerCapita"
+                                 RadiusMemberPath="PublicDebt"
+                                 XAxis="{Binding ElementName=BubbleXAxis}"
+                                 YAxis="{Binding ElementName=BubbleYAxis}"
+                                 Title="{Binding XWDC_GalleryBubbleSeries_HighIncome, Source={StaticResource Strings}}"
+                                 ItemsSource="{Binding Source={StaticResource CountriesHighIncome}}"
+                                 RadiusScale="{StaticResource SizeScale}">
+                </ig:BubbleSeries>
+                <ig:BubbleSeries XMemberPath="Population"
+                                 YMemberPath="GdpPerCapita"
+                                 RadiusMemberPath="PublicDebt"
+                                 FillMemberPath="PublicDebt"
+                                 XAxis="{Binding ElementName=BubbleXAxis}"
+                                 YAxis="{Binding ElementName=BubbleYAxis}"
+                                 Title="{Binding XWDC_GalleryBubbleSeries_MediumIncome, Source={StaticResource Strings}}"
+                                 ItemsSource="{Binding Source={StaticResource CountriesMediumIncome}}"
+                                 RadiusScale="{StaticResource SizeScale}">
+                </ig:BubbleSeries>
+                <ig:BubbleSeries XMemberPath="Population"
+                                 YMemberPath="GdpPerCapita"
+                                 RadiusMemberPath="PublicDebt"
+                                 FillMemberPath="PublicDebt"
+                                 XAxis="{Binding ElementName=BubbleXAxis}"
+                                 YAxis="{Binding ElementName=BubbleYAxis}"
+                                 Title="{Binding XWDC_GalleryBubbleSeries_LowIncome, Source={StaticResource Strings}}"
+                                 ItemsSource="{Binding Source={StaticResource CountriesLowIncome}}"
+                                 RadiusScale="{StaticResource SizeScale}">
+                </ig:BubbleSeries>
+
+            </ig:XamDataChart.Series>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+        </ig:XamDataChart>
+        
+        <ig:XamDataChart x:Name="ContourChart"  Grid.Row="1" Legend="{Binding ElementName=Legend}"
+                         GridMode="BeforeSeries">
+            <ig:XamDataChart.Axes>
+                <ig:NumericXAxis x:Name="ContourXAxis" />
+                <ig:NumericYAxis x:Name="ContourYAxis" />
+            </ig:XamDataChart.Axes>
+            <!-- #BEGIN SNIPPET#  -->
+            <!-- ========================================================================== -->
+            <ig:XamDataChart.Series> 
+                <ig:ScatterContourSeries 
+                    XAxis="{Binding ElementName=ContourXAxis}" 
+                    YAxis="{Binding ElementName=ContourYAxis}"
+                    ItemsSource="{StaticResource TrigometricDataSource}" 
+                    Title="{Binding XWDC_ScatterSeries_ScatterContourSeries, Source={StaticResource Strings}}"
+                    Thickness="3" 
+                    ShowDefaultTooltip="True" 
+                    XMemberPath="X" 
+                    YMemberPath="Y" 
+                    ValueMemberPath="Z" >
+                    <ig:ScatterContourSeries.FillScale>
+                        <ig:ValueBrushScale MinimumValue="-2" MaximumValue="2"  >
+                            <ig:ValueBrushScale.Brushes>
+                                <ig:BrushCollection >
+                                    <SolidColorBrush Color="#FF8670CB"/>
+                                    <SolidColorBrush Color="#FF513E8C"/>
+                                    <SolidColorBrush Color="#FF003F5E"/>
+                                    <SolidColorBrush Color="#FF0C6B99"/>
+                                    <SolidColorBrush Color="#FF4AC4FF"/>
+                                    <SolidColorBrush Color="#FFB5CC2E"/>
+                                    <SolidColorBrush Color="#FFFFD034"/>
+                                    <SolidColorBrush Color="#FFFC8612"/>
+                                    <SolidColorBrush Color="#FFED4840"/>
+                                </ig:BrushCollection>
+                            </ig:ValueBrushScale.Brushes>
+                        </ig:ValueBrushScale>
+                    </ig:ScatterContourSeries.FillScale>
+                </ig:ScatterContourSeries>               
+            </ig:XamDataChart.Series>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+        </ig:XamDataChart>
+        <ig:XamDataChart x:Name="AreaChart"  Grid.Row="1" Legend="{Binding ElementName=Legend}" 
+                         GridMode="BeforeSeries">
+            <ig:XamDataChart.Axes> 
+                <ig:NumericXAxis x:Name="AreaXAxis" />
+                <ig:NumericYAxis x:Name="AreaYAxis" /> 
+            </ig:XamDataChart.Axes>
+            <!-- #BEGIN SNIPPET#   -->
+            <!-- ========================================================================== -->
+            <ig:XamDataChart.Series>
+                <ig:ScatterAreaSeries 
+                    x:Name="ScatterAreaSeries" 
+                    Title="{Binding XWDC_ScatterSeries_ScatterAreaSeries, Source={StaticResource Strings}}"
+                    Opacity=".7" 
+                    XAxis="{Binding ElementName=AreaXAxis}" 
+                    YAxis="{Binding ElementName=AreaYAxis}"
+                    ItemsSource="{StaticResource TrigometricDataSource}" 
+                    ShowDefaultTooltip="True" 
+                    XMemberPath="X" 
+                    YMemberPath="Y" 
+                    ColorMemberPath="Z">
+                    <ig:ScatterAreaSeries.ColorScale>
+                        <ig:CustomPaletteColorScale 
+                            x:Name="ColorScale" 
+                            MinimumValue="-2"
+                            MaximumValue="2" InterpolationMode="InterpolateRGB">
+                            <ig:CustomPaletteColorScale.Palette>
+                                <Color>#FF8670CB</Color>
+                                <Color>#FF513E8C</Color>
+                                <Color>#FF003F5E</Color>
+                                <Color>#FF0C6B99</Color>
+                                <Color>#FF1AA1E2</Color>
+                                <Color>#FF4AC4FF</Color>
+                                <Color>#FFB5CC2E</Color>
+                                <Color>#FFFFD034</Color>
+                                <Color>#FFFC8612</Color>
+                                <Color>#FFED4840</Color>
+                            </ig:CustomPaletteColorScale.Palette>
+                        </ig:CustomPaletteColorScale>
+                    </ig:ScatterAreaSeries.ColorScale>
+                </ig:ScatterAreaSeries>     
+            </ig:XamDataChart.Series>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+        </ig:XamDataChart>
+         
+        <ig:Legend x:Name="Legend" 
+                   HorizontalAlignment="Right" Margin="20" Grid.Row="1"  
+                   VerticalAlignment="Top" Content="{Binding XWDC_ChartEvents_Legend, Source={StaticResource Strings}}">
+        </ig:Legend>
+        
+        <Border Grid.Row="0" Margin="{StaticResource SampleInnerNavigationPadding}" HorizontalAlignment="Left">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding XWDC_Global_SeriesType, Source={StaticResource Strings}}" Style="{StaticResource SamplesInnerNavigationTitleStyle}"/>
+                <ComboBox x:Name="ItemSelectionComboBox" Width="200" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource IGComboBoxStyle}"/>
+                <Button x:Name="PrevItemButton" HorizontalAlignment="Center" Cursor="Hand" Margin="0,0,2,0" Content="" Style="{StaticResource IGPreviousButtonStyle}" />
+                <Button x:Name="NextItemButton" HorizontalAlignment="Right" Cursor="Hand" Margin="0,0,2,0" Content="" Style="{StaticResource IGNextButtonStyle}" />
+            </StackPanel>
+        </Border>
+
+    </Grid>
+</igFramework:SampleContainer>

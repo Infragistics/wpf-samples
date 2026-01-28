@@ -1,0 +1,46 @@
+﻿<igFramework:SampleContainer x:Class="IGFinancialChart.Samples.Display.ChartTypes"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:IGFinancialChart.Samples"
+        xmlns:ig="http://schemas.infragistics.com/xaml"
+        xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+        mc:Ignorable="d">
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGFinancialChart;component/Assets/Global.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <Grid>
+        <Grid.DataContext>
+            <local:StockMultipleSources />
+        </Grid.DataContext> 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/> 
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ========================================================================== -->
+        <ig:XamFinancialChart ChartType="Line"  
+                              ZoomSliderType="Line" 
+                              ItemsSource="{Binding}" 
+                              Grid.Row="1"
+                              x:Name="Chart" />
+        <!-- ========================================================================== -->        
+        <!-- #END SNIPPET# -->
+         <StackPanel Orientation="Horizontal"  Grid.Row="0">
+            <TextBlock Text="{Binding ChartType, Source={StaticResource Strings}}" Style="{StaticResource OptionsPanelTextStyle}" />
+            <igFramework:EnumComboBox Style="{StaticResource IGComboBoxStyle}" 
+                ItemType="ig:FinancialChartType"  
+                SelectedItem="{Binding ChartType, ElementName=Chart, Mode=TwoWay}" />
+            
+            <TextBlock Text="Zoom Type" Style="{StaticResource OptionsPanelTextStyle}" />
+            <igFramework:EnumComboBox Style="{StaticResource IGComboBoxStyle}" 
+                ItemType="ig:FinancialChartZoomSliderType"  
+                SelectedItem="{Binding ZoomSliderType, ElementName=Chart, Mode=TwoWay}" />
+        </StackPanel>
+    </Grid>
+</igFramework:SampleContainer>

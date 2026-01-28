@@ -1,0 +1,89 @@
+﻿<igFramework:SampleContainer x:Class="IGGrid.Samples.Editing.CopyOperation"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="CopyOperation Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGGrid.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGrid;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:GridStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <ig:XamGrid x:Name="igGrid" AutoGenerateColumns="False" ColumnWidth="*" Grid.Column="2">
+            <ig:XamGrid.Columns>
+                <ig:TextColumn Key="SKU" HeaderText="{Binding Path=XWG_Grid_ProductSKU, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="Name" HeaderText="{Binding Path=XWG_Grid_ProductName, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="Category" HeaderText="{Binding Path=XWG_Grid_ProductCategory, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="UnitPrice" HeaderText="{Binding Path=XWG_Grid_UnitPrice, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="UnitsInStock" HeaderText="{Binding Path=XWG_Grid_UnitsStock, Source={StaticResource Strings}}" />
+            </ig:XamGrid.Columns>
+
+            <!-- Enable the filtering in the xamGrid control. -->
+            <ig:XamGrid.FilteringSettings>
+                <ig:FilteringSettings AllowFiltering="FilterRowTop" />
+            </ig:XamGrid.FilteringSettings>
+
+            <!-- #BEGIN SNIPPET# -->
+            <!-- Defines whether a cell or a row will be selected when a mouse click action occurs. -->
+            <ig:XamGrid.SelectionSettings>
+                <ig:SelectionSettings CellClickAction="SelectCell" CellSelection="Single" />
+            </ig:XamGrid.SelectionSettings>
+
+            <!-- Enable the Copy operation. -->
+            <ig:XamGrid.ClipboardSettings>
+                <ig:ClipboardSettings AllowCopy="True" CopyType="Default" />
+            </ig:XamGrid.ClipboardSettings>
+            <!-- #END SNIPPET# -->
+        </ig:XamGrid>
+        <controls:OptionsPanel MinWidth="170" HeaderText="{Binding XWG_Config_Options, Source={StaticResource Strings}}" 
+                               Grid.Column="0">
+            <TextBlock Text="{Binding XG_KeyFeatures_CopyOperation_CopyOptions, Source={StaticResource Strings}}" Style="{StaticResource OptionsPanelTitleStyle}"/>
+            <controls:EnumValuesProvider
+                DisplayTemplate="RadioButtonList"
+                EnumType="ig:GridClipboardCopyOptions"
+                Value="{Binding ElementName=igGrid, Path=ClipboardSettings.CopyOptions, Mode=TwoWay}"
+                Margin="{StaticResource OptionsElementsMargin}"/>
+
+            <TextBlock Text="{Binding XG_KeyFeatures_CopyOperation_CopyType, Source={StaticResource Strings}}" Style="{StaticResource OptionsPanelTitleStyle}"/>
+            <TextBlock Text="Default" Margin="0,0,0,12"/>
+
+            <TextBlock Text="{Binding XWG_Selection_CellClickAction, Source={StaticResource Strings}}" Style="{StaticResource OptionsPanelTitleStyle}"/>
+            <controls:EnumValuesProvider
+                DisplayTemplate="RadioButtonList"
+                EnumType="ig:CellSelectionAction"
+                Value="{Binding ElementName=igGrid, Path=SelectionSettings.CellClickAction, Mode=TwoWay}"
+                Margin="{StaticResource OptionsElementsMargin}"/>
+
+            <TextBlock Text="{Binding XWG_Selection_CellSelection, Source={StaticResource Strings}}" Style="{StaticResource OptionsPanelTitleStyle}"/>
+            <controls:EnumValuesProvider
+                DisplayTemplate="RadioButtonList"
+                EnumType="ig:SelectionType"
+                Value="{Binding ElementName=igGrid, Path=SelectionSettings.CellSelection, Mode=TwoWay}"
+                Margin="{StaticResource OptionsElementsMargin}"/>
+
+            <TextBlock Text="{Binding XWG_Selection_RowSelection, Source={StaticResource Strings}}" Style="{StaticResource OptionsPanelTitleStyle}"/>
+            <controls:EnumValuesProvider
+                DisplayTemplate="RadioButtonList"
+                EnumType="ig:SelectionType"
+                Value="{Binding ElementName=igGrid, Path=SelectionSettings.RowSelection, Mode=TwoWay}"/>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

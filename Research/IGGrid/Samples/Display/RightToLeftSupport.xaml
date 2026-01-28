@@ -1,0 +1,44 @@
+﻿<framework:SampleContainer x:Class="IGGrid.Samples.Display.RightToLeftSupport"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="RightToLeftSupport Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGGrid.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGrid;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:GridStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        
+        <ig:XamGrid x:Name="dataGrid" AutoGenerateColumns="False" ColumnWidth="*">
+            <ig:XamGrid.Columns>
+                <ig:TextColumn Key="Firstname" HeaderText="{Binding Path=XWG_Patient_FirstName, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="Lastname" HeaderText="{Binding Path=XWG_Patient_LastName, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="Age" HeaderText="{Binding Path=XWG_Patient_Age, Source={StaticResource Strings}}" />
+            </ig:XamGrid.Columns>
+        </ig:XamGrid>
+        
+        <!-- #BEGIN SNIPPET# -->
+        <controls:OptionsPanel MinWidth="160" HeaderText="{Binding XWG_Config_Options, Source={StaticResource Strings}}" Margin="400,80,0,0">
+            <TextBlock Text="{Binding XWG_Selection_CellSelection, Source={StaticResource Strings}}" 
+                       Margin="{StaticResource OptionsElementsMargin}" Style="{StaticResource OptionsPanelTitleStyle}"/>
+            <controls:EnumValuesProvider x:Name="enumProvider"
+                                         DisplayTemplate="RadioButtonList"
+                                         EnumType="FlowDirection"
+                                         Value="{Binding ElementName=dataGrid, Path=FlowDirection, Mode=TwoWay}"/>
+        </controls:OptionsPanel>
+        <!-- #END SNIPPET# -->
+    </Grid>
+</framework:SampleContainer>

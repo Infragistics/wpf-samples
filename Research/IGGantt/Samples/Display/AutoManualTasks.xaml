@@ -1,0 +1,100 @@
+﻿<framework:SampleContainer x:Class="IGGantt.Samples.Display.AutoManualTasks"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"  
+    xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGGantt.Resources"
+    xmlns:converters="clr-namespace:IGGantt.Samples.Converters"
+    xmlns:viewmodel="clr-namespace:IGGantt.Samples.ViewModel"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="AutoManualTasks Page">
+    
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                
+                <ResourceDictionary Source="/IGGantt;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <res:GanttStrings x:Key="Strings" />
+            <converters:InverseBooleanConverter x:Key="inverseBool" />
+            <viewmodel:ProjectViewModel x:Key="viewmodel" />
+        </ResourceDictionary> 
+    </framework:SampleContainer.Resources>
+    <framework:SampleContainer.DataContext>
+        <Binding Source="{StaticResource viewmodel}" />
+    </framework:SampleContainer.DataContext>
+   
+    <Grid x:Name="LayoutRoot" Background="White">
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamGantt x:Name="gantt" Project="{Binding Project}" />
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel HorizontalAlignment="Right" 
+                               VerticalAlignment="Bottom"
+                               Margin="10"
+                               HeaderText="{Binding Source={StaticResource Strings}, Path=Header_Tasks}">
+            <StackPanel Orientation="Horizontal">
+                <Image Source="/IGGantt;component/Images/task.png" HorizontalAlignment="Left"
+                       VerticalAlignment="Center"
+                       Margin="0,0,5,0" />
+                <TextBlock Text="{Binding Source={StaticResource Strings},Path=SelectedTaskMode}" 
+                           HorizontalAlignment="Stretch"  VerticalAlignment="Center" FontWeight="Bold" />
+            </StackPanel>
+
+            <StackPanel Margin="5">
+                <!-- #BEGIN SNIPPET# -->
+                    <RadioButton x:Name="RBtn_Manually" Margin="0,3"
+                             GroupName="SchedulingOptions" 
+                             Content="{Binding Source={StaticResource Strings}, Path=Option_ManuallySchedule}"
+                             IsChecked="{Binding ElementName=gantt, Path=AreSelectedTasksManual, Mode=OneWay}">
+                    <ig:Commanding.Command>
+                        <igPrim:GanttCommandSource 
+                            TargetName="gantt"
+                            CommandType="ChangeTaskToManual" 
+                            EventName="Click" />
+                    </ig:Commanding.Command>
+                </RadioButton>
+                <RadioButton x:Name="RBtn_Auto" 
+                             GroupName="SchedulingOptions" 
+                             Content="{Binding Source={StaticResource Strings}, Path=Option_AutoSchedule}"
+                             IsChecked="{Binding ElementName=gantt, Path=AreSelectedTasksManual, Converter={StaticResource inverseBool}, Mode=OneWay}">
+                    <ig:Commanding.Command>
+                        <igPrim:GanttCommandSource 
+                            TargetName="gantt"
+                            CommandType="ChangeTaskToAutomatic" 
+                            EventName="Click" />
+                    </ig:Commanding.Command>
+                </RadioButton>
+                <!-- #END SNIPPET# -->
+                </StackPanel>
+
+            
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <Image Source="/IGGantt;component/Images/mode.png" HorizontalAlignment="Left"
+                       VerticalAlignment="Center"
+                      Margin="0,0,5,0" />
+                <TextBlock Text="{Binding Source={StaticResource Strings},Path=NewTaskMode}" 
+                           HorizontalAlignment="Stretch"  FontWeight="Bold"  VerticalAlignment="Center"/>
+            </StackPanel>
+
+                <StackPanel Margin="5">
+                    <RadioButton GroupName="SchedulingOptionNewTask" Margin="0,3,0,1"
+                                 x:Name="RBtn_AutoNewTask"
+                                 Content="{Binding Source={StaticResource Strings}, Path=Option_AutoSchedule}"
+                                 Checked="RBtn_AutoNewTask_Checked" />
+                    <TextBlock Text="{Binding Source={StaticResource Strings},Path=AutoTasksNote}"/>
+                    <RadioButton GroupName="SchedulingOptionNewTask" Margin="0,5,0,1"
+                                 x:Name="RBtn_ManualNewTask"
+                                 Content="{Binding Source={StaticResource Strings}, Path=Option_ManuallySchedule}"
+                                 Checked="RBtn_ManualNewTask_Checked"/>
+                    <TextBlock Text="{Binding Source={StaticResource Strings},Path=ManualTasksNote}"/>
+                </StackPanel>
+
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

@@ -1,0 +1,69 @@
+﻿<framework:SampleContainer x:Class="IGBarcode.Samples.Data.BarcodeInterleaved2Of5"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGBarcode.Resources"
+      xmlns:System="clr-namespace:System;assembly=mscorlib">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGBarcode;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:BarcodeStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid Margin="30,82,220,0" VerticalAlignment="Top" HorizontalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Border Height="120" Margin="5,-3,5,5" BorderThickness="1"  Width="300" >
+                <!-- #BEGIN SNIPPET# -->
+                <ig:XamInterleaved2Of5Barcode x:Name="Barcode" Margin="5,5,5,0" Data="{Binding SelectedItem, ElementName=ListBoxData}" ShouldGenerateChecksum="{Binding IsChecked, ElementName=CheckBoxChecksum}" BarsFillMode="EnsureEqualSize" />
+                <!-- #END SNIPPET# -->
+            </Border>
+
+            <StackPanel Grid.Row="1" Margin="0,9,0,0" HorizontalAlignment="Center" Orientation="Horizontal">
+                <TextBlock FontSize="12" FontWeight="Bold" Foreground="#FF474747" Text="{Binding XWB_BarcodeData, Source={StaticResource Strings}}" />
+                <TextBlock FontSize="12" FontWeight="Bold" Foreground="#FF474747" 
+                           Text="{Binding Data, ElementName=Barcode, StringFormat='\=\&quot;\{0\}\&quot;'}" />
+            </StackPanel>
+        </Grid>
+
+        <controls:OptionsPanel HeaderText="{Binding XWB_Settings, Source={StaticResource Strings}}"
+                               VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0">
+            <TextBlock Text="{Binding XWB_SampleData, Source={StaticResource Strings}}" Margin="{StaticResource OptionsTextTopBottomMargin}"/>
+            <ListBox x:Name="ListBoxData" Height="190" SelectedIndex="0" Margin="{StaticResource OptionsElementsMargin}">
+                <System:String>8322267</System:String>
+                <System:String>538165</System:String>
+                <System:String>234119</System:String>
+                <System:String>29408</System:String>
+                <System:String>203326</System:String>
+                <System:String>596645</System:String>
+                <System:String>6738</System:String>
+                <System:String>74517</System:String>
+                <System:String>246903</System:String>
+                <System:String>644137</System:String>
+                <System:String>78336</System:String>
+                <System:String>99811</System:String>
+                <System:String>26514812</System:String>
+                <System:String>87321</System:String>
+                <System:String>9824</System:String>
+                <System:String>237327</System:String>
+                <System:String>61092</System:String>
+            </ListBox>
+            <CheckBox x:Name="CheckBoxChecksum" IsChecked="True" Content="{Binding XWB_GenerateChecksum, Source={StaticResource Strings}}"/>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

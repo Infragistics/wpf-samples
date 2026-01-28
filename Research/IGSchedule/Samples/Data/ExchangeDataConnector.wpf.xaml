@@ -1,0 +1,81 @@
+﻿<igFramework:SampleContainer
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="ExchangeDataConnector"
+      x:Class="IGSchedule.Samples.Data.ExchangeDataConnector"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGSchedule.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <res:ScheduleStrings x:Key="resStrings" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSchedule;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="13" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <controls:OptionsPanel VerticalAlignment="Top" Margin="0" HeaderText="{Binding Source={StaticResource CommonStrings}, Path=ConfigurationPanel_Header_Options}" IsMovable="False" Grid.Column="0">
+                <TextBlock Text="{Binding Source={StaticResource resStrings}, Path=ServerAddress}" Margin="{StaticResource OptionsTextTopBottomMargin}" />
+                <TextBox x:Name="SrvAddr" Margin="0,0,0,10" />
+
+                <TextBlock Text="{Binding Source={StaticResource resStrings}, Path=ServerType}" Margin="{StaticResource OptionsTextTopBottomMargin}"/>
+                <controls:EnumValuesProvider x:Name="SrvType" Margin="0,0,0,15"
+                                             EnumType="ig:ExchangeVersion" DisplayTemplate="ComboBox" SelectedEnumIndex="0"/>
+
+                <CheckBox x:Name="UseDefCred" Margin="{StaticResource VerticalPaddingBottomSmall}" Content="{Binding Source={StaticResource resStrings}, Path=UseDefCred}" Click="UseDefCred_Click"/>
+
+                <Grid Margin="0,0,0,10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                        <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                        <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" x:Name="tName" HorizontalAlignment="Left" Width="70" Text="{Binding Source={StaticResource resStrings}, Path=UserName}" Margin="0,5,0,0" />
+                    <TextBox Grid.Row="0" x:Name="tfName" Margin="75,0,0,8" />
+                    <TextBlock Grid.Row="1" x:Name="tPass" HorizontalAlignment="Left" Width="70" Text="{Binding Source={StaticResource resStrings}, Path=Password}" Margin="0,5,0,0" />
+                    <PasswordBox Grid.Row="1" x:Name="tfPass" Margin="75,0,0,8" />
+                    <TextBlock Grid.Row="2" x:Name="tDomain" HorizontalAlignment="Left" Width="70" Text="{Binding Source={StaticResource resStrings}, Path=Domain}" Margin="0,5,0,0" />
+                    <TextBox Grid.Row="2" x:Name="tfDomain" Margin="75,0,0,8" />
+                </Grid>
+
+                <Button x:Name="ConnectButton" Click="ConnectButton_Click" Margin="{StaticResource OptionsElementsMargin}"/>
+
+                <ig:XamDateNavigator x:Name="dateNavigator" DataManager="{Binding ElementName=dataManager}" />
+            </controls:OptionsPanel>
+
+            <GridSplitter Grid.Column="1" Width="3" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="5,0,5,0" />
+
+            <ig:XamOutlookCalendarView
+                Grid.Column="2"
+                Name="xamOutlookView"
+                DataManager="{Binding ElementName=dataManager}"
+                DateNavigator="{Binding ElementName=dateNavigator}"
+                CurrentViewMode="DayViewWorkWeek"
+                />
+        </Grid>
+
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamScheduleDataManager Name="dataManager" Grid.Row="1">
+            <ig:XamScheduleDataManager.DataConnector>
+                <ig:ExchangeScheduleDataConnector Name="exchangeConnector" />
+            </ig:XamScheduleDataManager.DataConnector>
+        </ig:XamScheduleDataManager>
+        <!-- #END SNIPPET# -->
+    </Grid>
+</igFramework:SampleContainer>

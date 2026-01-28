@@ -1,0 +1,170 @@
+﻿<igSamples:SampleContainer x:Class="IGBusyIndicator.Samples.Style.CreatingCustomAnimation"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:igSamples="http://schemas.infragistics.com/xaml/samples"
+             xmlns:ig="http://schemas.infragistics.com/xaml"
+             xmlns:igDP="http://infragistics.com/DataPresenter"                           
+             xmlns:data="clr-namespace:IGBusyIndicator.Samples.DataProviders"
+             xmlns:sharedResources="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared"
+             xmlns:localResources="clr-namespace:IGBusyIndicator.Resources" mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="700">
+    
+    <!-- Data context -->
+    <igSamples:SampleContainer.DataContext>
+        <data:CustomersDataProvider />
+    </igSamples:SampleContainer.DataContext>
+    
+    <igSamples:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGBusyIndicator;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+         
+            <sharedResources:CommonStrings x:Key="CommonStrings" />
+            <localResources:BusyIndicatorStrings x:Key="Strings" />
+                             
+            <DataTemplate x:Key="CustomBusyIndicatorTemplate">
+                    <Viewbox Width="100" Height="100">
+                    <Viewbox.Resources>
+                        <SolidColorBrush x:Key="SmallCloudBackgroundBrush" Color="#ff81d9fc" />
+                        <SolidColorBrush x:Key="BigCloudBackgroundBrush" Color="#ff0880af" />
+                        <SolidColorBrush x:Key="SunBackgroundBrush" Color="#ffe5af28" />
+                        <SolidColorBrush x:Key="CloudDotBackgroundBrush" Color="#ffffffff" />
+                    </Viewbox.Resources>
+                        <Viewbox.Triggers>
+                            <EventTrigger RoutedEvent="Window.Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard RepeatBehavior="Forever">
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Duration="0:0:3" Storyboard.TargetName="CloudDot1" RepeatBehavior="Forever">
+                                            <SplineDoubleKeyFrame Value="1"/>
+                                            <SplineDoubleKeyFrame Value="0.3"/>
+                                            <SplineDoubleKeyFrame Value="0.3"/>
+                                            <SplineDoubleKeyFrame Value="0.3"/>
+                                            <SplineDoubleKeyFrame Value="1"/>
+                                            <SplineDoubleKeyFrame Value="0.3"/>
+                                            <SplineDoubleKeyFrame Value="0.3"/>
+                                            <SplineDoubleKeyFrame Value="0.3"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Duration="0:0:3" Storyboard.TargetName="CloudDot2" RepeatBehavior="Forever">
+                                            <SplineDoubleKeyFrame Value="0.3"/>
+                                            <SplineDoubleKeyFrame Value="1"/>
+                                            <SplineDoubleKeyFrame Value="0.3"/>
+                                            <SplineDoubleKeyFrame Value="0.3"/>
+                                            <SplineDoubleKeyFrame Value="0.3"/>
+                                            <SplineDoubleKeyFrame Value="1"/>
+                                            <SplineDoubleKeyFrame Value="0.3"/>
+                                            <SplineDoubleKeyFrame Value="0.3"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Duration="0:0:3" Storyboard.TargetName="CloudDot3" RepeatBehavior="Forever">
+                                            <SplineDoubleKeyFrame Value="0.3"/>
+                                            <SplineDoubleKeyFrame Value="0.3"/>
+                                            <SplineDoubleKeyFrame Value="1"/>
+                                            <SplineDoubleKeyFrame Value="0.3"/>
+                                            <SplineDoubleKeyFrame Value="0.3"/>
+                                            <SplineDoubleKeyFrame Value="0.3"/>
+                                            <SplineDoubleKeyFrame Value="1"/>
+                                            <SplineDoubleKeyFrame Value="0.3"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Canvas.Top)" Duration="0:0:3" Storyboard.TargetName="Sun">
+                                            <SplineDoubleKeyFrame Value="5"/>
+                                            <SplineDoubleKeyFrame Value="3"/>
+                                            <SplineDoubleKeyFrame Value="1"/>
+                                            <SplineDoubleKeyFrame Value="-1"/>
+                                            <SplineDoubleKeyFrame Value="-3"/>
+                                            <SplineDoubleKeyFrame Value="-5"/>
+                                            <SplineDoubleKeyFrame Value="-7"/>
+                                            <SplineDoubleKeyFrame Value="-10"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Canvas.Left)" Duration="0:0:3" Storyboard.TargetName="SmallCloud">
+                                            <SplineDoubleKeyFrame Value="30"/>
+                                            <SplineDoubleKeyFrame Value="36"/>
+                                            <SplineDoubleKeyFrame Value="39"/>
+                                            <SplineDoubleKeyFrame Value="42"/>
+                                            <SplineDoubleKeyFrame Value="45"/>
+                                            <SplineDoubleKeyFrame Value="48"/>
+                                            <SplineDoubleKeyFrame Value="51"/>
+                                            <SplineDoubleKeyFrame Value="55"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Viewbox.Triggers>
+                        <Grid>
+                            <Canvas Name="cloudWithDots" Canvas.Left="0" Canvas.Top="0" Width="100" Height="63">
+                                <Canvas.RenderTransform>
+                                    <TranslateTransform X="0" Y="0"/>
+                                </Canvas.RenderTransform>
+                                <Canvas.Resources/>
+                                <Canvas>
+                                    <Path Name="Sun" Fill="{StaticResource SunBackgroundBrush}" Data="M49.9 24c0-0.6-0.4-1-1-1h-8.3c-0.3 0-0.5-0.1-0.8-0.3c-0.3-0.3-0.5-1.1-0.7-1.7c-0.4-1.5-1-2.8-1.9-4.1  c-0.3-0.5-0.3-1.1 0.1-1.5l5.8-5.8c0.4-0.4 0.4-1 0-1.4l-1.5-1.5c-0.4-0.4-1-0.4-1.4 0l-5.8 5.8c-0.4 0.4-1.1 0.4-1.5 0.1  c-1.5-1-3.2-1.7-5-2.1c-0.5-0.1-1-0.6-1-1.2V1.1c0-0.6-0.4-1-1-1H24c-0.6 0-1 0.4-1 1v8.3c0 0.6-0.4 1.1-1 1.2  c-1.8 0.4-3.5 1.1-5 2.1c-0.5 0.3-1.1 0.3-1.5-0.1L9.6 6.7c-0.4-0.4-1-0.4-1.4 0L6.7 8.1c-0.4 0.4-0.4 1 0 1.4l5.8 5.8  c0.4 0.4 0.4 1.1 0.1 1.5c-1 1.5-1.7 3.2-2.1 5c-0.1 0.5-0.6 1-1.2 1H1.1c-0.6 0-1 0.4-1 1V26c0 0.6 0.4 1 1 1h8.3  c0.6 0 1.1 0.4 1.2 1c0.4 1.8 1.1 3.5 2.1 5c0.3 0.5 0.3 1.1-0.1 1.5l-5.8 5.8c-0.2 0.2-0.3 0.5-0.3 0.7c0 0.4 0.6 1 1 1.4l0.1 0.1  c0.4 0.4 1 1 1.4 1c0.3 0 0.5-0.1 0.7-0.3l5.8-5.8c0.4-0.4 1.1-0.4 1.5-0.1c1.5 1 3.2 1.7 5 2.1c0.5 0.1 1 0.6 1 1.2v8.3  c0 0.6 0.4 1 1 1H26c0.6 0 1-0.4 1-1v-8.3c0-0.6 0.4-1.1 1-1.2c1.8-0.4 3.5-1.1 5-2.1c0.5-0.3 1.1-0.3 1.5 0.1l5.8 5.8  c0.2 0.2 0.5 0.3 0.7 0.3c0.4 0 1-0.6 1.4-1l0.1-0.1c0.4-0.4 1-1 1-1.4c0-0.3-0.1-0.5-0.3-0.7l-5.8-5.8c-0.4-0.4-0.4-1.1-0.1-1.5  c1-1.5 1.7-3.2 2.1-5c0.1-0.5 0.6-1 1.2-1h8.3c0.6 0 1-0.4 1-1V24z" 
+					Canvas.Left="40" RenderTransformOrigin="0.5,0.5" Height="40" Stretch="Fill" Width="40" Canvas.Top="5">
+                                        <Path.RenderTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform/>
+                                                <SkewTransform/>
+                                                <RotateTransform Angle="40"/>
+                                                <TranslateTransform/>
+                                            </TransformGroup>
+                                        </Path.RenderTransform>
+                                    </Path>
+                                    <Path Name="SmallCloud" 
+					  Data="M0 218.5c0-34.5 19-65 47-81C48.5 61 111 0 187.5 0c50.5 0 95 26.5 119.5 66.5c9-2.5 19-4 29-4    c43.5 0 80.5 27.5 95 66c39.5 10.5 69 47 69 90c0 51.5-42 93.5-93.5 93.5H94C42 312 0 270.5 0 218.5z" Fill="{StaticResource SmallCloudBackgroundBrush}"  Height="29.494" Stretch="Fill" 
+					  Canvas.Top="14.315" Width="50" Canvas.Left="30"/>
+                                    <Path Name="BigCloud" 
+					  Data="M0 218.5c0-34.5 19-65 47-81C48.5 61 111 0 187.5 0c50.5 0 95 26.5 119.5 66.5c9-2.5 19-4 29-4    c43.5 0 80.5 27.5 95 66c39.5 10.5 69 47 69 90c0 51.5-42 93.5-93.5 93.5H94C42 312 0 270.5 0 218.5z" Fill="{StaticResource BigCloudBackgroundBrush}" Height="51.575" Stretch="Fill" Width="82.651" Canvas.Left="0.914" Canvas.Top="4.153" HorizontalAlignment="Left"/>
+                                    <Grid Height="9.765" Canvas.Left="18.821" Canvas.Top="37.56" Width="45.308" HorizontalAlignment="Left">
+
+
+                                        <Ellipse x:Name="CloudDot1" Fill="{StaticResource CloudDotBackgroundBrush}" Opacity="0.3" HorizontalAlignment="Left" Width="9.765" Margin="0,-2.5,0,2.5"/>
+                                        <Ellipse x:Name="CloudDot2" Fill="{StaticResource CloudDotBackgroundBrush}" Opacity="0.3" Margin="17.771,-2.5,17.772,2.5"/>
+                                        <Ellipse x:Name="CloudDot3" Fill="{StaticResource CloudDotBackgroundBrush}" Opacity="0.3" Margin="35.543,-2.5,0,2.5"/>
+                                    </Grid>
+                                </Canvas>
+                            </Canvas>
+                        </Grid>
+                    </Viewbox>
+                </DataTemplate>  
+        </ResourceDictionary>
+    </igSamples:SampleContainer.Resources>
+    
+    <Grid>
+        <ig:XamBusyIndicator Name="BusyIndicator" IsBusy="True">
+            <!-- #BEGIN SNIPPET# -->
+            <ig:XamBusyIndicator.Animation>
+                <ig:CustomBusyAnimation DataTemplate="{StaticResource CustomBusyIndicatorTemplate}" />
+            </ig:XamBusyIndicator.Animation>
+            <!-- #END SNIPPET# -->
+            <ig:XamBusyIndicator.BusyContent>
+                <TextBlock Text="{Binding Source={StaticResource Strings}, Path=BusyText1}" Style="{StaticResource SamplesTitleStyle}" FontSize="14" />
+            </ig:XamBusyIndicator.BusyContent>
+            <!-- Busy indicator overlay style -->
+            <ig:XamBusyIndicator.OverlayStyle>               
+                <Style TargetType="{x:Type Rectangle}">
+                    <Setter Property="Fill" Value="#FFE0E0E0" />
+                    <Setter Property="Opacity" Value="0.8" />
+                </Style>
+            </ig:XamBusyIndicator.OverlayStyle>
+
+            <igDP:XamDataGrid x:Name="DataGrid" DataSource="{Binding Path=Customers}">
+                <igDP:XamDataGrid.FieldLayoutSettings>
+                    <igDP:FieldLayoutSettings AutoGenerateFields="False"/>
+                </igDP:XamDataGrid.FieldLayoutSettings>
+                <igDP:XamDataGrid.FieldSettings>
+                    <igDP:FieldSettings Width="*" />
+                </igDP:XamDataGrid.FieldSettings>
+                <igDP:XamDataGrid.FieldLayouts>
+                    <igDP:FieldLayout>
+                        <igDP:TextField Name="ContactName" Label="{Binding Source={StaticResource CommonStrings}, Path=Customer_Name}"/>
+                        <igDP:TextField Name="Company" Label="{Binding Source={StaticResource CommonStrings}, Path=Company}"/>
+                        <igDP:TextField Name="Phone" Label="{Binding Source={StaticResource CommonStrings}, Path=Phone}"/>
+                        <igDP:TextField Name="Country" Label="{Binding Source={StaticResource CommonStrings}, Path=XW_Country}"/>
+                        <igDP:TextField Name="City" Label="{Binding Source={StaticResource CommonStrings}, Path=City}"/>
+                        <igDP:TextField Name="AddressOne" Label="{Binding Source={StaticResource CommonStrings}, Path=Customer_Address1}"/>
+                    </igDP:FieldLayout>
+                </igDP:XamDataGrid.FieldLayouts>
+            </igDP:XamDataGrid>         
+        </ig:XamBusyIndicator>
+    </Grid>
+</igSamples:SampleContainer>

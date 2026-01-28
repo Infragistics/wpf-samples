@@ -1,0 +1,268 @@
+<igFramework:SampleContainer 
+    x:Class="IGTreemap.Samples.CustomMapper"
+    xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:resources="clr-namespace:IGTreemap.Resources"
+    xmlns:custom="clr-namespace:IGTreemap.Samples.ValueMappers" 
+    xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared" xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared">
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGTreemap;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/IGTreemap;component/Assets/TreemapStyles.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <models:ManufacturerModel x:Key="ManufacturerModel" />
+            <resources:TreemapStrings x:Key="Strings" />
+            <converters:GetImageConverter x:Key="ImageConverter" />
+            <!-- Brushes 1 -->
+            <SolidColorBrush x:Key="BaseBorderBrush" Color="#99373737" />
+            <SolidColorBrush x:Key="BaseColorBrush" Color="#B2FFFFFF" />
+            <LinearGradientBrush x:Key="BaseOverlayBrush" StartPoint="0.5,0" EndPoint="0.5,1">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFFFFCE9" />
+                        <GradientStop Color="#FFDAD7C3" Offset="0.952" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <!-- Treemap node Style -->
+            <Style x:Key="ManufacturerNodeStyle" TargetType="ig:TreemapNode">
+                <Setter Property="Fill" Value="{StaticResource TreemapBackgroundBrush}" />
+                <Setter Property="BorderBrush" Value="{StaticResource TreemapBorderBrush}" />
+                <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Padding" Value="5" />
+                <Setter Property="Margin" Value="1" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ig:TreemapNode">
+                            <Border x:Name="NodeBorder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Fill}" CornerRadius="0" Margin="1">
+
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualStateGroup.Transitions>
+                                            <VisualTransition From="MouseOver" To="Normal" GeneratedDuration="0:0:0.2" />
+                                            <VisualTransition From="MouseOver" To="Pressed" GeneratedDuration="0:0:0.2" />
+                                        </VisualStateGroup.Transitions>
+                                        <VisualState x:Name="Disabled" />
+                                        <VisualState x:Name="Normal" />
+                                        <VisualState x:Name="MouseOver">
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed" />
+                                        <VisualState x:Name="ReadOnly" />
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="FocusStates">
+                                        <VisualState x:Name="Focused" />
+                                        <VisualState x:Name="Unfocused" />
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                   <TextBlock HorizontalAlignment="Left" Margin="2" TextWrapping="Wrap" Text="{TemplateBinding Text}" />
+                                    <StackPanel Grid.Row="1" Margin="2">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Text="{Binding Path=XWT_Revenue, Source={StaticResource Strings}}" />
+                                            <TextBlock Grid.Column="1" x:Name="TextBlockRevenue" TextWrapping="Wrap" DataContext="{TemplateBinding DataContext}" Text="{Binding Path=Revenue, StringFormat='{}{0:C}'}" FontWeight="Bold" />
+                                        </Grid>
+                                    </StackPanel>
+                                    <ig:NodesPanel x:Name="NodesPanel" Grid.Row="2" />
+                                </Grid>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <!-- Treemap node Style 2 -->
+            <Style x:Key="ProductNodeStyle" TargetType="ig:TreemapNode">
+                <Setter Property="Fill" Value="{StaticResource TreemapBackgroundBrush}" />
+                <Setter Property="BorderBrush" Value="{StaticResource TreemapBorderBrush}" />
+                <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Padding" Value="5" />
+                <Setter Property="Margin" Value="1" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ig:TreemapNode">
+                            <Border x:Name="NodeBorder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Fill}" CornerRadius="1" Margin="0.5">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualStateGroup.Transitions>
+                                            <VisualTransition From="MouseOver" To="Normal" GeneratedDuration="0:0:0.2" />
+                                            <VisualTransition From="MouseOver" To="Pressed" GeneratedDuration="0:0:0.2" />
+                                        </VisualStateGroup.Transitions>
+                                        <VisualState x:Name="Disabled" />
+                                        <VisualState x:Name="Normal" />
+                                        <VisualState x:Name="MouseOver">
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed" />
+                                        <VisualState x:Name="ReadOnly" />
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="FocusStates">
+                                        <VisualState x:Name="Focused" />
+                                        <VisualState x:Name="Unfocused" />
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                   <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{TemplateBinding Text}" Foreground="{StaticResource ForegroundBrush}" Margin="5,3,5,5"/>
+                                    <ig:NodesPanel x:Name="NodesPanel" Grid.Row="2" />
+                                </Grid>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            
+            <DataTemplate x:Key="ProductTooltip">
+                <StackPanel>
+                    <TextBlock Text="{Binding Name}" />
+                    <TextBlock Text="{Binding Path=StandardCost, StringFormat='{}{0:C}'}" FontWeight="Bold" />
+                    <ItemsControl ItemsSource="{Binding Path=InventoryEntries}" Margin="5 0">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding Path=XWT_Shelf, Source={StaticResource Strings}}" />
+                                    <TextBlock Text="{Binding Path=Shelf, StringFormat='{}{0}'}" Grid.Column="1" />
+                                    <TextBlock Text="{Binding Path=Quantity, StringFormat=' {}{0}pcs'}" Grid.Column="2" />
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </DataTemplate>
+            <!-- Treemap node Style 3 -->
+            <Style x:Key="InventoryNodeStyle" TargetType="ig:TreemapNode">
+                <Setter Property="Fill" Value="{StaticResource TreemapBackgroundBrush}" />
+                <Setter Property="BorderBrush" Value="{StaticResource TreemapBorderBrush}" />
+                <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Padding" Value="5" />
+                <Setter Property="Margin" Value="1" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ig:TreemapNode">
+                            <Border x:Name="NodeBorder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Fill}" CornerRadius="1" Margin="0.5">
+
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualStateGroup.Transitions>
+                                            <VisualTransition From="MouseOver" To="Normal" GeneratedDuration="0:0:0.2" />
+                                            <VisualTransition From="MouseOver" To="Pressed" GeneratedDuration="0:0:0.2" />
+                                        </VisualStateGroup.Transitions>
+                                        <VisualState x:Name="Disabled" />
+                                        <VisualState x:Name="Normal" />
+                                        <VisualState x:Name="MouseOver">
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="(Border.Opacity)" Storyboard.TargetName="OverlayBorder" Duration="0:0:0.2" To=".5" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed" />
+                                        <VisualState x:Name="ReadOnly" />
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="FocusStates">
+                                        <VisualState x:Name="Focused" />
+                                        <VisualState x:Name="Unfocused" />
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Border x:Name="OverlayBorder" Grid.RowSpan="3" CornerRadius="1" BorderBrush="{StaticResource NodeHoverStroke}" BorderThickness="1" Background="{StaticResource NodeHoverBg}" Opacity="0" />
+                                    <TextBlock HorizontalAlignment="Left" Text="{TemplateBinding Text}" Foreground="{StaticResource ActiveForegroundBrush}" Margin="5,3,5,5"/>
+                                    <ig:NodesPanel x:Name="NodesPanel" Grid.Row="2" />
+
+                                    <Image x:Name="WarningImage" Source="{Binding Source='Icons/exclamation.png', Converter={StaticResource ImageConverter}}" Width="16" Height="16" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,3,3,0" Visibility="Collapsed" />
+                                </Grid>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            
+            <DataTemplate x:Key="InventoryTooltip">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding XWT_Shelf, Source={StaticResource Strings}}" />
+                    <TextBlock Text="{Binding Shelf, StringFormat='{}{0}'}" Grid.Column="1" />
+                    <TextBlock Text="{Binding Quantity, StringFormat=' {0}pcs'}" FontWeight="Bold" Grid.Column="2" />
+                </Grid>
+            </DataTemplate>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+	<Grid x:Name="LayoutRoot" Width="Auto">
+		<ig:XamTreemap DataContext="{StaticResource ManufacturerModel}" 
+                       ItemsSource="{Binding Manufacturers}"
+                       ToolTipStyle="{StaticResource ToolTipStyle}">
+
+			<ig:XamTreemap.DefaultStyle>
+				<Style TargetType="ig:TreemapNode">
+					<Setter Property="Padding" Value="0" />
+					<Setter Property="Template">
+						<Setter.Value>
+							<ControlTemplate TargetType="ig:TreemapNode">
+								<ig:NodesPanel x:Name="NodesPanel" />
+							</ControlTemplate>
+						</Setter.Value>
+					</Setter>
+				</Style>
+			</ig:XamTreemap.DefaultStyle>
+			<!--Binding to the data-->
+			<ig:XamTreemap.NodeBinders>
+				<ig:NodeBinder TargetTypeName="Manufacturer" ValuePath="Revenue" TextPath="Name"
+                               ItemsSourcePath="Products" NodeStyle="{StaticResource ManufacturerNodeStyle}" 
+                               />
+
+				<ig:NodeBinder TargetTypeName="Product" ValuePath="StandardCost" TextPath="Name"
+                               ItemsSourcePath="InventoryEntries" NodeStyle="{StaticResource ProductNodeStyle}" 
+                               ToolTipContentTemplate="{StaticResource ProductTooltip}"/>
+                
+                <ig:NodeBinder TargetTypeName="InventoryEntry" ValuePath="Quantity" TextPath="Shelf" 
+                               NodeStyle="{StaticResource InventoryNodeStyle}" 
+                               ToolTipContentTemplate="{StaticResource InventoryTooltip}"/>
+			</ig:XamTreemap.NodeBinders>
+            <!-- #BEGIN SNIPPET# -->
+            <ig:XamTreemap.ValueMappers>
+				<ig:ColorMapper ValueTypeName="Manufacturer" ValuePath="Revenue" TargetProperty="Foreground" TargetName="TextBlockRevenue" MappingMode="AllNodes" From="#FF381456" To="#FF7D50A1" />
+				<ig:ColorMapper ValueTypeName="Product" ValuePath="StandardCost" TargetProperty="Fill" MappingMode="AllNodes" />
+				<ig:ColorMapper ValueTypeName="InventoryEntry" ValuePath="Quantity" TargetProperty="Fill" From="#FF4A1E70" To="#FF996CBD" />
+                <!--custom value mapping-->
+                <custom:WarningMapper ValueTypeName="InventoryEntry" />
+			</ig:XamTreemap.ValueMappers>
+            <!-- #END SNIPPET# -->
+
+        </ig:XamTreemap>
+	</Grid>
+</igFramework:SampleContainer>

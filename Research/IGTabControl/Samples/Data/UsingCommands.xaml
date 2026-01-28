@@ -1,0 +1,135 @@
+﻿<igFramework:SampleContainer x:Class="IGTabControl.Samples.Data.UsingCommands"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="UsingCommands"
+      Loaded="Page_Loaded"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:igWindows="http://infragistics.com/Windows"
+      xmlns:res="clr-namespace:IGTabControl.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <res:TabControlStrings x:Key="Strings" />
+            <Style TargetType="{x:Type Button}"
+                   BasedOn="{StaticResource CommandButtonStyle}">
+                <Setter Property="Margin"
+                        Value="0,2,0,2" />
+            </Style>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGTabControl;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <Grid>
+        <!-- #BEGIN SNIPPET# -->
+        <igWindows:XamTabControl x:Name="tabControl"
+                                 AllowMinimize="True"
+                                 Theme="RoyalLight"
+                                 TabLayoutStyle="MultiRowAutoSize"
+                                 AllowTabClosing="true"
+                                 SelectionChanged="tabControl_SelectionChanged" />
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource CommonStrings}, Path=ConfigurationPanel_Header_Options}"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Top"
+                               Margin="50, 100">
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="Button" BasedOn="{StaticResource IGGenericButton}" >
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+            </controls:OptionsPanel.Resources>
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.5*" />
+                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition Width="0.5*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                </Grid.RowDefinitions>
+                <TextBlock Style="{StaticResource OptionsPanelTitleStyle}"
+                           Text="{Binding Path=TabControl_UsingCommands_ConfigArea_ControlCommands_Label, Source={StaticResource Strings}}"
+                           Grid.ColumnSpan="3">
+                    <TextBlock.ToolTip>
+                        <TextBlock Text="{Binding Path=TabControl_UsingCommands_ConfigArea_ControlCommandsOverview_Label, Source={StaticResource Strings}}"
+                                   TextWrapping="Wrap"
+                                   Width="300" />
+                    </TextBlock.ToolTip>
+                </TextBlock>
+                <Button Command="{x:Static igWindows:TabControlCommands.SelectFirstTab}"
+                        CommandTarget="{Binding ElementName=tabControl}"
+                        Content="{Binding Path=TabControl_UsingCommands_ConfigArea_ControlCommandSelectFirstTab_Label, Source={StaticResource Strings}}"
+                        Grid.Row="1"/>
+                <Button Command="{x:Static igWindows:TabControlCommands.SelectLastTab}"
+                        CommandTarget="{Binding ElementName=tabControl}"
+                        Content="{Binding Path=TabControl_UsingCommands_ConfigArea_ControlCommandSelectLastTab_Label, Source={StaticResource Strings}}"
+                        Grid.Row="1"
+                        Grid.Column="2"/>
+                <Button Command="{x:Static igWindows:TabControlCommands.SelectNextTab}"
+                        CommandTarget="{Binding ElementName=tabControl}"
+                        Content="{Binding Path=TabControl_UsingCommands_ConfigArea_ControlCommandSelectNextTab_Label, Source={StaticResource Strings}}"
+                        Grid.Row="2"/>
+                <Button Command="{x:Static igWindows:TabControlCommands.SelectPreviousTab}"
+                        CommandTarget="{Binding ElementName=tabControl}"
+                        Content="{Binding Path=TabControl_UsingCommands_ConfigArea_ControlCommandSelectPreviousTab_Label, Source={StaticResource Strings}}"
+                        Grid.Row="2"
+                        Grid.Column="2" />
+                <Button Command="{x:Static igWindows:TabControlCommands.CloseSelected}"
+                        CommandTarget="{Binding ElementName=tabControl}"
+                        Content="{Binding Path=TabControl_UsingCommands_ConfigArea_ControlCommandCloseSelected_Label,  Source={StaticResource Strings}}"
+                        Grid.Row="3"/>
+                <Button Command="{x:Static igWindows:TabControlCommands.CloseAll}"
+                        CommandTarget="{Binding ElementName=tabControl}"
+                        Content="{Binding Path=TabControl_UsingCommands_ConfigArea_ControlCommandCloseAll_Label, Source={StaticResource Strings}}"
+                        Grid.Row="3"
+                        Grid.Column="2" />
+                <Button Command="{x:Static igWindows:TabControlCommands.ToggleMinimized}"
+                        CommandTarget="{Binding ElementName=tabControl}"
+                        Content="{Binding Path=TabControl_UsingCommands_ConfigArea_ControlCommandToggleMinimized_Label, Source={StaticResource Strings}}"
+                        Grid.Row="4" />
+                <Button Command="{x:Static igWindows:TabControlCommands.Expand}"
+                        CommandTarget="{Binding ElementName=tabControl}"
+                        Content="{Binding Path=TabControl_UsingCommands_ConfigArea_ControlCommandExpand_Label, Source={StaticResource Strings}}"
+                        Grid.Row="4"
+                        Grid.Column="2" />
+                <Button Command="{x:Static igWindows:TabControlCommands.Minimize}"
+                        CommandTarget="{Binding ElementName=tabControl}"
+                        Content="{Binding Path=TabControl_UsingCommands_ConfigArea_ControlCommandMinimize_Label, Source={StaticResource Strings}}"
+                        Grid.Row="5"/>
+
+                <TextBlock Style="{StaticResource OptionsPanelTitleStyle}"
+                           Text="{Binding Path=TabControl_UsingCommands_ConfigArea_TabItemCommands_Label, Source={StaticResource Strings}}"
+                           Grid.Row="7"
+                           Grid.ColumnSpan="3">
+                    <TextBlock.ToolTip>
+                        <TextBlock Text="{Binding Path=TabControl_UsingCommands_ConfigArea_TabItemCommandsOverview_Label, Source={StaticResource Strings}}"
+                                   TextWrapping="Wrap"
+                                   Width="300" />
+                    </TextBlock.ToolTip>
+                </TextBlock>
+                <Button Command="{x:Static igWindows:TabItemExCommands.Close}"
+                        Content="{Binding Path=TabControl_UsingCommands_ConfigArea_TabItemCommandClose_Label, Source={StaticResource Strings}}"
+                        x:Name="btnCloseSelectedTab"
+                        Grid.Row="8" />
+                <Button Command="{x:Static igWindows:TabItemExCommands.CloseAllButThis}"
+                        Content="{Binding Path=TabControl_UsingCommands_ConfigArea_TabItemCommandCloseAllButThis_Label, Source={StaticResource Strings}}"
+                        x:Name="btnCloseAllButSelectedTab"
+                        Grid.Row="8"
+                        Grid.Column="2" />
+            </Grid>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

@@ -1,0 +1,328 @@
+﻿<igFramework:SampleContainer x:Class="IGTimeline.Samples.PresidentialTimeline"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      Width="700" Height="500"
+      xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGTimeline.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGTimeline;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:TimelineStrings x:Key="Strings" />
+            <converters:GetImagePathConverter x:Key="GetImageConverter" />
+
+            <Style x:Key="TimelineStyle" TargetType="ig:XamTimeline">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ig:XamTimeline">
+                            <Grid>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <ig:Title Content="{TemplateBinding Title}" Style="{TemplateBinding TitleStyle}" />
+                                    <Grid Grid.Row="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Border Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}">
+                                                <Grid>
+                                                    <Border BorderBrush="{x:Null}" BorderThickness="{TemplateBinding BorderThickness}" />
+                                                    <ig:Scene x:Name="SceneElement" Grid.Column="0" Margin="5" Style="{TemplateBinding SceneStyle}" />
+                                                    <Canvas x:Name="DetailsPaneElement" />
+                                                </Grid>
+                                            </Border>
+                                            <Grid x:Name="ZoombarPanelElement" Height="70" Grid.Row="1" />
+                                        </Grid>
+                                        <ig:TimelineLegend x:Name="LegendElement" Grid.Column="1" Margin="10,0,0,0" Style="{TemplateBinding LegendStyle}" Title="{TemplateBinding LegendTitle}" />
+                                    </Grid>
+                                </Grid>
+                                <ig:MessageControl x:Name="MessageControlElement" Style="{TemplateBinding MessageControlStyle}" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="EventSpanRed" TargetType="ig:EventSpan">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ig:EventSpan">
+                            <Grid Margin="0,2,0,2">
+                                <Rectangle Height="15" Fill="#FFCC0000" RadiusX="7" RadiusY="7" Stroke="#FFFF0000" StrokeThickness="0" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="EventSpanBlue" TargetType="ig:EventSpan">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ig:EventSpan">
+                            <Grid Margin="0,2,0,2">
+                                <Rectangle Height="15" Fill="#FF0066CC" RadiusX="7" RadiusY="7" Stroke="#FF0000FF" StrokeThickness="0" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="EventTitleTopStyle" TargetType="ig:EventTitle">
+                <Setter Property="PointStringFormat" Value="[{0}]" />
+                <Setter Property="SpanStringFormat" Value="[{0}-{1}]" />
+                <Setter Property="Width" Value="150" />
+                <Setter Property="VerticalAlignment" Value="Bottom" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ig:EventTitle">
+                            <Grid VerticalAlignment="Bottom">
+                                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="9" Margin="5,65,0,0" Foreground="#FF666666" Text="{TemplateBinding Title}" TextWrapping="NoWrap" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="LineStyle">
+                    <Setter.Value>
+                        <Style TargetType="Line">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="HorizontalAlignment" Value="Center" />
+            </Style>
+            <Style x:Key="EventTitleBottomStyle" TargetType="ig:EventTitle">
+                <Setter Property="PointStringFormat" Value="[{0}]" />
+                <Setter Property="SpanStringFormat" Value="[{0}-{1}]" />
+                <Setter Property="Width" Value="150" />
+                <Setter Property="VerticalAlignment" Value="Top" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ig:EventTitle">
+                            <Grid VerticalAlignment="Top">
+                                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="9" Margin="5,0,0,70" Foreground="#FF666666" Text="{TemplateBinding Title}" TextWrapping="NoWrap" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="LineStyle">
+                    <Setter.Value>
+                        <Style TargetType="Line">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="HorizontalAlignment" Value="Center" />
+            </Style>
+            <Style x:Key="MajorGridLineStyle" TargetType="ig:Mark">
+                <Setter Property="Width" Value="1" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ig:Mark">
+                            <Rectangle Fill="#99666666" Opacity="0.2" Stroke="{TemplateBinding Stroke}" />
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="AxisLabelStyle" TargetType="ig:AxisLabel">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ig:AxisLabel">
+                            <TextBlock x:Name="TextBlockElement" Margin="0,-12,0,0" FontSize="9" Foreground="#FF666666" Text="{TemplateBinding FormattedText}" />
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="AxisThumbStyle" TargetType="ig:AxisThumb">
+                <Setter Property="Width" Value="15" />
+                <Setter Property="Height" Value="40" />
+                <Setter Property="Canvas.ZIndex" Value="1" />
+                <Setter Property="Cursor" Value="Hand" />
+                <Setter Property="Background" Value="Black" />
+                <Setter Property="BorderBrush" Value="Black" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ig:AxisThumb">
+                            <Grid Width="15" Height="40" Background="#00ffffff">
+                                <Path Width="7" Height="40" HorizontalAlignment="Left" Margin="4,0,0,0" VerticalAlignment="Top" Data="M 7.5,0 C7.5,0 7.5,0 7.5,0 9.433,0 11,1.566 11,3.5 11,3.5 11,36.5 11,36.5 11,38.433 9.433,40 7.5,40 7.5,40 7.5,40 7.5,40 5.566,40 4,38.433 4,36.5 4,36.5 4,3.5 4,3.5 4,1.566 5.566,0 7.5,0 z" Opacity="0.890" Stretch="Fill">
+                                    <Path.Fill>
+                                        <LinearGradientBrush StartPoint="0.571,-0.95" EndPoint="0.571,1.8">
+                                            <LinearGradientBrush.GradientStops>
+                                                <GradientStopCollection>
+                                                    <GradientStop Offset="0" Color="#FF000000" />
+                                                    <GradientStop Offset="0.988" Color="#FF797979" />
+                                                </GradientStopCollection>
+                                            </LinearGradientBrush.GradientStops>
+                                        </LinearGradientBrush>
+                                    </Path.Fill>
+                                </Path>
+                                <Path Width="5" Height="36" HorizontalAlignment="Left" Margin="5,2,0,0" VerticalAlignment="Top" Data="M 7.5,38 C7.5,38 7.5,38 7.5,38 6.119,38 5,36.785 5,35.287 5,35.287 5,4.712 5,4.712 5,3.214 6.119,2 7.5,2 7.5,2 7.5,2 7.5,2 8.880,2 10,3.214 10,4.712 10,4.712 10,35.287 10,35.287 10,36.785 8.880,38 7.5,38 z" Opacity="1" Stretch="Fill">
+                                    <Path.Fill>
+                                        <LinearGradientBrush StartPoint="0.6,1.944" EndPoint="0.6,0">
+                                            <LinearGradientBrush.GradientStops>
+                                                <GradientStopCollection>
+                                                    <GradientStop Offset="0" Color="#FF666666" />
+                                                    <GradientStop Offset="0.983" Color="#FFd3d3d3" />
+                                                </GradientStopCollection>
+                                            </LinearGradientBrush.GradientStops>
+                                        </LinearGradientBrush>
+                                    </Path.Fill>
+                                </Path>
+                                <Path Width="15" Height="15" HorizontalAlignment="Left" Margin="0,14,0,0" VerticalAlignment="Top" Data="M 0,21.5 C0,17.357 3.357,14 7.5,14 11.642,14 15,17.357 15,21.5 15,25.642 11.642,29 7.5,29 3.357,29 0,25.642 0,21.5 z" Opacity="1" Stretch="Fill">
+                                    <Path.Fill>
+                                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                            <LinearGradientBrush.GradientStops>
+                                                <GradientStopCollection>
+                                                    <GradientStop Offset="0" Color="#FF333333" />
+                                                    <GradientStop Offset="1" Color="#FFffffff" />
+                                                </GradientStopCollection>
+                                            </LinearGradientBrush.GradientStops>
+                                        </LinearGradientBrush>
+                                    </Path.Fill>
+                                </Path>
+                                <Path Width="10.384" Height="10.384" HorizontalAlignment="Left" Margin="2.307,16.307,0,0" VerticalAlignment="Top" Data="M 2.307,21.5 C2.307,24.367 4.632,26.692 7.5,26.692 10.367,26.692 12.692,24.367 12.692,21.5 12.692,18.632 10.367,16.307 7.5,16.307 4.632,16.307 2.307,18.632 2.307,21.5 z" Opacity="1" Stretch="Fill">
+                                    <Path.Fill>
+                                        <LinearGradientBrush StartPoint="0.5,1" EndPoint="0.5,0">
+                                            <LinearGradientBrush.GradientStops>
+                                                <GradientStopCollection>
+                                                    <GradientStop Offset="0" Color="#FF333333" />
+                                                    <GradientStop Offset="1" Color="#FFffffff" />
+                                                </GradientStopCollection>
+                                            </LinearGradientBrush.GradientStops>
+                                        </LinearGradientBrush>
+                                    </Path.Fill>
+                                </Path>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="AxisPaneStyle" TargetType="ig:Mark">
+                <Setter Property="Height" Value="2" />
+                <Setter Property="Fill" Value="#666666" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ig:Mark">
+                            <Rectangle Fill="#00666666" RadiusX="3" RadiusY="3" Stroke="{x:Null}" />
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="SceneStyle" TargetType="ig:Scene">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ig:Scene">
+                            <Grid>
+                                <ig:StripesPanel x:Name="StripesPanelElement" Margin="0,30" />
+                                <ig:GridLinesPanel x:Name="GridLinesPanelElement" Margin="0,30" />
+                                <Grid Style="{TemplateBinding SceneGridStyle}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <ig:EventTitlesPanel x:Name="TitlesPanelTopOrLeftElement" Position="TopOrLeft" />
+                                    <ig:EventTitlesPanel x:Name="TitlesPanelBottomOrRightElement" Position="BottomOrRight" Grid.Row="2" />
+                                    <Grid x:Name="AxisPaneElement" Height="50" Grid.Row="1" VerticalAlignment="Top" d:LayoutOverrides="Height" />
+                                </Grid>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="EventDetailsTopStyle" TargetType="ig:EventDetails">
+                <Setter Property="Width" Value="100" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ig:EventDetails">
+                            <Grid VerticalAlignment="Bottom">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="120" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Image HorizontalAlignment="Center" VerticalAlignment="Bottom" Source="{TemplateBinding Details}" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="EventDetailsBottomStyle" TargetType="ig:EventDetails">
+                <Setter Property="Width" Value="100" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ig:EventDetails">
+                            <Grid VerticalAlignment="Top">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="120" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Image HorizontalAlignment="Center" VerticalAlignment="Top" Source="{TemplateBinding Details}" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="{x:Null}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Image Height="Auto" Grid.Row="1" HorizontalAlignment="Stretch" Margin="0" Opacity="0.1"
+               Source="{Binding Source='Backgrounds/eagle.jpg', Converter={StaticResource GetImageConverter}}" Stretch="Fill" />
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamTimeline x:Name="timeline" Background="Transparent" Grid.Row="1"
+                        EventTitleBottomStyle="{StaticResource EventTitleBottomStyle}"
+                        EventTitleTopStyle="{StaticResource EventTitleTopStyle}"
+                        EventDetailsTopStyle="{StaticResource EventDetailsTopStyle}"
+                        EventDetailsBottomStyle="{StaticResource EventDetailsBottomStyle}"
+                        SceneStyle="{StaticResource SceneStyle}"
+                        Style="{StaticResource TimelineStyle}"
+                        BorderThickness="0">
+            <ig:XamTimeline.EventTitleLayoutSettings>
+                <ig:EventTitleLayoutSettings Enabled="False" />
+            </ig:XamTimeline.EventTitleLayoutSettings>
+            <ig:XamTimeline.ZoombarStyle>
+                <Style TargetType="ig:XamZoombar">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                </Style>
+            </ig:XamTimeline.ZoombarStyle>
+            <ig:XamTimeline.LegendStyle>
+                <Style TargetType="ig:TimelineLegend">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                </Style>
+            </ig:XamTimeline.LegendStyle>
+            <ig:XamTimeline.Axis>
+                <ig:NumericTimeAxis AutoRange="False" LabelStyle="{StaticResource AxisLabelStyle}"
+                                    MajorGridLineStyle="{StaticResource MajorGridLineStyle}"
+                                    Maximum="2014" Minimum="1969"
+                                    PaneStyle="{StaticResource AxisPaneStyle}" SelectedTime="1969" ShowMajorGridLines="True"
+                                    ShowMajorTickMarks="False" ThumbStyle="{StaticResource AxisThumbStyle}" />
+            </ig:XamTimeline.Axis>
+            <ig:XamTimeline.Series>
+                <!-- Republicans -->
+                <ig:NumericTimeSeries Position="BottomOrRight" EventSpanStyle="{StaticResource EventSpanRed}" />
+                <!-- Democrats -->
+                <ig:NumericTimeSeries EventSpanStyle="{StaticResource EventSpanBlue}" />
+            </ig:XamTimeline.Series>
+        </ig:XamTimeline>
+        <!-- #END SNIPPET# -->
+        <TextBlock Text="{Binding Path=XWT_PresidentialTimeline_SampleTitleLabel, Source={StaticResource Strings}}"
+                   Foreground="#FFBB2C2C" VerticalAlignment="Top" Margin="0,0,0,12" Style="{StaticResource SamplesTitleStyle}"/>
+
+    </Grid>
+
+</igFramework:SampleContainer>

@@ -1,0 +1,92 @@
+﻿<igFramework:SampleContainer x:Class="IGTreemap.Samples.TreemapBoxSelection"
+                 xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework" 
+                 xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+                 xmlns:selection="clr-namespace:IGTreemap.Samples"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 mc:Ignorable="d"
+                 xmlns:resources="clr-namespace:IGTreemap.Resources"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:ig="http://schemas.infragistics.com/xaml" 
+                 xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared" 
+                 Width="700" Height="500">
+    <igFramework:SampleContainer.Resources>                   
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="/IGTreemap;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamTreemap.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+			<models:WorldDataModel x:Key="WorldDataModel" />
+			<resources:TreemapStrings x:Key="Strings" />
+		</ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    
+    <Grid x:Name="LayoutRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="200" />
+        </Grid.ColumnDefinitions>
+        <Grid.Resources>
+            <!--#BEGIN SNIPPET#-->
+            <!--Create an instance of the TreemapSelectionViewModel class.-->
+            <selection:TreemapSelectionViewModel x:Key="SelectionViewModel"
+                                                 SelectionRoot="{Binding ElementName=SelectionRoot}">
+                <!--Assign a style, which will be applied to the selected nodes.-->
+                <selection:TreemapSelectionViewModel.SelectedStyle>
+                    <Style TargetType="ig:TreemapNode">
+                        <Setter Property="Fill">
+                            <Setter.Value>
+				                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+				                    <GradientStop Color="#FF277F9F" Offset="1" />
+				                    <GradientStop Color="#FF5DDAFF" />
+				                </LinearGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="HorizontalAlignment" Value="Center" />
+				        <Setter Property="BorderThickness" Value="1" />
+        				<Setter Property="CornerRadius" Value="1" />
+				        <Setter Property="Padding" Value="4"/>
+				        <Setter Property="Margin" Value="1"/>
+                    </Style>
+                </selection:TreemapSelectionViewModel.SelectedStyle>
+            </selection:TreemapSelectionViewModel>
+            <!--#END SNIPPET#-->
+        </Grid.Resources>
+
+        <!--#BEGIN SNIPPET#-->
+        <!--The Grid, which will be used as a root for the selection.-->
+        <!--Note that this Grid contains a xamTreemap instance.-->
+        <Grid x:Name="SelectionRoot" Margin="10">
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF277F9F" Offset="1" />
+                    <GradientStop Color="#FF5DDAFF" />
+                </LinearGradientBrush>
+            </Grid.Background>
+            <ig:XamTreemap x:Name="Treemap"
+                           DataContext="{StaticResource WorldDataModel}"
+                           ItemsSource="{Binding CountryDataRecords}"
+                           Margin="25">
+                <ig:XamTreemap.NodeBinders>
+                    <ig:NodeBinder TargetTypeName="CountryDataModel"
+                                   TextPath="CountryCode"
+                                   ValuePath="PublicDebt" />
+                </ig:XamTreemap.NodeBinders>
+            </ig:XamTreemap>
+        </Grid>
+        <!--#END SNIPEPT#-->
+
+        <Border Grid.Column="1" VerticalAlignment="Top" Height="213">
+            <controls:OptionsPanel HeaderText="{Binding Path=XWT_SelectedNodes, Source={StaticResource Strings}}" Width="200" Margin="0,10">
+                <!--#BEGIN SNIPPET#-->
+                <!--The List Box, which is bound to the Selected Nodes.-->
+                <ListBox Height="150"
+                         DataContext="{StaticResource SelectionViewModel}" 
+                         ItemsSource="{Binding SelectedNodes}" />
+                <!--#END SNIPPET#-->
+            </controls:OptionsPanel>
+        </Border>
+
+    </Grid>
+</igFramework:SampleContainer>

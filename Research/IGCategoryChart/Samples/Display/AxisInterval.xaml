@@ -1,0 +1,104 @@
+﻿<igFramework:SampleContainer x:Class="IGCategoryChart.Samples.Data.AxisInterval"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IGCategoryChart.Samples.Data"
+             xmlns:ig="http://schemas.infragistics.com/xaml"
+             xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+             xmlns:resources="clr-namespace:IGCategoryChart.Resources"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <Grid>
+        <Grid.Resources>
+            <local:ValueLabelConverter x:Key="valueConverter"/>
+            <resources:CategoryChartStrings x:Key="Strings"/>
+            <Style TargetType="TextBlock">
+                <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+            </Style>
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="35" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="35" />
+            <RowDefinition Height="15" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="35" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="35" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" MinWidth="180"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ========================================================================== -->
+        <ig:XamCategoryChart x:Name="chart1" Grid.Row="0" Grid.ColumnSpan="5" ItemsSource="{Binding LargeSixDataPtCollection}" ChartType="Column"
+                             Title="{Binding XWCC_TitleLbl, Source={StaticResource Strings}}"
+                             Subtitle="{Binding XWCC_SubtitleLbl, Source={StaticResource Strings}}"
+                             XAxisTitle="{Binding XWCC_XAxisTitleLbl, Source={StaticResource Strings}}"
+                             YAxisTitle="{Binding XWCC_YAxisTitleLbl, Source={StaticResource Strings}}"
+                             XAxisLabel="{}{DayOfMonth}" 
+                             Margin="{StaticResource CategoryChartSamplesPadding}">
+
+        </ig:XamCategoryChart>
+        <!-- ========================================================================== -->
+        <!-- #END SNIPPET# -->
+
+        <!--XAxis Minor Interval Interactions-->
+        <TextBlock Text="{Binding XCC_AxisInterval_xMinorInterval, Source={StaticResource Strings}}" Grid.Row="3" Grid.Column="0" Margin="10, 0, 0, 0"/>
+        <ToggleButton Name="xMinorIntervalToggle" Content="{Binding ElementName=xMinorIntervalToggle, Path=IsChecked, Converter={StaticResource valueConverter}, ConverterParameter=XMinorIntervalVisible}" Grid.Row="4" Margin="10, 7, 10, 7" Click="xMinorIntervalToggle_Click"></ToggleButton>
+
+        <TextBlock Text="{Binding XCC_AxisInterval_xMinorIntervalThicknessLbl, Source={StaticResource Strings}}" Grid.Row="3" Grid.Column="1" Margin="10, 0, 0, 0"/>
+        <TextBlock Name="xMinorIntervalThicknessValueLbl" Text="{Binding Value, ElementName=xMinorIntervalThicknessSlider, StringFormat=#.##}" Grid.Row="3" Grid.Column="2" Margin="10, 0, 0, 0"/>
+        <Slider x:Name="xMinorIntervalThicknessSlider" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Margin="10, 7, 10, 7" ValueChanged="xMinorIntervalThicknessSlider_ValueChanged"
+                Maximum="10" Minimum="0" Value="1"/>
+
+        <TextBlock Name="xMinorIntervalLbl" Text="{Binding XCC_AxisInterval_xMinorIntervalLbl, Source={StaticResource Strings}}" Grid.Row="1" Grid.Column="3" Margin="5,2,5,33" Grid.RowSpan="2"/>
+        <TextBlock Name="xMinorIntervalValueLbl" Text="{Binding Value, ElementName=xMinorIntervalValueSlider, StringFormat=#.##}" Grid.Row="1" Grid.Column="4" Margin="10,2,0,33" Grid.RowSpan="2"/>
+        <Slider x:Name="xMinorIntervalValueSlider" Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2" Margin="10,7" ValueChanged="xMinorIntervalValueSlider_ValueChanged"
+                Maximum="1" Minimum="0.1" Value="0.5"/>
+
+        <!--X Axis Major Interval Interactions-->
+        <TextBlock Text="{Binding XCC_AxisInterval_xMajorInterval, Source={StaticResource Strings}}" Grid.Row="1" Grid.Column="0" Margin="10, 0, 0, 0"/>
+        <ToggleButton Name="xMajorIntervalToggle" Content="{Binding ElementName=xMajorIntervalToggle, Path=IsChecked, Converter={StaticResource valueConverter}, ConverterParameter=XMajorIntervalVisible}" Grid.Row="2" Margin="10, 7, 10, 7" Click="xMajorIntervalToggle_Click"></ToggleButton>
+
+        <TextBlock Name="xMajorIntervalThicknessLbl" Text="{Binding XCC_AxisInterval_xMajorIntervalThicknessLbl, Source={StaticResource Strings}}" Grid.Row="1" Grid.Column="1" Margin="10, 0, 0, 0"/>
+        <TextBlock Name="xMajorIntervalThicknessValueLbl" Text="{Binding Value, ElementName=xMajorIntervalThicknessSlider, StringFormat=#.##}" Grid.Row="1" Grid.Column="2" Margin="10, 0, 0, 0"/>
+        <Slider x:Name="xMajorIntervalThicknessSlider" Grid.Row="2" Grid.ColumnSpan="2" Margin="10,7,14,7" ValueChanged="xMajorIntervalThicknessSlider_ValueChanged"
+                Maximum="10" Minimum="0" Value="2" Grid.Column="1"/>
+
+        <!--YAxis Minor Interval Interactions-->
+        <TextBlock Text="{Binding XCC_AxisInterval_yMinorInterval, Source={StaticResource Strings}}" Grid.Row="8" Grid.Column="0" Margin="10, 0, 0, 0"/>
+        <ToggleButton Name="yMinorIntervalToggle" Content="{Binding ElementName=yMinorIntervalToggle, Path=IsChecked, Converter={StaticResource valueConverter}, ConverterParameter=YMinorIntervalVisible}" Grid.Row="9" Margin="10, 7, 10, 7" Click="yMinorIntervalToggle_Click"></ToggleButton>
+
+        <TextBlock Text="{Binding XCC_AxisInterval_yMinorIntervalThicknessLbl, Source={StaticResource Strings}}" Grid.Row="8" Grid.Column="1" Margin="10, 0, 0, 0"/>
+        <TextBlock Name="yMinorIntervalThicknessValueLbl" Text="{Binding Value, ElementName=yMinorIntervalThicknessSlider, StringFormat=#.##}" Grid.Row="8" Grid.Column="2" Margin="10, 0, 0, 0"/>
+        <Slider x:Name="yMinorIntervalThicknessSlider" Grid.Row="9" Grid.ColumnSpan="2" Margin="10,7,14,7" ValueChanged="yMinorIntervalThicknessSlider_ValueChanged"
+                Maximum="10" Minimum="0" Value="1" Grid.Column="1"/>
+
+        <TextBlock Name="yMinorIntervalLbl" Text="{Binding XCC_AxisInterval_yMinorIntervalLbl, Source={StaticResource Strings}}" Grid.Row="6" Grid.Column="3" Margin="5,0"/>
+        <TextBlock Name="yMinorIntervalValueLbl" Text="{Binding Value, ElementName=yMinorIntervalValueSlider, StringFormat=#.##}" Grid.Row="6" Grid.Column="4" Margin="10,0,0,0"/>
+        <Slider x:Name="yMinorIntervalValueSlider" Grid.Row="7" Grid.Column="3" Grid.ColumnSpan="2" Margin="10,7" ValueChanged="yMinorIntervalValueSlider_ValueChanged"
+                Maximum="10" Minimum="0.15" Value="5"/>
+
+        <!--Y Axis Major Interval Interactions-->
+        <TextBlock Text="Y MajorInterval" Grid.Row="6" Grid.Column="0" Margin="10, 0, 0, 0"/>
+        <ToggleButton Name="yMajorIntervalToggle" Content="{Binding ElementName=yMajorIntervalToggle, Path=IsChecked, Converter={StaticResource valueConverter}, ConverterParameter=YMajorIntervalVisible}" Grid.Row="7" Margin="10, 7, 10, 7" Click="yMajorIntervalToggle_Click"></ToggleButton>
+
+        <TextBlock Name="yMajorIntervalThicknessLbl" Text="{Binding XCC_AxisInterval_yMajorIntervalThicknessLbl, Source={StaticResource Strings}}" Grid.Row="6" Grid.Column="1" Margin="10, 0, 0, 0"/>
+        <TextBlock Name="yMajorIntervalThicknessValueLbl" Text="{Binding Value, ElementName=yMajorIntervalThicknessSlider, StringFormat=#.##}" Grid.Row="6" Grid.Column="2" Margin="10, 0, 0, 0"/>
+        <Slider x:Name="yMajorIntervalThicknessSlider" Grid.Row="7" Grid.ColumnSpan="2" Margin="10,7,14,7" ValueChanged="yMajorIntervalThicknessSlider_ValueChanged"
+                Maximum="10" Minimum="0" Value="2" Grid.Column="1"/>
+        
+    </Grid>
+</igFramework:SampleContainer>

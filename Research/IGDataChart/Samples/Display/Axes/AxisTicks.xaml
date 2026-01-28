@@ -1,0 +1,98 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Display.Axes.AxisTicks"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="AxisLabelSettings Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <ig:StringFormatConverter x:Key="StringFormatConverter" />
+            <models:StockMarketDataCollection  x:Key="StockMarketData1" />
+            <converters:SolidColorBrushToColorConverter x:Key="BrushToColorConverter"/>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+
+        <ig:XamDataChart x:Name="DataChart" >
+            <ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:CategoryXAxis TickLength="5"
+                                  TickStrokeThickness="1"
+                                  TickStroke="Gray"
+                                  x:Name="XAxis"
+                                  Label="{}{Date:MM/dd}"
+                                  ItemsSource="{StaticResource StockMarketData1}"/>
+                <ig:NumericYAxis TickLength="0"
+                                 TickStrokeThickness="1"
+                                 TickStroke="Gray"
+                                 x:Name="YAxis"/>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart.Axes>
+            <ig:XamDataChart.Series>
+                <ig:SplineSeries MarkerType="None" Thickness="2"
+                                 ItemsSource="{StaticResource StockMarketData1}"
+                                 ValueMemberPath="High"
+                                 XAxis="{Binding ElementName=XAxis}"
+                                 YAxis="{Binding ElementName=YAxis}" 
+                                 IsHighlightingEnabled="True" IsTransitionInEnabled="True"/>
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+
+        <controls:OptionsPanel HeaderText="{Binding XDC_AxisTicks_Options, Source={StaticResource Strings}}" 
+                               VerticalAlignment="Top" HorizontalAlignment="Right" Margin="5" >
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}"/>
+            </controls:OptionsPanel.Resources>
+            <TextBlock Text="{Binding XWDC_ChartEvents_XAxis, Source={StaticResource Strings}}" Style="{StaticResource OptionsPanelTitleStyle}" Margin="{StaticResource OptionsElementsMargin}" />
+            <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}">
+                <TextBlock VerticalAlignment="Center" Text="{Binding XDC_AxisTicks_Length, Source={StaticResource Strings}}" Width="80" />
+                <Slider x:Name="XAxisTickLengthSlider" Width="80" Value="{Binding TickLength, ElementName=XAxis, Mode=TwoWay}" Minimum="0" Maximum="20"/>
+                <TextBlock VerticalAlignment="Center" Text="{Binding Value,ElementName=XAxisTickLengthSlider, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}" Margin="{StaticResource OptionsTextLeftMargin}"/>
+            </StackPanel>
+            
+             <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}">
+                <TextBlock VerticalAlignment="Center" Text="{Binding XDC_AxisTicks_StrokeThickness, Source={StaticResource Strings}}" Width="80" />
+                <Slider x:Name="XAxisStrokeThicknessSlider" Width="80" Value="{Binding TickStrokeThickness, ElementName=XAxis, Mode=TwoWay}" Minimum="0" Maximum="5"/>
+                <TextBlock VerticalAlignment="Center" Text="{Binding Value,ElementName=XAxisStrokeThicknessSlider, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}"  Margin="{StaticResource OptionsTextLeftMargin}"/>
+            </StackPanel>
+           
+            <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}">
+                <TextBlock VerticalAlignment="Center" Text="{Binding XDC_AxisTicks_Stroke, Source={StaticResource Strings}}" Width="80" />
+                <ig:XamColorPicker SelectedColor="{Binding TickStroke, ElementName=XAxis, Mode=TwoWay, Converter={StaticResource BrushToColorConverter}}" Width="100"/>
+            </StackPanel>
+
+            <TextBlock Text="{Binding XWDC_ChartEvents_YAxis, Source={StaticResource Strings}}" Style="{StaticResource OptionsPanelTitleStyle}" Margin="{StaticResource OptionsElementsMargin}" />
+            <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}">
+                <TextBlock VerticalAlignment="Center" Text="{Binding XDC_AxisTicks_Length, Source={StaticResource Strings}}" Width="80" />
+                <Slider x:Name="YAxisTickLengthSlider" Width="80" Value="{Binding TickLength, ElementName=YAxis, Mode=TwoWay}" Minimum="0" Maximum="20"/>
+                <TextBlock VerticalAlignment="Center" Text="{Binding Value,ElementName=YAxisTickLengthSlider, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}" Margin="{StaticResource OptionsTextLeftMargin}"/>
+            </StackPanel>
+             <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}">
+                <TextBlock VerticalAlignment="Center" Text="{Binding XDC_AxisTicks_StrokeThickness, Source={StaticResource Strings}}" Width="80" />
+                <Slider x:Name="YAxisStrokeThicknessSlider" Width="80" Value="{Binding TickStrokeThickness, ElementName=YAxis, Mode=TwoWay}" Minimum="0" Maximum="5"/>
+                <TextBlock VerticalAlignment="Center" Text="{Binding Value,ElementName=YAxisStrokeThicknessSlider, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}" Margin="{StaticResource OptionsTextLeftMargin}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" Text="{Binding XDC_AxisTicks_Stroke, Source={StaticResource Strings}}" Width="80" />
+                <ig:XamColorPicker SelectedColor="{Binding TickStroke, ElementName=YAxis, Mode=TwoWay, Converter={StaticResource BrushToColorConverter}}" Width="100"/>
+            </StackPanel>
+
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

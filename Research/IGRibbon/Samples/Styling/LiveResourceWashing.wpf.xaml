@@ -1,0 +1,798 @@
+﻿<framework:SampleContainer x:Class="IGRibbon.Samples.Styling.LiveResourceWashing"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="LiveResourceWashingPage"
+      xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:igEditors="http://infragistics.com/Editors"
+      xmlns:igRibbon="http://infragistics.com/Ribbon"
+      xmlns:igThemes="http://infragistics.com/Themes"
+      xmlns:local="clr-namespace:IGRibbon.Samples.Styling"
+      xmlns:res="clr-namespace:IGRibbon.Resources"
+      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+      x:Name="mainWindow">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGRibbon;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:RibbonStrings x:Key="RibbonStrings" />
+            <local:StringToBrushConverter x:Key="StringToBrushConverter"/>
+            <converters:XAMLColorizerConverter x:Key="xamlColorizerConverter"/>
+            <Style x:Key="btnColorSet" TargetType="{x:Type Button}">
+                <Style.BasedOn>
+                    <Style TargetType="{x:Type ButtonBase}">
+                        <Setter Property="FocusVisualStyle">
+                            <Setter.Value>
+                                <Style>
+                                    <Setter Property="Control.Template">
+                                        <Setter.Value>
+                                            <ControlTemplate>
+                                                <Border>
+                                                    <Rectangle
+                                                        SnapsToDevicePixels="True"
+                                                        Margin="4,4,4,4"
+                                                        Stroke="#FF000000"
+                                                        StrokeDashArray="1 2"
+                                                        StrokeThickness="1"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                        <Setter Property="BorderBrush">
+                            <Setter.Value>
+                                <SolidColorBrush/>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="BorderThickness" Value="3,3,3,3"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                        <Setter Property="Padding" Value="0,0,1,1"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ButtonBase}">
+                                    <Border>
+                                        <Grid
+                                            Width="Auto"
+                                            Height="Auto"
+                                            x:Name="ButtonBase"
+                                            HorizontalAlignment="Stretch">
+                                            <Image
+                                                Source="/images/icons/Ribbon/FontColor.png"
+                                                Width="16"
+                                                Height="16"
+                                                Stretch="None"
+                                                x:Name="image"
+                                                HorizontalAlignment="Left"
+                                                Margin="2,0,0,0"/>
+                                            <ContentPresenter
+                                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                HorizontalAlignment="Left"
+                                                Margin="20,0,0,0"
+                                                Content="{TemplateBinding Content}"
+                                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                RecognizesAccessKey="True"
+                                                d:LayoutOverrides="Height"
+                                                Width="Auto"
+                                                VerticalAlignment="Center"
+                                                x:Name="contentPresenter"/>
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsKeyboardFocused" Value="True"/>
+                                        <Trigger Property="Button.IsDefaulted" Value="True"/>
+                                        <Trigger Property="IsPressed" Value="True">
+                                            <Setter Property="Opacity" TargetName="contentPresenter" Value="1"/>
+                                            <Setter Property="Opacity" TargetName="image" Value="1"/>
+                                        </Trigger>
+                                        <Trigger Property="ToggleButton.IsChecked" Value="True"/>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                                        </Trigger>
+                                        <Trigger Property="IsMouseOver" Value="False">
+                                            <Setter Property="Opacity" TargetName="image" Value="0.5"/>
+                                            <Setter Property="Opacity" TargetName="contentPresenter" Value="0.5"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Style.BasedOn>
+            </Style>
+            <Style x:Key="WashColorLabel" TargetType="{x:Type TextBlock}">
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="FontFamily" Value="/Infragistics.Samples.Shared;component/fonts/#Segoe UI"/>
+                <Setter Property="Foreground" Value="#FF616161"/>
+            </Style>
+            <SolidColorBrush x:Key="ListBorder" Color="#FFA7A6AA"/>
+            <Style x:Key="WashColor_TextBlock" TargetType="{x:Type TextBox}">
+                <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource ListBorder}"/>
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                <Setter Property="Padding" Value="2"/>
+                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                <Setter Property="AllowDrop" Value="true"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type TextBox}">
+                            <Border
+                                SnapsToDevicePixels="true"
+                                x:Name="Bd"
+                                Background="{Binding Path=Text, Converter={StaticResource StringToBrushConverter}, Mode=Default, RelativeSource={RelativeSource TemplatedParent}}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                                <ScrollViewer SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" x:Name="PART_ContentHost"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid>
+        <igRibbon:XamRibbon x:Name="xamRibbon">
+            <!-- Tabs -->
+            <igRibbon:RibbonTabItem Header="{Binding ThemesAndCustomStyles_LiveResourceWashing_Tab_RibbonCustomization_Header,
+                Source={StaticResource RibbonStrings}}" IsSelected="True">
+                <!-- RibbonGroup -->
+                <igRibbon:RibbonGroup
+                    x:Name="WashColorOptionsGroup"
+                    Id="WashColorOptions"
+                    Caption="{Binding ThemesAndCustomStyles_LiveResourceWashing_Tab_RibbonCustomization_Group_CustomizationLevel_Caption,
+                    Source={StaticResource RibbonStrings}}">
+                    <StackPanel
+                        Width="105"
+                        Height="Auto"
+                        HorizontalAlignment="Left"
+                        Margin="0,6,0,0"
+                        Orientation="Vertical">
+                        <igRibbon:RadioButtonTool
+                            x:Name="rbSimple"
+                            Click="toggleVisibility_Click"
+                            Width="Auto"
+                            Height="Auto"
+                            Content="{Binding ThemesAndCustomStyles_LiveResourceWashing_Tab_RibbonCustomization_Group_CustomizationLevel_RadioButton_Simple,
+                            Source={StaticResource RibbonStrings}}"
+                            Margin="0,0,5,4"
+                            IsChecked="True"
+                            HorizontalAlignment="Left" VerticalAlignment="Top" />
+                        <igRibbon:RadioButtonTool
+                            x:Name="rbAdvanced"
+                            Click="toggleVisibility_Click"
+                            Width="Auto"
+                            Height="Auto"
+                            Content="{Binding ThemesAndCustomStyles_LiveResourceWashing_Tab_RibbonCustomization_Group_CustomizationLevel_RadioButton_Advanced,
+                            Source={StaticResource RibbonStrings}}"
+                            HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    </StackPanel>
+                </igRibbon:RibbonGroup>
+                <!-- End RibbonGroup -->
+
+                <!-- #BEGIN SNIPPET# -->
+                <!-- RibbonGroup -->
+                <igRibbon:RibbonGroup
+                    x:Name="WashOptionsGroup"
+                    Id="WashOptions"
+                    Caption="{Binding ThemesAndCustomStyles_LiveResourceWashing_Tab_RibbonCustomization_Group_WashOptions_Caption,
+                    Source={StaticResource RibbonStrings}}">
+                    <StackPanel Width="Auto" Orientation="Vertical" Margin="0,4,0,0">
+                        <StackPanel Width="Auto" Height="Auto" Orientation="Horizontal" Margin="0,0,0,3">
+                            <TextBlock
+                                Margin="0,0,0,0"
+                                VerticalAlignment="Center"
+                                FontWeight="Bold"
+                                Foreground="#FF595959"
+                                Text="{Binding ThemesAndCustomStyles_LiveResourceWashing_Tab_RibbonCustomization_Group_WashOptions_BaseTheme_Header,
+                                Source={StaticResource RibbonStrings}}"
+                                TextWrapping="Wrap"
+                                Width="70"/>
+                            <igRibbon:ComboEditorTool
+                                x:Name="cbxWashBase"
+                                Margin="0,0,0,0"
+                                SelectedItemChanged="cbxWashBase_SelectedItemChanged"
+                                Width="107" Height="19">
+                                <igRibbon:ComboEditorTool.ItemsProvider>
+                                    <igEditors:ComboBoxItemsProvider>
+                                        <sys:String>RibbonOffice2k7Black</sys:String>
+                                        <sys:String>RibbonOffice2k7Silver</sys:String>
+                                        <sys:String>RibbonOffice2k7Blue</sys:String>
+                                        <sys:String>RibbonWashBaseLight</sys:String>
+                                        <sys:String>RibbonWashBaseDark</sys:String>
+                                    </igEditors:ComboBoxItemsProvider>
+                                </igRibbon:ComboEditorTool.ItemsProvider>
+                            </igRibbon:ComboEditorTool>
+                        </StackPanel>
+                        <StackPanel
+                            d:LayoutOverrides="Width"
+                            Width="Auto"
+                            Height="Auto"
+                            Orientation="Horizontal"
+                            Margin="0,0,0,0">
+                            <TextBlock
+                                FontWeight="Bold"
+                                Foreground="#FF595959"
+                                Text="{Binding ThemesAndCustomStyles_LiveResourceWashing_Tab_RibbonCustomization_Group_WashOptions_WashMode_Header,
+                                Source={StaticResource RibbonStrings}}"
+                                TextWrapping="Wrap"
+                                Margin="0,0,0,0"
+                                Width="70" HorizontalAlignment="Left"/>
+                            <igRibbon:ComboEditorTool
+                                x:Name="cbxWashMode"
+                                HorizontalAlignment="Left"
+                                SelectedItemChanged="cbxWashMode_SelectedItemChanged"
+                                Width="107" Height="19"
+                                Margin="0,0,0,0">
+                                <igRibbon:ComboEditorTool.ItemsProvider>
+                                    <igEditors:ComboBoxItemsProvider>
+                                        <x:Static Member="igThemes:WashMode.HueSaturationReplacement" />
+                                        <x:Static Member="igThemes:WashMode.SoftLightBlend" />
+                                    </igEditors:ComboBoxItemsProvider>
+                                </igRibbon:ComboEditorTool.ItemsProvider>
+                            </igRibbon:ComboEditorTool>
+                        </StackPanel>
+                    </StackPanel>
+                </igRibbon:RibbonGroup>
+                <!-- End RibbonGroup -->
+                <!-- #END SNIPPET# -->
+                <!-- RibbonGroup -->
+
+                <igRibbon:RibbonGroup
+                    x:Name="SimpleStyleGroup"
+                    Id="SingleWashColor"
+                    Caption="{Binding ThemesAndCustomStyles_LiveResourceWashing_Tab_RibbonCustomization_Group_SingleWashColor_Caption,
+                    Source={StaticResource RibbonStrings}}">
+                    <StackPanel Width="Auto" Height="Auto" Orientation="Horizontal" Margin="0,4,0,0">
+                        <TextBox
+                            Height="Auto"
+                            Text="#FF3399CC"
+                            TextWrapping="Wrap"
+                            x:Name="tbSingleColor"
+                            Style="{DynamicResource WashColor_TextBlock}"
+                            d:LayoutOverrides="Height"
+                            HorizontalAlignment="Left" VerticalAlignment="Top"
+                            Margin="0,0,5,0"
+                            Width="70"/>
+                        <igRibbon:ButtonTool
+                            Caption="{Binding Shared_Button_SetColor, Source={StaticResource RibbonStrings}}"
+                            Cursor="Hand"
+                            Click="SetWashGroupColor"
+                            x:Name="btnSetMasterWashColor"
+                            LargeImage="/IGRibbon;component/Images/color_chooser_32x32.png"
+                            SmallImage="/IGRibbon;component/Images/FontColor.png"
+                            VerticalAlignment="Top"
+                            Height="22"/>
+                    </StackPanel>
+                </igRibbon:RibbonGroup>
+                <!-- End RibbonGroup -->
+                <!-- RibbonGroup -->
+                <igRibbon:RibbonGroup
+                    x:Name="AdvancedStyleGroup"
+                    Id="AdvancedWashColor"
+                    Caption="{Binding ThemesAndCustomStyles_LiveResourceWashing_Tab_RibbonCustomization_Group_AdvancedWashColors_Caption, Source={StaticResource RibbonStrings}}"
+                    Visibility="Collapsed"
+                    Width="700">
+                    <StackPanel Width="Auto" Orientation="Vertical" Margin="0,0,0,0">
+                        <StackPanel
+                            Orientation="Horizontal"
+                            Width="Auto"
+                            Height="Auto"
+                            Margin="0,0,0,0">
+                            <TextBlock
+                                Text="{Binding ThemesAndCustomStyles_LiveResourceWashing_Tab_RibbonCustomization_Group_AdvancedWashColors_BaseColor_Header, Source={StaticResource RibbonStrings}}"
+                                TextWrapping="Wrap"
+                                VerticalAlignment="Center"
+                                Margin="0,0,5,0"
+                                Width="70"
+                                TextAlignment="Right"/>
+                            <TextBox
+                                Width="75"
+                                Height="Auto"
+                                Text="#FF3399CC"
+                                TextWrapping="Wrap"
+                                x:Name="tbBaseColor"
+                                VerticalAlignment="Top"
+                                Style="{DynamicResource WashColor_TextBlock}"/>
+                            <igRibbon:ButtonTool
+                                Cursor="Hand"
+                                Click="SetWashGroupColor"
+                                Caption="{Binding Shared_Button_SetColor}"
+                                SmallImage="/IGRibbon;component/Images/FontColor.png"
+                                Margin="5,0,0,0"
+                                x:Name="btnSetBaseColor"
+                                Width="75"
+                                Foreground="#FF000000"/>
+                        </StackPanel>
+                        <StackPanel
+                            Orientation="Horizontal"
+                            Width="Auto"
+                            Height="Auto"
+                            Margin="0,0,0,0">
+                            <TextBlock
+                                Text="{Binding ThemesAndCustomStyles_LiveResourceWashing_Tab_RibbonCustomization_Group_AdvancedWashColors_TabArea_Header,
+                                Source={StaticResource RibbonStrings}}"
+                                TextWrapping="Wrap"
+                                VerticalAlignment="Center"
+                                Margin="0,0,5,0"
+                                Width="70"
+                                TextAlignment="Right"/>
+                            <TextBox
+                                Width="75"
+                                Height="Auto"
+                                Text="#FF3399CC"
+                                TextWrapping="Wrap"
+                                x:Name="tbTabArea"
+                                VerticalAlignment="Top"
+                                Style="{DynamicResource WashColor_TextBlock}"/>
+                            <igRibbon:ButtonTool
+                                Cursor="Hand"
+                                Click="SetWashGroupColor"
+                                Caption="{Binding Shared_Button_SetColor}"
+                                SmallImage="/IGRibbon;component/Images/FontColor.png"
+                                Margin="5,0,0,0"
+                                x:Name="btnSetTabArea"
+                                Width="75"
+                                Foreground="#FF000000"/>
+                        </StackPanel>
+                        <StackPanel
+                            Orientation="Horizontal"
+                            Width="Auto"
+                            Height="Auto"
+                            Margin="0,0,0,0">
+                            <TextBlock
+                                Text="{Binding ThemesAndCustomStyles_LiveResourceWashing_Tab_RibbonCustomization_Group_AdvancedWashColors_HeaderPanel_Header,
+                                Source={StaticResource RibbonStrings}}"
+                                TextWrapping="Wrap"
+                                VerticalAlignment="Center"
+                                Margin="0,0,5,0"
+                                Width="70"
+                                TextAlignment="Right"/>
+                            <TextBox
+                                Width="75"
+                                Height="Auto"
+                                Text="#FF3399CC"
+                                TextWrapping="Wrap"
+                                x:Name="tbHeaderPanel"
+                                VerticalAlignment="Top"
+                                Style="{DynamicResource WashColor_TextBlock}"/>
+                            <igRibbon:ButtonTool
+                                Cursor="Hand"
+                                Click="SetWashGroupColor"
+                                Caption="{Binding Shared_Button_SetColor}"
+                                SmallImage="/IGRibbon;component/Images/FontColor.png"
+                                Margin="5,0,0,0"
+                                x:Name="btnSetHeaderPanel"
+                                Width="75"
+                                Foreground="#FF000000"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Width="Auto" Orientation="Vertical" Margin="0,0,0,0">
+                        <StackPanel
+                            Orientation="Horizontal"
+                            Width="Auto"
+                            Height="Auto"
+                            Margin="0,0,0,0">
+                            <TextBlock
+                                Text="{Binding ThemesAndCustomStyles_LiveResourceWashing_Tab_RibbonCustomization_Group_AdvancedWashColors_Caption_Header,
+                                Source={StaticResource RibbonStrings}}"
+                                TextWrapping="Wrap"
+                                VerticalAlignment="Center"
+                                Margin="0,0,5,0"
+                                Width="60"
+                                TextAlignment="Right"/>
+                            <TextBox
+                                Width="75"
+                                Height="Auto"
+                                Text="#FF3399CC"
+                                TextWrapping="Wrap"
+                                x:Name="tbCaption"
+                                VerticalAlignment="Top"
+                                HorizontalAlignment="Right"
+                                Style="{DynamicResource WashColor_TextBlock}"/>
+                            <igRibbon:ButtonTool
+                                Cursor="Hand"
+                                Click="SetWashGroupColor"
+                                Caption="{Binding Shared_Button_SetColor}"
+                                SmallImage="/IGRibbon;component/Images/FontColor.png"
+                                x:Name="btnSetCaption"
+                                Width="75"
+                                Margin="5,0,0,0"
+                                Foreground="#FF000000"/>
+                        </StackPanel>
+                        <StackPanel
+                            Orientation="Horizontal"
+                            Width="Auto"
+                            Height="Auto"
+                            Margin="0,0,0,0">
+                            <TextBlock
+                                Text="{Binding ThemesAndCustomStyles_LiveResourceWashing_Tab_RibbonCustomization_Group_AdvancedWashColors_Hover_Header,
+                                Source={StaticResource RibbonStrings}}"
+                                TextWrapping="Wrap"
+                                VerticalAlignment="Center"
+                                Margin="0,0,5,0"
+                                Width="60"
+                                TextAlignment="Right"/>
+                            <TextBox
+                                Width="75"
+                                Height="Auto"
+                                Text="#FF3399CC"
+                                TextWrapping="Wrap"
+                                x:Name="tbHover"
+                                VerticalAlignment="Top"
+                                HorizontalAlignment="Right"
+                                Style="{DynamicResource WashColor_TextBlock}"/>
+                            <igRibbon:ButtonTool
+                                Cursor="Hand"
+                                Click="SetWashGroupColor"
+                                Caption="{Binding Shared_Button_SetColor}"
+                                SmallImage="/IGRibbon;component/Images/FontColor.png"
+                                x:Name="btnSetHover"
+                                Width="75"
+                                Margin="5,0,0,0"
+                                Foreground="#FF000000"/>
+                        </StackPanel>
+                        <StackPanel
+                            Orientation="Horizontal"
+                            Width="Auto"
+                            Height="Auto"
+                            Margin="0,0,0,0">
+                            <TextBlock
+                                Text="{Binding ThemesAndCustomStyles_LiveResourceWashing_Tab_RibbonCustomization_Group_AdvancedWashColors_Pressed_Header,
+                                Source={StaticResource RibbonStrings}}"
+                                TextWrapping="Wrap"
+                                VerticalAlignment="Center"
+                                Margin="0,0,5,0"
+                                Width="60"
+                                TextAlignment="Right"/>
+                            <TextBox
+                                Width="75"
+                                Height="Auto"
+                                Text="#FF3399CC"
+                                TextWrapping="Wrap"
+                                x:Name="tbPressed"
+                                VerticalAlignment="Top"
+                                Style="{DynamicResource WashColor_TextBlock}"/>
+                            <igRibbon:ButtonTool
+                                Cursor="Hand"
+                                Click="SetWashGroupColor"
+                                Caption="{Binding Shared_Button_SetColor}"
+                                SmallImage="/IGRibbon;component/Images/FontColor.png"
+                                x:Name="btnSetPressed"
+                                Width="75"
+                                Margin="5,0,0,0"
+                                Foreground="#FF000000"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Width="Auto" Orientation="Vertical" Margin="0,0,0,0">
+                        <StackPanel
+                            Orientation="Horizontal"
+                            Width="Auto"
+                            Height="Auto"
+                            Margin="0,0,0,0">
+                            <TextBlock
+                                Text="{Binding ThemesAndCustomStyles_LiveResourceWashing_Tab_RibbonCustomization_Group_AdvancedWashColors_IsChecked_Header,
+                                Source={StaticResource RibbonStrings}}"
+                                TextWrapping="Wrap"
+                                VerticalAlignment="Center"
+                                Margin="0,0,5,0"
+                                Width="65"
+                                TextAlignment="Right"/>
+                            <TextBox
+                                Width="75"
+                                Height="Auto"
+                                Text="#FF3399CC"
+                                TextWrapping="Wrap"
+                                x:Name="tbIsChecked"
+                                VerticalAlignment="Top"
+                                Style="{DynamicResource WashColor_TextBlock}"/>
+                            <igRibbon:ButtonTool
+                                Cursor="Hand"
+                                Click="SetWashGroupColor"
+                                Caption="{Binding Shared_Button_SetColor}"
+                                SmallImage="/IGRibbon;component/Images/FontColor.png"
+                                Margin="5,0,0,0"
+                                x:Name="btnSetIsChecked"
+                                Width="75"
+                                Foreground="#FF000000"/>
+                        </StackPanel>
+                        <StackPanel
+                            Orientation="Horizontal"
+                            Width="Auto"
+                            Height="Auto"
+                            Margin="0,0,0,0"
+                            >
+                            <TextBlock
+                                Text="{Binding ThemesAndCustomStyles_LiveResourceWashing_Tab_RibbonCustomization_Group_AdvancedWashColors_Text_Header,
+                                Source={StaticResource RibbonStrings}}"
+                                TextWrapping="Wrap"
+                                VerticalAlignment="Center"
+                                Margin="0,0,5,0"
+                                Width="65"
+                                TextAlignment="Right"/>
+                            <TextBox
+                                Width="75"
+                                Height="Auto"
+                                Text="#FF3399CC"
+                                TextWrapping="Wrap"
+                                x:Name="tbText"
+                                VerticalAlignment="Top"
+                                Style="{DynamicResource WashColor_TextBlock}"/>
+                            <igRibbon:ButtonTool
+                                Cursor="Hand"
+                                Click="SetWashGroupColor"
+                                Caption="{Binding Shared_Button_SetColor}"
+                                SmallImage="/IGRibbon;component/Images/FontColor.png"
+                                x:Name="btnSetText"
+                                Margin="5,0,0,0"
+                                Width="75"
+                                Foreground="#FF000000"/>
+                        </StackPanel>
+                    </StackPanel>
+                </igRibbon:RibbonGroup>
+                <!-- End RibbonGroup -->
+            </igRibbon:RibbonTabItem>
+            <!-- Tabs -->
+            <igRibbon:RibbonTabItem Header="{Binding Shared_Tab_Format_Header, Source={StaticResource RibbonStrings}}">
+                <!-- RibbonGroup -->
+                <igRibbon:RibbonGroup Id="Clipboard" Caption="{Binding Shared_Tab_Format_Group_Clipboard_Caption, Source={StaticResource RibbonStrings}}">
+                    <igRibbon:ToolHorizontalWrapPanel>
+                        <igRibbon:ButtonTool
+                            Caption="{Binding Shared_Tab_Format_Group_Clipboard_Button_Paste, Source={StaticResource RibbonStrings}}"
+                            igRibbon:RibbonGroup.MaximumSize="ImageAndTextLarge"
+                            SmallImage="/IGRibbon;component/Images/Paste_16x16.png"
+                            LargeImage="/IGRibbon;component/Images/Paste_32x32.png"/>
+                        <igRibbon:ButtonGroup>
+                            <igRibbon:ButtonTool Id="cutTool" SmallImage="/IGRibbon;component/Images/EditCut.png"/>
+                            <igRibbon:ButtonTool Id="copyTool" SmallImage="/IGRibbon;component/Images/EditCopy.png"/>
+                        </igRibbon:ButtonGroup>
+                        <igRibbon:ButtonGroup>
+                            <igRibbon:ButtonTool Id="undoTool" SmallImage="/IGRibbon;component/Images/EditUndo.png"/>
+                            <igRibbon:ButtonTool Id="redoTool" SmallImage="/IGRibbon;component/Images/EditRedo.png"/>
+                        </igRibbon:ButtonGroup>
+                    </igRibbon:ToolHorizontalWrapPanel>
+                </igRibbon:RibbonGroup>
+                <!-- End RibbonGroup -->
+                <!-- RibbonGroup -->
+                <igRibbon:RibbonGroup Id="Text Style" Caption="{Binding Shared_Tab_Format_Group_TextStyle_Caption, Source={StaticResource RibbonStrings}}">
+                    <igRibbon:ToolHorizontalWrapPanel>
+                        <igRibbon:ButtonGroup>
+                            <igRibbon:ToggleButtonTool x:Name="boldTool" SmallImage="/IGRibbon;component/Images/Bold.png"/>
+                            <igRibbon:ToggleButtonTool x:Name="italicTool" SmallImage="/IGRibbon;component/Images/Italic.png"/>
+                            <igRibbon:ToggleButtonTool x:Name="underlineTool" SmallImage="/IGRibbon;component/Images/Underline.png"/>
+                        </igRibbon:ButtonGroup>
+                        <igRibbon:ButtonGroup>
+                            <igRibbon:RadioButtonTool IsChecked="True" SmallImage="/IGRibbon;component/Images/LeftAlign.png"/>
+                            <igRibbon:RadioButtonTool SmallImage="/IGRibbon;component/Images/CenterAlign.png"/>
+                            <igRibbon:RadioButtonTool SmallImage="/IGRibbon;component/Images/RightAlign.png"/>
+                            <igRibbon:RadioButtonTool SmallImage="/IGRibbon;component/Images/JustifyAlign.png"/>
+                        </igRibbon:ButtonGroup>
+                    </igRibbon:ToolHorizontalWrapPanel>
+                </igRibbon:RibbonGroup>
+                <!-- End RibbonGroup -->
+                <!-- RibbonGroup -->
+                <igRibbon:RibbonGroup Id="FontGlobal" Caption="{Binding Shared_Tab_Format_Group_GlobalFont_Caption, Source={StaticResource RibbonStrings}}">
+                    <igRibbon:ToolHorizontalWrapPanel>
+                        <igRibbon:ComboEditorTool
+                            Id="fontFamilyCombo"
+                            x:Name="fontFamilyCombo"
+                            DropDownResizeMode="VerticalOnly"
+                            IsEditable="False"
+                            EditAreaWidth="148.0">
+                        </igRibbon:ComboEditorTool>
+                        <igRibbon:ComboEditorTool
+                            Id="fontSizeCombo"
+                            x:Name="fontSizeCombo"
+                            IsEditable="False"
+                            DropDownResizeMode="VerticalOnly"
+                            EditAreaWidth="118.0"
+                            ValueType="{x:Type sys:Double}">
+                        </igRibbon:ComboEditorTool>
+                        <igRibbon:MenuTool igRibbon:RibbonGroup.MaximumSize="ImageOnly" SmallImage="/IGRibbon;component/Images/FontColor.png">
+                            <TextBlock Text="{Binding Shared_Tab_Format_Group_GlobalFont_ColorMenu_Color, Source={StaticResource RibbonStrings}}"/>
+                        </igRibbon:MenuTool>
+                    </igRibbon:ToolHorizontalWrapPanel>
+                </igRibbon:RibbonGroup>
+                <!-- End RibbonGroup -->
+                <!-- RibbonGroup -->
+                <igRibbon:RibbonGroup Id="Presets" Caption="{Binding Shared_Tab_Format_Group_Presets_Caption, Source={StaticResource RibbonStrings}}">
+                    <igRibbon:MenuTool
+                        ShouldDisplayGalleryPreview="False"
+                        Caption="{Binding Shared_Tab_Format_Group_Presets_QuickStylesMenu_Caption, Source={StaticResource RibbonStrings}}"
+                        LargeImage="/IGRibbon;component/Images/QuickStyles_32x32.png"
+                        SmallImage="/IGRibbon;component/Images/QuickStyles_16x16.png">
+                        <igRibbon:MenuTool.ToolTip>
+                            <igRibbon:XamRibbonScreenTip
+                                DataContext="{StaticResource RibbonStrings}"
+                                Header="{Binding Path=Shared_Tab_Format_Group_Presets_QuickStylesMenu_Tooltip_Header}"
+                                Footer="{Binding Path=Shared_Tab_Format_Group_Presets_QuickStylesMenu_Tooltip_Footer}"
+                                FooterSeparatorVisibility="Visible"
+                                Content="{Binding Path=Shared_Tab_Format_Group_Presets_QuickStylesMenu_Tooltip_Content}"/>
+                        </igRibbon:MenuTool.ToolTip>
+                        <igRibbon:GalleryTool Id="presetsGallery" ItemBehavior="StateButton">
+                            <igRibbon:GalleryTool.Groups>
+                                <igRibbon:GalleryItemGroup
+                                    Title="{Binding Shared_Tab_Format_Group_Presets_QuickStylesMenu_GalleryGroup_BlackAndWhite_Title, Source={StaticResource RibbonStrings}}">
+                                    <igRibbon:GalleryItemGroup.ItemKeys>
+                                        <sys:String>Normal</sys:String>
+                                        <sys:String>Blatantly Bold</sys:String>
+                                        <sys:String>Unmistakably Large</sys:String>
+                                    </igRibbon:GalleryItemGroup.ItemKeys>
+                                </igRibbon:GalleryItemGroup>
+                                <igRibbon:GalleryItemGroup
+                                    Title="{Binding Shared_Tab_Format_Group_Presets_QuickStylesMenu_GalleryGroup_Color_Title, Source={StaticResource RibbonStrings}}">
+                                    <igRibbon:GalleryItemGroup.ItemKeys>
+                                        <sys:String>Medium Red</sys:String>
+                                        <sys:String>Boldly Blue</sys:String>
+                                        <sys:String>Italicized Indigo</sys:String>
+                                    </igRibbon:GalleryItemGroup.ItemKeys>
+                                </igRibbon:GalleryItemGroup>
+                                <igRibbon:GalleryItemGroup
+                                    Title="{Binding Shared_Tab_Format_Group_Presets_QuickStylesMenu_GalleryGroup_Bright_Title, Source={StaticResource RibbonStrings}}">
+                                    <igRibbon:GalleryItemGroup.ItemKeys>
+                                        <sys:String>Vivid</sys:String>
+                                        <sys:String>High on Pink</sys:String>
+                                        <sys:String>50's Green</sys:String>
+                                    </igRibbon:GalleryItemGroup.ItemKeys>
+                                </igRibbon:GalleryItemGroup>
+                            </igRibbon:GalleryTool.Groups>
+                            <igRibbon:GalleryTool.Items>
+                                <igRibbon:GalleryItem
+                                    Key="Normal"
+                                    Text="{Binding Shared_Tab_Format_Group_Presets_QuickStylesMenu_GalleryGroup_BlackAndWhite_Normal,
+                                    Source={StaticResource RibbonStrings}}"
+                                    Image="/IGRibbon;component/Images/GalleryItem_Normal.png"
+                                    Tag="Times New Roman;11.0;0,0,0;Normal"/>
+                                <igRibbon:GalleryItem
+                                    Key="Blatantly Bold"
+                                    Text="{Binding Shared_Tab_Format_Group_Presets_QuickStylesMenu_GalleryGroup_BlackAndWhite_BlatantlyBold,
+                                    Source={StaticResource RibbonStrings}}"
+                                    Image="/IGRibbon;component/Images/GalleryItem_BlatantlyBold.png"
+                                    Tag="Tahoma;14.0;0,0,0;Bold"/>
+                                <igRibbon:GalleryItem
+                                    Key="Unmistakably Large"
+                                    Text="{Binding Shared_Tab_Format_Group_Presets_QuickStylesMenu_GalleryGroup_BlackAndWhite_UnmistakablyLarge,
+                                    Source={StaticResource RibbonStrings}}"
+                                    Image="/IGRibbon;component/Images/GalleryItem_UnmistakablyLarge.png"
+                                    Tag="Tahoma;48.0;0,0,0;Normal"/>
+                                <igRibbon:GalleryItem
+                                    Key="Medium Red"
+                                    Text="{Binding Shared_Tab_Format_Group_Presets_QuickStylesMenu_GalleryGroup_Color_MediumRed,
+                                    Source={StaticResource RibbonStrings}}"
+                                    Image="/IGRibbon;component/Images/GalleryItem_MediumRed.png"
+                                    Tag="Tahoma;16.0;255,0,0;Normal"/>
+                                <igRibbon:GalleryItem
+                                    Key="Boldly Blue"
+                                    Text="{Binding Shared_Tab_Format_Group_Presets_QuickStylesMenu_GalleryGroup_Color_BoldyBlue,
+                                    Source={StaticResource RibbonStrings}}"
+                                    Image="/IGRibbon;component/Images/GalleryItem_BoldlyBlue.png"
+                                    Tag="Tahoma;14.0;0,0,255;Bold"/>
+                                <igRibbon:GalleryItem
+                                    Key="Italicized Indigo"
+                                    Text="{Binding Shared_Tab_Format_Group_Presets_QuickStylesMenu_GalleryGroup_Color_ItalicizedIndigo,
+                                    Source={StaticResource RibbonStrings}}"
+                                    Image="/IGRibbon;component/Images/GalleryItem_ItalicizedIndigo.png"
+                                    Tag="Tahoma;16.0;75,0,130;Italic"/>
+                                <igRibbon:GalleryItem
+                                    Key="Vivid"
+                                    Text="{Binding Shared_Tab_Format_Group_Presets_QuickStylesMenu_GalleryGroup_Bright_Vivid,
+                                    Source={StaticResource RibbonStrings}}"
+                                    Image="/IGRibbon;component/Images/GalleryItem_Vivid.png"
+                                    Tag="Symbol;48.0;241,58,19;Bold"/>
+                                <igRibbon:GalleryItem
+                                    Key="High on Pink"
+                                    Text="{Binding Shared_Tab_Format_Group_Presets_QuickStylesMenu_GalleryGroup_Bright_HighOnPink,
+                                    Source={StaticResource RibbonStrings}}"
+                                    Image="/IGRibbon;component/Images/GalleryItem_Pink.png"
+                                    Tag="Comic Sans MS;16.0;241,45,239;Bold"/>
+                                <igRibbon:GalleryItem
+                                    Key="50's Green"
+                                    Text="{Binding Shared_Tab_Format_Group_Presets_QuickStylesMenu_GalleryGroup_Bright_50sGreen,
+                                    Source={StaticResource RibbonStrings}}"
+                                    Image="/IGRibbon;component/Images/GalleryItem_50sGreen.png"
+                                    Tag="Tahoma;24.0;0,157,162;Italic"/>
+                            </igRibbon:GalleryTool.Items>
+                        </igRibbon:GalleryTool>
+                    </igRibbon:MenuTool>
+                </igRibbon:RibbonGroup>
+                <!-- End RibbonGroup -->
+            </igRibbon:RibbonTabItem>
+            <!-- End Tabs -->
+        </igRibbon:XamRibbon>
+        <Border
+            Margin="28,160,28,28"
+            Background="{x:Null}"
+            CornerRadius="5,5,5,5"
+            Padding="10,10,10,10"
+            VerticalAlignment="Stretch"
+            MaxWidth="800">
+            <ScrollViewer
+                VerticalScrollBarVisibility="Auto"
+                HorizontalScrollBarVisibility="Disabled">
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.5*"/>
+                        <ColumnDefinition Width="0.5*"/>
+                    </Grid.ColumnDefinitions>
+                    <Border
+                        x:Name="About"
+                        Height="Auto"
+                        Grid.ColumnSpan="2"
+                        Padding="5,5,5,5"
+                        Background="{x:Null}"
+                        CornerRadius="5,5,5,5"
+                        d:LayoutOverrides="Height"
+                        Margin="0,0,0,10">
+                        <TextBlock
+                            d:LayoutOverrides="Height"
+                            HorizontalAlignment="Stretch"
+                            >
+                            <TextBlock FontWeight="Bold" Text="{Binding ThemesAndCustomStyles_LiveResourceWashing_ContentArea_Header, Source={StaticResource RibbonStrings}}"/>
+                            <LineBreak/>
+                            <TextBlock TextWrapping="Wrap" Text="{Binding ThemesAndCustomStyles_LiveResourceWashing_ContentArea_Paragraph1, Source={StaticResource RibbonStrings}}"/>
+                        </TextBlock>
+                    </Border>
+                    <TextBlock
+                        d:LayoutOverrides="VerticalAlignment, Width"
+                        FontWeight="Bold"
+                        Foreground="#FF000000"
+                        HorizontalAlignment="Left" VerticalAlignment="Top"
+                        Grid.Row="2"
+                        Margin="0,8,0,0"
+                        Text="{Binding ThemesAndCustomStyles_LiveResourceWashing_XamlViewer_Header, Source={StaticResource RibbonStrings}}"
+                        TextWrapping="Wrap"/>
+                    <Border
+                        HorizontalAlignment="Stretch"
+                        Margin="0,26,0,0"
+                        x:Name="XAMLCode"
+                        VerticalAlignment="Stretch"
+                        Width="Auto"
+                        Height="Auto"
+                        Grid.ColumnSpan="2"
+                        Grid.Row="2"
+                        Background="#FFECECEC"
+                        CornerRadius="5,5,5,5"
+                        Padding="5,5,5,5">
+                        <ScrollViewer
+                            x:Name="WashXaml"
+                            Foreground="#FF000000"
+                            Template="{DynamicResource svXamlandCodeView}"
+                            Visibility="Visible">
+                            <ContentPresenter
+                            x:Name="WashXamlCode"
+                            Content="{Binding Path=WashXamlText, Converter={StaticResource xamlColorizerConverter}, ElementName=mainWindow, Mode=OneWay,
+                            UpdateSourceTrigger=PropertyChanged}"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            ScrollViewer.CanContentScroll="False"/>
+                        </ScrollViewer>
+                    </Border>
+                </Grid>
+            </ScrollViewer>
+        </Border>
+    </Grid>
+</framework:SampleContainer>

@@ -1,0 +1,107 @@
+﻿<framework:SampleContainer x:Class="IGMultiColumnComboEditor.Samples.Display.MCC_ManipulatingDropDownSize"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:res="clr-namespace:IGMultiColumnComboEditor.Resources"
+             xmlns:data="clr-namespace:IGMultiColumnComboEditor.Samples.Data"
+             xmlns:ig="http://schemas.infragistics.com/xaml"
+             xmlns:igEdit="http://infragistics.com/Editors"
+             xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGMultiColumnComboEditor;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+
+            <res:MultiColumnComboEditorStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <framework:SampleContainer.DataContext>
+        <data:CustomersDataSource />
+    </framework:SampleContainer.DataContext>
+    
+    <Grid>
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamMultiColumnComboEditor x:Name="MCComboEditor" ItemsSource="{Binding Path=Customers}"
+                                      Height="30" Width="300" VerticalAlignment="Top" Margin="0,50,0,0"
+                                      DisplayMemberPath="ContactName"
+                                      AutoGenerateColumns="False"
+                                      AllowDropDownResizing="{Binding ElementName=Chb_AllowDropDownResizing, Path=IsChecked, Mode=TwoWay}"
+                                      MinDropDownWidth="{Binding ElementName=numericInput_minddwidth, Path=Value, Mode=TwoWay}"
+                                      MaxDropDownWidth="{Binding ElementName=numericInput_maxddwidth, Path=Value, Mode=TwoWay}"
+                                      MinDropDownHeight="{Binding ElementName=numericInput_minddheight, Path=Value, Mode=TwoWay}"
+                                      MaxDropDownHeight="{Binding ElementName=numericInput_maxddheight, Path=Value, Mode=TwoWay}">
+            <ig:XamMultiColumnComboEditor.Columns>
+                <ig:ImageComboColumn Key="ImageResourcePath" 
+                                     HeaderText="{Binding Source={StaticResource Strings}, Path=Header_Photo}" 
+                                     MaximumWidth="60" ImageWidth="50"/>
+                <ig:TextComboColumn Key="ContactName"
+                                    HeaderText="{Binding Source={StaticResource Strings}, Path=Header_ContactName}" />               
+                <ig:TextComboColumn Key="Country"/>
+                <ig:TextComboColumn Key="City" />
+                <ig:TextComboColumn Key="Phone" />               
+            </ig:XamMultiColumnComboEditor.Columns>
+        </ig:XamMultiColumnComboEditor>
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel HeaderText="{Binding ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Bottom"
+                               Margin="0,50,10,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <CheckBox x:Name="Chb_AllowDropDownResizing" 
+                          Grid.ColumnSpan="2" IsChecked="True"
+                          Content="{Binding Source={StaticResource Strings}, Path=AllowDropDownResizing}" 
+                          Margin="0,0,0,3" Height="25"/>
+                <igEdit:XamNumericEditor x:Name="numericInput_minddwidth" SpinButtonDisplayMode="Always" 
+                                    SpinIncrement="50" Mask="{}{number:50-300}"
+                                    Value="200" Margin="0,0,3,3"
+                                    Grid.Column="0" Grid.Row="1" Width="80" Height="25"/>
+                <TextBlock Text="{Binding Source={StaticResource Strings}, Path=MCCE_Min_DropDown_Width}" 
+                           Grid.Column="1" Grid.Row="1"
+                           Margin="0,0,0,3"
+                           VerticalAlignment="Center"/>
+                <igEdit:XamNumericEditor x:Name="numericInput_maxddwidth" SpinButtonDisplayMode="Always" 
+                                    SpinIncrement="50" Mask="{}{number:50-800}"
+                                    Value="400" Margin="0,0,3,3"
+                                    Grid.Column="0" Grid.Row="2" Width="80" Height="25"/>
+                <TextBlock Text="{Binding Source={StaticResource Strings}, Path=MCCE_Max_DropDown_Width}" 
+                           Grid.Column="1" Grid.Row="2"
+                           Margin="0,0,0,3"
+                           VerticalAlignment="Center"/>
+                <igEdit:XamNumericEditor x:Name="numericInput_minddheight" SpinButtonDisplayMode="Always" 
+                                    SpinIncrement="10" Mask="{}{number:40-500}"
+                                    Value="70" Margin="0,0,3,3"
+                                    Grid.Column="0" Grid.Row="3" Width="80" Height="25"/>
+                <TextBlock Text="{Binding Source={StaticResource Strings}, Path=MCCE_Min_DropDown_Height}" 
+                           Grid.Column="1" Grid.Row="3" 
+                           Margin="0,0,0,3"
+                           VerticalAlignment="Center"/>
+                <igEdit:XamNumericEditor x:Name="numericInput_maxddheight" SpinButtonDisplayMode="Always" 
+                                    SpinIncrement="20" Mask="{}{number:30-420}"
+                                    Value="400" Margin="0,0,3,3"
+                                    Grid.Column="0" Grid.Row="4" Width="80" Height="25"/>
+                <TextBlock Text="{Binding Source={StaticResource Strings}, Path=MCCE_Max_DropDown_Height}" 
+                           Grid.Column="1" Grid.Row="4" 
+                           Margin="0,0,0,3"
+                           VerticalAlignment="Center"/>
+            </Grid>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

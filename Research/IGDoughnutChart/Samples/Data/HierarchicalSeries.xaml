@@ -1,0 +1,48 @@
+﻿<framework:SampleContainer x:Class="IGDoughnutChart.Samples.HierarchicalSeries"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:local="clr-namespace:IGDoughnutChart.Samples"    
+    xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+    xmlns:res="clr-namespace:IGDoughnutChart.Resources"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="Hierarchical Series">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDoughnutChart;component/Assets/Global.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <res:DoughnutChartStrings x:Key="Strings" />
+            <models:HierarchicalFinancialDataCollection x:Key="hierarchicalFinancialData"/>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="200"/>
+        </Grid.ColumnDefinitions>
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamDoughnutChart x:Name="doughnutChart" InnerExtent="40">
+            <ig:XamDoughnutChart.Series>
+                <ig:HierarchicalRingSeries x:Name="ringSeries"
+                    ItemsSource="{Binding Source={StaticResource hierarchicalFinancialData}}"
+                    LabelMemberPath="Label"
+                    ValueMemberPath="Budget"
+                    ChildrenMemberPath="Children"
+                    Legend="{Binding ElementName=legend}"
+                    ToolTip="{}{Label}"
+                    LabelsPosition="BestFit"
+                    LabelExtent="20"/>
+            </ig:XamDoughnutChart.Series>
+        </ig:XamDoughnutChart>
+        <!-- #END SNIPPET# -->
+        <ig:ItemLegend x:Name="legend" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" />
+    </Grid>
+</framework:SampleContainer>

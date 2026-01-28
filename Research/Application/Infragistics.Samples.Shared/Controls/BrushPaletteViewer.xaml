@@ -1,0 +1,55 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls">
+
+    <DataTemplate x:Key="BrushItemTemplate">
+        <Grid>
+            <Rectangle MinHeight="15" MinWidth="15" Fill="{Binding}" Margin="1"></Rectangle>
+        </Grid>
+    </DataTemplate>
+    
+    <ItemsPanelTemplate x:Key="BrushItemsPanelTemplate">
+        <StackPanel Orientation="Horizontal" />
+    </ItemsPanelTemplate>
+
+    <Style TargetType="controls:BrushPaletteViewer">
+        <Setter Property="Height" Value="Auto" />
+        <Setter Property="Width" Value="Auto" />
+        <Setter Property="Padding" Value="1" />
+        <Setter Property="ItemsPanel" Value="{StaticResource BrushItemsPanelTemplate}" />
+        <Setter Property="ItemTemplate" Value="{StaticResource BrushItemTemplate}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:BrushPaletteViewer">
+                    <ItemsPresenter />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="controls:PaletteColorsViewer">
+        <Setter Property="Height" Value="Auto" />
+        <Setter Property="Width" Value="Auto" />
+        <Setter Property="MinWidth" Value="120" />
+        <Setter Property="Padding" Value="1" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <!--<Setter Property="ItemsPanel" Value="{StaticResource BrushItemsPanelTemplate}" />-->
+        <!--<Setter Property="ItemTemplate" Value="{StaticResource BrushItemTemplate}" />-->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:PaletteColorsViewer">
+                    <!--<ItemsPresenter />-->
+                    <Grid HorizontalAlignment="Stretch">
+                        <Rectangle HorizontalAlignment="Stretch" Stroke="Black" StrokeThickness="0.5"
+                                   Fill="{TemplateBinding PaletteBrush}" Margin="1"
+                                   Width="{TemplateBinding Width}" Height="15"/>
+                    </Grid>
+                  
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    
+</ResourceDictionary>

@@ -1,0 +1,127 @@
+﻿<framework:SampleContainer x:Class="IGBulletGraph.Samples.Styling.StylingBulletGraph"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="BulletGraphStyling Page"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGBulletGraph.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGBulletGraph;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamMenu.xaml" />
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamGauge.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:BulletGraphStrings x:Key="Strings" />
+            <LinearGradientBrush x:Key="Range1Bg" EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FF8DB0FF" />
+                <GradientStop Color="#FF5973B1" Offset="1" />
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="Range2Bg" EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FF3659A9" Offset="0.996" />
+                <GradientStop Color="#FF4C7AE4" />
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="QuantitativeScaleBg" EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FF3A64C6" />
+                <GradientStop Color="#FF182C5A" Offset="1" />
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="FeatMeasureBg" EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="White" Offset="0.364" />
+                <GradientStop Color="Silver" Offset="0.8" />
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="CompMeasureBg" EndPoint="1.031,0.5" StartPoint="-0.062,0.5">
+                <GradientStop Color="White" Offset="0.42" />
+                <GradientStop Color="Silver" Offset="0.852" />
+            </LinearGradientBrush>
+            <Style x:Key="FeaturedMeasureStyle" TargetType="ig:FeaturedMeasure">
+                <Setter Property="IsTabStop" Value="False" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ig:FeaturedMeasure">
+                            <Rectangle Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="1" />
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="ComparativeMeasureStyle" TargetType="ig:ComparativeMeasure">
+                <Setter Property="IsTabStop" Value="False" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ig:ComparativeMeasure">
+                            <Rectangle Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="1" />
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <LinearGradientBrush x:Key="FeatMeasureBackBg" EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#33000000" Offset="1" />
+                <GradientStop Color="#66000000" />
+            </LinearGradientBrush>
+            <SolidColorBrush x:Key="FeatMeasureBackStroke" Color="#7F1D263B" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Image Source="/IGBulletGraph;component/Images/MedicalSymbol.png" Height="122" HorizontalAlignment="Stretch" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Stretch="Fill" Grid.Column="1" Grid.Row="1" Margin="5,-37,0,0" Width="122" />
+
+        <TextBlock Grid.Column="0" Grid.Row="1" TextWrapping="Wrap" Style="{StaticResource BodyStyle}" Text="{Binding Path=XWBG_BulletGraphStyling_SideDescription, Source={StaticResource Strings}}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,40,3" />
+
+        <Border Margin="0,0,0,50" Grid.ColumnSpan="2" BorderBrush="#FFEAEAEA" BorderThickness="0">
+            <StackPanel>
+                <StackPanel Orientation="Vertical" >
+                    <TextBlock Style="{StaticResource SamplesBigTitleStyle}" Text="{Binding Path=XWBG_BulletGraphSetValues_SectorSaleHeader, Source={StaticResource Strings}}" d:LayoutOverrides="GridBox" />
+                </StackPanel>
+
+                <!-- #BEGIN SNIPPET# -->
+                <ig:XamBulletGraph InnerMargin="10,14,25,14" Height="90" Margin="15,25,15,0">
+                    <ig:XamBulletGraph.Scale>
+                        <ig:QuantitativeScale Minimum="0" Maximum="750" Interval="150" Background="{StaticResource QuantitativeScaleBg}" Orientation="Horizontal">
+
+                            <ig:QuantitativeScale.TickMarkGroup>
+                                <ig:BulletGraphTickMarkGroup />
+                            </ig:QuantitativeScale.TickMarkGroup>
+
+                            <ig:QuantitativeScale.LabelGroup>
+                                <ig:BulletGraphLabelGroup StringFormat="{}{0} K" />
+                            </ig:QuantitativeScale.LabelGroup>
+
+                            <ig:QuantitativeScale.Ranges>
+                                <ig:QualitativeRange Value="333" Background="{StaticResource Range1Bg}" />
+                                <ig:QualitativeRange Value="567" Background="{StaticResource Range2Bg}" />
+                            </ig:QuantitativeScale.Ranges>
+
+                        </ig:QuantitativeScale>
+                    </ig:XamBulletGraph.Scale>
+
+                    <ig:XamBulletGraph.FeaturedMeasures>
+                        <ig:FeaturedMeasure Value="750" Stroke="{x:Null}" StartExtent="0.35" EndExtent="0.65" Width="0" Style="{StaticResource FeaturedMeasureStyle}" BorderBrush="{StaticResource FeatMeasureBackStroke}" Background="{StaticResource FeatMeasureBackBg}" />
+                        <ig:FeaturedMeasure Value="650" Stroke="{x:Null}" StartExtent="0.35" EndExtent="0.65" Width="0" Style="{StaticResource FeaturedMeasureStyle}" BorderBrush="#B23C4864" Background="{StaticResource FeatMeasureBg}" />
+
+                    </ig:XamBulletGraph.FeaturedMeasures>
+
+                    <ig:XamBulletGraph.ComparativeMeasures>
+                        <ig:ComparativeMeasure StartExtent="0" EndExtent="1" Value="620" Stroke="{x:Null}" Width="3" Thickness="8" Style="{StaticResource ComparativeMeasureStyle}" BorderBrush="#B23C4864" Background="{StaticResource CompMeasureBg}" />
+                    </ig:XamBulletGraph.ComparativeMeasures>
+
+                </ig:XamBulletGraph>
+                <!-- #END SNIPPET# -->
+            </StackPanel>
+        </Border>
+
+    </Grid>
+</framework:SampleContainer>

@@ -1,0 +1,71 @@
+﻿<igFramework:SampleContainer x:Class="IGDataGrid.Samples.Organization.BindingCalculatedResult"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="BindingCalculatedResult"
+      xmlns:converters="clr-namespace:IGDataGrid.Converters"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataGrid;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <converters:ValueToColorConverter x:Key="colorConverter" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <igDP:XamDataGrid Theme="RoyalLight"
+                          SnapsToDevicePixels="True"
+                          Grid.Row="1"
+                          x:Name="XamDataGrid1">
+            <igDP:XamDataGrid.Resources>
+                <!-- Style that sets the Background property of the SummaryResultPresenter using the converter -->
+                <!-- This style has to be in the XamDataGrid's Resource collection since the Theme property is set. -->
+                <Style x:Key="{x:Type igDP:SummaryResultPresenter}"
+                       TargetType="{x:Type igDP:SummaryResultPresenter}">
+                    <Setter Property="FontSize" Value="14" />
+                    <Setter Property="Padding" Value="6 4" />
+                    <Setter Property="Foreground" Value="{StaticResource ActiveForegroundBrush}" />
+                    <Setter Property="Background"
+                            Value="{Binding RelativeSource={x:Static RelativeSource.Self},
+                        Path=SummaryResult.Value, Converter={StaticResource colorConverter}}" />
+                </Style>
+            </igDP:XamDataGrid.Resources>
+            <!-- #BEGIN SNIPPET# -->
+            <igDP:XamDataGrid.FieldSettings>
+                <!--Display summary on bottom of records and for data records only-->
+                <igDP:FieldSettings SummaryDisplayArea="Bottom, InGroupByRecords" />
+            </igDP:XamDataGrid.FieldSettings>
+            <!-- #END SNIPPET# -->
+            <igDP:XamDataGrid.FieldLayouts>
+                <igDP:FieldLayout>
+                    <!--Group records by Item field-->
+                    <igDP:FieldLayout.SortedFields>
+                        <igDP:FieldSortDescription FieldName="CustomerID"
+                                                   IsGroupBy="true" />
+                    </igDP:FieldLayout.SortedFields>
+                    <!--Add a summary that calculates sum of 'Freight' field-->
+                    <igDP:FieldLayout.SummaryDefinitions>
+                        <igDP:SummaryDefinition Key="freight_sum"
+                                                SourceFieldName="Freight"
+                                                Calculator="Sum" />
+                    </igDP:FieldLayout.SummaryDefinitions>
+
+                    <igDP:Field Name="OrderID" />
+                    <igDP:Field Name="CustomerID" />
+                    <igDP:Field Name="Freight" />
+
+                </igDP:FieldLayout>
+            </igDP:XamDataGrid.FieldLayouts>
+        </igDP:XamDataGrid>
+    </Grid>
+</igFramework:SampleContainer>

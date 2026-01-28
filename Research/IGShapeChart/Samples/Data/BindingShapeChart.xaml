@@ -1,0 +1,79 @@
+﻿<framework:SampleContainer 
+    x:Class="IGShapeChart.Samples.BindingShapeChart"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700"
+      Title="Shape Series"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:providers="clr-namespace:Infragistics.Samples.Shared.DataProviders;assembly=Infragistics.Samples.Shared" 
+      xmlns:Resources="clr-namespace:IGShapeChart.Resources"
+      xmlns:local="clr-namespace:IGShapeChart.Samples"
+      xmlns:resources="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared">
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGShapeChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+ 
+            <Resources:ShapeChartStrings x:Key="Strings" />
+            <ig:BrushCollection x:Key="ChartBrushes">
+                <SolidColorBrush Color="#FF929095"/>
+                <SolidColorBrush Color="#FF7446B9"/>
+                <SolidColorBrush Color="#FF9FB328"/>
+                <SolidColorBrush Color="#FFFF9800"/>
+                <SolidColorBrush Color="#FF3F51B5"/>
+                <SolidColorBrush Color="#FFF96232"/>
+                <SolidColorBrush Color="#FF2E9CA6"/>
+                <SolidColorBrush Color="#FFDC3F76"/>
+                <SolidColorBrush Color="#FF439C47"/>
+                <SolidColorBrush Color="#FF795548"/>
+                <SolidColorBrush Color="#FF9A9A9A"/>
+            </ig:BrushCollection>   
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="10" />
+            <ColumnDefinition Width="*" /> 
+        </Grid.ColumnDefinitions>
+        
+        
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ========================================================================== -->       
+        <ig:XamShapeChart Grid.Row="1" x:Name="Chart1" 
+                          ItemsSource="{Binding SelectedData}" ChartType="{Binding ChartType, Mode=TwoWay}"
+                          XAxisMinimumValue="-200" XAxisMaximumValue="200"
+                          YAxisMinimumValue="-100" YAxisMaximumValue="100" />        
+       
+        <ig:XamShapeChart Grid.Row="1" Grid.Column="2" 
+                          ChartType="ShapePolygon" Thickness="1" Brushes="{StaticResource ChartBrushes}"
+                          x:Name="Chart2" ItemsSource="{Binding AirplaneShapes}"  />
+             
+        <!-- ========================================================================== -->
+        <!-- #END SNIPPET# -->
+
+
+        <Grid Grid.ColumnSpan="3" Margin="-5 0 -5 0" HorizontalAlignment="Left">
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="2">
+               
+                <TextBlock Text="{Binding XW_ChartType, Source={StaticResource Strings}}" Margin="3" FontWeight="Bold"  />                              
+                <ComboBox Margin="2" Width="150" ItemsSource="{Binding ChartTypes}" SelectedValue="{Binding ChartType, Mode=TwoWay}"/>
+
+                <TextBlock Text="{Binding XW_DataType, Source={StaticResource Strings}}" Margin="3" FontWeight="Bold"  />
+                <ComboBox SelectedItem="{Binding Path=SelectedName, Mode=TwoWay}" Width="Auto"
+                          ItemsSource="{Binding DataSourceNames}" />
+            </StackPanel>
+        </Grid>
+    </Grid> 
+</framework:SampleContainer>

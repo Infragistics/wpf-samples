@@ -1,0 +1,72 @@
+﻿<igFramework:SampleContainer x:Class="IGDataGrid.Samples.Editing.SelectedDataItems"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:igDP="http://infragistics.com/DataPresenter"                         
+    xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:common="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared" 
+    xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared" 
+    xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared" 
+    xmlns:local="clr-namespace:IGDataGrid.Samples.Editing"
+    xmlns:res="clr-namespace:IGDataGrid.Resources"
+    xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+    xmlns:System="clr-namespace:System;assembly=mscorlib"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="Selected DataItems">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataGrid;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DataGridStrings x:Key="Strings" />
+            <ObjectDataProvider x:Key="odpSelectedDataItemsScope"
+                                MethodName="GetValues"
+                                ObjectType="{x:Type System:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="igDP:SelectedDataItemsScope" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="350"/>
+            <RowDefinition Height="500"/>
+        </Grid.RowDefinitions>
+        <!-- #BEGIN SNIPPET# -->
+        <igDP:XamDataGrid x:Name="XamDataGrid1"
+                          Theme="RoyalLight"
+                          SelectedDataItemsScope="RecordsOnly">
+            <igDP:XamDataGrid.FieldSettings>
+                <igDP:FieldSettings CellClickAction="SelectCell"/>
+            </igDP:XamDataGrid.FieldSettings>
+        </igDP:XamDataGrid>
+        <igDP:XamDataCards x:Name="XamDataCards1"
+                           Grid.Row="1"
+                           DataSource="{Binding Path=SelectedDataItems, ElementName=XamDataGrid1}"
+                           Theme="RoyalLight"/>
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource CommonStrings}, Path=ConfigurationPanel_Header_Options}"
+                               Margin="100,100,0,0">
+
+            <TextBlock Text="{Binding Source={StaticResource Strings}, Path=SelectedDataItems_ConfigArea_SelectedDataItemsScope}"
+                       ToolTip="{Binding Source={StaticResource Strings}, Path=SelectedDataItems_ConfigArea_SelectedDataItemsScope_ToolTip}"
+                       Margin="{StaticResource OptionsTextTopBottomMargin}"
+                       VerticalAlignment="Center"
+                        />
+            <controls:EnumValuesProvider EnumType="igDP:SelectedDataItemsScope"
+                                         SelectedEnumIndex="1"
+                                         ToolTip="{Binding Source={StaticResource Strings}, Path=SelectedDataItems_ConfigArea_SelectedDataItemsScope_ToolTip}"
+                                         DisplayTemplate="ComboBox"
+                                         Width="120"
+                                         Value="{Binding Path=SelectedDataItemsScope, ElementName=XamDataGrid1}"
+                                         VerticalAlignment="Center"
+                                         HorizontalAlignment="Left"/>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

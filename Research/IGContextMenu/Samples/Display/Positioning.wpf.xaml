@@ -1,0 +1,64 @@
+﻿<framework:SampleContainer x:Class="IGContextMenu.Samples.Display.Positioning"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="Positioning Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGContextMenu.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGContextMenu;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:MenuStrings x:Key="Strings" />            
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid>
+        <Grid Grid.Row="1" Height="170" Width="240" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="200,0,0,200">
+            <Image Source="{Binding Source='Backgrounds/Sunset.jpg', Converter={StaticResource getImageConverter}}" />
+            <Rectangle Fill="Transparent" x:Name="rect" Stroke="Transparent">
+                <!-- #BEGIN SNIPPET# -->
+                <ig:ContextMenuService.Manager>
+                    <ig:ContextMenuManager>
+                        <ig:ContextMenuManager.ContextMenu>
+                            <ig:XamContextMenu x:Name="contextMenu" ItemClicked="XamContextMenu_ItemClicked">
+                                <ig:XamMenuItem Header="{Binding CM_Menu_Item_7, Source={StaticResource Strings}}" />
+                                <ig:XamMenuItem Header="{Binding CM_Menu_Item_8, Source={StaticResource Strings}}" />
+                                <ig:XamMenuItem Header="{Binding CM_Menu_Item_9, Source={StaticResource Strings}}" />
+                                <ig:XamMenuItem Header="{Binding CM_Menu_Item_10, Source={StaticResource Strings}}" />
+                            </ig:XamContextMenu>
+                        </ig:ContextMenuManager.ContextMenu>
+                    </ig:ContextMenuManager>
+                </ig:ContextMenuService.Manager>
+                <!-- #END SNIPPET# -->
+            </Rectangle>
+        </Grid>
+        <Grid Height="50" HorizontalAlignment="Right" VerticalAlignment="Top" Width="50" Margin="0,200,200,0">
+            <Rectangle x:Name="smallRect" Fill="#FF0099FF" RadiusX="2" RadiusY="2"/>
+        </Grid>
+
+        <controls:OptionsPanel Margin="10,10,0,0" HeaderText="{Binding ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}" >
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}"/>
+            </controls:OptionsPanel.Resources>
+            <TextBlock Text="{Binding Source={StaticResource Strings}, Path=CM_Positioning_Placement}" Margin="{StaticResource OptionsElementsMargin}"/>
+            <controls:EnumValuesProvider x:Name="placementComboBox" Margin="{StaticResource OptionsElementsMargin}" Width="150"
+                                         EnumType="ig:PlacementMode" SelectedEnumIndex="0" DisplayTemplate="ComboBox"
+                                         Value="{Binding ElementName=contextMenu, Path=Placement, Mode=TwoWay}"/>
+            <TextBlock Text="{Binding Source={StaticResource Strings}, Path=CM_Positioning_PlacementTarget}" Margin="{StaticResource OptionsElementsMargin}"/>
+            <ComboBox x:Name="placementTargetComboBox" SelectedIndex="0" SelectionChanged="PlacementTargetChanged">
+                <ComboBoxItem Content="{Binding Source={StaticResource Strings}, Path=CM_Positioning_PlacementTarget_None}" />
+                <ComboBoxItem Content="{Binding Source={StaticResource Strings}, Path=CM_Positioning_PlacementTarget_SmallRect}" />
+            </ComboBox>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

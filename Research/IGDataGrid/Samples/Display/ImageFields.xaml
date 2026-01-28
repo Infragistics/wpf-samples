@@ -1,0 +1,50 @@
+﻿<igFramework:SampleContainer x:Class="IGDataGrid.Samples.Display.ImageFields"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:IGDataGrid.Samples.Display"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:data="clr-namespace:Infragistics.Samples.Shared.Models.DataPresenter;assembly=Infragistics.Samples.Shared"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:res="clr-namespace:IGDataGrid.Resources"
+      mc:Ignorable="d" 
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="ImageFields">
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataGrid;component/Assets/Global.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <res:DataGridStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    
+    
+    <Grid>
+        <Grid.Resources>
+            <ObjectDataProvider x:Key="dataProvider1" ObjectType="{x:Type data:EmployeeData}"/>
+        </Grid.Resources>
+
+        <igDP:XamDataGrid DataSource="{Binding Source={StaticResource dataProvider1}, Path=EmployeeDataCollection}" Theme="RoyalLight">
+            <igDP:XamDataGrid.FieldLayoutSettings>
+                <igDP:FieldLayoutSettings AutoGenerateFields="False" />
+            </igDP:XamDataGrid.FieldLayoutSettings>
+            <igDP:XamDataGrid.FieldSettings>
+                <igDP:FieldSettings Width="*"/>
+            </igDP:XamDataGrid.FieldSettings>
+            <igDP:XamDataGrid.FieldLayouts>
+                <igDP:FieldLayout>
+                    <igDP:FieldLayout.Fields>
+                        <igDP:Field Name="EmployeeName" Label="{Binding Source={StaticResource Strings}, Path=XDG_Employee_Name}"/>
+                        <igDP:Field Name="Department" Label="{Binding Source={StaticResource Strings}, Path=XDG_Department}"/>
+                        <igDP:Field Name="City" Label="{Binding Source={StaticResource Strings}, Path=XDG_City}"/>
+                        <igDP:ImageField Name="PhotoFileUri" ImageHeight="100" ImageWidth="100" Label="{Binding Source={StaticResource Strings}, Path=XDG_Photo}" HorizontalContentAlignment="Left"/>
+                    </igDP:FieldLayout.Fields>
+                </igDP:FieldLayout>
+            </igDP:XamDataGrid.FieldLayouts>
+        </igDP:XamDataGrid>
+        
+    </Grid>
+    
+</igFramework:SampleContainer>

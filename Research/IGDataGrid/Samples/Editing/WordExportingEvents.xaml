@@ -1,0 +1,110 @@
+﻿<igFramework:SampleContainer x:Class="IGDataGrid.Samples.Editing.WordExportingEvents"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="WordExportingEvents"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:igWordWriter="http://infragistics.com/WordWriter"
+      xmlns:res="clr-namespace:IGDataGrid.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataGrid;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DataGridStrings x:Key="Strings" />
+
+            <!-- #BEGIN SNIPPET# -->
+            <igWordWriter:DataPresenterWordWriter x:Key="wordWriter"
+                                                  ExportStarted="DataPresenterWordWriter_ExportStarted"
+                                                  InitializeRecord="DataPresenterWordWriter_InitializeRecord"
+                                                  CellExporting="DataPresenterWordWriter_CellExporting"
+                                                  LabelExporting="DataPresenterWordWriter_LabelExporting"
+                                                  SummaryResultsExporting="DataPresenterWordWriter_SummaryResultsExporting"
+                                                  ExportEnding="DataPresenterWordWriter_ExportEnding"
+                                                  ExportEnded="DataPresenterWordWriter_ExportEnded" />
+            <!-- #END SNIPPET# -->
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <igDP:XamDataGrid x:Name="xamDataGrid"
+                          Theme="RoyalLight"
+                          Grid.Row="1"
+                          Margin="0,10,0,0">
+            <igDP:XamDataGrid.FieldSettings>
+                <!-- Enable summaries on the XamDataGrid -->
+                <igDP:FieldSettings AllowSummaries="true"
+                                    SummaryUIType="MultiSelect"
+                                    SummaryDisplayArea="BottomFixed" />
+            </igDP:XamDataGrid.FieldSettings>
+
+            <igDP:XamDataGrid.FieldLayouts>
+                <igDP:FieldLayout Key="Order Details"
+                                  KeyMatchingEnforced="True">
+                    <!-- Enable the Filter Record in the 'OnTop' location -->
+                    <igDP:FieldLayout.Settings>
+                        <igDP:FieldLayoutSettings FilterUIType="FilterRecord"
+                                                  FilterRecordLocation="OnTopFixed" />
+                    </igDP:FieldLayout.Settings>
+
+                    <!-- Setup some summary calculations. -->
+                    <igDP:FieldLayout.SummaryDefinitions>
+                        <igDP:SummaryDefinition Key="qty"
+                                                SourceFieldName="Quantity"
+                                                Calculator="Count" />
+                        <igDP:SummaryDefinition Key="price"
+                                                SourceFieldName="UnitPrice"
+                                                Calculator="Average" />
+                    </igDP:FieldLayout.SummaryDefinitions>
+
+                    <!-- Setup a GroupBy field. -->
+                    <igDP:FieldLayout.SortedFields>
+                        <igDP:FieldSortDescription FieldName="OrderID"
+                                                   Direction="Ascending"
+                                                   IsGroupBy="True" />
+                    </igDP:FieldLayout.SortedFields>
+                </igDP:FieldLayout>
+            </igDP:XamDataGrid.FieldLayouts>
+        </igDP:XamDataGrid>
+
+        <controls:OptionsPanel IsMovable="False"
+                               HeaderText="{Binding Source={StaticResource Strings}, Path=Events_Header}"
+                               Margin="{StaticResource GridsSamplesBottomPadding}">
+            <StackPanel Orientation="Horizontal">
+                <ListBox x:Name="lbEvents" 
+                         Width="375"
+                         Height="75" Margin="{StaticResource OptionsTextRightMargin}"/>
+                <StackPanel Orientation="Vertical">
+                    <RadioButton GroupName="GroupA"
+                                 x:Name="cbExportSynchronous"
+                                 Content="{Binding Export_Synchronous, Source={StaticResource Strings}}"
+                                 IsChecked="True"
+                                 Margin="5,0,0,5" />
+                    <RadioButton GroupName="GroupA"
+                                 x:Name="cbExportAsynchronous"
+                                 Content="{Binding Export_Asynchronous, Source={StaticResource Strings}}"
+                                 IsChecked="False"
+                                 Margin="5,0,0,15" />
+                    <Button x:Name="btnExport"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Margin="5,0,0,0"
+                            Click="btnExport_Click"
+                            Style="{DynamicResource IconButtonStyle}"
+                            Tag="{Binding ExportToWord_Export_ButtonText, Source={StaticResource Strings}}">
+                        <Path Data="{StaticResource ExportIcon}" Width="12" Height="11" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=ContentControl}}" Stretch="Fill" Margin="0,0,-2,0"/>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

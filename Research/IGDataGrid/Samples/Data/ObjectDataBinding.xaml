@@ -1,0 +1,38 @@
+﻿<igFramework:SampleContainer x:Class="IGDataGrid.Samples.Data.ObjectDataBinding"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="ObjectDataBinding"
+      xmlns:dataSources="clr-namespace:IGDataGrid.DataSources"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataGrid;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid>
+        <Grid.Resources>
+            <ObjectDataProvider x:Key="odpObjectDataProvider1"
+                                ObjectType="{x:Type dataSources:CarsBusinessLogic}" />
+        </Grid.Resources>
+        <!-- #BEGIN SNIPPET# -->
+        <!--
+        The DataPresenter can accept many type of dat sources, including
+        the ObjectDataProvider.  This sample demonstrates binding a collection
+        of custom business objects to the DataPresenter by using WPF's
+        ObjectDataProvider.
+        -->
+        <igDP:XamDataGrid x:Name="XamDataGrid1"
+                          Theme="RoyalLight" AutoFit="True"
+                          DataSource="{Binding Source={StaticResource odpObjectDataProvider1}, Path=Cars}" />
+        <!-- #END SNIPPET# -->
+    </Grid>
+</igFramework:SampleContainer>

@@ -1,0 +1,84 @@
+﻿<igFramework:SampleContainer x:Class="IGDataGrid.Samples.Display.FieldSettingsOverrides"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="FieldSettingsOverrides"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataGrid;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid>
+        <!-- #BEGIN SNIPPET# -->
+        <igDP:XamDataGrid x:Name="XamDataGrid1" Theme="RoyalLight">
+            <!--
+            FieldSettings can be set at the root level of the control.  These setting will
+            serve as the defaultsettins for all Fields in the XamDataGrid control.
+            -->
+            <igDP:XamDataGrid.FieldSettings>
+                <igDP:FieldSettings AllowEdit="False" LabelClickAction="Nothing" />
+            </igDP:XamDataGrid.FieldSettings>
+
+            <igDP:XamDataGrid.FieldLayouts>
+                <igDP:FieldLayout Key="Customers">
+                    <!--
+                    FieldLayouts can override the default FieldSettings values set at the
+                    controls root level.  These settings will be applies to all Fields
+                    contained in this specific FieldLayout.
+                    -->
+                    <igDP:FieldLayout.FieldSettings>
+                        <igDP:FieldSettings LabelClickAction="SortByOneFieldOnly" />
+                    </igDP:FieldLayout.FieldSettings>
+
+                    <igDP:FieldLayout.Fields>
+
+                        <!--
+                        Finally, individual Fields can override both FieldSettings set at the root
+                        control level and at the FieldLayout level.  Setting set at this level
+                        will apply only to the specific Field setting them.
+                        -->
+                        <igDP:Field Name="CustomerID">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings LabelClickAction="SortByMultipleFieldsTriState" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+
+                        <igDP:Field Name="ContactName">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings LabelClickAction="SortByMultipleFieldsTriState" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+
+                        <igDP:Field Name="ContactTitle">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings LabelClickAction="SortByMultipleFieldsTriState" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+
+                        <!--
+                        The remaining auto-generated Fields will use the FieldSettings values
+                        set at the FieldLayout level.
+                        -->
+
+                    </igDP:FieldLayout.Fields>
+                </igDP:FieldLayout>
+
+                <!--
+                The remaining auto-generated FieldLayouts will use the FieldSettings values
+                set at the control level.
+                -->
+
+            </igDP:XamDataGrid.FieldLayouts>
+        </igDP:XamDataGrid>
+        <!-- #END SNIPPET# -->
+    </Grid>
+</igFramework:SampleContainer>

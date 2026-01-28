@@ -1,0 +1,91 @@
+﻿<igFramework:SampleContainer x:Class="IGDataGrid.Samples.Data.MVVMFieldBinding"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:viewModel="clr-namespace:IGDataGrid.Samples.ViewModel"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:resources="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared"
+      xmlns:dataGridResources="clr-namespace:IGDataGrid.Resources"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+	  Title="MVVMFieldBinding">
+    
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataGrid;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            
+            <resources:CommonStrings x:Key="Strings" />
+            <dataGridResources:DataGridStrings x:Key="GridStrings"/>
+            <viewModel:OptionsList x:Key="Categories" />
+            <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    
+    <igFramework:SampleContainer.DataContext>
+        <viewModel:ProductsDataProvider />
+    </igFramework:SampleContainer.DataContext>
+    
+    <Grid>
+    <igDP:XamDataGrid DataSource="{Binding Path=Products}"  
+                      Theme="RoyalLight" 
+                      AutoFit="True">
+        <igDP:XamDataGrid.FieldLayoutSettings>
+                <!-- #BEGIN SNIPPET# -->
+                <igDP:FieldLayoutSettings AutoGenerateFields="False"
+                                      AutoFitMode="Always" 
+                                      AddNewRecordLocation="OnTopFixed"
+                                      AllowAddNew="{igDP:FieldBinding SelectedRole.RoleSettings[GENERAL].IsAddNewRecordAllowed}"
+                                      AllowDelete="{igDP:FieldBinding SelectedRole.RoleSettings[GENERAL].IsDeleteAllowed}" />
+                <!-- #END SNIPPET# -->
+            </igDP:XamDataGrid.FieldLayoutSettings>
+
+        <igDP:XamDataGrid.FieldLayouts>
+            <igDP:FieldLayout>              
+                <igDP:FieldLayout.Fields>
+                        <!-- #BEGIN SNIPPET# -->
+                        <igDP:MaskedTextField Name="SKU" 
+                                          Mask="########-###" 
+                                          Label="{igDP:FieldBinding SelectedRole.RoleSettings[SKU].ColumnName}"                                         
+                                          IsReadOnly="{igDP:FieldBinding SelectedRole.RoleSettings[SKU].IsColumnReadOnly}"/>
+                        <!-- #END SNIPPET# -->
+                        <igDP:TextField  Name="Name" 
+                                         Label="{igDP:FieldBinding SelectedRole.RoleSettings[Name].ColumnName}"
+                                         IsReadOnly="{igDP:FieldBinding SelectedRole.RoleSettings[Name].IsColumnReadOnly}"/>                  
+                        <igDP:ComboBoxField Name="Category"
+                                            Label="{Binding Source={StaticResource Strings}, Path=XWG_Grid_ProductCategory}"
+                                            ItemsSource="{Binding Source={StaticResource Categories}}"
+                                            DisplayMemberPath="Name" />
+                        <igDP:CurrencyField Name="UnitPrice"
+                                            Label="{Binding Source={StaticResource Strings}, Path=XWG_Grid_UnitPrice}">
+                            <igDP:CurrencyField.Settings>
+                                <igDP:FieldSettings AllowEdit="{igDP:FieldBinding SelectedRole.RoleSettings[UnitPrice].IsEditAllowed}" />
+                            </igDP:CurrencyField.Settings>
+                        </igDP:CurrencyField>
+                    <igDP:NumericField Name="UnitsOnOrder" 
+                                       Label="{Binding Source={StaticResource Strings}, Path=XWG_Grid_UnitsOnOrder}"
+                                       SpinButtonDisplayMode="OnlyInEditMode"
+                                       SpinIncrement="5"
+                                       Visibility="{igDP:FieldBinding SelectedRole.RoleSettings[GENERAL].IsColumnVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                    <igDP:DateTimeField Name="SupplyDate"
+                                        Label="{Binding Source={StaticResource Strings}, Path=XWG_Grid_SupplyDate}"
+                                        Visibility="{igDP:FieldBinding SelectedRole.RoleSettings[GENERAL].IsColumnVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                </igDP:FieldLayout.Fields>       
+            </igDP:FieldLayout>
+        </igDP:XamDataGrid.FieldLayouts>
+    </igDP:XamDataGrid>
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource GridStrings}, Path=DataGrid_UserProfile}"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Top">
+            <ComboBox ItemsSource="{Binding Roles}" 
+                      DisplayMemberPath="RoleName"
+                      SelectedItem="{Binding SelectedRole, Mode=TwoWay}"
+                      SelectedIndex="0">
+            </ComboBox>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

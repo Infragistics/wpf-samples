@@ -1,0 +1,71 @@
+﻿<igs:SampleContainer 
+    x:Class="IGSurfaceChart.Samples.Data.BindingShapefiles"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"  
+    xmlns:res="clr-namespace:IGSurfaceChart.Resources"
+    xmlns:igs="http://schemas.infragistics.com/xaml/samples" 
+    xmlns:ig="http://schemas.infragistics.com/xaml"  
+    xmlns:samples="clr-namespace:IGSurfaceChart.Samples"
+    mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="500">
+    <igs:SampleContainer.Resources>
+        <ResourceDictionary>
+            <Style TargetType="ig:LinearAxis" x:Key="LinearAxisStyle" > 
+                <Setter Property="LabelFontSize" Value="12" />
+                <Setter Property="TitleFontSize" Value="12" />
+            </Style>
+            <ig:ColorCollection x:Key="SeriesColors">
+                <Color>#FF1DFF27</Color>
+                <Color>#FFFFF51D</Color>
+                <Color>#FFFF981D</Color>
+                <Color>#FFF41E10</Color>
+             </ig:ColorCollection>
+            <DiffuseMaterial x:Key="FloorMaterial">
+                <DiffuseMaterial.Brush>
+                    <SolidColorBrush Color="DodgerBlue"/> 
+                </DiffuseMaterial.Brush>
+            </DiffuseMaterial>
+            
+            <res:SurfaceChartStrings x:Key="ChartStrings" />
+           
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSurfaceChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+ 
+          </ResourceDictionary>
+    </igs:SampleContainer.Resources>
+    
+    <Grid>
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamScatterSurface3D x:Name="SurfaceChart"  
+                                ItemsSource="{Binding Data}"
+                                XMemberPath="X" Aspect="0.75 0.75 0.4"
+                                YMemberPath="Y" 
+                                ZMemberPath="Z"   
+                                ShowFloorProjection="False"
+                                FloorMaterial="{StaticResource FloorMaterial}"
+                                SeriesColors="{StaticResource SeriesColors}">
+            <ig:XamScatterSurface3D.DataContext>
+                <!-- ShapefileData loads X/Y from shape files (.SHP) and Z values from database (.DBF) files-->
+                <samples:ShapefileSampler ZMemberPath="CONTOUR" 
+                    ShapefileSource="/IGSurfaceChart;component/Resources/shapefiles/hawaii_big_island.shp"
+                    DatabaseSource="/IGSurfaceChart;component/Resources/shapefiles/hawaii_big_island.dbf" />  
+              </ig:XamScatterSurface3D.DataContext>
+            <!-- #END SNIPPET# -->
+            <ig:XamScatterSurface3D.XAxis>
+                <ig:LinearAxis Title="{Binding Source={StaticResource ChartStrings}, Path=XAxis}" 
+                                Style="{StaticResource LinearAxisStyle}"  />
+            </ig:XamScatterSurface3D.XAxis>
+            <ig:XamScatterSurface3D.YAxis>
+                <ig:LinearAxis Title="{Binding Source={StaticResource ChartStrings}, Path=YAxis}" 
+                                Style="{StaticResource LinearAxisStyle}"  />
+            </ig:XamScatterSurface3D.YAxis>
+            <ig:XamScatterSurface3D.ZAxis>
+                <ig:LinearAxis MinimumValue="0"
+                                Title="{Binding Source={StaticResource ChartStrings}, Path=ElvAxis}" 
+                                Style="{StaticResource LinearAxisStyle}" />
+            </ig:XamScatterSurface3D.ZAxis>
+        </ig:XamScatterSurface3D>
+    </Grid>
+</igs:SampleContainer>

@@ -1,0 +1,42 @@
+﻿<framework:SampleContainer x:Class="IGMenu.Samples.Data.ViewModel"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="ViewModel Page"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGMenu;component/Assets/Global.xaml" />
+                
+                <ResourceDictionary Source="/IGMenu;component/Assets/MenuDataTemplate.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid>
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamMenu x:Name="MainMenu" VerticalAlignment="Top" MenuOrientation="Horizontal"
+                    ItemTemplate="{StaticResource MenuDataTemplate}"
+                    ItemsSource="{Binding}">
+            <ig:XamMenu.HierarchicalItemTemplate>
+                <ig:HierarchicalDataTemplate ItemsSource="{Binding Path=Children}" ItemTemplate="{StaticResource MenuDataTemplate}">
+                    <ig:HierarchicalDataTemplate.DefaultItemsContainer>
+                        <DataTemplate>
+                            <ig:XamMenuItem/>
+                        </DataTemplate>
+                    </ig:HierarchicalDataTemplate.DefaultItemsContainer>
+                    <ig:HierarchicalDataTemplate.HierarchicalItemTemplate>
+                        <ig:HierarchicalDataTemplate ItemsSource="{Binding Path=Children}" ItemTemplate="{StaticResource MenuDataTemplate}"/>
+                    </ig:HierarchicalDataTemplate.HierarchicalItemTemplate>
+                </ig:HierarchicalDataTemplate>
+            </ig:XamMenu.HierarchicalItemTemplate>
+        </ig:XamMenu>
+        <!-- #END SNIPPET# -->
+    </Grid>
+</framework:SampleContainer>

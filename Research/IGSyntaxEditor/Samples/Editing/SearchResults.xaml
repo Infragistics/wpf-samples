@@ -1,0 +1,61 @@
+﻿<framework:SampleContainer x:Class="IGSyntaxEditor.Samples.Editing.SearchResults"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="600"
+      Title="SearchResults"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+      xmlns:res="clr-namespace:IGSyntaxEditor.Resources"
+      xmlns:local="clr-namespace:IGSyntaxEditor.Samples.Helpers">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                
+                <ResourceDictionary Source="/IGSyntaxEditor;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:SyntaxEditorStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="150" />
+        </Grid.RowDefinitions>
+
+        <ig:XamSyntaxEditor x:Name="xamSyntaxEditor1" Grid.Row="0" SplitOptions="SplittingNotAllowed" ErrorDisplayMode="Never" BorderThickness="1"/>
+
+        <TextBlock Text="{Binding Path=SearchResults, Source={StaticResource Strings}}" Grid.Row="1" Margin="{StaticResource SampleInnerNavigationTopBottomPadding}" Style="{StaticResource SamplesTitleStyle}"/>
+        <!-- #BEGIN SNIPPET# -->
+        <ListBox x:Name="listFindResults" SelectionChanged="listFindResults_SelectionChanged" FontFamily="Consolas" Grid.Row="2" Style="{StaticResource IGListBoxStyle}">
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="local:FindResultInfo">
+                    <StackPanel Orientation="Horizontal" Margin="1">
+                        <TextBlock Text="{Binding Path=Line, Source={StaticResource Strings}}" />
+                        <TextBlock Text="{Binding LineNumber}" Margin="10,0,0,0" />
+                        <TextBlock Text="{Binding LineText}" Margin="10,0,0,0" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <!-- #END SNIPPET# -->
+
+        <controls:OptionsPanel HeaderText="{Binding Path=ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}"
+                               HorizontalAlignment="Right" Grid.RowSpan="3" Width="160">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="{Binding Path=lblSearchFor, Source={StaticResource Strings}}" Margin="{StaticResource OptionsElementsMargin}"/>
+                <TextBox x:Name="tbFind" MinWidth="120" Text="return" Margin="{StaticResource OptionsElementsMargin}"/>
+                <Button x:Name="bSearch" Content="{Binding Path=btnSearch, Source={StaticResource Strings}}"
+                        Click="bSearch_Click"/>
+            </StackPanel>
+        </controls:OptionsPanel>
+
+    </Grid>
+</framework:SampleContainer>

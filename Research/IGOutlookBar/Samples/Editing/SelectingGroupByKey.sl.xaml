@@ -1,0 +1,102 @@
+﻿<framework:SampleContainer x:Class="IGOutlookBar.Samples.Editing.SelectingGroupByKey"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="SelectingGroupByKey"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:localControls="clr-namespace:IGOutlookBar.Controls"
+      xmlns:res="clr-namespace:IGOutlookBar.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <res:OutlookBarStrings x:Key="Strings"/>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGOutlookBar;component/Assets/Global.xaml"/>
+                <ResourceDictionary Source="/IGOutlookBar;component/Assets/OutlookBarCustomStyles.sl.xaml"/>
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamOutlookBar.xaml"/>
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamMenu.xaml"/>
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamDialogWindow.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <!--#BEGIN SNIPPET#-->
+        <ig:XamOutlookBar x:Name="XamOutlookBar" Width="250" MinimizedWidth="38" >
+            <ig:OutlookBarGroup
+                Header="{Binding Source={StaticResource Strings}, Path=XOB_Group_Header_Mail}">
+                <ig:OutlookBarGroup.LargeIconTemplate>
+                    <DataTemplate>
+                        <Image Source="/IGOutlookBar;component/Images/OBarMailLarge.png"/>
+                    </DataTemplate>
+                </ig:OutlookBarGroup.LargeIconTemplate>
+                <ig:OutlookBarGroup.SmallIconTemplate>
+                    <DataTemplate>
+                        <Image Source="/IGOutlookBar;component/Images/OBarMail.png"/>
+                    </DataTemplate>
+                </ig:OutlookBarGroup.SmallIconTemplate>
+                <localControls:XobSampleMailContent />
+            </ig:OutlookBarGroup>
+            <ig:OutlookBarGroup Header="{Binding Source={StaticResource Strings}, Path=XOB_Group_Header_Calendar}" IsSelected="True">
+                <ig:OutlookBarGroup.LargeIconTemplate>
+                    <DataTemplate>
+                        <Image Source="/IGOutlookBar;component/Images/OBarCalendarLarge.png"/>
+                    </DataTemplate>
+                </ig:OutlookBarGroup.LargeIconTemplate>
+                <ig:OutlookBarGroup.SmallIconTemplate>
+                    <DataTemplate>
+                        <Image Source="/IGOutlookBar;component/Images/OBarCalendar.png"/>
+                    </DataTemplate>
+                </ig:OutlookBarGroup.SmallIconTemplate>
+                <localControls:XobSampleCalendarContent/>
+            </ig:OutlookBarGroup>
+            <ig:OutlookBarGroup Header="{Binding Source={StaticResource Strings}, Path=XOB_Group_Header_Folders}">
+                <ig:OutlookBarGroup.LargeIconTemplate>
+                    <DataTemplate>
+                        <Image Source="/IGOutlookBar;component/Images/OBarFolderLarge.png"/>
+                    </DataTemplate>
+                </ig:OutlookBarGroup.LargeIconTemplate>
+                <ig:OutlookBarGroup.SmallIconTemplate>
+                    <DataTemplate>
+                        <Image Source="/IGOutlookBar;component/Images/OBarFolder.png"/>
+                    </DataTemplate>
+                </ig:OutlookBarGroup.SmallIconTemplate>
+                <localControls:XobSampleFolderListContent/>
+            </ig:OutlookBarGroup>
+        </ig:XamOutlookBar>
+        <!--#END SNIPPET#-->
+        <controls:OptionsPanel  HeaderText="{Binding Source={StaticResource Strings}, Path=XOB_AddRemoveGroups_CFHeader}"
+                                Margin="400,80,0,0" Grid.ColumnSpan="2">
+            <TextBox x:Name="txtKey" Text="{Binding Source={StaticResource Strings}, Path=XOB_Group_Header_Mail, Mode=OneWay}"/>
+            <Button x:Name="btnSelect" Height="25"
+                    Style="{StaticResource splitButtonStyle}"
+                    Tag="{Binding Source={StaticResource Strings}, Path=XOB_Interacting_OutlookBarKey_SelectGroupButtonText}"
+                    Click="btnSelect_Click" Margin="0,5,0,0">
+                <Image Source="/IGOutlookBar;component/Images/imgExec.png" Stretch="None"/>
+            </Button>
+            <Button x:Name="btnRemove" Height="25"
+                    Style="{StaticResource splitButtonStyle}"
+                    Tag="{Binding Source={StaticResource Strings}, Path=XOB_Interacting_OutlookBarKey_RemoveGroupButtonText}"
+                    Click="btnRemove_Click" Margin="0,5,0,0">
+                <Image Source="/IGOutlookBar;component/Images/imgRemove.png" Stretch="None"/>
+            </Button>
+            <Button x:Name="btnAdd" Height="25"
+                    Style="{StaticResource splitButtonStyle}"
+                    Tag="{Binding Source={StaticResource Strings}, Path=XOB_Interacting_AddRemove_AddRadioText}"
+                    Click="btnAdd_Click" Margin="0,5,0,0">
+                <Image Source="/IGOutlookBar;component/Images/imgAdd.png" Stretch="None" Margin="2,0,0,2" />
+            </Button>
+            <TextBlock x:Name="txtMessage" Margin="0,5,0,0"/>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

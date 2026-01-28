@@ -1,0 +1,66 @@
+﻿<igFramework:SampleContainer x:Class="IGPieChart.Samples.Style.Theming"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="PieChart"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGPieChart.Resources"
+      xmlns:resources="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared">
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGPieChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:PieChartStrings x:Key="resStrings" />
+            <resources:CommonStrings x:Key="CommonStrings"/>
+            <models:FinancialDataCollection x:Key="financialData"/>
+            <Style x:Key="OptionPanelLabels" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+                <Setter Property="FontWeight" Value="Normal"/>
+                <Setter Property="HorizontalAlignment" Value="Right"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="0 0 5 0"/>
+            </Style>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <Grid x:Name="LayoutRoot" Margin="25">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <ig:XamPieChart Name="pieChart" Grid.Row="1"
+                        ItemsSource="{StaticResource financialData}"
+                        LabelMemberPath="Label"
+                        ValueMemberPath="Spending"
+                        ToolTip="{}{Label}"
+                        Legend="{Binding ElementName=Legend}"
+                        AllowSliceExplosion="True"
+                        ExplodedSlices="0 1 2"
+                        LeaderLineVisibility="Visible" />
+        
+        <ig:ItemLegend
+            x:Name="Legend" Grid.Row="1"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Right"
+            Margin="10"
+            Padding="10,5,10,5" />
+
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ================================================================================================== -->
+        <!-- Note theme are changed in code-behind -->
+        <controls:ThemeSelector x:Name="ThemeSelector" 
+                                HorizontalAlignment="Right"
+                                SelectionChanged="OnSelectionChanged"/>
+        <!-- ================================================================================================== -->
+        <!-- #END SNIPPET# -->
+        
+    </Grid>
+</igFramework:SampleContainer>

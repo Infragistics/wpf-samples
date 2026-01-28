@@ -1,0 +1,145 @@
+﻿<igFramework:SampleContainer
+    x:Class="IGDataChart.Samples.Layers.CategoryHighLightLayers"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    mc:Ignorable="d"
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="Category Highlight Layer Page"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+    xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+    xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared"
+    xmlns:resources="clr-namespace:IGDataChart.Resources"
+    xmlns:local="clr-namespace:IGDataChart.Samples.Layers"
+    >
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <resources:DataChartStrings x:Key="Strings" />
+            <converters:SolidColorBrushToColorConverter x:Key="BrushToColorConverter"/>
+        
+            <Style TargetType="ig:ColumnSeries"  >
+                <Setter Property="IsTransitionInEnabled" Value="False"/>
+                <Setter Property="IsHighlightingEnabled" Value="False"/>
+                <Setter Property="ShowDefaultTooltip" Value="True"/> 
+            </Style>
+            <local:PopulationViewModel x:Key="VM" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot"
+          Background="White">
+
+
+        <ig:XamDataChart x:Name="DataChart" DataContext="{StaticResource VM}">
+            <ig:XamDataChart.Axes>
+                <ig:CategoryXAxis x:Name="XAxis" Interval="1"
+                                  ItemsSource="{Binding USA}" 
+                                  Label="{}{Year}">
+                </ig:CategoryXAxis>
+                <ig:NumericYAxis x:Name="YAxis" Label="{}{} M"
+                                 Title="{Binding XWDC_WorldData_Types_Population, Source={StaticResource Strings}}">
+                    <ig:NumericYAxis.LabelSettings>
+                        <ig:AxisLabelSettings Location="OutsideRight" Margin="5 0 5 0" />
+                    </ig:NumericYAxis.LabelSettings>
+                </ig:NumericYAxis>
+            </ig:XamDataChart.Axes>
+            <ig:XamDataChart.Series>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:CategoryHighlightLayer 
+                    x:Name="HighlightLayer"
+                    Brush="#FFBDBDBD" 
+                    Outline="#FFBDBDBD" 
+                    Opacity="0.5"
+                    Thickness="1"
+                    BandHighlightWidth="30"
+                    UseInterpolation="True"
+                    TransitionDuration="0:00:00.01"
+                    />
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+                <ig:ColumnSeries ValueMemberPath="ValueInMln" 
+                               DataContext="{Binding USA}" 
+                               ItemsSource="{Binding}"
+                               Title="{Binding Country}"
+                               XAxis="{Binding ElementName=XAxis}"
+                               YAxis="{Binding ElementName=YAxis}" >
+                </ig:ColumnSeries>
+                <ig:ColumnSeries ValueMemberPath="ValueInMln" 
+                               DataContext="{Binding RUS}" 
+                               ItemsSource="{Binding}"
+                               Title="{Binding Country}"
+                               XAxis="{Binding ElementName=XAxis}"
+                               YAxis="{Binding ElementName=YAxis}" >
+                </ig:ColumnSeries>  
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+
+
+        <controls:OptionsPanel HeaderText="{Binding XWDC_DataChart_Options, Source={StaticResource Strings}}"
+                               VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0" >
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+                <Style TargetType="Slider" BasedOn="{StaticResource IGSliderStyle}" >
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>  
+                <Style TargetType="CheckBox" BasedOn="{StaticResource IGCheckBoxStyle}" >
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="Margin" Value="0 2 0 2"/>
+                </Style>
+            </controls:OptionsPanel.Resources>
+            <StackPanel DataContext="{Binding ElementName=HighlightLayer}"> 
+
+                <TextBlock Text="{Binding XWDC_Brush, Source={StaticResource Strings}}" />
+                <ig:XamColorPicker SelectedColor="{Binding Brush, Mode=TwoWay, Converter={StaticResource BrushToColorConverter}}" />
+                 
+                <TextBlock Text="{Binding XWDC_Outline, Source={StaticResource Strings}}" />
+                <ig:XamColorPicker SelectedColor="{Binding Outline, Mode=TwoWay, Converter={StaticResource BrushToColorConverter}}" />
+                 
+                 <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding XWDC_Thickness, Source={StaticResource Strings}}" />
+                    <TextBlock Text="{Binding Path=Thickness, StringFormat='0.0'}" />
+                </StackPanel>
+                <Slider Minimum="1" Maximum="20" SmallChange="1" LargeChange="1" 
+                        Value="{Binding Path=Thickness, Mode=TwoWay}" />
+                
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding XWDC_Opacity, Source={StaticResource Strings}}" />
+                    <TextBlock Text="{Binding Path=Opacity, StringFormat='0.0'}" />
+                </StackPanel> 
+                <Slider Minimum="0" Maximum="1" SmallChange=".2" LargeChange=".2" 
+                        Value="{Binding Path=Opacity, Mode=TwoWay}" />  
+                            
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding XWDC_BandHighlightWidth, Source={StaticResource Strings}}" />
+                    <TextBlock Text="{Binding Path=BandHighlightWidth, StringFormat='0'}" />
+                </StackPanel> 
+                <Slider Minimum="0" Maximum="100" SmallChange="10" LargeChange="10" 
+                        Value="{Binding Path=BandHighlightWidth, Mode=TwoWay}" />  
+                
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding XDC_TransitionDuration, Source={StaticResource Strings}}" /> 
+                </StackPanel>    
+                <Slider Minimum="0" Maximum="1000" Value="100" 
+                        ValueChanged="TransitionDuration_Changed" />
+                
+                <CheckBox Content="{Binding XWDC_UseInterpolation, Source={StaticResource Strings}}" 
+                          IsChecked="{Binding UseInterpolation}" />
+                
+            </StackPanel>
+
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>
+

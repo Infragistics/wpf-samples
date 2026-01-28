@@ -1,0 +1,70 @@
+﻿<framework:SampleContainer x:Class="IGOutlookBar.Samples.Style.StylingTheSelectedGroupHeader"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="StylingTheSelectedGroupHeader"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:igOB="http://infragistics.com/OutlookBar"
+      xmlns:localControls="clr-namespace:IGOutlookBar.Controls"
+      xmlns:res="clr-namespace:IGOutlookBar.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGOutlookBar;component/Assets/Global.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <res:OutlookBarStrings x:Key="OutlookBarStrings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <!-- #BEGIN SNIPPET# -->
+        <igOB:XamOutlookBar
+            x:Name="xamOutlookBar" Theme="RoyalLight"
+            NavigationAreaMaxGroups="1" HorizontalAlignment="Left"
+            Width="250">
+            <igOB:XamOutlookBar.Resources>
+                <Style TargetType="{x:Type igOB:SelectedGroupHeader}">
+                    <Setter Property="BorderBrush" Value="#FF666666"/>
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="#FF594B74" Offset="0"/>
+                                        <GradientStop Color="#FF201A2B" Offset="0.5"/>
+                                        <GradientStop Color="#FF0D0221" Offset="0.501"/>
+                                        <GradientStop Color="#FF640A93" Offset="1"/>
+                                    </GradientStopCollection>
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Foreground" Value="White"/>
+                </Style>
+            </igOB:XamOutlookBar.Resources>
+            <igOB:XamOutlookBar.Groups>
+                <igOB:OutlookBarGroup Header="{Binding Source={StaticResource OutlookBarStrings},
+                    Path=Styling_XamOutlookBar_Group1_Header}" Key="Mail"
+                                      ToolTip="{Binding Source={StaticResource OutlookBarStrings},
+                    Path=Styling_XamOutlookBar_Group1_ToolTip}" IsSelected="True" Visibility="Visible"
+                                      SmallImage="/IGOutlookBar;component/Images/OBarMail.png"
+                                      LargeImage="/IGOutlookBar;component/Images/OBarMailLarge.png">
+                    <localControls:XobSampleMailContent/>
+                </igOB:OutlookBarGroup>
+                <igOB:OutlookBarGroup Header="{Binding Source={StaticResource OutlookBarStrings},
+                    Path=Styling_XamOutlookBar_Group2_Header}" ToolTip="{Binding Source={StaticResource OutlookBarStrings},
+                    Path=Styling_XamOutlookBar_Group2_ToolTip}"
+                                      SmallImage="/IGOutlookBar;component/Images/OBarFolder.png"
+                                      LargeImage="/IGOutlookBar;component/Images/OBarFolderLarge.png"
+                                      IsSelected="False">
+                    <localControls:XobSampleFolderListContent/>
+                </igOB:OutlookBarGroup>
+            </igOB:XamOutlookBar.Groups>
+        </igOB:XamOutlookBar>
+        <!-- #END SNIPPET# -->
+    </Grid>
+</framework:SampleContainer>

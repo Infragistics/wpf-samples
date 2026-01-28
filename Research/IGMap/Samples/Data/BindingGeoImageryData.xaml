@@ -1,0 +1,51 @@
+﻿<igFramework:SampleContainer x:Class="IGMap.Samples.Data.BindingGeoImageryData"
+             xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:ig="http://schemas.infragistics.com/xaml"
+             xmlns:resources="clr-namespace:IGMap.Resources" 
+             xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="400" >
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGMap;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <resources:MapStrings x:Key="Strings" />
+       </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <Grid x:Name="LayoutRoot" Margin="5" Background="#FFB4CFCF">
+        
+        <ig:XamMap x:Name="theMap" Grid.ColumnSpan="2" 
+                   WindowAnimationMode="Logarithmic" WindowZoomMaximum="50" 
+                   IsAutoWorldRect="False" MapProjectionType="SphericalMercator" Loaded="theMap_Loaded">
+            <!-- #BEGIN SNIPPET# -->
+            <ig:XamMap.MapTileSource>
+                <ig:OpenStreetMapTileSource x:Name="openStreetsTileSource" />
+            </ig:XamMap.MapTileSource>
+            <!-- #END SNIPPET# -->
+
+            <ig:XamMap.Layers>
+                <ig:MapLayer x:Name="mapLayer" Brushes="Transparent">
+                </ig:MapLayer>
+            </ig:XamMap.Layers>
+
+            <ig:MapNavigationPane ig:XamDock.Edge="InsideRight" Margin="15" />
+
+        </ig:XamMap>
+         <controls:OptionsPanel HeaderText="{Binding Path=XWM_MapGeoIntegration_Title, Source={StaticResource Strings}}" 
+                               VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,15,15,15">
+                <TextBlock HorizontalAlignment="Left" FontWeight="Bold" 
+                           Text="{Binding Path=XWM_MapGeoIntegration_SelectLabel, Source={StaticResource Strings}}" Foreground="#FF686868" Margin="0,0,0,5"></TextBlock>
+                <ScrollViewer Style="{StaticResource IGScrollViewerStyle}" >
+                    <ListBox Name="GeoLocationList" Margin="5" Background="Transparent" Height="250" BorderThickness="0" DisplayMemberPath="Name" 
+                             ItemsSource="{Binding Path=WorldCities}"
+                             SelectionChanged="ListBox_SelectionChanged"/>
+                </ScrollViewer>
+        </controls:OptionsPanel>
+        <TextBlock x:Name="OpenSourceCopyright" Text="{Binding Path=XW_OpenSourceCopyright, Source={StaticResource CommonStrings}}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5" FontFamily="Georgia" FontSize="12" FontWeight="Normal" Foreground="#FF999999"  />
+    </Grid>
+</igFramework:SampleContainer>

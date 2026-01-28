@@ -1,0 +1,82 @@
+﻿<framework:SampleContainer x:Class="IGOutlookBar.Samples.Navigation.SettingMaxGroupsInTheNavigationArea"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="SettingMaxGroupsInTheNavigationArea"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:igOB="http://infragistics.com/OutlookBar"
+      xmlns:localControls="clr-namespace:IGOutlookBar.Controls"
+      xmlns:res="clr-namespace:IGOutlookBar.Resources"
+      xmlns:System="clr-namespace:System;assembly=mscorlib">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGOutlookBar;component/Assets/Global.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <res:OutlookBarStrings x:Key="OutlookBarStrings" />
+            <x:Array x:Key="myarray" Type="{x:Type System:Int32}">
+                <System:Int32>0</System:Int32>
+                <System:Int32>1</System:Int32>
+                <System:Int32>2</System:Int32>
+                <System:Int32>3</System:Int32>
+            </x:Array>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <!-- #BEGIN SNIPPET# -->
+        <igOB:XamOutlookBar
+            x:Name="xamOutlookBar" Theme="RoyalLight"
+            HorizontalAlignment="Left" Width="250"
+            MinimizedWidth="35"
+            NavigationAreaMaxGroups="0">
+            <igOB:XamOutlookBar.Groups>
+                <igOB:OutlookBarGroup Header="{Binding Source={StaticResource OutlookBarStrings},
+                    Path=Interaction_ChangeNavigationAreaMaxGroups_Group1_Header}"
+                                      ToolTip="{Binding Source={StaticResource OutlookBarStrings},
+                    Path=Interaction_ChangeNavigationAreaMaxGroups_Group1_ToolTip}"
+                                      IsSelected="True" Visibility="Visible" Key="Main"
+                                      SmallImage="/IGOutlookBar;component/Images/OBarMail.png"
+                                      LargeImage="/IGOutlookBar;component/Images/OBarMailLarge.png">
+                    <localControls:XobSampleMailContent/>
+                </igOB:OutlookBarGroup>
+                <igOB:OutlookBarGroup Header="{Binding Source={StaticResource OutlookBarStrings},
+                    Path=Interaction_ChangeNavigationAreaMaxGroups_Group3_Header}"
+                                      ToolTip="{Binding Source={StaticResource OutlookBarStrings},
+                    Path=Interaction_ChangeNavigationAreaMaxGroups_Group3_ToolTip}"
+                                      IsSelected="False" Visibility="Visible"
+                                      SmallImage="/IGOutlookBar;component/Images/OBarCalendar.png"
+                                      LargeImage="/IGOutlookBar;component/Images/OBarCalendarLarge.png">
+                    <localControls:XobSampleCalendarContent/>
+                </igOB:OutlookBarGroup>
+                <igOB:OutlookBarGroup Header="{Binding Source={StaticResource OutlookBarStrings},
+                    Path=Interaction_ChangeNavigationAreaMaxGroups_Group2_Header}"
+                                      ToolTip="{Binding Source={StaticResource OutlookBarStrings},
+                    Path=Interaction_ChangeNavigationAreaMaxGroups_Group2_ToolTip}"
+                                      SmallImage="/IGOutlookBar;component/Images/OBarFolder.png"
+                                      LargeImage="/IGOutlookBar;component/Images/OBarFolderLarge.png" IsSelected="False">
+                    <localControls:XobSampleFolderListContent/>
+                </igOB:OutlookBarGroup>
+            </igOB:XamOutlookBar.Groups>
+        </igOB:XamOutlookBar>
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel Margin="400 10 0 0"
+                               HeaderText="{Binding Source={StaticResource OutlookBarStrings},
+            Path=Interaction_ChangeNavigationAreaMaxGroups_ConfigArea_Header}">
+            <StackPanel Orientation="Horizontal" DataContext="{Binding Source={StaticResource myarray}, Path=.}" Margin="5">
+                <TextBlock Name="textBlock1" Text="{Binding Source={StaticResource OutlookBarStrings},
+                    Path=Interaction_ChangeNavigationAreaMaxGroups_ConfigArea_TextBlockText}"
+                           VerticalAlignment="Center" >:
+                </TextBlock>
+                <ComboBox Name="comboBox1" Height="22" Width="75" ItemsSource="{Binding}"
+                          SelectedItem="{Binding ElementName=xamOutlookBar, Path=NavigationAreaMaxGroups, Mode=TwoWay}"
+                          IsSynchronizedWithCurrentItem="True" Margin="5,0,0,0"/>
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

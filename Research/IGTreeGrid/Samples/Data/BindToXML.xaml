@@ -1,0 +1,46 @@
+﻿<framework:SampleContainer x:Class="IGTreeGrid.Samples.Data.BindToXML"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:igDP="http://infragistics.com/DataPresenter"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGTreeGrid.Resources"
+    xmlns:vm="clr-namespace:IGTreeGrid.Samples.ViewModels"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="Bind to XML Page">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGTreeGrid;component/Assets/Global.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <res:TreeGridStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <!-- #BEGIN SNIPPET# -->
+    <framework:SampleContainer.DataContext>
+        <vm:AccountsDataProvider />
+    </framework:SampleContainer.DataContext>
+    <!-- #END SNIPPET# -->
+    
+    <Grid x:Name="LayoutRoot">
+        <!-- #BEGIN SNIPPET# -->
+        <igDP:XamTreeGrid x:Name="xtg" DataSource="{Binding Path=Accounts}" Theme="RoyalLight">
+            <igDP:XamTreeGrid.FieldLayoutSettings>
+                <igDP:FieldLayoutSettings AutoGenerateFields="False" />
+            </igDP:XamTreeGrid.FieldLayoutSettings>
+            <igDP:XamTreeGrid.FieldLayouts>
+                <igDP:FieldLayout>
+                    <igDP:TextField Name="Name" Label="{Binding Source={StaticResource Strings}, Path=lblAccountName}" Width="250" />
+                    <igDP:NumericField Name="Number" Label="{Binding Source={StaticResource Strings}, Path=lblCodeNumber}" />
+                    <igDP:NumericField Name="Balance" Label="{Binding Source={StaticResource Strings}, Path=lblAccountBalance}" />
+                    <igDP:Field Name="Accounts" />
+                </igDP:FieldLayout>
+            </igDP:XamTreeGrid.FieldLayouts>
+        </igDP:XamTreeGrid>
+        <!-- #END SNIPPET# -->
+    </Grid>
+</framework:SampleContainer>

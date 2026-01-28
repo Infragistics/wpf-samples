@@ -1,0 +1,142 @@
+﻿<igSamples:SampleContainer x:Class="IGBusyIndicator.Samples.Display.FocusTargetSample"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:igSamples="http://schemas.infragistics.com/xaml/samples"
+             xmlns:data="clr-namespace:IGBusyIndicator.Samples.DataProviders"
+             xmlns:localResources="clr-namespace:IGBusyIndicator.Resources"
+             xmlns:sharedResources="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared"
+             xmlns:ig="http://schemas.infragistics.com/xaml"
+             xmlns:igEdit="http://infragistics.com/Editors"
+             xmlns:igDP="http://infragistics.com/DataPresenter"
+             xmlns:sharedControls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="800">
+    
+    <igSamples:SampleContainer.Resources>
+        <ResourceDictionary> 
+
+            <sharedResources:CommonStrings x:Key="CommonStrings" />
+            <localResources:BusyIndicatorStrings x:Key="Strings" />
+
+            <SolidColorBrush x:Key="InputBorderBrush" Color="#FF9B9B9B"/>
+
+            <Style x:Key="WaterMarkStyle" TargetType="{x:Type TextBox}" >
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type TextBox}">
+                            <Grid>
+                                <Border Background="White" BorderBrush="{StaticResource InputBorderBrush}" BorderThickness="1" CornerRadius="2"/>
+                                <ScrollViewer x:Name="PART_ContentHost" Margin="5,0,0,0" VerticalAlignment="Center" />
+                                <Label Margin="5,0,0,0" x:Name="WaterMarkLabel" Content="{TemplateBinding Tag}" VerticalAlignment="Center" Visibility="Collapsed" Foreground="Gray" />
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="Text" Value=""/>
+                                        <Condition Property="IsFocused" Value="False"/>
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="Visibility" TargetName="WaterMarkLabel" Value="Visible"/>
+                                </MultiTrigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Foreground" Value="DimGray"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </igSamples:SampleContainer.Resources>
+
+    <!-- Data context -->
+    <igSamples:SampleContainer.DataContext>
+        <data:CustomersDataProvider />
+    </igSamples:SampleContainer.DataContext>
+    
+    <Grid>
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamBusyIndicator Name="BusyIndicator" IsBusy="{Binding ElementName=Chb_IsBusy, Path=IsChecked}" 
+                             FocusTarget="{Binding ElementName=ElementsCombo, Path=SelectedValue}"
+                             Animation="SpinnerBalls"
+                             IsBusyChanged="BusyIndicator_IsBusyChanged">
+        <!-- #END SNIPPET# -->
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid Margin="0,0,0,10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    
+                    <TextBlock Text="{Binding Source={StaticResource Strings}, Path=CustomersOverview}" Margin="{StaticResource OptionsElementsMargin}" Style="{StaticResource SamplesTitleStyle}"/>
+                    <igDP:XamDataGrid x:Name="DataGrid" DataSource="{Binding Path=Customers}" Grid.Row="1" Margin="0,20" BorderBrush="{x:Null}">
+                        <igDP:XamDataGrid.FieldLayoutSettings>
+                            <igDP:FieldLayoutSettings AutoGenerateFields="False"/>
+                        </igDP:XamDataGrid.FieldLayoutSettings>
+                        <igDP:XamDataGrid.FieldSettings>
+                            <igDP:FieldSettings Width="*" />
+                        </igDP:XamDataGrid.FieldSettings>
+                        <igDP:XamDataGrid.FieldLayouts>
+                            <igDP:FieldLayout>
+                                <igDP:TextField Name="ContactName" Label="{Binding Source={StaticResource CommonStrings}, Path=Customer_Name}"/>
+                                <igDP:TextField Name="Company" Label="{Binding Source={StaticResource CommonStrings}, Path=Company}"/>
+                                <igDP:TextField Name="Phone" Label="{Binding Source={StaticResource CommonStrings}, Path=Phone}"/>
+                                <igDP:TextField Name="Country" Label="{Binding Source={StaticResource CommonStrings}, Path=XW_Country}"/>
+                                <igDP:TextField Name="City" Label="{Binding Source={StaticResource CommonStrings}, Path=City}"/>
+                                <igDP:TextField Name="AddressOne" Label="{Binding Source={StaticResource CommonStrings}, Path=Customer_Address1}"/>
+                            </igDP:FieldLayout>
+                        </igDP:XamDataGrid.FieldLayouts>
+                    </igDP:XamDataGrid>
+                </Grid>
+
+                <StackPanel Grid.Row="1">
+                    <TextBlock Text="{Binding Source={StaticResource Strings}, Path=CustomerDetails}" Margin="{StaticResource OptionsElementsMargin}" Style="{StaticResource SamplesTitleStyle}"/>
+                    <Grid Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="3*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Label Content="{Binding Source={StaticResource Strings}, Path=ContactName}" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="-9,5,5,5"/>
+                        <TextBox Name="ContactName" Tag="{Binding Source={StaticResource Strings}, Path=EnterContactName}" 
+                                 Style="{StaticResource WaterMarkStyle}" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" />
+                           
+                        <Label Content="{Binding Source={StaticResource Strings}, Path=CompanyName}" Grid.Row="1" Grid.Column="0" Margin="-9,5,5,5" />
+                        <TextBox Name="CompanyName" Tag="{Binding Source={StaticResource Strings}, Path=EnterCompanyName}" 
+                                 Style="{StaticResource WaterMarkStyle}" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" />
+
+                        <Label Content="{Binding Source={StaticResource Strings}, Path=Phone}" Grid.Row="2" Grid.Column="0" Margin="-9,5,5,5"/>
+                        <igEdit:XamMaskedEditor Name="Phone" Mask="{Binding Source={StaticResource Strings}, Path=MaskPhone}" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" />
+
+                        <Label Content="{Binding Source={StaticResource Strings}, Path=DeliveryDate}" Grid.Row="3" Grid.Column="0" Margin="-9,5,5,5"/>
+                        <igEdit:XamDateTimeEditor Name="DeliveryDate" Grid.Row="3" Grid.Column="1" Value="01/09/2015" VerticalAlignment="Center" />
+
+                        <Label Content="{Binding Source={StaticResource Strings}, Path=DeliveryQuantity}" Grid.Row="4" Grid.Column="0" Margin="-9,5,5,5"/>
+                        <igEdit:XamNumericEditor Name="DeliveryQuantity" Grid.Row="4" Grid.Column="1" Mask="{Binding Source={StaticResource Strings}, Path=Mask_Number}" VerticalAlignment="Center" />
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </ig:XamBusyIndicator>
+
+        <sharedControls:OptionsPanel Width="200" HeaderText="{Binding ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}" 
+                                     VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,40,40,0" >
+            <CheckBox x:Name="Chb_IsBusy" IsChecked="True" Margin="0,0,0,10"
+                      Content="{Binding Source={StaticResource Strings}, Path=BusyIndicator_IsBusy}" />
+            <TextBlock Text="{Binding Source={StaticResource Strings}, Path=UIElement_Focus}" Margin="0,0,0,5" FontWeight="Bold" />
+            <ComboBox Name="ElementsCombo" SelectedValuePath="PageElement" DisplayMemberPath="Name" SelectedIndex="0" />
+        </sharedControls:OptionsPanel>
+    </Grid>
+</igSamples:SampleContainer>

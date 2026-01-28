@@ -1,0 +1,73 @@
+﻿<framework:SampleContainer
+    x:Class="IGGeographicMap.Samples.MapLocationPane"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700"
+    Title="MapLocationPane Page"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+    xmlns:resources="clr-namespace:IGGeographicMap.Resources"
+    xmlns:custom="clr-namespace:IGGeographicMap.Samples.Custom" 
+    xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGeographicMap;component/Assets/GlobalExtended.xaml" />
+                
+                
+            </ResourceDictionary.MergedDictionaries>
+            <resources:AssetsLocalizer x:Key="Localizer" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.Resources>
+            <Style x:Key="CrosshairLineStyle" TargetType="Line">
+                <Setter Property="Stroke" Value="Black"/>
+                <Setter Property="StrokeThickness" Value="1"/>
+            </Style>
+        </Grid.Resources>
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ========================================================================== -->
+        <!-- XamGeographicMap -->
+        <ig:XamGeographicMap x:Name="GeoMap" 
+                             PlotAreaBackground="{StaticResource GeoMapSbPlotAreaBackgroundBrush}"
+                             CrosshairVisibility="Visible"
+                             CrosshairLineStyle="{StaticResource CrosshairLineStyle}"
+                             OverviewPlusDetailPaneVisibility="Collapsed"
+                             Zoomable="True">
+        </ig:XamGeographicMap>
+        <!-- GeoMapLocationPane with binding to the XamGeographicMap control -->
+        <custom:GeoMapLocationPane x:Name="GeoMapLocationPane" Margin="6" Opacity="0.98"
+                              GeographicMap="{Binding ElementName=GeoMap}"
+                              MapPaneOrientation="Horizontal"
+                              MapCoordinateDisplayMode="GeoDegreeMinuteSeconds"
+                              HorizontalAlignment="Left" VerticalAlignment="Top">
+            <!-- initialized GeoMapLocationPane.Location property to some arbitrary geographic location -->
+            <custom:GeoMapLocationPane.Location>
+                <models:GeoLocation Latitude="50.33" Longitude="-150.33" />
+            </custom:GeoMapLocationPane.Location>
+        </custom:GeoMapLocationPane>
+        <!-- ========================================================================== -->
+        <!-- #END SNIPPET# -->
+        <TextBlock x:Name="OpenSourceCopyright" Text="{Binding Path=XW_OpenSourceCopyright, Source={StaticResource CommonStrings}}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Style="{StaticResource SourceTextblockStyle}"  />
+        <controls:OptionsPanel HeaderText="{Binding Path=MapStrings.XWGM_MapCrosshair_MapCoordinates, Source={StaticResource Localizer}}"
+                               HorizontalAlignment="Right"  >
+            <StackPanel>
+                <TextBlock Text="{Binding Path=MapStrings.XWGM_MapLocationPane_Mode, Source={StaticResource Localizer}}" FontWeight="Bold" Margin="{StaticResource OptionsTextTopBottomMargin}" />
+                <RadioButton Content="{Binding Path=MapStrings.XWGM_MapLocationPane_Mode_GDMS, Source={StaticResource Localizer}}" GroupName="CoordinateDisplayMode" Click="MapCoordinateModeButton_GMS_Click" IsChecked="True"  Margin="{StaticResource OptionsElementsMargin}" />
+                <RadioButton Content="{Binding Path=MapStrings.XWGM_MapLocationPane_Mode_GDD, Source={StaticResource Localizer}}" GroupName="CoordinateDisplayMode" Click="MapCoordinateModeButton_DD_Click"  Margin="{StaticResource OptionsElementsMargin}"/>
+                <RadioButton Content="{Binding Path=MapStrings.XWGM_MapLocationPane_Mode_MWC, Source={StaticResource Localizer}}" GroupName="CoordinateDisplayMode" Click="MapCoordinateModeButton_MWC_Click"  Margin="{StaticResource OptionsElementsMargin}"/>
+                <RadioButton Content="{Binding Path=MapStrings.XWGM_MapLocationPane_Mode_MMP, Source={StaticResource Localizer}}" GroupName="CoordinateDisplayMode" Click="MapCoordinateModeButton_MMP_Click"  Margin="{StaticResource OptionsElementsMargin}"/>
+               
+                <TextBlock Text="{Binding Path=MapStrings.XWGM_MapLocationPane_Orientation, Source={StaticResource Localizer}}" FontWeight="Bold"  Margin="{StaticResource OptionsTextTopBottomMargin}"/>
+                <RadioButton Content="{Binding Path=MapStrings.XWGM_MapLocationPane_Orientation_H, Source={StaticResource Localizer}}" GroupName="CoordinateOrientation" Click="MapCoordinateHorizontalOrientationButton_Click" IsChecked="True"  Margin="{StaticResource OptionsElementsMargin}"/>
+                <RadioButton Content="{Binding Path=MapStrings.XWGM_MapLocationPane_Orientation_V, Source={StaticResource Localizer}}" GroupName="CoordinateOrientation" Click="MapCoordinateVerticalOrientationButton_Click"  />
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

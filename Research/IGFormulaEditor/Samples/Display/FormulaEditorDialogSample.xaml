@@ -1,0 +1,128 @@
+﻿<igFramework:SampleContainer x:Class="IGFormulaEditor.Samples.Display.FormulaEditorDialogSample"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="FormulaEditorDialogSample"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGFormulaEditor.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGFormulaEditor;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:FormulaEditorStrings x:Key="Strings"/>
+            <ig:XamCalculationManager x:Key="CalculationManager" x:Name="CalcManager">
+                <ig:XamCalculationManager.NamedReferences>
+                    <ig:NamedReferenceCollection>
+                        <ig:NamedReference Category="Sample Category" ReferenceId="Formula1" Formula="[a] * [b]"/>
+                        <ig:NamedReference Category="Sample Category" ReferenceId="Formula2" Formula="[b] + [c] * [d]"/>
+                        <ig:NamedReference Category="Sample Category" ReferenceId="Formula3" Formula="[f] - [e] * 2"/>
+                    </ig:NamedReferenceCollection>
+                </ig:XamCalculationManager.NamedReferences>
+            </ig:XamCalculationManager>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="285*" />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="{Binding Source={StaticResource Strings}, Path=Variables}"
+                   FontWeight="Bold" Grid.ColumnSpan="4" Margin="4"/>
+        <TextBlock Text="{Binding Source={StaticResource Strings}, Path=Text}" Grid.Row="1" Margin="4" TextAlignment="Right" />
+        <TextBlock Text="a:" Grid.Row="2" Margin="4" TextAlignment="Right" />
+        <TextBlock Text="b:" Grid.Row="3" Margin="4" TextAlignment="Right" />
+        <TextBlock Text="c:" Grid.Row="1" Grid.Column="2" Margin="4" TextAlignment="Right" />
+        <TextBlock Text="d:" Grid.Row="2" Grid.Column="2" Margin="4" TextAlignment="Right" />
+        <TextBlock Text="e:" Grid.Row="3" Grid.Column="2" Margin="4" TextAlignment="Right" />
+        <TextBlock Text="{Binding Source={StaticResource Strings}, Path=Result1}"
+                   FontWeight="Bold" Grid.Row="4" Grid.Column="5" Margin="10,4,0,4" VerticalAlignment="Center" />
+        <TextBlock Text="{Binding Source={StaticResource Strings}, Path=Result2}"
+                   FontWeight="Bold" Grid.Row="5" Grid.Column="5"  Margin="10,4,0,4" VerticalAlignment="Center" />
+        <TextBlock Text="{Binding Source={StaticResource Strings}, Path=Formula1}"
+                   FontWeight="Bold" Grid.Row="4" Margin="4" VerticalAlignment="Center" />
+        <TextBlock Text="{Binding Source={StaticResource Strings}, Path=Formula2}"
+                   FontWeight="Bold" Grid.Row="5" Margin="4" VerticalAlignment="Center" />
+
+        <TextBox x:Name="Text" ig:XamCalculationManager.CalculationManager="{StaticResource CalculationManager}"
+                 Grid.Row="1" Grid.Column="1" Margin="4" HorizontalAlignment="Left" Text="abc" Width="40">
+            <ig:XamCalculationManager.ControlSettings>
+                <ig:ControlCalculationSettings Property="Text" TreatAsTypeName="System.String"/>
+            </ig:XamCalculationManager.ControlSettings>
+        </TextBox>
+        <TextBox x:Name="a" ig:XamCalculationManager.CalculationManager="{StaticResource CalculationManager}"
+                 Grid.Row="2" Grid.Column="1" Margin="4" HorizontalAlignment="Left" Width="40"/>
+        <TextBox x:Name="b" ig:XamCalculationManager.CalculationManager="{StaticResource CalculationManager}"
+                 Grid.Row="3" Grid.Column="1" Margin="4" HorizontalAlignment="Left" Width="40"/>
+        <TextBox x:Name="c" ig:XamCalculationManager.CalculationManager="{StaticResource CalculationManager}"
+                 Grid.Row="1" Grid.Column="3" Margin="4" HorizontalAlignment="Left" Width="40"/>
+        <TextBox x:Name="d" ig:XamCalculationManager.CalculationManager="{StaticResource CalculationManager}"
+                 Grid.Row="2" Grid.Column="3" Margin="4" HorizontalAlignment="Left" Width="40"/>
+        <TextBox x:Name="e" ig:XamCalculationManager.CalculationManager="{StaticResource CalculationManager}"
+                 Grid.Row="3" Grid.Column="3" Margin="4" HorizontalAlignment="Left" Width="40"/>
+        <TextBlock x:Name="Result1" ig:XamCalculationManager.CalculationManager="{StaticResource CalculationManager}"
+                   Grid.Row="4" Grid.Column="6" Margin="4,4,0,4" HorizontalAlignment="Left" VerticalAlignment="Center">
+            <ig:XamCalculationManager.ControlSettings>
+                <ig:ControlCalculationSettings Formula="[b] + [c]"/>
+            </ig:XamCalculationManager.ControlSettings>
+        </TextBlock>
+        <TextBlock x:Name="Result2" ig:XamCalculationManager.CalculationManager="{StaticResource CalculationManager}"
+                   Grid.Row="5" Grid.Column="6" Margin="4" Grid.ColumnSpan="2" VerticalAlignment="Center">
+            <ig:XamCalculationManager.ControlSettings>
+                <ig:ControlCalculationSettings Formula="len([Text]) + [b]" />
+            </ig:XamCalculationManager.ControlSettings>
+        </TextBlock>
+        
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamFormulaEditor x:Name="formulaEditor1" Target="{Binding ElementName=Result1}"
+                             Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="4"
+                             FormulaEditorDialogDisplaying="FormulaEditor1_FormulaEditorDialogDisplaying"
+                             Margin="4" HorizontalAlignment="Left" Width="250"
+                             MaxLineCount="1"/>
+        <ig:XamFormulaEditor x:Name="formulaEditor2" Target="{Binding ElementName=Result2}"
+                             Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="4"
+                             FormulaEditorDialogDisplaying="FormulaEditor2_FormulaEditorDialogDisplaying"
+                             Margin="4" HorizontalAlignment="Left" Width="250"/>
+        <!-- #END SNIPPET# -->
+        
+        <Grid x:Name="grdPanel" Grid.Row="6" Grid.ColumnSpan="7" Opacity="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <!-- See code behind for the FormulaEditorDialog that is displayed when
+            the buttons in the xamFormulaEditors are pressed. -->
+            <ScrollViewer x:Name="scrollViewer">
+                <ScrollViewer.Resources>
+                    <Style TargetType="ScrollBar" BasedOn="{StaticResource ScrollBarStyle}"/>
+                </ScrollViewer.Resources>
+            </ScrollViewer>
+            <Button x:Name="commitButton" Click="CommitButton_Click"
+                    Content="{Binding Source={StaticResource Strings}, Path=SaveAndClose}"
+                    Style="{StaticResource IGGenericButton}" Grid.Row="1" Margin="5"
+                    Width="200"/>
+        </Grid>
+    </Grid>
+</igFramework:SampleContainer>

@@ -1,0 +1,88 @@
+﻿<igs:SampleContainer x:Class="IGSurfaceChart.Samples.Navigation.ChartEvents"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ig="http://schemas.infragistics.com/xaml"
+             xmlns:igs="http://schemas.infragistics.com/xaml/samples"
+             xmlns:res="clr-namespace:IGSurfaceChart.Resources"
+             xmlns:viewModel="clr-namespace:IGSurfaceChart.Samples.ViewModels"
+             xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="500">
+    <igs:SampleContainer.DataContext>
+        <viewModel:BasicViewModel />
+    </igs:SampleContainer.DataContext>
+    <igs:SampleContainer.Resources>
+        <ResourceDictionary>
+            <res:SurfaceChartStrings x:Key="ChartStrings" />
+            <MeshGeometry3D x:Key="MarkerGeometry" Positions="-0.01 0.01 0.01, -0.01 -0.01 0.01, 
+                                            0.01 0.01 0.01, 0.01 -0.01 0.01,
+                                            0.01 0.01 -0.01, 0.01 -0.01 -0.01, 
+                                            -0.01 0.01 -0.01, -0.01 -0.01 -0.01"
+                                    TextureCoordinates="0 0, 0 1, 1 0, 1 1,
+                                                        0 0, 0 1, 1 0, 1 1"
+                                    TriangleIndices="0  1  2,  1  3  2,
+                                                     6  7  0,  7  1  0,
+                                                     4  6  2,  6  0  2,
+                                                     2  3  4,  3  5  4,
+                                                     3  1  5,  1  7  5,
+                                                     4  5  6,  5  7  6" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSurfaceChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </igs:SampleContainer.Resources>
+    <Grid> 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamScatterSurface3D 
+            Name="SurfaceChart"              
+            ItemsSource="{Binding Path=Formula1DataCollection}"  
+            XMemberPath="X" YMemberPath="Y" ZMemberPath="Z"
+            ShowPointMarkers="False"
+            SeriesMouseDown="SurfaceChart_SeriesMouseDown"
+            SeriesMouseMove="SurfaceChart_SeriesMouseMove"
+            SeriesMouseUp="SurfaceChart_SeriesMouseUp"
+            PointMarkerMouseDown="SurfaceChart_PointMarkerMouseDown"
+            PointMarkerMouseMove="SurfaceChart_PointMarkerMouseMove"
+            PointMarkerMouseUp="SurfaceChart_PointMarkerMouseUp"
+            PointMarkerMesh="{StaticResource MarkerGeometry}"
+            SeriesColors="{StaticResource ColdCollection}"/>
+        <!-- #END SNIPPET# -->
+
+        <Grid Grid.Column="1" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" /> 
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <ListBox x:Name="OutputListBox" Style="{StaticResource IGListBoxStyle}" Grid.Row="1"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto"
+                         ScrollViewer.HorizontalScrollBarVisibility="Auto"/> 
+            <Button Name="ClearButton" Content="{Binding Clear, Source={StaticResource ChartStrings}}" Grid.Row="2"
+                    VerticalAlignment="Bottom" Click="Clear_Button_Click" Style="{StaticResource IGGenericButton}" />
+
+            <controls:OptionsPanel Grid.Row="0" IsMovable="False"
+                HeaderText="{Binding TrackEvents, Source={StaticResource ChartStrings}}" 
+                HorizontalAlignment="Right" Width="210">
+                <Label Content="{Binding Source={StaticResource ChartStrings}, Path=SeriesEvents}" 
+                   Style="{StaticResource HeaderLabelStyle}" Margin="{StaticResource OptionsPanelHeaderLabelLeftMargin}"/>
+                <CheckBox x:Name="SeriesMouseDownCheckBox" Margin="{StaticResource OptionsElementsMargin}" Content="{Binding SeriesMouseDown, Source={StaticResource ChartStrings}}" IsChecked="True"/>
+                <CheckBox x:Name="SeriesMouseMoveCheckBox" Margin="{StaticResource OptionsElementsMargin}" Content="{Binding SeriesMouseMove, Source={StaticResource ChartStrings}}" IsChecked="True"/>
+                <CheckBox x:Name="SeriesMouseUpCheckBox" Margin="{StaticResource OptionsElementsMargin}" Content="{Binding SeriesMouseUp, Source={StaticResource ChartStrings}}" IsChecked="True"/>
+
+                <Label Content="{Binding Source={StaticResource ChartStrings}, Path=MarkerEvents}" 
+                   Style="{StaticResource HeaderLabelStyle}" Margin="{StaticResource OptionsElementsMargin}"/>
+                <CheckBox x:Name="PointMarkerMouseDownCheckBox" Margin="{StaticResource OptionsElementsMargin}" Content="{Binding PointMarkerMouseDown, Source={StaticResource ChartStrings}}" IsChecked="False" Checked="OnShowPointMarkers"/>
+                <CheckBox x:Name="PointMarkerMouseMoveCheckBox" Margin="{StaticResource OptionsElementsMargin}" Content="{Binding PointMarkerMouseMove, Source={StaticResource ChartStrings}}" IsChecked="False" Checked="OnShowPointMarkers"/>
+                <CheckBox x:Name="PointMarkerMouseUpCheckBox" Content="{Binding PointMarkerMouseUp, Source={StaticResource ChartStrings}}" IsChecked="False" Checked="OnShowPointMarkers"/>
+            </controls:OptionsPanel>
+        </Grid>
+
+     
+    </Grid>
+</igs:SampleContainer>

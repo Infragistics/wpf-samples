@@ -1,0 +1,109 @@
+﻿<framework:SampleContainer 
+    x:Class="IGGeographicMap.Samples.GeoTileImagerySeries"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700"
+      Title="Geo Tile Imagery Series"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:providers="clr-namespace:Infragistics.Samples.Shared.DataProviders;assembly=Infragistics.Samples.Shared" 
+      xmlns:resources="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGGeographicMap.Resources">
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGeographicMap;component/Assets/GlobalExtended.xaml" />
+                
+                
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:AssetsLocalizer x:Key="Localizer" />
+            <!-- ShapeFileProvider provides absolute path to a shape file -->
+            <providers:ShapeFileProvider x:Key="WorldContinentsProvider"
+                                         ShapeFileRelativePath="/world/world_continents.shp"
+                                         ShapeDatabaseRelativePath="world/world_continents.dbf"/>
+              <!-- ShapefileConverter loads shapes from shape files (SHP) and -->
+            <!-- stores them in the Points property as List<List<Point>> object type -->
+            <ig:ShapefileConverter x:Key="WorldContinentsShapefile"
+                                   ImportCompleted="OnShapefileImportCompleted"
+                                   CollectionChanged="OnShapefileCollectionChanged"
+                                   ShapefileSource="{Binding Path=ShapeFileAbsolutePath, Source={StaticResource WorldContinentsProvider}}"
+                                   DatabaseSource="{Binding Path=ShapeDatabaseAbsolutePath, Source={StaticResource WorldContinentsProvider}}" />
+            </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+         <ig:XamGeographicMap x:Name="GeoMap"
+                             Zoomable="True"
+                              OverviewPlusDetailPaneStyle="{StaticResource GeographicWorldOPDStyle}"
+                             OverviewPlusDetailPaneVisibility="Collapsed">
+            <ig:XamGeographicMap.BackgroundContent>
+                <ig:OpenStreetMapImagery Opacity="1"/>
+            </ig:XamGeographicMap.BackgroundContent>
+            <ig:XamGeographicMap.Series>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <!-- GeographicTileSeries with items source set to a shapefile that will be used as bounding shape of TileImagery -->
+                <ig:GeographicTileSeries ItemsSource="{StaticResource WorldContinentsShapefile}" 
+                                         ShapeMemberPath="Points"  >
+                    <ig:GeographicTileSeries.TileImagery>
+                        <ig:OpenStreetMapImagery />
+                    </ig:GeographicTileSeries.TileImagery>
+                </ig:GeographicTileSeries>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamGeographicMap.Series>
+        </ig:XamGeographicMap>
+
+        <controls:OptionsPanel HorizontalAlignment="Right" HeaderText="{Binding Path=XW_Settings, Source={StaticResource CommonStrings}}" >
+            <CheckBox x:Name="ClearMapBackgroundCheckBox" Tag="BackGroundTag" 
+                  Content="{Binding Path=XWGM_Background, Source={StaticResource MapStrings}}" 
+                  Click="OnClearMapBackgroundCheckBoxChanged" IsChecked="False" Margin="{StaticResource OptionsElementsMargin}"/>
+            <StackPanel Margin="{StaticResource OptionsElementsMargin}">
+                <TextBlock Text="{Binding Path=XWGM_TileImageryShape, Source={StaticResource MapStrings}}" Margin="{StaticResource OptionsElementsMargin}"/>
+                <ComboBox x:Name="TileImageryShapeComboBox" SelectionChanged="OnTileImageryShapeComboBoxChanged">
+                    <ComboBoxItem Content="{Binding Path=XWGM_Regions_WorldRegion, Source={StaticResource MapStrings}}" />
+                    <ComboBoxItem Content="{Binding Path=XWGM_Regions_WorldContinents, Source={StaticResource MapStrings}}" />
+                    <ComboBoxItem Content="{Binding Path=XWGM_Regions_CustomRegion, Source={StaticResource MapStrings}}" />
+                    <ComboBoxItem Content="{Binding Path=XWGM_Regions_AmericaRegion, Source={StaticResource MapStrings}}" />
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Vertical">
+                <Grid Margin="{StaticResource OptionsElementsMargin}">
+                    <TextBlock Text="{Binding Path=XWGM_West, Source={StaticResource MapStrings}}" HorizontalAlignment="Left"/>
+                    <TextBlock Text="{Binding Path=XWGM_East, Source={StaticResource MapStrings}}" HorizontalAlignment="Right"/>
+                </Grid>
+                <ig:XamNumericRangeSlider x:Name="GeoRegionHorizontalSlider" MinValue="-180" MaxValue="180" IncreaseButtonVisibility="Collapsed"   DecreaseButtonVisibility="Collapsed" Margin="{StaticResource OptionsElementsMargin}">
+                    <ig:XamNumericRangeSlider.TickMarks>
+                        <ig:SliderTickMarks TickMarksFrequency="30" IncludeSliderEnds="True"/>
+                    </ig:XamNumericRangeSlider.TickMarks>
+                    <ig:XamSliderNumericThumb x:Name="GeoRegionWestSlider" Value="-100" InteractionMode="Lock" ValueChanged="OnGeoRegionSliderValueChanged"   />
+                    <ig:XamSliderNumericThumb x:Name="GeoRegionEastSlider" Value="100" InteractionMode="Lock" ValueChanged="OnGeoRegionSliderValueChanged"  />
+                </ig:XamNumericRangeSlider>
+                <Grid Margin="{StaticResource OptionsElementsMargin}">
+                    <TextBlock Text="{Binding Path=XWGM_South, Source={StaticResource MapStrings}}" HorizontalAlignment="Left"/>
+                    <TextBlock Text="{Binding Path=XWGM_North, Source={StaticResource MapStrings}}" HorizontalAlignment="Right"/>
+                </Grid>
+                <ig:XamNumericRangeSlider x:Name="GeoRegionVerticalSlider" MinValue="-85" MaxValue="85" IncreaseButtonVisibility="Collapsed" DecreaseButtonVisibility="Collapsed">
+                    <ig:XamNumericRangeSlider.TickMarks>
+                        <ig:SliderTickMarks TickMarksFrequency="15" IncludeSliderEnds="True"/>
+                    </ig:XamNumericRangeSlider.TickMarks>
+                    <ig:XamSliderNumericThumb x:Name="GeoRegionSouthSlider" Value="-30" InteractionMode="Lock"  ValueChanged="OnGeoRegionSliderValueChanged"  />
+                    <ig:XamSliderNumericThumb x:Name="GeoRegionNorthSlider" Value="60" InteractionMode="Lock" ValueChanged="OnGeoRegionSliderValueChanged"  />
+                </ig:XamNumericRangeSlider>
+            </StackPanel>
+        </controls:OptionsPanel>
+
+        <TextBlock x:Name="MapDataSource" Text="{Binding Path=XW_Source_GeoImagery, Source={StaticResource CommonStrings}}" Style="{StaticResource SourceDataTextBoxStyle}" />
+        <TextBlock x:Name="OpenSourceCopyright" Text="{Binding Path=XW_OpenSourceCopyright, Source={StaticResource CommonStrings}}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Style="{StaticResource SourceTextblockStyle}"  />
+        <Grid x:Name="MapLoadingContainer" Margin="0" Background="White" Canvas.ZIndex="1" Visibility="Collapsed" VerticalAlignment="Stretch">
+            <Border Background="Transparent" Opacity="0.7" CornerRadius="3" />
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                <TextBlock x:Name="MapLoadingStatus" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" Text="..." />
+            </StackPanel>
+        </Grid>
+    </Grid> 
+</framework:SampleContainer>

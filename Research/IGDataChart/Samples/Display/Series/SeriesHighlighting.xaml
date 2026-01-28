@@ -1,0 +1,647 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Display.Series.SeriesHighlighting"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="Series Highlighting Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+        >
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <ig:AxisLabelSettings x:Key="AxisLabelSettings" Extent="90" Visibility="Visible" />
+            <ig:AxisLabelSettings x:Key="AxisLabelSettings2" Extent="70" />
+
+            <models:EnergyProductionModel x:Key="DataViewModel" />
+            <models:StockMarketDataCollection x:Key="StockData"/>
+
+            <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}">
+                <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+            </Style>
+
+            <Style TargetType="{x:Type ig:Legend}">
+                <Setter Property="Background" Value="{StaticResource LegendBackgroundBrush}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource LegendBorderBrush}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+                <Setter Property="FontWeight" Value="{StaticResource FontSemiBold}"/>
+            </Style>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" DataContext="{StaticResource DataViewModel}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="1">
+            <ig:XamDataChart x:Name="FinancialPriceChart"  
+                             Padding="10" Visibility="Collapsed" Legend="{Binding ElementName=FinancialLegend}" 
+                             IsHorizontalZoomEnabled="True" HorizontalZoombarVisibility="Collapsed"
+                             IsVerticalZoomEnabled="True" VerticalZoombarVisibility="Collapsed" 
+                             Margin="0,0,10,0" >
+                <ig:XamDataChart.Axes>
+                    <ig:CategoryXAxis x:Name="FinancialPriceXAxis" ItemsSource="{StaticResource StockData}" Label="{}{Date:MM/dd}"/>
+                    <ig:NumericYAxis x:Name="FinancialPriceYAxis"/>
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:FinancialPriceSeries
+                        DisplayType="Candlestick" 
+                        ItemsSource="{StaticResource StockData}"
+                        OpenMemberPath="Open"
+                        CloseMemberPath="Close"
+                        HighMemberPath="High"
+                        LowMemberPath="Low"
+                        VolumeMemberPath="Volume"
+                        Title="{Binding XWDC_FinancialPriceSeries, Source={StaticResource Strings}}"
+                        XAxis="{Binding ElementName=FinancialPriceXAxis}"
+                        YAxis="{Binding ElementName=FinancialPriceYAxis}" 
+                        TrendLineType="None"
+                        IsHighlightingEnabled="True" IsTransitionInEnabled="True" >
+                    </ig:FinancialPriceSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+            <ig:XamDataChart x:Name="FinancialIndicatorChart"  
+                             Padding="10" Visibility="Collapsed" Legend="{Binding ElementName=FinancialLegend}" 
+                             IsHorizontalZoomEnabled="True" HorizontalZoombarVisibility="Collapsed"
+                             IsVerticalZoomEnabled="True" VerticalZoombarVisibility="Collapsed" 
+                             Margin="0,0,10,0" >
+                <ig:XamDataChart.Axes>
+                    <ig:CategoryXAxis x:Name="FinancialIndicatorXAxis" ItemsSource="{StaticResource StockData}" Label="{}{Date:MM/dd}"/>
+                    <ig:NumericYAxis x:Name="FinancialIndicatorYAxis"/>
+                </ig:XamDataChart.Axes>
+                <ig:XamDataChart.Series>
+                    <ig:ForceIndexIndicator
+                        ItemsSource="{StaticResource StockData}"
+                        OpenMemberPath="Open"
+                        CloseMemberPath="Close"
+                        HighMemberPath="High"
+                        LowMemberPath="Low"
+                        VolumeMemberPath="Volume" DisplayType="Area"
+                        Title="{Binding XWDC_FinancialIndicators, Source={StaticResource Strings}}"
+                        XAxis="{Binding ElementName=FinancialIndicatorXAxis}"
+                        YAxis="{Binding ElementName=FinancialIndicatorYAxis}" 
+                        TrendLineType="None"
+                        IsHighlightingEnabled="True" IsTransitionInEnabled="True" >
+                    </ig:ForceIndexIndicator>
+                </ig:XamDataChart.Series>
+            </ig:XamDataChart>
+            <ig:XamDataChart x:Name="FinancialOverlayChart"  
+                             Padding="10" Visibility="Collapsed" Legend="{Binding ElementName=FinancialLegend}" 
+                             IsHorizontalZoomEnabled="True" HorizontalZoombarVisibility="Collapsed"
+                             IsVerticalZoomEnabled="True" VerticalZoombarVisibility="Collapsed" 
+                             Margin="0,0,10,0" >
+                <ig:XamDataChart.Axes>
+                    <ig:CategoryXAxis x:Name="FinancialOverlayXAxis" ItemsSource="{StaticResource StockData}" Label="{}{Date:MM/dd}"/>
+                    <ig:NumericYAxis x:Name="FinancialOverlayYAxis"/>
+                </ig:XamDataChart.Axes>
+                <ig:XamDataChart.Series>
+                    <ig:BollingerBandsOverlay
+                        ItemsSource="{StaticResource StockData}"
+                        OpenMemberPath="Open"
+                        CloseMemberPath="Close"
+                        HighMemberPath="High"
+                        LowMemberPath="Low"
+                        VolumeMemberPath="Volume"
+                        Period="4" Multiplier="4"
+                        Title="{Binding XWDC_FinancialOverlays, Source={StaticResource Strings}}"
+                        XAxis="{Binding ElementName=FinancialOverlayXAxis}"
+                        YAxis="{Binding ElementName=FinancialOverlayYAxis}" 
+                        IsHighlightingEnabled="True" IsTransitionInEnabled="True" >
+                    </ig:BollingerBandsOverlay>
+                </ig:XamDataChart.Series>
+            </ig:XamDataChart>
+
+            <ig:XamDataChart x:Name="BarChart" Visibility="Collapsed" Padding="15" Legend="{Binding ElementName=Legend}" 
+                             IsHorizontalZoomEnabled="True" 
+                             IsVerticalZoomEnabled="True" >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericXAxis x:Name="BarXAxis" MinimumValue="0" Interval="200" Label="{}{} TWh" />
+                    <ig:CategoryYAxis x:Name="BarYAxis" ItemsSource="{Binding EnergySampleData}" Label="{}{Country}" >
+                    </ig:CategoryYAxis>
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:BarSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Coal"
+                                  Title="{Binding StringEnergyCoal, Source={StaticResource DataViewModel}}"
+                                  XAxis="{Binding ElementName=BarXAxis}"
+                                  YAxis="{Binding ElementName=BarYAxis}" 
+                                  IsHighlightingEnabled="True">
+                    </ig:BarSeries>
+                    <ig:BarSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Hydro"
+                                  Title="{Binding StringEnergyHydro, Source={StaticResource DataViewModel}}"
+                                  XAxis="{Binding ElementName=BarXAxis}"
+                                  YAxis="{Binding ElementName=BarYAxis}" 
+                                  IsHighlightingEnabled="True" >
+                    </ig:BarSeries>
+                    <ig:BarSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Nuclear"
+                                  Title="{Binding StringEnergyNuclear, Source={StaticResource DataViewModel}}"
+                                  XAxis="{Binding ElementName=BarXAxis}"
+                                  YAxis="{Binding ElementName=BarYAxis}" 
+                                  IsHighlightingEnabled="True" >
+                    </ig:BarSeries>
+                    <ig:BarSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Gas"
+                                  Title="{Binding StringEnergyGas, Source={StaticResource DataViewModel}}"
+                                  XAxis="{Binding ElementName=BarXAxis}"
+                                  YAxis="{Binding ElementName=BarYAxis}" 
+                                  IsHighlightingEnabled="True" >
+                    </ig:BarSeries>
+                    <ig:BarSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Oil"
+                                  Title="{Binding StringEnergyOil, Source={StaticResource DataViewModel}}"
+                                  XAxis="{Binding ElementName=BarXAxis}"
+                                  YAxis="{Binding ElementName=BarYAxis}" 
+                                  IsHighlightingEnabled="True" >
+                    </ig:BarSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+            <ig:XamDataChart x:Name="ColumnChart" Visibility="Collapsed" Padding="15" Legend="{Binding ElementName=Legend}" 
+                             IsHorizontalZoomEnabled="True" 
+                             IsVerticalZoomEnabled="True"  >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericYAxis x:Name="ColumnYAxis" MinimumValue="0" Interval="200" Label="{}{} TWh"  />
+                    <ig:CategoryXAxis x:Name="ColumnXAxis" ItemsSource="{Binding EnergySampleData}" Label="{}{Country}">
+                    </ig:CategoryXAxis>
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:ColumnSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Coal"
+                                     Title="{Binding StringEnergyCoal, Source={StaticResource DataViewModel}}"
+                                     XAxis="{Binding ElementName=ColumnXAxis}"
+                                     YAxis="{Binding ElementName=ColumnYAxis}" 
+                                     IsHighlightingEnabled="True">
+                    </ig:ColumnSeries>
+                    <ig:ColumnSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Hydro"
+                                     Title="{Binding StringEnergyHydro, Source={StaticResource DataViewModel}}"
+                                     XAxis="{Binding ElementName=ColumnXAxis}"
+                                     YAxis="{Binding ElementName=ColumnYAxis}" 
+                                     IsHighlightingEnabled="True">
+                    </ig:ColumnSeries>
+                    <ig:ColumnSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Nuclear"
+                                     Title="{Binding StringEnergyNuclear, Source={StaticResource DataViewModel}}"
+                                     XAxis="{Binding ElementName=ColumnXAxis}"
+                                     YAxis="{Binding ElementName=ColumnYAxis}" 
+                                     IsHighlightingEnabled="True">
+                    </ig:ColumnSeries>
+                    <ig:ColumnSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Gas"
+                                     Title="{Binding StringEnergyGas, Source={StaticResource DataViewModel}}"
+                                     XAxis="{Binding ElementName=ColumnXAxis}"
+                                     YAxis="{Binding ElementName=ColumnYAxis}" 
+                                     IsHighlightingEnabled="True">
+                    </ig:ColumnSeries>
+                    <ig:ColumnSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Oil"
+                                     Title="{Binding StringEnergyOil, Source={StaticResource DataViewModel}}"
+                                     XAxis="{Binding ElementName=ColumnXAxis}"
+                                     YAxis="{Binding ElementName=ColumnYAxis}" 
+                                     IsHighlightingEnabled="True">
+                    </ig:ColumnSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+
+            <ig:XamDataChart x:Name="AreaChart" Padding="15" Visibility="Collapsed" Legend="{Binding ElementName=Legend}" 
+                             IsHorizontalZoomEnabled="True" 
+                             IsVerticalZoomEnabled="True"  >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericYAxis x:Name="AreaYAxis" MinimumValue="0" Interval="200" Label="{}{} TWh"  />
+                    <ig:CategoryXAxis x:Name="AreaXAxis" ItemsSource="{Binding EnergySampleData}" Label="{}{Country}">
+                    </ig:CategoryXAxis>
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:AreaSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Coal"
+                                   Title="{Binding StringEnergyCoal, Source={StaticResource DataViewModel}}"
+                                   XAxis="{Binding ElementName=AreaXAxis}"
+                                   YAxis="{Binding ElementName=AreaYAxis}" 
+                                    IsHighlightingEnabled="True" >
+                    </ig:AreaSeries>
+                    <ig:AreaSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Hydro"
+                                   Title="{Binding StringEnergyHydro, Source={StaticResource DataViewModel}}"
+                                   XAxis="{Binding ElementName=AreaXAxis}"
+                                   YAxis="{Binding ElementName=AreaYAxis}" 
+                                    IsHighlightingEnabled="True" >
+                    </ig:AreaSeries>
+                    <ig:AreaSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Nuclear"
+                                   Title="{Binding StringEnergyNuclear, Source={StaticResource DataViewModel}}"
+                                   XAxis="{Binding ElementName=AreaXAxis}"
+                                   YAxis="{Binding ElementName=AreaYAxis}" 
+                                    IsHighlightingEnabled="True" >
+                    </ig:AreaSeries>
+                    <ig:AreaSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Gas"
+                                   Title="{Binding StringEnergyGas, Source={StaticResource DataViewModel}}"
+                                   XAxis="{Binding ElementName=AreaXAxis}"
+                                   YAxis="{Binding ElementName=AreaYAxis}" 
+                                    IsHighlightingEnabled="True" >
+                    </ig:AreaSeries>
+                    <ig:AreaSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Oil"
+                                   Title="{Binding StringEnergyOil, Source={StaticResource DataViewModel}}"
+                                   XAxis="{Binding ElementName=AreaXAxis}"
+                                   YAxis="{Binding ElementName=AreaYAxis}" 
+                                    IsHighlightingEnabled="True" >
+                    </ig:AreaSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+            <ig:XamDataChart x:Name="PointChart" Visibility="Collapsed" Padding="15" Legend="{Binding ElementName=Legend}" 
+                             IsHorizontalZoomEnabled="True" 
+                             IsVerticalZoomEnabled="True"  >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericYAxis x:Name="PointYAxis" MinimumValue="0" Interval="200" Label="{}{} TWh"  />
+                    <ig:CategoryXAxis x:Name="PointXAxis" ItemsSource="{Binding EnergySampleData}" Label="{}{Country}">
+                    </ig:CategoryXAxis>
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:PointSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Coal"
+                                    Title="{Binding StringEnergyCoal, Source={StaticResource DataViewModel}}"
+                                    XAxis="{Binding ElementName=PointXAxis}"
+                                    YAxis="{Binding ElementName=PointYAxis}" 
+                                    IsHighlightingEnabled="True" >
+                    </ig:PointSeries>
+                    <ig:PointSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Hydro"
+                                    Title="{Binding StringEnergyHydro, Source={StaticResource DataViewModel}}"
+                                    XAxis="{Binding ElementName=PointXAxis}"
+                                    YAxis="{Binding ElementName=PointYAxis}" 
+                                    IsHighlightingEnabled="True" >
+                    </ig:PointSeries>
+                    <ig:PointSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Nuclear"
+                                    Title="{Binding StringEnergyNuclear, Source={StaticResource DataViewModel}}"
+                                    XAxis="{Binding ElementName=PointXAxis}"
+                                    YAxis="{Binding ElementName=PointYAxis}" 
+                                    IsHighlightingEnabled="True" >
+                    </ig:PointSeries>
+                    <ig:PointSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Gas"
+                                    Title="{Binding StringEnergyGas, Source={StaticResource DataViewModel}}"
+                                    XAxis="{Binding ElementName=PointXAxis}"
+                                    YAxis="{Binding ElementName=PointYAxis}" 
+                                    IsHighlightingEnabled="True" >
+                    </ig:PointSeries>
+                    <ig:PointSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Oil"
+                                    Title="{Binding StringEnergyOil, Source={StaticResource DataViewModel}}"
+                                    XAxis="{Binding ElementName=PointXAxis}"
+                                    YAxis="{Binding ElementName=PointYAxis}" 
+                                    IsHighlightingEnabled="True" >
+                    </ig:PointSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+            <ig:XamDataChart x:Name="LineChart" Visibility="Collapsed" Padding="15" Legend="{Binding ElementName=Legend}" 
+                             IsHorizontalZoomEnabled="True" 
+                             IsVerticalZoomEnabled="True"  >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericYAxis x:Name="LineYAxis" MinimumValue="0" Interval="200" Label="{}{} TWh"  />
+                    <ig:CategoryXAxis x:Name="LineXAxis" ItemsSource="{Binding EnergySampleData}" Label="{}{Country}">
+                    </ig:CategoryXAxis>
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:LineSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Coal" Thickness="5" MarkerType="None"
+                                   Title="{Binding StringEnergyCoal, Source={StaticResource DataViewModel}}"
+                                   XAxis="{Binding ElementName=LineXAxis}"
+                                   YAxis="{Binding ElementName=LineYAxis}" 
+                                    IsHighlightingEnabled="True" >
+                    </ig:LineSeries>
+                    <ig:LineSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Hydro" Thickness="5" MarkerType="None"
+                                   Title="{Binding StringEnergyHydro, Source={StaticResource DataViewModel}}"
+                                   XAxis="{Binding ElementName=LineXAxis}"
+                                   YAxis="{Binding ElementName=LineYAxis}" 
+                                    IsHighlightingEnabled="True" >
+                    </ig:LineSeries>
+                    <ig:LineSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Nuclear" Thickness="5" MarkerType="None"
+                                   Title="{Binding StringEnergyNuclear, Source={StaticResource DataViewModel}}"
+                                   XAxis="{Binding ElementName=LineXAxis}"
+                                   YAxis="{Binding ElementName=LineYAxis}" 
+                                    IsHighlightingEnabled="True" >
+                    </ig:LineSeries>
+                    <ig:LineSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Gas" Thickness="5" MarkerType="None"
+                                   Title="{Binding StringEnergyGas, Source={StaticResource DataViewModel}}"
+                                   XAxis="{Binding ElementName=LineXAxis}"
+                                   YAxis="{Binding ElementName=LineYAxis}" 
+                                    IsHighlightingEnabled="True" >
+                    </ig:LineSeries>
+                    <ig:LineSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Oil" Thickness="5" MarkerType="None"
+                                   Title="{Binding StringEnergyOil, Source={StaticResource DataViewModel}}"
+                                   XAxis="{Binding ElementName=LineXAxis}"
+                                   YAxis="{Binding ElementName=LineYAxis}" 
+                                    IsHighlightingEnabled="True" >
+                    </ig:LineSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+            <ig:XamDataChart x:Name="SplineChart" Visibility="Collapsed" Padding="15" Legend="{Binding ElementName=Legend}" 
+                             IsHorizontalZoomEnabled="True" 
+                             IsVerticalZoomEnabled="True"  >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericYAxis x:Name="SplineYAxis" MinimumValue="0" Interval="200" Label="{}{} TWh"  />
+                    <ig:CategoryXAxis x:Name="SplineXAxis" ItemsSource="{Binding EnergySampleData}" Label="{}{Country}">
+                    </ig:CategoryXAxis>
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:SplineSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Coal" Thickness="5" MarkerType="None"
+                                     Title="{Binding StringEnergyCoal, Source={StaticResource DataViewModel}}"
+                                     XAxis="{Binding ElementName=SplineXAxis}"
+                                     YAxis="{Binding ElementName=SplineYAxis}" 
+                                    IsHighlightingEnabled="True" >
+                    </ig:SplineSeries>
+                    <ig:SplineSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Hydro" Thickness="5" MarkerType="None"
+                                     Title="{Binding StringEnergyHydro, Source={StaticResource DataViewModel}}"
+                                     XAxis="{Binding ElementName=SplineXAxis}"
+                                     YAxis="{Binding ElementName=SplineYAxis}" 
+                                    IsHighlightingEnabled="True" >
+                    </ig:SplineSeries>
+                    <ig:SplineSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Nuclear" Thickness="5" MarkerType="None"
+                                     Title="{Binding StringEnergyNuclear, Source={StaticResource DataViewModel}}"
+                                     XAxis="{Binding ElementName=SplineXAxis}"
+                                     YAxis="{Binding ElementName=SplineYAxis}" 
+                                    IsHighlightingEnabled="True" >
+                    </ig:SplineSeries>
+                    <ig:SplineSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Gas" Thickness="5" MarkerType="None"
+                                     Title="{Binding StringEnergyGas, Source={StaticResource DataViewModel}}"
+                                     XAxis="{Binding ElementName=SplineXAxis}"
+                                     YAxis="{Binding ElementName=SplineYAxis}" 
+                                    IsHighlightingEnabled="True" >
+                    </ig:SplineSeries>
+                    <ig:SplineSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Oil" Thickness="5" MarkerType="None"
+                                     Title="{Binding StringEnergyOil, Source={StaticResource DataViewModel}}"
+                                     XAxis="{Binding ElementName=SplineXAxis}"
+                                     YAxis="{Binding ElementName=SplineYAxis}" 
+                                    IsHighlightingEnabled="True" >
+                    </ig:SplineSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+            <ig:XamDataChart x:Name="SplineAreaChart" Visibility="Collapsed" Padding="15" Legend="{Binding ElementName=Legend}" 
+                             IsHorizontalZoomEnabled="True" 
+                             IsVerticalZoomEnabled="True"  >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericYAxis x:Name="SplineAreaYAxis" MinimumValue="0" Interval="200" Label="{}{} TWh"  />
+                    <ig:CategoryXAxis x:Name="SplineAreaXAxis" ItemsSource="{Binding EnergySampleData}" Label="{}{Country}">
+                    </ig:CategoryXAxis>
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:SplineAreaSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Coal"
+                                         Title="{Binding StringEnergyCoal, Source={StaticResource DataViewModel}}"
+                                         XAxis="{Binding ElementName=SplineAreaXAxis}"
+                                         YAxis="{Binding ElementName=SplineAreaYAxis}" 
+                                         IsHighlightingEnabled="True">
+                    </ig:SplineAreaSeries>
+                    <ig:SplineAreaSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Hydro"
+                                         Title="{Binding StringEnergyHydro, Source={StaticResource DataViewModel}}"
+                                         XAxis="{Binding ElementName=SplineAreaXAxis}"
+                                         YAxis="{Binding ElementName=SplineAreaYAxis}" 
+                                         IsHighlightingEnabled="True">
+                    </ig:SplineAreaSeries>
+                    <ig:SplineAreaSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Nuclear"
+                                         Title="{Binding StringEnergyNuclear, Source={StaticResource DataViewModel}}"
+                                         XAxis="{Binding ElementName=SplineAreaXAxis}"
+                                         YAxis="{Binding ElementName=SplineAreaYAxis}" 
+                                         IsHighlightingEnabled="True">
+                    </ig:SplineAreaSeries>
+                    <ig:SplineAreaSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Gas"
+                                         Title="{Binding StringEnergyGas, Source={StaticResource DataViewModel}}"
+                                         XAxis="{Binding ElementName=SplineAreaXAxis}"
+                                         YAxis="{Binding ElementName=SplineAreaYAxis}" 
+                                         IsHighlightingEnabled="True">
+                    </ig:SplineAreaSeries>
+                    <ig:SplineAreaSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Oil"
+                                         Title="{Binding StringEnergyOil, Source={StaticResource DataViewModel}}"
+                                         XAxis="{Binding ElementName=SplineAreaXAxis}"
+                                         YAxis="{Binding ElementName=SplineAreaYAxis}" 
+                                         IsHighlightingEnabled="True">
+                    </ig:SplineAreaSeries>
+
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+            <ig:XamDataChart x:Name="StepAreaChart" Visibility="Collapsed" Padding="15" Legend="{Binding ElementName=Legend}" 
+                             IsHorizontalZoomEnabled="True" 
+                             IsVerticalZoomEnabled="True"  >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericYAxis x:Name="StepAreaYAxis" MinimumValue="0" Interval="200" Label="{}{} TWh"  />
+                    <ig:CategoryXAxis x:Name="StepAreaXAxis" ItemsSource="{Binding EnergySampleData}" Label="{}{Country}">
+                    </ig:CategoryXAxis>
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:StepAreaSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="NonRenewable"
+                                       Title="{Binding StringEnergyNonRenewable}"
+                                       XAxis="{Binding ElementName=StepAreaXAxis}"
+                                       YAxis="{Binding ElementName=StepAreaYAxis}" 
+                                       IsHighlightingEnabled="True" >
+                    </ig:StepAreaSeries>
+                    <ig:StepAreaSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Renewable"
+                                       Title="{Binding StringEnergyRenewable}"
+                                       XAxis="{Binding ElementName=StepAreaXAxis}"
+                                       YAxis="{Binding ElementName=StepAreaYAxis}" 
+                                       IsHighlightingEnabled="True">
+                    </ig:StepAreaSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+            <ig:XamDataChart x:Name="StepLineChart" Visibility="Collapsed" Padding="15" Legend="{Binding ElementName=Legend}" 
+                             IsHorizontalZoomEnabled="True" 
+                             IsVerticalZoomEnabled="True"  >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericYAxis x:Name="StepLineYAxis" MinimumValue="0" Interval="200" Label="{}{} TWh"  />
+                    <ig:CategoryXAxis x:Name="StepLineXAxis" ItemsSource="{Binding EnergySampleData}" Label="{}{Country}">
+                    </ig:CategoryXAxis>
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:StepLineSeries ItemsSource="{Binding EnergySampleData}"
+                                       ValueMemberPath="NonRenewable" MarkerType="None" Thickness="5"
+                                       Title="{Binding StringEnergyNonRenewable}"
+                                       XAxis="{Binding ElementName=StepLineXAxis}"
+                                       YAxis="{Binding ElementName=StepLineYAxis}" 
+                                       IsHighlightingEnabled="True">
+                    </ig:StepLineSeries>
+                    <ig:StepLineSeries ItemsSource="{Binding EnergySampleData}"
+                                       ValueMemberPath="Renewable" MarkerType="None" Thickness="5"
+                                       Title="{Binding StringEnergyRenewable}"
+                                       XAxis="{Binding ElementName=StepLineXAxis}"
+                                       YAxis="{Binding ElementName=StepLineYAxis}" 
+                                       IsHighlightingEnabled="True">
+                    </ig:StepLineSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+
+            <ig:XamDataChart x:Name="RangeColumnChart" Visibility="Collapsed" Padding="15" Legend="{Binding ElementName=Legend}" 
+                             IsHorizontalZoomEnabled="True" 
+                             IsVerticalZoomEnabled="True"  >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericYAxis x:Name="RangeColumnYAxis" MinimumValue="0" Interval="200" Label="{}{} TWh"  />
+                    <ig:CategoryXAxis x:Name="RangeColumnXAxis" ItemsSource="{Binding EnergySampleData}" Label="{}{Country}">
+                    </ig:CategoryXAxis>
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:RangeColumnSeries ItemsSource="{Binding EnergySampleData}"
+                                          HighMemberPath="Coal" LowMemberPath="Oil"
+                                          Title="{Binding StringEnergyCoalVsOil}"
+                                          XAxis="{Binding ElementName=RangeColumnXAxis}"
+                                          YAxis="{Binding ElementName=RangeColumnYAxis}" 
+                                          IsHighlightingEnabled="True" >
+                    </ig:RangeColumnSeries>
+                    <ig:RangeColumnSeries ItemsSource="{Binding EnergySampleData}"
+                                          HighMemberPath="Hydro" LowMemberPath="Nuclear"
+                                          Title="{Binding StringEnergyHydroVsNuclear}"
+                                          XAxis="{Binding ElementName=RangeColumnXAxis}"
+                                          YAxis="{Binding ElementName=RangeColumnYAxis}" 
+                                          IsHighlightingEnabled="True" >
+                    </ig:RangeColumnSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+            <ig:XamDataChart x:Name="RangeAreaChart" Visibility="Collapsed" Padding="15" Legend="{Binding ElementName=Legend}" 
+                             IsHorizontalZoomEnabled="True" 
+                             IsVerticalZoomEnabled="True"  >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericYAxis x:Name="RangeAreaYAxis" MinimumValue="0" Interval="200" Label="{}{} TWh"  />
+                    <ig:CategoryXAxis x:Name="RangeAreaXAxis" ItemsSource="{Binding EnergySampleData}" Label="{}{Country}">
+                    </ig:CategoryXAxis>
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:RangeAreaSeries ItemsSource="{Binding EnergySampleData}"
+                                        HighMemberPath="Coal" LowMemberPath="Oil"
+                                        Title="{Binding StringEnergyCoalVsOil}"
+                                        XAxis="{Binding ElementName=RangeAreaXAxis}"
+                                        YAxis="{Binding ElementName=RangeAreaYAxis}" 
+                                        IsHighlightingEnabled="True" >
+                    </ig:RangeAreaSeries>
+                    <ig:RangeAreaSeries ItemsSource="{Binding EnergySampleData}"
+                                        HighMemberPath="Hydro" LowMemberPath="Nuclear"
+                                        Title="{Binding StringEnergyHydroVsNuclear}"
+                                        XAxis="{Binding ElementName=RangeAreaXAxis}"
+                                        YAxis="{Binding ElementName=RangeAreaYAxis}" 
+                                        IsHighlightingEnabled="True" >
+                    </ig:RangeAreaSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+
+            <ig:XamDataChart x:Name="WaterfallChart" Visibility="Collapsed" Padding="15" Legend="{Binding ElementName=Legend}"
+                             IsHorizontalZoomEnabled="True" 
+                             IsVerticalZoomEnabled="True"  >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericYAxis x:Name="WaterfallYAxis" MinimumValue="0" Label="{}{} TWh"  />
+                    <ig:CategoryXAxis x:Name="WaterfallXAxis" ItemsSource="{Binding EnergySampleData}" Label="{}{Country}">
+                    </ig:CategoryXAxis>
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:WaterfallSeries ItemsSource="{Binding EnergySampleData}"
+                                        ValueMemberPath="Total" MarkerType="None"
+                                        Title="{Binding StringEnergyTotal}"
+                                        XAxis="{Binding ElementName=WaterfallXAxis}"
+                                        YAxis="{Binding ElementName=WaterfallYAxis}" 
+                                        IsHighlightingEnabled="True" >
+                    </ig:WaterfallSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+
+        </Grid>
+
+        <ig:Legend x:Name="Legend" Margin="20" Grid.Column="1" Grid.Row="1" 
+                   HorizontalAlignment="Right" VerticalAlignment="Top" 
+                   Content="{Binding StringEnergyProduction}">
+        </ig:Legend>
+        <ig:Legend x:Name="FinancialLegend" Margin="10" Grid.Column="1" Grid.Row="1" 
+                   HorizontalAlignment="Right" VerticalAlignment="Top"  Visibility="Collapsed"
+                   Content="{Binding XWDC_LegendTypes_TitleLegend, Source={StaticResource Strings}}">
+        </ig:Legend>
+        
+        <controls:OptionsPanel VerticalAlignment="Bottom"  HorizontalAlignment="Right"
+                               MinWidth="175" Visibility="Visible">
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" MinWidth="100"/>
+                    <ColumnDefinition Width="200" />
+                </Grid.ColumnDefinitions>
+
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding XWDC_Global_SeriesType, Source={StaticResource Strings}}" Style="{StaticResource SamplesInnerNavigationTitleStyle}"/>
+                <ComboBox Grid.Row="0" Grid.Column="1"  x:Name="ItemSelectionComboBox" Width="150" Margin="4,0,2,0" HorizontalAlignment="Right" VerticalAlignment="Center"  Style="{StaticResource IGComboBoxStyle}"/>
+                <Button Grid.Row="1" Grid.Column="1"  x:Name="PrevItemButton" VerticalAlignment="Center" HorizontalAlignment="Center" Cursor="Hand" Margin="0,0,2,0" Content="" Style="{StaticResource IGPreviousButtonStyle}" />
+                <Button Grid.Row="1" Grid.Column="1" x:Name="NextItemButton" VerticalAlignment="Center" HorizontalAlignment="Right" Cursor="Hand" Margin="0,0,2,0" Content="" Style="{StaticResource IGNextButtonStyle}" />
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding XWDC_Global_HighlightMode, Source={StaticResource Strings}}" Style="{StaticResource SamplesInnerNavigationTitleStyle}"/>
+                <ComboBox Grid.Row="2" Grid.Column="1" x:Name="HighlightModeComboBox" Width="150" Margin="4,0,2,0" HorizontalAlignment="Right" VerticalAlignment="Center"  Style="{StaticResource IGComboBoxStyle}">
+                            <ComboBoxItem Content="Auto" />
+                            <ComboBoxItem Content="FadeOthers" />
+                </ComboBox>
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="{Binding XWDC_Global_HighlightBehavior, Source={StaticResource Strings}}" Style="{StaticResource SamplesInnerNavigationTitleStyle}"/>
+                <ComboBox Grid.Row="3" Grid.Column="1" x:Name="HighlightBehaviorComboBox" Width="150" Margin="4,0,2,0" HorizontalAlignment="Right" VerticalAlignment="Center"  Style="{StaticResource IGComboBoxStyle}">
+                            <ComboBoxItem Content="Auto" />
+                            <ComboBoxItem Content="DirectlyOver" />
+                            <ComboBoxItem Content="NearestItems" />
+                            <ComboBoxItem Content="NearestItemsAndSeries" />
+                    <ComboBoxItem Content="NearestItemsRetainMainShapes" />
+                </ComboBox>
+
+                <TextBlock Grid.Row="4" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                           Text="{Binding transitionDurationText, Source={StaticResource Strings}}" />
+                <Slider Grid.Row="4" Grid.Column="1" x:Name="TransitionDurationSlider" Value="0.5" Minimum="0" Maximum="2" 
+                        HorizontalAlignment="Stretch" Style="{StaticResource IGSliderStyle}" VerticalAlignment="Center"
+                        ValueChanged="TransitionDurationSlider_OnValueChanged" />
+                <TextBlock Grid.Row="5" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="{StaticResource OptionsTextLeftMargin}"
+                           Text="{Binding ElementName=TransitionDurationSlider, Path=Value, StringFormat='0.000'}" />
+
+            </Grid>
+        </controls:OptionsPanel>
+        
+        
+    </Grid>
+</igFramework:SampleContainer>

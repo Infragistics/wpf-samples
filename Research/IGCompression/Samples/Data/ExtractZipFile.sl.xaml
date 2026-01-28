@@ -1,0 +1,49 @@
+﻿<framework:SampleContainer x:Class="IGCompression.Samples.Data.ExtractZipFile"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="ExtractZipFile Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:res="clr-namespace:IGCompression.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGCompression;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:CompressionStrings x:Key="Strings"/>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>                
+            </Grid.ColumnDefinitions>
+            <ListBox Grid.Column="0" x:Name="ZipEntriesListBox" SelectionMode="Single" SelectionChanged="ZipEntriesListBox_SelectionChanged" Margin="10,10,0,10">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Path=FileName}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <Image Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top"  x:Name="ImgPreview" Margin="10" />
+        </Grid>
+        <TextBlock Grid.Row="1" Grid.ColumnSpan="2" x:Name="ZipEntriesTextBox" HorizontalAlignment="Center"/>
+        <controls:OptionsPanel Grid.RowSpan="2" Grid.ColumnSpan="2" HeaderText="{Binding Zip_KeyFeatures_ExtractFile, Source={StaticResource Strings}}" Margin="400,80,0,0">
+            <!--#BEGIN SNIPPET#-->
+            <Button x:Name="BtnDownloadZip" Margin="5" Content="{Binding Zip_UploadFile_DownloadZipFile, Source={StaticResource Strings}}" Click="BtnDownload_Click" />
+            <Button x:Name="BtnExtractSelectedEntry" Margin="5" Content="{Binding Zip_KeyFeatures_ExtractSelectedEntry, Source={StaticResource Strings}}" Click="BtnExtractSelectedEntry_Click"/>
+            <!--#END SNIPPET#-->
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

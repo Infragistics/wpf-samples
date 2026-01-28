@@ -1,0 +1,83 @@
+﻿<igFramework:SampleContainer x:Class="IGExcel.Samples.Data.ExportToExcel"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="ExportingALargeSetOfData"
+      Loaded="Sample_Loaded"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:conv="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:res="clr-namespace:IGExcel.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGExcel;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamGrid.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:ExcelStrings x:Key="Strings" />
+            <conv:FormatConverter x:Key="FormatConverter" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    
+    <Grid x:Name="LayoutRoot"
+          Margin="10">
+        <ig:XamGrid x:Name="dataGrid"
+                    AutoGenerateColumns="False"
+                    ItemsSource="{Binding Path=Products}">
+            <ig:XamGrid.ColumnMovingSettings>
+                <ig:ColumnMovingSettings AllowColumnMoving="Immediate" />
+            </ig:XamGrid.ColumnMovingSettings>
+
+            <ig:XamGrid.Columns>
+                <ig:TextColumn Key="SKU"
+                               HeaderText="{Binding Path=XWG_Grid_ProductSKU, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="Name"
+                               HeaderText="{Binding Path=XWG_Grid_ProductName, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="Category"
+                               HeaderText="{Binding Path=XWG_Grid_ProductCategory, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="Supplier"
+                               HeaderText="{Binding Path=XWG_Supplier, Source={StaticResource Strings}}" />
+                <ig:CheckBoxColumn Key="OnBackOrder"
+                                   HeaderText="{Binding Path=XWG_Data_BackOrderLabel, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="QuantityPerUnit"
+                               HeaderText="{Binding Path=XWG_Data_QuantityLabel, Source={StaticResource Strings}}" />
+                <ig:TemplateColumn Key="UnitPrice"
+                                   HeaderText="{Binding Path=XWG_Grid_UnitPrice, Source={StaticResource Strings}}">
+                    <ig:TemplateColumn.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding UnitPrice, Converter={StaticResource FormatConverter}, ConverterParameter=\{0:C\}}" />
+                        </DataTemplate>
+                    </ig:TemplateColumn.ItemTemplate>
+                </ig:TemplateColumn>
+                <ig:TextColumn Key="UnitsInStock"
+                               HeaderText="{Binding Path=XWG_Data_UnitStockLabel, Source={StaticResource Strings}}" />
+            </ig:XamGrid.Columns>
+
+        </ig:XamGrid>
+
+        <controls:OptionsPanel HeaderText="{Binding ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Top"
+                               Margin="0,50,50,0">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="{Binding Source={StaticResource Strings}, Path=ExcelEngine_OptionsLabel}"
+                           Margin="5" />
+                <ComboBox Height="22"
+                          Width="200"
+                          Margin="5"
+                          x:Name="ComboBox_ExcelFormat" />
+                <Button Height="22"
+                        Width="200"
+                        Margin="5"
+                        x:Name="TestExcel"
+                        Click="TestExcel_Click"
+                        Content="{Binding Source={StaticResource Strings}, Path=Excel_ButtonCaptionExport}" />
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

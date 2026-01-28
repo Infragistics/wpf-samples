@@ -1,0 +1,60 @@
+﻿<igFramework:SampleContainer x:Class="IGDataCards.Samples.Styling.DataCardsThemes"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="DataCardsThemes"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:igThemes="http://infragistics.com/Themes"
+      xmlns:res="clr-namespace:IGDataCards.Resources"
+      xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataCards;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DataCardsStrings x:Key="DataCardsStrings" />
+            <ObjectDataProvider MethodName="GetThemes"
+                                ObjectType="{x:Type igThemes:ThemeManager}"
+                                x:Key="ThemeNames">
+                <ObjectDataProvider.MethodParameters>
+                    <sys:Boolean>True</sys:Boolean>
+                    <sys:String>DataPresenter</sys:String>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <!-- #BEGIN SNIPPET# -->
+        <igDP:XamDataCards
+                Theme="{Binding Path=SelectedItem, Mode=TwoWay, ElementName=ThemeSelector}"
+                Name="DataCards" BindToSampleData="True" Grid.Row="1">
+            
+            <igDP:XamDataCards.ViewSettings>
+                <igDP:CardViewSettings ShouldAnimateCardPositioning="False"  />
+            </igDP:XamDataCards.ViewSettings>
+        </igDP:XamDataCards>
+        <!-- #END SNIPPET# -->
+        
+        <StackPanel Orientation="Horizontal" Margin="5" >
+            <TextBlock Text="{Binding Source={StaticResource CommonStrings}, Path=XW_ThemeSupport_ComboLabel}" 
+                       VerticalAlignment="Center" />
+            <ComboBox Name="ThemeSelector" VerticalAlignment="Center" 
+                      ItemsSource="{Binding Source={StaticResource ThemeNames}}"  
+                      IsSynchronizedWithCurrentItem="True"
+                      Margin="5,0,0,0" Width="150">
+            </ComboBox> 
+            <controls:ComboBoxArrows ComboBox="{Binding ElementName=ThemeSelector}"/>
+        </StackPanel> 
+    </Grid>
+</igFramework:SampleContainer>

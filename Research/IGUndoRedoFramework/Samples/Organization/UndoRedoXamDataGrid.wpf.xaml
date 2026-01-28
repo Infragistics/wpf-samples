@@ -1,0 +1,117 @@
+﻿<framework:SampleContainer x:Class="IGUndoRedoFramework.Samples.Organization.UndoRedoXamDataGrid"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:igDP="http://infragistics.com/DataPresenter"                           
+    xmlns:igRibbon="http://infragistics.com/Ribbon"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGUndoRedoFramework.Resources"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="Undo Redo Operations in XamDataGrid">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Theming -->
+                <ResourceDictionary Source="/IGUndoRedoFramework;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <!-- Localization -->
+            <res:UndoRedoStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <!-- #BEGIN SNIPPET# -->
+        <igRibbon:XamRibbon x:Name="ribbon"
+                            Theme="RoyalLight">
+            <!-- Quick Access Toolbar -->
+            <igRibbon:XamRibbon.QuickAccessToolbar>
+                <igRibbon:QuickAccessToolbar>
+                    <igRibbon:QatPlaceholderTool TargetId="UNDO_TOOL" 
+                                                 TargetType="Tool"
+                                                 ToolTip="{Binding Source={StaticResource Strings},Path=XR_Tooltip_Undo}"/>
+                    <igRibbon:QatPlaceholderTool TargetId="REDO_TOOL" 
+                                                 TargetType="Tool"
+                                                 ToolTip="{Binding Source={StaticResource Strings},Path=XR_Tooltip_Redo}"/>
+                </igRibbon:QuickAccessToolbar>
+            </igRibbon:XamRibbon.QuickAccessToolbar>
+
+            <igRibbon:XamRibbon.Tabs>
+                <igRibbon:RibbonTabItem Header="{Binding Source={StaticResource Strings},Path=XR_HomeTab}">
+                    <!-- Contacts Group -->
+                    <igRibbon:RibbonGroup Id="CONTACT_GROUP" 
+                                          Caption="{Binding Source={StaticResource Strings},Path=XR_Contacts}">
+                        <igRibbon:ButtonTool Id="DELETE_CONTACT_TOOL" 
+                                             IsQatCommonTool="False" 
+                                             Caption="{Binding Source={StaticResource Strings},Path=XR_DeleteContact}" 
+                                             Click="DeleteContact_Click" 
+                                             LargeImage="/IGUndoRedoFramework;component/Images/UserDelete32.png" 
+                                             SmallImage="/IGUndoRedoFramework;component/Images/UserDelete16.png" 
+                                             igRibbon:RibbonGroup.MaximumSize="ImageAndTextLarge" 
+                                             igRibbon:RibbonGroup.MinimumSize="ImageOnly"/>
+                    </igRibbon:RibbonGroup>
+                    <igRibbon:RibbonGroup Id="ACTION_GROUP" 
+                                          Caption="{Binding Source={StaticResource Strings},Path=XR_Actions}">
+                        <igRibbon:ButtonTool Id="UNDO_TOOL" x:Name="UndoBtn" 
+                                             IsQatCommonTool="True" 
+                                             Caption="{Binding Source={StaticResource Strings},Path=XR_Undo}"      
+                                             LargeImage="/IGUndoRedoFramework;component/Images/Undo32.png" 
+                                             SmallImage="/IGUndoRedoFramework;component/Images/Undo16.png" 
+                                             igRibbon:RibbonGroup.MaximumSize="ImageAndTextLarge" 
+                                             igRibbon:RibbonGroup.MinimumSize="ImageOnly"
+                                             IsEnabled="{Binding UndoManager.CanUndo}">
+                            <ig:Commanding.Command>
+                                <ig:UndoManagerCommandSource CommandType="Undo"
+                                                             EventName="Click" 
+                                                             ParameterBinding="{Binding UndoManager}"/>
+                            </ig:Commanding.Command>
+                        </igRibbon:ButtonTool>
+                        <igRibbon:ButtonTool Id="REDO_TOOL" x:Name="RedoBtn" 
+                                             IsQatCommonTool="True" 
+                                             Caption="{Binding Source={StaticResource Strings},Path=XR_Redo}" 
+                                             LargeImage="/IGUndoRedoFramework;component/Images/Redo32.png" 
+                                             SmallImage="/IGUndoRedoFramework;component/Images/Redo16.png"
+                                             igRibbon:RibbonGroup.MaximumSize="ImageAndTextLarge" 
+                                             igRibbon:RibbonGroup.MinimumSize="ImageOnly"
+                                             IsEnabled="{Binding UndoManager.CanRedo}">
+                            <ig:Commanding.Command>
+                                <ig:UndoManagerCommandSource CommandType="Redo" 
+                                                             EventName="Click" 
+                                                             ParameterBinding="{Binding UndoManager}" />
+                            </ig:Commanding.Command>
+                        </igRibbon:ButtonTool>
+                    </igRibbon:RibbonGroup>
+                </igRibbon:RibbonTabItem>
+            </igRibbon:XamRibbon.Tabs>
+        </igRibbon:XamRibbon>
+        <!-- #END SNIPPET# -->
+        <igDP:XamDataGrid x:Name="dataGrid" 
+                    DataSource="{Binding Path=Customers}"                                        
+                    RecordAdding="DataGrid_RecordAdding"
+                    Grid.Row="1">
+            <igDP:XamDataGrid.FieldLayoutSettings>
+                <igDP:FieldLayoutSettings AllowAddNew="True" AllowDelete="True" AddNewRecordLocation="OnTopFixed" AutoGenerateFields="False" SelectionTypeRecord="Single"/>
+            </igDP:XamDataGrid.FieldLayoutSettings>
+            <igDP:XamDataGrid.FieldSettings>
+                <igDP:FieldSettings Width="*" CellClickAction="SelectRecord" AllowRecordFiltering="True"/>
+            </igDP:XamDataGrid.FieldSettings>
+            <igDP:XamDataGrid.FieldLayouts>
+                <igDP:FieldLayout>
+                    <igDP:TextField Name="CustomerID" Label="{Binding Source={StaticResource Strings},Path=XG_Customers_CustomerID}"/>
+                    <igDP:TextField Name="Company" Label="{Binding Source={StaticResource Strings},Path=XG_Customers_Company}" />
+                    <igDP:TextField Name="ContactName" Label="{Binding Source={StaticResource Strings},Path=XG_Customers_ContactName}" />
+                    <igDP:TextField Name="ContactTitle" Label="{Binding Source={StaticResource Strings},Path=XG_Customers_ContactTitle}" />
+                    <igDP:TextField Name="Country" Label="{Binding Source={StaticResource Strings},Path=XG_Customers_Country}"/>
+                </igDP:FieldLayout>
+            </igDP:XamDataGrid.FieldLayouts>
+        </igDP:XamDataGrid>
+    </Grid>
+</framework:SampleContainer>

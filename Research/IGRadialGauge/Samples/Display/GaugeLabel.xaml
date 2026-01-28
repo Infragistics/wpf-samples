@@ -1,0 +1,98 @@
+﻿<framework:SampleContainer x:Class="IGRadialGauge.Samples.Display.GaugeLabel"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    mc:Ignorable="d" d:DesignHeight="400" d:DesignWidth="700" 
+    xmlns:res="clr-namespace:IGRadialGauge.Assets.Resources">
+
+    <!-- ========================================================================== -->
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+        	<ResourceDictionary.MergedDictionaries>
+        		<ResourceDictionary Source="/IGRadialGauge;component/Assets/Styles/Global.xaml"/>
+        		<ResourceDictionary Source="/IGRadialGauge;component/Assets/Styles/AppGlobals.xaml"/>
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:GaugeStrings x:Key="Strings"/>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+    <!-- ========================================================================== -->
+    <Grid x:Name="LayoutRoot" Background="White">
+        
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ========================================================================== -->
+        <ig:XamRadialGauge x:Name="radialGauge" TransitionDuration="1500" LabelExtent="0.7" LabelInterval="10" Width="400" TitleDisplaysValue="True" SubtitleText="MPH" SubtitleFontSize="12" TitleFontSize="12" IsNeedleDraggingEnabled="True" TitleAngle="90" SubtitleExtent=".25">
+        </ig:XamRadialGauge>
+        <!-- ========================================================================== -->
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel VerticalAlignment="Top" HorizontalAlignment="Right"
+                               HeaderText="{Binding Source={StaticResource Strings}, Path=Gauge_Options}"
+                               Margin="20">
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}"/>
+            </controls:OptionsPanel.Resources>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition MinWidth="{StaticResource OptionsFirstColumnMinWidth}" />
+                    <ColumnDefinition MinWidth="{StaticResource OptionsMiddleColumnMinWidth}"/>
+                    <ColumnDefinition MinWidth="{StaticResource OptionsLastColumnMinWidth}"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                           Text="{Binding Label_LabelExtentLabel, Source={StaticResource Strings}}" />
+                <Slider Grid.Row="0" Grid.Column="1" x:Name="labelExtentSlider" VerticalAlignment="Center" 
+                        Maximum="1" Minimum="0" SmallChange="0.1" LargeChange="0.1" ValueChanged="labelExtentSlider_ValueChanged" />
+                <TextBlock Grid.Row="0" Grid.Column="2" x:Name="labelExtentLabel" 
+                           HorizontalAlignment="Left" VerticalAlignment="Center" Text="0" Margin="{StaticResource OptionsTextLeftMargin}" />
+
+                <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                           Text="{Binding Label_LabelIntervalLabel, Source={StaticResource Strings}}" />
+                <Slider Grid.Row="1" Grid.Column="1" x:Name="labelIntervalSlider" VerticalAlignment="Center" 
+                        Maximum="100" Minimum="10" SmallChange="5" LargeChange="5" ValueChanged="labelIntervalSlider_ValueChanged" />
+                <TextBlock Grid.Row="1" Grid.Column="2" x:Name="labelIntervalLabel" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                           Text="10" Margin="{StaticResource OptionsTextLeftMargin}" />
+
+                <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Text="{Binding Needle_TitleSnapsToNeedlePivotLabel, Source={StaticResource Strings}}" />
+                <CheckBox Grid.Row="2" Grid.Column="1"
+IsChecked="{Binding ElementName=radialGauge, Path=TitleSnapsToNeedlePivot, Mode=TwoWay}"/>
+
+                <TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" Text="{Binding Needle_SubtitleSnapsToNeedlePivotLabel, Source={StaticResource Strings}}" />
+                <CheckBox Grid.Row="3" Grid.Column="1"
+IsChecked="{Binding ElementName=radialGauge, Path=SubtitleSnapsToNeedlePivot, Mode=TwoWay}"/>
+
+
+                <TextBlock Grid.Row="4" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" 
+         Text="{Binding titleAngle, Source={StaticResource Strings}}" />
+                <Slider Grid.Row="4" Grid.Column="1" x:Name="titleAngleSlider" VerticalAlignment="Center"
+      Value="180" Minimum="0" Maximum="360" SmallChange="1" LargeChange="1" HorizontalAlignment="Stretch" ValueChanged="titleAngleSlider_ValueChanged" />
+                <TextBlock Grid.Row="4" Grid.Column="2" x:Name="labelTitleAngle" HorizontalAlignment="Left" VerticalAlignment="Center" 
+         Text="2" Margin="{StaticResource OptionsTextLeftMargin}" />
+                
+                <TextBlock Grid.Row="5" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" 
+   Text="{Binding titleExtent, Source={StaticResource Strings}}" />
+                <Slider Grid.Row="5" Grid.Column="1" x:Name="titleExtentSlider" VerticalAlignment="Center" 
+Value=".45" Minimum=".10" Maximum=".45" SmallChange="1" LargeChange="1" HorizontalAlignment="Stretch" ValueChanged="titleExtentSlider_ValueChanged" />
+                <TextBlock Grid.Row="5" Grid.Column="2" x:Name="labelTitleExtent" HorizontalAlignment="Left" VerticalAlignment="Center" 
+   Text="2" Margin="{StaticResource OptionsTextLeftMargin}" />
+
+  
+            
+            </Grid>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

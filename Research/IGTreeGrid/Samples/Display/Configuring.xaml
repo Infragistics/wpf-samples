@@ -1,0 +1,108 @@
+﻿<framework:SampleContainer x:Class="IGTreeGrid.Samples.Display.Configuring"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:igDP="http://infragistics.com/DataPresenter"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGTreeGrid.Resources"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:vm="clr-namespace:IGTreeGrid.Samples.ViewModels"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="Configuring Page">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGTreeGrid;component/Assets/Global.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <res:TreeGridStrings x:Key="Strings" />
+            <converters:VisibilityToBoolConverter x:Key="VisConv" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <framework:SampleContainer.DataContext>
+        <vm:HeterogeneousDataProvider />
+    </framework:SampleContainer.DataContext>
+
+    <Grid x:Name="LayoutRoot" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <igDP:XamTreeGrid x:Name="xtg" Grid.Row="1" DataSource="{Binding Path=SystemNodeBaseObjects}" Theme="RoyalLight">
+            <igDP:XamTreeGrid.FieldSettings>
+                <igDP:FieldSettings AllowHiding="ViaFieldChooserOnly" />
+            </igDP:XamTreeGrid.FieldSettings>
+            <igDP:XamTreeGrid.FieldLayoutSettings>
+                <igDP:FieldLayoutSettings HeaderPrefixAreaDisplayMode="FieldChooserButton" AutoGenerateFields="False" />
+            </igDP:XamTreeGrid.FieldLayoutSettings>
+            <igDP:XamTreeGrid.FieldLayouts>
+                <igDP:FieldLayout Key="FolderNode" IsDefault="True">
+                    <igDP:TextField Name="FolderName" Label="{Binding Source={StaticResource Strings}, Path=lblName}" Width="190" />
+                    <igDP:TemplateField Name="Size" BindingType="Unbound" Width="70" DataType="{x:Type sys:String}"
+                                        Label="{Binding Source={StaticResource Strings}, Path=lblSize}" AllowEdit="False">
+                        <igDP:TemplateField.DisplayTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Center" Text="{Binding Source={StaticResource Strings}, Path=lblDirectory}" />
+                            </DataTemplate>
+                        </igDP:TemplateField.DisplayTemplate>
+                    </igDP:TemplateField>
+                    <igDP:DateTimeField Name="DateModified" Label="{Binding Source={StaticResource Strings}, Path=lblDateModified}" Width="150" />
+                    <igDP:Field Name="Children" />
+                </igDP:FieldLayout>
+                <igDP:FieldLayout Key="FileNode">
+                    <igDP:TextField Name="FileName" Label="FolderName" Width="190" />
+                    <igDP:NumericField Name="FileSize" Label="Size" Width="70" AllowEdit="False" />
+                    <igDP:DateTimeField Name="DateModified" Label="DateModified" Width="150" />
+                </igDP:FieldLayout>
+            </igDP:XamTreeGrid.FieldLayouts>
+        </igDP:XamTreeGrid>
+
+        <controls:OptionsPanel
+            HeaderText="{Binding ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}"
+            Margin="0,10,0,10" Grid.Row="0" IsMovable="False">
+            <StackPanel Orientation="Vertical">
+                <!-- #BEGIN SNIPPET# -->
+                <CheckBox IsThreeState="False" Content="{Binding Source={StaticResource Strings}, Path=lblShowTreeLines}"
+                          IsChecked="{Binding ElementName=xtg, Path=ViewSettings.TreeLineVisibility, Converter={StaticResource VisConv}}"
+                          Margin="{StaticResource OptionsElementsMargin}"/>
+                <StackPanel Orientation="Horizontal" >
+                    <TextBlock Text="{Binding Source={StaticResource Strings}, Path=lblIndentationPerLevel}" MinWidth="200" />
+                    <Slider MinWidth="167" MaxWidth="167" Maximum="100" IsSnapToTickEnabled="True" TickFrequency="1"
+                        Minimum="{Binding ElementName=xtg, Path=ViewSettings.IndentPerLevel, Mode=OneTime}"
+                        Value="{Binding ElementName=xtg, Path=ViewSettings.IndentPerLevel}" />
+                    <TextBlock Text="{Binding ElementName=xtg, Path=ViewSettings.IndentPerLevel, Mode=OneWay}" FontWeight="Bold" Margin="5 0" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                    <TextBlock MinWidth="200" Margin="0,4,0,0"
+                        Text="{Binding Source={StaticResource Strings}, Path=lblTreeNavigationColumn}" />
+                    <ComboBox SelectedValuePath="Name" SelectedValue="{Binding ElementName=xtg, Path=ViewSettings.TreeFieldName}" MinWidth="190">
+                        <ComboBoxItem Name="FolderName" Content="{Binding Source={StaticResource Strings}, Path=lblNameColumn}" IsSelected="True" />
+                        <ComboBoxItem Name="Size" Content="{Binding Source={StaticResource Strings}, Path=lblSizeColumn}" />
+                        <ComboBoxItem Name="DateModified" Content="{Binding Source={StaticResource Strings}, Path=lblDateColumn}" />
+                    </ComboBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                    <TextBlock MinWidth="200" Margin="0,3,0,0"
+                        Text="{Binding Source={StaticResource Strings}, Path=lblExpansionIndicatorDisplayMode}" />
+                    <controls:EnumValuesProvider MinWidth="190" MaxWidth="190"
+                        EnumType="igDP:ExpansionIndicatorDisplayMode" DisplayTemplate="ComboBox"
+                        Value="{Binding ElementName=xtg, Path=FieldLayoutSettings.ExpansionIndicatorDisplayMode, Mode=TwoWay}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                    <TextBlock MinWidth="200" Margin="0,3,0,0"
+                        Text="{Binding Source={StaticResource Strings}, Path=lblSelectionDepthMode}" />
+                    <controls:EnumValuesProvider MinWidth="190" MaxWidth="190"
+                        EnumType="igDP:SelectionDepthMode" DisplayTemplate="ComboBox"
+                        Value="{Binding ElementName=xtg, Path=ViewSettings.SelectionDepthMode, Mode=TwoWay}" />
+                </StackPanel>
+                <!-- #END SNIPPET# -->
+            </StackPanel>
+        </controls:OptionsPanel>
+
+    </Grid>
+</framework:SampleContainer>

@@ -1,0 +1,86 @@
+﻿<framework:SampleContainer x:Class="IGNetworkNode.Samples.Display.OverviewPlusDetailPaneSettings" 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGNetworkNode.Resources"                         
+    mc:Ignorable="d" d:DesignHeight="400" d:DesignWidth="700">
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGNetworkNode;component/Assets/Global.xaml" />
+                
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:NetworkNodeStrings x:Key="Strings"/>
+            <igPrim:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Width="Auto">
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamNetworkNode x:Name="xnn" 
+                           ItemsSource="{Binding Nodes}"
+                           OverviewPlusDetailPaneVisibility="{Binding IsChecked, Converter={StaticResource BoolToVisibilityConverter}, ElementName=CheckBoxVisibility}"
+                           HorizontalOverviewPlusDetailPaneAlignment="{Binding SelectedItem, ElementName=ComboBoxHorizontal}"
+                           VerticalOverviewPlusDetailPaneAlignment="{Binding SelectedItem, ElementName=ComboBoxVertical}">
+            <!-- #END SNIPPET# -->
+            <!--Set the data context of the Network Node-->
+            <ig:XamNetworkNode.DataContext>
+                <models:NetworkNodeAttendanceData />
+            </ig:XamNetworkNode.DataContext>
+
+            <!--Binding to the data-->
+            <ig:XamNetworkNode.GlobalNodeLayouts>
+                <ig:NetworkNodeNodeLayout
+                        TargetTypeName="NodeModel"                    
+                        DisplayMemberPath="Label"                    
+                        ToolTipMemberPath="ToolTip"                    
+                        ConnectionsMemberPath="Connections"                    
+                        ConnectionTargetMemberPath="Target"                    
+                        ConnectionWeightMemberPath="Weight" />
+            </ig:XamNetworkNode.GlobalNodeLayouts>
+        </ig:XamNetworkNode>
+        <controls:OptionsPanel HeaderText="{Binding XNN_OPDP_Settings, Source={StaticResource Strings}}"
+                               HorizontalAlignment="Right" Width="280">
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}"/>
+            </controls:OptionsPanel.Resources>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                </Grid.RowDefinitions>
+
+                <CheckBox x:Name="CheckBoxVisibility" Content="{Binding XNN_OPDP_Visibility, Source={StaticResource Strings}}" 
+                          Grid.ColumnSpan="2" IsChecked="True" />
+
+                <TextBlock Text="{Binding XNN_OPDP_Horizontal, Source={StaticResource Strings}}" Grid.Row="1" Grid.Column="0"/>
+                <ComboBox x:Name="ComboBoxHorizontal" Grid.Row="1" Grid.Column="1" SelectedIndex="2" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                    <HorizontalAlignment>Left</HorizontalAlignment>
+                    <HorizontalAlignment>Center</HorizontalAlignment>
+                    <HorizontalAlignment>Right</HorizontalAlignment>
+                    <HorizontalAlignment>Stretch</HorizontalAlignment>
+                </ComboBox>
+
+                <TextBlock Text="{Binding XNN_OPDP_Vertical, Source={StaticResource Strings}}" Grid.Row="2" Grid.Column="0"/>
+                <ComboBox x:Name="ComboBoxVertical" Grid.Row="2" Grid.Column="1" SelectedIndex="0" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                    <VerticalAlignment>Bottom</VerticalAlignment>
+                    <VerticalAlignment>Center</VerticalAlignment>
+                    <VerticalAlignment>Top</VerticalAlignment>
+                    <VerticalAlignment>Stretch</VerticalAlignment>
+                </ComboBox>
+            </Grid>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

@@ -1,0 +1,328 @@
+﻿<igFramework:SampleContainer x:Class="IGDataGrid.Samples.Style.GroupByAreaMultiStyling"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="900"
+      Title="GroupByAreaMultiStyling"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:fb="clr-namespace:IGDataGrid.Datasources"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGDataGrid.Resources"
+      xmlns:System="clr-namespace:System;assembly=mscorlib">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataGrid;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DataGridStrings x:Key="Strings" />
+
+            <DataTemplate x:Key="myFieldLayoutDescriptionTemplate">
+                <Border BorderThickness="2"
+                        CornerRadius="6"
+                        BorderBrush="DarkGray">
+                    <StackPanel Orientation="Horizontal">
+                        <Ellipse Fill="DarkGray"
+                                 VerticalAlignment="Center"
+                                 Width="13"
+                                 Height="10"
+                                 Margin="4" />
+                        <TextBlock Text="{Binding Description}"
+                                   Margin="4,2,4,2" />
+                        <Ellipse Fill="DarkGray"
+                                 VerticalAlignment="Center"
+                                 Width="13"
+                                 Height="10"
+                                 Margin="4" />
+                    </StackPanel>
+                </Border>
+            </DataTemplate>
+
+            <DataTemplate x:Key="myPrompt1Template">
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Fill="Blue"
+                               VerticalAlignment="Center"
+                               Width="13"
+                               Height="13"
+                               Margin="4" />
+                    <TextBlock Text="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}"
+                               Foreground="Red"
+                               FontSize="36"
+                               FontStyle="Italic"
+                               FontFamily="Times New Roman" />
+                    <Rectangle Fill="Blue"
+                               VerticalAlignment="Center"
+                               Width="13"
+                               Height="13"
+                               Margin="4" />
+                </StackPanel>
+            </DataTemplate>
+
+            <DataTemplate x:Key="myPrompt2Template">
+                <StackPanel Orientation="Horizontal">
+                    <Ellipse Fill="Green"
+                             VerticalAlignment="Center"
+                             Width="13"
+                             Height="13"
+                             Margin="4" />
+                    <TextBlock Text="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}"
+                               Foreground="Purple"
+                               FontSize="18"
+                               FontWeight="Bold"
+                               FontFamily="Comic Sans MS" />
+                    <Ellipse Fill="Green"
+                             VerticalAlignment="Center"
+                             Width="13"
+                             Height="13"
+                             Margin="4" />
+                </StackPanel>
+            </DataTemplate>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <Grid x:Name="LayoutRoot">
+        <Grid.Resources>
+            <ObjectDataProvider MethodName="GetValues"
+                                ObjectType="{x:Type System:Enum}"
+                                x:Key="odpGroupByAreaMode">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="igDP:GroupByAreaMode" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+
+            <ObjectDataProvider x:Key="odpForeground" ObjectType="{x:Type fb:NamedColors}" />
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <controls:OptionsPanel HeaderText="{Binding ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}" IsMovable="False"
+                               Margin="{StaticResource GridsSamplesBottomPadding}">
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="{x:Type Label}" BasedOn="{StaticResource LabelStyle}">
+                    <Setter Property="MinWidth" Value="170" />
+                    <Setter Property="Margin" Value="2" />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                    <Setter Property="SnapsToDevicePixels" Value="True" />
+                </Style>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}"/>
+            </controls:OptionsPanel.Resources>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Label	Grid.Row="0"
+                        Grid.Column="0"
+                        Content="{Binding ConfigArea_Size, Source={StaticResource Strings}}" />
+                <CheckBox Grid.Row="0"
+                          Grid.Column="1"
+                          Content="{Binding ConfigArea_SizeCompact, Source={StaticResource Strings}}"
+                          VerticalAlignment="Center"
+                          Checked="Compact_Checked"
+                          Unchecked="Compact_Unchecked"
+                          HorizontalAlignment="Left" />
+
+                <Label	Grid.Row="1"
+                        Grid.Column="0"
+                        Content="{Binding ConfigArea_ConnectorLineThickness, Source={StaticResource Strings}}" />
+                <Slider Grid.Row="1"
+                        Grid.Column="1"
+                        Minimum="0"
+                        Maximum="5"
+                        SmallChange="1"
+                        LargeChange="1"
+                        TickFrequency="1"
+                        TickPlacement="BottomRight"
+                        IsSnapToTickEnabled="True"
+                        MinWidth="80"
+                        VerticalAlignment="Center"
+                        Margin="{StaticResource OptionsElementsRightMarginLarge}"
+                        Value="{Binding GroupByAreaMulti.ConnectorLinePen.Thickness, ElementName=XamDataGrid1}" />
+
+                <Label	Grid.Row="2"
+                        Grid.Column="0"
+                        Content="{Binding ConfigArea_ConnectorLineStyle, Source={StaticResource Strings}}" />
+                <ComboBox	Grid.Row="2"
+                            Grid.Column="1"
+                            x:Name="cboDashStyles"
+                            SelectionChanged="cboDashStyles_SelectionChanged"
+                            Width="150"
+                            VerticalAlignment="Center" 
+                            Margin="{StaticResource OptionsElementsRightMarginLarge}"/>
+
+                <Label	Grid.Row="3"
+                        Grid.Column="0"
+                        Content="{Binding ConfigArea_ConnectorLineColor, Source={StaticResource Strings}}" />
+                <ComboBox	Grid.Row="3"
+                            Grid.Column="1"
+                            x:Name="cboConnectorLineColor"
+                            ItemsSource="{Binding Source={StaticResource odpForeground}}"
+                            SelectedItem="{Binding GroupByAreaMulti.ConnectorLinePen.Brush, ElementName=XamDataGrid1}"
+                            VerticalAlignment="Center"
+                            Width="150"
+                            Margin="{StaticResource OptionsElementsRightMarginLarge}"/>
+
+                <Label Grid.Column="2"
+                       Content="{Binding ConfigArea_FieldLayoutDescriptionOffset, Source={StaticResource Strings}}"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Left"/>
+                <StackPanel Grid.Column="3"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left"
+                            Margin="0">
+                    <TextBlock Text="{Binding ConfigArea_X, Source={StaticResource Strings}}"/>
+                    <Slider Minimum="0"
+                            Maximum="100"
+                            SmallChange="1"
+                            LargeChange="5"
+                            TickFrequency="1"
+                            TickPlacement="None"
+                            IsSnapToTickEnabled="True"
+                            MinWidth="65"
+                            VerticalAlignment="Center"
+                            Value="{Binding GroupByAreaMulti.FieldLayoutOffsetX, ElementName=XamDataGrid1}" 
+                            Margin="{StaticResource OptionsTextRightMargin}"/>
+                    <TextBlock Text="{Binding ConfigArea_Y, Source={StaticResource Strings}}" />
+                    <Slider Minimum="0"
+                            Maximum="100"
+                            SmallChange="1"
+                            LargeChange="5"
+                            TickFrequency="1"
+                            TickPlacement="None"
+                            IsSnapToTickEnabled="True"
+                            MinWidth="65"
+                            VerticalAlignment="Center"
+                            Value="{Binding GroupByAreaMulti.FieldLayoutOffsetY, ElementName=XamDataGrid1}" />
+                </StackPanel>
+
+                <Label	Grid.Row="1"
+                        Grid.Column="2"
+                        Content="{Binding ConfigArea_FieldOffset, Source={StaticResource Strings}}"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left" />
+                <StackPanel Grid.Row="1"
+                            Grid.Column="3"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left">
+                    <TextBlock Text="{Binding ConfigArea_X, Source={StaticResource Strings}}"/>
+                    <Slider Minimum="0"
+                            Maximum="100"
+                            SmallChange="1"
+                            LargeChange="5"
+                            TickFrequency="1"
+                            TickPlacement="None"
+                            IsSnapToTickEnabled="True"
+                            MinWidth="65"
+                            VerticalAlignment="Center"
+                            Margin="{StaticResource OptionsTextRightMargin}"
+                            Value="{Binding GroupByAreaMulti.FieldOffsetX, ElementName=XamDataGrid1}" />
+                    <TextBlock Text="{Binding ConfigArea_Y, Source={StaticResource Strings}}"/>
+                    <Slider Minimum="0"
+                            Maximum="100"
+                            SmallChange="1"
+                            LargeChange="5"
+                            TickFrequency="1"
+                            TickPlacement="None"
+                            IsSnapToTickEnabled="True"
+                            MinWidth="65"
+                            VerticalAlignment="Center"
+                            Value="{Binding GroupByAreaMulti.FieldOffsetY, ElementName=XamDataGrid1}" />
+                </StackPanel>
+
+                <CheckBox Grid.Row="2"
+                          Grid.Column="2"
+                          Content="{Binding ConfigArea_CustomFieldLayoutDescriptionTemplate, Source={StaticResource Strings}}"
+                          Checked="CustomFieldLayoutDescriptionTemplate_Checked"
+                          Unchecked="CustomFieldLayoutDescriptionTemplate_Unchecked"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Center"
+                          Grid.ColumnSpan="2" />
+
+                <CheckBox Grid.Row="3"
+                          Grid.Column="2"
+                          Content="{Binding ConfigArea_CustomPromptTemplates, Source={StaticResource Strings}}"
+                          Checked="CustomPromptsTemplate_Checked"
+                          Unchecked="CustomPromptsTemplate_Unchecked"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Center"
+                          Grid.ColumnSpan="2" />
+            </Grid>
+        </controls:OptionsPanel>
+
+        <igDP:XamDataGrid	Grid.Row="1"
+                            x:Name="XamDataGrid1"
+                            Theme="RoyalLight"
+                            IsGroupByAreaExpanded="True"
+                            GroupByAreaMode="MultipleFieldLayoutsFull">
+            <!-- #BEGIN SNIPPET# -->
+            <igDP:XamDataGrid.GroupByAreaMulti>
+                <igDP:GroupByAreaMulti x:Name="GroupByAreaMulti">
+                    <igDP:GroupByAreaMulti.ConnectorLinePen>
+                        <Pen Brush="White"
+                             Thickness="1"
+                             DashStyle="{x:Static DashStyles.Solid}" />
+                    </igDP:GroupByAreaMulti.ConnectorLinePen>
+                </igDP:GroupByAreaMulti>
+            </igDP:XamDataGrid.GroupByAreaMulti>
+            <!-- #END SNIPPET# -->
+            <!-- Add some groupings so that the GroupByAreaMulti has something interesting to display -->
+            <igDP:XamDataGrid.FieldLayouts>
+                <!-- Define a couple of Fields in each FieldLayout we are expecting so that the
+                XamDataGrid's auto-generation logic can match them up with the Tables in our data
+                source, and apply the FieldSortDescriptions we are defining -->
+                <igDP:FieldLayout>
+                    <igDP:FieldLayout.SortedFields>
+                        <igDP:FieldSortDescription FieldName="CustomerID"
+                                                   IsGroupBy="True" />
+                        <igDP:FieldSortDescription FieldName="CompanyName"
+                                                   IsGroupBy="True" />
+                    </igDP:FieldLayout.SortedFields>
+                    <igDP:Field Name="CustomerID" />
+                    <igDP:Field Name="CompanyName" />
+                </igDP:FieldLayout>
+
+                <igDP:FieldLayout>
+                    <igDP:FieldLayout.SortedFields>
+                        <igDP:FieldSortDescription FieldName="OrderID"
+                                                   IsGroupBy="True" />
+                        <igDP:FieldSortDescription FieldName="CustomerID"
+                                                   IsGroupBy="True" />
+                    </igDP:FieldLayout.SortedFields>
+                    <igDP:Field Name="OrderID" />
+                    <igDP:Field Name="CustomerID" />
+                </igDP:FieldLayout>
+
+                <igDP:FieldLayout>
+                    <igDP:FieldLayout.SortedFields>
+                        <igDP:FieldSortDescription FieldName="OrderID"
+                                                   IsGroupBy="True" />
+                        <igDP:FieldSortDescription FieldName="ProductID"
+                                                   IsGroupBy="True" />
+                    </igDP:FieldLayout.SortedFields>
+                    <igDP:Field Name="OrderID" />
+                    <igDP:Field Name="ProductID" />
+                </igDP:FieldLayout>
+            </igDP:XamDataGrid.FieldLayouts>
+        </igDP:XamDataGrid>
+    </Grid>
+</igFramework:SampleContainer>

@@ -1,0 +1,164 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Display.Series.GalleryBubbleSeries"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="BubbleSeries Page"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+      xmlns:resources="clr-namespace:IGDataChart.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <models:WorldDataViewSource x:Key="WorldCountriesHighIncome" Filter="OnFilterHighIncome" />
+            <models:WorldDataViewSource x:Key="WorldCountriesMediumIncome" Filter="OnFilterMediumIncome" />
+            <models:WorldDataViewSource x:Key="WorldCountriesLowIncome" Filter="OnFilterLowIncome" />
+            <ig:SizeScale x:Key="BubbleSizeScale"  IsLogarithmic="False" MinimumValue="10" MaximumValue="100"  />
+        
+            <resources:DataChartStrings x:Key="Strings" />
+            <Style TargetType="{x:Type ig:Legend}">
+                <Setter Property="Background" Value="{StaticResource LegendBackgroundBrush}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource LegendBorderBrush}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+            </Style>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <ig:XamDataChart x:Name="DataChart" Margin="0,0,24,0"
+                         Legend="{Binding ElementName=Legend}"
+                         Title="{Binding XWDC_WorldData_ChartTitle, Source={StaticResource Strings}}"
+                         Subtitle="{Binding XWDC_WorldData_ChartSubtitle, Source={StaticResource Strings}}"
+                         IsHorizontalZoomEnabled="True" HorizontalZoombarVisibility="Collapsed"
+                         IsVerticalZoomEnabled="True" VerticalZoombarVisibility="Collapsed" >
+            <ig:XamDataChart.Axes>
+                <ig:NumericXAxis x:Name="XAxis" 
+                                 Title="{Binding XWDC_WorldData_Types_Population, Source={StaticResource Strings}}"
+                                 MinimumValue="10000" MaximumValue="10000000000" IsLogarithmic="True"
+                                 Label="{}{0:#,0,,.##} M"   >
+                </ig:NumericXAxis>
+                <ig:NumericYAxis x:Name="YAxis" 
+                                 Title="{Binding XWDC_WorldData_Types_PublicDebt, Source={StaticResource Strings}}" 
+                                 IsLogarithmic="True" 
+                                 LogarithmBase="10" 
+                                 Label="{}{:N0} %">
+                </ig:NumericYAxis>
+            </ig:XamDataChart.Axes>
+            <ig:XamDataChart.Series>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <!-- Notice that BubbleSeries requires three member path mappings:
+                     XMemberPath, YMemberPath, and RadiusMemberPath -->
+                <!-- ========================================================================== -->
+                <ig:BubbleSeries XMemberPath="Population"
+                                 YMemberPath="PublicDebt"
+                                 RadiusMemberPath="GdpPerCapita"
+                                 FillMemberPath="GdpPerCapita"
+                                 MarkerType="Circle" ShowDefaultTooltip="True"
+                                 XAxis="{Binding ElementName=XAxis}"
+                                 YAxis="{Binding ElementName=YAxis}"
+                                 Title="{Binding XWDC_GalleryBubbleSeries_HighIncome, Source={StaticResource Strings}}"
+                                 ItemsSource="{Binding Source={StaticResource WorldCountriesHighIncome}}">
+                    <ig:BubbleSeries.RadiusScale>
+                        <ig:SizeScale  IsLogarithmic="False" MinimumValue="35" MaximumValue="70"  />
+                    </ig:BubbleSeries.RadiusScale>
+                    <ig:BubbleSeries.ToolTip>
+                        <Grid>
+                            <StackPanel Orientation="Vertical" >
+                                <TextBlock Margin="2" FontWeight="Bold" Text="{Binding Item.CountryName}"></TextBlock>
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel Margin="2">
+                                        <TextBlock Text="{Binding XWDC_WorldData_Types_GdpPerCapita, Source={StaticResource Strings}}"></TextBlock>
+                                        <TextBlock Text="{Binding XWDC_WorldData_Types_PublicDebt, Source={StaticResource Strings}}"></TextBlock>
+                                        <TextBlock Text="{Binding XWDC_WorldData_Types_Population, Source={StaticResource Strings}}"></TextBlock>
+                                    </StackPanel>
+                                    <StackPanel Margin="2">
+                                        <TextBlock Text="{Binding Item.GdpPerCapita,StringFormat='\{0:C0\}'}"></TextBlock>
+                                        <TextBlock Text="{Binding Item.PublicDebt, StringFormat='\{0:N1\} %'}"></TextBlock>
+                                        <TextBlock Text="{Binding Item.Population, StringFormat='\{0:#,0,,.###\} M'}"></TextBlock>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </ig:BubbleSeries.ToolTip>
+                </ig:BubbleSeries>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+                <ig:BubbleSeries XMemberPath="Population"
+                                 YMemberPath="PublicDebt"
+                                 RadiusMemberPath="GdpPerCapita"
+                                 FillMemberPath="GdpPerCapita"
+                                 MarkerType="Circle" 
+                                 XAxis="{Binding ElementName=XAxis}"
+                                 YAxis="{Binding ElementName=YAxis}"
+                                 Title="{Binding XWDC_GalleryBubbleSeries_MediumIncome, Source={StaticResource Strings}}"
+                                 ItemsSource="{Binding Source={StaticResource WorldCountriesMediumIncome}}">
+                    <ig:BubbleSeries.RadiusScale>
+                        <ig:SizeScale  IsLogarithmic="False" MinimumValue="20" MaximumValue="35"  />
+                    </ig:BubbleSeries.RadiusScale>
+                    <ig:BubbleSeries.ToolTip>
+                        <Grid>
+                            <StackPanel Orientation="Vertical" >
+                                <TextBlock Margin="2" FontWeight="Bold" Text="{Binding Item.CountryName}"></TextBlock>
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel Margin="2">
+                                        <TextBlock Text="{Binding XWDC_WorldData_Types_GdpPerCapita, Source={StaticResource Strings}}"></TextBlock>
+                                        <TextBlock Text="{Binding XWDC_WorldData_Types_PublicDebt, Source={StaticResource Strings}}"></TextBlock>
+                                        <TextBlock Text="{Binding XWDC_WorldData_Types_Population, Source={StaticResource Strings}}"></TextBlock>
+                                    </StackPanel>
+                                    <StackPanel Margin="2">
+                                        <TextBlock Text="{Binding Item.GdpPerCapita,StringFormat='\{0:C0\}'}"></TextBlock>
+                                        <TextBlock Text="{Binding Item.PublicDebt, StringFormat='\{0:N1\} %'}"></TextBlock>
+                                        <TextBlock Text="{Binding Item.Population, StringFormat='\{0:#,0,,.###\} M'}"></TextBlock>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </ig:BubbleSeries.ToolTip>
+                </ig:BubbleSeries>
+                <ig:BubbleSeries XMemberPath="Population"
+                                 YMemberPath="PublicDebt"
+                                 RadiusMemberPath="GdpPerCapita"
+                                 FillMemberPath="GdpPerCapita"
+                                 MarkerType="Circle" 
+                                 XAxis="{Binding ElementName=XAxis}"
+                                 YAxis="{Binding ElementName=YAxis}"
+                                 Title="{Binding XWDC_GalleryBubbleSeries_LowIncome, Source={StaticResource Strings}}"
+                                 ItemsSource="{Binding Source={StaticResource WorldCountriesLowIncome}}">
+                    <ig:BubbleSeries.RadiusScale>
+                        <ig:SizeScale  IsLogarithmic="False" MinimumValue="5" MaximumValue="20"  />
+                    </ig:BubbleSeries.RadiusScale>
+                    <ig:BubbleSeries.ToolTip>
+                        <Grid>
+                            <StackPanel Orientation="Vertical" >
+                                <TextBlock Margin="2" FontWeight="Bold" Text="{Binding Item.CountryName}"></TextBlock>
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel Margin="2">
+                                        <TextBlock Text="{Binding XWDC_WorldData_Types_GdpPerCapita, Source={StaticResource Strings}}"></TextBlock>
+                                        <TextBlock Text="{Binding XWDC_WorldData_Types_PublicDebt, Source={StaticResource Strings}}"></TextBlock>
+                                        <TextBlock Text="{Binding XWDC_WorldData_Types_Population, Source={StaticResource Strings}}"></TextBlock>
+                                    </StackPanel>
+                                    <StackPanel Margin="2">
+                                        <TextBlock Text="{Binding Item.GdpPerCapita,StringFormat='\{0:C0\}'}"></TextBlock>
+                                        <TextBlock Text="{Binding Item.PublicDebt, StringFormat='\{0:N1\} %'}"></TextBlock>
+                                        <TextBlock Text="{Binding Item.Population, StringFormat='\{0:#,0,,.###\} M'}"></TextBlock>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </ig:BubbleSeries.ToolTip>
+                </ig:BubbleSeries>
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+        <ig:Legend x:Name="Legend" HorizontalAlignment="Right"  
+                   VerticalAlignment="Top" Margin="20" Content="{Binding XWDC_GalleryBubbleSeries_LegendTitle, Source={StaticResource Strings}}">
+        </ig:Legend>
+    </Grid>
+</igFramework:SampleContainer>

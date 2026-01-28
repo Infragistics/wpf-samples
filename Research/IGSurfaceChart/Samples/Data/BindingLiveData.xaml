@@ -1,0 +1,40 @@
+﻿<igs:SampleContainer x:Class="IGSurfaceChart.Samples.Data.BindingLiveData"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"  
+             xmlns:igs="http://schemas.infragistics.com/xaml/samples" 
+             xmlns:res="clr-namespace:IGSurfaceChart.Resources"
+             xmlns:ig="http://schemas.infragistics.com/xaml" 
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="500">
+
+    <igs:SampleContainer.Resources>
+        <ResourceDictionary>
+            <res:SurfaceChartStrings x:Key="ChartStrings" />
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSurfaceChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </igs:SampleContainer.Resources>
+    
+    <Grid>
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamScatterSurface3D x:Name="SurfaceChart" 
+                                ItemsSource="{Binding DataCollection}"   
+                                XMemberPath="X" YMemberPath="Y" ZMemberPath="Z">
+        <ig:XamScatterSurface3D.XAxis>
+                <ig:LinearAxis Title="{Binding Source={StaticResource ChartStrings}, Path=XAxis}" Interval="20" />
+            </ig:XamScatterSurface3D.XAxis>
+            <ig:XamScatterSurface3D.YAxis>
+                <ig:LinearAxis Title="{Binding Source={StaticResource ChartStrings}, Path=YAxis}" Interval="20" />
+            </ig:XamScatterSurface3D.YAxis>
+            <ig:XamScatterSurface3D.ZAxis>
+                <ig:LinearAxis x:Name="ValueAxis" Interval="0.4" MinimumValue="-1" MaximumValue="1" 
+                                Title="{Binding Source={StaticResource ChartStrings}, Path=ZAxis}" />
+            </ig:XamScatterSurface3D.ZAxis>
+        </ig:XamScatterSurface3D>
+        <!-- #END SNIPPET# -->
+    </Grid>
+</igs:SampleContainer>

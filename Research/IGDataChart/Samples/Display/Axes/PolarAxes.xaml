@@ -1,0 +1,215 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Display.Axes.PolarAxes"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="PolarAxes Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+      xmlns:resources="clr-namespace:IGDataChart.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <SolidColorBrush x:Key="AxisStripBrush" Color="LightGray" Opacity=".4" />
+            <ig:StringFormatConverter x:Key="StringFormatConverter" />
+            <resources:DataChartStrings x:Key="Strings" />
+
+            <models:PolarDataModel x:Key="AngularPolarDataModel">
+                <models:PolarDataModel.Settings>
+                    <models:PolarDataSettings DataPoints="36"
+                                              AngleStart="0" AngleMin="0" AngleInterval="10" AngleMax="500"
+                                              RadiusStart="80" RadiusMin="80" RadiusInterval="0"  />
+                </models:PolarDataModel.Settings>
+            </models:PolarDataModel>
+            <models:PolarDataModel x:Key="RadiarPolarDataModel">
+                <models:PolarDataModel.Settings>
+                    <models:PolarDataSettings DataPoints="10"
+                                              AngleStart="420" AngleMin="420" AngleInterval="0" AngleMax="450"
+                                              RadiusStart="0" RadiusMin="0" RadiusInterval="10" RadiusMax="200" />
+                </models:PolarDataModel.Settings>
+            </models:PolarDataModel>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+
+        <ig:XamDataChart x:Name="DataChart" PlotAreaBorderBrush="{x:Null}" Margin="0 0 200 0" >
+            <!-- #BEGIN SNIPPET# -->
+            <ig:XamDataChart.Axes>
+                <ig:NumericAngleAxis x:Name="angleAxis"
+                                     Visibility="Visible" IsInverted="False"
+                                     CrossingAxis="{Binding ElementName=radiusAxis}"
+                                     CrossingValue="{Binding ElementName=angleAxisCrossingSlider, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}"
+                                     MinimumValue="{Binding ElementName=angleAxisMinimum, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}"
+                                     MaximumValue="{Binding ElementName=angleAxisMaximum, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}"
+                                     Interval="{Binding ElementName=angleAxisInterval, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}"
+                                     StartAngleOffset="{Binding ElementName=angleAxisOffset, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}"   >
+                    <ig:NumericAngleAxis.LabelSettings>
+                        <ig:AxisLabelSettings Location="OutsideLeft" Extent="20"  />
+                    </ig:NumericAngleAxis.LabelSettings>
+                </ig:NumericAngleAxis>
+                <ig:NumericRadiusAxis x:Name="radiusAxis" Strip="{StaticResource AxisStripBrush}"
+                                      Visibility="Visible" IsInverted="False"
+                                      CrossingAxis="{Binding ElementName=angleAxis}"
+                                      CrossingValue="{Binding ElementName=radiusAxisCrossingSlider, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}"
+                                      MinimumValue="{Binding ElementName=radiusAxisMinimum, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}"
+                                      MaximumValue="{Binding ElementName=radiusAxisMaximum, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}"
+                                      Interval="{Binding ElementName=radiusAxisInterval, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}"
+                                      RadiusExtentScale="{Binding ElementName=radiusAxisExtentScale, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0.0'}"
+                                      InnerRadiusExtentScale="{Binding ElementName=radiusAxisInnerExtentScale, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0.0'}"  >
+                    <ig:NumericRadiusAxis.LabelSettings>
+                        <ig:AxisLabelSettings Location="InsideBottom" Extent="40" />
+                    </ig:NumericRadiusAxis.LabelSettings>
+                </ig:NumericRadiusAxis>
+            </ig:XamDataChart.Axes>
+            <!-- #END SNIPPET# -->
+
+            <ig:XamDataChart.Series>
+
+                <ig:PolarSplineSeries AngleAxis="{Binding ElementName=angleAxis}"
+                                      RadiusAxis="{Binding ElementName=radiusAxis}"
+                                      AngleMemberPath="Angle"
+                                      RadiusMemberPath="Radius"
+                                      EndCap="Round" StartCap="Round"
+                                      DataContext="{StaticResource RadiarPolarDataModel}"
+                                      ItemsSource="{Binding Data}"   
+                                      Thickness="25" >
+                </ig:PolarSplineSeries>
+                <ig:PolarSplineSeries AngleAxis="{Binding ElementName=angleAxis}"
+                                      RadiusAxis="{Binding ElementName=radiusAxis}"
+                                      AngleMemberPath="Angle"
+                                      RadiusMemberPath="Radius"
+                                      EndCap="Round" StartCap="Round"
+                                      DataContext="{StaticResource AngularPolarDataModel}"
+                                      ItemsSource="{Binding Data}"
+                                      MarkerType="Circle" Thickness="25" >
+                </ig:PolarSplineSeries>
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+
+        <controls:OptionsPanel HeaderText="{Binding XWDC_DataChart_Options, Source={StaticResource Strings}}"
+                               VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,15,0,0">
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}"/>
+            </controls:OptionsPanel.Resources>
+            <StackPanel x:Name="SampleEditor" Visibility="Visible">
+                <!--NumericAngleAxis -->
+                <CheckBox x:Name="angleAxisVisibility" IsChecked="True" Margin="{StaticResource OptionsTextRightBottomMargin}" >
+                    <CheckBox.Content>
+                        <TextBlock VerticalAlignment="Center" 
+                                   Text="{Binding XWDC_AxisType_NumericAngleAxis, Source={StaticResource Strings}}"
+                                   FontWeight="Bold" HorizontalAlignment="Left"/>
+                    </CheckBox.Content>
+                </CheckBox>
+                <!--NumericAngleAxis Minimum-->
+                <StackPanel Margin="{StaticResource OptionsElementsMargin}">
+                    <TextBlock Margin="{StaticResource OptionsTextRightBottomMargin}" Text="{Binding XWDC_AxisProperty_MinimumValue, Source={StaticResource Strings}}"  HorizontalAlignment="Left"/>
+                    <StackPanel Orientation="Horizontal" >
+                        <Slider x:Name="angleAxisMinimum" Width="120" Minimum="0" Maximum="90" Value="0" SmallChange="5" LargeChange="5" />
+                        <TextBlock Margin="{StaticResource OptionsTextLeftMargin}" Width="25" Text="{Binding ElementName=angleAxisMinimum, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}" />
+                    </StackPanel>
+                </StackPanel>
+                <!--NumericAngleAxis Maximum-->
+                <StackPanel Margin="{StaticResource OptionsElementsMargin}">
+                    <TextBlock Margin="{StaticResource OptionsTextRightBottomMargin}" Text="{Binding XWDC_AxisProperty_MaximumValue, Source={StaticResource Strings}}"  HorizontalAlignment="Left"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Slider x:Name="angleAxisMaximum" Width="115" Minimum="180" Maximum="600" Value="480" SmallChange="5" LargeChange="5"  />
+                        <TextBlock Margin="{StaticResource OptionsTextLeftMargin}" Width="25" Text="{Binding ElementName=angleAxisMaximum, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}" />
+                    </StackPanel>
+                </StackPanel>
+                <!--NumericAngleAxis Interval-->
+                <StackPanel  HorizontalAlignment="Left" Margin="{StaticResource OptionsElementsMargin}">
+                    <TextBlock VerticalAlignment="Center" Margin="{StaticResource OptionsTextRightBottomMargin}" Text="{Binding XWDC_AxisProperty_Interval, Source={StaticResource Strings}}"  HorizontalAlignment="Left"/>
+                    <StackPanel Orientation="Horizontal" >
+                        <Slider VerticalAlignment="Center" x:Name="angleAxisInterval" Width="115" Minimum="15" Maximum="90" Value="30" SmallChange="5" LargeChange="5" HorizontalAlignment="Left" />
+                        <TextBlock VerticalAlignment="Center" Margin="{StaticResource OptionsTextLeftMargin}" Width="25" Text="{Binding ElementName=angleAxisInterval, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}" />
+                    </StackPanel>
+                </StackPanel>
+                <!--NumericAngleAxis Offset-->
+                <StackPanel  HorizontalAlignment="Left" Margin="{StaticResource OptionsElementsMargin}">
+                    <TextBlock VerticalAlignment="Center" Margin="{StaticResource OptionsTextRightBottomMargin}" Text="{Binding XWDC_AxisProperty_StartAngleOffset, Source={StaticResource Strings}}"  HorizontalAlignment="Left"/>
+                    <StackPanel Orientation="Horizontal" >
+                        <Slider VerticalAlignment="Center" x:Name="angleAxisOffset" Width="115" Minimum="0" Maximum="360" Value="0" SmallChange="5" LargeChange="5" />
+                        <TextBlock VerticalAlignment="Center" Margin="{StaticResource OptionsTextLeftMargin}" Width="25" Text="{Binding ElementName=angleAxisOffset, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}" />
+                    </StackPanel>
+                </StackPanel>
+                <!--NumericAngleAxis Crossing-->
+                <StackPanel  HorizontalAlignment="Left" Margin="{StaticResource OptionsElementsMargin}">
+                    <TextBlock VerticalAlignment="Center" Text="{Binding XWDC_AxisProperty_CrossingValue, Source={StaticResource Strings}}"  HorizontalAlignment="Left" Margin="{StaticResource OptionsTextRightBottomMargin}" />
+                    <StackPanel Orientation="Horizontal" >
+                        <Slider x:Name="angleAxisCrossingSlider" Width="115" Minimum="0" Maximum="200" Value="120" SmallChange="5" LargeChange="5" />
+                        <TextBlock VerticalAlignment="Center" Margin="{StaticResource OptionsTextLeftMargin}" Width="25" Text="{Binding ElementName=angleAxisCrossingSlider, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}"   />
+                    </StackPanel>
+                </StackPanel>
+                <CheckBox x:Name="angleAxisInvertion" IsChecked="False" Content="{Binding XWDC_AxisProperty_InvertedAxis, Source={StaticResource Strings}}" Margin="{StaticResource OptionsTextRightBottomMargin}" />
+                <!--NumericRadiusAxis -->
+                <CheckBox x:Name="radiusAxisVisibility" IsChecked="True" Margin="{StaticResource OptionsTextRightBottomMargin}" >
+                    <CheckBox.Content>
+                        <TextBlock VerticalAlignment="Center" 
+                                   Text="{Binding XWDC_AxisType_NumericRadiusAxis, Source={StaticResource Strings}}"
+                                   FontWeight="Bold" Margin="0,5"  HorizontalAlignment="Left"/>
+                    </CheckBox.Content>
+                </CheckBox>
+                <!--NumericRadiusAxis Minimum-->
+                <StackPanel  HorizontalAlignment="Left" Margin="{StaticResource OptionsElementsMargin}">
+                    <TextBlock VerticalAlignment="Center" Margin="{StaticResource OptionsTextRightBottomMargin}" Text="{Binding XWDC_AxisProperty_MinimumValue, Source={StaticResource Strings}}"  HorizontalAlignment="Left"/>
+                    <StackPanel Orientation="Horizontal" >
+                        <Slider VerticalAlignment="Center" x:Name="radiusAxisMinimum" Width="115" Minimum="0" Maximum="50" Value="0" SmallChange="10" LargeChange="10" />
+                        <TextBlock VerticalAlignment="Center" Margin="2" Width="25" Text="{Binding ElementName=radiusAxisMinimum, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}" />
+                    </StackPanel>
+                </StackPanel>
+                <!--NumericRadiusAxis Maximum-->
+                <StackPanel  HorizontalAlignment="Left" Margin="{StaticResource OptionsElementsMargin}">
+                    <TextBlock VerticalAlignment="Center" Margin="{StaticResource OptionsTextRightBottomMargin}" Text="{Binding XWDC_AxisProperty_MaximumValue, Source={StaticResource Strings}}"  HorizontalAlignment="Left"/>
+                    <StackPanel Orientation="Horizontal" >
+                        <Slider VerticalAlignment="Center" x:Name="radiusAxisMaximum" Width="115" Minimum="100" Maximum="200" Value="120" SmallChange="10" LargeChange="10" />
+                        <TextBlock VerticalAlignment="Center" Margin="2" Width="25" Text="{Binding ElementName=radiusAxisMaximum, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}" />
+                    </StackPanel>
+                </StackPanel>
+                <!--NumericRadiusAxis Interval-->
+                <StackPanel  HorizontalAlignment="Left" Margin="{StaticResource OptionsElementsMargin}">
+                    <TextBlock VerticalAlignment="Center" Margin="{StaticResource OptionsTextRightBottomMargin}" Text="{Binding XWDC_AxisProperty_Interval, Source={StaticResource Strings}}"  HorizontalAlignment="Left"/>
+                    <StackPanel Orientation="Horizontal" >
+                        <Slider VerticalAlignment="Center" x:Name="radiusAxisInterval" Width="115" Minimum="20" Maximum="60" Value="30" SmallChange="5" LargeChange="5" />
+                        <TextBlock VerticalAlignment="Center" Margin="2" Width="25" Text="{Binding ElementName=radiusAxisInterval, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}" />
+                    </StackPanel>
+                </StackPanel>
+                <!--NumericRadiusAxis Extent-->
+                <StackPanel  HorizontalAlignment="Left" Margin="{StaticResource OptionsElementsMargin}">
+                    <TextBlock VerticalAlignment="Center" Margin="{StaticResource OptionsTextRightBottomMargin}" Text="{Binding XWDC_AxisProperty_RadiusExtentScale, Source={StaticResource Strings}}"  HorizontalAlignment="Left"></TextBlock>
+                    <StackPanel Orientation="Horizontal" >
+                        <Slider VerticalAlignment="Center" x:Name="radiusAxisExtentScale" Width="115" Minimum="0.5" Maximum="1" Value="0.8" SmallChange="0.1" LargeChange="0.1" />
+                        <TextBlock VerticalAlignment="Center" Margin="2" Width="25" Text="{Binding ElementName=radiusAxisExtentScale, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0.0'}" ></TextBlock>
+                    </StackPanel>
+                </StackPanel>
+                <!--NumericRadiusAxis Inner Extent-->
+                <StackPanel  HorizontalAlignment="Left" Margin="{StaticResource OptionsElementsMargin}">
+                    <TextBlock VerticalAlignment="Center" Margin="{StaticResource OptionsTextRightBottomMargin}" Text="{Binding XWDC_AxisProperty_RadiusInnerExtentScale, Source={StaticResource Strings}}"  HorizontalAlignment="Left"></TextBlock>
+                    <StackPanel Orientation="Horizontal" >
+                        <Slider VerticalAlignment="Center" x:Name="radiusAxisInnerExtentScale" Width="115" Minimum="0" Maximum="0.5" Value="0.2" SmallChange="0.1" LargeChange="0.1" />
+                        <TextBlock VerticalAlignment="Center" Margin="2" Width="25" Text="{Binding ElementName=radiusAxisInnerExtentScale, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0.0'}" ></TextBlock>
+                    </StackPanel>
+                </StackPanel>
+                <!--NumericRadiusAxis Crossing-->
+                <StackPanel  HorizontalAlignment="Left" Margin="{StaticResource OptionsElementsMargin}">
+                    <TextBlock VerticalAlignment="Center" Text="{Binding XWDC_AxisProperty_CrossingValue, Source={StaticResource Strings}}" Margin="{StaticResource OptionsTextRightBottomMargin}"  HorizontalAlignment="Left"/>
+                    <StackPanel Orientation="Horizontal" >
+                        <Slider x:Name="radiusAxisCrossingSlider" Width="115" Minimum="0" Maximum="360" SmallChange="5" LargeChange="5" />
+                        <TextBlock VerticalAlignment="Center" Width="25" Text="{Binding ElementName=radiusAxisCrossingSlider, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}"    />
+                    </StackPanel>
+                </StackPanel>
+                <CheckBox x:Name="radiusAxisInvertion" IsChecked="False" Content="{Binding XWDC_AxisProperty_InvertedAxis, Source={StaticResource Strings}}" Margin="{StaticResource OptionsTextRightBottomMargin}" />
+           </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+
+</igFramework:SampleContainer>

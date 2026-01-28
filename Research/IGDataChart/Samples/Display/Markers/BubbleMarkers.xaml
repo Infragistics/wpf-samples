@@ -1,0 +1,243 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Display.Markers.BubbleMarkers"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="BubbleMarkers Page"
+      xmlns:converters="clr-namespace:IGDataChart.Converters"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+      xmlns:resources="clr-namespace:IGDataChart.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <converters:MarkerTypeConverter x:Key="MarkerTypeConverter" />
+
+            <resources:DataChartStrings x:Key="Strings" />
+            <DropShadowEffect x:Key="MarkerEffect" ShadowDepth="1" BlurRadius="6" Opacity="0.3" />
+            <ig:StringFormatConverter x:Key="StringFormatConverter" />
+            <models:WorldDataViewSource x:Key="WorldData"/>
+
+            <!-- Custom Marker Template ============================================== -->
+            <DataTemplate x:Key="BubbleMarkerTemplate">
+                <Ellipse Stretch="Fill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                         Fill="{Binding ActualItemBrush}" Stroke="{Binding Series.ActualMarkerOutline}"
+                         StrokeThickness="0.5" MinWidth="5" MinHeight="5">
+                    <Ellipse.Effect>
+                        <DropShadowEffect ShadowDepth="1" BlurRadius="10" />
+                    </Ellipse.Effect>
+                </Ellipse>
+            </DataTemplate>
+
+            <DataTemplate x:Key="CircleMarkerTemplate">
+                <Ellipse Effect="{StaticResource MarkerEffect}" 
+                         Stretch="Fill" HorizontalAlignment="Stretch"
+                         VerticalAlignment="Stretch" 
+                         Fill="{Binding ActualItemBrush}"
+                         Stroke="{Binding Series.ActualMarkerOutline}" StrokeThickness="0.5" MinWidth="10" MinHeight="10" />
+            </DataTemplate>
+
+            <DataTemplate x:Key="TriangleMarkerTemplate">
+                <Polygon Effect="{StaticResource MarkerEffect}" 
+                         Points="0, 0 4, 8 8, 0" Stretch="Fill"
+                         Fill="{Binding ActualItemBrush}" 
+                         Stroke="{Binding Series.ActualMarkerOutline}"
+                         StrokeThickness="0.5" MinWidth="10" MinHeight="10" />
+            </DataTemplate>
+
+            <DataTemplate x:Key="PyramidMarkerTemplate">
+                <Polygon Effect="{StaticResource MarkerEffect}" 
+                         Points="0, 8 4, 0 8, 8" Stretch="Fill"
+                         Fill="{Binding ActualItemBrush}" 
+                         Stroke="{Binding Series.ActualMarkerOutline}"
+                         StrokeThickness="0.5" MinWidth="10" MinHeight="10" />
+            </DataTemplate>
+
+            <DataTemplate x:Key="SquareMarkerTemplate">
+                <Rectangle Effect="{StaticResource MarkerEffect}" 
+                           Stretch="Fill" HorizontalAlignment="Stretch"
+                           VerticalAlignment="Stretch" 
+                           Fill="{Binding ActualItemBrush}"
+                           Stroke="{Binding Series.ActualMarkerOutline}"
+                           StrokeThickness="0" MinWidth="10" MinHeight="10" />
+            </DataTemplate>
+
+            <DataTemplate x:Key="DiamondMarkerTemplate">
+                <Polygon Effect="{StaticResource MarkerEffect}" 
+                         Points="0 4 4 8 8 4 4 0" Stretch="Fill"
+                         Fill="{Binding ActualItemBrush}" 
+                         Stroke="{Binding Series.ActualMarkerOutline}"
+                         StrokeThickness="0.5" MinWidth="10" MinHeight="10" />
+            </DataTemplate>
+
+            <DataTemplate x:Key="PentagonMarkerTemplate">
+                <Polygon Effect="{StaticResource MarkerEffect}" 
+                         Points="4 0 0.1956 2.764 1.65 7.236 6.35 7.236 7.8044 2.764"
+                         Stretch="Fill" Fill="{Binding ActualItemBrush}" 
+                         Stroke="{Binding Series.ActualMarkerOutline}"
+                         StrokeThickness="0.5" MinWidth="10" MinHeight="10" />
+            </DataTemplate>
+
+            <DataTemplate x:Key="HexagonMarkerTemplate">
+                <Polygon Effect="{StaticResource MarkerEffect}" 
+                         Points="4 0 0.536 2 0.536 6 4 8 7.464 6 7.464 2"
+                         Stretch="Fill" Fill="{Binding ActualItemBrush}" 
+                         Stroke="{Binding Series.ActualMarkerOutline}"
+                         StrokeThickness="0.5" MinWidth="10" MinHeight="10" />
+            </DataTemplate>
+
+            <DataTemplate x:Key="TetragramMarkerTemplate">
+                <Polygon Effect="{StaticResource MarkerEffect}" 
+                         Points="4 0 2.5856 2.5856 0 4 2.5856 5.4144 4 8 5.4144 5.4144 8 4 5.4144 2.5856"
+                         Stretch="Fill" Fill="{Binding ActualItemBrush}" 
+                         Stroke="{Binding Series.ActualMarkerOutline}"
+                         StrokeThickness="0.5" MinWidth="10" MinHeight="10" />
+            </DataTemplate>
+
+            <DataTemplate x:Key="PentagramMarkerTemplate">
+                <Polygon Effect="{StaticResource MarkerEffect}" 
+                         Points="4 0 2.8244 2.382 0.1956 2.764 2.098 4.618 1.6488 7.236 4 6 6.3512 7.236 5.902 4.618 7.8044 2.764 5.1756 2.382"
+                         Stretch="Fill" Fill="{Binding ActualItemBrush}" 
+                         Stroke="{Binding Series.ActualMarkerOutline}"
+                         StrokeThickness="0.5" MinWidth="10" MinHeight="10" />
+            </DataTemplate>
+
+            <DataTemplate x:Key="HexagramMarkerTemplate">
+                <Polygon Effect="{StaticResource MarkerEffect}" 
+                         Points="4 0 3 2.268 0.536 2 2 4 0.536 6 3 5.732 4 8 5 5.732 7.464 6 6 4 7.464 2 5 2.268"
+                         Stretch="Fill" Fill="{Binding ActualItemBrush}" Stroke="{Binding Series.ActualMarkerOutline}"
+                         StrokeThickness="0.5" MinWidth="10" MinHeight="10" />
+            </DataTemplate>
+            <ig:BrushCollection x:Key="BubbleFillBrushCollection">
+                <SolidColorBrush Color="{StaticResource Color_032}" />
+                <SolidColorBrush Color="{StaticResource Color_031}" />
+                <SolidColorBrush Color="{StaticResource Color_030}" />
+                <SolidColorBrush Color="{StaticResource Color_020}" />
+            </ig:BrushCollection>
+
+        </ResourceDictionary>
+
+    </igFramework:SampleContainer.Resources>
+    
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!-- #BEGIN SNIPPET# -->
+         <!-- ===================================================== -->
+        <ig:XamDataChart x:Name="DataChart" HorizontalAlignment="Stretch" Grid.Row="1"
+                         IsHorizontalZoomEnabled="True" IsVerticalZoomEnabled="True" Margin="0,0,30,0"
+                         Title="{Binding XWDC_WorldData_ChartTitle, Source={StaticResource Strings}}"
+                         Subtitle="{Binding XWDC_WorldData_ChartSubtitle, Source={StaticResource Strings}}"
+                         HorizontalContentAlignment="Stretch"
+                         CircleMarkerTemplate="{StaticResource CircleMarkerTemplate}"
+                         TriangleMarkerTemplate="{StaticResource TriangleMarkerTemplate}"
+                         PyramidMarkerTemplate="{StaticResource PyramidMarkerTemplate}"
+                         SquareMarkerTemplate="{StaticResource SquareMarkerTemplate}"
+                         DiamondMarkerTemplate="{StaticResource DiamondMarkerTemplate}"
+                         PentagonMarkerTemplate="{StaticResource PentagonMarkerTemplate}"
+                         HexagonMarkerTemplate="{StaticResource HexagonMarkerTemplate}"
+                         TetragramMarkerTemplate="{StaticResource TetragramMarkerTemplate}"
+                         PentagramMarkerTemplate="{StaticResource PentagramMarkerTemplate}"
+                         HexagramMarkerTemplate="{StaticResource HexagramMarkerTemplate}">
+            <!-- ===================================================== -->
+            <!-- #END SNIPPET# -->
+
+            <ig:XamDataChart.Axes>
+                    <ig:NumericXAxis x:Name="XAxis" 
+                                 Title="{Binding XWDC_WorldData_Types_Population, Source={StaticResource Strings}}"
+                                 MinimumValue="10000" MaximumValue="10000000000" IsLogarithmic="True"
+                                 Label="{}{0:#,0,,.##} M"   >
+                    </ig:NumericXAxis>
+                    <ig:NumericYAxis x:Name="YAxis" 
+                                 Title="{Binding XWDC_WorldData_Types_PublicDebt, Source={StaticResource Strings}}" 
+                                 IsLogarithmic="True" 
+                                 LogarithmBase="10" 
+                                 Label="{}{:N0} %">
+                    </ig:NumericYAxis>
+         
+            </ig:XamDataChart.Axes>
+            <ig:XamDataChart.Series>
+                <ig:BubbleSeries BorderThickness="2"
+                                 XMemberPath="Population"
+                                 YMemberPath="PublicDebt"
+                                 RadiusMemberPath="GdpPerCapita"
+                                 FillMemberPath="GdpPerCapita"
+                                 XAxis="{Binding ElementName=XAxis}"
+                                 YAxis="{Binding ElementName=YAxis}"
+                                 ItemsSource="{Binding Source={StaticResource WorldData}}"
+                                 MarkerType="{Binding ElementName=cmbMarkerType, Path=SelectedItem.Tag, 
+                                              Converter={StaticResource MarkerTypeConverter}}"
+                                 >
+                    <ig:BubbleSeries.RadiusScale>
+                        <ig:SizeScale  IsLogarithmic="False" MinimumValue="10" MaximumValue="70"  />
+                    </ig:BubbleSeries.RadiusScale>
+                    <ig:BubbleSeries.FillScale>
+                        <ig:ValueBrushScale
+                            IsLogarithmic="False"
+                            MaximumValue="100000"
+                            MinimumValue="0"
+                            Brushes="{StaticResource BubbleFillBrushCollection}" />
+                    </ig:BubbleSeries.FillScale>
+                    <ig:BubbleSeries.ToolTip>
+                        <Grid>
+                            <StackPanel Orientation="Vertical" >
+                                <TextBlock Margin="2" FontWeight="Bold" Text="{Binding Item.CountryName}"></TextBlock>
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel Margin="2">
+                                        <TextBlock Text="{Binding XWDC_WorldData_Types_GdpPerCapita, Source={StaticResource Strings}}"></TextBlock>
+                                        <TextBlock Text="{Binding XWDC_WorldData_Types_PublicDebt, Source={StaticResource Strings}}"></TextBlock>
+                                        <TextBlock Text="{Binding XWDC_WorldData_Types_Population, Source={StaticResource Strings}}"></TextBlock>
+                                    </StackPanel>
+                                    <StackPanel Margin="2">
+                                        <TextBlock Text="{Binding Item.GdpPerCapita, Converter={StaticResource StringFormatConverter}, ConverterParameter='\{0:C0\}'}"></TextBlock>
+                                        <TextBlock Text="{Binding Item.PublicDebt, Converter={StaticResource StringFormatConverter}, ConverterParameter='\{0:N1\} %'}"></TextBlock>
+                                        <TextBlock Text="{Binding Item.Population, StringFormat='\{0:#,0,,.###\} M'}"></TextBlock>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </ig:BubbleSeries.ToolTip>
+          
+                </ig:BubbleSeries>
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+
+        <Border Margin="{StaticResource SampleInnerNavigationPadding}" HorizontalAlignment="Left">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Style="{StaticResource SamplesInnerNavigationTitleStyle}"
+                           Text="{Binding XWDC_MarkerType_Types, Source={StaticResource Strings}}"/>
+                <ComboBox x:Name="cmbMarkerType" SelectedIndex="0" Margin="0,0,2,0" Width="150" 
+                          HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource IGComboBoxStyle}">
+                    <ComboBoxItem Tag="Square" Content="{Binding XWDC_MarkerType_Square, Source={StaticResource Strings}}" />
+                    <ComboBoxItem Tag="Circle" Content="{Binding XWDC_MarkerType_Circle, Source={StaticResource Strings}}" />
+                    <ComboBoxItem Tag="Triangle" Content="{Binding XWDC_MarkerType_Triangle, Source={StaticResource Strings}}" />
+                    <ComboBoxItem Tag="Pyramid" Content="{Binding XWDC_MarkerType_Pyramid, Source={StaticResource Strings}}" />
+                    <ComboBoxItem Tag="Diamond" Content="{Binding XWDC_MarkerType_Diamond, Source={StaticResource Strings}}" />
+                    <ComboBoxItem Tag="Pentagon" Content="{Binding XWDC_MarkerType_Pentagon, Source={StaticResource Strings}}" />
+                    <ComboBoxItem Tag="Hexagon" Content="{Binding XWDC_MarkerType_Hexagon, Source={StaticResource Strings}}" />
+                    <ComboBoxItem Tag="Tetragram" Content="{Binding XWDC_MarkerType_Tetragram, Source={StaticResource Strings}}" />
+                    <ComboBoxItem Tag="Pentagram" Content="{Binding XWDC_MarkerType_Pentagram, Source={StaticResource Strings}}" />
+                    <ComboBoxItem Tag="Hexagram" Content="{Binding XWDC_MarkerType_Hexagram, Source={StaticResource Strings}}" />
+                    <ComboBoxItem Tag="Automatic" Content="{Binding XWDC_MarkerType_Automatic, Source={StaticResource Strings}}" />
+                    <ComboBoxItem Tag="None" Content="{Binding XWDC_MarkerType_None, Source={StaticResource Strings}}" />
+                </ComboBox>
+                <Button x:Name="btnPrevious" HorizontalAlignment="Center" Cursor="Hand" Margin="0,0,2,0" 
+                        Content="" Click="OnPreviousElementClick" Style="{StaticResource IGPreviousButtonStyle}" />
+                <Button x:Name="btnNext" HorizontalAlignment="Right" Cursor="Hand" Margin="0,0,2,0" 
+                        Content="" Click="OnNextElementClick" Style="{StaticResource IGNextButtonStyle}" />
+
+            </StackPanel>
+        </Border>
+
+    </Grid>
+</igFramework:SampleContainer>

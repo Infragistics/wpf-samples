@@ -1,0 +1,93 @@
+﻿<igFramework:SampleContainer x:Class="IGPivotGrid.Samples.Printing.BasicPrinting"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+    xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"  
+    xmlns:local="clr-namespace:IGPivotGrid.Samples.Controls"
+    xmlns:res="clr-namespace:IGPivotGrid.Resources" 
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:igRep="http://infragistics.com/Reporting"
+    xmlns:igWindows="http://infragistics.com/Windows"                             
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="BasicPrinting Page">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGPivotGrid;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/IGPivotGrid;component/Assets/ReportProgressControlStyle.xaml" /> 
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:PivotGridStrings x:Key="Strings" />
+            <local:SampleFlatDataSourceSellerVsProduct x:Key="flatDataSource" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <igWindows:XamTabControl Grid.Row="1" Theme="RoyalLight" >
+            <igWindows:TabItemEx Header="{Binding Source={StaticResource Strings}, Path=XPG_Printing_TabControl_DataHeader}" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <ig:XamPivotGrid Grid.Row="1" x:Name="xamPivotGrid" DataSource="{StaticResource flatDataSource}" />
+
+                    <ig:Expander Grid.Row="1" Grid.Column="1" IsExpanded="False">
+                        <ig:XamPivotDataSelector DataSource="{StaticResource flatDataSource}" />
+                    </ig:Expander>
+                </Grid>
+            </igWindows:TabItemEx>
+            <!-- #BEGIN SNIPPET# -->
+            <igWindows:TabItemEx x:Name="tbiPreview" Header="{Binding Source={StaticResource Strings}, Path=XPG_Printing_TabControl_PreviewHeader}" >
+                <igRep:XamReportPreview x:Name="xamReportPreview">
+                </igRep:XamReportPreview>
+            </igWindows:TabItemEx>
+            <!-- #END SNIPPET# -->
+        </igWindows:XamTabControl>
+
+        <!-- #BEGIN SNIPPET# -->
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource Strings}, Path=XPG_Printing_ProgressArea_Header}" IsMovable="False" Margin="0,10,0,10">
+            <WrapPanel>
+                <Button
+                    x:Name="btnPreview"
+                    Click="btnPreview_Click"
+                    Margin="0, 0, 10, 0"
+                    VerticalAlignment="Top"
+                    Tag="{Binding Source={StaticResource Strings}, Path=XPG_Printing_PreviewButton_Content}"
+                    Style="{DynamicResource IconButtonStyle}">
+                    <Path Data="{StaticResource PrintIcon}" Width="12" Height="11" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=ContentControl}}" Stretch="Fill" Margin="0,0,-2,0"/>
+                </Button>
+                <Button
+                    x:Name="btnPrint"
+                    Click="btnPrint_Click"
+                    Margin="5, 0, 10, 0"
+                    VerticalAlignment="Top"
+                    Tag="{Binding Source={StaticResource Strings}, Path=XPG_Printing_PrintButton_Content}"
+                    Style="{DynamicResource IconButtonStyle}">
+                    <Path Data="{StaticResource PrintIcon}" Width="12" Height="11" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=ContentControl}}" Stretch="Fill" Margin="0,0,-2,0"/>
+                </Button>
+                <Button
+                    x:Name="btnExport"
+                    Click="btnExport_Click"
+                    Margin="5, 0, 10, 0"
+                    VerticalAlignment="Top"
+                    Tag="{Binding Source={StaticResource Strings}, Path=XPG_Printing_ExportButton_Content}"
+                    Style="{DynamicResource IconButtonStyle}">
+                    <Path Data="{StaticResource ExportIcon}" Width="12" Height="11" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=ContentControl}}" Stretch="Fill" Margin="0,0,-2,0"/>
+                </Button>
+                <igRep:ReportProgressControl x:Name="progressInfo" MinWidth="200" />
+            </WrapPanel>
+        </controls:OptionsPanel>
+        <!-- #END SNIPPET# -->
+    </Grid>
+</igFramework:SampleContainer>

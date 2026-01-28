@@ -1,0 +1,89 @@
+﻿<igFramework:SampleContainer x:Class="IGExcel.Samples.Data.WorkbookObjectModel"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="WorkbookObjectModel"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:res="clr-namespace:IGExcel.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGExcel;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamGrid.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:ExcelStrings x:Key="ExcelStrings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <!--#BEGIN SNIPPET#-->
+        <ig:XamGrid x:Name="dataGrid"
+                    AutoGenerateColumns="False"
+                    ColumnWidth="Auto"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Width="420"
+                    Height="300"
+                    ActiveCellChanged="dataGrid_ActiveCellChanged">
+
+            <ig:XamGrid.SelectionSettings>
+                <ig:SelectionSettings CellSelection="Single" />
+            </ig:XamGrid.SelectionSettings>
+
+            <ig:XamGrid.Columns>
+                <ig:TextColumn Key="Cells[0].Value"
+                               HeaderText="{Binding Path=Excel_Unit_Price, Source={StaticResource ExcelStrings}}" />
+                <ig:TextColumn Key="Cells[1].Value"
+                               HeaderText="{Binding Path=Excel_Quantity, Source={StaticResource ExcelStrings}}" />
+                <ig:CheckBoxColumn Key="Cells[2].Value"
+                                   HeaderText="{Binding Path=Excel_Discount, Source={StaticResource ExcelStrings}}" />
+                <ig:TextColumn Key="Cells[3].Value"
+                               HeaderText="{Binding Path=Excel_Total, Source={StaticResource ExcelStrings}}" />
+            </ig:XamGrid.Columns>
+        </ig:XamGrid>
+        <!--#END SNIPPET#-->
+
+        <controls:OptionsPanel HeaderText="{Binding ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Top"
+                               Margin="0,50,50,0">
+            <StackPanel Margin="5">
+                <TextBlock Text="{Binding Excel_Format_String, Source={StaticResource ExcelStrings}}" />
+                <ComboBox x:Name="comboBoxFormat"
+                          Width="200"
+                          Margin="0,0,0,10"
+                          SelectionChanged="SetFormat" />
+
+                <TextBlock Text="{Binding Excel_Cell_Formula, Source={StaticResource ExcelStrings}}" />
+                <TextBox x:Name="textBoxFormula"
+                         Width="200"
+                         Margin="0,0,0,2" />
+                <Button Content="{Binding Excel_Set_Formula, Source={StaticResource ExcelStrings}}"
+                        Click="SetFormula"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Margin="0,0,0,10" />
+
+                <TextBlock Text="{Binding Excel_Cell_Comment, Source={StaticResource ExcelStrings}}" />
+                <TextBox x:Name="textBoxComment"
+                         Width="200"
+                         Margin="0,0,0,2" />
+                <Button Content="{Binding Excel_Set_Comment, Source={StaticResource ExcelStrings}}"
+                        Click="SetComment"
+                        HorizontalAlignment="Left"
+                        Margin="0,0,0,25" />
+
+                <Button Click="SaveWorkbook"
+                        Margin="0,0,0,10"
+                        Content="{Binding Excel_ButtonCaptionExport, Source={StaticResource ExcelStrings}}"
+                        HorizontalAlignment="Center" />
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

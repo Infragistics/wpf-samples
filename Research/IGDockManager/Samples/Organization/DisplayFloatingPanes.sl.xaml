@@ -1,0 +1,116 @@
+﻿<igFramework:SampleContainer x:Class="IGDockManager.Samples.Organization.DisplayFloatingPanes"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="Infragistics XAML Control Sample"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:res="clr-namespace:IGDockManager.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDockManager;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DockManagerStrings x:Key="Strings" />
+            <Style x:Key="BorderImageFrame" TargetType="Border">
+                <Setter Property="Padding" Value="5" />
+                <Setter Property="BorderBrush" Value="#CBCBCB" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="CornerRadius" Value="6" />
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FFFEFEFE" Offset="0" />
+                            <GradientStop Color="#FFE7E7E7" Offset="1" />
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Width" Value="110" />
+                <Setter Property="Height" Value="110" />
+            </Style>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Border BorderThickness="1" BorderBrush="Black" >
+        <Grid x:Name="LayoutRoot" Background="#FF216e99">
+            <!-- Add xamDockManager control -->
+            <ig:XamDockManager x:Name="xamDockManager" Margin="18">
+                <ig:XamDockManager.Panes>
+                    <!-- Add panes to xamDockManager's Panes collection -->
+                    <!--#BEGIN SNIPPET#-->
+                    <!-- Just set the IsFloating property to True and the pane will float. -->
+                    <ig:ContentPane x:Name="CP_ImgList" Location="Left"
+                                    IsFloating="True"
+                                    Header="{Binding Source={StaticResource Strings},Path=Docking_FloatingPane}"
+                                    Width="200"
+                                    MinHeight="220"
+                                    Image="/IGDockManager;component/Images/Folder16.png">
+                        <ig:ContentPane.Content>
+                            <ListBox x:Name="ImgList"
+                                     Style="{StaticResource IGListBoxStyle}"
+                                     SelectedIndex="{Binding ElementName=PreviewSlider, Path=Value, Mode=TwoWay}" />
+                        </ig:ContentPane.Content>
+                    </ig:ContentPane>
+                    <!-- This floating pane is not dockable. -->
+                    <ig:ContentPane
+                        Header="{Binding Source={StaticResource Strings},Path=Docking_FloatingPaneNotDockable}"
+                        x:Name="CP_ImageContainer"
+                        AllowClose="False" CloseButtonVisibility="Collapsed"
+                        IsFloating="True" AllowDocking="False"
+                        Padding="10" FloatTop="200" FloatLeft="200">
+                        <ig:ContentPane.Content>
+                            <Border Style="{StaticResource BorderImageFrame}" x:Name="ImageBorder">
+                                <Border.Child>
+                                    <Image Source="/IGDockManager;component/Images/Texture/Texture01.jpg"
+                                           Stretch="None"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Center"/>
+                                </Border.Child>
+                            </Border>
+                        </ig:ContentPane.Content>
+                    </ig:ContentPane>
+                    <!--#END SNIPPET#-->
+                    <ig:SplitPane Orientation="Vertical" Location="Right" Width="200" >
+                        <ig:ContentPane Header="{Binding Source={StaticResource Strings},Path=Docking_Configuration}"
+                                        Location="Right" Width="200">
+                            <StackPanel Orientation="Vertical" Margin="5">
+                                <TextBlock Text="{Binding Source={StaticResource Strings},Path=Docking_ImgSlider}"
+                                           Padding="0,5,0,5"/>
+                                <Slider
+                                    x:Name="PreviewSlider"
+                                    Minimum="0" Maximum="13"
+                                    Style="{StaticResource IGSliderStyle}"
+                                    ValueChanged="PreviewSlider_ValueChanged"/>
+                                <TextBlock Text="{Binding Source={StaticResource Strings},Path=Docking_OpacitySlider}" Padding="0,5,0,5"/>
+                                <Slider x:Name="OpacitySlider"
+                                        Style="{StaticResource IGSliderStyle}"
+                                        Value="{Binding ElementName=ImageBorder, Path=Opacity, Mode=TwoWay}"
+                                        Minimum="0" Maximum="1"
+                                        SmallChange="0.2"/>
+                            </StackPanel>
+                        </ig:ContentPane>
+                        <ig:ContentPane Header="{Binding Source={StaticResource Strings},Path=Docking_MaximizeType}"
+                                        Width="200" FloatWidth="200"
+                                        CloseButtonVisibility="Collapsed" AllowClose="False">
+                            <StackPanel Margin="5">
+                                <TextBlock Text="{Binding Source={StaticResource Strings},Path=Docking_FloatingMaximizeDesc}"
+                                           TextWrapping="Wrap"
+                                           Margin="0,0,0,5"/>
+                                <RadioButton Content="RootVisual" x:Name="Rb_MaxType_Root" 
+                                             Style="{StaticResource IGRadioButtonStyle}"
+                                             Click="Rb_MaxType_Root_Click"/>
+                                <RadioButton Content="DockManager" x:Name="Rb_MaxType_DockManager"
+                                             Style="{StaticResource IGRadioButtonStyle}"
+                                             Click="Rb_MaxType_DockManager_Click" IsChecked="True"/>
+                            </StackPanel>
+                        </ig:ContentPane>
+                    </ig:SplitPane>
+                </ig:XamDockManager.Panes>
+            </ig:XamDockManager>
+        </Grid>
+    </Border>
+</igFramework:SampleContainer>

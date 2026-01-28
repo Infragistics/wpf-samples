@@ -1,0 +1,87 @@
+﻿<framework:SampleContainer x:Class="IGSlider.Samples.Editing.SelectingARangeOfDates"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="SelectingARangeOfDates"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+
+            <!--<LinearGradientBrush x:Key="TrackFillBrush"  EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FF3AB5E9" />
+                <GradientStop Color="#FF2380A8" Offset="1" />
+            </LinearGradientBrush>-->
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSlider;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.353*"/>
+            <ColumnDefinition Width="0.647*"/>
+        </Grid.ColumnDefinitions>
+        <Calendar x:Name="calendarRight"
+                  VerticalAlignment="Center"
+                  IsTodayHighlighted="False"
+                  SelectedDatesChanged="calendarRight_SelectedDatesChanged"
+                  d:LayoutOverrides="Width" Margin="5,0" />
+
+        <Grid Height="60" VerticalAlignment="Center" Grid.Column="1" d:LayoutOverrides="GridBox" Margin="10,0">
+            <!-- #BEGIN SNIPPET# -->
+            <ig:XamDateTimeRangeSlider x:Name="sliderRight"
+                                       MinValue="09/01/2013"
+                                       MaxValue="09/30/2013"
+                                       TrackClickAction="MoveToPoint"
+                                       IsMouseWheelEnabled="True"
+                                       d:LayoutOverrides="Height"
+                                       Margin="5,20,5,0"
+                                       Foreground="#FF333333"
+                                       Grid.ColumnSpan="2"
+                                       FontSize="8"
+                                       VerticalAlignment="Top">
+
+                <ig:XamDateTimeRangeSlider.TickMarks>
+                    <ig:DateTimeSliderTickMarks FrequencyType="Days" TickMarksFrequency="1" IncludeSliderEnds="True">
+                        <ig:DateTimeSliderTickMarks.HorizontalTickMarksTemplate>
+                            <DataTemplate>
+                                <Rectangle Width="1" Height="8" Fill="#FF8D9CA0" Margin="0,0,0,10" />
+                            </DataTemplate>
+                        </ig:DateTimeSliderTickMarks.HorizontalTickMarksTemplate>
+                    </ig:DateTimeSliderTickMarks>
+                    <ig:DateTimeSliderTickMarks FrequencyType="Days" TickMarksFrequency="7" IncludeSliderEnds="False">
+                        <ig:DateTimeSliderTickMarks.HorizontalTickMarksTemplate>
+                            <DataTemplate>
+                                <Rectangle Width="1" Height="12" Fill="#FF333333" Margin="0,0,0,14" />
+                            </DataTemplate>
+                        </ig:DateTimeSliderTickMarks.HorizontalTickMarksTemplate>
+                    </ig:DateTimeSliderTickMarks>
+                    <ig:DateTimeSliderTickMarks FrequencyType="Days" IncludeSliderEnds="True">
+                        <ig:DateTimeSliderTickMarks.HorizontalTickMarksTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Day}" Margin="0,20,0,0"/>
+                            </DataTemplate>
+                        </ig:DateTimeSliderTickMarks.HorizontalTickMarksTemplate>
+                    </ig:DateTimeSliderTickMarks>
+                </ig:XamDateTimeRangeSlider.TickMarks>
+                <ig:XamSliderDateTimeThumb Value="09/10/2013"
+                                           ValueChanged="RangeChanged"
+                                           IsSnapToTickEnabled="True"
+                                           InteractionMode="Lock"
+                                           TrackFillBrush="Transparent"/>
+                <ig:XamSliderDateTimeThumb Value="09/20/2013"
+                                           ValueChanged="RangeChanged"
+                                           IsSnapToTickEnabled="True"
+                                           InteractionMode="Lock"/>
+            </ig:XamDateTimeRangeSlider>
+            <!-- #END SNIPPET# -->
+        </Grid>
+    </Grid>
+</framework:SampleContainer>

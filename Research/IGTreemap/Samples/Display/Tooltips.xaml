@@ -1,0 +1,75 @@
+﻿<framework:SampleContainer x:Class="IGTreemap.Samples.Display.Tooltips"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="Tooltips Page"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGTreemap.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGTreemap;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <models:ManufacturerModel x:Key="ManufacturerModel" />
+
+            <res:TreemapStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" UseLayoutRounding="True">
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamTreemap DataContext="{StaticResource ManufacturerModel}" ItemsSource="{Binding Manufacturers}" >
+            <ig:XamTreemap.ToolTipStyle>
+                <Style TargetType="ToolTip">
+                    <Setter Property="Background" Value="#FF2E9CA6"/>
+                    <Setter Property="BorderBrush" Value="#FF1B1B1B"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="Padding" Value="9 6"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Style>
+            </ig:XamTreemap.ToolTipStyle>
+            <ig:XamTreemap.NodeBinders>
+                <ig:NodeBinder TargetTypeName="Manufacturer" ValuePath="Revenue" 
+                               TextPath="Name" ItemsSourcePath="Products">
+                    <ig:NodeBinder.ToolTipContentTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Name}"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding XWT_Revenue, Source={StaticResource Strings}}"/>
+                                    <TextBlock Text="{Binding Revenue}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding XWT_ProductsCount, Source={StaticResource Strings}}"/>
+                                    <TextBlock Text="{Binding ProductsCount}"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ig:NodeBinder.ToolTipContentTemplate>
+                </ig:NodeBinder>
+
+                <ig:NodeBinder TargetTypeName="Product" ValuePath="StandardCost"
+                               TextPath="Name" ItemsSourcePath="InventoryEntries"
+                               ToolTipMemberPath="Name"/>
+                <ig:NodeBinder TargetTypeName="InventoryEntry" ValuePath="Quantity" TextPath="Shelf">
+                    <ig:NodeBinder.ToolTipContentTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding XWT_Shelf, Source={StaticResource Strings}}" Margin="0 0 3 0"/>
+                                <TextBlock Text="{Binding Shelf}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ig:NodeBinder.ToolTipContentTemplate>
+                </ig:NodeBinder>
+            </ig:XamTreemap.NodeBinders>
+        </ig:XamTreemap>
+        <!-- #END SNIPPET# -->
+    </Grid>
+</framework:SampleContainer>

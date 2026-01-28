@@ -1,0 +1,70 @@
+﻿<framework:SampleContainer x:Class="IGMultiColumnComboEditor.Samples.Editing.SelectedValuesProperty"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:data="clr-namespace:IGMultiColumnComboEditor.Samples.Data"
+             xmlns:ig="http://schemas.infragistics.com/xaml"
+             xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGMultiColumnComboEditor;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+    <Grid>
+        <Grid.DataContext>
+            <data:CustomersDataSource />
+        </Grid.DataContext>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="106"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Vertical"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                <TextBlock Text="{Binding Source={StaticResource CommonStrings},Path=TxtBlock_TradeCompanies}" 
+                           Margin="3" FontWeight="Bold" HorizontalAlignment="Left" />
+                <!-- #BEGIN SNIPPET# -->
+                <ig:XamMultiColumnComboEditor x:Name="ComboEditorProducts" 
+                                              Height="30" Width="250" Margin="3"
+                                              ItemsSource="{Binding Path=Customers}"
+                                              AutoGenerateColumns="False"
+                                              EmptyText="{Binding Source={StaticResource CommonStrings}, Path=CE_SelectCompanies}"
+                                              DisplayMemberPath="Company"
+                                              SelectedValuePath="ContactNameCompanyPhone"
+                                              AllowMultipleSelection="True"
+                                              CheckBoxVisibility="Visible"
+                                              HorizontalAlignment="Left">
+                    <ig:XamMultiColumnComboEditor.Columns>
+                        <ig:TextComboColumn Key="Company"/>
+                        <ig:TextComboColumn Key="Country"/>
+                        <ig:TextComboColumn Key="City"/>
+                    </ig:XamMultiColumnComboEditor.Columns>
+                </ig:XamMultiColumnComboEditor>
+                <!-- #END SNIPPET# -->
+            </StackPanel>
+
+            <Button Click="ButtonBase_OnClick" Grid.Column="1" Margin="3,20,3,3"
+                    Content="{Binding Source={StaticResource CommonStrings}, Path=Btn_ViewContacts}"
+                    Height="30" Width="100"
+                    HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+            <StackPanel Orientation="Vertical" Grid.Column="2"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                <TextBlock Text="{Binding Source={StaticResource CommonStrings}, Path=TxtBlock_PeopleToContact}"
+                           HorizontalAlignment="Left" Margin="3" FontWeight="Bold" />
+                <ListBox x:Name="ListBoxCustomers"
+                         Height="200" Width="300"
+                         HorizontalAlignment="Left"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</framework:SampleContainer>

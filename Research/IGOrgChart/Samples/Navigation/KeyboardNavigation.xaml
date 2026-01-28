@@ -1,0 +1,86 @@
+﻿<framework:SampleContainer x:Class="IGOrgChart.Samples.Navigation.KeyboardNavigation"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+    xmlns:res="clr-namespace:IGOrgChart.Resources"
+    xmlns:model="clr-namespace:IGOrgChart.Model"
+    mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <res:OrgChartStrings x:Key="Strings" />
+            <Style TargetType="TextBlock">
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="HorizontalAlignment" Value="Right" />
+                <Setter Property="Margin" Value="0,0,5,0" />
+            </Style>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGOrgChart;component/Assets/Global.xaml" />
+                
+                
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+    <Grid x:Name="LayoutRoot" Width="Auto">
+
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamOrgChart ItemsSource="{Binding DepartmentGroups}"
+                        ZoomLevel="1"
+                        SelectionType="Multiple"
+                        NodeFlowDirection="{Binding SelectedItem, ElementName=ComboBoxNodeFlowDirection}"
+                        NodeArrangementStrategy="{Binding SelectedItem, ElementName=ComboBoxNodeArrangement}">
+            <!--Set the data context of the OrgChart-->
+            <ig:XamOrgChart.DataContext>
+                <model:DepartmentModel />
+            </ig:XamOrgChart.DataContext>
+            <ig:XamOrgChart.GlobalNodeLayouts>
+                <!--Global Node Layouts-->
+                <ig:OrgChartNodeLayout TargetTypeName="DepartmentGroup"
+                                       DisplayMemberPath="GroupName" />
+                <ig:OrgChartNodeLayout TargetTypeName="Department"
+                                       DisplayMemberPath="DepartmentName" />
+                <ig:OrgChartNodeLayout TargetTypeName="EmployeePosition"
+                                       DisplayMemberPath="PositionName" />
+                <ig:OrgChartNodeLayout TargetTypeName="Employee"
+                                       DisplayMemberPath="FullName" />
+            </ig:XamOrgChart.GlobalNodeLayouts>
+        </ig:XamOrgChart>
+        <!-- #END SNIPPET# -->
+        
+        <!--Options Panel with the Arrangement Settings-->
+        <controls:OptionsPanel HeaderText="{Binding OrgChart_LayoutSettings, Source={StaticResource Strings}}"
+                               HorizontalAlignment="Right">
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}"/>
+            </controls:OptionsPanel.Resources>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition MinWidth="{StaticResource OptionsFirstColumnMinWidth}"/>
+                    <ColumnDefinition MinWidth="{StaticResource OptionsMiddleColumnMinWidth}"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                </Grid.RowDefinitions>
+                
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding OrgChart_NodeFlowDirection, Source={StaticResource Strings}}" />
+                <ComboBox Grid.Row="0" Grid.Column="1" x:Name="ComboBoxNodeFlowDirection" SelectedIndex="1" VerticalAlignment="Center" >
+                    <ig:NodeFlowDirection>Above</ig:NodeFlowDirection>
+                    <ig:NodeFlowDirection>Below</ig:NodeFlowDirection>
+                    <ig:NodeFlowDirection>Left</ig:NodeFlowDirection>
+                    <ig:NodeFlowDirection>Right</ig:NodeFlowDirection>
+                </ComboBox>
+                
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding OrgChart_NodeArrangement, Source={StaticResource Strings}}" />
+                <ComboBox Grid.Row="1" Grid.Column="1" x:Name="ComboBoxNodeArrangement" SelectedIndex="0" VerticalAlignment="Center" >
+                    <ig:NodeArrangementStrategy >Orthogonal</ig:NodeArrangementStrategy >
+                    <ig:NodeArrangementStrategy >Stagger</ig:NodeArrangementStrategy >
+                </ComboBox>
+            </Grid>
+        </controls:OptionsPanel>        
+    </Grid>
+</framework:SampleContainer>

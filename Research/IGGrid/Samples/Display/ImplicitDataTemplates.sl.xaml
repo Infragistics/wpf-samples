@@ -1,0 +1,201 @@
+﻿<framework:SampleContainer 
+    x:Class="IGGrid.Samples.Display.ImplicitDataTemplates"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework" 
+    xmlns:res="clr-namespace:IGGrid.Resources"
+    xmlns:models="clr-namespace:IGGrid.Models"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="Implicit Data Templates">
+    
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <!-- Theming -->
+                        <ResourceDictionary Source="/IGGrid;component/Assets/Global.xaml" />
+                        <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamGrid.xaml" />
+                        <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamDateTimeInput.xaml" />
+                    </ResourceDictionary.MergedDictionaries>
+                    <!-- Localization -->
+                    <res:GridStrings x:Key="Strings" />
+
+                    <!-- Styling -->
+                    <SolidColorBrush Color="#FF3AB5E9" x:Key="ForegroundColor_Family"/>
+                    <SolidColorBrush Color="#FF386A23" x:Key="ForegroundColor_Friends"/>
+                    <SolidColorBrush Color="#FFc62d36" x:Key="ForegroundColor_Coworkers"/>
+                    <Style x:Key="TxtBlockStyle_NickName" TargetType="TextBlock">
+                        <Setter Property="HorizontalAlignment" Value="Center" />
+                        <Setter Property="VerticalAlignment" Value="Center" />
+                        <Setter Property="FontSize" Value="12" />
+                        <Setter Property="FontWeight" Value="Bold" />
+                        <Setter Property="Margin" Value="3,0,3,0" />
+                        <Setter Property="Width" Value="70" />
+                    </Style>
+                    <Style x:Key="TxtBlockStyle" TargetType="TextBlock">
+                        <Setter Property="Margin" Value="2" />
+                        <Setter Property="FontSize" Value="10" />
+                    </Style>
+
+                    <Style x:Key="EditingCellStyle" TargetType="ig:CellControl" 
+                           BasedOn="{StaticResource CellControlStyle}">
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        <Setter Property="Padding" Value="10" />
+                    </Style>
+
+                    <!-- Implicit Templates-->
+                    <!--#BEGIN SNIPPET#-->
+                    <DataTemplate DataType="models:Family">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/IGGrid;component/Images/family.png"  />
+                            <TextBlock Text="{Binding NickName}" 
+                               Foreground="{StaticResource ForegroundColor_Family}"
+                               Style="{StaticResource TxtBlockStyle_NickName}"/>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="100" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding Source={StaticResource Strings}, Path=XG_ImplicitDataTemplates_Name}" 
+                                   Grid.Column="0" Grid.Row="0"
+                                   Style="{StaticResource TxtBlockStyle}"
+                                   FontWeight="Bold" />
+                                <TextBlock Text="{Binding Source={StaticResource Strings}, Path=XG_ImplicitDataTemplates_Relation}" 
+                                   Grid.Column="1" Grid.Row="0" 
+                                   Style="{StaticResource TxtBlockStyle}"
+                                   FontWeight="Bold" />
+                                <Border Grid.ColumnSpan="2" Grid.Row="1"
+                                        BorderBrush="Black" BorderThickness="0,0,0,1"/>
+                                <TextBlock Text="{Binding FullName}" Grid.Column="0" Grid.Row="2" 
+                                   Style="{StaticResource TxtBlockStyle}" />
+                                <TextBlock Text="{Binding Relation}" Grid.Column="1" Grid.Row="2" 
+                                   Style="{StaticResource TxtBlockStyle}" />
+                            </Grid>
+                        </StackPanel>
+                    </DataTemplate>
+                    <DataTemplate DataType="models:Coworker">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/IGGrid;component/Images/coworkers.png"  />
+                            <TextBlock Text="{Binding NickName}" 
+                               Foreground="{StaticResource ForegroundColor_Coworkers}"
+                               Style="{StaticResource TxtBlockStyle_NickName}"/>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="100" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding Source={StaticResource Strings}, Path=XG_ImplicitDataTemplates_Name}" 
+                                   Grid.Column="0" Grid.Row="0"
+                                   Style="{StaticResource TxtBlockStyle}"
+                                   FontWeight="Bold" />
+                                <TextBlock Text="{Binding Source={StaticResource Strings}, Path=XG_ImplicitDataTemplates_Department}" 
+                                   Grid.Column="1" Grid.Row="0" 
+                                   Style="{StaticResource TxtBlockStyle}"
+                                   FontWeight="Bold" />
+                                <Border Grid.ColumnSpan="2" Grid.Row="1"
+                                        BorderBrush="Black" BorderThickness="0,0,0,1"/>
+                                <TextBlock Text="{Binding FullName}" Grid.Column="0" Grid.Row="2" 
+                                   Style="{StaticResource TxtBlockStyle}" />
+                                <TextBlock Text="{Binding Department}" Grid.Column="1" Grid.Row="2" 
+                                   Style="{StaticResource TxtBlockStyle}" />
+                            </Grid>
+                        </StackPanel>
+                    </DataTemplate>
+                    <DataTemplate DataType="models:Friend">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/IGGrid;component/Images/friends.png"  />
+                            <TextBlock Text="{Binding NickName}" 
+                               Foreground="{StaticResource ForegroundColor_Friends}"
+                               Style="{StaticResource TxtBlockStyle_NickName}"/>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="100" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding Source={StaticResource Strings}, Path=XG_ImplicitDataTemplates_Name}"
+                                   Grid.Column="0" Grid.Row="0"
+                                   Style="{StaticResource TxtBlockStyle}"
+                                   FontWeight="Bold" />
+                                <TextBlock Text="{Binding Source={StaticResource Strings}, Path=XG_ImplicitDataTemplates_Email}" 
+                                   Grid.Column="1" Grid.Row="0" 
+                                   Style="{StaticResource TxtBlockStyle}"
+                                   FontWeight="Bold" />
+                                <Border Grid.ColumnSpan="2" Grid.Row="1"
+                                        BorderBrush="Black" BorderThickness="0,0,0,1"/>
+                                <TextBlock Text="{Binding FullName}" Grid.Column="0" Grid.Row="2" 
+                                   Style="{StaticResource TxtBlockStyle}" />
+                                <TextBlock Text="{Binding Email}" Grid.Column="1" Grid.Row="2" 
+                                   Style="{StaticResource TxtBlockStyle}" />
+                            </Grid>
+                        </StackPanel>
+                    </DataTemplate>
+                    <!--#END SNIPPET#-->
+                                       
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+   
+    <Grid x:Name="LayoutRoot" Background="White">
+        <ig:XamGrid x:Name="dataGrid" 
+                    ItemsSource="{Binding ContactsDetails}" 
+                    AutoGenerateColumns="False"
+                    ColumnWidth="*">
+            <ig:XamGrid.Columns>
+                <!--#BEGIN SNIPPET#-->
+                <ig:TemplateColumn Key="ContactInfo"
+                                   IsReadOnly="True"
+                                   HeaderText="{Binding Source={StaticResource Strings},Path=XG_ImplicitDataTemplates_ContactDetails}"
+                                   Width="300"/>
+                <!--#END SNIPPET#-->
+                <ig:DateTimeColumn Key="Birthday"
+                                   HeaderText="{Binding Source={StaticResource Strings},Path=XG_ImplicitDataTemplates_Birthday}"
+                                   SelectedDateMask="{}{date}"
+                                   HorizontalContentAlignment="Stretch"
+                                   VerticalContentAlignment="Center"
+                                   CellStyle="{StaticResource EditingCellStyle}"/>
+                <ig:CheckBoxColumn Key="Reminder"
+                                   HeaderText="{Binding Source={StaticResource Strings},Path=XG_ImplicitDataTemplates_BirthdayReminder}"/>
+                <ig:UnboundColumn HeaderText="{Binding Source={StaticResource Strings},Path=XG_ImplicitDataTemplates_SendMessage}"
+                                  Key="UnboundColumn"
+                                  HorizontalContentAlignment="Center"
+                                  VerticalContentAlignment="Center">
+                    <ig:UnboundColumn.ItemTemplate>
+                        <DataTemplate>
+                            <Image Source="/IGGrid;component/Images/message.png"
+                                   Height="16"
+                                   Width="16"/>
+                        </DataTemplate>
+                    </ig:UnboundColumn.ItemTemplate>
+                </ig:UnboundColumn>
+            </ig:XamGrid.Columns>
+            <!-- Editing -->
+            <ig:XamGrid.EditingSettings>
+                <ig:EditingSettings AllowEditing="Cell" 
+                                    IsMouseActionEditingEnabled="SingleClick" />
+            </ig:XamGrid.EditingSettings>
+        </ig:XamGrid>
+    </Grid>
+</framework:SampleContainer>

@@ -1,0 +1,279 @@
+﻿<igs:SampleContainer x:Class="IGSurfaceChart.Samples.Display.AxesRanges"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:igs="http://schemas.infragistics.com/xaml/samples"
+             xmlns:viewModel="clr-namespace:IGSurfaceChart.Samples.ViewModels"
+             xmlns:res="clr-namespace:IGSurfaceChart.Resources"
+             xmlns:ig="http://schemas.infragistics.com/xaml"
+             xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="700">
+    
+    <igs:SampleContainer.DataContext>
+        <viewModel:BasicViewModel />
+    </igs:SampleContainer.DataContext>
+
+    <igs:SampleContainer.Resources>
+        <ResourceDictionary>
+            <res:SurfaceChartStrings x:Key="ChartStrings" />
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSurfaceChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </igs:SampleContainer.Resources>
+    
+    <Grid>
+        <ig:XamScatterSurface3D Name="SurfaceChart" ItemsSource="{Binding Formula6DataCollection}" 
+                                XMemberPath="X" YMemberPath="Y" ZMemberPath="Z">
+            <ig:XamScatterSurface3D.XAxis>
+                <!-- #BEGIN SNIPPET# -->
+                <ig:LinearAxis Title="{Binding Source={StaticResource ChartStrings}, Path=XAxis}" 
+                                MinimumValue="{Binding ElementName=XMinimumValue_Slider, Path=Value}"
+                                MaximumValue="{Binding ElementName=XMaximumValue_Slider, Path=Value}" />
+                <!-- #END SNIPPET# -->
+            </ig:XamScatterSurface3D.XAxis>
+            <ig:XamScatterSurface3D.YAxis>
+                <ig:LinearAxis Title="{Binding Source={StaticResource ChartStrings}, Path=YAxis}"
+                                MinimumValue="{Binding ElementName=YMinimumValue_Slider, Path=Value}"
+                                MaximumValue="{Binding ElementName=YMaximumValue_Slider, Path=Value}" />
+            </ig:XamScatterSurface3D.YAxis>
+            <ig:XamScatterSurface3D.ZAxis>
+                <ig:LinearAxis Title="{Binding Source={StaticResource ChartStrings}, Path=ZAxis}"
+                                MinimumValue="{Binding ElementName=ZMinimumValue_Slider, Path=Value}"
+                                MaximumValue="{Binding ElementName=ZMaximumValue_Slider, Path=Value}" />
+            </ig:XamScatterSurface3D.ZAxis>
+        </ig:XamScatterSurface3D>
+
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource ChartStrings}, Path=Configurations}"
+                               HorizontalAlignment="Right" VerticalAlignment="Top">
+            <Grid Width="210">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                </Grid.RowDefinitions>
+
+                <Label Content="{Binding Source={StaticResource ChartStrings}, Path=AxisMinimumValue}" 
+                       Style="{StaticResource HeaderLabelStyle}" Grid.Row="0" Grid.ColumnSpan="2" Margin="{StaticResource OptionsPanelHeaderLabelLeftMargin}"/>
+                <Label Content="{Binding Source={StaticResource ChartStrings}, Path=X}" 
+                           Grid.Row="1" Grid.Column="0" Style="{StaticResource LabelStyle}"/>
+                <ig:XamNumericSlider Grid.Row="1" Grid.Column="1" Name="XMinimumValue_Slider"
+                                         MinValue="-12" MaxValue="-4" Width="180"
+                                         LargeChange="1" TrackClickAction="LargeChange" 
+                                         IncreaseButtonVisibility="Collapsed" DecreaseButtonVisibility="Collapsed" >
+                    <ig:XamNumericSlider.Thumb>
+                        <ig:XamSliderNumericThumb ToolTipVisibility="Visible">
+                            <ig:XamSliderNumericThumb.ToolTipTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Border x:Name="HorizontalThumbContent">
+                                            <Grid>
+                                                <TextBlock Text="{Binding StringFormat=N0}" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                            </Grid>
+                                        </Border>
+                                    </Grid>
+                                </DataTemplate>
+                            </ig:XamSliderNumericThumb.ToolTipTemplate>
+                        </ig:XamSliderNumericThumb>
+                    </ig:XamNumericSlider.Thumb>
+                    <ig:XamNumericSlider.TickMarks>
+                        <ig:SliderTickMarks TickMarksFrequency="1" UseFrequency="True" />
+                        <ig:SliderTickMarks TickMarksFrequency="1" UseFrequency="True">
+                            <ig:SliderTickMarks.HorizontalTickMarksTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" Style="{StaticResource SliderLabelsTextBlockStyle}" />
+                                </DataTemplate>
+                            </ig:SliderTickMarks.HorizontalTickMarksTemplate>
+                        </ig:SliderTickMarks>
+                    </ig:XamNumericSlider.TickMarks>
+                </ig:XamNumericSlider>
+
+
+                <Label Content="{Binding Source={StaticResource ChartStrings}, Path=Y}" 
+                           Grid.Row="3" Grid.Column="0" Style="{StaticResource LabelStyle}"/>
+                <ig:XamNumericSlider Grid.Row="3" Grid.Column="1" Name="YMinimumValue_Slider"
+                                         MinValue="-12" MaxValue="-4" Width="180"
+                                         LargeChange="1" TrackClickAction="LargeChange" 
+                                         IncreaseButtonVisibility="Collapsed" DecreaseButtonVisibility="Collapsed" >
+                    <ig:XamNumericSlider.Thumb>
+                        <ig:XamSliderNumericThumb ToolTipVisibility="Visible">
+                            <ig:XamSliderNumericThumb.ToolTipTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Border x:Name="HorizontalThumbContent">
+                                            <Grid>
+                                                <TextBlock Text="{Binding StringFormat=N0}" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                            </Grid>
+                                        </Border>
+                                    </Grid>
+                                </DataTemplate>
+                            </ig:XamSliderNumericThumb.ToolTipTemplate>
+                        </ig:XamSliderNumericThumb>
+                    </ig:XamNumericSlider.Thumb>
+                    <ig:XamNumericSlider.TickMarks>
+                        <ig:SliderTickMarks TickMarksFrequency="1" UseFrequency="True" />
+                        <ig:SliderTickMarks TickMarksFrequency="1" UseFrequency="True">
+                            <ig:SliderTickMarks.HorizontalTickMarksTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" Style="{StaticResource SliderLabelsTextBlockStyle}" />
+                                </DataTemplate>
+                            </ig:SliderTickMarks.HorizontalTickMarksTemplate>
+                        </ig:SliderTickMarks>
+                    </ig:XamNumericSlider.TickMarks>
+                </ig:XamNumericSlider>
+
+                <Label Content="{Binding Source={StaticResource ChartStrings}, Path=Z}" 
+                           Grid.Row="5" Grid.Column="0" Style="{StaticResource LabelStyle}"/>
+                <ig:XamNumericSlider Grid.Row="5" Grid.Column="1" Name="ZMinimumValue_Slider"
+                                         MinValue="-80" MaxValue="-30" Width="180"
+                                         LargeChange="1" TrackClickAction="LargeChange" 
+                                         IncreaseButtonVisibility="Collapsed" DecreaseButtonVisibility="Collapsed" >
+                    <ig:XamNumericSlider.Thumb>
+                        <ig:XamSliderNumericThumb ToolTipVisibility="Visible">
+                            <ig:XamSliderNumericThumb.ToolTipTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Border x:Name="HorizontalThumbContent">
+                                            <Grid>
+                                                <TextBlock Text="{Binding StringFormat=N0}" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                            </Grid>
+                                        </Border>
+                                    </Grid>
+                                </DataTemplate>
+                            </ig:XamSliderNumericThumb.ToolTipTemplate>
+                        </ig:XamSliderNumericThumb>
+                    </ig:XamNumericSlider.Thumb>
+                    <ig:XamNumericSlider.TickMarks>
+                        <ig:SliderTickMarks TickMarksFrequency="10" UseFrequency="True" />
+                        <ig:SliderTickMarks TickMarksFrequency="10" UseFrequency="True">
+                            <ig:SliderTickMarks.HorizontalTickMarksTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" Style="{StaticResource SliderLabelsTextBlockStyle}" />
+                                </DataTemplate>
+                            </ig:SliderTickMarks.HorizontalTickMarksTemplate>
+                        </ig:SliderTickMarks>
+                    </ig:XamNumericSlider.TickMarks>
+                </ig:XamNumericSlider>
+
+                <Label Content="{Binding Source={StaticResource ChartStrings}, Path=AxisMaximumValue}" 
+                       Style="{StaticResource HeaderLabelStyle}" Grid.Row="7" Grid.ColumnSpan="2"/>
+
+                <Label Content="{Binding Source={StaticResource ChartStrings}, Path=X}" 
+                           Grid.Row="8" Grid.Column="0" Style="{StaticResource LabelStyle}"/>
+                <ig:XamNumericSlider Grid.Row="8" Grid.Column="1" Name="XMaximumValue_Slider"
+                                         MinValue="4" MaxValue="12" Width="180"
+                                         LargeChange="1" TrackClickAction="LargeChange" 
+                                         IncreaseButtonVisibility="Collapsed" DecreaseButtonVisibility="Collapsed" >
+                    <ig:XamNumericSlider.Thumb>
+                        <ig:XamSliderNumericThumb ToolTipVisibility="Visible">
+                            <ig:XamSliderNumericThumb.ToolTipTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Border x:Name="HorizontalThumbContent">
+                                            <Grid>
+                                                <TextBlock Text="{Binding StringFormat=N0}" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                            </Grid>
+                                        </Border>
+                                    </Grid>
+                                </DataTemplate>
+                            </ig:XamSliderNumericThumb.ToolTipTemplate>
+                        </ig:XamSliderNumericThumb>
+                    </ig:XamNumericSlider.Thumb>
+                    <ig:XamNumericSlider.TickMarks>
+                        <ig:SliderTickMarks TickMarksFrequency="1" UseFrequency="True" />
+                        <ig:SliderTickMarks TickMarksFrequency="1" UseFrequency="True">
+                            <ig:SliderTickMarks.HorizontalTickMarksTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" Style="{StaticResource SliderLabelsTextBlockStyle}" />
+                                </DataTemplate>
+                            </ig:SliderTickMarks.HorizontalTickMarksTemplate>
+                        </ig:SliderTickMarks>
+                    </ig:XamNumericSlider.TickMarks>
+                </ig:XamNumericSlider>
+
+                <Label Content="{Binding Source={StaticResource ChartStrings}, Path=Y}" 
+                           Grid.Row="10" Grid.Column="0" Style="{StaticResource LabelStyle}"/>
+                <ig:XamNumericSlider Grid.Row="10" Grid.Column="1" Name="YMaximumValue_Slider"
+                                         MinValue="4" MaxValue="12" Width="180"
+                                         LargeChange="1" TrackClickAction="LargeChange" 
+                                         IncreaseButtonVisibility="Collapsed" DecreaseButtonVisibility="Collapsed" >
+                    <ig:XamNumericSlider.Thumb>
+                        <ig:XamSliderNumericThumb ToolTipVisibility="Visible">
+                            <ig:XamSliderNumericThumb.ToolTipTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Border x:Name="HorizontalThumbContent">
+                                            <Grid>
+                                                <TextBlock Text="{Binding StringFormat=N0}" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                            </Grid>
+                                        </Border>
+                                    </Grid>
+                                </DataTemplate>
+                            </ig:XamSliderNumericThumb.ToolTipTemplate>
+                        </ig:XamSliderNumericThumb>
+                    </ig:XamNumericSlider.Thumb>
+                    <ig:XamNumericSlider.TickMarks>
+                        <ig:SliderTickMarks TickMarksFrequency="1" UseFrequency="True" />
+                        <ig:SliderTickMarks TickMarksFrequency="1" UseFrequency="True">
+                            <ig:SliderTickMarks.HorizontalTickMarksTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" Style="{StaticResource SliderLabelsTextBlockStyle}" />
+                                </DataTemplate>
+                            </ig:SliderTickMarks.HorizontalTickMarksTemplate>
+                        </ig:SliderTickMarks>
+                    </ig:XamNumericSlider.TickMarks>
+                </ig:XamNumericSlider>
+
+                <Label Content="{Binding Source={StaticResource ChartStrings}, Path=Z}" 
+                           Grid.Row="12" Grid.Column="0" Style="{StaticResource LabelStyle}"/>
+                <ig:XamNumericSlider Grid.Row="12" Grid.Column="1" Name="ZMaximumValue_Slider"
+                                         MinValue="10" MaxValue="60" Width="180"
+                                         LargeChange="1" TrackClickAction="LargeChange" 
+                                         IncreaseButtonVisibility="Collapsed" DecreaseButtonVisibility="Collapsed" >
+                    <ig:XamNumericSlider.Thumb>
+                        <ig:XamSliderNumericThumb ToolTipVisibility="Visible">
+                            <ig:XamSliderNumericThumb.ToolTipTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Border x:Name="HorizontalThumbContent">
+                                            <Grid>
+                                                <TextBlock Text="{Binding StringFormat=N0}" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                            </Grid>
+                                        </Border>
+                                    </Grid>
+                                </DataTemplate>
+                            </ig:XamSliderNumericThumb.ToolTipTemplate>
+                        </ig:XamSliderNumericThumb>
+                    </ig:XamNumericSlider.Thumb>
+                    <ig:XamNumericSlider.TickMarks>
+                        <ig:SliderTickMarks TickMarksFrequency="10" UseFrequency="True" />
+                        <ig:SliderTickMarks TickMarksFrequency="10" UseFrequency="True">
+                            <ig:SliderTickMarks.HorizontalTickMarksTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" Style="{StaticResource SliderLabelsTextBlockStyle}" />
+                                </DataTemplate>
+                            </ig:SliderTickMarks.HorizontalTickMarksTemplate>
+                        </ig:SliderTickMarks>
+                    </ig:XamNumericSlider.TickMarks>
+                </ig:XamNumericSlider>
+            </Grid>
+        </controls:OptionsPanel>
+    </Grid>
+</igs:SampleContainer>

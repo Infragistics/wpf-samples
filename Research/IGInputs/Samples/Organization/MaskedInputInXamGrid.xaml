@@ -1,0 +1,113 @@
+﻿<framework:SampleContainer x:Class="IGInputs.Samples.Organization.MaskedInputInXamGrid"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="MaskedInputInXamGrid"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:local="clr-namespace:IGInputs.Samples.Organization"
+      xmlns:res="clr-namespace:IGInputs.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>         
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGInputs;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+
+            <local:PackageNameProvider x:Key="provider" />
+            <local:PackageConverter x:Key="converter" />
+            <res:InputStrings x:Key="Strings"/>
+        </ResourceDictionary>
+        
+    </framework:SampleContainer.Resources>
+
+    <Grid>
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamGrid ItemsSource="{Binding}" ColumnWidth="*">
+            <ig:XamGrid.EditingSettings>
+                <ig:EditingSettings AllowEditing="Cell"/>
+            </ig:XamGrid.EditingSettings>
+            <ig:XamGrid.Columns>
+                <ig:TemplateColumn HeaderText="{Binding Source={StaticResource Strings}, Path=Embedded_Header_Product}"
+                                   Key="Name" >
+                    <ig:TemplateColumn.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}"/>
+                        </DataTemplate>
+                    </ig:TemplateColumn.ItemTemplate>
+                    <ig:TemplateColumn.EditorTemplate>
+                        <DataTemplate>
+                            <ig:XamMaskedInput Mask="aaaaaaaaaaaaaaaaaaaaaaaaa"
+                                               Value="{Binding Name, Mode=TwoWay}"/>
+                        </DataTemplate>
+                    </ig:TemplateColumn.EditorTemplate>
+                </ig:TemplateColumn>
+                <ig:TemplateColumn HeaderText="{Binding Source={StaticResource Strings}, Path=Embedded_Header_Packaging}"
+                                   Key="Package">
+                    <ig:TemplateColumn.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Package}"/>
+                        </DataTemplate>
+                    </ig:TemplateColumn.ItemTemplate>
+                    <ig:TemplateColumn.EditorTemplate>
+                        <DataTemplate>
+                            <ig:XamComboEditor ItemsSource="{StaticResource provider}"
+                                               DisplayMemberPath="PackageName"
+                                               SelectedItem="{Binding Package,
+                                Mode=TwoWay,
+                                Converter={StaticResource converter},
+                                ConverterParameter={StaticResource provider}}" />
+                        </DataTemplate>
+                    </ig:TemplateColumn.EditorTemplate>
+                </ig:TemplateColumn>
+                <ig:TemplateColumn HeaderText="{Binding Source={StaticResource Strings}, Path=Embedded_Header_Price}"
+                                   Key="Price">
+                    <ig:TemplateColumn.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Price}"/>
+                        </DataTemplate>
+                    </ig:TemplateColumn.ItemTemplate>
+                    <ig:TemplateColumn.EditorTemplate>
+                        <DataTemplate>
+                            <ig:XamCurrencyInput Mask="{}{currency:3.2:c}"
+                                                 Value="{Binding Price, Mode=TwoWay}"/>
+                        </DataTemplate>
+                    </ig:TemplateColumn.EditorTemplate>
+                </ig:TemplateColumn>
+                <ig:TemplateColumn HeaderText="{Binding Source={StaticResource Strings}, Path=Embedded_Header_Priority}"
+                                   Key="PriorityLevel" >
+                    <ig:TemplateColumn.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding PriorityLevel}"/>
+                        </DataTemplate>
+                    </ig:TemplateColumn.ItemTemplate>
+                    <ig:TemplateColumn.EditorTemplate>
+                        <DataTemplate>
+                            <ig:XamNumericInput Mask="{}{number:1-3}"
+                                                Value="{Binding PriorityLevel, Mode=TwoWay}" />
+                        </DataTemplate>
+                    </ig:TemplateColumn.EditorTemplate>
+                </ig:TemplateColumn>
+                <ig:TemplateColumn HeaderText="{Binding Source={StaticResource Strings}, Path=Embedded_Header_DateOrdered}"
+                                   Key="DateOrdered" >
+                    <ig:TemplateColumn.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding DateOrdered, StringFormat='dd/MMM/yyyy'}"/>
+                        </DataTemplate>
+                    </ig:TemplateColumn.ItemTemplate>
+                    <ig:TemplateColumn.EditorTemplate>
+                        <DataTemplate>
+                            <ig:XamDateTimeInput DropDownButtonDisplayMode="Always"
+                                                 Value="{Binding DateOrdered, Mode=TwoWay}" />
+                        </DataTemplate>
+                    </ig:TemplateColumn.EditorTemplate>
+                </ig:TemplateColumn>
+            </ig:XamGrid.Columns>
+        </ig:XamGrid>
+        <!-- #END SNIPPET# -->
+    </Grid>
+</framework:SampleContainer>

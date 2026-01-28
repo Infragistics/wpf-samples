@@ -1,0 +1,649 @@
+﻿<igFramework:SampleContainer x:Class="IGTimeline.Samples.DateTimeTimeline"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared"
+     xmlns:res="clr-namespace:IGTimeline.Resources"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGTimeline;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <converters:GetImagePathConverter x:Key="GetImageConverter" />
+
+            <res:TimelineStrings x:Key="strings"/>
+            
+            <LinearGradientBrush x:Key="BaseBorderBrush" EndPoint="0,1" StartPoint="0,0">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFa3aeb9" Offset="0" />
+                        <GradientStop Color="#FF8399a9" Offset="0.3700000047683716" />
+                        <GradientStop Color="#FF718597" Offset="0.3709999918937683" />
+                        <GradientStop Color="#FF617584" Offset="1" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <SolidColorBrush x:Key="BaseColorBrush" Color="#FF1F3B53" />
+            <Style x:Key="SceneStyle1" TargetType="ig:Scene">
+                <Setter Property="IsTabStop" Value="False" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ig:Scene">
+                            <Grid Margin="20,0,0,0">
+                                <ig:StripesPanel x:Name="StripesPanelElement" />
+                                <ig:GridLinesPanel x:Name="GridLinesPanelElement" />
+                                <Grid Style="{TemplateBinding SceneGridStyle}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <ig:EventTitlesPanel x:Name="TitlesPanelTopOrLeftElement" Position="TopOrLeft" />
+                                    <Grid x:Name="AxisPaneElement" Grid.Row="1" />
+                                    <ig:EventTitlesPanel x:Name="TitlesPanelBottomOrRightElement" Position="BottomOrRight" Grid.Row="2" />
+                                </Grid>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="XamTimelineStyle1" TargetType="ig:XamTimeline">
+                <Setter Property="EventPointStyle">
+                    <Setter.Value>
+                        <Style TargetType="ig:EventPoint">
+                            <Setter Property="Width" Value="10" />
+                            <Setter Property="Stroke" Value="{StaticResource BaseBorderBrush}" />
+                            <Setter Property="Fill" Value="{StaticResource BaseColorBrush}" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ig:EventPoint">
+                                        <Grid Height="{TemplateBinding Width}" Width="{TemplateBinding Width}">
+                                            <Ellipse Fill="White" Stroke="White" Width="8" Height="8" />
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="EventTitleTopStyle">
+                    <Setter.Value>
+                        <Style TargetType="ig:EventTitle">
+                            <Setter Property="Width" Value="100" />
+                            <Setter Property="Foreground" Value="#FF333333" />
+                            <Setter Property="SpanStringFormat" Value=" From {0} To {1}" />
+                            <Setter Property="PointStringFormat" Value="{}{0}" />
+                            <Setter Property="Margin" Value="0,50,0,0" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ig:EventTitle">
+                                        <Grid VerticalAlignment="Bottom">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="120" />
+                                                <RowDefinition Height="65" />
+                                            </Grid.RowDefinitions>
+                                            <Rectangle Height="Auto" Width="Auto" Opacity="1" Fill="#19FFFFFF" Stroke="#19000000" RadiusY="5" RadiusX="5" StrokeThickness="3" />
+                                            <TextBlock VerticalAlignment="Top" FontSize="10" FontWeight="Normal" Foreground="#FFFFFFFF" Text="{TemplateBinding Title}" TextWrapping="Wrap" Padding="5,5,5,5" Margin="5,30,5,5" Opacity="0.7" />
+                                            <TextBlock FontSize="14" Foreground="#FFFFFFFF" Text="{TemplateBinding FormattedText}" TextWrapping="Wrap" Padding="5,5,5,5" VerticalAlignment="Top" Margin="5,10,0,0" />
+                                            <Rectangle Height="Auto" HorizontalAlignment="Center" Width="1" Grid.Row="1" Fill="#FFFFFFFF" />
+                                            <Rectangle Margin="5,35,5,0" Width="Auto" Stroke="{x:Null}" Height="1" VerticalAlignment="Top" Opacity="0.5">
+                                                <Rectangle.Fill>
+                                                    <LinearGradientBrush EndPoint="0,0" StartPoint="1,0">
+                                                        <GradientStop Color="#00FFFFFF" />
+                                                        <GradientStop Color="#00FFFFFF" Offset="1" />
+                                                        <GradientStop Color="#FFFFFFFF" Offset="0.3" />
+                                                        <GradientStop Color="#FFFFFFFF" Offset="0.7" />
+                                                    </LinearGradientBrush>
+                                                </Rectangle.Fill>
+                                            </Rectangle>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="LineStyle">
+                                <Setter.Value>
+                                    <Style TargetType="Line">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </Style>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="RenderTransform">
+                                <Setter.Value>
+                                    <TranslateTransform X="-50" />
+                                </Setter.Value>
+                            </Setter>
+
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="EventTitleBottomStyle">
+                    <Setter.Value>
+                        <Style TargetType="ig:EventTitle">
+                            <Setter Property="Foreground" Value="#FF333333" />
+                            <Setter Property="Width" Value="60" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ig:EventTitle">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="20" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="*" />
+                                            </Grid.RowDefinitions>
+                                            <Rectangle HorizontalAlignment="Center" Width="2" Fill="{StaticResource BaseBorderBrush}" />
+                                            <TextBlock Text="{TemplateBinding FormattedText}" TextWrapping="Wrap" Grid.Row="1" />
+                                            <TextBlock VerticalAlignment="Top" Text="{TemplateBinding Title}" TextWrapping="Wrap" Grid.Row="2" />
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="EventSpanTopStyle">
+                    <Setter.Value>
+                        <Style TargetType="ig:EventSpan">
+                            <Setter Property="Stroke" Value="{StaticResource BaseBorderBrush}" />
+                            <Setter Property="Fill" Value="{StaticResource BaseColorBrush}" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ig:EventSpan">
+                                        <Grid Margin="0,2,0,2">
+                                            <Rectangle Height="10" VerticalAlignment="Top" RadiusX="5" RadiusY="5" Fill="{TemplateBinding Fill}" Stroke="{TemplateBinding Stroke}" StrokeThickness="1" />
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="EventSpanBottomStyle">
+                    <Setter.Value>
+                        <Style TargetType="ig:EventSpan">
+                            <Setter Property="Stroke" Value="{StaticResource BaseBorderBrush}" />
+                            <Setter Property="Fill" Value="{StaticResource BaseColorBrush}" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ig:EventSpan">
+                                        <Grid Margin="0,2,0,2">
+                                            <Rectangle Height="10" VerticalAlignment="Bottom" RadiusX="5" RadiusY="5" Fill="{TemplateBinding Fill}" Stroke="{TemplateBinding Stroke}" StrokeThickness="1" />
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="MessageControlStyle">
+                    <Setter.Value>
+                        <Style TargetType="ig:MessageControl">
+                            <Setter Property="Background" Value="White" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ig:MessageControl">
+                                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="6">
+                                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" FontWeight="Bold" Text="{TemplateBinding Content}" TextWrapping="Wrap" />
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Background" Value="{StaticResource BaseColorBrush}" />
+                <Setter Property="BorderBrush" Value="{StaticResource BaseBorderBrush}" />
+                <Setter Property="BorderThickness" Value="1,1,1,0" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ig:XamTimeline">
+                            <Grid>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="400" />
+                                    </Grid.RowDefinitions>
+                                    <ig:Title Style="{TemplateBinding TitleStyle}" Content="{TemplateBinding Title}" />
+                                    <Grid Grid.Row="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <ig:TimelineLegend x:Name="LegendElement" Margin="0,0,5,0" Style="{TemplateBinding LegendStyle}" Title="{TemplateBinding LegendTitle}" HorizontalAlignment="Right" Width="128" Visibility="Collapsed" />
+                                    </Grid>
+                                    <Grid Grid.Row="1">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="550" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <Border BorderThickness="{TemplateBinding BorderThickness}">
+                                            <Grid>
+                                                <Border Background="{x:Null}" />
+                                                <Border BorderBrush="{x:Null}" BorderThickness="{TemplateBinding BorderThickness}" />
+                                                <ig:Scene x:Name="SceneElement" Margin="5" Style="{TemplateBinding SceneStyle}" Grid.Column="0" />
+                                                <Canvas x:Name="DetailsPaneElement" />
+                                            </Grid>
+                                        </Border>
+                                        <Grid x:Name="ZoombarPanelElement" Height="75" Grid.Row="0" Visibility="Visible" Margin="0,0,0,-150" />
+                                    </Grid>
+                                </Grid>
+                                <ig:MessageControl x:Name="MessageControlElement" Style="{TemplateBinding MessageControlStyle}" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="MarkStyle1" TargetType="ig:Mark">
+                <Setter Property="Width" Value="5" />
+                <Setter Property="Height" Value="30" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ig:Mark">
+                            <Rectangle Fill="#FFFFFFFF" Height="20" Margin="0,0,0,0" />
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Opacity" Value="0.2" />
+                <Setter Property="Visibility" Value="Collapsed" />
+            </Style>
+            <Style x:Key="MarkStyle2" TargetType="ig:Mark">
+                <Setter Property="Width" Value="2" />
+                <Setter Property="Height" Value="4" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ig:Mark">
+                            <Rectangle Fill="#FFFFFFFF" Height="10" Width="1" />
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="AxisLabelStyle1" TargetType="ig:AxisLabel">
+                <Setter Property="StringFormat" Value="{Binding Source={StaticResource strings}, Path=XWT_Axis_Label_Time_Format}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ig:AxisLabel">
+                            <TextBlock x:Name="TextBlockElement" Text="{TemplateBinding FormattedText}" Foreground="#FFFFFFFF" FontSize="9" />
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <SolidColorBrush x:Key="ZoomBar" Color="#DCDCDC"/>
+                <Style x:Key="XamZoombarStyle1" TargetType="ig:XamZoombar">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ig:XamZoombar">
+                            <Grid>
+                                <Grid.Resources>
+                                    <SolidColorBrush x:Key="BaseBrush" Color="#FF1F3B53" />
+                                    <LinearGradientBrush x:Key="BaseOverlayBrush" EndPoint="0,1" StartPoint="0,0">
+                                        <LinearGradientBrush.GradientStops>
+                                            <GradientStopCollection>
+                                                <GradientStop Color="#99FFFFFF" Offset="0" />
+                                                <GradientStop Color="#33FFFFFF" Offset="0.6299999952316284" />
+                                            </GradientStopCollection>
+                                        </LinearGradientBrush.GradientStops>
+                                    </LinearGradientBrush>
+                                    <LinearGradientBrush x:Key="BaseInnerBorderBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <LinearGradientBrush.GradientStops>
+                                            <GradientStopCollection>
+                                                <GradientStop Color="#FFffffff" Offset="0" />
+                                                <GradientStop Color="#FFffffff" Offset="0.5" />
+                                                <GradientStop Color="#00ffffff" Offset="1" />
+                                            </GradientStopCollection>
+                                        </LinearGradientBrush.GradientStops>
+                                    </LinearGradientBrush>
+                                    <LinearGradientBrush x:Key="StrokeBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <LinearGradientBrush.GradientStops>
+                                            <GradientStopCollection>
+                                                <GradientStop Color="#FFa3aeb9" Offset="0" />
+                                                <GradientStop Color="#FF8399a9" Offset="0.3700000047683716" />
+                                                <GradientStop Color="#FF718597" Offset="0.3709999918937683" />
+                                                <GradientStop Color="#FF617584" Offset="1" />
+                                            </GradientStopCollection>
+                                        </LinearGradientBrush.GradientStops>
+                                    </LinearGradientBrush>
+                                    <LinearGradientBrush x:Key="ThumbBackgroundBrush" EndPoint="0,1" StartPoint="0,0">
+                                        <LinearGradientBrush.GradientStops>
+                                            <GradientStopCollection>
+                                                <GradientStop Color="#999B9B9B" Offset="0" />
+                                                <GradientStop Color="#3F3F3F3F" Offset="1" />
+                                            </GradientStopCollection>
+                                        </LinearGradientBrush.GradientStops>
+                                    </LinearGradientBrush>
+                                    <SolidColorBrush x:Key="ThumbElementBackgroundBrush" Color="#002A4F" />
+                                    <LinearGradientBrush x:Key="ThumbElementBorderBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <LinearGradientBrush.GradientStops>
+                                            <GradientStopCollection>
+                                                <GradientStop Color="#00ffffff" Offset="0" />
+                                                <GradientStop Color="#7fffffff" Offset="1" />
+                                            </GradientStopCollection>
+                                        </LinearGradientBrush.GradientStops>
+                                    </LinearGradientBrush>
+                                    <LinearGradientBrush x:Key="ScaleElementInnerBorderBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <LinearGradientBrush.GradientStops>
+                                            <GradientStopCollection>
+                                                <GradientStop Color="#FFffffff" Offset="0" />
+                                                <GradientStop Color="#FFffffff" Offset="1" />
+                                            </GradientStopCollection>
+                                        </LinearGradientBrush.GradientStops>
+                                    </LinearGradientBrush>
+                                    <LinearGradientBrush x:Key="VerticalBaseOverlayBrush" EndPoint="0,0" StartPoint="1,0">
+                                        <LinearGradientBrush.GradientStops>
+                                            <GradientStopCollection>
+                                                <GradientStop Color="#FFffffff" Offset="0" />
+                                                <GradientStop Color="#ccffffff" Offset="0.3700000047683716" />
+                                                <GradientStop Color="#a5ffffff" Offset="0.6299999952316284" />
+                                                <GradientStop Color="#72ffffff" Offset="1" />
+                                            </GradientStopCollection>
+                                        </LinearGradientBrush.GradientStops>
+                                    </LinearGradientBrush>
+                                    <LinearGradientBrush x:Key="VerticalBaseInnerBorderBrush" EndPoint="0,0" StartPoint="1,0">
+                                        <LinearGradientBrush.GradientStops>
+                                            <GradientStopCollection>
+                                                <GradientStop Color="#FFffffff" Offset="0" />
+                                                <GradientStop Color="#FFffffff" Offset="0.5" />
+                                                <GradientStop Color="#00ffffff" Offset="1" />
+                                            </GradientStopCollection>
+                                        </LinearGradientBrush.GradientStops>
+                                    </LinearGradientBrush>
+                                    <LinearGradientBrush x:Key="VerticalLightInnerStrokeBrush" EndPoint="0,0" StartPoint="1,0">
+                                        <LinearGradientBrush.GradientStops>
+                                            <GradientStopCollection>
+                                                <GradientStop Color="#58ffffff" Offset="0" />
+                                                <GradientStop Color="#a5ffffff" Offset="1" />
+                                            </GradientStopCollection>
+                                        </LinearGradientBrush.GradientStops>
+                                    </LinearGradientBrush>
+                                    <LinearGradientBrush x:Key="VerticalMediumInnerStrokeBrush" EndPoint="0,0" StartPoint="1,0">
+                                        <LinearGradientBrush.GradientStops>
+                                            <GradientStopCollection>
+                                                <GradientStop Color="#FFf4f5f7" Offset="0" />
+                                                <GradientStop Color="#FF849aaa" Offset="1" />
+                                            </GradientStopCollection>
+                                        </LinearGradientBrush.GradientStops>
+                                    </LinearGradientBrush>
+                                    <LinearGradientBrush x:Key="VerticalDarkInnerStrokeBrush" EndPoint="0,0" StartPoint="1,0">
+                                        <LinearGradientBrush.GradientStops>
+                                            <GradientStopCollection>
+                                                <GradientStop Color="#FFd7dce1" Offset="0" />
+                                                <GradientStop Color="#FF718597" Offset="1" />
+                                            </GradientStopCollection>
+                                        </LinearGradientBrush.GradientStops>
+                                    </LinearGradientBrush>
+                                    <LinearGradientBrush x:Key="VerticalStrokeBrush" EndPoint="0,0" StartPoint="1,0">
+                                        <LinearGradientBrush.GradientStops>
+                                            <GradientStopCollection>
+                                                <GradientStop Color="#FFa3aeb9" Offset="0" />
+                                                <GradientStop Color="#FF8399a9" Offset="0.3700000047683716" />
+                                                <GradientStop Color="#FF718597" Offset="0.3709999918937683" />
+                                                <GradientStop Color="#FF617584" Offset="1" />
+                                            </GradientStopCollection>
+                                        </LinearGradientBrush.GradientStops>
+                                    </LinearGradientBrush>
+                                    <LinearGradientBrush x:Key="VerticalRootBackgroundBrush" EndPoint="0,0" StartPoint="1,0">
+                                        <LinearGradientBrush.GradientStops>
+                                            <GradientStopCollection>
+                                                <GradientStop Color="#FFc8cfd5" Offset="0" />
+                                                <GradientStop Color="#FF5a6978" Offset="1" />
+                                            </GradientStopCollection>
+                                        </LinearGradientBrush.GradientStops>
+                                    </LinearGradientBrush>
+                                    <LinearGradientBrush x:Key="VerticalThumbBackgroundBrush" EndPoint="0,0" StartPoint="1,0">
+                                        <LinearGradientBrush.GradientStops>
+                                            <GradientStopCollection>
+                                                <GradientStop Color="#d8ffffff" Offset="0" />
+                                                <GradientStop Color="#3fffffff" Offset="1" />
+                                            </GradientStopCollection>
+                                        </LinearGradientBrush.GradientStops>
+                                    </LinearGradientBrush>
+                                    <LinearGradientBrush x:Key="VerticalThumbElementBorderBrush" EndPoint="0,0" StartPoint="1,0">
+                                        <LinearGradientBrush.GradientStops>
+                                            <GradientStopCollection>
+                                                <GradientStop Color="#00ffffff" Offset="0" />
+                                                <GradientStop Color="#7fffffff" Offset="1" />
+                                            </GradientStopCollection>
+                                        </LinearGradientBrush.GradientStops>
+                                    </LinearGradientBrush>
+                                    <LinearGradientBrush x:Key="VerticalScaleElementBrush" EndPoint="0,0" StartPoint="1,0">
+                                        <LinearGradientBrush.GradientStops>
+                                            <GradientStopCollection>
+                                                <GradientStop Color="#FFFFFFFF" Offset="0" />
+                                                <GradientStop Color="#FF8f9da9" Offset="1" />
+                                            </GradientStopCollection>
+                                        </LinearGradientBrush.GradientStops>
+                                    </LinearGradientBrush>
+                                    <LinearGradientBrush x:Key="VerticalScaleElementOuterBorderBrush" EndPoint="0,0" StartPoint="1,0">
+                                        <LinearGradientBrush.GradientStops>
+                                            <GradientStopCollection>
+                                                <GradientStop Color="#FFb5bec6" Offset="0" />
+                                                <GradientStop Color="#FF718597" Offset="1" />
+                                            </GradientStopCollection>
+                                        </LinearGradientBrush.GradientStops>
+                                    </LinearGradientBrush>
+                                    <LinearGradientBrush x:Key="VerticalScaleElementInnerBorderBrush" EndPoint="0,0" StartPoint="1,0">
+                                        <LinearGradientBrush.GradientStops>
+                                            <GradientStopCollection>
+                                                <GradientStop Color="#FFffffff" Offset="0" />
+                                                <GradientStop Color="#00ffffff" Offset="1" />
+                                            </GradientStopCollection>
+                                        </LinearGradientBrush.GradientStops>
+                                    </LinearGradientBrush>
+                                </Grid.Resources>
+                                <Canvas x:Name="HorizontalRootCanvasElement">
+                                    <Grid x:Name="HorizontalScrollbarElement">
+                                        <Border Background="{StaticResource BaseBrush}" BorderBrush="{StaticResource StrokeBrush}" BorderThickness="1" CornerRadius="0,0,5,5" Visibility="Collapsed">
+                                            <Border Background="{StaticResource BaseOverlayBrush}" CornerRadius="0,0,5,5">
+                                                <Border BorderBrush="{StaticResource BaseInnerBorderBrush}" BorderThickness="1,0,1,1" CornerRadius="0,0,4,4" />
+                                            </Border>
+                                        </Border>
+                                        <Grid Visibility="Visible">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="0.5*" />
+                                                <RowDefinition Height="0.5*" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="0" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width="0" />
+                                            </Grid.ColumnDefinitions>
+                                            <Border Margin="0,1,0,4" CornerRadius="0,0,2,2" Grid.Column="1" Grid.RowSpan="2" Visibility="Visible">
+                                                <Border BorderThickness="1,0,1,1" CornerRadius="0,0,2,2">
+                                                    <Grid>
+                                                        <Border BorderThickness="0,0,0,0" CornerRadius="0,0,1,1" Background="#72FFFFFF" Height="1" Opacity="1" VerticalAlignment="Top" Margin="0,9,0,0" />
+                                                        <Border x:Name="HorizontalTrackElement" BorderThickness="1,0,1,1" CornerRadius="0,0,1,1" Background="Transparent" />
+                                                    </Grid>
+                                                </Border>
+                                            </Border>
+                                            <Grid Cursor="Hand" Grid.RowSpan="2" Visibility="Collapsed">
+                                                <Border x:Name="HorizontalScrollLeftElement" Background="Transparent" />
+                                                <Grid Height="22" Width="19">
+                                                    <Path Height="22" HorizontalAlignment="Left" Margin="7,0,0,0" VerticalAlignment="Top" Width="11" Opacity="0.6" Fill="#FFFFFF" Stretch="Fill" Data="M 7,11 C7,11 18,0 18,0 18,0 18,22 18,22 18,22 7,11 7,11 z" />
+                                                    <Path Height="18.5" HorizontalAlignment="Left" Margin="0,1.5,0,0" VerticalAlignment="Top" Width="11" Opacity="0.6" Fill="#FFFFFF" Stretch="Fill" Data="M 0,11 C0,11 9,20 9,20 9,20 10.5,18.5 10.5,18.5 10.5,18.5 3,11 3,11 3,11 11,3 11,3 11,3 9.5,1.5 9.5,1.5 9.5,1.5 0,11 0,11 z" />
+                                                    <Path Height="22" HorizontalAlignment="Left" Margin="8,0,0,0" VerticalAlignment="Top" Width="11" Opacity="1" Fill="#FF5a6978" Stretch="Fill" Data="M 8,11 C8,11 19,0 19,0 19,0 19,22 19,22 19,22 8,11 8,11 z" />
+                                                    <Path Height="18.5" HorizontalAlignment="Left" Margin="1,1.5,0,0" VerticalAlignment="Top" Width="11" Opacity="1" Fill="#FF5a6978" Stretch="Fill" Data="M 1,11 C1,11 10,20 10,20 10,20 11.5,18.5 11.5,18.5 11.5,18.5 4,11 4,11 4,11 12,3 12,3 12,3 10.5,1.5 10.5,1.5 10.5,1.5 1,11 1,11 z" />
+                                                </Grid>
+                                            </Grid>
+                                            <Grid Cursor="Hand" Grid.Column="2" Grid.RowSpan="2" Visibility="Collapsed">
+                                                <Border x:Name="HorizontalScrollRightElement" Background="Transparent" />
+                                                <Grid Height="22" Width="19">
+                                                    <Path Height="18.5" HorizontalAlignment="Left" Margin="8,1.5,0,0" VerticalAlignment="Top" Width="11" Opacity="0.6" Fill="#FFFFFF" Stretch="Fill" Data="M 19,11 C19,11 10,20 10,20 10,20 8.5,18.5 8.5,18.5 8.5,18.5 16,11 16,11 16,11 8,3 8,3 8,3 9.5,1.5 9.5,1.5 9.5,1.5 19,11 19,11 z" />
+                                                    <Path Height="22" HorizontalAlignment="Left" Margin="1,0,0,0" VerticalAlignment="Top" Width="11" Opacity="0.6" Fill="#FFFFFF" Stretch="Fill" Data="M 12,11 C12,11 1,0 1,0 1,0 1,22 1,22 1,22 12,11 12,11 z" />
+                                                    <Path Height="18.5" HorizontalAlignment="Left" Margin="7,1.5,0,0" VerticalAlignment="Top" Width="11" Opacity="1" Fill="#FF5a6978" Stretch="Fill" Data="M 18,11 C18,11 9,20 9,20 9,20 7.5,18.5 7.5,18.5 7.5,18.5 15,11 15,11 15,11 7,3 7,3 7,3 8.5,1.5 8.5,1.5 8.5,1.5 18,11 18,11 z" />
+                                                    <Path Height="22" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="11" Opacity="1" Fill="#FF5a6978" Stretch="Fill" Data="M 11,11 C11,11 0,0 0,0 0,0 0,22 0,22 0,22 11,11 11,11 z" />
+                                                </Grid>
+                                            </Grid>
+                                        </Grid>
+                                        <Grid x:Name="HorizontalPreviewElement" Margin="14,5,14,20" Visibility="Visible">
+                                            <ContentPresenter Content="{TemplateBinding HorizontalPreviewContent}" />
+                                        </Grid>
+                                    </Grid>
+                                    <Grid x:Name="HorizontalThumbElement" Style="{TemplateBinding HorizontalThumbStyle}">
+                                        <Border Margin="0,1,0,5" BorderBrush="{StaticResource ZoomBar}" BorderThickness="0,0,0,0">
+                                            <Border BorderBrush="{StaticResource ZoomBar}" BorderThickness="0,3,0,3">
+                                                <Border Margin="4,0,4,0" Background="{StaticResource ThumbBackgroundBrush}" BorderThickness="1" />
+                                            </Border>
+                                        </Border>
+                                        <Border Margin="0,4,0,9" BorderBrush="{StaticResource ThumbElementBorderBrush}" BorderThickness="1" Visibility="Collapsed" />
+                                    </Grid>
+                                    <Grid x:Name="HorizontalScaleLeftElement" Cursor="SizeWE" Width="15" HorizontalAlignment="Left">
+                                        <Border Margin="0,1,0,5" BorderBrush="{StaticResource ZoomBar}" BorderThickness="1,1,0,1" CornerRadius="0,0,0,0" Background="{StaticResource ZoomBar}">
+                                            <Rectangle Margin="6,15.75,6,14.25" Fill="{StaticResource ThumbElementBackgroundBrush}" Opacity="0.9"  />
+                                        </Border>
+                                        <Rectangle HorizontalAlignment="Right" Margin="0,4,0,9" Width="1" Fill="{StaticResource ThumbElementBorderBrush}" Visibility="Collapsed" />
+                                    </Grid>
+                                    <Grid x:Name="HorizontalScaleRightElement" Cursor="SizeWE" Width="15">
+                                        <Border Margin="0,1,0,5" Background="{StaticResource ZoomBar}" BorderBrush="{StaticResource ZoomBar}" BorderThickness="0,1,1,1" CornerRadius="0,0,0,0">
+                                                <Rectangle Margin="6,15.75,6,14.25" Fill="{StaticResource ThumbElementBackgroundBrush}" Opacity="0.9"  />
+                                        </Border>
+                                        <Rectangle HorizontalAlignment="Left" Margin="0,4,0,9" Width="1" Fill="{StaticResource ThumbElementBorderBrush}" />
+                                    </Grid>
+                                </Canvas>
+                                <Canvas x:Name="VerticalRootCanvasElement" Visibility="Collapsed" Background="{TemplateBinding Background}">
+                                    <Grid x:Name="VerticalScrollbarElement">
+                                        <Border Background="{StaticResource BaseBrush}" BorderBrush="{StaticResource VerticalStrokeBrush}" BorderThickness="1" CornerRadius="5,0,0,5">
+                                            <Border Background="{StaticResource VerticalBaseOverlayBrush}" CornerRadius="4,0,0,4">
+                                                <Border BorderBrush="{StaticResource VerticalBaseInnerBorderBrush}" BorderThickness="1,1,0,1" CornerRadius="4,0,0,4" />
+                                            </Border>
+                                        </Border>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="30" />
+                                                <RowDefinition />
+                                                <RowDefinition Height="30" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="0.5*" />
+                                                <ColumnDefinition Width="0.5*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Border Margin="4,0,1,0" BorderBrush="{StaticResource VerticalLightInnerStrokeBrush}" BorderThickness="1,1,0,1" CornerRadius="2,0,0,2" Grid.ColumnSpan="2" Grid.Row="1">
+                                                <Border BorderBrush="{StaticResource VerticalMediumInnerStrokeBrush}" BorderThickness="1,1,0,1" CornerRadius="2,0,0,2">
+                                                    <Border x:Name="VerticalTrackElement" Background="{StaticResource VerticalRootBackgroundBrush}" BorderBrush="{StaticResource VerticalDarkInnerStrokeBrush}" BorderThickness="1,1,0,1" CornerRadius="1,0,0,1" />
+                                                </Border>
+                                            </Border>
+                                            <Grid Cursor="Hand" Grid.ColumnSpan="2">
+                                                <Border x:Name="VerticalScrollTopElement" Background="Transparent" />
+                                                <Grid Height="22" Width="19" RenderTransformOrigin="0.5,0.5">
+                                                    <Grid.RenderTransform>
+                                                        <TransformGroup>
+                                                            <ScaleTransform />
+                                                            <SkewTransform />
+                                                            <RotateTransform Angle="90" />
+                                                            <TranslateTransform />
+                                                        </TransformGroup>
+                                                    </Grid.RenderTransform>
+                                                    <Path Height="22" HorizontalAlignment="Left" Margin="7,0,0,0" VerticalAlignment="Top" Width="11" Opacity="0.6" Fill="#FFFFFF" Stretch="Fill" Data="M 7,11 C7,11 18,0 18,0 18,0 18,22 18,22 18,22 7,11 7,11 z" />
+                                                    <Path Height="18.5" HorizontalAlignment="Left" Margin="0,1.5,0,0" VerticalAlignment="Top" Width="11" Opacity="0.6" Fill="#FFFFFF" Stretch="Fill" Data="M 0,11 C0,11 9,20 9,20 9,20 10.5,18.5 10.5,18.5 10.5,18.5 3,11 3,11 3,11 11,3 11,3 11,3 9.5,1.5 9.5,1.5 9.5,1.5 0,11 0,11 z" />
+                                                    <Path Height="22" HorizontalAlignment="Left" Margin="8,0,0,0" VerticalAlignment="Top" Width="11" Opacity="1" Fill="#FF5a6978" Stretch="Fill" Data="M 8,11 C8,11 19,0 19,0 19,0 19,22 19,22 19,22 8,11 8,11 z" />
+                                                    <Path Height="18.5" HorizontalAlignment="Left" Margin="1,1.5,0,0" VerticalAlignment="Top" Width="11" Opacity="1" Fill="#FF5a6978" Stretch="Fill" Data="M 1,11 C1,11 10,20 10,20 10,20 11.5,18.5 11.5,18.5 11.5,18.5 4,11 4,11 4,11 12,3 12,3 12,3 10.5,1.5 10.5,1.5 10.5,1.5 1,11 1,11 z" />
+                                                </Grid>
+                                            </Grid>
+                                            <Grid Cursor="Hand" Grid.ColumnSpan="2" Grid.Row="2">
+                                                <Border x:Name="VerticalScrollBottomElement" Background="Transparent" />
+                                                <Grid Height="22" Width="19" RenderTransformOrigin="0.5,0.5">
+                                                    <Grid.RenderTransform>
+                                                        <TransformGroup>
+                                                            <ScaleTransform />
+                                                            <SkewTransform />
+                                                            <RotateTransform Angle="90" />
+                                                            <TranslateTransform />
+                                                        </TransformGroup>
+                                                    </Grid.RenderTransform>
+                                                    <Path Height="18.5" HorizontalAlignment="Left" Margin="8,1.5,0,0" VerticalAlignment="Top" Width="11" Opacity="0.6" Fill="#FFFFFF" Stretch="Fill" Data="M 19,11 C19,11 10,20 10,20 10,20 8.5,18.5 8.5,18.5 8.5,18.5 16,11 16,11 16,11 8,3 8,3 8,3 9.5,1.5 9.5,1.5 9.5,1.5 19,11 19,11 z" />
+                                                    <Path Height="22" HorizontalAlignment="Left" Margin="1,0,0,0" VerticalAlignment="Top" Width="11" Opacity="0.6" Fill="#FFFFFF" Stretch="Fill" Data="M 12,11 C12,11 1,0 1,0 1,0 1,22 1,22 1,22 12,11 12,11 z" />
+                                                    <Path Height="18.5" HorizontalAlignment="Left" Margin="7,1.5,0,0" VerticalAlignment="Top" Width="11" Opacity="1" Fill="#FF5a6978" Stretch="Fill" Data="M 18,11 C18,11 9,20 9,20 9,20 7.5,18.5 7.5,18.5 7.5,18.5 15,11 15,11 15,11 7,3 7,3 7,3 8.5,1.5 8.5,1.5 8.5,1.5 18,11 18,11 z" />
+                                                    <Path Height="22" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="11" Opacity="1" Fill="#FF5a6978" Stretch="Fill" Data="M 11,11 C11,11 0,0 0,0 0,0 0,22 0,22 0,22 11,11 11,11 z" />
+                                                </Grid>
+                                            </Grid>
+                                        </Grid>
+                                        <Grid x:Name="VerticalPreviewElement" Margin="20,33,5,33">
+                                            <ContentPresenter Content="{TemplateBinding VerticalPreviewContent}" />
+                                        </Grid>
+                                    </Grid>
+                                    <Grid x:Name="VerticalThumbElement" Style="{TemplateBinding VerticalThumbStyle}">
+                                        <Border Margin="5,0,1,0" BorderBrush="{StaticResource VerticalScaleElementOuterBorderBrush}" BorderThickness="1,0,1,0">
+                                            <Border BorderBrush="{StaticResource VerticalScaleElementBrush}" BorderThickness="3,0,3,0">
+                                                <Border Margin="1,4,0,4" Background="{StaticResource VerticalThumbBackgroundBrush}" BorderBrush="{StaticResource VerticalScaleElementOuterBorderBrush}" BorderThickness="1" />
+                                            </Border>
+                                        </Border>
+                                        <Border Margin="9,0,4,0" BorderBrush="{StaticResource VerticalThumbElementBorderBrush}" BorderThickness="1" />
+                                    </Grid>
+                                    <Grid x:Name="VerticalScaleTopElement" Cursor="SizeNS" Height="8" >
+                                        <Border Margin="5,0,1,0" Background="{StaticResource VerticalScaleElementBrush}" BorderBrush="{StaticResource VerticalScaleElementOuterBorderBrush}" BorderThickness="1,1,1,0" CornerRadius="2,2,0,0">
+                                            <Border BorderBrush="{StaticResource VerticalScaleElementInnerBorderBrush}" BorderThickness="1,1,1,0" CornerRadius="2,2,0,0">
+                                                <Grid Height="Auto" Margin="0,0,0,2" VerticalAlignment="Bottom" Width="10">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition />
+                                                        <RowDefinition />
+                                                    </Grid.RowDefinitions>
+                                                    <Border Height="1" Margin="0,0,0,1" Background="#FF99A6B2" BorderBrush="#FFFFFFFF" BorderThickness="1,0,0,0" />
+                                                    <Border Height="1" Background="#FF99A6B2" BorderBrush="#FFFFFFFF" BorderThickness="1,0,0,0" Grid.Row="1" />
+                                                </Grid>
+                                            </Border>
+                                        </Border>
+                                        <Rectangle Height="1" HorizontalAlignment="Stretch" Margin="9,0,4,0" VerticalAlignment="Bottom" Width="Auto" Fill="{StaticResource VerticalThumbElementBorderBrush}" />
+                                    </Grid>
+                                    <Grid x:Name="VerticalScaleBottomElement" Cursor="SizeNS" Height="8">
+                                        <Border Margin="5,0,1,0" Background="{StaticResource VerticalScaleElementBrush}" BorderBrush="{StaticResource VerticalScaleElementOuterBorderBrush}" BorderThickness="1,0,1,1" CornerRadius="0,0,2,2">
+                                            <Border BorderBrush="{StaticResource VerticalScaleElementInnerBorderBrush}" BorderThickness="1,0,1,1" CornerRadius="0,0,2,2">
+                                                <Grid Margin="0,2,0,0" VerticalAlignment="Top" Width="10">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition />
+                                                        <RowDefinition />
+                                                    </Grid.RowDefinitions>
+                                                    <Border Height="1" Margin="0,0,0,1" Background="#FF99A6B2" BorderBrush="#FFFFFFFF" BorderThickness="1,0,0,0" />
+                                                    <Border Height="1" Background="#FF99A6B2" BorderBrush="#FFFFFFFF" BorderThickness="1,0,0,0" Grid.Row="1" />
+                                                </Grid>
+                                            </Border>
+                                        </Border>
+                                        <Rectangle Height="1" HorizontalAlignment="Stretch" Margin="9,0,4,0" VerticalAlignment="Top" Fill="{StaticResource VerticalThumbElementBorderBrush}" />
+                                    </Grid>
+                                </Canvas>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="{x:Null}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" MinHeight="400" />
+        </Grid.RowDefinitions>
+        <Image Height="Auto" Source="{Binding Source='Backgrounds/MovieAward2.png', Converter={StaticResource GetImageConverter}}"
+               Stretch="Fill" Opacity="1" Grid.Row="0" Grid.RowSpan="2"/>
+                     
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamTimeline x:Name="timeline" Width="Auto" Margin="50,0,50,0"
+                        Grid.Row="1" VerticalAlignment="Bottom"
+                        ZoombarStyle="{StaticResource XamZoombarStyle1}"
+                        SceneStyle="{StaticResource SceneStyle1}"
+                        Style="{StaticResource XamTimelineStyle1}" >
+            <ig:XamTimeline.Axis>
+                <ig:DateTimeAxis ScrollPosition="0.75" ScrollScale=".30"  ShowThumb="False"
+                                 PaneStyle="{StaticResource MarkStyle1}" 
+                                 MajorTickMarkStyle="{StaticResource MarkStyle2}"  />
+            </ig:XamTimeline.Axis>
+        </ig:XamTimeline>
+        <!-- #END SNIPPET# -->
+        
+        <!--TODO-Andie this style throws NRE when set on DateTimeAxis
+            LabelStyle="{StaticResource AxisLabelStyle1}"-->
+        
+        <Viewbox Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" MaxHeight="160" MinHeight="100" Margin="0,30,0,-30">
+            <StackPanel Orientation="Horizontal">
+                <Image Height="120" Source="{Binding Source='Backgrounds/Camera.png', Converter={StaticResource GetImageConverter}}"/>
+                <TextBlock x:Name="SampleTitle" FontSize="32" FontWeight="{StaticResource FontLight}" Foreground="{StaticResource LightForegroundBrush}"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </StackPanel>
+        </Viewbox>
+
+    </Grid>
+
+</igFramework:SampleContainer>

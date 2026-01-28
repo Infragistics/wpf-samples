@@ -1,0 +1,58 @@
+﻿<framework:SampleContainer
+    x:Class="IGGeographicMap.Samples.MapNavigationPane"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700"
+    Title="MapLocationPane Page"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+    xmlns:resources="clr-namespace:IGGeographicMap.Resources"
+    xmlns:custom="clr-namespace:IGGeographicMap.Samples.Custom" >
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGeographicMap;component/Assets/GlobalExtended.xaml" />
+                <!---->
+                
+            </ResourceDictionary.MergedDictionaries>
+            <resources:AssetsLocalizer x:Key="Localizer" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.Resources>
+            <Style x:Key="CrosshairLineStyle" TargetType="Line">
+                <Setter Property="Stroke" Value="Black"/>
+                <Setter Property="StrokeThickness" Value="1"/>
+            </Style>
+        </Grid.Resources>
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ========================================================================== -->
+        <!-- XamGeographicMap -->
+        <ig:XamGeographicMap x:Name="GeoMap" 
+                             PlotAreaBackground="{StaticResource GeoMapSbPlotAreaBackgroundBrush}"
+                             OverviewPlusDetailPaneVisibility="Collapsed"
+                             Zoomable="True">
+        </ig:XamGeographicMap>
+        <!-- GeoMapNavigationPane with binding to the XamGeographicMap control -->
+        <custom:GeoMapNavigationPane x:Name="GeoMapNavigationPane" Margin="10" 
+                              GeographicMap="{Binding ElementName=GeoMap}"
+                              MapPaneOrientation="Horizontal"
+                              HorizontalAlignment="Left" VerticalAlignment="Top">
+        </custom:GeoMapNavigationPane>
+        <!-- ========================================================================== -->
+        <!-- #END SNIPPET# -->
+        <TextBlock x:Name="OpenSourceCopyright" Text="{Binding Path=XW_OpenSourceCopyright, Source={StaticResource CommonStrings}}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Style="{StaticResource SourceTextblockStyle}"  />
+        <controls:OptionsPanel HeaderText="{Binding Path=MapStrings.XWGM_MapNavigationPane_Orientation, Source={StaticResource Localizer}}"
+                               HorizontalAlignment="Right"  >
+            <StackPanel>
+                <RadioButton Content="{Binding Path=MapStrings.XWGM_MapNavigationPane_Orientation_H, Source={StaticResource Localizer}}" GroupName="CoordinateOrientation" Click="MapCoordinateHorizontalOrientationButton_Click" IsChecked="True" Margin="{StaticResource OptionsElementsMargin}"/>
+                <RadioButton Content="{Binding Path=MapStrings.XWGM_MapNavigationPane_Orientation_V, Source={StaticResource Localizer}}" GroupName="CoordinateOrientation" Click="MapCoordinateVerticalOrientationButton_Click"  />
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

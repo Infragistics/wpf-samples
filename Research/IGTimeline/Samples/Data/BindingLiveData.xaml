@@ -1,0 +1,463 @@
+﻿<igFramework:SampleContainer x:Class="IGTimeline.Samples.BindingLiveData"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      Width="700" Height="500"
+      xmlns:controls="clr-namespace:IGTimeline.Samples.Common"
+      xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:local="clr-namespace:IGTimeline.Samples"
+      xmlns:resources="clr-namespace:IGTimeline.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGTimeline;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/IGTimeline;component/Assets/TimelineStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <resources:TimelineStrings x:Key="Strings" />
+            <converters:GetImagePathConverter x:Key="GetImageConverter" />
+
+            <local:NegationConverter x:Key="negationConverter" />
+            <Style x:Key="TimelineZoombarStyle" TargetType="ig:XamZoombar">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </Style>
+            <Style x:Key="LegendStyle" TargetType="ig:TimelineLegend">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </Style>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <Grid x:Name="LayoutRoot" Background="{x:Null}">
+        <Image Stretch="Fill" Opacity="1" Width="800"
+               Source="{Binding Source='Football/Soccer.png', Converter={StaticResource GetImageConverter}}"/>
+
+        <Grid Margin="0" VerticalAlignment="Top" Width="Auto" HorizontalAlignment="Stretch">
+            <Path Margin="162,46,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="15" Width="13" Stretch="Fill" Opacity="1" Data="M 215,205 C215,205 224,205 224,205 225,205 226,206 226,207 226,207 226,218 226,218 226,219 225,220 224,220 224,220 215,220 215,220 214,220 213,219 213,218 213,218 213,207 213,207 213,206 214,205 215,205 z">
+                <Path.Fill>
+                    <LinearGradientBrush StartPoint="0.8992368257962741,0.0581573486328125" EndPoint="0.089111328125,1.0000020345052083">
+                        <LinearGradientBrush.GradientStops>
+                            <GradientStopCollection>
+                                <GradientStop Color="#FFef2427" Offset="0" />
+                                <GradientStop Color="#FFce131a" Offset="0.9944440126419067" />
+                            </GradientStopCollection>
+                        </LinearGradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Path.Fill>
+            </Path>
+            <Path Margin="212,46,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="15" Width="13" Stretch="Fill" Opacity="1" Data="M 265,205 C265,205 274,205 274,205 275,205 276,206 276,207 276,207 276,218 276,218 276,219 275,220 274,220 274,220 265,220 265,220 264,220 263,219 263,218 263,218 263,207 263,207 263,206 264,205 265,205 z">
+                <Path.Fill>
+                    <LinearGradientBrush StartPoint="0.8992356520432693,0.0581573486328125" EndPoint="0.089111328125,1.0000020345052083">
+                        <LinearGradientBrush.GradientStops>
+                            <GradientStopCollection>
+                                <GradientStop Color="#FFf3e309" Offset="0" />
+                                <GradientStop Color="#FFedba03" Offset="0.9888889789581299" />
+                            </GradientStopCollection>
+                        </LinearGradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Path.Fill>
+            </Path>
+            <Grid Width="16" Height="16" Opacity="1" Margin="264,47,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Path Margin="0,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="16" Width="16" Stretch="Fill" Opacity="1" Data="{Binding Path=XWT_LiveData_DataString1, Source={StaticResource Strings}}">
+                    <Path.Fill>
+                        <LinearGradientBrush StartPoint="1.125,1.6803274154663086" EndPoint="-0.3102569580078125,-0.6844263076782227">
+                            <LinearGradientBrush.GradientStops>
+                                <GradientStopCollection>
+                                    <GradientStop Color="#FF006882" Offset="0" />
+                                    <GradientStop Color="#FF00ccff" Offset="0.6388890147209167" />
+                                    <GradientStop Color="#FF00ccff" Offset="0.9833329916000366" />
+                                </GradientStopCollection>
+                            </LinearGradientBrush.GradientStops>
+                        </LinearGradientBrush>
+                    </Path.Fill>
+                </Path>
+                <Path Margin="0,0.1311492919921875,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="15.725448608398438" Width="5.4666748046875" Stretch="Fill" Opacity="1" Data="{Binding Path=XWT_LiveData_DataString2, Source={StaticResource Strings}}" Fill="#ffffff" />
+                <Path Margin="4.06549072265625,0.1311492919921875,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="15.725448608398438" Width="4.201171875" Stretch="Fill" Opacity="1" Data="M 5.4666748046875,0.1311492919921875 C5.4666748046875,0.1311492919921875 5.4666748046875,10.229507446289062 5.4666748046875,10.229507446289062 5.4666748046875,10.229507446289062 8.133331298828125,10.229507446289062 8.133331298828125,10.229507446289062 8.133331298828125,10.229507446289062 8.26666259765625,10.229507446289062 8.26666259765625,10.229507446289062 8.26666259765625,10.229507446289062 4.198822021484375,15.856597900390625 4.198822021484375,15.856597900390625 4.198822021484375,15.856597900390625 4.06549072265625,15.856597900390625 4.06549072265625,15.856597900390625 4.06549072265625,15.856597900390625 8.038665771484375,10.36065673828125 8.038665771484375,10.36065673828125 8.038665771484375,10.36065673828125 5.4666748046875,10.36065673828125 5.4666748046875,10.36065673828125 5.4666748046875,10.36065673828125 5.333343505859375,10.36065673828125 5.333343505859375,10.36065673828125 5.333343505859375,10.36065673828125 5.333343505859375,10.229507446289062 5.333343505859375,10.229507446289062 5.333343505859375,10.229507446289062 5.333343505859375,0.262298583984375 5.333343505859375,0.262298583984375 5.333343505859375,0.262298583984375 5.4666748046875,0.1311492919921875 5.4666748046875,0.1311492919921875 z" Fill="#000000" />
+                <Path Margin="11.798828125,0.1311492919921875,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="15.725448608398438" Width="4.201171875" Stretch="Fill" Opacity="1" Data="M 13.20001220703125,15.856597900390625 C13.20001220703125,15.856597900390625 13.20001220703125,5.75823974609375 13.20001220703125,5.75823974609375 13.20001220703125,5.75823974609375 15.866668701171875,5.75823974609375 15.866668701171875,5.75823974609375 15.866668701171875,5.75823974609375 16,5.75823974609375 16,5.75823974609375 16,5.75823974609375 11.932159423828125,0.1311492919921875 11.932159423828125,0.1311492919921875 11.932159423828125,0.1311492919921875 11.798828125,0.1311492919921875 11.798828125,0.1311492919921875 11.798828125,0.1311492919921875 15.772003173828125,5.6270904541015625 15.772003173828125,5.6270904541015625 15.772003173828125,5.6270904541015625 13.20001220703125,5.6270904541015625 13.20001220703125,5.6270904541015625 13.20001220703125,5.6270904541015625 13.066680908203125,5.6270904541015625 13.066680908203125,5.6270904541015625 13.066680908203125,5.6270904541015625 13.066680908203125,5.75823974609375 13.066680908203125,5.75823974609375 13.066680908203125,5.75823974609375 13.066680908203125,15.7254638671875 13.066680908203125,15.7254638671875 13.066680908203125,15.7254638671875 13.20001220703125,15.856597900390625 13.20001220703125,15.856597900390625 z" Fill="#000000" />
+                <Path Margin="7.73333740234375,0.1311492919921875,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="15.725448608398438" Width="4.201171875" Stretch="Fill" Opacity="1" Data="M 10.5333251953125,15.856597900390625 C10.5333251953125,15.856597900390625 10.5333251953125,5.75823974609375 10.5333251953125,5.75823974609375 10.5333251953125,5.75823974609375 7.866668701171875,5.75823974609375 7.866668701171875,5.75823974609375 7.866668701171875,5.75823974609375 7.73333740234375,5.75823974609375 7.73333740234375,5.75823974609375 7.73333740234375,5.75823974609375 11.801177978515625,0.1311492919921875 11.801177978515625,0.1311492919921875 11.801177978515625,0.1311492919921875 11.93450927734375,0.1311492919921875 11.93450927734375,0.1311492919921875 11.93450927734375,0.1311492919921875 7.961334228515625,5.6270904541015625 7.961334228515625,5.6270904541015625 7.961334228515625,5.6270904541015625 10.5333251953125,5.6270904541015625 10.5333251953125,5.6270904541015625 10.5333251953125,5.6270904541015625 10.666656494140625,5.6270904541015625 10.666656494140625,5.6270904541015625 10.666656494140625,5.6270904541015625 10.666656494140625,5.75823974609375 10.666656494140625,5.75823974609375 10.666656494140625,5.75823974609375 10.666656494140625,15.7254638671875 10.666656494140625,15.7254638671875 10.666656494140625,15.7254638671875 10.5333251953125,15.856597900390625 10.5333251953125,15.856597900390625 z" Fill="#ffffff" />
+            </Grid>
+            <TextBlock Margin="241,100.199,0,0" HorizontalAlignment="left" VerticalAlignment="top" Opacity="1" TextWrapping="Wrap" FontSize="8" TextAlignment="left" Foreground="#333333" Text="Darby:" />
+            <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,50,50">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Border Opacity="1" VerticalAlignment="Stretch" Width="259">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="#FF910800" Offset="1" />
+                                        <GradientStop Color="#FFA41F10"/>
+                                    </GradientStopCollection>
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Grid>
+                            <Path HorizontalAlignment="Left" VerticalAlignment="Top" Height="27" Width="102.91998291015625" Stretch="Fill" Opacity="1" Data="M 641,297 C641,297 641,324 641,324 641,324 684.75,324 684.75,324 701.1454467773438,315.3228759765625 720.6730346679688,306.2461853027344 743.9199829101562,297 743.9199829101562,297 641,297 641,297 z" UseLayoutRounding="False"/>
+                            <TextBlock x:Name="lblGameHistory" HorizontalAlignment="left" VerticalAlignment="Center" Opacity="1" FontSize="13" FontFamily="{StaticResource FontFamily}" FontWeight="{StaticResource FontSemiBold}" TextAlignment="left" Foreground="#ffffff" Text="{Binding Path=XWT_LiveData_GameHistory, Source={StaticResource Strings}}" Margin="6,0,0,2" />
+                        </Grid>
+                    </Border>
+                    <Border Opacity="1" Width="259" Grid.Row="1" Background="#83000000">
+                        <Grid>
+                            <Border VerticalAlignment="Top" Height="20" Background="#A5FFFFFF">
+                                <Grid VerticalAlignment="Center" Margin="5,0">
+                                    <Grid.Resources>
+                                        <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}">
+                                            <Setter Property="FontSize" Value="{StaticResource FontSize}"/>
+                                            <Setter Property="FontFamily" Value="{StaticResource FontFamily}"/>
+                                            <Setter Property="FontWeight" Value="{StaticResource FontSemiBold}"/>
+                                        </Style>
+                                    </Grid.Resources>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="60" />
+                                        <ColumnDefinition Width="85" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock HorizontalAlignment="left" VerticalAlignment="top" Opacity="1" Text="{Binding Path=XWT_LiveData_Time, Source={StaticResource Strings}}" Grid.ColumnSpan="3" />
+                                    <TextBlock HorizontalAlignment="left" VerticalAlignment="top" Opacity="1" Text="{Binding Path=XWT_LiveData_Team, Source={StaticResource Strings}}" Grid.ColumnSpan="3" Grid.Column="1" />
+                                    <TextBlock HorizontalAlignment="left" VerticalAlignment="top" Opacity="1" Text="{Binding Path=XWT_LiveData_Event, Source={StaticResource Strings}}" Grid.ColumnSpan="3" Grid.Column="2" />
+                                </Grid>
+                            </Border>
+                            <Border Opacity="1" BorderThickness="4,0,4,4"/>
+                            <ListBox x:Name="ListBox" Background="Transparent" BorderBrush="{x:Null}" Foreground="White" ItemContainerStyle="{StaticResource FootballEntryContainerStyle}" ItemsSource="{Binding EventHistory}" ItemTemplate="{StaticResource FootballEntryDataTemplate}" IsHitTestVisible="{Binding IsDataStreaming, Converter={StaticResource negationConverter}}" SelectionChanged="ListBox_SelectionChanged" d:LayoutOverrides="GridBox" Margin="4,20,4,4" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Height="164" />
+                        </Grid>
+                    </Border>
+
+                </Grid>
+                <Border Opacity="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" CornerRadius="3,0,0,3" Background="#82FFFFFF" BorderThickness="3,3,0,3" Height="109">
+                    <Grid>
+                        <Border HorizontalAlignment="Left" VerticalAlignment="Top" Height="36" Width="314" Background="#99FFFFFF" CornerRadius="3,0,0,0"/>
+                        <Grid x:Name="doubleArrowGlyph" Width="22.243438720703125" Height="14.829986572265625" Opacity="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0">
+                            <Path Margin="12,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="14.829986572265625" Width="10.243438720703125" Stretch="Fill" Opacity="1" Data="M 16.584991455078125,7.415008544921875 C16.584991455078125,7.415008544921875 12,12 12,12 12,12 14.829986572265625,14.829986572265625 14.829986572265625,14.829986572265625 14.829986572265625,14.829986572265625 22.243438720703125,7.415008544921875 22.243438720703125,7.415008544921875 22.243438720703125,7.415008544921875 14.829986572265625,0 14.829986572265625,0 14.829986572265625,0 12,2.829986572265625 12,2.829986572265625 12,2.829986572265625 16.584991455078125,7.415008544921875 16.584991455078125,7.415008544921875 z" Fill="#FF9D170A"/>
+                            <Path Margin="2,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="14.829986572265625" Width="10.243438720703125" Stretch="Fill" Opacity="1" Data="M 6.584991455078125,7.415008544921875 C6.584991455078125,7.415008544921875 2,12 2,12 2,12 4.829986572265625,14.829986572265625 4.829986572265625,14.829986572265625 4.829986572265625,14.829986572265625 12.243438720703125,7.415008544921875 12.243438720703125,7.415008544921875 12.243438720703125,7.415008544921875 4.829986572265625,0 4.829986572265625,0 4.829986572265625,0 2,2.829986572265625 2,2.829986572265625 2,2.829986572265625 6.584991455078125,7.415008544921875 6.584991455078125,7.415008544921875 z" Fill="#FF9D170A"/>
+                        </Grid>
+                        <TextBlock x:Name="txtPlayerName" HorizontalAlignment="Left" VerticalAlignment="Top" Opacity="1" FontSize="20" FontFamily="{StaticResource FontFamily}" FontWeight="{StaticResource FontSemiBold}" TextAlignment="left" Foreground="{StaticResource ForegroundBrush}" Text="{Binding SelectedPlayer}" Margin="40,3,0,0" />
+                        <StackPanel Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Top" Width="Auto" Orientation="Horizontal" Margin="10,45,0,0">
+                            <TextBlock x:Name="lblMinute" VerticalAlignment="top" Opacity="1" TextWrapping="Wrap" FontSize="16" FontFamily="{StaticResource FontFamily}" FontWeight="{StaticResource FontSemiBold}" TextAlignment="left" Foreground="{StaticResource ForegroundDarkBrush}" Text="{Binding Path=XWT_LiveData_MinuteLabel, Source={StaticResource Strings}}" d:LayoutOverrides="Width" Margin="0,0,10,0" />
+                            <TextBlock x:Name="txtMinute" VerticalAlignment="top" Opacity="1" TextWrapping="Wrap" FontSize="16" FontFamily="{StaticResource FontFamily}" FontWeight="{StaticResource FontSemiBold}"  TextAlignment="left" Foreground="{StaticResource ForegroundDarkBrush}" Text="{Binding SelectedTime}" />
+                        </StackPanel>
+                        <Grid VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,3,10,0">
+                            <TextBlock x:Name="txtTeamNameFG" HorizontalAlignment="left" VerticalAlignment="top" FontSize="16" FontFamily="{StaticResource FontFamily}" FontWeight="{StaticResource FontSemiBold}" TextAlignment="left" Foreground="{StaticResource ForegroundDarkBrush}" Text="{Binding SelectedTeam}" Margin="0" />
+                        </Grid>
+                        <TextBlock x:Name="lblEventType" HorizontalAlignment="Left" VerticalAlignment="top" Opacity="1" FontSize="16" FontFamily="{StaticResource FontFamily}" FontWeight="{StaticResource FontSemiBold}" TextAlignment="left" Foreground="{StaticResource ForegroundDarkBrush}" Text="{Binding SelectedEventType}" Margin="10,70,0,0" />
+                    </Grid>
+                </Border>
+
+            </Grid>
+            <Path Margin="35.645,10.98,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="108.03999328613281" Width="780.2616348266602" Stretch="Fill" Opacity="0.5019607843137255" Data="M 108.14740753173828,190.05650329589844 C111.22692108154297,180.01824951171875 125.50841522216797,169.97999572753906 135.30642700195312,169.97999572753906 135.30642700195312,169.97999572753906 866.9066772460938,169.97999572753906 866.9066772460938,169.97999572753906 866.9066772460938,169.97999572753906 864.9066772460938,278.0199890136719 864.9066772460938,278.0199890136719 864.9066772460938,278.0199890136719 102.25254821777344,278.0199890136719 102.25254821777344,278.0199890136719 91.75254821777344,278.0199890136719 84.29072570800781,267.9691467285156 87.32891082763672,257.9183044433594 87.32891082763672,257.9183044433594 108.14740753173828,190.05650329589844 108.14740753173828,190.05650329589844 z">
+                <Path.Fill>
+                    <LinearGradientBrush StartPoint="0.26831379147210777,0.08348764191952866" EndPoint="0.26831379147210777,1.9255834573474873">
+                        <LinearGradientBrush.GradientStops>
+                            <GradientStopCollection>
+                                <GradientStop Color="#5b000000" Offset="0" />
+                                <GradientStop Color="#FF000000" Offset="1" />
+                            </GradientStopCollection>
+                        </LinearGradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Path.Fill>
+            </Path>
+            <Path Margin="39.024,13,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="102" Width="762.9756698608398" Stretch="Fill" Opacity="1" Data="M 109.35667419433594,191.18731689453125 C112.17833709716797,181.59365844726562 125,172 135,172 135,172 853,172 853,172 853,172 853,274 853,274 853,274 105,274 105,274 95,274 87.82166290283203,264.4063415527344 90.64332580566406,254.81268310546875 90.64332580566406,254.81268310546875 109.35667419433594,191.18731689453125 109.35667419433594,191.18731689453125 z">
+                <Path.Fill>
+                    <LinearGradientBrush StartPoint="0.4862221490345853,-0.00980392156862745" EndPoint="0.4862221490345853,1.1666666666666667">
+                        <LinearGradientBrush.GradientStops>
+                            <GradientStopCollection>
+                                <GradientStop Color="#FF666666" Offset="0" />
+                                <GradientStop Color="#00fefefe" Offset="1" />
+                            </GradientStopCollection>
+                        </LinearGradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Path.Fill>
+            </Path>
+            <Path Margin="39.024,14,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="102" Width="762.9756698608398" Stretch="Fill" Opacity="1" Data="M 109.35667419433594,192.18731689453125 C112.17833709716797,182.59365844726562 125,173 135,173 135,173 853,173 853,173 853,173 853,275 853,275 853,275 105,275 105,275 95,275 87.82166290283203,265.4063415527344 90.64332580566406,255.81268310546875 90.64332580566406,255.81268310546875 109.35667419433594,192.18731689453125 109.35667419433594,192.18731689453125 z">
+                <Path.Fill>
+                    <LinearGradientBrush StartPoint="0.4967074112991856,0" EndPoint="0.4967074112991856,1.0098039215686274">
+                        <LinearGradientBrush.GradientStops>
+                            <GradientStopCollection>
+                                <GradientStop Color="#FF666666" />
+                                <GradientStop Color="#FF343434" Offset="1"/>
+                            </GradientStopCollection>
+                        </LinearGradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Path.Fill>
+            </Path>
+            <Border Opacity="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="110,31,128,313" Background="#FF1B1B1B" />
+            <Path Margin="117.5,30.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="1" Width="644" Stretch="Fill" Opacity="0.30196078431372547" Data="M 198.5,189.5 C198.5,189.5 842.5,189.5 842.5,189.5 " Stroke="#ffffff" StrokeThickness="1" />
+            <Path Margin="101.5,99.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="1" Width="644" Stretch="Fill" Opacity="0.4" Data="M 172.5,258.5 C172.5,258.5 816.5,258.5 816.5,258.5 " Stroke="#ffffff" StrokeThickness="1" />
+            <Path Margin="0,11,1,0" HorizontalAlignment="Right" VerticalAlignment="Top" Height="111" Width="145.42193603515625" Stretch="Fill" Opacity="1" Data="M 835.6630859375,179.42681884765625 C837.33154296875,174.71340942382812 844,170 849,170 849,170 989,170 989,170 994,170 999,175 999,180 999,180 999,271 999,271 999,276 994,281 989,281 989,281 829,281 829,281 819,281 811.5390014648438,271.32769775390625 814.0780029296875,261.6553955078125 814.0780029296875,261.6553955078125 835.6630859375,179.42681884765625 835.6630859375,179.42681884765625 z">
+                <Path.Fill>
+                    <LinearGradientBrush StartPoint="0.2018204363266976,-0.018018018018018018" EndPoint="0.40458591689864853,1.163136525197072">
+                        <LinearGradientBrush.GradientStops>
+                            <GradientStopCollection>
+                                <GradientStop Color="#FF7E7E81"/>
+                                <GradientStop Color="#FF48484A" Offset="1"/>
+                            </GradientStopCollection>
+                        </LinearGradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Path.Fill>
+            </Path>
+            <Path Margin="17.707,24.05,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="81.90000915527344" Width="104.27154541015625" Stretch="Fill" Opacity="1"
+                  Data="M 84.14500427246094,198.45628356933594 C86.39816284179688,190.75314331054688 96.63654327392578,183.0500030517578 104.62174987792969,183.0500030517578 104.62174987792969,183.0500030517578 198.90771484375,183.0500030517578 198.90771484375,183.0500030517578 201.53271484375,183.0500030517578 203.50572204589844,185.59274291992188 202.85374450683594,188.13548278808594 202.85374450683594,188.13548278808594 184.46168518066406,259.864501953125 184.46168518066406,259.864501953125 183.80970764160156,262.4072570800781 180.53271484375,264.95001220703125 177.90771484375,264.95001220703125 177.90771484375,264.95001220703125 80.66610717773438,264.95001220703125 80.66610717773438,264.95001220703125 72.68089294433594,264.95001220703125 66.94883728027344,257.2468566894531 69.2020034790039,249.54371643066406 69.2020034790039,249.54371643066406 84.14500427246094,198.45628356933594 84.14500427246094,198.45628356933594 z">
+                <Path.Fill>
+                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                        <LinearGradientBrush.GradientStops>
+                            <GradientStopCollection>
+                                <GradientStop Color="#3affffff" Offset="0" />
+                                <GradientStop Color="#7fffffff" Offset="1" />
+                            </GradientStopCollection>
+                        </LinearGradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Path.Fill>
+            </Path>
+            <Path Margin="21,26,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="78" Width="97.87767028808594" Stretch="Fill" Opacity="1" Data="M 86.70217895507812,199.6726531982422 C88.8480453491211,192.33633422851562 98.59888458251953,185 106.20384216308594,185 106.20384216308594,185 196,185 196,185 198.5,185 200.37905883789062,187.42166137695312 199.75811767578125,189.84332275390625 199.75811767578125,189.84332275390625 182.24188232421875,258.15667724609375 182.24188232421875,258.15667724609375 181.62094116210938,260.5783386230469 178.5,263 176,263 176,263 83.38894653320312,263 83.38894653320312,263 75.78398132324219,263 70.32488250732422,255.66366577148438 72.47074890136719,248.3273468017578 72.47074890136719,248.3273468017578 86.70217895507812,199.6726531982422 86.70217895507812,199.6726531982422 z">
+                <Path.Fill>
+                    <LinearGradientBrush StartPoint="0.5182707281622502,0.011765113243689904" EndPoint="0.5182707281622502,0.9647072034004407">
+                        <LinearGradientBrush.GradientStops>
+                            <GradientStopCollection>
+                                <GradientStop Color="#FFb9121b" Offset="0.853" />
+                                <GradientStop Color="#FFB72D20"/>
+                                <GradientStop Color="#FF8F141B" Offset="1"/>
+                            </GradientStopCollection>
+                        </LinearGradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Path.Fill>
+            </Path>
+            <Path Margin="0,12,4,0" HorizontalAlignment="Right" VerticalAlignment="Top" Height="111" Width="147.3599853515625" Stretch="Fill" Opacity="1" Data="M 836.6630859375,180.42681884765625 C836.6630859375,180.42681884765625 810,282 810,282 810,282 811.3599853515625,282 811.3599853515625,282 811.3599853515625,282 837.6630859375,181.42681884765625 837.6630859375,181.42681884765625 839.33154296875,176.71340942382812 844.2763671875,172 851,172 851,172 991,172 991,172 993.277587890625,172 995.5549926757812,173.03762817382812 997.3599853515625,174.63999938964844 995.4446411132812,172.48248291015625 992.722412109375,171 990,171 990,171 850,171 850,171 845,171 838.33154296875,175.71340942382812 836.6630859375,180.42681884765625 z">
+                <Path.Fill>
+                    <LinearGradientBrush StartPoint="0.2241673958353015,-0.018018018018018018" EndPoint="0.339554015922046,0.6611596184807855">
+                        <LinearGradientBrush.GradientStops>
+                            <GradientStopCollection>
+                                <GradientStop Color="#FFffffff" Offset="0" />
+                                <GradientStop Color="#00ffffff" Offset="1" />
+                            </GradientStopCollection>
+                        </LinearGradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Path.Fill>
+            </Path>
+            <TextBlock x:Name="lblTime" Margin="0,20,80,0" HorizontalAlignment="Right" VerticalAlignment="top" Opacity="0.8" FontSize="16" TextAlignment="left" Foreground="#ffffff" Text="{Binding Path=XWT_LiveData_TimeLabel, Source={StaticResource Strings}}" />
+            <TextBlock x:Name="txtTimeForeground" Margin="20,25.041,15,0" HorizontalAlignment="Right" VerticalAlignment="top" Opacity="1" FontSize="77" TextAlignment="left" Foreground="#ffffff" FontFamily="{StaticResource FontFamily}" FontWeight="{StaticResource FontSemiBold}" Text="{Binding Path=CurrentTimeClock}" />
+            <TextBlock Margin="56,43.272,0,0" HorizontalAlignment="Left" VerticalAlignment="top" Opacity="1" FontSize="16" FontFamily="{StaticResource FontFamily}" FontWeight="{StaticResource FontSemiBold}" TextAlignment="right" Foreground="#ffffff" FontStyle="Italic" Text="{Binding Path=XWT_LiveData_DarbyLabel, Source={StaticResource Strings}}" />
+            <TextBlock Margin="36,70.272,0,0" HorizontalAlignment="Left" VerticalAlignment="top" Opacity="1" FontSize="16" FontFamily="{StaticResource FontFamily}" FontWeight="{StaticResource FontSemiBold}" TextAlignment="right" Foreground="#ffffff" FontStyle="Italic" Text="{Binding Path=XWT_LiveData_EvertonLabel, Source={StaticResource Strings}}" />
+            <Path Margin="30.5,66.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="1" Width="78" Stretch="Fill" Opacity="0.5019607843137255" Data="M 81.5,225.5 C81.5,225.5 189.5,225.5 189.5,225.5 " Stroke="#08000a" StrokeThickness="1" />
+            <Path Margin="29.5,67.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="1" Width="78" Stretch="Fill" Opacity="0.5019607843137255" Data="M 80.5,226.5 C80.5,226.5 188.5,226.5 188.5,226.5 " Stroke="#ffffff" StrokeThickness="1" />
+            <Border Opacity="0.5019607843137255" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="154.981,64.351,205.019,344.649" CornerRadius="1.8245162963867188,1.8245162963867188,1.8245162963867188,1.8245162963867188" Background="#ffffff" />
+        </Grid>
+        <Grid Width="947" Height="397" HorizontalAlignment="Left" Margin="27,78,0,0" VerticalAlignment="Top" Visibility="Collapsed">
+            <Border HorizontalAlignment="Stretch" Margin="0,115,28,0" VerticalAlignment="Stretch" Background="#ffffff" CornerRadius="6.999,6.999,6.999,6.999" d:IsLocked="True" Opacity="0.2" />
+            <Path Width="315" Height="1" HorizontalAlignment="Left" Margin="590,153.5,0,0" VerticalAlignment="Top" Data="M 1024.5,472.5 C1024.5,472.5 1258.5,472.5 1258.5,472.5 " Opacity="0.388" Stretch="Fill" Stroke="#ffffff" StrokeThickness="1" />
+            <Path Width="315" Height="1" HorizontalAlignment="Left" Margin="590,152.5,0,0" VerticalAlignment="Top" Data="M 1024.5,471.5 C1024.5,471.5 1258.5,471.5 1258.5,471.5 " Opacity="0.6" Stretch="Fill" Stroke="#333333" StrokeThickness="1" />
+            <Path Width="315" Height="1" HorizontalAlignment="Left" Margin="590,379.5,0,0" VerticalAlignment="Top" Data="M 1024.5,698.5 C1024.5,698.5 1258.5,698.5 1258.5,698.5 " Opacity="0.388" Stretch="Fill" Stroke="#ffffff" StrokeThickness="1" />
+            <Path Width="315" Height="1" HorizontalAlignment="Left" Margin="590,378.5,0,0" VerticalAlignment="Top" Data="M 1024.5,697.5 C1024.5,697.5 1258.5,697.5 1258.5,697.5 " Opacity="0.6" Stretch="Fill" Stroke="#333333" StrokeThickness="1" />
+            <Path Width="6" Height="10" HorizontalAlignment="Left" Margin="658,297,0,0" VerticalAlignment="Top" Data="M 1018,621 C1018,621 1012,626 1012,626 1012,626 1012,616 1012,616 1012,616 1018,621 1018,621 z" Fill="#ffffff" Opacity="1" Stretch="Fill" Visibility="Collapsed" />
+            <Grid x:Name="TimelineBackground" Height="109" Margin="0,17,28,0" VerticalAlignment="Top">
+                <Path Width="919" HorizontalAlignment="Left" Data="M 361,336 C361,336 1266,336 1266,336 1269.866,336 1273,339.133 1273,343 1273,343 1273,438 1273,438 1273,441.866 1269.866,445 1266,445 1266,445 361,445 361,445 357.133,445 354,441.866 354,438 354,438 354,343 354,343 354,339.133 357.133,336 361,336 z" Opacity="1" Stretch="Fill">
+                    <Path.Fill>
+                        <LinearGradientBrush StartPoint="0.513,0.011" EndPoint="0.513,0.964">
+                            <LinearGradientBrush.GradientStops>
+                                <GradientStopCollection>
+                                    <GradientStop Offset="0" Color="#FF191919" />
+                                    <GradientStop Offset="0.927" Color="#FF2E2E2E" />
+                                    <GradientStop Offset="0.983" Color="#FF303030" />
+                                </GradientStopCollection>
+                            </LinearGradientBrush.GradientStops>
+                        </LinearGradientBrush>
+                    </Path.Fill>
+                </Path>
+                <Path Width="882" HorizontalAlignment="Left" Margin="33,3,0,3" Data="M 403,339 C394.163,339 387,346.163 387,355 387,355 387,426 387,426 387,434.836 394.163,442 403,442 403,442 1253,442 1253,442 1261.836,442 1269,434.836 1269,426 1269,426 1269,355 1269,355 1269,346.163 1267.836,339 1259,339 1259,339 403,339 403,339 z" Opacity="1" Stretch="Fill">
+                    <Path.Fill>
+                        <LinearGradientBrush StartPoint="0.462,1" EndPoint="0.462,0">
+                            <LinearGradientBrush.GradientStops>
+                                <GradientStopCollection>
+                                    <GradientStop Offset="0" Color="#FF000000" />
+                                    <GradientStop Offset="0.977" Color="#FF666666" />
+                                </GradientStopCollection>
+                            </LinearGradientBrush.GradientStops>
+                        </LinearGradientBrush>
+                    </Path.Fill>
+                </Path>
+                <Path Width="877" Height="98.804" HorizontalAlignment="Left" Margin="32,7.195,0,2.805" Data="M 391.194,343.195 C388.000,346.120 386,350.327 386,355 386,355 386,426 386,426 386,434.836 393.163,442 402,442 402,442 1263,442 1263,442 1263,442 1263,441 1263,441 1263,441 403,441 403,441 394.163,441 387,433.836 387,425 387,425 387,354 387,354 387,349.836 388.588,346.041 391.194,343.195 z" Opacity="0.549" Stretch="Fill">
+                    <Path.Fill>
+                        <LinearGradientBrush StartPoint="0.464,1" EndPoint="0.464,-0.042">
+                            <LinearGradientBrush.GradientStops>
+                                <GradientStopCollection>
+                                    <GradientStop Offset="0" Color="#FFffffff" />
+                                    <GradientStop Offset="0.972" Color="#00666666" />
+                                </GradientStopCollection>
+                            </LinearGradientBrush.GradientStops>
+                        </LinearGradientBrush>
+                    </Path.Fill>
+                </Path>
+                <Path Width="900" Height="41" HorizontalAlignment="Left" Margin="14,3,0,0" VerticalAlignment="Top" Data="M 368,339 C368,339 1261,339 1261,339 1264.5,339 1268,342.5 1268,346 1268,346 1268,379.999 1268,379.999 1268,379.999 368,379.999 368,379.999 368,379.999 368,339 368,339 z" Opacity="0.631" Stretch="Fill">
+                    <Path.Fill>
+                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                            <LinearGradientBrush.GradientStops>
+                                <GradientStopCollection>
+                                    <GradientStop Offset="0" Color="#a8ffffff" />
+                                    <GradientStop Offset="0.100" Color="#00ffffff" />
+                                    <GradientStop Offset="0.699" Color="#00ffffff" />
+                                </GradientStopCollection>
+                            </LinearGradientBrush.GradientStops>
+                        </LinearGradientBrush>
+                    </Path.Fill>
+                </Path>
+                <Path Width="45" HorizontalAlignment="Left" Margin="3,3,0,3" Data="M 385.820,368 C385.820,365.386 385.833,362.852 386,360.434 386,360.434 386,355 386,355 386,346.163 393.163,339 402,339 402,339 364,339 364,339 360.133,339 357,342.133 357,346 357,346 357,435 357,435 357,438.866 360.133,442 364,442 364,442 402,442 402,442 393.163,442 386,434.836 386,426 386,426 386,420.569 386,420.569 385.833,418.151 385.820,415.615 385.820,413 385.820,413 385.820,368 385.820,368 z" Opacity="1" Stretch="Fill">
+                    <Path.Fill>
+                        <LinearGradientBrush StartPoint="1,1.300" EndPoint="-0.156,0.306">
+                            <LinearGradientBrush.GradientStops>
+                                <GradientStopCollection>
+                                    <GradientStop Offset="0" Color="#FFa3a3a3" />
+                                    <GradientStop Offset="0.916" Color="#FF090909" />
+                                    <GradientStop Offset="0.972" Color="#FF000000" />
+                                </GradientStopCollection>
+                            </LinearGradientBrush.GradientStops>
+                        </LinearGradientBrush>
+                    </Path.Fill>
+                </Path>
+                <Path Width="45" Height="69.389" HorizontalAlignment="Left" Margin="3,3,0,37" Data="M 385.820,368 C385.820,366.868 385.880,365.753 386,364.654 386,364.654 386,355 386,355 386,346.163 393.163,339 402,339 402,339 364,339 364,339 360.133,339 357,342.133 357,346 357,346 357,408.389 357,408.389 357,408.389 385.819,390.134 385.819,390.134 385.819,390.134 385.820,368 385.820,368 z" Opacity="1" Stretch="Fill">
+                    <Path.Fill>
+                        <LinearGradientBrush StartPoint="1.044,1.253" EndPoint="-0.931,-1.267">
+                            <LinearGradientBrush.GradientStops>
+                                <GradientStopCollection>
+                                    <GradientStop Offset="0" Color="#FF383838" />
+                                    <GradientStop Offset="0.905" Color="#66F3F3F3" />
+                                    <GradientStop Offset="0.961" Color="#66ffffff" />
+                                </GradientStopCollection>
+                            </LinearGradientBrush.GradientStops>
+                        </LinearGradientBrush>
+                    </Path.Fill>
+                </Path>
+                <Path Width="51" Height="101.424" HorizontalAlignment="Left" Margin="3,3,0,5" Data="M 365,340 C365,340 404.914,340 404.914,340 405.917,339.613 406.948,339.278 408,339 408,339 364,339 364,339 360.133,339 357,342.133 357,346 357,346 357,435 357,435 357,437.187 358.003,439.141 359.574,440.424 358.590,439.219 358,437.678 358,436 358,436 358,347 358,347 358,343.133 361.133,340 365,340 z" Opacity="1" Stretch="Fill">
+                    <Path.Fill>
+                        <LinearGradientBrush StartPoint="0.039,-0.019" EndPoint="0.490,0.414">
+                            <LinearGradientBrush.GradientStops>
+                                <GradientStopCollection>
+                                    <GradientStop Offset="0" Color="#FFffffff" />
+                                    <GradientStop Offset="0.922" Color="#00ffffff" />
+                                    <GradientStop Offset="0.977" Color="#00ffffff" />
+                                </GradientStopCollection>
+                            </LinearGradientBrush.GradientStops>
+                        </LinearGradientBrush>
+                    </Path.Fill>
+                </Path>
+                <Path Width="51" Height="101.424" HorizontalAlignment="Left" Margin="864,4.575,0,3.425" Data="M 1261,441 C1261,441 1221.084,441 1221.084,441 1220.082,441.386 1219.051,441.721 1218,442 1218,442 1262,442 1262,442 1265.866,442 1269,438.866 1269,435 1269,435 1269,346 1269,346 1269,343.812 1267.996,341.858 1266.425,340.575 1267.409,341.780 1268,343.321 1268,345 1268,345 1268,434 1268,434 1268,437.866 1264.866,441 1261,441 z" Opacity="1" Stretch="Fill">
+                    <Path.Fill>
+                        <LinearGradientBrush StartPoint="1.039,1.019" EndPoint="0.577,0.841">
+                            <LinearGradientBrush.GradientStops>
+                                <GradientStopCollection>
+                                    <GradientStop Offset="0" Color="#FFffffff" />
+                                    <GradientStop Offset="0.922" Color="#00ffffff" />
+                                    <GradientStop Offset="0.977" Color="#00ffffff" />
+                                </GradientStopCollection>
+                            </LinearGradientBrush.GradientStops>
+                        </LinearGradientBrush>
+                    </Path.Fill>
+                </Path>
+                <Path Width="51" Height="101.424" HorizontalAlignment="Left" Margin="864,3.575,0,4.425" Data="M 1261,340.575 C1261,340.575 1221.084,340.575 1221.084,340.575 1220.082,340.188 1219.051,339.853 1218,339.575 1218,339.575 1262,339.575 1262,339.575 1265.866,339.575 1269,342.708 1269,346.575 1269,346.575 1269,435.575 1269,435.575 1269,437.762 1267.996,439.716 1266.425,441 1267.409,439.794 1268,438.253 1268,436.575 1268,436.575 1268,347.575 1268,347.575 1268,343.708 1264.866,340.575 1261,340.575 z" Opacity="1" Stretch="Fill">
+                    <Path.Fill>
+                        <LinearGradientBrush StartPoint="1.039,-0.019" EndPoint="0.577,0.158">
+                            <LinearGradientBrush.GradientStops>
+                                <GradientStopCollection>
+                                    <GradientStop Offset="0" Color="#FFffffff" />
+                                    <GradientStop Offset="0.922" Color="#00ffffff" />
+                                    <GradientStop Offset="0.977" Color="#00ffffff" />
+                                </GradientStopCollection>
+                            </LinearGradientBrush.GradientStops>
+                        </LinearGradientBrush>
+                    </Path.Fill>
+                </Path>
+                <Path Width="411" HorizontalAlignment="Left" Margin="504,3,0,3" Data="M 858,442 C858,442 1262,442 1262,442 1265.5,442 1269,438.5 1269,435 1269,435 1269,346 1269,346 1269,342 1264.844,339 1261.344,339 1261.344,339 1128.214,339 1128.214,339 1128.214,339 858,442 858,442 z" Opacity="0.121" Stretch="Fill">
+                    <Path.Fill>
+                        <LinearGradientBrush StartPoint="0.366,0.447" EndPoint="0.398,0.760">
+                            <LinearGradientBrush.GradientStops>
+                                <GradientStopCollection>
+                                    <GradientStop Offset="0" Color="#FFcccccc" />
+                                    <GradientStop Offset="0.916" Color="#FFFCFCFC" />
+                                    <GradientStop Offset="0.972" Color="#FFffffff" />
+                                </GradientStopCollection>
+                            </LinearGradientBrush.GradientStops>
+                        </LinearGradientBrush>
+                    </Path.Fill>
+                </Path>
+                <TextBlock HorizontalAlignment="Left" Margin="47,30,0,0" VerticalAlignment="Top" Foreground="#FFD7D6D6" Text="{Binding Path=XWT_LiveData_DarbyLabel, Source={StaticResource Strings}}" FontSize="9" />
+                <TextBlock HorizontalAlignment="Left" Margin="47,0,0,31" VerticalAlignment="Bottom" Foreground="#FFD7D6D6" Text="{Binding Path=XWT_LiveData_EvertonLabel, Source={StaticResource Strings}}" FontSize="9" />
+            </Grid>
+            <Grid x:Name="CountdownClock" Width="143" Height="143" HorizontalAlignment="Right" Margin="0,-10,42,0" VerticalAlignment="Top">
+                <Path Width="143" HorizontalAlignment="Left" Data="M 1113,390.5 C1113,351.011 1145.011,319 1184.5,319 1223.988,319 1256,351.011 1256,390.5 1256,429.988 1223.988,462 1184.5,462 1145.011,462 1113,429.988 1113,390.5 z" Fill="#191919" Opacity="1" Stretch="Fill" Visibility="Collapsed" />
+                <Path Width="138" HorizontalAlignment="Left" Margin="3,3,0,2" Data="M 1116,391 C1116,352.891 1146.891,322 1185,322 1223.108,322 1254,352.891 1254,391 1254,429.108 1223.108,460 1185,460 1146.891,460 1116,429.108 1116,391 z" Opacity="1" Stretch="Fill" Visibility="Collapsed">
+                    <Path.Fill>
+                        <LinearGradientBrush StartPoint="0.199,0.105" EndPoint="0.779,0.870">
+                            <LinearGradientBrush.GradientStops>
+                                <GradientStopCollection>
+                                    <GradientStop Offset="0" Color="#FFffffff" />
+                                    <GradientStop Offset="0.133" Color="#FFDBDBDB" />
+                                    <GradientStop Offset="0.333" Color="#FFA6A6A6" />
+                                    <GradientStop Offset="0.966" Color="#FF000000" />
+                                </GradientStopCollection>
+                            </LinearGradientBrush.GradientStops>
+                        </LinearGradientBrush>
+                    </Path.Fill>
+                </Path>
+                <Path Width="128.258" Height="129.882" HorizontalAlignment="Left" Margin="7.87,6.247,0,6.753" Data="M 1120.870,390.188 C1120.870,426.054 1149.581,455.129 1185,455.129 1220.418,455.129 1249.129,426.054 1249.129,390.188 1249.129,354.321 1220.418,325.247 1185,325.247 1149.581,325.247 1120.870,354.321 1120.870,390.188 z" Opacity="0.611" Stretch="Fill" Visibility="Collapsed">
+                    <Path.Fill>
+                        <LinearGradientBrush StartPoint="0.983,0.675" EndPoint="0.071,0.032">
+                            <LinearGradientBrush.GradientStops>
+                                <GradientStopCollection>
+                                    <GradientStop Offset="0" Color="#FFcccccc" />
+                                    <GradientStop Offset="0.922" Color="#FF0B0B0B" />
+                                    <GradientStop Offset="0.977" Color="#FF000000" />
+                                </GradientStopCollection>
+                            </LinearGradientBrush.GradientStops>
+                        </LinearGradientBrush>
+                    </Path.Fill>
+                </Path>
+                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="72" FontWeight="Bold" Foreground="#ffffff" Opacity="0.5" Text="{Binding Path=CurrentTimeClock}" TextAlignment="left" Margin="34.5,27.25,0,0" />
+                <TextBlock Margin="1.5,52,0,0" FontSize="12" Foreground="#66FFFFFF" Opacity="1" Text="{Binding Path=XWT_LiveData_TimeLabel, Source={StaticResource Strings}}" TextAlignment="Center" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Top" HorizontalAlignment="Left">
+                    <TextBlock.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform />
+                            <SkewTransform />
+                            <RotateTransform Angle="0" />
+                            <TranslateTransform />
+                        </TransformGroup>
+                    </TextBlock.RenderTransform>
+                </TextBlock>
+            </Grid>
+        </Grid>
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamTimeline x:Name="Timeline" Width="446" Height="130" HorizontalAlignment="Left" Margin="114,0,0,0" VerticalAlignment="Top" LegendStyle="{StaticResource LegendStyle}" ZoombarStyle="{StaticResource TimelineZoombarStyle}" d:LayoutOverrides="GridBox" SceneStyle="{StaticResource FootballSceneStyle}" Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource FootballTimelineStyle}">
+            <ig:XamTimeline.Axis>
+                <ig:NumericTimeAxis AutoRange="False" Minimum="0" Maximum="90" Unit="45"
+                                    FontFamily="/Infragistics.Samples.Shared;component/fonts/#Segoe UI"
+                                    Style="{StaticResource FootballAxisStyle}"
+                                    AxisPaneStyle="{StaticResource FootballAxisPaneStyle}"
+                                    ShowMinorTickMarks="True" ShowThumb="False" FontSize="9"
+                                    LabelStyle="{StaticResource FootballAxisLabelStyle}"
+                                    PaneStyle="{StaticResource FootballAxisMarkStyle}"
+                                    MajorTickMarkStyle="{StaticResource MajorTickMarkStyle}"
+                                    MinorTickMarkStyle="{StaticResource MinorTickMarkStyle}" ShowLabels="False"
+                                    MajorGridLineStyle="{StaticResource FootballGridMarkStyle}" />
+            </ig:XamTimeline.Axis>
+            <ig:XamTimeline.Series>
+                <ig:NumericTimeSeries DataMapping="Time=EventTime;Details=Details" EventPointStyle="{StaticResource GoalTopStyle}" Position="TopOrLeft" Title="{Binding Path=XWT_LiveData_Darby_GoalsLabel, Source={StaticResource Strings}}" VerticalAlignment="Bottom" />
+                <ig:NumericTimeSeries DataMapping="Time=EventTime;Details=Details" EventPointStyle="{StaticResource RedCardTopStyle}" Position="TopOrLeft" Title="{Binding Path=XWT_LiveData_Darby_RedFlagsLabel, Source={StaticResource Strings}}" VerticalAlignment="Bottom" />
+                <ig:NumericTimeSeries DataMapping="Time=EventTime;Details=Details" EventPointStyle="{StaticResource YellowCardTopStyle}" Position="TopOrLeft" Title="{Binding Path=XWT_LiveData_Darby_YellowFlagsLabel, Source={StaticResource Strings}}" VerticalAlignment="Bottom" />
+                <ig:NumericTimeSeries DataMapping="Time=EventTime;Details=Details" EventPointStyle="{StaticResource FoulTopStyle}" Position="TopOrLeft" Title="{Binding Path=XWT_LiveData_Darby_FoulsLabel, Source={StaticResource Strings}}" VerticalAlignment="Bottom" />
+                <ig:NumericTimeSeries DataMapping="Time=EventTime;Details=Details" EventPointStyle="{StaticResource GoalBottomStyle}" Position="BottomOrRight" Title="{Binding Path=XWT_LiveData_Everton_GoalsLabel, Source={StaticResource Strings}}" VerticalAlignment="Top" />
+                <ig:NumericTimeSeries DataMapping="Time=EventTime;Details=Details" EventPointStyle="{StaticResource RedCardBottomStyle}" Position="BottomOrRight" Title="{Binding Path=XWT_LiveData_Everton_RedFlagsLabel, Source={StaticResource Strings}}" VerticalAlignment="Top" />
+                <ig:NumericTimeSeries DataMapping="Time=EventTime;Details=Details" EventPointStyle="{StaticResource YellowCardBottomStyle}" Position="BottomOrRight" Title="{Binding Path=XWT_LiveData_Everton_YellowFlagsLabel, Source={StaticResource Strings}}" VerticalAlignment="Top" Fill="Yellow" />
+                <ig:NumericTimeSeries DataMapping="Time=EventTime;Details=Details" EventPointStyle="{StaticResource FoulBottomStyle}" Position="BottomOrRight" Title="{Binding Path=XWT_LiveData_Everton_FoulsLabel, Source={StaticResource Strings}}" VerticalAlignment="Top" />
+            </ig:XamTimeline.Series>
+        </ig:XamTimeline>
+        <!-- #END SNIPPET# -->
+        <controls:SoccerActionIcon FootballAction="{Binding Path=SelectedEventType}" Height="160" HorizontalAlignment="Left" Style="{StaticResource FootballActionIconStyle}" VerticalAlignment="Top" Width="144" Margin="180,250,0,0" />
+    </Grid>
+
+</igFramework:SampleContainer>

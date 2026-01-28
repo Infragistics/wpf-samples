@@ -1,0 +1,137 @@
+﻿<framework:SampleContainer x:Class="IGRibbon.Samples.Display.CustomTools"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="CustomToolsPage"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:igRibbon="http://infragistics.com/Ribbon"
+      xmlns:local="clr-namespace:IGRibbon.Samples.Display"
+      xmlns:res="clr-namespace:IGRibbon.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGRibbon;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:RibbonStrings x:Key="RibbonStrings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid Margin="0,0,0,10">
+        <Grid.Resources>
+            <!-- Create a ControlTemplate called "buttonTemplate". This ControlTemplate is what gives our
+            custom tool a circular appearance. -->
+            <ControlTemplate x:Key="buttonTemplate">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Ellipse
+                        x:Name="outerCircle"
+                        Width="19"
+                        Height="19"
+                        Grid.Row="0"
+                        Grid.Column="0">
+                        <Ellipse.Fill>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Offset="0" Color="Blue"/>
+                                <GradientStop Offset="1" Color="Red"/>
+                            </LinearGradientBrush>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <Ellipse
+                        Width="16"
+                        Height="16"
+                        Grid.Row="0"
+                        Grid.Column="0">
+                        <Ellipse.Fill>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Offset="0" Color="White"/>
+                                <GradientStop Offset="1" Color="Transparent"/>
+                            </LinearGradientBrush>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <Label Content="{TemplateBinding Button.Content}" Grid.Row="0" Grid.Column="1">
+                    </Label>
+                </Grid>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="Button.IsMouseOver" Value="True">
+                        <Setter TargetName="outerCircle" Property="Fill" Value="Orange"/>
+                    </Trigger>
+                    <Trigger Property="Button.IsPressed" Value="True">
+                        <Setter Property="RenderTransform">
+                            <Setter.Value>
+                                <ScaleTransform ScaleX=".9" ScaleY=".9"/>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="RenderTransformOrigin" Value=".5,.5"/>
+                    </Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <igRibbon:XamRibbon
+            x:Name="xamRibbon"
+            VerticalAlignment="Top"
+            Grid.Row="0"
+            Grid.Column="0"
+            Theme="RoyalLight">
+            <igRibbon:XamRibbon.Tabs>
+                <igRibbon:RibbonTabItem Header="{Binding Shared_Tab_Format_Header, Source={StaticResource RibbonStrings}}">
+                    <!-- RibbonGroup-->
+                    <igRibbon:RibbonGroup Id="Text Style" Caption="{Binding Shared_Tab_Format_Group_TextStyle_Caption,
+                        Source={StaticResource RibbonStrings}}">
+                        <igRibbon:ToolHorizontalWrapPanel>
+                            <igRibbon:ButtonGroup>
+                                <igRibbon:ToggleButtonTool x:Name="boldTool" SmallImage="/IGRibbon;component/Images/Bold.png"/>
+                                <igRibbon:ToggleButtonTool x:Name="italicTool" SmallImage="/IGRibbon;component/Images/Italic.png"/>
+                                <igRibbon:ToggleButtonTool x:Name="underlineTool" SmallImage="/IGRibbon;component/Images/Underline.png"/>
+                            </igRibbon:ButtonGroup>
+                            <igRibbon:ButtonGroup>
+                                <igRibbon:RadioButtonTool IsChecked="True" SmallImage="/IGRibbon;component/Images/LeftAlign.png"/>
+                                <igRibbon:RadioButtonTool SmallImage="/IGRibbon;component/Images/CenterAlign.png"/>
+                                <igRibbon:RadioButtonTool SmallImage="/IGRibbon;component/Images/RightAlign.png"/>
+                                <igRibbon:RadioButtonTool SmallImage="/IGRibbon;component/Images/JustifyAlign.png"/>
+                            </igRibbon:ButtonGroup>
+                        </igRibbon:ToolHorizontalWrapPanel>
+                    </igRibbon:RibbonGroup>
+                    <!-- End RibbonGroup-->
+                    <!-- #BEGIN SNIPPET# -->
+                    <igRibbon:RibbonGroup Id="Custom Tools" Caption="{Binding CompositionWalkthrough_CustomTools_Tab_Format_Group_CustomTools_Caption,
+                        Source={StaticResource RibbonStrings}}">
+                        <igRibbon:ToolHorizontalWrapPanel>
+                            <igRibbon:ButtonTool Caption="{Binding CompositionWalkthrough_CustomTools_Tab_Format_Group_CustomTools_Button_CenterAlign,
+                                Source={StaticResource RibbonStrings}}" SmallImage="/IGRibbon;component/Images/CenterAlign.png"/>
+                            <!-- Create the new custom tool and in it's Template, we will reference the ControlTemplate that
+                            we created in the Grid.Resources section. Please look in the Code-View to see the additional
+                            code that you will need to make this CustomTool function correctly.-->
+                            <local:CustomButtonTool igRibbon:RibbonToolHelper.Id="ABC"
+                                                    Content="{Binding CompositionWalkthrough_CustomTools_Tab_Format_Group_CustomTools_Button_CustomTool,
+                                Source={StaticResource RibbonStrings}}"
+                                                    Template="{StaticResource buttonTemplate}"/>
+                        </igRibbon:ToolHorizontalWrapPanel>
+                    </igRibbon:RibbonGroup>
+                    <!-- #END SNIPPET# -->
+                    <!-- RibbonGroup-->
+                    <!-- End RibbonGroup-->
+                </igRibbon:RibbonTabItem>
+                <igRibbon:RibbonTabItem Header="{Binding Shared_Tab_Insert_Header, Source={StaticResource RibbonStrings}}">
+                    <igRibbon:RibbonGroup Id="ClipArt" Caption="{Binding Shared_Tab_Insert_Group_ClipArt_Caption,
+                        Source={StaticResource RibbonStrings}}" />
+                </igRibbon:RibbonTabItem>
+            </igRibbon:XamRibbon.Tabs>
+        </igRibbon:XamRibbon>
+    </Grid>
+</framework:SampleContainer>

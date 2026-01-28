@@ -1,0 +1,295 @@
+﻿<framework:SampleContainer x:Class="IGRibbon.Samples.Organization.RibbonAndOutlookBar"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="AddTabsGroups"
+      xmlns:customControls="clr-namespace:IGRibbon.CustomControls"
+      xmlns:customRes="clr-namespace:IGRibbon.CustomControls.Resources"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGRibbon.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGRibbon;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamRibbonSB.xaml" />
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamOutlookBar.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:RibbonStrings x:Key="RibbonStrings" />
+            <customRes:OutlookBarStrings x:Key="OutlookBarStrings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Width="Auto" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="145"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <!--#BEGIN SNIPPET#-->
+        <ig:XamRibbon x:Name="MyRibbon" Grid.Row="0" Grid.ColumnSpan="3">
+            <!-- Application Menu -->
+            <ig:XamRibbon.ApplicationMenu>
+                <ig:XamRibbonApplicationMenu RecentItemsHeader="{Binding Source={StaticResource RibbonStrings}, Path=XWR_RecentItemsHeader}"
+                                             Image="{Binding Source='Ribbon/ApplicationMenuImage.png', Converter={StaticResource getImageConverter}}">
+                    <ig:ButtonTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_New}"
+                                   LargeImage="{Binding Source='Ribbon/New32.png', Converter={StaticResource getImageConverter}}"/>
+                    <ig:ButtonTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_OpenButton}"
+                                   LargeImage="{Binding Source='Ribbon/Open32.png', Converter={StaticResource getImageConverter}}"/>
+                    <ig:ButtonTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_SaveButton}"
+                                   LargeImage="{Binding Source='Ribbon/Save32.png', Converter={StaticResource getImageConverter}}"/>
+                    <ig:ButtonTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_CloseButton}"
+                                   LargeImage="{Binding Source='Ribbon/Close32.png', Converter={StaticResource getImageConverter}}"/>
+                    <ig:SeparatorTool></ig:SeparatorTool>
+                    <!-- Menu Tool to display Print Options -->
+                    <ig:MenuTool ApplicationSubmenuTitle="{Binding Source={StaticResource RibbonStrings}, Path=XWR_PrintingOptions}"
+                                 Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Print}"
+                                 SmallImage="{Binding Source='Ribbon/Printer16.png', Converter={StaticResource getImageConverter}}"
+                                 LargeImage="{Binding Source='Ribbon/Printer32.png', Converter={StaticResource getImageConverter}}">
+                        <ig:ButtonTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Print}"
+                                       SmallImage="{Binding Source='Ribbon/Printer16.png', Converter={StaticResource getImageConverter}}"
+                                       LargeImage="{Binding Source='Ribbon/Printer32.png', Converter={StaticResource getImageConverter}}"
+                                       Description="{Binding Source={StaticResource RibbonStrings}, Path=XWR_PrintDesc}" />
+                        <ig:ButtonTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_QuickPrint}"
+                                       SmallImage="{Binding Source='Ribbon/PrinterOK16.png', Converter={StaticResource getImageConverter}}"
+                                       LargeImage="{Binding Source='Ribbon/PrinterOK32.png', Converter={StaticResource getImageConverter}}"
+                                       Description="{Binding Source={StaticResource RibbonStrings}, Path=XWR_QuickPrintDesc}"/>
+                        <ig:ButtonTool Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_PrintPreview}"
+                                       SmallImage="{Binding Source='Ribbon/PrintPreview16.png', Converter={StaticResource getImageConverter}}"
+                                       LargeImage="{Binding Source='Ribbon/PrintPreview32.png', Converter={StaticResource getImageConverter}}"
+                                       Description="{Binding Source={StaticResource RibbonStrings}, Path=XWR_PrintPreviewDesc}"/>
+                    </ig:MenuTool>
+
+                    <!-- Add Items to the Recent Items section of the Application Menu -->
+                    <ig:XamRibbonApplicationMenu.RecentItems>
+                        <TextBlock Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_RecentItems_Item11}"/>
+                        <TextBlock Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_RecentItems_Item12}"/>
+                        <TextBlock Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_RecentItems_Item13}"/>
+                        <TextBlock Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_RecentItems_Item14}"/>
+                    </ig:XamRibbonApplicationMenu.RecentItems>
+
+                    <!-- Add Item to the Footer toolbar section of the Application Menu -->
+                    <ig:XamRibbonApplicationMenu.Footer>
+                        <TextBlock Text="{Binding Source={StaticResource RibbonStrings}, Path=XWR_ExitButton}"/>
+                    </ig:XamRibbonApplicationMenu.Footer>
+                </ig:XamRibbonApplicationMenu>
+            </ig:XamRibbon.ApplicationMenu>
+
+            <!-- Quick Access Toolbar -->
+            <ig:XamRibbon.QuickAccessToolbar>
+                <ig:QuickAccessToolbar>
+                    <ig:QatPlaceholderTool TargetId="NEW_EMAIL" TargetType="Tool"></ig:QatPlaceholderTool>
+                    <ig:QatPlaceholderTool TargetId="NEW_ITEMS" TargetType="Tool"></ig:QatPlaceholderTool>
+                </ig:QuickAccessToolbar>
+            </ig:XamRibbon.QuickAccessToolbar>
+
+            <ig:XamRibbon.Tabs>
+                <ig:XamRibbonTabItem KeyTip="H" Header="{Binding Source={StaticResource RibbonStrings}, Path=XWR_HomeTab}">
+                    <ig:XamRibbonGroup Id="NEW_GROUP" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_New}">
+                        <ig:ButtonTool Id="NEW_EMAIL" IsQatCommonTool="False"
+                                       Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_NewEmail}"
+                                       LargeImage="{Binding Source='Ribbon/NewEmail32.png', Converter={StaticResource getImageConverter}}"
+                                       SmallImage="{Binding Source='Ribbon/NewEmail32.png', Converter={StaticResource getImageConverter}}"
+                                       MaximumSize="ImageAndTextLarge" MinimumSize="ImageOnly"/>
+                        <ig:MenuTool Id="NEW_ITEMS" IsQatCommonTool="False"
+                                     Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_NewItems}"
+                                     LargeImage="{Binding Source='Ribbon/NewItems32.png', Converter={StaticResource getImageConverter}}"
+                                     MaximumSize="ImageAndTextLarge"
+                                     SmallImage="{Binding Source='Ribbon/NewItems32.png', Converter={StaticResource getImageConverter}}"
+                                     MinimumSize="ImageOnly">
+                            <ig:ButtonTool Id="NEW_APPOINTMENT"
+                                           Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Appointment}"
+                                           SmallImage="{Binding Source='Ribbon/NewItems32.png', Converter={StaticResource getImageConverter}}"
+                                           MaximumSize="ImageAndTextNormal"/>
+                            <ig:ButtonTool Id="NEW_MEETING_REQUEST"
+                                           Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_MeetingRequest}"
+                                           SmallImage="{Binding Source='Ribbon/Meeting16.png', Converter={StaticResource getImageConverter}}"
+                                           MaximumSize="ImageAndTextNormal"/>
+                            <ig:ButtonTool Id="NEW_CONTACT"
+                                           Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Contact}"
+                                           SmallImage="{Binding Source='Ribbon/UserAdd16.png', Converter={StaticResource getImageConverter}}"
+                                           MaximumSize="ImageAndTextNormal"/>
+                            <ig:ButtonTool Id="NEW_TASK"
+                                           Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Task}"
+                                           SmallImage="{Binding Source='Ribbon/NewItems32.png', Converter={StaticResource getImageConverter}}"
+                                           MaximumSize="ImageAndTextNormal"/>
+                            <ig:ButtonTool Id="NEW_NOTE"
+                                           Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Note}"
+                                           SmallImage="{Binding Source='Ribbon/OneNote16.png', Converter={StaticResource getImageConverter}}"
+                                           MaximumSize="ImageAndTextNormal"/>
+                        </ig:MenuTool>
+                    </ig:XamRibbonGroup>
+
+                    <ig:XamRibbonGroup Id="DELETE_GROUP"
+                                       Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Delete}">
+                        <ig:ButtonTool Id="DELETE" IsQatCommonTool="False"
+                                       Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Delete}"
+                                       LargeImage="{Binding Source='Ribbon/Delete32.png', Converter={StaticResource getImageConverter}}"
+                                       SmallImage="{Binding Source='Ribbon/Delete16.png', Converter={StaticResource getImageConverter}}"
+                                       MaximumSize="ImageAndTextLarge"/>
+                        <ig:ButtonTool Id="UN_DELETE" IsQatCommonTool="False"
+                                       Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Undelete}"
+                                       LargeImage="{Binding Source='Ribbon/DeleteNew32.png', Converter={StaticResource getImageConverter}}"
+                                       SmallImage="{Binding Source='Ribbon/DeleteNew32.png', Converter={StaticResource getImageConverter}}"
+                                       MaximumSize="ImageAndTextLarge"/>
+                        <ig:MenuTool IsQatCommonTool="False"
+                                     Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Junk}"
+                                     SmallImage="{Binding Source='Ribbon/Junk16.png', Converter={StaticResource getImageConverter}}"
+                                     MaximumSize="ImageAndTextNormal">
+                            <ig:ButtonTool Id="BLOCKED_LIST"
+                                           Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_AddSenderToBlockedList}"
+                                           SmallImage="{Binding Source='Ribbon/UserDelete16.png', Converter={StaticResource getImageConverter}}"
+                                           MaximumSize="ImageAndTextNormal"/>
+                            <ig:ButtonTool Id="NOT_JUNK" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_MarkAsNotJunk}"
+                                           SmallImage="{Binding Source='Ribbon/Folder16.png', Converter={StaticResource getImageConverter}}"
+                                           MaximumSize="ImageAndTextNormal"/>
+                        </ig:MenuTool>
+                        <ig:ButtonTool Id="IGNORE" IsQatCommonTool="False" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Ignore}"
+                                       SmallImage="{Binding Source='Ribbon/Ignore16.png', Converter={StaticResource getImageConverter}}"
+                                       MaximumSize="ImageAndTextNormal"/>
+                        <ig:ButtonTool Id="CLEAN_UP" IsQatCommonTool="False"
+                                       Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_CleanUp}"
+                                       SmallImage="{Binding Source='Ribbon/CleanUp16.png', Converter={StaticResource getImageConverter}}"
+                                       MaximumSize="ImageAndTextNormal"/>
+                    </ig:XamRibbonGroup>
+
+                    <ig:XamRibbonGroup Id="RESPOND_GROUP"
+                                       Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Respond}">
+                        <ig:ButtonTool Id="REPLY" IsQatCommonTool="False" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Reply}"
+                                       LargeImage="{Binding Source='Ribbon/Reply32.png', Converter={StaticResource getImageConverter}}"
+                                       SmallImage="{Binding Source='Ribbon/Reply32.png', Converter={StaticResource getImageConverter}}"
+                                       MaximumSize="ImageAndTextLarge"/>
+                        <ig:ButtonTool Id="REPLY_ALL" IsQatCommonTool="False" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_ReplyAll}"
+                                       LargeImage="{Binding Source='Ribbon/ReplyAll32.png', Converter={StaticResource getImageConverter}}"
+                                       SmallImage="{Binding Source='Ribbon/ReplyAll32.png', Converter={StaticResource getImageConverter}}"
+                                       MaximumSize="ImageAndTextLarge"/>
+                        <ig:ButtonTool Id="FORWARD" IsQatCommonTool="False"
+                                       Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Forward}"
+                                       LargeImage="{Binding Source='Ribbon/Forward32.png', Converter={StaticResource getImageConverter}}"
+                                       SmallImage="{Binding Source='Ribbon/Forward32.png', Converter={StaticResource getImageConverter}}"
+                                       MaximumSize="ImageAndTextLarge"/>
+                    </ig:XamRibbonGroup>
+
+                    <ig:XamRibbonGroup Id="ACTIONS_GROUP" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Actions}">
+                        <ig:MenuTool Id="MOVE"
+                                     Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Move}"
+                                     SmallImage="{Binding Source='Ribbon/Move16.png', Converter={StaticResource getImageConverter}}"
+                                     MaximumSize="ImageAndTextNormal">
+                            <ig:ButtonTool Id="MOVE_TO_FOLDER"
+                                           Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_MoveToFolder}"
+                                           SmallImage="{Binding Source='Ribbon/MoveToFolder32.png', Converter={StaticResource getImageConverter}}"
+                                           MaximumSize="ImageAndTextNormal"/>
+                            <ig:ButtonTool Id="MOVE_TO_DELETED_ITEMSREPLY_ALL"
+                                           Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_CopyToFolder}"
+                                           SmallImage="{Binding Source='Ribbon/CopyToFolder32.png', Converter={StaticResource getImageConverter}}"
+                                           MaximumSize="ImageAndTextNormal"/>
+                        </ig:MenuTool>
+
+                        <ig:MenuTool Id="RULES"
+                                     Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Rules}"
+                                     SmallImage="{Binding Source='Ribbon/Rules16.png', Converter={StaticResource getImageConverter}}"
+                                     MaximumSize="ImageAndTextNormal">
+                            <ig:ButtonTool Id="NEW_RULE"
+                                           Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_NewRule}"
+                                           SmallImage="{Binding Source='Ribbon/Rules16.png', Converter={StaticResource getImageConverter}}"
+                                           MaximumSize="ImageAndTextNormal"/>
+                            <ig:ButtonTool Id="CHANGE_RULE" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_ChangeRule}"
+                                           SmallImage="{Binding Source='Ribbon/Rules16.png', Converter={StaticResource getImageConverter}}"
+                                           MaximumSize="ImageAndTextNormal"/>
+                        </ig:MenuTool>
+
+                        <ig:MenuTool Id="MORE_ACTIONS"
+                                     Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_MoreActions}"
+                                     SmallImage="{Binding Source='Ribbon/More16.png', Converter={StaticResource getImageConverter}}"
+                                     MaximumSize="ImageAndTextNormal">
+                            <ig:ButtonTool Id="ADDRESS_BOOK"
+                                           Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_AddressBook}"
+                                           SmallImage="{Binding Source='Ribbon/ChangeStyles16.png', Converter={StaticResource getImageConverter}}"
+                                           MaximumSize="ImageAndTextNormal"/>
+                            <ig:ButtonTool Id="CATEGORIZE"
+                                           Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Categorize}"
+                                           SmallImage="{Binding Source='Ribbon/Categorize16.png', Converter={StaticResource getImageConverter}}"
+                                           MaximumSize="ImageAndTextNormal"/>
+                            <ig:ButtonTool Id="EMPTY"
+                                           Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_EmptyDeletedFolder}"
+                                           SmallImage="{Binding Source='Ribbon/Delete16.png', Converter={StaticResource getImageConverter}}"
+                                           MaximumSize="ImageAndTextNormal"/>
+                            <ig:ButtonTool Id="RECOVER"
+                                           Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_RecoverDeletedItems}"
+                                           SmallImage="{Binding Source='Ribbon/Open16.png', Converter={StaticResource getImageConverter}}"
+                                           MaximumSize="ImageAndTextNormal"/>
+
+                        </ig:MenuTool>
+                    </ig:XamRibbonGroup>
+
+                    <ig:XamRibbonGroup Id="TAGS_GROUP" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Tags}">
+                        <ig:ButtonTool Id="UNREAD" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_UnreadRead}"
+                                       SmallImage="{Binding Source='Ribbon/Unread16.png', Converter={StaticResource getImageConverter}}"
+                                       MaximumSize="ImageAndTextNormal"/>
+                        <ig:ButtonTool Id="FOLLOW_UP" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_FollowUp}"
+                                       SmallImage="{Binding Source='Ribbon/FollowUp16.png', Converter={StaticResource getImageConverter}}"
+                                       MaximumSize="ImageAndTextNormal"/>
+                    </ig:XamRibbonGroup>
+                </ig:XamRibbonTabItem>
+
+                <ig:XamRibbonTabItem KeyTip="S" Header="{Binding Source={StaticResource RibbonStrings}, Path=XWR_SendRecieveTab}">
+                    <ig:XamRibbonGroup Id="SEND_RECEIVE_GROUP" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_SendRecieve}">
+                        <ig:ButtonTool Id="SEND_RECEIVE" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_SendReceive}"
+                                       LargeImage="{Binding Source='Ribbon/SendReceive32.png', Converter={StaticResource getImageConverter}}"
+                                       MaximumSize="ImageAndTextLarge"/>
+                        <ig:ButtonTool Id="UpdateFolder" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_UpdateFolder}"
+                                       SmallImage="{Binding Source='Ribbon/UpdateFolder16.png', Converter={StaticResource getImageConverter}}"
+                                       MaximumSize="ImageAndTextNormal"/>
+                        <ig:ButtonTool Id="SEND_ALL" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_SendAll}"
+                                       SmallImage="{Binding Source='Ribbon/SendAll16.png', Converter={StaticResource getImageConverter}}"
+                                       MaximumSize="ImageAndTextNormal"/>
+                        <ig:ButtonTool Id="SEND_RECEIVE_SETTINGS" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_SendReceiveSettings}"
+                                       SmallImage="{Binding Source='Ribbon/SendReceiveGroups16.png', Converter={StaticResource getImageConverter}}"
+                                       MaximumSize="ImageAndTextNormal"/>
+                    </ig:XamRibbonGroup>
+                </ig:XamRibbonTabItem>
+
+                <ig:XamRibbonTabItem KeyTip="FO" Header="{Binding Source={StaticResource RibbonStrings}, Path=XWR_FolderTab}">
+                    <ig:XamRibbonGroup Id="FOLDER_GROUP" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_Folders}">
+                        <ig:ButtonTool Id="NEW_FOLDER" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_NewFolder}"
+                                       LargeImage="{Binding Source='Ribbon/NewFolder32.png', Converter={StaticResource getImageConverter}}"
+                                       MaximumSize="ImageAndTextLarge"/>
+                        <ig:ButtonTool Id="MOVE_TO_FOLDER1" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_MoveToFolder}"
+                                       LargeImage="{Binding Source='Ribbon/MoveToFolder32.png', Converter={StaticResource getImageConverter}}"
+                                       MaximumSize="ImageAndTextLarge"/>
+                        <ig:ButtonTool Id="COPY_TO_FOLDER" Caption="{Binding Source={StaticResource RibbonStrings}, Path=XWR_CopyToFolder}"
+                                       LargeImage="{Binding Source='Ribbon/CopyToFolder32.png', Converter={StaticResource getImageConverter}}"
+                                       MaximumSize="ImageAndTextLarge"/>
+                    </ig:XamRibbonGroup>
+                </ig:XamRibbonTabItem>
+            </ig:XamRibbon.Tabs>
+        </ig:XamRibbon>
+
+        <ig:XamOutlookBar x:Name="XamOutlookBar"  Width="250" MinimizedWidth="38" Grid.Column="0" Grid.Row="1">
+            <ig:OutlookBarGroup
+                Header="{Binding Source={StaticResource OutlookBarStrings}, Path=XOB_Group_Header_Mail}"
+                IsSelected="True">
+                <ig:OutlookBarGroup.LargeIconTemplate>
+                    <DataTemplate>
+                        <Image Source="{Binding Source='Ribbon/OBarMailLarge.png', Converter={StaticResource getImageConverter}}"/>
+                    </DataTemplate>
+                </ig:OutlookBarGroup.LargeIconTemplate>
+                <ig:OutlookBarGroup.SmallIconTemplate>
+                    <DataTemplate>
+                        <Image Source="{Binding Source='Ribbon/OBarMail.png', Converter={StaticResource getImageConverter}}"/>
+                    </DataTemplate>
+                </ig:OutlookBarGroup.SmallIconTemplate>
+                <customControls:XobSampleMailContent />
+            </ig:OutlookBarGroup>
+        </ig:XamOutlookBar>
+        <!--#END SNIPPET#-->
+    </Grid>
+</framework:SampleContainer>

@@ -1,0 +1,110 @@
+﻿<igFramework:SampleContainer
+    x:Class="IGShapeChart.Samples.ChartTooltips"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+    xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared"
+    xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+    xmlns:model="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+    xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:local="clr-namespace:IGShapeChart.Samples"
+    xmlns:resources="clr-namespace:IGShapeChart.Resources"
+    mc:Ignorable="d" 
+    d:DesignHeight="300" d:DesignWidth="300">
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGShapeChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>  
+            <resources:ShapeChartStrings x:Key="Strings" /> 
+        
+            <!-- this loads multiple shapefiles of world countires and filters them by their region -->
+            <x:Array Type="local:ShapefileLoader" x:Key="Shapefiles">
+                <local:ShapefileLoader FilePath="/IGShapeChart;component/shapefiles/world-countries" FilterValue="Antarctica" /> 
+                <local:ShapefileLoader FilePath="/IGShapeChart;component/shapefiles/world-countries" FilterValue="Asia" /> 
+                <local:ShapefileLoader FilePath="/IGShapeChart;component/shapefiles/world-countries" FilterValue="Caribbean" /> 
+                <local:ShapefileLoader FilePath="/IGShapeChart;component/shapefiles/world-countries" FilterValue="Europe" /> 
+                <local:ShapefileLoader FilePath="/IGShapeChart;component/shapefiles/world-countries" FilterValue="North America" /> 
+                <local:ShapefileLoader FilePath="/IGShapeChart;component/shapefiles/world-countries" FilterValue="NorthAfrica" /> 
+                <local:ShapefileLoader FilePath="/IGShapeChart;component/shapefiles/world-countries" FilterValue="Sub Saharan Africa" /> 
+                <local:ShapefileLoader FilePath="/IGShapeChart;component/shapefiles/world-countries" FilterValue="Latin America" /> 
+                <local:ShapefileLoader FilePath="/IGShapeChart;component/shapefiles/WorldCities" FilterValue="" /> 
+            </x:Array>
+
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <Grid >
+        <Grid.ColumnDefinitions>  
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="auto" /> 
+        </Grid.ColumnDefinitions> 
+                           
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ========================================================================== -->
+        <ig:XamShapeChart x:Name="Chart"
+                          MarkerTypes="Circle"
+                          ExcludedProperties="OffsetX OffsetY"
+                          ItemsSource="{StaticResource Shapefiles}" 
+                          SeriesAdded="Chart_SeriesAdded"
+                          YAxisStrokeThickness="1"
+                          YAxisStroke="#FFC5C4C6"
+                          CrosshairsAnnotationEnabled="false"
+                          CrosshairsDisplayMode="None"
+                          ToolTipType="Default">
+            <ig:XamShapeChart.ToolTips>
+                <!--an array of tooltips for each series generated from ItemsSource of the chart -->
+                <collections:ArrayList >     
+                     <StackPanel Orientation="Horizontal">
+                          <TextBlock Text="{Binding Item.Fields[REGION]}" />                        
+                      </StackPanel>                    
+                      <StackPanel Orientation="Horizontal">
+                          <TextBlock Text="{Binding Item.Fields[NAME]}" />
+                          <TextBlock Text="{Binding Item.Fields[REGION], StringFormat=', {0}'}" />                        
+                      </StackPanel>                    
+                      <StackPanel Orientation="Horizontal">
+                          <TextBlock Text="{Binding Item.Fields[NAME]}" />
+                          <TextBlock Text="{Binding Item.Fields[REGION], StringFormat=', {0}'}" />                        
+                      </StackPanel>                    
+                      <StackPanel Orientation="Horizontal">
+                          <TextBlock Text="{Binding Item.Fields[NAME]}" />
+                          <TextBlock Text="{Binding Item.Fields[REGION], StringFormat=', {0}'}" />                        
+                      </StackPanel>                    
+                      <StackPanel Orientation="Horizontal">
+                          <TextBlock Text="{Binding Item.Fields[NAME]}" />
+                          <TextBlock Text="{Binding Item.Fields[REGION], StringFormat=', {0}'}" />                        
+                      </StackPanel>                    
+                      <StackPanel Orientation="Horizontal">
+                          <TextBlock Text="{Binding Item.Fields[NAME]}" />
+                          <TextBlock Text="{Binding Item.Fields[REGION], StringFormat=', {0}'}" />                        
+                      </StackPanel>                    
+                      <StackPanel Orientation="Horizontal">
+                          <TextBlock Text="{Binding Item.Fields[NAME]}" />
+                          <TextBlock Text="{Binding Item.Fields[REGION], StringFormat=', {0}'}" />                        
+                      </StackPanel>                 
+                      <StackPanel Orientation="Horizontal">
+                          <TextBlock Text="{Binding Item.Fields[NAME]}" />
+                          <TextBlock Text="{Binding Item.Fields[REGION], StringFormat=', {0}'}" />                        
+                      </StackPanel>
+                     <!--custom tooltips with bindings to properties of data item: ShapefileRecord-->
+                     <StackPanel Margin="5">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Item.Fields[NAME]}" />
+                            <TextBlock Text="{Binding Item.Fields[COUNTRY], StringFormat=', {0}'}" />                        
+                        </StackPanel>  
+                        <TextBlock Text="{Binding Item.Points[0][0].X, StringFormat='Longitude {0:0}'}" />
+                        <TextBlock Text="{Binding Item.Points[0][0].Y, StringFormat='Latitude {0:0}'}" /> 
+                    </StackPanel>
+                </collections:ArrayList>
+            </ig:XamShapeChart.ToolTips>
+        </ig:XamShapeChart>
+        <!-- ========================================================================== -->
+        <!-- #END SNIPPET# --> 
+        <ig:Legend x:Name="Legend" Grid.Column="1" Content="{Binding XW_Regions, Source={StaticResource Strings}}" HorizontalAlignment="Left"/>
+    </Grid>
+</igFramework:SampleContainer>
+    
+     <!---->      

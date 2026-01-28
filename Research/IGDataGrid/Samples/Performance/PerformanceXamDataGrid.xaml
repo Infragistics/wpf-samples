@@ -1,0 +1,70 @@
+﻿<igFramework:SampleContainer x:Class="IGDataGrid.Samples.Performance.PerformanceXamDataGrid"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="PerformanceXamDataGrid"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGDataGrid.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataGrid;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DataGridStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Width="Auto">
+        <!-- #BEGIN SNIPPET# -->
+        <igDP:XamDataGrid x:Name="dataGrid"
+                          Theme="RoyalLight"
+                          GroupByAreaLocation="None">
+            <!--<igDP:XamDataGrid.Resources>
+                <ResourceDictionary Source="../../Assets/HoverLessStyle.xaml" />
+            </igDP:XamDataGrid.Resources>-->
+
+            <igDP:XamDataGrid.FieldLayoutSettings>
+                <igDP:FieldLayoutSettings AutoGenerateFields="False"/>
+            </igDP:XamDataGrid.FieldLayoutSettings>
+            <igDP:XamDataGrid.FieldSettings>
+                <igDP:FieldSettings LabelClickAction="Nothing" />
+            </igDP:XamDataGrid.FieldSettings>
+            <igDP:XamDataGrid.FieldLayouts>
+                <igDP:FieldLayout>
+                    <igDP:FieldLayout.Fields>
+                        <igDP:Field Name="OrderNumber" />
+                        <igDP:Field Name="SalesPrice" />
+                        <igDP:Field Name="Quantity" />
+                        <igDP:Field Name="Total" />
+                    </igDP:FieldLayout.Fields>
+                </igDP:FieldLayout>
+            </igDP:XamDataGrid.FieldLayouts>
+        </igDP:XamDataGrid>
+        <!-- #END SNIPPET# -->
+
+        <controls:OptionsPanel HeaderText="{Binding XWG_LargeResultSet_ConfigHeader, Source={StaticResource Strings}}"
+                               Margin="0,10,0,10"
+                               Width="260"
+                               HorizontalAlignment="Right">
+            <StackPanel Orientation="Vertical">
+                <Button x:Name="GenerateData"
+                        Click="GenerateData_Click"
+                        Content="{Binding Path=XWG_LargeResultSet_Generate, Source={StaticResource Strings}}"
+                        HorizontalAlignment="Stretch"
+                        Margin="{DynamicResource OptionsElementsMargin}" />
+                <TextBlock x:Name="MessageDisplay"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Visibility="Hidden"
+                           MaxWidth="180"
+                           TextWrapping="Wrap"/>
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

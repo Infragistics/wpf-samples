@@ -1,0 +1,393 @@
+﻿<igFramework:SampleContainer x:Class="IGDockManager.Samples.Style.StylingContentPaneNavigator"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="Infragistics XAML Control Sample"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+      xmlns:res="clr-namespace:IGDockManager.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDockManager;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DockManagerStrings x:Key="Strings" />
+            <!--#BEGIN SNIPPET#-->
+            <LinearGradientBrush x:Key="PaneNavigatorBack">
+                <GradientStop Color="#FFCED4DB"
+                              Offset="0" />
+                <GradientStop Color="#FFD9E0EA"
+                              Offset="0.027" />
+                <GradientStop Color="#FFC8D5E8"
+                              Offset="0.997" />
+                <GradientStop Color="#FFFCFCFC"
+                              Offset="1" />
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="PaneNavigatorHeaderBack">
+                <GradientStop Color="White"
+                              Offset="0" />
+                <GradientStop Color="White"
+                              Offset="0.327" />
+                <GradientStop Color="#FFF5F9FF"
+                              Offset="1" />
+            </LinearGradientBrush>
+            <SolidColorBrush x:Key="ContentPaneBorderBrush"
+                             Color="#FFB1B1B1" />
+            <SolidColorBrush x:Key="PaneBtnBorderBrush"
+                             Color="#FF535353" />
+            <Style x:Key="PaneNavigatorItemstyle"
+                   TargetType="ListBoxItem">
+                <Setter Property="Padding"
+                        Value="3" />
+                <Setter Property="HorizontalContentAlignment"
+                        Value="Stretch" />
+                <Setter Property="VerticalContentAlignment"
+                        Value="Stretch" />
+                <Setter Property="TabNavigation"
+                        Value="Local" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ListBoxItem">
+                            <Grid Background="{TemplateBinding Background}">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal" />
+                                        <VisualState x:Name="MouseOver">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)"
+                                                                               Storyboard.TargetName="hoverBd">
+                                                    <DiscreteObjectKeyFrame KeyTime="0">
+                                                        <DiscreteObjectKeyFrame.Value>
+                                                            <Visibility>Visible</Visibility>
+                                                        </DiscreteObjectKeyFrame.Value>
+                                                    </DiscreteObjectKeyFrame>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Disabled">
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="0"
+                                                                 To=".55"
+                                                                 Storyboard.TargetProperty="Opacity"
+                                                                 Storyboard.TargetName="contentPresenter" />
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="SelectionStates">
+                                        <VisualState x:Name="Unselected" />
+                                        <VisualState x:Name="Selected">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)"
+                                                                               Storyboard.TargetName="selectedBd">
+                                                    <DiscreteObjectKeyFrame KeyTime="0">
+                                                        <DiscreteObjectKeyFrame.Value>
+                                                            <Visibility>Visible</Visibility>
+                                                        </DiscreteObjectKeyFrame.Value>
+                                                    </DiscreteObjectKeyFrame>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="FocusStates">
+                                        <VisualState x:Name="Focused" />
+                                        <VisualState x:Name="Unfocused" />
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Rectangle x:Name="hoverBd"
+                                           Stroke="{StaticResource ContentPaneBorderBrush}"
+                                           Visibility="Collapsed">
+                                    <Rectangle.Fill>
+                                        <LinearGradientBrush EndPoint="0.5,1"
+                                                             StartPoint="0.5,0">
+                                            <GradientStop Color="#FFA1B0C2"
+                                                          Offset="0.059" />
+                                            <GradientStop Color="#FF506D93"
+                                                          Offset="0.941" />
+                                        </LinearGradientBrush>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <Border x:Name="selectedBd"
+                                        BorderBrush="{StaticResource ContentPaneBorderBrush}"
+                                        BorderThickness="1"
+                                        Visibility="Collapsed">
+                                    <Border.Background>
+                                        <LinearGradientBrush EndPoint="0.5,1"
+                                                             StartPoint="0.5,0">
+                                            <GradientStop Color="#FF9BC3F3"
+                                                          Offset="0.059" />
+                                            <GradientStop Color="#FF5D8FB6"
+                                                          Offset="0.941" />
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                </Border>
+                                <ContentControl x:Name="contentControl"
+                                                Foreground="#FF333333">
+                                    <ContentPresenter x:Name="contentPresenter"
+                                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                      Content="{TemplateBinding Content}"
+                                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                      Margin="{TemplateBinding Padding}" />
+                                </ContentControl>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style TargetType="igPrim:PaneNavigator">
+                <Setter Property="Background"
+                        Value="{StaticResource PaneNavigatorBack}" />
+                <Setter Property="BorderBrush"
+                        Value="{StaticResource PaneBtnBorderBrush}" />
+                <Setter Property="BorderThickness"
+                        Value="1" />
+                <Setter Property="Width"
+                        Value="389" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="igPrim:PaneNavigator">
+                            <Border BorderThickness="{TemplateBinding BorderThickness}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    CornerRadius="2"
+                                    Background="#FFFFFFFF">
+                                <Border.Effect>
+                                    <DropShadowEffect Direction="270"
+                                                      ShadowDepth="0"
+                                                      BlurRadius="15"
+                                                      Opacity="0.35" />
+                                </Border.Effect>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="DocumentHostStates">
+                                        <VisualState x:Name="NoDocHost" />
+                                        <VisualState x:Name="DocHost">
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="body"
+                                                                 Storyboard.TargetProperty="Width"
+                                                                 To="400"
+                                                                 Duration="00:00:00.00" />
+                                                <DoubleAnimation Storyboard.TargetName="header"
+                                                                 Storyboard.TargetProperty="Width"
+                                                                 To="400"
+                                                                 Duration="00:00:00.00" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="activeWindows"
+                                                                               Storyboard.TargetProperty="Visibility">
+                                                    <DiscreteObjectKeyFrame KeyTime="0">
+                                                        <DiscreteObjectKeyFrame.Value>
+                                                            <Visibility>Visible</Visibility>
+                                                        </DiscreteObjectKeyFrame.Value>
+                                                    </DiscreteObjectKeyFrame>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames BeginTime="00:00:00"
+                                                                               Duration="00:00:00.00"
+                                                                               Storyboard.TargetName="toolWindows"
+                                                                               Storyboard.TargetProperty="(Grid.ColumnSpan)">
+                                                    <DiscreteObjectKeyFrame KeyTime="00:00:00"
+                                                                            Value="1" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="50" />
+                                        <RowDefinition Height="*"
+                                                       MinHeight="238" />
+                                        <RowDefinition Height="Auto"
+                                                       MinHeight="27" />
+                                    </Grid.RowDefinitions>
+                                    <!--Header-->
+                                    <Border Background="{StaticResource PaneNavigatorHeaderBack}"
+                                            x:Name="header"
+                                            Padding="10,5">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition />
+                                                </Grid.ColumnDefinitions>
+                                                <Image Height="20"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       Source="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectedContentPane.Pane.Image}"
+                                                       Margin="0,0,5,0" />
+                                                <ContentControl HorizontalAlignment="Left"
+                                                                VerticalAlignment="Center"
+                                                                FontWeight="Bold"
+                                                                Grid.Column="1"
+                                                                Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectedContentPane.Pane.Header}"
+                                                                ContentTemplate="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectedContentPane.Pane.HeaderTemplate}"
+                                                                Foreground="#FF000000" />
+                                            </Grid>
+                                            <ContentControl Grid.Row="1"
+                                                            Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectedContentPane.Pane.NavigatorTitle}"
+                                                            ContentTemplate="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectedContentPane.Pane.NavigatorTitleTemplate}"
+                                                            Foreground="#FF000000" />
+                                        </Grid>
+                                    </Border>
+                                    <!--Body-->
+                                    <Grid Grid.Row="1"
+                                          Background="{TemplateBinding Background}"
+                                          x:Name="body">
+                                        <Rectangle Height="10"
+                                                   VerticalAlignment="Top">
+                                            <Rectangle.Fill>
+                                                <LinearGradientBrush StartPoint="0.5,0"
+                                                                     EndPoint="0.5,1">
+                                                    <LinearGradientBrush.GradientStops>
+                                                        <GradientStopCollection>
+                                                            <GradientStop Offset="0"
+                                                                          Color="#11000000" />
+                                                            <GradientStop Offset="1"
+                                                                          Color="#00d8e0ea" />
+                                                        </GradientStopCollection>
+                                                    </LinearGradientBrush.GradientStops>
+                                                </LinearGradientBrush>
+                                            </Rectangle.Fill>
+                                        </Rectangle>
+                                        <Grid Margin="10">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid Grid.Column="0"
+                                                  x:Name="toolWindows"
+                                                  Grid.ColumnSpan="2">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="25" />
+                                                    <RowDefinition Height="*" />
+                                                </Grid.RowDefinitions>
+                                                <TextBlock HorizontalAlignment="Left"
+                                                           Padding="0,5"
+                                                           Text="{Binding Source={StaticResource strings}, Path=ActiveToolWindowsString}"
+                                                           FontWeight="Bold" />
+                                                <ListBox HorizontalAlignment="Left"
+                                                         BorderThickness="0"
+                                                         Background="Transparent"
+                                                         Margin="0,5"
+                                                         Grid.Row="1"
+                                                         SelectedItem="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectedActiveToolWindow, Mode=TwoWay}"
+                                                         ItemsSource="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActiveToolWindows}"
+                                                         ItemContainerStyle="{StaticResource PaneNavigatorItemstyle}">
+                                                    <ListBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Grid Background="Transparent">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                    <ColumnDefinition Width="*" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <Image Height="20"
+                                                                       Source="{Binding Pane.Image}" />
+                                                                <igPrim:OverflowContentControl Grid.Column="1"
+                                                                                               Content="{Binding Pane.Header}"
+                                                                                               ContentTemplate="{Binding Pane.HeaderTemplate}" />
+                                                                <ig:Commanding.Command>
+                                                                    <igPrim:PaneNavigatorCommandSource CommandType="Close"
+                                                                                                       EventName="MouseLeftButtonUp" />
+                                                                </ig:Commanding.Command>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </ListBox.ItemTemplate>
+                                                </ListBox>
+                                            </Grid>
+                                            <Grid Grid.Column="1"
+                                                  x:Name="activeWindows"
+                                                  Visibility="Collapsed">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="25" />
+                                                    <RowDefinition Height="*" />
+                                                </Grid.RowDefinitions>
+                                                <TextBlock HorizontalAlignment="Left"
+                                                           Padding="0,5"
+                                                           Grid.Column="1"
+                                                           Text="{Binding Source={StaticResource strings}, Path=ActiveFilesString}"
+                                                           FontWeight="Bold" />
+                                                <ListBox HorizontalAlignment="Left"
+                                                         Grid.Column="1"
+                                                         BorderThickness="0"
+                                                         Background="Transparent"
+                                                         Margin="0,5"
+                                                         Grid.Row="1"
+                                                         SelectedItem="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectedActiveFile, Mode=TwoWay}"
+                                                         ItemsSource="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActiveFileWindows}"
+                                                         ItemContainerStyle="{StaticResource PaneNavigatorItemstyle}">
+                                                    <ListBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Grid Background="Transparent">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                    <ColumnDefinition Width="*" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <Image Height="20"
+                                                                       Source="{Binding Pane.Image}" />
+                                                                <igPrim:OverflowContentControl Grid.Column="1"
+                                                                                               Content="{Binding Pane.Header}"
+                                                                                               ContentTemplate="{Binding Pane.HeaderTemplate}" />
+                                                                <ig:Commanding.Command>
+                                                                    <igPrim:PaneNavigatorCommandSource CommandType="Close"
+                                                                                                       EventName="MouseLeftButtonUp" />
+                                                                </ig:Commanding.Command>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </ListBox.ItemTemplate>
+                                                </ListBox>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                    <!--Footer-->
+                                    <Grid Grid.Row="2"
+                                          Margin="10,5">
+                                        <ContentControl Grid.Row="1"
+                                                        Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectedContentPane.Pane.NavigatorDescription}"
+                                                        ContentTemplate="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectedContentPane.Pane.NavigatorDescriptionTemplate}" />
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+        <!--#END SNIPPET#-->
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <ig:XamDockManager x:Name="xamDockManager">
+            <ig:XamDockManager.Content>
+                <ig:DocumentContentHost>
+                    <ig:DocumentContentHost.Panes>
+                        <ig:TabGroupPane>
+                            <ig:ContentPane Header="{Binding Source={StaticResource Strings},Path=Docking_StartPage}" IsActivePane="True"
+                                            IsDocumentPane="True"/>
+                            <ig:ContentPane Header="MainPage.xaml" IsDocumentPane="True" />
+                            <ig:ContentPane Header="MainPage.xaml.cs" IsDocumentPane="True" />
+                            <ig:ContentPane Header="App.xaml" IsDocumentPane="True" />
+                        </ig:TabGroupPane>
+                    </ig:DocumentContentHost.Panes>
+                </ig:DocumentContentHost>
+            </ig:XamDockManager.Content>
+            <ig:XamDockManager.Panes>
+                <ig:SplitPane Location="Right" Orientation="Vertical" >
+                    <ig:TabGroupPane Location="Top">
+                        <ig:ContentPane Header="{Binding Source={StaticResource Strings},Path=Docking_SolutionExplorer}" IsActivePane="True"/>
+                        <ig:ContentPane Header="{Binding Source={StaticResource Strings},Path=Docking_TeamExplorer}" />
+                    </ig:TabGroupPane>
+                    <ig:ContentPane Header="{Binding Source={StaticResource Strings},Path=Docking_Properties}" Location="Bottom" />
+                </ig:SplitPane>
+                <ig:TabGroupPane Location="Bottom" Height="200">
+                    <ig:ContentPane Header="{Binding Source={StaticResource Strings},Path=Docking_ErrorList}" />
+                    <ig:ContentPane Header="{Binding Source={StaticResource Strings},Path=Docking_Output}" IsActivePane="True"/>
+                    <ig:ContentPane Header="{Binding Source={StaticResource Strings},Path=Docking_History}" />
+                </ig:TabGroupPane>
+            </ig:XamDockManager.Panes>
+        </ig:XamDockManager>
+    </Grid>
+</igFramework:SampleContainer>

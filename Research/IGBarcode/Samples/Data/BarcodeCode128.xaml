@@ -1,0 +1,64 @@
+﻿<framework:SampleContainer x:Class="IGBarcode.Samples.Data.BarcodeCode128"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="BarcodeCode128"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGBarcode.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGBarcode;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:BarcodeStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid Margin="0,80,210,0" VerticalAlignment="Top" HorizontalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Border Height="120" Margin="5,-3,5,5" BorderThickness="1" Width="425">
+                <!-- #BEGIN SNIPPET# -->
+                <ig:XamCode128Barcode x:Name="Barcode" Margin="5,5,5,0"
+                                      Data="{Binding SelectedItem, ElementName=ListBoxData}"
+                                      CodeType="{Binding SelectedItem, ElementName=ComboBoxCodeType}"
+                                      BarsFillMode="EnsureEqualSize" />
+                <!-- #END SNIPPET# -->
+            </Border>
+
+            <StackPanel Grid.Row="1" Margin="0,9,0,0" HorizontalAlignment="Center" Orientation="Horizontal">
+                <TextBlock FontSize="12" FontWeight="Bold" Foreground="#FF474747" Text="{Binding XWB_BarcodeData, Source={StaticResource Strings}}" />
+                <TextBlock FontSize="12" FontWeight="Bold" Foreground="#FF474747" 
+                           Text="{Binding Data, ElementName=Barcode, StringFormat='\=\&quot;\{0\}\&quot;'}" />
+            </StackPanel>
+            <TextBlock Grid.Row="3" TextWrapping="Wrap" Margin="5,10,5,5"
+                       Text="{Binding XWB_Code128Ucc, Source={StaticResource Strings}}" />
+        </Grid>
+
+        <controls:OptionsPanel HeaderText="{Binding XWB_Settings, Source={StaticResource Strings}}"
+                               VerticalAlignment="Top" Margin="0" HorizontalAlignment="Right">
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}"/>
+            </controls:OptionsPanel.Resources>
+            <TextBlock Text="{Binding XWB_SampleData, Source={StaticResource Strings}}" Margin="{StaticResource OptionsTextTopBottomMargin}"/>
+            <ListBox x:Name="ListBoxData" Height="190" Width="148" Margin="{StaticResource OptionsElementsMargin}"/>
+            <TextBlock Text="{Binding XWB_SymbolType, Source={StaticResource Strings}}" Margin="{StaticResource OptionsTextTopBottomMargin}"/>
+            <ComboBox x:Name="ComboBoxCodeType" 
+                      SelectionChanged="ComboBoxCodeType_SelectionChanged">
+                <ig:Code128CodeType>Standard</ig:Code128CodeType>
+                <ig:Code128CodeType>Ucc</ig:Code128CodeType>
+            </ComboBox>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

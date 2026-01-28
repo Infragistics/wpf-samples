@@ -1,0 +1,99 @@
+﻿<framework:SampleContainer x:Class="IGRichTextEditor.Samples.Data.DocumentAdapters"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGRichTextEditor.Resources"
+    xmlns:sys="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="SerializationProviders Page">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGRichTextEditor;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/IGRichTextEditor;component/Assets/Themes.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:RichTextEditorStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <controls:OptionsPanel
+            HeaderText="{Binding ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}"
+            Margin="0,10,0,10" Grid.Row="0" IsMovable="False">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Margin="0,5,0,0" Text="{Binding Path=lblOutputRefreshTrigger, Source={StaticResource Strings}}" />
+                <controls:EnumValuesProvider x:Name="refreshTriggerCombo" Margin="0,0,5,0" DisplayTemplate="ComboBox"
+                                             EnumType="ig:RichTextRefreshTrigger" SelectedEnumIndex="1" />
+            </StackPanel>
+        </controls:OptionsPanel>
+
+        <!--#BEGIN SNIPPET#-->
+        
+        <!-- The "DelayAfterFirstEdit" and "DelayAfterLastEdit" properties are effective only
+             when the "RefreshTrigger" is set to "Delayed". -->
+        
+        <ig:RtfDocumentAdapter
+            x:Name="rtfDocAdapter"
+            Document="{Binding ElementName=xamRichTextEditor1, Path=Document}"
+            RefreshTrigger="{Binding ElementName=refreshTriggerCombo, Path=Value}"
+            DelayAfterLastEdit="00:00:02.00"
+            DelayAfterFirstEdit="00:00:02.00" />
+        
+        <ig:HtmlDocumentAdapter
+            x:Name="htmlDocAdapter"
+            Document="{Binding ElementName=xamRichTextEditor1, Path=Document}"
+            RefreshTrigger="{Binding ElementName=refreshTriggerCombo, Path=Value}"
+            DelayAfterLastEdit="00:00:02.00"
+            DelayAfterFirstEdit="00:00:02.00" />
+        
+        <!--#END SNIPPET#-->
+
+        <TextBlock Grid.Row="1" Text="XamRichTextEditor:" Margin="0,10,0,5" />
+
+        <ig:XamRichTextEditor x:Name="xamRichTextEditor1" Grid.Row="2" AllowDocumentViewSplitting="True"
+            BorderThickness="1" BorderBrush="{StaticResource RichTextEditorBorderBrush}">
+            <ig:XamRichTextEditor.ClipboardSerializationProviders>
+                <ig:RtfSerializationProvider />
+                <ig:WordSerializationProvider />
+                <ig:HtmlSerializationProvider />
+            </ig:XamRichTextEditor.ClipboardSerializationProviders>
+        </ig:XamRichTextEditor>
+        
+        <Grid Grid.Row="3" Margin="0,10,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="{Binding Path=lblRTFOutput, Source={StaticResource Strings}}" />
+            <TextBlock Grid.Column="1" Text="{Binding Path=lblHTMLOutput, Source={StaticResource Strings}}" TextAlignment="Right" />
+        </Grid>
+
+        <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="textBox1" Grid.Column="0" AcceptsReturn="True" IsReadOnly="True"
+                 VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                 Text="{Binding ElementName=rtfDocAdapter, Path=Value, Mode=OneWay}" Margin="0,0,14,0" />
+            <sys:GridSplitter Grid.Column="0" Margin="2,0,2,0" Width="10" />
+            <TextBox x:Name="textBox2" Grid.Column="1" AcceptsReturn="True" IsReadOnly="True"
+                 VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                 Text="{Binding ElementName=htmlDocAdapter, Path=Value, Mode=OneWay}" />
+        </Grid>
+    </Grid>
+</framework:SampleContainer>

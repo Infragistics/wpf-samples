@@ -1,0 +1,130 @@
+﻿<igFramework:SampleContainer x:Class="IGDataGrid.Samples.Organization.SummaryLocationAndUIType"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="SummaryLocationAndUIType"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:local="clr-namespace:IGDataGrid.Samples.Organization"
+      xmlns:res="clr-namespace:IGDataGrid.Resources"
+      xmlns:System="clr-namespace:System;assembly=mscorlib">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataGrid;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DataGridStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid>
+        <Grid.Resources>
+            <!-- Define ObjectDataProviders for the SummaryDisplayAreas and SummaryUIType enumerations -->
+            <ObjectDataProvider x:Key="odpSummaryPosition"
+                                ObjectType="{x:Type local:SummaryDisplayPosition}"
+                                MethodName="GetValues" />
+            <ObjectDataProvider x:Key="odpSummaryGrouping"
+                                ObjectType="{x:Type local:SummaryDisplayPosition}"
+                                MethodName="GetGroupByValues" />
+            <ObjectDataProvider x:Key="odpSummaryUIType"
+                                MethodName="GetValues"
+                                ObjectType="{x:Type System:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="igDP:SummaryUIType" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <igDP:XamDataGrid Theme="RoyalLight"
+                          SnapsToDevicePixels="True"
+                          Grid.Row="1"
+                          x:Name="XamDataGrid1">
+            <!-- #BEGIN SNIPPET# -->
+            <igDP:XamDataGrid.FieldSettings>
+                <igDP:FieldSettings AllowSummaries="true"
+                                    SummaryDisplayArea="TopFixed"
+                                    SummaryUIType="MultiSelect" />
+            </igDP:XamDataGrid.FieldSettings>
+            <!-- #END SNIPPET# -->
+            <igDP:XamDataGrid.FieldLayouts>
+                <igDP:FieldLayout>
+                    <igDP:FieldLayout.SummaryDefinitions>
+                        <igDP:SummaryDefinition Key="idp_count"
+                                                SourceFieldName="OrderID"
+                                                Calculator="Count" />
+                    </igDP:FieldLayout.SummaryDefinitions>
+                </igDP:FieldLayout>
+            </igDP:XamDataGrid.FieldLayouts>
+        </igDP:XamDataGrid>
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource CommonStrings}, Path=ConfigurationPanel_Header_Options}"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               Margin="{StaticResource GridsSamplesBottomPadding}">
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}"/>
+                <Style TargetType="ComboBox" BasedOn="{StaticResource IGComboBoxStyle}" >
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+            </controls:OptionsPanel.Resources>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.RowSpan="1"
+                      Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                        <RowDefinition Height="*" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                        <RowDefinition Height="*" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Column="0" Grid.Row="0"
+                               Text="{Binding Source={StaticResource Strings},Path=SummaryLocationAndUIType_ConfigArea_SummaryDisplayArea}"                               />
+                    <!-- This ComboBox is bound to the FieldSetting.SummaryDisplay area property of XamDataGrid -->
+                    <ComboBox Grid.Column="1"
+                              Grid.Row="0"
+                              x:Name="SummaryPosition"
+                              ItemsSource="{Binding Source={StaticResource odpSummaryPosition}}"
+                              VerticalAlignment="Center"
+                              Width="190"
+                              SelectionChanged="SummaryPosition_SelectionChanged"/>
+                    <TextBlock Grid.Column="0" Grid.Row="1"
+                               Text="{Binding Source={StaticResource Strings},Path=SummaryLocationAndUIType_ConfigArea_SummaryGroupByDisplayArea}"/>
+                    <!-- This ComboBox is bound to the FieldSetting.SummaryDisplay area property of XamDataGrid -->
+                    <ComboBox  Grid.Column="1"
+                               Grid.Row="1"
+                               x:Name="SummaryPositionGroup"
+                               ItemsSource="{Binding Source={StaticResource odpSummaryGrouping}}"
+                               VerticalAlignment="Center"
+                               Width="190"
+                               SelectionChanged="SummaryPositionGroup_SelectionChanged"/>
+                    <TextBlock Grid.Column="0" Grid.Row="2"
+                               Text="{Binding Source={StaticResource Strings},Path=SummaryLocationAndUIType_ConfigArea_SummaryUIType}"/>
+                    <!-- This ComboBox is bound to the FieldSetting.SummaryUIType area property of XamDataGrid -->
+                    <ComboBox Grid.Column="1"
+                              Grid.Row="2"
+                              ItemsSource="{Binding Source={StaticResource odpSummaryUIType}}"
+                              SelectedItem="{Binding FieldSettings.SummaryUIType, ElementName=XamDataGrid1}"
+                              Width="190"
+                              d:LayoutOverrides="Height" />
+                </Grid>
+                <CheckBox x:Name="chkAllowSummaries"
+                          IsChecked="{Binding FieldSettings.AllowSummaries, ElementName=XamDataGrid1, Mode=TwoWay}"
+                          Content="{Binding Source={StaticResource Strings},Path=SummaryLocationAndUIType_ConfigArea_AllowSummaries}"/>
+            </Grid>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

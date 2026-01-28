@@ -1,0 +1,108 @@
+﻿<framework:SampleContainer x:Class="IGDockManager.Samples.Organization.MinimizeMaximizeOwnedPanes"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="MinMaxOwned"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:igDock="http://infragistics.com/DockManager"
+      xmlns:locCtls="clr-namespace:IGDockManager.CustomControls"
+      xmlns:res="clr-namespace:IGDockManager.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDockManager;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/IGDockManager;component/CustomControls/themes/generic.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DockManagerStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- #BEGIN SNIPPET# -->
+        <!-- Create a XamDockManager control -->
+        <igDock:XamDockManager
+            Theme="RoyalLight" x:Name="dockManager" Grid.Row="1" Margin="5"
+            ShowFloatingWindowsInTaskbar="{Binding ElementName=chkShowFloatInTaskBar, Path=IsChecked, Mode=TwoWay}"
+            UseOwnedFloatingWindows="{Binding ElementName=chkAllowOwnedWindows, Path=IsChecked, Mode=TwoWay}"
+            AllowMaximizeFloatingWindows="{Binding ElementName=chkAllowMaximize, Path=IsChecked, Mode=TwoWay}"
+            AllowMinimizeFloatingWindows="{Binding ElementName=chkAllowMinimize, Path=IsChecked, Mode=TwoWay}"
+            FloatingWindowDragMode="UseSystemWindowDrag">
+
+            <!-- Add panes to the XamDockManager's Panes collection -->
+            <igDock:XamDockManager.Panes>
+                <igDock:SplitPane igDock:XamDockManager.InitialLocation="DockedLeft">
+                    <igDock:ContentPane x:Name="leftEdgeDock"
+                                        Header="{Binding Source={StaticResource Strings}, Path=XamDockManagerWalkthrough_Root_LeftEdgeDockPane_Header_UnPinned}"
+                                        IsPinned="True">
+                        <locCtls:XdmSamplePaneContent
+                            Content="{Binding Source={StaticResource Strings}, Path=Instruction1}" />
+                    </igDock:ContentPane>
+                </igDock:SplitPane>
+
+                <!-- Floating Only Content ================================================================ -->
+                <!-- Set the SplitPane's XamDockManager.InitialLocation property to FloatingOnly which
+                will display the SplitPane in a floating window that cannot be docked. -->
+                <igDock:SplitPane igDock:XamDockManager.InitialLocation="FloatingOnly"
+                                  igDock:XamDockManager.FloatingLocation="300,300">
+                    <igDock:ContentPane x:Name="floatingOnly"
+                                        Header="{Binding Source={StaticResource Strings}, Path=XamDockManagerWalkthrough_Root_FloatingOnlyDockPane_Header}"
+                                        Content="{Binding Source={StaticResource Strings}, Path=XamDockManagerWalkthrough_Root_FloatingOnlyPane_Content}"
+                                        MinHeight="50">
+                    </igDock:ContentPane>
+                </igDock:SplitPane>
+
+                <!-- Floating Dockable Content ============================================================ -->
+                <!-- Set the SplitPane's XamDockManager.InitialLocation property to DockableFloating which
+                will display the SplitPane in a floating window that can be docked if needed. -->
+                <igDock:SplitPane igDock:XamDockManager.InitialLocation="DockableFloating"
+                                  igDock:XamDockManager.FloatingLocation="550,200"
+                                  SplitterOrientation="Vertical">
+                    <igDock:ContentPane x:Name="floatingDockable1"
+                                        Header="{Binding Source={StaticResource Strings}, Path=XamDockManagerWalkthrough_Root_FloatingDockableDockPane_Header1}"
+                                        Content="{Binding Source={StaticResource Strings}, Path=XamDockManagerWalkthrough_Root_FloatingDockablePane_Content1}" MinHeight="75">
+                    </igDock:ContentPane>
+                </igDock:SplitPane>
+            </igDock:XamDockManager.Panes>
+        </igDock:XamDockManager>
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel
+            HeaderText="{Binding Header_Options, Source={StaticResource Strings}}"
+            IsMovable="False" Margin="5,5">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Margin="5">
+                    <CheckBox x:Name="chkAllowOwnedWindows"
+                              Content="{Binding AllowOwnedWindows, Source={StaticResource Strings}}"
+                              IsChecked="False" Margin="{StaticResource OptionsElementsMargin}"/>
+                    <CheckBox x:Name="chkShowFloatInTaskBar"
+                              Content="{Binding ShowFloatWindowsInTaskbar, Source={StaticResource Strings}}"
+                              IsChecked="True" Margin="{StaticResource OptionsElementsMargin}" />
+                    <CheckBox x:Name="chkAllowMinimize"
+                              Content="{Binding AllowMinFloat, Source={StaticResource Strings}}"
+                              IsChecked="True" Margin="{StaticResource OptionsElementsMargin}" />
+                    <CheckBox x:Name="chkAllowMaximize"
+                              Content="{Binding AllowMaxFloat, Source={StaticResource Strings}}"
+                              IsChecked="True"  />
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Margin="5">
+                    <TextBlock Text="{Binding Source={StaticResource Strings}, Path=FloatingWindowDragMode}"
+                               VerticalAlignment="Top" Margin="{StaticResource OptionsTextTopBottomMargin}"
+                               FontWeight="Bold"/>
+                    <controls:EnumValuesProvider x:Name="DragModeTypes"
+                                                 EnumType="igDock:FloatingWindowDragMode" DisplayTemplate="ComboBox"
+                                                 Value="{Binding ElementName=dockManager, Path=FloatingWindowDragMode}"
+                                                 SelectedEnumIndex="0" VerticalAlignment="Top" />
+                </StackPanel>
+            </StackPanel>
+        </controls:OptionsPanel >
+    </Grid>
+</framework:SampleContainer>

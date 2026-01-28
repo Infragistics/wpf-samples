@@ -1,0 +1,56 @@
+﻿<igSamples:SampleContainer x:Class="IGBusyIndicator.Samples.Style.Theming"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:igSamples="http://schemas.infragistics.com/xaml/samples"
+             xmlns:data="clr-namespace:IGBusyIndicator.Samples.DataProviders"
+             xmlns:ig="http://schemas.infragistics.com/xaml"
+             xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"          
+             xmlns:sharedResources="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared"
+             xmlns:localResources="clr-namespace:IGBusyIndicator.Resources"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="700">
+    
+    <!-- Page static resources -->
+    <igSamples:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGBusyIndicator;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <localResources:BusyIndicatorStrings x:Key="Strings" />
+            <sharedResources:CommonStrings x:Key="CommonStrings" />
+            
+            <data:AnimationsProvider x:Key="AnimationsData" />
+        </ResourceDictionary>
+    </igSamples:SampleContainer.Resources>
+    
+    <!-- Data context -->
+    <igSamples:SampleContainer.DataContext>
+        <data:ProjectViewModel />
+    </igSamples:SampleContainer.DataContext>
+    
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions> 
+        
+        <ig:XamBusyIndicator x:Name="BusyIndicator" 
+                             IsBusy="True" Grid.Row="1"
+                             IsIndeterminate="True">
+            <ig:XamGantt x:Name="gantt" Project="{Binding Project}" BorderThickness="0"/>
+        </ig:XamBusyIndicator>
+        
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ================================================================================================== -->
+        <!-- Note theme are changed in code-behind -->
+        <controls:ThemeSelector x:Name="ThemeSelector" 
+                                HorizontalAlignment="Right"
+                                SelectionChanged="OnSelectionChanged"/>
+        <!-- ================================================================================================== -->
+        <!-- #END SNIPPET# -->
+         
+    </Grid>
+</igSamples:SampleContainer>

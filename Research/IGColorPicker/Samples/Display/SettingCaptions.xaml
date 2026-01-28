@@ -1,0 +1,50 @@
+﻿<framework:SampleContainer x:Class="IGColorPicker.Samples.Display.SettingCaptions"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="SettingCaptions"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGColorPicker.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGColorPicker;component/Assets/Global.xaml"/>
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:ColorPickerStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamColorPicker x:Name="MyColorPicker" DerivedPalettesCount="10" 
+                           VerticalAlignment="Top"
+                           Width="212" Height="30" Margin="0,15,0,0" />
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel HeaderText="{Binding CP_ConfigPanel_OptionsLabel, Source={StaticResource Strings}}"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Top" 
+                               Margin="0">
+            <TextBlock x:Name="AddCurrentColorCaption" Text="{Binding Source={StaticResource Strings}, Path=CP_AddCurrentColor}"
+                       Margin="{StaticResource OptionsElementsMargin}"/>
+            <TextBox x:Name="CurrentColorName" Margin="{StaticResource OptionsElementsMargin}" Width="150" MaxLength="25" HorizontalAlignment="Left" />
+
+            <TextBlock x:Name="AddCurrentPaletteCaption" Margin="{StaticResource OptionsTextTopBottomMargin}" Text="{Binding Source={StaticResource Strings}, Path=CP_AddPalette}" />
+            <TextBox x:Name="CurrentPaletteName" Margin="{StaticResource OptionsElementsMargin}" Width="150" MaxLength="25" HorizontalAlignment="Left" />
+
+            <TextBlock x:Name="AddDerivedPaletteCaption" Margin="{StaticResource OptionsTextTopBottomMargin}" Text="{Binding Source={StaticResource Strings}, Path=CP_AddDerivedPalette}" />
+            <TextBox x:Name="DerivedPaletteName" Margin="{StaticResource OptionsElementsMargin}" Width="150" MaxLength="25" HorizontalAlignment="Left" />
+
+            <TextBlock x:Name="AddRecentColorCaption" Margin="{StaticResource OptionsTextTopBottomMargin}" Text="{Binding Source={StaticResource Strings}, Path=CP_AddRecentColor}" />
+            <TextBox x:Name="RecentColorName" Margin="{StaticResource OptionsElementsMargin}" Width="150" MaxLength="25" HorizontalAlignment="Left" />
+
+            <Button x:Name="AddItems" Cursor="Hand" Content="{Binding Source={StaticResource Strings}, Path=CP_AddItems}" Click="AddItems_Click"/>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

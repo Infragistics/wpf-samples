@@ -1,0 +1,130 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Display.Legends.LegendTemplate"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="LegendTemplate Page"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+      xmlns:resources="clr-namespace:IGDataChart.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <resources:DataChartStrings x:Key="Strings" />
+            
+            <Style TargetType="{x:Type ig:Legend}">
+                <Setter Property="Background" Value="{StaticResource LegendBackgroundBrush}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource LegendBorderBrush}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+                <Setter Property="FontWeight" Value="{StaticResource FontSemiBold}"/>
+            </Style>
+
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+
+        <ig:XamDock x:Name="xmDataChartContainer">
+            <ig:XamDataChart x:Name="xmDataChart" Legend="{Binding ElementName=xmLegend}">
+                <ig:XamDataChart.DataContext>
+                    <models:StockMarketDataCollection />
+                </ig:XamDataChart.DataContext>
+
+                <ig:XamDataChart.Axes>
+                    <ig:CategoryXAxis x:Name="xmDateXAxis" ItemsSource="{Binding}" Label="{Binding XDC_AxisLabelsFormat_DateYearMonth, Source={StaticResource Strings}}">
+                        <ig:CategoryXAxis.LabelSettings>
+                            <ig:AxisLabelSettings Location="OutsideBottom" Visibility="Visible" />
+                        </ig:CategoryXAxis.LabelSettings>
+                    </ig:CategoryXAxis>
+                    <ig:NumericYAxis x:Name="xmPriceYAxis">
+                        <ig:NumericYAxis.LabelSettings>
+                            <ig:AxisLabelSettings Location="OutsideLeft" Visibility="Visible" />
+                        </ig:NumericYAxis.LabelSettings>
+                    </ig:NumericYAxis>
+                    <ig:NumericYAxis x:Name="xmVolumeYAxis" MajorStroke="Transparent" Strip="Transparent">
+                        <ig:NumericYAxis.LabelSettings>
+                            <ig:AxisLabelSettings Location="OutsideRight"  Visibility="Visible" />
+                        </ig:NumericYAxis.LabelSettings>
+                    </ig:NumericYAxis>
+                </ig:XamDataChart.Axes>
+                <ig:XamDataChart.Series>
+                    <ig:FinancialPriceSeries DisplayType="Candlestick" 
+                                             Title="{Binding XWDC_LegendTemplate_PriceSeries, Source={StaticResource Strings}}" 
+                                             ItemsSource="{Binding}" 
+                                             OpenMemberPath="Open" CloseMemberPath="Close"
+                                             HighMemberPath="High" LowMemberPath="Low" VolumeMemberPath="Volume" 
+                                             XAxis="{Binding ElementName=xmDateXAxis}" 
+                                             YAxis="{Binding ElementName=xmPriceYAxis}" 
+                                             IsHighlightingEnabled="True" IsTransitionInEnabled="True">
+                    </ig:FinancialPriceSeries>
+                    <ig:LineSeries Thickness="2" Title="{Binding XWDC_LegendTemplate_VolumeSeries, Source={StaticResource Strings}}" 
+                                   ValueMemberPath="Volume" MarkerType="None" 
+                                   ItemsSource="{Binding}" 
+                                   XAxis="{Binding ElementName=xmDateXAxis}" 
+                                   YAxis="{Binding ElementName=xmVolumeYAxis}" 
+                                   IsHighlightingEnabled="True" IsTransitionInEnabled="True">
+                    </ig:LineSeries>
+                </ig:XamDataChart.Series>
+
+            </ig:XamDataChart>
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ========================================================================== -->
+            <ig:Legend x:Name="xmLegend" Foreground="{StaticResource ForegroundBrush}" FontSize="11"
+                       Content="{Binding XWDC_LegendTemplate_LegendTemplate, Source={StaticResource Strings}, Converter={StaticResource UpperCaseConverter}}"
+                       Margin="20"
+                       ig:XamDock.Edge="InsideTop"
+                       ig:XamDock.VerticalDockAlignment="Top"
+                       ig:XamDock.HorizontalDockAlignment="Center"
+                       >
+                <ig:Legend.Template>
+                    <ControlTemplate TargetType="ig:Legend">
+                        <Grid>
+                            <Border BorderThickness="{TemplateBinding BorderThickness}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    CornerRadius="3"
+                                    Background="{TemplateBinding Background}">
+                                <Border.Effect>
+                                    <DropShadowEffect Color="Black"
+                                                      BlurRadius="10"
+                                                      ShadowDepth="0"
+                                                      Opacity="0.4"></DropShadowEffect>
+                                </Border.Effect>
+                                <Grid Margin="10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <ContentPresenter Grid.Row="0"
+                                                      Content="{TemplateBinding Content}"/>
+                                    <Rectangle Grid.Row="1" Fill="{StaticResource SeparatorBrush}" Height="1" Stretch="Fill" Margin="0,5"/>
+                                    <ScrollViewer Grid.Row="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" BorderThickness="0">
+                                        <ContentPresenter Grid.Row="1" x:Name="ContentPresenter" />
+                                    </ScrollViewer>
+                                </Grid>
+                            </Border>
+                            <Border IsHitTestVisible="False"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    BorderBrush="Transparent"
+                                    CornerRadius="4"
+                                    Background="Transparent" />
+                        </Grid>
+                    </ControlTemplate>
+
+                </ig:Legend.Template>
+            </ig:Legend>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+        </ig:XamDock>
+
+    </Grid>
+</igFramework:SampleContainer>
+

@@ -1,0 +1,108 @@
+﻿<framework:SampleContainer x:Class="IGGeographicMap.Samples.Data.BindingGeoTileSeries"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700"
+      Title="Geo Tile Imagery Series"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:providers="clr-namespace:Infragistics.Samples.Shared.DataProviders;assembly=Infragistics.Samples.Shared" 
+      xmlns:resources="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGGeographicMap.Resources"
+      xmlns:extensions="clr-namespace:IGGeographicMap.Extensions">
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGeographicMap;component/Assets/GlobalExtended.xaml" />
+                
+                
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:AssetsLocalizer x:Key="Localizer" />
+            <!-- ShapeFileProvider provides absolute path to a shape file -->
+            <providers:ShapeFileProvider x:Key="WorldContinentsProvider"
+                                         ShapeFileRelativePath="/world/world_continents.shp"
+                                         ShapeDatabaseRelativePath="world/world_continents.dbf"/>
+            <!-- ShapefileConverter loads shapes from shape files (SHP) and -->
+            <!-- stores them in the Points property as List<List<Point>> object type -->
+            <ig:ShapefileConverter x:Key="WorldContinentsShapefile"
+                                   ImportCompleted="OnShapefileImportCompleted"
+                                   CollectionChanged="OnShapefileCollectionChanged"
+                                   ShapefileSource="{Binding Path=ShapeFileAbsolutePath, Source={StaticResource WorldContinentsProvider}}"
+                                   DatabaseSource="{Binding Path=ShapeDatabaseAbsolutePath, Source={StaticResource WorldContinentsProvider}}" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <ig:XamGeographicMap x:Name="GeoMap"
+                             Zoomable="True"
+                             OverviewPlusDetailPaneStyle="{StaticResource GeographicWorldOPDStyle}"
+                             OverviewPlusDetailPaneVisibility="Collapsed">
+            <ig:XamGeographicMap.BackgroundContent>
+                <ig:OpenStreetMapImagery Opacity="0"/>
+            </ig:XamGeographicMap.BackgroundContent>
+            <ig:XamGeographicMap.Series>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <!-- GeographicTileSeries with items source set to a shapefile that will be used as bounding shape of TileImagery -->
+                <ig:GeographicTileSeries ItemsSource="{StaticResource WorldContinentsShapefile}" 
+                                         ShapeMemberPath="Points"  >
+                    <ig:GeographicTileSeries.TileImagery>
+                        <ig:OpenStreetMapImagery />
+                    </ig:GeographicTileSeries.TileImagery>
+                </ig:GeographicTileSeries>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamGeographicMap.Series>
+        </ig:XamGeographicMap>
+        <controls:OptionsPanel HeaderText="{Binding Path=XWGM_GeoImagerySource, Source={StaticResource MapStrings}}" 
+                               HorizontalAlignment="Right">
+            <ListBox x:Name="GeoImageryViewComboBox" Width="265" Height="200" DisplayMemberPath="ImageryName"
+                      SelectionChanged="OnGeoImageryViewComboBoxSelectionChanged">
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ============================================================================================= -->
+                <ListBox.ItemsSource>
+                    <extensions:GeoImageryViews>
+                        <!-- OpenStreetMapImageryView  -->
+                        <extensions:OpenStreetMapImageryView />
+                        <!-- BingMapsImageryView  -->
+                        <extensions:BingMapsImageryView ImageryStyle="Aerial" />
+                        <extensions:BingMapsImageryView ImageryStyle="AerialWithLabels" />
+                        <extensions:BingMapsImageryView ImageryStyle="Road" />
+                        <!-- ArcGISOnlineMapImagery  -->
+                        <extensions:EsriMapImageryView />
+                    </extensions:GeoImageryViews>
+                </ListBox.ItemsSource>
+                <!-- ============================================================================================= -->
+                <!-- #END SNIPPET# -->
+            </ListBox>
+        </controls:OptionsPanel>
+
+        <ig:XamDialogWindow x:Name="DialogInfoPanel" 
+                            HorizontalAlignment="Left"
+						    Margin="15" VerticalAlignment="Top" Width="250"
+							Visibility="Collapsed"  IsResizable="False" 
+							MinimizeButtonVisibility="Collapsed"   
+							MaximizeButtonVisibility="Collapsed" 
+                            CloseButtonVisibility="Collapsed" 
+							IsModal="False" StartupPosition="Manual" >
+
+            <StackPanel>
+                <TextBlock x:Name="DialogInfoTextBlock"  TextWrapping="Wrap"
+                           Text="{Binding Path=XWGM_MissingBingMapKey, Source={StaticResource MapStrings}}" Margin="5"/>
+                <Button Content="OK" Click="ButtonClick" Margin="5" Style="{StaticResource IGGenericButton}"/>
+            </StackPanel>
+        </ig:XamDialogWindow>
+
+        <TextBlock x:Name="MapDataSource" Text="{Binding Path=XW_Source_GeoImagery, Source={StaticResource CommonStrings}}" Style="{StaticResource SourceDataTextBoxStyle}" />
+      
+        <Grid x:Name="MapLoadingContainer" Margin="0" Background="White" Canvas.ZIndex="1" Visibility="Collapsed" VerticalAlignment="Stretch">
+            <Border Background="Transparent" Opacity="0.7" CornerRadius="3" />
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                <TextBlock x:Name="MapLoadingStatus" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" Text="..." />
+            </StackPanel>
+        </Grid>
+    </Grid>
+    </framework:SampleContainer>

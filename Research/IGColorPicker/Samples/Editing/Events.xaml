@@ -1,0 +1,68 @@
+﻿<framework:SampleContainer x:Class="IGColorPicker.Samples.Editing.Events"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="Events"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:converter="clr-namespace:IGColorPicker.Samples.Editing"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGColorPicker.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGColorPicker;component/Assets/Global.xaml"/>
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:ColorPickerStrings x:Key="Strings" />
+            <converter:ColorToBrushConverter x:Key="ColorToBrushConverter" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamColorPicker x:Name="MyColorPicker"
+                           Width="100" Height="30"
+                           Grid.Column="1"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Top"
+                           Margin="30"
+                           SelectedColor="CadetBlue"
+                           DropDownOpening="MyColorPicker_DropDownOpening"
+                           DropDownOpened="MyColorPicker_DropDownOpened"  
+                           DropDownClosing="MyColorPicker_DropDownClosing"
+                           DropDownClosed="MyColorPicker_DropDownClosed"                                                  
+                           SelectedColorChanged="MyColorPicker_SelectedColorChanged" >
+        </ig:XamColorPicker>
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel HeaderText="{Binding CP_Events_PanelHeader, Source={StaticResource Strings}}">
+                <StackPanel>
+                    <TextBlock Text="{Binding Source={StaticResource Strings}, Path=CP_SelectedColorPreview}" 
+                               FontWeight="Bold" Margin="{StaticResource OptionsElementsMargin}"/>
+                    <!-- #BEGIN SNIPPET# -->
+                    <Rectangle Fill="{Binding ElementName=MyColorPicker, Path=SelectedColorPreview, Converter={StaticResource ColorToBrushConverter}}"
+                               Height="22" Margin="{StaticResource BottomPaddingMid}"/>
+                    <!-- #END SNIPPET# -->
+                    <TextBlock Text="{Binding Source={StaticResource Strings}, Path=CP_SelectedColor}" 
+                               FontWeight="Bold" Margin="{StaticResource OptionsElementsMargin}"/>
+                    <Rectangle Fill="{Binding ElementName=MyColorPicker, Path=SelectedColor, Converter={StaticResource ColorToBrushConverter}}"
+                               Height="22" Margin="{StaticResource BottomPaddingMid}"/>
+                <Border BorderBrush="{StaticResource ListBoxBorderBrush}" BorderThickness="1" Margin="{StaticResource OptionsElementsMargin}">
+                    <TextBox TextAlignment="Left" x:Name="txtBox" Height="200" 
+                         Background="Transparent" HorizontalScrollBarVisibility="Auto"
+                         VerticalScrollBarVisibility="Auto" IsReadOnly="True" Width="220"/>
+                </Border>
+                <Button x:Name="BtnClearLog" Content="{Binding Path=CP_Button_Clear, Source={StaticResource Strings}}" 
+                            Click="BtnClearLog_Click"/>
+                </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

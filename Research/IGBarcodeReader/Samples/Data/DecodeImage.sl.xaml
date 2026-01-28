@@ -1,0 +1,46 @@
+﻿<framework:SampleContainer x:Class="IGBarcodeReader.Samples.Data.DecodeImage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="DecodeImage"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:res="clr-namespace:IGBarcodeReader.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGBarcodeReader;component/Assets/Global.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <res:BarcodeReaderStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <StackPanel x:Name="LayoutRoot" Background="White">
+        <Grid HorizontalAlignment="Center" Height="100">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel>
+                <Button Content="{Binding BarcodeReader_OpenImage, Source={StaticResource Strings}}" Click="ButtonOpen_Click" Margin="5" HorizontalAlignment="Stretch" Style="{StaticResource IGGenericButton}"/>
+                <Button Content="{Binding BarcodeReader_DecodeImage, Source={StaticResource Strings}}" Click="ButtonDecode_Click" Margin="5" HorizontalAlignment="Stretch" Style="{StaticResource IGGenericButton}"/>
+            </StackPanel>
+            <Border Grid.Column="1" Width="300" >
+                <ScrollViewer x:Name="ScrollViewerData" Margin="1" Padding="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" BorderThickness="0" Style="{StaticResource IGScrollViewerStyle}">
+                    <TextBox x:Name="TextBoxData" IsReadOnly="True" BorderThickness="0" Padding="0" Height="Auto" />
+                </ScrollViewer>
+            </Border>
+        </Grid>
+
+        <!--#BEGIN SNIPPET#-->
+        <Border Width="640" Height="390" Margin="0,5,0,0">
+            <!--The container for the loaded image and the filtered image-->
+            <Image x:Name="ImageContainer" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3" />
+        </Border>
+        <!--#END SNIPPET#-->
+    </StackPanel>
+</framework:SampleContainer>

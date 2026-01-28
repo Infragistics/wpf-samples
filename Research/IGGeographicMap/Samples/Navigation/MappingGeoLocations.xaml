@@ -1,0 +1,76 @@
+﻿<framework:SampleContainer x:Class="IGGeographicMap.Samples.MappingGeoLocations"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+     xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+      xmlns:resources="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared" 
+                             xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+                             xmlns:Resources="clr-namespace:IGGeographicMap.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGeographicMap;component/Assets/GlobalExtended.xaml" />
+                
+                
+            </ResourceDictionary.MergedDictionaries>
+            <Resources:MapStrings x:Key="MapStrings" />
+             <SolidColorBrush x:Key="MarkerForeground" Color="White" />
+            <SolidColorBrush x:Key="MarkerOutline" Color="{StaticResource Color_013}"/>
+            <SolidColorBrush x:Key="MarkerBrush" Color="{StaticResource Color_046}"/>
+            <!-- custom template for displaying geographic locations of cities  -->
+            <DataTemplate x:Key="GeographicLocationMarker">
+                <Ellipse Stretch="Fill" 
+                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                         Fill="{StaticResource MarkerBrush}" Stroke="{StaticResource MarkerOutline}" 
+                         StrokeThickness="2" MinWidth="30" MinHeight="30" />
+            </DataTemplate>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.Resources>
+
+            <!-- this model provides data source for geographic locations -->
+            <models:WorldCitiesDataSample x:Key="WorldCitiesDataSource" />
+
+        </Grid.Resources>
+        <ig:XamGeographicMap x:Name="GeoMap" PlotAreaBackground="{StaticResource GeoMapSbPlotAreaBackgroundBrush}"
+                             OverviewPlusDetailPaneVisibility="Collapsed"
+                             Zoomable="True">
+            <ig:XamGeographicMap.BackgroundContent>
+                <ig:OpenStreetMapImagery  />
+            </ig:XamGeographicMap.BackgroundContent>
+            <ig:XamGeographicMap.Series>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <!-- this series displays geographic locations of cities -->
+                <ig:GeographicSymbolSeries ItemsSource="{StaticResource WorldCitiesDataSource}"
+                                           MarkerTemplate="{StaticResource GeographicLocationMarker}"
+                                           LatitudeMemberPath="Latitude"
+                                           LongitudeMemberPath="Longitude">
+                </ig:GeographicSymbolSeries>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamGeographicMap.Series>
+        </ig:XamGeographicMap>
+        <TextBlock x:Name="OpenSourceCopyright" Text="{Binding Path=XW_OpenSourceCopyright, Source={StaticResource CommonStrings}}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Style="{StaticResource SourceTextblockStyle}"  />
+        <controls:OptionsPanel HeaderText="{Binding Path=XWGM_MappingGeoLocations_GeographicLocations, Source={StaticResource MapStrings}}" Padding="0"
+                               VerticalAlignment="Stretch" HorizontalAlignment="Right">
+            <TextBlock Text="{Binding Path=XWGM_MappingGeoLocations_SelectGeographicLocations, Source={StaticResource MapStrings}}" Margin="{StaticResource OptionsElementsMargin}" />
+            <!-- #BEGIN SNIPPET# -->
+            <!-- provides a list of and navigation for geographic locations  -->
+            <ListBox x:Name="WorldCitiesListBox" HorizontalAlignment="Stretch" SelectionMode="Single" Height="250"
+                     SelectionChanged="OnWorldCitiesListBoxSelectionChanged"
+                     ItemsSource="{StaticResource WorldCitiesDataSource}" DisplayMemberPath="Name">
+            </ListBox>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

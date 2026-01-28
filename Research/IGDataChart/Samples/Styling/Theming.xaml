@@ -1,0 +1,117 @@
+﻿<igFramework:SampleContainer 
+    x:Class="IGDataChart.Samples.Styling.Theming"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="Theming Page" 
+      xmlns:System="clr-namespace:System;assembly=mscorlib"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igThemes="http://infragistics.com/Themes"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared" 
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" >
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries> 
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+                        
+            <models:StockMarketDataCollection x:Key="StockMarketData" />           
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="1" DataContext="{StaticResource StockMarketData}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*" />
+                <RowDefinition Height="2*" />
+            </Grid.RowDefinitions>
+            <ig:XamDataChart x:Name="FinancialPriceChart" Grid.Row="0" Grid.Column="0" Margin="0,0,0,20" 
+                             OverviewPlusDetailPaneVisibility="Visible"
+                             Legend="{Binding ElementName=legend1}"
+                             IsVerticalZoomEnabled="False" VerticalZoombarVisibility="Collapsed"
+                             IsHorizontalZoomEnabled="True" HorizontalZoombarVisibility="Collapsed">
+                <ig:SyncManager.SyncSettings>
+                    <ig:SyncSettings SyncChannel="syncGroup1" SynchronizeHorizontally="True" SynchronizeVertically="False" />
+                </ig:SyncManager.SyncSettings>
+                <ig:XamDataChart.Axes>
+                    <ig:CategoryXAxis x:Name="commonCategoryXAxis" ItemsSource="{Binding}"
+                            Label="{}{Date:MM/dd}" />
+                    <ig:NumericYAxis x:Name="commonNumericYAxis" />
+                </ig:XamDataChart.Axes>
+                <ig:XamDataChart.Series>
+                    <ig:FinancialPriceSeries Title="{Binding XWDC_BindingLiveData_StockPrice, Source={StaticResource Strings}}"
+                                             DisplayType="Candlestick" 
+                                             ItemsSource="{Binding}"
+                                             OpenMemberPath="Open"
+                                             CloseMemberPath="Close"
+                                             HighMemberPath="High"
+                                             LowMemberPath="Low"
+                                             VolumeMemberPath="Volume"
+                                             XAxis="{Binding ElementName=commonCategoryXAxis}"
+                                             YAxis="{Binding ElementName=commonNumericYAxis}"
+                                             TrendLineType="ExponentialAverage"
+                                             TrendLinePeriod="10" 
+                                             IsHighlightingEnabled="True" 
+                                             IsTransitionInEnabled="True"
+                                             ShowDefaultTooltip="True">
+                    </ig:FinancialPriceSeries>
+                </ig:XamDataChart.Series>
+            </ig:XamDataChart>
+            <ig:XamDataChart x:Name="FinancialIndicatorChart" Grid.Row="1" Grid.Column="0" Margin="0" 
+                             Legend="{Binding ElementName=legend2}"
+                             IsVerticalZoomEnabled="False" VerticalZoombarVisibility="Collapsed"
+                             IsHorizontalZoomEnabled="True" HorizontalZoombarVisibility="Visible">
+                <ig:SyncManager.SyncSettings>
+                    <ig:SyncSettings SyncChannel="syncGroup1" SynchronizeHorizontally="True" SynchronizeVertically="False" />
+                </ig:SyncManager.SyncSettings>
+                <ig:XamDataChart.Axes>
+                    <ig:CategoryXAxis x:Name="indicatorCategoryXAxis" ItemsSource="{Binding}" Label="{}{Date:MM/dd}">
+                        <ig:CategoryXAxis.LabelSettings>
+                            <ig:AxisLabelSettings Visibility="Collapsed"></ig:AxisLabelSettings>
+                        </ig:CategoryXAxis.LabelSettings>
+                    </ig:CategoryXAxis>
+                    <ig:NumericYAxis x:Name="indicatorNumericYAxis">
+                    </ig:NumericYAxis>
+                </ig:XamDataChart.Axes>
+                <ig:XamDataChart.Series>
+                    <ig:SplineAreaSeries Title="{Binding XWDC_BindingLiveData_StockVolume, Source={StaticResource Strings}}"
+                                         XAxis="{Binding ElementName=indicatorCategoryXAxis, Mode=OneWay}"
+                                         YAxis="{Binding ElementName=indicatorNumericYAxis, Mode=OneWay}"
+                                         ItemsSource="{Binding}"
+                                         ValueMemberPath="Volume"
+                                         IsHighlightingEnabled="True" 
+                                         IsTransitionInEnabled="True"
+                                         ShowDefaultTooltip="True">
+                    </ig:SplineAreaSeries>
+                </ig:XamDataChart.Series>
+            </ig:XamDataChart>
+            <ig:Legend x:Name="legend1" Grid.Row="0" Grid.Column="0" 
+                       Margin="5" VerticalAlignment="Top" Padding="0" 
+                       HorizontalAlignment="Center">
+            </ig:Legend>
+            <ig:Legend x:Name="legend2" Grid.Row="1" Grid.Column="0" 
+                       Margin="5" VerticalAlignment="Top" Padding="0" 
+                       HorizontalAlignment="Center">
+            </ig:Legend>
+        </Grid>
+        
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ================================================================================================== -->
+        <!-- Note theme are changed in code-behind -->
+        <controls:ThemeSelector x:Name="ThemeSelector" 
+                                HorizontalAlignment="Right"
+                                SelectionChanged="OnSelectionChanged"/>
+        <!-- ================================================================================================== -->
+        <!-- #END SNIPPET# -->
+                
+    </Grid>
+</igFramework:SampleContainer>

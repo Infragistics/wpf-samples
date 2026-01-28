@@ -1,0 +1,94 @@
+﻿<framework:SampleContainer x:Class="IGRichTextEditor.Samples.Organization.ContentBrowsing"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:local="clr-namespace:IGRichTextEditor.Samples.Organization"
+    xmlns:res="clr-namespace:IGRichTextEditor.Resources"
+    xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="Content Browsing Page">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGRichTextEditor;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:RichTextEditorStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <framework:SampleContainer.DataContext>
+        <local:ContentBrowsingViewModel />
+    </framework:SampleContainer.DataContext>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <controls:OptionsPanel
+            HeaderText="{Binding ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}"
+            Margin="0,10,0,10" Grid.Row="0" Grid.ColumnSpan="2" IsMovable="False">
+            <StackPanel Orientation="Horizontal">
+                <Button Width="32" Height="32" Margin="0,0,5,0" Style="{StaticResource IconButtonStyle}">
+                    <Button.Content>
+                        <Image Source="/IGRichTextEditor;component/Images/FontBold_16x16.png" />
+                    </Button.Content>
+                    <ig:Commanding.Command>
+                        <igPrim:RichTextEditorCommandSource EventName="Click" CommandType="ToggleBoldFormatting" />
+                    </ig:Commanding.Command>
+                </Button>
+                <Button Width="32" Height="32" Margin="0,0,5,0" Style="{StaticResource IconButtonStyle}">
+                    <Button.Content>
+                        <Image Source="/IGRichTextEditor;component/Images/FontItalic_16x16.png" />
+                    </Button.Content>
+                    <ig:Commanding.Command>
+                        <igPrim:RichTextEditorCommandSource EventName="Click" CommandType="ToggleItalicFormatting" />
+                    </ig:Commanding.Command>
+                </Button>
+            </StackPanel>
+        </controls:OptionsPanel>
+
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamRichTextEditor x:Name="xamRichTextEditor1" Grid.Row="1" Grid.Column="0" Grid.RowSpan="2"
+                              Margin="0,10,10,0" AllowDocumentViewSplitting="True"
+                              BorderThickness="1" BorderBrush="{StaticResource RichTextEditorBorderBrush}"
+                              Document="{Binding Document}">
+            <ig:XamRichTextEditor.ClipboardSerializationProviders>
+                <ig:RtfSerializationProvider />
+                <ig:WordSerializationProvider />
+                <ig:HtmlSerializationProvider />
+            </ig:XamRichTextEditor.ClipboardSerializationProviders>
+        </ig:XamRichTextEditor>
+
+        <ig:XamDataTree x:Name="xamDataTree1" Grid.Row="1" Grid.Column="1"
+                        ItemsSource="{Binding Nodes}" Margin="0,10,0,0">
+            <ig:XamDataTree.GlobalNodeLayouts>
+                <ig:NodeLayout Key="ChildNodes"
+                               TargetTypeName="CustomNode"
+                               DisplayMemberPath="DisplayName" />
+            </ig:XamDataTree.GlobalNodeLayouts>
+        </ig:XamDataTree>
+
+        <Border Grid.Row="2" Grid.Column="1" Margin="0,10,0,0">
+            <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" Style="{StaticResource IGScrollViewerStyle}">
+                <StackPanel>
+                    <TextBlock Text="{Binding ElementName=xamDataTree1, Path=SelectionSettings.SelectedNodes[0].Data.Content}" />
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+        <!-- #END SNIPPET# -->
+
+    </Grid>
+</framework:SampleContainer>

@@ -1,0 +1,48 @@
+﻿<igFramework:SampleContainer x:Class="IGTabControl.Samples.Display.TabsDragging"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGTabControl.Resources"
+    xmlns:igWindows="http://infragistics.com/Windows"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="TabsDragging Page">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <res:TabControlStrings x:Key="Strings" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGTabControl;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+
+        <!-- #BEGIN SNIPPET# -->
+        <igWindows:XamTabControl x:Name="tabControl" Theme="RoyalLight" TabDragMode="Deferred">
+        <!-- #END SNIPPET# -->
+            <igWindows:TabItemEx Header="{Binding Source={StaticResource Strings}, Path=TabControl_ShowHideTabs_TabHeader_Home}" />
+            <igWindows:TabItemEx Header="{Binding Source={StaticResource Strings}, Path=TabControl_ShowHideTabs_TabHeader_Insert}" />
+            <igWindows:TabItemEx Header="{Binding Source={StaticResource Strings}, Path=TabControl_ShowHideTabs_TabHeader_PageLayout}" />
+            <igWindows:TabItemEx Header="{Binding Source={StaticResource Strings}, Path=TabControl_ShowHideTabs_TabHeader_References}" />
+            <igWindows:TabItemEx Header="{Binding Source={StaticResource Strings}, Path=TabControl_ShowHideTabs_TabHeader_Mailing}" />
+        </igWindows:XamTabControl>
+
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource CommonStrings}, Path=ConfigurationPanel_Header_Options}"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Top"
+                               Margin="50, 100">
+            <StackPanel>
+                <TextBlock Text="{Binding Source={StaticResource Strings}, Path=TabControl_TabsDraggingMode}" Margin="{StaticResource OptionsElementsMargin}"/>
+                <controls:EnumValuesProvider x:Name="cbDragMode"
+                                         EnumType="{x:Type igWindows:TabDragMode}" DisplayTemplate="ComboBox" SelectedEnumIndex="1"
+                                         Value="{Binding ElementName=tabControl, Path=TabDragMode}" />
+            </StackPanel>
+        </controls:OptionsPanel>
+
+    </Grid>
+</igFramework:SampleContainer>

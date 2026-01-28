@@ -1,0 +1,135 @@
+﻿<framework:SampleContainer x:Class="IGGrid.Samples.Style.PagerCustomization"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="PagerCustomization Page"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+      xmlns:res="clr-namespace:IGGrid.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGrid;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:GridStrings x:Key="Strings" />
+
+            <SolidColorBrush x:Key="HeaderNormalBackgroundBrush"  Color="#FFF5F5F5"/>
+            <SolidColorBrush x:Key="HeaderNormalBorderBrush"  Color="#FF7446B9"/>
+
+            <Style TargetType="igPrim:PagerControl"  x:Key="pc">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="igPrim:PagerControl">
+                            <StackPanel Orientation="Horizontal" Background="{TemplateBinding Background}" HorizontalAlignment="Right" Margin="0,15,15,15" >
+                                <ComboBox x:Name="PagerItems">
+                                    <ig:Commanding.Command>
+                                        <ig:XamGridPagingControlsCommandSource EventName="SelectionChanged" CommandType="GoToPage" />
+                                    </ig:Commanding.Command>
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Width="20" TextAlignment="Center" Text="{Binding}"/>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox >
+                                <TextBlock TextAlignment="Center" VerticalAlignment="Center" Text="{Binding Path=XWG_PagingCombo_Of, Source={StaticResource Strings}}" Margin="10,0" Foreground="{StaticResource ForegroundBrush}" />
+                                <TextBlock TextAlignment="Center" VerticalAlignment="Center" Text="{Binding TotalPages}" Foreground="{StaticResource ForegroundBrush}" />
+                            </StackPanel>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style TargetType="igPrim:PagerCellControl" x:Key="pcc">
+                <Setter Property="Background" Value="{StaticResource HeaderNormalBackgroundBrush}" />
+                 <Setter Property="BorderBrush" Value="{StaticResource HeaderNormalBorderBrush}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="igPrim:PagerCellControl">
+                            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0,4,0,0">
+                                <Grid>
+                                    <igPrim:PagerControl x:Name="PagerItemControl" MaximumAvailablePagerValues="-1" Style="{StaticResource pc}" >
+                                        <ig:Commanding.Commands>
+                                            <ig:CommandSourceCollection>
+                                                <ig:XamGridPagingCommandSource  AllowEventHandling="True" EventName="FirstPage"  CommandType="FirstPage" >
+                                                </ig:XamGridPagingCommandSource>
+                                                <ig:XamGridPagingCommandSource AllowEventHandling="True" EventName="LastPage"  CommandType="LastPage" >
+                                                </ig:XamGridPagingCommandSource>
+                                                <ig:XamGridPagingCommandSource AllowEventHandling="True" EventName="PreviousPage"  CommandType="PreviousPage" >
+                                                </ig:XamGridPagingCommandSource>
+                                                <ig:XamGridPagingCommandSource  AllowEventHandling="True" EventName="NextPage"  CommandType="NextPage" >
+                                                </ig:XamGridPagingCommandSource>
+                                                <ig:XamGridPagingCommandSource  AllowEventHandling="True" EventName="GoToPage"  CommandType="GoToPage" >
+                                                </ig:XamGridPagingCommandSource>
+                                            </ig:CommandSourceCollection>
+                                        </ig:Commanding.Commands>
+                                    </igPrim:PagerControl>
+                                </Grid>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Width="Auto" >
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamGrid x:Name="dataGrid" AutoGenerateColumns="false" ColumnWidth="*">
+            <ig:XamGrid.Columns>
+                <ig:TextColumn Key="CustomerID">
+                    <ig:TextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=XWG_Customers_CustomerID, Source={StaticResource Strings}}" />
+                        </DataTemplate>
+                    </ig:TextColumn.HeaderTemplate>
+                </ig:TextColumn>
+                <ig:TextColumn Key="Company">
+                    <ig:TextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=XWG_Customers_Company, Source={StaticResource Strings}}" />
+                        </DataTemplate>
+                    </ig:TextColumn.HeaderTemplate>
+                </ig:TextColumn>
+                <ig:TextColumn Key="ContactName">
+                    <ig:TextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=XWG_Customers_ContactName, Source={StaticResource Strings}}" />
+                        </DataTemplate>
+                    </ig:TextColumn.HeaderTemplate>
+                </ig:TextColumn>
+                <ig:TextColumn Key="ContactTitle">
+                    <ig:TextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=XWG_Customers_ContactTitle, Source={StaticResource Strings}}" />
+                        </DataTemplate>
+                    </ig:TextColumn.HeaderTemplate>
+                </ig:TextColumn>
+                <ig:TextColumn Key="Region">
+                    <ig:TextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=XWG_Customers_Region, Source={StaticResource Strings}}" />
+                        </DataTemplate>
+                    </ig:TextColumn.HeaderTemplate>
+                </ig:TextColumn>
+                <ig:TextColumn Key="Country">
+                    <ig:TextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=XWG_Customers_Country, Source={StaticResource Strings}}" />
+                        </DataTemplate>
+                    </ig:TextColumn.HeaderTemplate>
+                </ig:TextColumn>
+            </ig:XamGrid.Columns>
+            <ig:XamGrid.PagerSettings>
+                <ig:PagerSettings AllowPaging="Bottom" PageSize="16" Style="{StaticResource pcc}"/>
+            </ig:XamGrid.PagerSettings>
+        </ig:XamGrid>
+        <!-- #END SNIPPET# -->
+    </Grid>
+</framework:SampleContainer>

@@ -1,0 +1,48 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+
+<ResourceDictionary xmlns:ig="http://schemas.infragistics.com/xaml">
+
+	<Style x:Key="BusyIndicatorCustomStyle" TargetType="ig:XamBusyIndicator" BasedOn="{StaticResource {x:Type ig:XamBusyIndicator}}">
+		<Setter Property="IsIndeterminate" Value="<#= Model.IsIndeterminate #>" />
+		<Setter Property="DisplayAfter" Value="<#= Model.DisplayAfter #>" />
+		<Setter Property="Padding" Value="<#= Model.Padding #>" />
+		<Setter Property="Background" Value="<#= Model.BackgroundColor #>" />
+		<Setter Property="OverlayStyle">
+			<Setter.Value>
+				<Style TargetType="Rectangle">
+					<Setter Property="Fill" Value="<#= Model.OverlayColor #>"/>
+				</Style>
+			</Setter.Value>
+		</Setter>
+		<Setter Property="BorderBrush" Value="<#= Model.BorderColor #>" />
+		<Setter Property="BorderThickness" Value="<#= Model.BorderThickness #>" />
+		<Setter Property="BusyContent" Value="<#= Model.BusyContent #>" />
+		<Setter Property="BusyContentTemplate">
+			<Setter.Value>
+				<DataTemplate>
+					<TextBlock Text="{Binding}"
+						Foreground="<#= Model.BusyContentForegroundColor #>" 
+						FontSize="<#= Model.BusyContentFontSize #>"
+						FontWeight="<#= Model.BusyContentFontWeight #>"
+						FontFamily="<#= Model.BusyContentFontFamily #>"
+						FontStyle="<#= Model.BusyContentFontStyle #>"/>
+				</DataTemplate>
+			</Setter.Value>
+		</Setter>
+		<Setter Property="Animation">
+			<Setter.Value>
+			<ig:<#= Info.AnimationName #><# foreach (var prop in Info.Properties) {#> <#= prop.Name #>="<#= prop.Color #>"<# }#>/> 
+			</Setter.Value>
+		</Setter>
+	</Style>
+	<# if(IsAnimationSizeVisible){ #>
+<Style TargetType="{x:Type ig:<#= PresenterType #>}" BasedOn="{StaticResource {x:Type ig:<#= PresenterType #>}}">
+		<Setter Property="Height" Value="<#= AnimationSize #>" />
+		<Setter Property="Width" Value="<#= AnimationSize #>" />
+	</Style><# }#>
+
+</ResourceDictionary>

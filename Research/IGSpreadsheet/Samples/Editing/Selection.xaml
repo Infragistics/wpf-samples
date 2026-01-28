@@ -1,0 +1,75 @@
+﻿<framework:SampleContainer x:Class="IGSpreadsheet.Samples.Editing.Selection"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+    xmlns:res="clr-namespace:IGSpreadsheet.Resources"
+    mc:Ignorable="d"
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="Selection Page">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSpreadsheet;component/Assets/Global.xaml" />
+                
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:SpreadsheetStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <!--<Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>-->
+
+        <ig:XamSpreadsheet x:Name="xamSpreadsheet1" Grid.Column="0" />
+        
+        <Grid Grid.Column="2" VerticalAlignment="Top">
+            <Grid.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}" >
+                    <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+                    <Setter Property="VerticalAlignment" Value="Top"/>
+                </Style>
+            </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <!-- #BEGIN SNIPPET# -->
+            <TextBlock Grid.Row="0" Grid.Column="0" FontWeight="{StaticResource FontSemiBold}"
+                       Text="{Binding Source={StaticResource Strings}, Path=lblActiveCell}" />
+            <TextBlock Grid.Row="0" Grid.Column="2"
+                       Text="{Binding ElementName=xamSpreadsheet1, Path=ActiveCell}" />
+            <TextBlock Grid.Row="1" Grid.Column="0" FontWeight="{StaticResource FontSemiBold}"
+                       Text="{Binding Source={StaticResource Strings}, Path=lblSelectionMode}"/>
+            <TextBlock Grid.Row="1" Grid.Column="2"
+                       Text="{Binding ElementName=xamSpreadsheet1, Path=SelectionMode}" />
+            <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
+                <TextBlock FontWeight="{StaticResource FontSemiBold}" Margin="{StaticResource OptionsElementsMargin}"
+                       Text="{Binding Source={StaticResource Strings}, Path=lblSelectionRanges}" />
+                <ListBox ItemsSource="{Binding ElementName=xamSpreadsheet1, Path=ActiveSelection.CellRanges}" Height="100" />
+            </StackPanel>
+            <!-- #END SNIPPET# -->
+        </Grid>
+    </Grid>
+</framework:SampleContainer>

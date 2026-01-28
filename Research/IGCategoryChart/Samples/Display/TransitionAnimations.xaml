@@ -1,0 +1,133 @@
+﻿<igFramework:SampleContainer x:Class="IGCategoryChart.Samples.Data.TransitionAnimations"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IGCategoryChart.Samples.Data"
+             xmlns:ig="http://schemas.infragistics.com/xaml"
+             xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+             xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+            xmlns:converters="clr-namespace:IGCategoryChart.Converters"
+             xmlns:resources="clr-namespace:IGCategoryChart.Resources"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="/Infragistics.Samples.Shared;component/Assets/Global.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+                <converters:ChartTypeConverter x:Key="ChartTypeConverter" />
+                <resources:CategoryChartStrings x:Key="Strings"/>
+            </ResourceDictionary>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ========================================================================== -->
+        <ig:XamCategoryChart x:Name="chart1" Grid.Row="1"
+                             ChartType="{Binding ElementName=cmbChartType, Path=SelectedItem.Tag, Converter={StaticResource ChartTypeConverter}}"
+                             XAxisTitle="{Binding XCC_Country, Source={StaticResource Strings}}" 
+                             YAxisTitle="{Binding XCC_Terrawatt, Source={StaticResource Strings}}" Margin="{StaticResource CategoryChartSamplesPadding}"
+                             ToolTipType="Item">
+
+        </ig:XamCategoryChart>
+        <!-- ========================================================================== -->
+        <!-- #END SNIPPET# -->
+
+        <Border VerticalAlignment="Top" Margin="{StaticResource SampleInnerNavigationPadding}" HorizontalAlignment="Left">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding XCC_ChartTypesLbl, Source={StaticResource Strings}}" VerticalAlignment="Center" Style="{StaticResource SamplesInnerNavigationTitleStyle}"></TextBlock>
+                <ComboBox x:Name="cmbChartType" SelectedIndex="0" Margin="0,0,2,0" Width="150" HorizontalAlignment="Left" VerticalAlignment="Center">
+                    <ComboBoxItem Tag="Area" Content="Area" ></ComboBoxItem>
+                    <ComboBoxItem Tag="Auto" Content="Auto" ></ComboBoxItem>
+                    <ComboBoxItem Tag="Column" Content="Column" ></ComboBoxItem>
+                    <ComboBoxItem Tag="Line" Content="Line" ></ComboBoxItem>
+                    <ComboBoxItem Tag="Point" Content="Point" ></ComboBoxItem>
+                    <ComboBoxItem Tag="Spline" Content="Spline" ></ComboBoxItem>
+                    <ComboBoxItem Tag="SplineArea" Content="SplineArea" ></ComboBoxItem>
+                    <ComboBoxItem Tag="StepArea" Content="StepArea" ></ComboBoxItem>
+                    <ComboBoxItem Tag="StepLine" Content="StepLine" ></ComboBoxItem>
+                    <ComboBoxItem Tag="Waterfall" Content="Waterfall" ></ComboBoxItem>
+                </ComboBox>
+                <Button x:Name="btnPrevious" HorizontalAlignment="Center" Cursor="Hand" Margin="0,0,2,0" Content="" Click="OnPrevButtonClick"  Style="{StaticResource IGPreviousButtonStyle}" />
+                <Button x:Name="btnNext" HorizontalAlignment="Right" Cursor="Hand" Margin="0,0,2,0" Content="" Click="OnNextButtonClick"  Style="{StaticResource IGNextButtonStyle}"/>
+            </StackPanel>
+        </Border>
+
+        <controls:OptionsPanel VerticalAlignment="Top" HorizontalAlignment="Right"
+                               HeaderText="{Binding XCC_TransitionOptionsLbl, Source={StaticResource Strings}}" Margin="0,49,0,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="120" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding XCC_TransitionTypeLbl, Source={StaticResource Strings}}"  
+                            HorizontalAlignment="Left" VerticalAlignment="Center" Margin="{StaticResource OptionsTextRightBottomMargin}"/>
+                <ComboBox Grid.Row="0" Grid.Column="1"
+                            x:Name="ComboBoxTransitionType"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="{StaticResource OptionsElementsMargin}"
+                            SelectionChanged="ComboBoxTransitionType_OnSelectionChanged"/>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding XCC_TransitionSpeedType	, Source={StaticResource Strings}}"  
+                            HorizontalAlignment="Left" VerticalAlignment="Center" Margin="{StaticResource OptionsTextRightBottomMargin}"/>
+                <ComboBox Grid.Row="1" Grid.Column="1" x:Name="ComboBoxTransitionSpeedType" 
+                            HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="{StaticResource OptionsElementsMargin}" 
+                            SelectionChanged="ComboBoxTransitionSpeedType_OnSelectionChanged">
+                </ComboBox>
+
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding XCC_TransitionEasingFunction, Source={StaticResource Strings}}"  
+                            HorizontalAlignment="Left" VerticalAlignment="Center" Margin="{StaticResource OptionsTextRightBottomMargin}"/>
+                <ComboBox Grid.Row="2" Grid.Column="1" x:Name="ComboBoxTransitionEasingFunction"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="{StaticResource OptionsElementsMargin}"
+                                SelectionChanged="ComboBoxTransitionEasingFunction_OnSelectionChanged">
+                    <ComboBoxItem Content="PowerEase" />
+                    <ComboBoxItem Content="BackEase" />
+                    <ComboBoxItem Content="BounceEase" />
+                    <ComboBoxItem Content="CircleEase" />
+                    <ComboBoxItem Content="CubicEase" />
+                    <ComboBoxItem Content="ElasticEase" />
+                    <ComboBoxItem Content="ExponentialEase" />
+                    <ComboBoxItem Content="QuadraticEase" />
+                    <ComboBoxItem Content="QuarticEase" />
+                    <ComboBoxItem Content="QuinticEase" />
+                    <ComboBoxItem Content="SineEase" />
+                </ComboBox>
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="{Binding XCC_TransitionEasingMode, Source={StaticResource Strings}}"  
+                            HorizontalAlignment="Left" VerticalAlignment="Center" Margin="{StaticResource OptionsTextRightBottomMargin}"/>
+                <ComboBox Grid.Row="3" Grid.Column="1" x:Name="ComboBoxTransitionEasingMode" 
+                            HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="{StaticResource OptionsElementsMargin}"
+                                SelectionChanged="ComboBoxTransitionEasingMode_OnSelectionChanged">
+                    <ComboBoxItem Content="EaseOut" />
+                    <ComboBoxItem Content="EaseInOut" />
+                    <ComboBoxItem Content="EaseIn" />
+                </ComboBox>
+                <TextBlock Grid.Row="4" Text="{Binding XCC_TransitionDuration, Source={StaticResource Strings}}" 
+                            HorizontalAlignment="Left" VerticalAlignment="Center" Margin="{StaticResource OptionsTextRightBottomMargin}"/>
+                <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding ElementName=TransitionDurationSlider, Path=Value, StringFormat='0.0'}" 
+                            HorizontalAlignment="Center" VerticalAlignment="Center" Margin="{StaticResource OptionsTextTopBottomMargin}"/>
+                <Slider Grid.Row="5" x:Name="TransitionDurationSlider" 
+                        HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="3"
+                        Minimum="0" Maximum="5" Value="2" SmallChange="0.1" LargeChange="0.1"
+                        ValueChanged="TransitionDurationSlider_OnValueChanged"/>
+                <Button Grid.Row="5" Grid.Column="1" 
+                        x:Name="TransitionReplayButton"
+                        Click="TransitionReplayButton_OnClick"
+                        HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="3"
+                        Content="{Binding XCC_TransitionReplay, Source={StaticResource Strings}}"></Button>
+            </Grid>
+        </controls:OptionsPanel>
+        
+    </Grid>
+</igFramework:SampleContainer>

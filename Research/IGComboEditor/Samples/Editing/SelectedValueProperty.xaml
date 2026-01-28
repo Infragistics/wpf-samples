@@ -1,0 +1,100 @@
+﻿<framework:SampleContainer x:Class="IGComboEditor.Samples.Editing.SelectedValueProperty"
+                           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                           xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+                           xmlns:ig="http://schemas.infragistics.com/xaml"                         
+                           xmlns:res="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared"
+                           xmlns:resCombo="clr-namespace:IGComboEditor.Resources"
+                           xmlns:viewModel="clr-namespace:IGComboEditor.Samples.Editing"
+                           mc:Ignorable="d" 
+                           d:DesignHeight="600" d:DesignWidth="700">
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGComboEditor;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            
+            <res:CommonStrings x:Key="Strings" />
+            <resCombo:ComboEditorStrings x:Key="ComboStrings" />
+            <Style TargetType="TextBlock" BasedOn="{StaticResource BodyStyle}">
+                <Setter Property="Margin" Value="{StaticResource OptionsTextRightMargin}"/>
+            </Style>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+    
+    <framework:SampleContainer.DataContext>
+        <viewModel:PatientsDataProvider />
+    </framework:SampleContainer.DataContext>
+    
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock Text="{Binding Source={StaticResource Strings}, Path=XWG_Patient_PatientInformation}"
+                   Margin="{StaticResource OptionsElementsMargin}" Style="{StaticResource SamplesTitleStyle}"/>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                <RowDefinition Height="*" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                <RowDefinition Height="*" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                <RowDefinition Height="*" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="{Binding Source={StaticResource Strings}, Path=XWG_Patient_AdmittanceID}" 
+                       VerticalAlignment="Center"/>
+            <ig:XamComboEditor x:Name="Cmb_AdmittanceId" ItemsSource="{Binding Path=Patients}"
+                               DisplayMemberPath="AdmittanceId"     
+                               SelectedItem="{Binding SelectedPatient, Mode=TwoWay}"
+                               EmptyText="{Binding Source={StaticResource ComboStrings}, Path=CE_SelectAdmittanceId}"
+                               Width="300"
+                               VerticalAlignment="Center" Grid.Column="1" />
+            
+            <TextBlock Text="{Binding Source={StaticResource Strings}, Path=XWG_Patient_FullName}"
+                       Grid.Row="1" VerticalAlignment="Center"/>
+            
+            <ig:XamComboEditor x:Name="Cmb_FullName" ItemsSource="{Binding Path=Patients}"
+                               DisplayMemberPath="FullName"
+                               SelectedValue="{Binding Path=SelectedPatient.FullName}"
+                               SelectedItem="{Binding SelectedPatient, Mode=TwoWay}"
+                               EmptyText="{Binding Source={StaticResource ComboStrings}, Path=CE_SelectPatientName}"
+                               Width="300"
+                               VerticalAlignment="Center" 
+                               Grid.Row="1" Grid.Column="1"/>
+            
+            <TextBlock Text="{Binding Source={StaticResource Strings}, Path=XWG_Patient_Location}"
+                       Grid.Row="2" VerticalAlignment="Center"/>
+
+            <!-- #BEGIN SNIPPET# -->
+            <ig:XamComboEditor x:Name="Cmb_Location" ItemsSource="{Binding Path=Locations}"
+                               DisplayMemberPath="RoomName"
+                               SelectedValuePath="RoomName"
+                               SelectedValue="{Binding Path=SelectedPatient.Location}"
+                               Width="300"
+                               VerticalAlignment="Center"
+                               Grid.Row="2" Grid.Column="1"/>
+            <!-- #END SNIPPET# -->
+
+            <TextBlock Text="{Binding Source={StaticResource Strings}, Path=XWG_Patient_Severity}"
+                       Grid.Row="3" VerticalAlignment="Center"/>
+            <ig:XamComboEditor x:Name="Cmb_Severity" ItemsSource="{Binding Path=SeverityLevels}" 
+                               DisplayMemberPath="Level"
+                               SelectedValuePath="Level"
+                               SelectedValue="{Binding Path=SelectedPatient.Severity}" 
+                               Width="300" Grid.Row="3" Grid.Column="1"
+                               VerticalAlignment="Center"/>
+            
+            </Grid>
+    </Grid>
+</framework:SampleContainer>

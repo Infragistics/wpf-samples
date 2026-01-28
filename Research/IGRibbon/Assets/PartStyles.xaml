@@ -1,0 +1,700 @@
+﻿<ResourceDictionary
+   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+   xmlns:ig="http://schemas.infragistics.com/xaml"
+	xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+	>
+	
+	<ResourceDictionary.MergedDictionaries>
+		<ResourceDictionary Source="/IGRibbon;component/Assets/Brushes.xaml"/>
+	</ResourceDictionary.MergedDictionaries>
+
+
+    <Style x:Key="XamRibbonCheckBoxStyle" TargetType="CheckBox">
+		<Setter Property="HorizontalContentAlignment" Value="Left"/>
+		<Setter Property="VerticalContentAlignment" Value="Top"/>
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="Padding" Value="5,2,0,0"/>
+		<Setter Property="Foreground" Value="#FF4C607A"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="CheckBox">
+					<Grid>
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+								<VisualState x:Name="Normal"/>
+								<VisualState x:Name="MouseOver">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Duration="0" Storyboard.TargetName="Hvr" Storyboard.TargetProperty="(UIElement.Visibility)">
+											<DiscreteObjectKeyFrame KeyTime="00:00:00">
+												<DiscreteObjectKeyFrame.Value>
+													<Visibility>Visible</Visibility>
+												</DiscreteObjectKeyFrame.Value>
+											</DiscreteObjectKeyFrame>
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Duration="0" Storyboard.TargetName="Nrml" Storyboard.TargetProperty="(UIElement.Visibility)">
+											<DiscreteObjectKeyFrame KeyTime="00:00:00">
+												<DiscreteObjectKeyFrame.Value>
+													<Visibility>Collapsed</Visibility>
+												</DiscreteObjectKeyFrame.Value>
+											</DiscreteObjectKeyFrame>
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+								<VisualState x:Name="Pressed">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Duration="0" Storyboard.TargetName="Nrml" Storyboard.TargetProperty="(UIElement.Visibility)">
+											<DiscreteObjectKeyFrame KeyTime="00:00:00">
+												<DiscreteObjectKeyFrame.Value>
+													<Visibility>Collapsed</Visibility>
+												</DiscreteObjectKeyFrame.Value>
+											</DiscreteObjectKeyFrame>
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Duration="0" Storyboard.TargetName="Prssd" Storyboard.TargetProperty="(UIElement.Visibility)">
+											<DiscreteObjectKeyFrame KeyTime="00:00:00">
+												<DiscreteObjectKeyFrame.Value>
+													<Visibility>Visible</Visibility>
+												</DiscreteObjectKeyFrame.Value>
+											</DiscreteObjectKeyFrame>
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+								<VisualState x:Name="Disabled">
+									<Storyboard>
+										<DoubleAnimationUsingKeyFrames Storyboard.TargetName="contentPresenter" Storyboard.TargetProperty="(UIElement.Opacity)">
+											<SplineDoubleKeyFrame KeyTime="0" Value=".55"/>
+										</DoubleAnimationUsingKeyFrames>
+										<DoubleAnimationUsingKeyFrames Storyboard.TargetName="DisabledVisualElement" Storyboard.TargetProperty="(UIElement.Opacity)">
+											<SplineDoubleKeyFrame KeyTime="0" Value="0.55"/>
+										</DoubleAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+							</VisualStateGroup>
+							<VisualStateGroup x:Name="CheckStates">
+								<VisualState x:Name="Checked">
+									<Storyboard>
+										<DoubleAnimationUsingKeyFrames Storyboard.TargetName="CheckIcon" Storyboard.TargetProperty="(UIElement.Opacity)">
+											<SplineDoubleKeyFrame KeyTime="0" Value="1"/>
+										</DoubleAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+								<VisualState x:Name="Unchecked"/>
+								<VisualState x:Name="Indeterminate">
+									<Storyboard>
+										<DoubleAnimationUsingKeyFrames Storyboard.TargetName="IndeterminateIcon" Storyboard.TargetProperty="(UIElement.Opacity)">
+											<SplineDoubleKeyFrame KeyTime="0" Value="1"/>
+										</DoubleAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+							</VisualStateGroup>
+							<VisualStateGroup x:Name="FocusStates">
+								<VisualState x:Name="Focused"/>
+								<VisualState x:Name="Unfocused"/>
+							</VisualStateGroup>
+							<VisualStateGroup x:Name="ValidationStates">
+								<VisualState x:Name="Valid"/>
+								<VisualState x:Name="InvalidUnfocused"/>
+								<VisualState x:Name="InvalidFocused"/>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+						<Border Padding="0,4">
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="20"/>
+									<ColumnDefinition Width="*"/>
+								</Grid.ColumnDefinitions>
+								<Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" Grid.ColumnSpan="2"/>
+								<Grid Margin="3,0,0,0">
+									<Grid x:Name="Nrml" Height="13" Width="13">
+										<Rectangle Fill="{StaticResource CheckBoxNormalBackgroundBrush}" Stroke="{StaticResource CheckBoxNormalBorderBrush}"/>
+										<Rectangle Margin="2" Stroke="{StaticResource CheckBoxNormalInnerBorderBrush}" Fill="{StaticResource CheckBoxNormalInnerBackgroundBrush}"/>
+									</Grid>
+									<Grid x:Name="Hvr" Height="13" Width="13" Visibility="Collapsed">
+										<Rectangle Fill="{StaticResource CheckBoxHoverBackgroundBrush}" Stroke="{StaticResource CheckBoxHoverBorderBrush}"/>
+										<Rectangle Margin="2" Stroke="{StaticResource CheckBoxHoverInnerBorderBrush}" Fill="{StaticResource CheckBoxHoverInnerBackgroundBrush}"/>
+									</Grid>
+									<Grid x:Name="Prssd" Height="13" Width="13" Visibility="Collapsed">
+										<Rectangle Fill="{StaticResource CheckBoxPressedBackgroundBrush}" Stroke="{StaticResource CheckBoxPressedBorderBrush}"/>
+										<Rectangle Margin="2" Stroke="{StaticResource CheckBoxPressedInnerBorderBrush}" Fill="{StaticResource CheckBoxPressedInnerBackgroundBrush}"/>
+									</Grid>
+									<Path x:Name="CheckIcon" Fill="{TemplateBinding Foreground}" Stretch="Fill" Height="9" Margin="1,1,0,1" Width="9" Data="M102.03442,598.79645 L105.22962,597.78918 L106.78825,600.42358 C106.78825,600.42358 108.51028,595.74304 110.21724,593.60419 C112.00967,591.35822 114.89314,591.42316 114.89314,591.42316 C114.89314,591.42316 112.67844,593.42645 111.93174,594.44464 C110.7449,596.06293 107.15683,604.13837 107.15683,604.13837 z" Opacity="0"/>
+									<Rectangle x:Name="IndeterminateIcon" Fill="#FF333333" Height="2" Width="7" Opacity="0"/>
+									<Rectangle x:Name="DisabledVisualElement" Fill="#FFFFFFFF" RadiusX="1" RadiusY="1" Height="14" Width="14" Opacity="0"/>
+								</Grid>
+								<ContentPresenter x:Name="contentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Grid.Column="1" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"/>
+							</Grid>
+						</Border>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+
+	<Style x:Key="GalleryPreviewBtnTop" TargetType="Button">
+		<Setter Property="Background" Value="{StaticResource GalleryPreviewBtnNormalCenterBrush}"/>
+		<Setter Property="Foreground" Value="#FF000000"/>
+		<Setter Property="Padding" Value="3"/>
+		<Setter Property="BorderThickness" Value="1"/>
+		<Setter Property="BorderBrush" Value="{StaticResource GalleryPreviewBtnNormalBorderBrush}"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="Button">
+					<Grid>
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+								<VisualState x:Name="Normal"/>
+								<VisualState x:Name="MouseOver">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames BeginTime="0" Storyboard.TargetName="HoverChrm" Storyboard.TargetProperty="(UIElement.Visibility)">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames BeginTime="0" Storyboard.TargetName="NrmlChrm" Storyboard.TargetProperty="(UIElement.Visibility)">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+								<VisualState x:Name="Pressed">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames BeginTime="0" Storyboard.TargetName="NrmlChrm" Storyboard.TargetProperty="(UIElement.Visibility)">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames BeginTime="0" Storyboard.TargetName="PrssdChrm" Storyboard.TargetProperty="(UIElement.Visibility)">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+								<VisualState x:Name="Disabled">
+									<Storyboard>
+										<DoubleAnimationUsingKeyFrames BeginTime="0" Storyboard.TargetName="contentPresenter" Storyboard.TargetProperty="(UIElement.Opacity)">
+											<EasingDoubleKeyFrame KeyTime="0" Value="0.4"/>
+										</DoubleAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames BeginTime="0" Storyboard.TargetName="NrmlChrm" Storyboard.TargetProperty="(UIElement.Visibility)">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+							</VisualStateGroup>
+							<VisualStateGroup x:Name="FocusStates">
+								<VisualState x:Name="Focused"/>
+								<VisualState x:Name="Unfocused"/>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+						<Border
+							x:Name="NrmlChrm"
+							Background="{TemplateBinding Background}"
+							BorderBrush="{TemplateBinding BorderBrush}"
+							BorderThickness="{TemplateBinding BorderThickness}"
+							CornerRadius="0,2,0,0"/>
+						<Border
+							x:Name="HoverChrm"
+							Background="{StaticResource GalleryPreviewBtnHoverCenterBrush}"
+							BorderBrush="{StaticResource GalleryPreviewBtnHoverBorderBrush}"
+							BorderThickness="1"
+							CornerRadius="0,2,0,0"
+							Visibility="Collapsed">
+							<Rectangle
+								x:Name="Highlight"
+								RadiusX="1"
+								RadiusY="1"
+								Stroke="{StaticResource GalleryPreviewBtnHoverHighlightBrush}"/>
+						</Border>
+						<Border
+							x:Name="PrssdChrm"
+							Background="{StaticResource GalleryPreviewBtnPressedCenterBrush}"
+							BorderBrush="{StaticResource GalleryPreviewBtnPressedBorderBrush}"
+							BorderThickness="1"
+							CornerRadius="0,2,0,0"
+							Visibility="Collapsed">
+							<Rectangle RadiusX="1" RadiusY="1" Stroke="{StaticResource GalleryPreviewBtnPressedHighlightBrush}"/>
+						</Border>
+						<ContentPresenter
+							x:Name="contentPresenter"
+							HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+							Margin="{TemplateBinding Padding}"
+							VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+							Content="{TemplateBinding Content}"
+							ContentTemplate="{TemplateBinding ContentTemplate}"/>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+	<Style x:Key="GalleryPreviewBtnMidBtm" TargetType="Button">
+		<Setter Property="Background" Value="{StaticResource GalleryPreviewBtnNormalCenterBrush}"/>
+		<Setter Property="Foreground" Value="#FF000000"/>
+		<Setter Property="Padding" Value="3"/>
+		<Setter Property="BorderThickness" Value="1"/>
+		<Setter Property="BorderBrush" Value="{StaticResource GalleryPreviewBtnNormalBorderBrush}"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="Button">
+					<Grid>
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+								<VisualState x:Name="Normal"/>
+								<VisualState x:Name="MouseOver">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames BeginTime="0" Storyboard.TargetName="HoverChrm" Storyboard.TargetProperty="(UIElement.Visibility)">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames BeginTime="0" Storyboard.TargetName="NrmlChrm" Storyboard.TargetProperty="(UIElement.Visibility)">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+								<VisualState x:Name="Pressed">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames BeginTime="0" Storyboard.TargetName="NrmlChrm" Storyboard.TargetProperty="(UIElement.Visibility)">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames BeginTime="0" Storyboard.TargetName="PrssdChrm" Storyboard.TargetProperty="(UIElement.Visibility)">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+								<VisualState x:Name="Disabled">
+									<Storyboard>
+										<DoubleAnimationUsingKeyFrames BeginTime="0" Storyboard.TargetName="contentPresenter" Storyboard.TargetProperty="(UIElement.Opacity)">
+											<EasingDoubleKeyFrame KeyTime="0" Value="0.4"/>
+										</DoubleAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames BeginTime="0" Storyboard.TargetName="NrmlChrm" Storyboard.TargetProperty="(UIElement.Visibility)">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+							</VisualStateGroup>
+							<VisualStateGroup x:Name="FocusStates">
+								<VisualState x:Name="Focused"/>
+								<VisualState x:Name="Unfocused"/>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+						<Border
+							x:Name="NrmlChrm"
+							Background="{TemplateBinding Background}"
+							BorderBrush="{TemplateBinding BorderBrush}"
+							BorderThickness="{TemplateBinding BorderThickness}"/>
+						<Border
+							x:Name="HoverChrm"
+							Background="{StaticResource GalleryPreviewBtnHoverCenterBrush}"
+							BorderBrush="{StaticResource GalleryPreviewBtnHoverBorderBrush}"
+							BorderThickness="1"
+							Visibility="Collapsed">
+							<Rectangle x:Name="Highlight" Stroke="{StaticResource GalleryPreviewBtnHoverHighlightBrush}"/>
+						</Border>
+						<Border
+							x:Name="PrssdChrm"
+							Background="{StaticResource GalleryPreviewBtnPressedCenterBrush}"
+							BorderBrush="{StaticResource GalleryPreviewBtnPressedBorderBrush}"
+							BorderThickness="1"
+							Visibility="Collapsed">
+							<Rectangle Stroke="{StaticResource GalleryPreviewBtnPressedHighlightBrush}"/>
+						</Border>
+						<ContentPresenter
+							x:Name="contentPresenter"
+							HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+							Margin="{TemplateBinding Padding}"
+							VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+							Content="{TemplateBinding Content}"
+							ContentTemplate="{TemplateBinding ContentTemplate}"/>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+
+	<!-- ========== GalleryPreview VerticalRibbonScrollViewer ========== -->
+	<Style TargetType="igPrim:VerticalGalleryScrollViewer" >
+		<Setter Property="Background" Value="{StaticResource GalleryPreviewScrollViewerBackgroundBrush}"/>
+		<Setter Property="BorderBrush" Value="{StaticResource GalleryPreviewScrollViewerBorderBrush}"/>
+		<Setter Property="BorderThickness" Value="1"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="igPrim:VerticalGalleryScrollViewer">
+						<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*"/>
+							<ColumnDefinition/>
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="*"/>
+							<RowDefinition />
+						</Grid.RowDefinitions>
+						<Border x:Name="Bd" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="0,2,0,0" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+						
+						<igPrim:VerticalRibbonScrollViewerPanel x:Name="ScrollPanel" IsHitTestVisible="True" Grid.RowSpan="2" Background="Transparent" Margin="1,0"/>
+						
+						<Grid Grid.Column="1" Grid.RowSpan="2">
+							<Grid.RowDefinitions>
+								<RowDefinition Height="*"/>
+								<RowDefinition Height="*"/>
+								<RowDefinition Height="*"/>
+							</Grid.RowDefinitions>
+							<Border x:Name="BtnScrollAreaBg" Background="{StaticResource GalleryPreviewScrollBtnBackgroundBrush}" BorderBrush="{StaticResource GalleryPreviewScrollBtnBorderBrush}" BorderThickness="1,0,0,0" Grid.RowSpan="3" Margin="0,1,1,1"/>
+							<Button x:Name="TopScrollButton" Canvas.ZIndex="1" IsEnabled="False" Style="{StaticResource GalleryPreviewBtnTop}">
+								<Path
+									Width="5"
+									Height="3"
+									Data="M 0,2 C0,2 0,3 0,3 0,3 5,3 5,3 5,3 5,2 5,2 5,2 4,2 4,2 4,2 4,1 4,1 4,1 3,1 3,1 3,1 3,0 3,0 3,0 2,0 2,0 2,0 2,1 2,1 2,1 1,1 1,1 1,1 1,2 1,2 1,2 0,2 0,2 z"
+									Fill="{StaticResource GalleryPreviewBtnGlyphBrush}"
+									Stretch="Fill"/>
+							</Button>
+							<Button x:Name="BottomScrollButton" Canvas.ZIndex="1" Grid.Row="1" IsEnabled="False" Style="{StaticResource GalleryPreviewBtnMidBtm}">
+								<Path
+									Width="5"
+									Height="3"
+									Data="M 0,1 C0,1 0,0 0,0 0,0 5,0 5,0 5,0 5,1 5,1 5,1 4,1 4,1 4,1 4,2 4,2 4,2 3,2 3,2 3,2 3,3 3,3 3,3 2,3 2,3 2,3 2,2 2,2 2,2 1,2 1,2 1,2 1,1 1,1 1,1 0,1 0,1 z"
+									Fill="{StaticResource GalleryPreviewBtnGlyphBrush}"
+									Stretch="Fill"/>
+							</Button>
+							<Button x:Name="Drop" Grid.Row="2" Style="{StaticResource GalleryPreviewBtnMidBtm}">
+								<Grid>
+									<Path
+										Width="7"
+										Height="6"
+										Data="M 1,3 C1,3 1,4 1,4 1,4 2,4 2,4 2,4 2,5 2,5 2,5 3,5 3,5 3,5 3,6 3,6 3,6 4,6 4,6 4,6 4,5 4,5 4,5 5,5 5,5 5,5 5,4 5,4 5,4 6,4 6,4 6,4 6,3 6,3 6,3 1,3 1,3 zM 0,0 C0,0 0,1 0,1 0,1 7,1 7,1 7,1 7,0 7,0 7,0 0,0 0,0 z"
+										Fill="{StaticResource QATCustomizeDropdownNormalBackgroundBrush}"
+										Opacity="1"
+										Stretch="Fill"
+										Margin="0,2,0,0" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+									<Path
+										Width="7"
+										Height="6"
+										Data="M 1,3 C1,3 1,4 1,4 1,4 2,4 2,4 2,4 2,5 2,5 2,5 3,5 3,5 3,5 3,6 3,6 3,6 4,6 4,6 4,6 4,5 4,5 4,5 5,5 5,5 5,5 5,4 5,4 5,4 6,4 6,4 6,4 6,3 6,3 6,3 1,3 1,3 zM 0,0 C0,0 0,1 0,1 0,1 7,1 7,1 7,1 7,0 7,0 7,0 0,0 0,0 z"
+										Fill="{StaticResource GalleryPreviewBtnGlyphBrush}"
+										Opacity="1"
+										Stretch="Fill"/>
+								</Grid>
+							</Button>
+						</Grid>
+						
+
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="TopScrollButtonVisibility">
+								<VisualState x:Name="NoTopScroll"></VisualState>
+								<VisualState x:Name="TopScroll">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="IsEnabled" Storyboard.TargetName="TopScrollButton">
+											<DiscreteObjectKeyFrame KeyTime="00:00:00" Value="True" />
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+							</VisualStateGroup>
+
+							<VisualStateGroup x:Name="BottomScrollButtonVisibility">
+								<VisualState x:Name="NoBottomScroll"></VisualState>
+								<VisualState x:Name="BottomScroll">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="IsEnabled" Storyboard.TargetName="BottomScrollButton">
+											<DiscreteObjectKeyFrame KeyTime="00:00:00" Value="True" />
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+							</VisualStateGroup>
+
+						</VisualStateManager.VisualStateGroups>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<!-- ========== QATOverflowPanel Prev Button ========== -->
+	<Style x:Key="QATOverflowPanelPrevButton" TargetType="RepeatButton" >
+		<Setter Property="ClickMode" Value="Hover" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="RepeatButton">
+					<Grid x:Name="QATOverflowPanelPrevButton">
+						<Border Margin="1,1,1,1" x:Name="BorderLight_Center" Background="{StaticResource MenuScrollViewerNormalCenterBrush}"/>
+						<Path x:Name="Glyph" Margin="0,4,0,5" HorizontalAlignment="Center" VerticalAlignment="Center" Height="7.094" Width="3.75" Stretch="Fill" Opacity="1" Data="M0.375,5.2185059 C0.375,5.2185059 0.5,-1.875 0.5,-1.875 C0.5,-1.875 -3.25,1.2187845 -3.25,1.2187845 C-3.25,1.2187845 0.375,5.2185059 0.375,5.2185059 z" Fill="{StaticResource MenuScrollViewerNormalGlyphBrush}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" />
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<!-- ========== QATOverflowPanel Next Button ========== -->
+	<Style x:Key="QATOverflowPanelNextButton" TargetType="RepeatButton" >
+		<Setter Property="ClickMode" Value="Hover" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="RepeatButton">
+					<Grid x:Name="QATOverflowPanelNextButton">
+						<Border Margin="1,1,1,1" x:Name="BorderLight_Center" Background="{StaticResource MenuScrollViewerNormalCenterBrush}"/>
+						<Path x:Name="Glyph" Margin="0,4,0,5" HorizontalAlignment="Center" VerticalAlignment="Center" Height="6.859" Width="5.375" Stretch="Fill" Opacity="1" Data="M2.9375,-2.726491 C2.9375,-2.726491 2.6875,4.1324759 2.6875,4.1324759 C2.6875,4.1324759 8.0625,0.72649825 8.0625,0.72649825 C8.0625,0.72649825 2.9375,-2.726491 2.9375,-2.726491 z" Fill="{StaticResource MenuScrollViewerNormalGlyphBrush}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" />
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<!-- ========== QATOverflowPanel ScrollViewer ========== -->
+	<Style x:Key="QATOverflowPanelScrollViewer" TargetType="ScrollViewer">
+		<Setter Property="HorizontalScrollBarVisibility" Value="Hidden" />
+		<Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="ScrollViewer">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto"/>
+							<ColumnDefinition Width="*"/>
+							<ColumnDefinition Width="Auto"/>
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="*" />
+						</Grid.RowDefinitions>
+						<Border Grid.Row="0" Grid.Column="1">
+							<ScrollContentPresenter x:Name="ScrollContentPresenter"  Margin="{TemplateBinding Padding}" />
+						</Border>
+						<RepeatButton Style="{StaticResource QATOverflowPanelPrevButton}" Grid.Row="0" Grid.Column="0"  Margin="0,1,1,1"/>
+						<RepeatButton Style="{StaticResource QATOverflowPanelNextButton}" Grid.Row="0" Grid.Column="2" Margin="0,1,1,1"/>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<!-- ========== MenuScrollViewer Up Button ========== -->
+	<Style x:Key="MenuScrollViewerUpButton" TargetType="RepeatButton" >
+		<Setter Property="ClickMode" Value="Hover" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="RepeatButton">
+					<Grid x:Name="MenuScrollViewerUpButton">
+						<Border Margin="1,1,1,1" x:Name="BorderLight_Center" Background="{StaticResource MenuScrollViewerNormalCenterBrush}"/>
+						<Path x:Name="Glyph" Margin="0,4,0,5" HorizontalAlignment="Center" VerticalAlignment="Center" Height="4" Width="8" Stretch="Fill" Opacity="1" Data="M 0,4 C0,4 8,4 8,4 8,4 4,0 4,0 4,0 0,4 0,4 z" Fill="{StaticResource MenuScrollViewerNormalGlyphBrush}" />
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<!-- ========== MenuScrollViewer Down Button ========== -->
+	<Style x:Key="MenuScrollViewerDownButton" TargetType="RepeatButton" >
+		<Setter Property="ClickMode" Value="Hover" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="RepeatButton">
+					<Grid x:Name="MenuScrollViewerDownButton">
+						<Border Margin="1,1,1,1" x:Name="BorderLight_Center" Background="{StaticResource MenuScrollViewerNormalCenterBrush}"/>
+						<Path x:Name="Glyph" Margin="0,5,0,4" HorizontalAlignment="Center" VerticalAlignment="Center" Height="3" Width="6" Stretch="Fill" Opacity="1" Data="M 1,0 C1,0 7,0 7,0 7,0 4,3 4,3 4,3 1,0 1,0 z" Fill="{StaticResource MenuScrollViewerNormalGlyphBrush}" />
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<!-- ========== MenuScrollViewer ========== -->
+	<Style x:Key="MenuScrollViewer" TargetType="ScrollViewer">
+		<Setter Property="HorizontalScrollBarVisibility" Value="Hidden" />
+		<Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="ScrollViewer">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="*" />
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>
+						<Border Grid.Row="1" Grid.Column="0">
+							<ScrollContentPresenter x:Name="ScrollContentPresenter"  Margin="{TemplateBinding Padding}" />
+						</Border>
+						<RepeatButton Style="{StaticResource MenuScrollViewerUpButton}" Grid.Row="0" Grid.Column="0"  Margin="0,1,1,1"/>
+						<RepeatButton Style="{StaticResource MenuScrollViewerDownButton}" Grid.Row="2" Grid.Column="0" Margin="0,1,1,1"/>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+	
+	<!-- ========== HorizontalRibbonScrollViewer Right Button ========== -->
+	<Style x:Key="HorizontalRibbonScrollViewerRightScrollBtnStyle" TargetType="Button">
+		<Setter Property="Background" Value="{StaticResource GalleryPreviewBtnNormalCenterBrush}"/>
+		<Setter Property="Foreground" Value="#FF000000"/>
+		<Setter Property="Padding" Value="1"/>
+		<Setter Property="BorderThickness" Value="1"/>
+		<Setter Property="BorderBrush" Value="{StaticResource GalleryPreviewBtnNormalBorderBrush}"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="Button">
+					<Grid>
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+								<VisualState x:Name="Normal"/>
+								<VisualState x:Name="MouseOver">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames BeginTime="0" Storyboard.TargetName="HoverChrm" Storyboard.TargetProperty="(UIElement.Visibility)">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames BeginTime="0" Storyboard.TargetName="NrmlChrm" Storyboard.TargetProperty="(UIElement.Visibility)">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+								<VisualState x:Name="Pressed">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames BeginTime="0" Storyboard.TargetName="NrmlChrm" Storyboard.TargetProperty="(UIElement.Visibility)">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames BeginTime="0" Storyboard.TargetName="PrssdChrm" Storyboard.TargetProperty="(UIElement.Visibility)">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+								<VisualState x:Name="Disabled">
+									<Storyboard>
+										<DoubleAnimationUsingKeyFrames BeginTime="0" Storyboard.TargetName="contentPresenter" Storyboard.TargetProperty="(UIElement.Opacity)">
+											<EasingDoubleKeyFrame KeyTime="0" Value="0.4"/>
+										</DoubleAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames BeginTime="0" Storyboard.TargetName="NrmlChrm" Storyboard.TargetProperty="(UIElement.Visibility)">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+							</VisualStateGroup>
+							<VisualStateGroup x:Name="FocusStates">
+								<VisualState x:Name="Focused"/>
+								<VisualState x:Name="Unfocused"/>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+						<Border
+							x:Name="NrmlChrm"
+							Background="{TemplateBinding Background}"
+							BorderBrush="{TemplateBinding BorderBrush}"
+							BorderThickness="{TemplateBinding BorderThickness}"
+							CornerRadius="0,2,2,0"/>
+						<Border
+							x:Name="HoverChrm"
+							Background="{StaticResource GalleryPreviewBtnHoverCenterBrush}"
+							BorderBrush="{StaticResource GalleryPreviewBtnHoverBorderBrush}"
+							BorderThickness="1"
+							CornerRadius="0,2,2,0"
+							Visibility="Collapsed">
+							<Rectangle
+								x:Name="Highlight"
+								RadiusX="1"
+								RadiusY="1"
+								Stroke="{StaticResource GalleryPreviewBtnHoverHighlightBrush}"/>
+						</Border>
+						<Border
+							x:Name="PrssdChrm"
+							Background="{StaticResource GalleryPreviewBtnPressedCenterBrush}"
+							BorderBrush="{StaticResource GalleryPreviewBtnPressedBorderBrush}"
+							BorderThickness="1"
+							CornerRadius="0,2,2,0"
+							Visibility="Collapsed">
+							<Rectangle RadiusX="1" RadiusY="1" Stroke="{StaticResource GalleryPreviewBtnPressedHighlightBrush}"/>
+						</Border>
+						<ContentPresenter
+							x:Name="contentPresenter"
+							HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+							Margin="{TemplateBinding Padding}"
+							VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+							Content="{TemplateBinding Content}"
+							ContentTemplate="{TemplateBinding ContentTemplate}"/>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+	
+	<!-- ========== HorizontalRibbonScrollViewer Left Button ========== -->
+	<Style x:Key="HorizontalRibbonScrollViewerLeftScrollBtnStyle" TargetType="Button">
+		<Setter Property="Background" Value="{StaticResource GalleryPreviewBtnNormalCenterBrush}"/>
+		<Setter Property="Foreground" Value="#FF000000"/>
+		<Setter Property="Padding" Value="1"/>
+		<Setter Property="BorderThickness" Value="1"/>
+		<Setter Property="BorderBrush" Value="{StaticResource GalleryPreviewBtnNormalBorderBrush}"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="Button">
+					<Grid>
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+								<VisualState x:Name="Normal"/>
+								<VisualState x:Name="MouseOver">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames BeginTime="0" Storyboard.TargetName="HoverChrm" Storyboard.TargetProperty="(UIElement.Visibility)">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames BeginTime="0" Storyboard.TargetName="NrmlChrm" Storyboard.TargetProperty="(UIElement.Visibility)">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+								<VisualState x:Name="Pressed">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames BeginTime="0" Storyboard.TargetName="NrmlChrm" Storyboard.TargetProperty="(UIElement.Visibility)">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames BeginTime="0" Storyboard.TargetName="PrssdChrm" Storyboard.TargetProperty="(UIElement.Visibility)">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+								<VisualState x:Name="Disabled">
+									<Storyboard>
+										<DoubleAnimationUsingKeyFrames BeginTime="0" Storyboard.TargetName="contentPresenter" Storyboard.TargetProperty="(UIElement.Opacity)">
+											<EasingDoubleKeyFrame KeyTime="0" Value="0.4"/>
+										</DoubleAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames BeginTime="0" Storyboard.TargetName="NrmlChrm" Storyboard.TargetProperty="(UIElement.Visibility)">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+							</VisualStateGroup>
+							<VisualStateGroup x:Name="FocusStates">
+								<VisualState x:Name="Focused"/>
+								<VisualState x:Name="Unfocused"/>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+						<Border
+							x:Name="NrmlChrm"
+							Background="{TemplateBinding Background}"
+							BorderBrush="{TemplateBinding BorderBrush}"
+							BorderThickness="{TemplateBinding BorderThickness}"
+							CornerRadius="2,0,0,2"/>
+						<Border
+							x:Name="HoverChrm"
+							Background="{StaticResource GalleryPreviewBtnHoverCenterBrush}"
+							BorderBrush="{StaticResource GalleryPreviewBtnHoverBorderBrush}"
+							BorderThickness="1"
+							CornerRadius="2,0,0,2"
+							Visibility="Collapsed">
+							<Rectangle
+								x:Name="Highlight"
+								RadiusX="1"
+								RadiusY="1"
+								Stroke="{StaticResource GalleryPreviewBtnHoverHighlightBrush}"/>
+						</Border>
+						<Border
+							x:Name="PrssdChrm"
+							Background="{StaticResource GalleryPreviewBtnPressedCenterBrush}"
+							BorderBrush="{StaticResource GalleryPreviewBtnPressedBorderBrush}"
+							BorderThickness="1"
+							CornerRadius="2,0,0,2"
+							Visibility="Collapsed">
+							<Rectangle RadiusX="1" RadiusY="1" Stroke="{StaticResource GalleryPreviewBtnPressedHighlightBrush}"/>
+						</Border>
+						<ContentPresenter
+							x:Name="contentPresenter"
+							HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+							Margin="{TemplateBinding Padding}"
+							VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+							Content="{TemplateBinding Content}"
+							ContentTemplate="{TemplateBinding ContentTemplate}"/>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+</ResourceDictionary>

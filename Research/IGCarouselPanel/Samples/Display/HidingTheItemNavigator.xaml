@@ -1,0 +1,334 @@
+﻿<igFramework:SampleContainer x:Class="IGCarouselPanel.Samples.Display.HiddingTheItemNavigator"
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:igWindows="http://infragistics.com/Windows"
+                             xmlns:d="http://schemas.microsoft.com/expression/blend/2006"
+                             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                             mc:Ignorable="d"
+                             xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+                             xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+                             xmlns:res="clr-namespace:IGCarouselPanel.Resources">
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGCarouselPanel;component/Assets/Global.xaml"/>
+                
+            </ResourceDictionary.MergedDictionaries>
+
+            <res:CarouselPanelStrings x:Key="Strings" />
+            
+            <Style x:Key="btnNavPrev"
+               BasedOn="{x:Null}"
+               TargetType="{x:Type Button}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Grid Background="#00000000">
+                                <Path Opacity="1"
+                                  Fill="#ffffff"
+                                  Stretch="Fill"
+                                  Data="M 20.095993041992188,7.235992431640625 C20.095993041992188,7.235992431640625 23.372787475585938,10.103195190429688 23.372787475585938,10.103195190429688 23.372787475585938,10.103195190429688 15.031295776367188,18.4447021484375 15.031295776367188,18.4447021484375 15.031295776367188,18.4447021484375 23.372787475585938,26.487213134765625 23.372787475585938,26.487213134765625 23.372787475585938,26.487213134765625 20.095993041992188,29.764007568359375 20.095993041992188,29.764007568359375 20.095993041992188,29.764007568359375 8.627212524414062,18.295196533203125 8.627212524414062,18.295196533203125 8.627212524414062,18.295196533203125 20.095993041992188,7.235992431640625 20.095993041992188,7.235992431640625 z" />
+                                <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              RecognizesAccessKey="True" />
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsFocused"
+                                     Value="True" />
+                                <Trigger Property="IsDefaulted"
+                                     Value="True" />
+                                <Trigger Property="IsMouseOver"
+                                     Value="True" />
+                                <Trigger Property="IsPressed"
+                                     Value="True" />
+                                <Trigger Property="IsEnabled"
+                                     Value="False" />
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Cursor"
+                    Value="Hand" />
+            </Style>
+            <Style x:Key="btnNavNext"
+               BasedOn="{x:Null}"
+               TargetType="{x:Type Button}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Grid Background="#00000000">
+                                <Path Opacity="1"
+                                  Fill="#ffffff"
+                                  Stretch="Fill"
+                                  Data="M 41.90400695800781,7.235992431640625 C41.90400695800781,7.235992431640625 38.62721252441406,10.103195190429688 38.62721252441406,10.103195190429688 38.62721252441406,10.103195190429688 46.96870422363281,18.4447021484375 46.96870422363281,18.4447021484375 46.96870422363281,18.4447021484375 38.62721252441406,26.487213134765625 38.62721252441406,26.487213134765625 38.62721252441406,26.487213134765625 41.90400695800781,29.764007568359375 41.90400695800781,29.764007568359375 41.90400695800781,29.764007568359375 53.372802734375,18.295196533203125 53.372802734375,18.295196533203125 53.372802734375,18.295196533203125 41.90400695800781,7.235992431640625 41.90400695800781,7.235992431640625 z" />
+                                <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              RecognizesAccessKey="True" />
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsFocused"
+                                     Value="True" />
+                                <Trigger Property="IsDefaulted"
+                                     Value="True" />
+                                <Trigger Property="IsMouseOver"
+                                     Value="True" />
+                                <Trigger Property="IsPressed"
+                                     Value="True" />
+                                <Trigger Property="IsEnabled"
+                                     Value="False" />
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Cursor"
+                    Value="Hand" />
+            </Style>
+            <Style x:Key="customNavigator"
+               TargetType="{x:Type igWindows:CarouselPanelNavigator}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type igWindows:CarouselPanelNavigator}">
+                            <Grid Width="61"
+                              Height="37"
+                              Opacity="1"
+                              HorizontalAlignment="Left"
+                              x:Name="carouselPanelShell"
+                              VerticalAlignment="Top">
+                                <Path Margin="0,0,0,0"
+                                  HorizontalAlignment="Left"
+                                  VerticalAlignment="Top"
+                                  Height="37"
+                                  Width="61"
+                                  Stretch="Fill"
+                                  Opacity="1"
+                                  Data="M 0,18.5 C0,8.2825927734375 13.65509033203125,0 30.5,0 47.34489440917969,0 61,8.2825927734375 61,18.5 61,28.717391967773438 47.34489440917969,37 30.5,37 13.65509033203125,37 0,28.717391967773438 0,18.5 z">
+                                    <Path.Fill>
+                                        <LinearGradientBrush StartPoint="0.3653847115938781,0.043478269834776186"
+                                                         EndPoint="0.3653847115938781,1.0655736149968327">
+                                            <LinearGradientBrush.GradientStops>
+                                                <GradientStopCollection>
+                                                    <GradientStop Color="#FF151c55"
+                                                              Offset="0" />
+                                                    <GradientStop Color="#FF151c55"
+                                                              Offset="0.5777778029441833" />
+                                                    <GradientStop Color="#FF54a2f0"
+                                                              Offset="0.8999999761581421" />
+                                                    <GradientStop Color="#FF54a2f0"
+                                                              Offset="0.9722222089767456" />
+                                                </GradientStopCollection>
+                                            </LinearGradientBrush.GradientStops>
+                                        </LinearGradientBrush>
+                                    </Path.Fill>
+                                </Path>
+                                <Path Margin="1,1,0,0.224"
+                                  HorizontalAlignment="Left"
+                                  VerticalAlignment="Stretch"
+                                  Height="Auto"
+                                  Width="59"
+                                  Stretch="Fill"
+                                  Opacity="0.5882352941176471"
+                                  Data="M 1,18.5 C1,8.617599487304688 14.2073974609375,0.6065597534179688 30.5,0.6065597534179688 46.7926025390625,0.6065597534179688 60,8.617599487304688 60,18.5 60,28.382400512695312 46.7926025390625,36.39344787597656 30.5,36.39344787597656 14.2073974609375,36.39344787597656 1,28.382400512695312 1,18.5 z"
+                                  Stroke="#151c55"
+                                  StrokeThickness="1" />
+                                <Path Margin="1,0.6065597534179688,0,0"
+                                  HorizontalAlignment="Left"
+                                  VerticalAlignment="Top"
+                                  Height="24.41393280029297"
+                                  Width="59"
+                                  Stretch="Fill"
+                                  Opacity="1"
+                                  Data="M 1,18.5 C1,19.487289428710938 1.131439208984375,20.455535888671875 1.3849945068359375,21.399337768554688 10.31683349609375,23.729507446289062 20.160079956054688,25.020492553710938 30.5,25.020492553710938 40.83992004394531,25.020492553710938 50.683135986328125,23.729507446289062 59.614990234375,21.399337768554688 59.8685302734375,20.455535888671875 60,19.487289428710938 60,18.5 60,8.617599487304688 46.7926025390625,0.6065597534179688 30.5,0.6065597534179688 14.2073974609375,0.6065597534179688 1,8.617599487304688 1,18.5 z">
+                                    <Path.Fill>
+                                        <LinearGradientBrush StartPoint="0.4915254237288136,-0.17391311141340438"
+                                                         EndPoint="0.4915254237288136,1.3167704328429244">
+                                            <LinearGradientBrush.GradientStops>
+                                                <GradientStopCollection>
+                                                    <GradientStop Color="#FFffffff"
+                                                              Offset="0" />
+                                                    <GradientStop Color="#00ffffff"
+                                                              Offset="0.9833333492279053" />
+                                                </GradientStopCollection>
+                                            </LinearGradientBrush.GradientStops>
+                                        </LinearGradientBrush>
+                                    </Path.Fill>
+                                </Path>
+                                <Button x:Name="navigateLineRight"
+                                    HorizontalAlignment="Right"
+                                    Margin="0,7.236,7.627,7.236"
+                                    Style="{DynamicResource btnNavNext}"
+                                    Width="14.746"
+                                    Content=""
+                                    Command="{x:Static igWindows:XamCarouselPanelCommands.NavigateToNextItem}"
+                                    CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CarouselPanel}" />
+                                <Button x:Name="navigateLineLeft"
+                                    HorizontalAlignment="Left"
+                                    Margin="8.627,7.236,0,7.236"
+                                    Style="{DynamicResource btnNavPrev}"
+                                    Command="{x:Static igWindows:XamCarouselPanelCommands.NavigateToPreviousItem}"
+                                    CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CarouselPanel}"
+                                    Width="14.746"
+                                    Content="" />
+                                <Grid Width="2"
+                                  Height="35"
+                                  Opacity="1"
+                                  Margin="30,1,0,0"
+                                  HorizontalAlignment="Left"
+                                  VerticalAlignment="Top">
+                                    <Path Margin="0,0,0,0"
+                                      HorizontalAlignment="Left"
+                                      VerticalAlignment="Top"
+                                      Height="35"
+                                      Width="1"
+                                      Stretch="Fill"
+                                      Opacity="0.4"
+                                      Data="M 0,0 C0,0 1,0 1,0 1,0 1,35 1,35 1,35 0,35 0,35 0,35 0,0 0,0 z"
+                                      Fill="#ffffff" />
+                                    <Path Margin="1,0,0,0"
+                                      HorizontalAlignment="Left"
+                                      VerticalAlignment="Top"
+                                      Height="35"
+                                      Width="1"
+                                      Stretch="Fill"
+                                      Opacity="0.10980392156862745"
+                                      Data="M 1,0 C1,0 2,0 2,0 2,0 2,35 2,35 2,35 1,35 1,35 1,35 1,0 1,0 z"
+                                      Fill="#000000" />
+                                </Grid>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Margin"
+                    Value="0,0,25,25" />
+            </Style>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <Grid>
+        <!-- #BEGIN SNIPPET# -->
+        <igWindows:XamCarouselPanel x:Name="XamCarouselPanel1"
+                                    Grid.Row="0"
+                                    HorizontalAlignment="Stretch">
+            <igWindows:XamCarouselPanel.ViewSettings>
+                <igWindows:CarouselViewSettings CarouselPanelNavigatorStyle="{StaticResource customNavigator}"
+                                                IsNavigatorVisible="False"
+                                                IsListContinuous="True"
+                                                ItemPath="{Binding ElementName=CustomPath, Mode=OneWay}"
+                                                ItemPathPadding="0,30,0,215"
+                                                ItemSize="200,180"
+                                                ItemsPerPage="7"
+                                                OpacityEffectStopDirection="UseItemPath"
+                                                UseOpacity="True"
+                                                ItemPathAutoPad="False"
+                                                ItemPathVerticalAlignment="Stretch"
+                                                ItemPathHorizontalAlignment="Stretch">
+                    <igWindows:CarouselViewSettings.OpacityEffectStops>
+                        <igWindows:OpacityEffectStopCollection>
+                            <igWindows:OpacityEffectStop Value="-4" />
+                            <igWindows:OpacityEffectStop Offset="0.5"
+                                                         Value="0.5" />
+                            <igWindows:OpacityEffectStop Offset="0.8"
+                                                         Value="1" />
+                            <igWindows:OpacityEffectStop Offset="1"
+                                                         Value="1" />
+                        </igWindows:OpacityEffectStopCollection>
+                    </igWindows:CarouselViewSettings.OpacityEffectStops>
+                    <igWindows:CarouselViewSettings.ScalingEffectStops>
+                        <igWindows:ScalingEffectStopCollection>
+                            <igWindows:ScalingEffectStop Value="0.1" />
+                            <igWindows:ScalingEffectStop Offset="0.2"
+                                                         Value="0.2" />
+                            <igWindows:ScalingEffectStop Offset="0.4"
+                                                         Value="0.4" />
+                            <igWindows:ScalingEffectStop Offset="0.7"
+                                                         Value="0.8" />
+                            <igWindows:ScalingEffectStop Offset="0.8"
+                                                         Value="2.0" />
+                            <igWindows:ScalingEffectStop Offset="1"
+                                                         Value="1" />
+                        </igWindows:ScalingEffectStopCollection>
+                    </igWindows:CarouselViewSettings.ScalingEffectStops>
+                    <igWindows:CarouselViewSettings.ItemPathRenderPen>
+                        <Pen Brush="#FFA72424"
+                             Thickness="0" />
+                    </igWindows:CarouselViewSettings.ItemPathRenderPen>
+                </igWindows:CarouselViewSettings>
+            </igWindows:XamCarouselPanel.ViewSettings>
+            <Image Width="100"
+                   Height="100"
+                   Source="../../Resources/webVista/Log In.png" />
+            <Image Width="100"
+                   Height="100"
+                   Source="../../Resources/webVista/Logout.png" />
+            <Image Width="100"
+                   Height="100"
+                   Source="../../Resources/webVista/Printer.png" />
+            <Image Width="100"
+                   Height="100"
+                   Source="../../Resources/webVista/Software CD Blue.png" />
+            <Image Width="100"
+                   Height="100"
+                   Source="../../Resources/webVista/Software Downloads Blue.png" />
+            <Image Width="100"
+                   Height="100"
+                   Source="../../Resources/webVista/SOS.png" />
+            <Image Width="100"
+                   Height="100"
+                   Source="../../Resources/webVista/Symbol Handicap.png" />
+            <Image Width="100"
+                   Height="100"
+                   Source="../../Resources/webVista/Symbol RSS.png" />
+            <Image Width="100"
+                   Height="100"
+                   Source="../../Resources/webVista/Trash Can.png" />
+            <Image Width="100"
+                   Height="100"
+                   Source="../../Resources/webVista/Under Construction 1.png" />
+            <Image Width="100"
+                   Height="100"
+                   Source="../../Resources/webVista/Under Construction 2.png" />
+            <Image Width="100"
+                   Height="100"
+                   Source="../../Resources/webVista/Website Poll.png" />
+        </igWindows:XamCarouselPanel>
+        <!-- #END SNIPPET# -->
+        <Path Visibility="Hidden"
+              Fill="{x:Null}"
+              Stretch="Fill"
+              Stroke="#FF000000"
+              x:Name="CustomPath"
+              Data="M-96.905841,269.54353 C-96.905841,269.54353 -28.403209,328.24638 85.941049,349.95603 188.78648,369.4825 914.01753,418.65525 960.78345,385.1648"
+              HorizontalAlignment="Stretch"
+              VerticalAlignment="Stretch"
+              Width="Auto"
+              Height="Auto"
+              Margin="-67.167,78.167,0,-6.291" />
+        <Path Opacity="0.2"
+              Stretch="Fill"
+              Stroke="{x:Null}"
+              Data="M-158.08742,60.964479 C-158.08742,60.964479 -131.0399,537.29241 683.57332,673.66418 842.59913,700.28618 1190.7127,695.21168 1190.7127,695.21168 1190.7127,695.21168 1368.3943,493.41641 1245.3943,445.41641 1122.3943,397.41641 658.8089,535.81116 203.47057,398.90405 22.860496,344.5998 -131.03516,184.28632 -132.08742,114.96466 -133.30514,34.742978 -158.08742,60.964479 -158.08742,60.964479 z"
+              Margin="-34,-73.098,-125.433,-5.249"
+              d:LayoutOverrides="Margin">
+            <Path.Fill>
+                <LinearGradientBrush EndPoint="1,0.5"
+                                     StartPoint="0,0.5">
+                    <GradientStop Color="#0C000000"
+                                  Offset="1" />
+                    <GradientStop Color="#FFAEA8A8"
+                                  Offset="0.27" />
+                    <GradientStop Color="#00FFFFFF"
+                                  Offset="0.005" />
+                </LinearGradientBrush>
+            </Path.Fill>
+        </Path>
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource CommonStrings}, Path=ConfigurationPanel_Header_Options}"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Top"
+                               Margin="50">
+            <Grid>
+                <CheckBox IsChecked="{Binding Path=(ViewSettings).IsNavigatorVisible, ElementName=XamCarouselPanel1}"
+                          Content="{Binding Source={StaticResource Strings}, Path=CarouselPanel_HidingTheItemNavigator_CheckBox}" />
+            </Grid>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

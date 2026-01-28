@@ -1,0 +1,67 @@
+﻿<framework:SampleContainer x:Class="IGPersistenceFramework.Samples.Organization.PersistSpecificControlProperty"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="PersistSpecificControlProperty Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGPersistenceFramework.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGPersistenceFramework;component/Assets/Global.xaml"/>
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:PersistenceStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamDialogWindow x:Name="XamDialogWindow"
+                            Height="150" Width="200" IsMoveable="True" IsResizable="True"
+                            StartupPosition="Center" CloseButtonVisibility="Collapsed">
+            <ig:PersistenceManager.Settings>
+                <ig:PersistenceSettings SavePersistenceOptions="OnlySpecified">
+                    <ig:PersistenceSettings.PropertySettings>
+                        <ig:PropertyNamePersistenceInfo PropertyName="Width" Options="PropertyPath"/>
+                    </ig:PersistenceSettings.PropertySettings>
+                </ig:PersistenceSettings>
+            </ig:PersistenceManager.Settings>
+        </ig:XamDialogWindow>
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel HeaderText="{Binding CPF_Settings, Source={StaticResource Strings}}"
+                               Margin="500,10,0,0" Width="150">
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}">
+                    <Setter Property="Margin" Value="{StaticResource OptionsElementsMargin}"/>
+                </Style>
+            </controls:OptionsPanel.Resources>            
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="{Binding CPF_Top, Source={StaticResource Strings}}"  />
+                    <TextBlock Text="{Binding CPF_Left, Source={StaticResource Strings}}"  />
+                    <TextBlock Text="{Binding CPF_Height, Source={StaticResource Strings}}"  />
+                    <TextBlock Text="{Binding CPF_Width, Source={StaticResource Strings}}"  />
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <TextBlock x:Name="TopPos" Text="{Binding ElementName=XamDialogWindow, Path=Top}"  />
+                    <TextBlock x:Name="leftPos" Text="{Binding ElementName=XamDialogWindow, Path=Left}"  />
+                    <TextBlock x:Name="txtBlockHeight" Text="{Binding ElementName=XamDialogWindow, Path=Height}"  />
+                    <TextBlock x:Name="txtBlockWidth" Text="{Binding ElementName=XamDialogWindow, Path=Width}"  />
+                </StackPanel>
+            </Grid>
+            <Button x:Name="BtnSaveState" Margin="{StaticResource OptionsElementsMargin}" Content="{Binding CPF_Button_Save, Source={StaticResource Strings}}" Click="BtnSaveState_Click" />
+            <Button x:Name="BtnLoadState" Content="{Binding CPF_Button_Load, Source={StaticResource Strings}}" Click="BtnLoadState_Click" />
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

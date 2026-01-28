@@ -1,0 +1,87 @@
+﻿<framework:SampleContainer x:Class="IGRichTextEditor.Samples.Editing.UndoRedo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGRichTextEditor.Resources"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="UndoRedo Page">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGRichTextEditor;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/IGRichTextEditor;component/Assets/Themes.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:RichTextEditorStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <ig:XamRichTextEditor x:Name="xamRichTextEditor1" Grid.Row="1" Margin="0,10,0,0" AllowDocumentViewSplitting="True"
+                              BorderThickness="1" BorderBrush="{StaticResource RichTextEditorBorderBrush}">
+            <ig:XamRichTextEditor.ClipboardSerializationProviders>
+                <ig:RtfSerializationProvider />
+                <ig:WordSerializationProvider />
+                <ig:HtmlSerializationProvider />
+            </ig:XamRichTextEditor.ClipboardSerializationProviders>
+        </ig:XamRichTextEditor>
+
+        <controls:OptionsPanel
+            HeaderText="{Binding ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}"
+            Margin="0,10,0,10" Grid.Row="0" IsMovable="False">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel>
+                    <!-- #BEGIN SNIPPET# -->
+                    <TextBlock Text="{Binding Source={StaticResource Strings}, Path=lblUndoRedoManager}" />
+                    <Button Content="{Binding Source={StaticResource CommonStrings}, Path=Undo}" Margin="0,5,0,0">
+                        <ig:Commanding.Command>
+                            <igPrim:RichTextEditorCommandSource CommandType="Undo" EventName="Click" />
+                        </ig:Commanding.Command>
+                    </Button>
+                    <Button Content="{Binding Source={StaticResource CommonStrings}, Path=Redo}" Margin="0,5,0,0">
+                        <ig:Commanding.Command>
+                            <igPrim:RichTextEditorCommandSource CommandType="Redo" EventName="Click" />
+                        </ig:Commanding.Command>
+                    </Button>
+                    <Button Content="{Binding Source={StaticResource Strings}, Path=btnStartUndoLogging}"
+                            Click="ButtonUndoStart_Click" Margin="0,5,0,0" />
+                    <Button Content="{Binding Source={StaticResource Strings}, Path=btnStopUndoLogging}"
+                            Click="ButtonUndoStop_Click" Margin="0,5,0,0" />
+                    <!-- #END SNIPPET# -->
+                </StackPanel>
+                <StackPanel Margin="20,0,0,0">
+                    <StackPanel>
+                        <TextBlock Text="{Binding Source={StaticResource Strings}, Path=lblEditingCodeBehind}" />
+                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                            <StackPanel>
+                                <Button Content="{Binding Source={StaticResource Strings}, Path=btnReloadContent}"
+                                        Click="ButtonLoad_Click" />
+                                <Button Content="{Binding Source={StaticResource Strings}, Path=btnDeleteAll}"
+                                        Click="ButtonDeleteAll_Click" Margin="0,5,0,0" />
+                            </StackPanel>
+                            <StackPanel Margin="10,0,0,0">
+                                <Button Content="{Binding Source={StaticResource Strings}, Path=btnMakeRed}" 
+                                        Click="ButtonMakeRed_Click" />
+                                <Button Content="{Binding Source={StaticResource Strings}, Path=btnMakeBold}"
+                                        Click="ButtonMakeBold_Click" Margin="0,5,0,0" />
+                                <Button Content="{Binding Source={StaticResource Strings}, Path=btnMakeItalic}"
+                                        Click="ButtonMakeItalic_Click" Margin="0,5,0,0" />
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

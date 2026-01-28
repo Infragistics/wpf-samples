@@ -1,0 +1,309 @@
+﻿<framework:SampleContainer x:Class="IGOutlookBar.Samples.Style.CustomSelectedOutlookBarGroup"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="CustomSelectedOutlookBarGroup"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:localControls="clr-namespace:IGOutlookBar.Controls"
+      xmlns:res="clr-namespace:IGOutlookBar.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGOutlookBar;component/Assets/Global.xaml"/>
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamOutlookBar.xaml"/>
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamMenu.xaml"/>
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamDialogWindow.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <res:OutlookBarStrings x:Key="Strings"/>
+            <SolidColorBrush x:Key="NavigationGroupHeaderNormalTextFillKey" Color="#FF333333"/>
+            <SolidColorBrush x:Key="NavigationGroupHeaderHottrackTextFillKey" Color="#FF333333"/>
+            <SolidColorBrush x:Key="NavigationGroupHeaderActiveTextFillKey" Color="#FFFFFFFF"/>
+            <LinearGradientBrush x:Key="NavigationGroupHeaderNormalCenterFillKey" StartPoint="0.5,0" EndPoint="0.5,1">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Offset="0" Color="#FFffffff"/>
+                        <GradientStop Offset="0.35" Color="#FFf9fafa"/>
+                        <GradientStop Offset="1" Color="#FFe9ecee"/>
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="NavigationGroupHeaderHottrackCenterFillKey" StartPoint="0.5,0" EndPoint="0.5,1">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Offset="0" Color="#FFfefefe"/>
+                        <GradientStop Offset="0.4" Color="#FFf0f5fa"/>
+                        <GradientStop Offset="1" Color="#FFa0c5e3"/>
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="NavigationGroupHeaderPressedCenterFillKey" StartPoint="0,0" EndPoint="0,1">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Offset="0" Color="#FFf3f7fb"/>
+                        <GradientStop Offset="0.35" Color="#FFebf3fa"/>
+                        <GradientStop Offset="1" Color="#FF9ac1e2"/>
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="NavigationGroupHeaderActiveHottrackCenterFillKey" StartPoint="0,0" EndPoint="0,1">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Offset="0" Color="#FF718496"/>
+                        <GradientStop Offset="1" Color="#FF2e363f"/>
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="NavigationGroupHeaderActiveCenterFillKey" StartPoint="0,0" EndPoint="0,1">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Offset="0" Color="#FFba53be"/>
+                        <GradientStop Offset="0.005" Color="#FFba53be"/>
+                        <GradientStop Offset="0.338" Color="#FFa640a8"/>
+                        <GradientStop Offset="0.355" Color="#FF751a71"/>
+                        <GradientStop Offset="0.966" Color="#FFbd2bb6"/>
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+
+            <SolidColorBrush x:Key="NavigationGroupHeaderInnerStrokeFillKey" Color="#59FFFFFF"/>
+            <SolidColorBrush x:Key="NavigationGroupHeaderFocusFillKey" Color="#FF6DBDD1"/>
+            <Style x:Key="SelectedGroupStyle" TargetType="ig:OutlookBarGroup">
+                <Setter Property="Background" Value="{StaticResource NavigationGroupHeaderNormalCenterFillKey}"/>
+                <Setter Property="Cursor" Value="Hand"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ig:OutlookBarGroup">
+                            <Border
+                                x:Name="RootBorder"
+                                Margin="0,0,0,1"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal"/>
+                                        <VisualState x:Name="MouseOverGroup">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames
+                                                    BeginTime="00:00:00"
+                                                    Duration="00:00:00.001"
+                                                    Storyboard.TargetName="BackgroundBorder"
+                                                    Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{StaticResource NavigationGroupHeaderHottrackCenterFillKey}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames
+                                                    BeginTime="00:00:00"
+                                                    Duration="00:00:00.001"
+                                                    Storyboard.TargetName="Header"
+                                                    Storyboard.TargetProperty="(TextElement.Foreground)">
+                                                    <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{StaticResource NavigationGroupHeaderHottrackTextFillKey}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Selected">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames
+                                                    BeginTime="00:00:00"
+                                                    Duration="00:00:00.001"
+                                                    Storyboard.TargetName="BackgroundBorder"
+                                                    Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{StaticResource NavigationGroupHeaderActiveCenterFillKey}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames
+                                                    BeginTime="00:00:00"
+                                                    Duration="00:00:00.001"
+                                                    Storyboard.TargetName="Header"
+                                                    Storyboard.TargetProperty="(TextElement.Foreground)">
+                                                    <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{StaticResource NavigationGroupHeaderActiveTextFillKey}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames
+                                                    BeginTime="00:00:00"
+                                                    Duration="00:00:00.001"
+                                                    Storyboard.TargetName="BackgroundBorder"
+                                                    Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{StaticResource NavigationGroupHeaderPressedCenterFillKey}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames
+                                                    BeginTime="00:00:00"
+                                                    Duration="00:00:00.001"
+                                                    Storyboard.TargetName="Header"
+                                                    Storyboard.TargetProperty="(TextElement.Foreground)">
+                                                    <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{StaticResource NavigationGroupHeaderHottrackTextFillKey}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="IconAndHeaderStates">
+                                        <VisualState x:Name="IconAndHeader"/>
+                                        <VisualState x:Name="LargeIconOnly">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames
+                                                    BeginTime="00:00:00"
+                                                    Duration="00:00:00.001"
+                                                    Storyboard.TargetName="Header"
+                                                    Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                    <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="Collapsed"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames
+                                                    BeginTime="00:00:00"
+                                                    Duration="00:00:00.001"
+                                                    Storyboard.TargetName="SmallIconControl"
+                                                    Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                    <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="Collapsed"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames
+                                                    BeginTime="00:00:00"
+                                                    Duration="00:00:00.001"
+                                                    Storyboard.TargetName="LargeIconControl"
+                                                    Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                    <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="Visible"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="SmallIconOnly">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames
+                                                    BeginTime="00:00:00"
+                                                    Duration="00:00:00.001"
+                                                    Storyboard.TargetName="Header"
+                                                    Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                    <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="Collapsed"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames
+                                                    BeginTime="00:00:00"
+                                                    Duration="00:00:00.001"
+                                                    Storyboard.TargetName="SmallIconControl"
+                                                    Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                    <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="Visible"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames
+                                                    BeginTime="00:00:00"
+                                                    Duration="00:00:00.001"
+                                                    Storyboard.TargetName="LargeIconControl"
+                                                    Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                    <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="Collapsed"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="LargeIconSpaceStates">
+                                        <VisualState x:Name="ReserveSpace"/>
+                                        <VisualState x:Name="NoSpace">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames
+                                                    BeginTime="00:00:00"
+                                                    Duration="00:00:00.001"
+                                                    Storyboard.TargetName="ImageColumn"
+                                                    Storyboard.TargetProperty="Width">
+                                                    <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="0"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition x:Name="ImageColumn" Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border x:Name="BackgroundBorder" Grid.ColumnSpan="2" Background="Transparent"/>
+                                    <ContentControl
+                                        x:Name="SmallIconControl"
+                                        Width="16"
+                                        Height="16"
+                                        Grid.Column="0"
+                                        Margin="4,7,5,7"
+                                        Content="{Binding}"
+                                        ContentTemplate="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SmallIconTemplateResolved}"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        Visibility="Collapsed"/>
+                                    <ContentControl
+                                        x:Name="LargeIconControl"
+                                        Width="24"
+                                        Height="24"
+                                        Grid.Column="0"
+                                        Margin="4,4,5,2"
+                                        Content="{Binding}"
+                                        ContentTemplate="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=LargeIconTemplateResolved}"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"/>
+                                    <ContentControl
+                                        x:Name="Header"
+                                        Grid.Column="1"
+                                        Margin="4,0,2,1"
+                                        VerticalAlignment="Center"
+                                        Content="{TemplateBinding Header}"
+                                        ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                        FontWeight="Bold"
+                                        Foreground="{StaticResource NavigationGroupHeaderNormalTextFillKey}"/>
+                                </Grid>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <!--#BEGIN SNIPPET#-->
+        <ig:XamOutlookBar x:Name="XamOutlookBar" Width="250" MinimizedWidth="38">
+            <ig:OutlookBarGroup Style="{StaticResource SelectedGroupStyle}"
+                                Header="{Binding Source={StaticResource Strings}, Path=XOB_Group_Header_Mail}" >
+                <ig:OutlookBarGroup.LargeIconTemplate>
+                    <DataTemplate>
+                        <Image Source="/IGOutlookBar;component/Images/OBarMailLarge.png"/>
+                    </DataTemplate>
+                </ig:OutlookBarGroup.LargeIconTemplate>
+                <ig:OutlookBarGroup.SmallIconTemplate>
+                    <DataTemplate>
+                        <Image Source="/IGOutlookBar;component/Images/OBarMail.png"/>
+                    </DataTemplate>
+                </ig:OutlookBarGroup.SmallIconTemplate>
+                <localControls:XobSampleMailContent/>
+            </ig:OutlookBarGroup>
+            <ig:OutlookBarGroup Header="{Binding Source={StaticResource Strings}, Path=XOB_Group_Header_Calendar}">
+                <ig:OutlookBarGroup.LargeIconTemplate>
+                    <DataTemplate>
+                        <Image Source="/IGOutlookBar;component/Images/OBarCalendarLarge.png"/>
+                    </DataTemplate>
+                </ig:OutlookBarGroup.LargeIconTemplate>
+                <ig:OutlookBarGroup.SmallIconTemplate>
+                    <DataTemplate>
+                        <Image Source="/IGOutlookBar;component/Images/OBarCalendar.png"/>
+                    </DataTemplate>
+                </ig:OutlookBarGroup.SmallIconTemplate>
+                <localControls:XobSampleCalendarContent/>
+            </ig:OutlookBarGroup>
+            <ig:OutlookBarGroup Header="{Binding Source={StaticResource Strings}, Path=XOB_Group_Header_Folders}">
+                <ig:OutlookBarGroup.LargeIconTemplate>
+                    <DataTemplate>
+                        <Image Source="/IGOutlookBar;component/Images/OBarFolderLarge.png"/>
+                    </DataTemplate>
+                </ig:OutlookBarGroup.LargeIconTemplate>
+                <ig:OutlookBarGroup.SmallIconTemplate>
+                    <DataTemplate>
+                        <Image Source="/IGOutlookBar;component/Images/OBarFolder.png"/>
+                    </DataTemplate>
+                </ig:OutlookBarGroup.SmallIconTemplate>
+                <localControls:XobSampleFolderListContent/>
+            </ig:OutlookBarGroup>
+        </ig:XamOutlookBar>
+        <!--#END SNIPPET#-->
+    </Grid>
+</framework:SampleContainer>

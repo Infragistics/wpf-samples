@@ -1,0 +1,86 @@
+﻿<framework:SampleContainer x:Class="IGBarcode.Samples.Localization.ResourceStrings"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="ResourceStrings"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGBarcode.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGBarcode;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:BarcodeStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <ToggleButton Checked="ToggleButton_Checked" Unchecked="ToggleButton_Unchecked"
+                      Content="{Binding XWB_Use_Invalid_Data, Source={StaticResource Strings}}"
+                      HorizontalAlignment="Center" Margin="0,0,0,5"
+                      Style="{StaticResource IGToggleButtonStyle}" Height="24" MinWidth="120">
+        </ToggleButton>
+
+        <Grid Grid.Row="1" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Height="170" VerticalAlignment="Top" Width="200" Margin="0,0,20,0">
+                <Rectangle StrokeThickness="1" Grid.Row="1" Height="27" VerticalAlignment="Bottom" Margin="0,0,0,-27" />
+                <Border>
+                    <!-- #BEGIN SNIPPET# -->
+                    <!--CODE 39-->
+                    <ig:XamCode39Barcode x:Name="code39"
+                                         BarsFillMode="EnsureEqualSize"
+                                         Data="CODE 39"
+                                         Stretch="Fill" />
+                    <!-- #END SNIPPET# -->
+                </Border>
+                <Rectangle />
+            </Grid>
+
+            <Grid Width="200" Grid.Column="1" VerticalAlignment="Top" Margin="0,0,20,0" Height="170">
+                <Rectangle StrokeThickness="1" Grid.Row="1" Height="27" VerticalAlignment="Bottom" Margin="0,0,0,-27" />
+                <Border>
+                    <!-- #BEGIN SNIPPET# -->
+                    <!--GS1-->
+                    <ig:XamGs1DataBarBarcode x:Name="gs1"
+                                             BarsFillMode="EnsureEqualSize"
+                                             CodeType="StackedOmnidirectional"
+                                             Data="021598745624"
+                                             Stretch="Fill" />
+                    <!-- #END SNIPPET# -->
+                </Border>
+                <Rectangle/>
+            </Grid>
+
+            <Grid Height="170" Grid.Column="2" VerticalAlignment="Top" Width="170">
+                <Rectangle StrokeThickness="1" Grid.Row="1" Height="27" VerticalAlignment="Bottom" Margin="0,0,0,-27" />
+                <Border>
+                    <!-- #BEGIN SNIPPET# -->
+                    <!--QR Code-->
+                    <ig:XamQRCodeBarcode x:Name="qrBarcode"
+                                         BarsFillMode="EnsureEqualSize"
+                                         Data="{Binding XWB_Link, Source={StaticResource Strings}}" />
+                    <!-- #END SNIPPET# -->
+                </Border>
+                <Rectangle />
+            </Grid>
+
+        </Grid>
+    </Grid>
+</framework:SampleContainer>

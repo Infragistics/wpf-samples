@@ -1,0 +1,128 @@
+﻿<framework:SampleContainer 
+    x:Class="IGRadialGauge.Samples.Editing.GaugeRanges"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700" Title="SamplesPage Page"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGRadialGauge.Assets.Resources">
+	
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+        	<ResourceDictionary.MergedDictionaries>
+        		<ResourceDictionary Source="/IGRadialGauge;component/Assets/Styles/Global.xaml"/>
+        		<ResourceDictionary Source="/IGRadialGauge;component/Assets/Styles/AppGlobals.xaml"/>
+                
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:GaugeStrings x:Key="Strings"/>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ========================================================================== -->
+        <ig:XamRadialGauge x:Name="radialGauge" ScaleBrush="Transparent" Grid.Column="1"
+                           TransitionDuration="2000" LabelExtent="0.73" 
+                           MinorTickEndExtent="0.64" MinorTickStartExtent="0.67" TickStartExtent="0.6" TickEndExtent="0.67" Width="400" >
+            <ig:XamRadialGauge.Ranges>
+                <ig:XamRadialGaugeRange
+                    Brush="{StaticResource RadialGaugeRangeBrush0}" 
+                    StartValue="70"
+                    EndValue="100"
+                    OuterStartExtent=".42"
+                    OuterEndExtent=".4"/>
+            </ig:XamRadialGauge.Ranges>
+        </ig:XamRadialGauge>
+        <!-- ========================================================================== -->
+        <!-- #END SNIPPET# -->
+
+        <!-- TODO: add editor controls to the OptionsPanel if the sample requires them -->
+        <controls:OptionsPanel x:Name="OptionsPanel" 
+                               HeaderText="{Binding Source={StaticResource Strings}, Path=Gauge_Options}">
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}"/>
+                <Style TargetType="Slider" BasedOn="{StaticResource IGSliderStyle}" >
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+            </controls:OptionsPanel.Resources>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition MinWidth="{StaticResource OptionsFirstColumnMinWidth}" />
+                    <ColumnDefinition MinWidth="{StaticResource OptionsMiddleColumnMinWidth}"/>
+                    <ColumnDefinition MinWidth="{StaticResource OptionsLastColumnMinWidth}"/>
+                </Grid.ColumnDefinitions>
+           <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left"  Text="{Binding Ranges_InnerExtentStartLabel, Source={StaticResource Strings}}" />
+            <Slider Grid.Row="0" Grid.Column="1" x:Name="InnerExtentStartSlider" 
+                    Maximum="1" Minimum="0" SmallChange="0.01" LargeChange="0.01" ValueChanged="innerStartExtent_ValueChanged" />
+            <TextBlock Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left"  
+                       Text="{Binding Path=Value, ElementName=InnerExtentStartSlider, StringFormat='0.##'}" Margin="{StaticResource OptionsTextLeftMargin}"/>
+
+            <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left"  Text="{Binding Ranges_InnerExtentEndLabel, Source={StaticResource Strings}}" />
+            <Slider Grid.Row="1" Grid.Column="1" x:Name="InnerExtentEndSlider"  
+                    Maximum="1" Minimum="0" SmallChange="0.01" LargeChange="0.01" ValueChanged="innerEndExtent_ValueChanged" />
+            <TextBlock Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left"  
+                       Text="{Binding Path=Value, ElementName=InnerExtentEndSlider, StringFormat='0.##'}" Margin="{StaticResource OptionsTextLeftMargin}"/>
+
+            <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left"  Text="{Binding Ranges_OuterStartExtentLabel, Source={StaticResource Strings}}" />
+            <Slider Grid.Row="2" Grid.Column="1" x:Name="OuterStartExtentSlider"  
+                    Maximum="1" Minimum="0" SmallChange="0.01" LargeChange="0.01" ValueChanged="outerStartExtent_ValueChanged" />
+            <TextBlock Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left"  
+                       Text="{Binding Path=Value, ElementName=OuterStartExtentSlider, StringFormat='0.##'}" Margin="{StaticResource OptionsTextLeftMargin}"/>
+
+            <TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left"  Text="{Binding Ranges_OuterEndExtentLabel, Source={StaticResource Strings}}" />
+            <Slider Grid.Row="3" Grid.Column="1" x:Name="OuterEndExtentSlider"  
+                    Maximum="1" Minimum="0" SmallChange="0.01" LargeChange="0.01" ValueChanged="outerEndExtent_ValueChanged" />
+            <TextBlock Grid.Row="3" Grid.Column="2" HorizontalAlignment="Left"  
+                       Text="{Binding Path=Value, ElementName=OuterEndExtentSlider, StringFormat='0.##'}" Margin="{StaticResource OptionsTextLeftMargin}"/>
+
+            <TextBlock Grid.Row="4" Grid.Column="0" HorizontalAlignment="Left"  Text="{Binding Ranges_StartLabel, Source={StaticResource Strings}}" />
+            <Slider Grid.Row="4" Grid.Column="1" x:Name="StartValueSlider"  
+                    Maximum="100" Minimum="0" Value="70" SmallChange="1" LargeChange="5" ValueChanged="startValue_ValueChanged" />
+            <TextBlock Grid.Row="4" Grid.Column="2" HorizontalAlignment="Left"  
+                       Text="{Binding Path=Value, ElementName=StartValueSlider, StringFormat='0'}" Margin="{StaticResource OptionsTextLeftMargin}"/>
+
+            <TextBlock Grid.Row="5" Grid.Column="0" HorizontalAlignment="Left"  Text="{Binding Ranges_EndLabel, Source={StaticResource Strings}}" />
+            <Slider Grid.Row="5" Grid.Column="1" x:Name="EndValueSlider"  
+                    Maximum="100" Minimum="0" Value="100" SmallChange="1" LargeChange="5" ValueChanged="endValue_ValueChanged"/>
+                <TextBlock Grid.Row="5" Grid.Column="2" HorizontalAlignment="Left"  
+                       Text="{Binding Path=Value, ElementName=EndValueSlider, StringFormat='0'}" Margin="{StaticResource OptionsTextLeftMargin}"/>
+
+            <TextBlock Grid.Row="6" Grid.Column="0" HorizontalAlignment="Left"  Text="{Binding transitionDurationText, Source={StaticResource Strings}}" />
+            <Slider Grid.Row="6" Grid.Column="1" x:Name="TransitionDurationSlider" 
+                    Value="2" Minimum="0" Maximum="5" SmallChange="100" LargeChange="100" ValueChanged="transitionDurationSlider_ValueChanged" />
+            <TextBlock Grid.Row="6" Grid.Column="2" HorizontalAlignment="Left"  
+                       Text="{Binding Path=Value, ElementName=TransitionDurationSlider, StringFormat='0'}" Margin="{StaticResource OptionsTextLeftMargin}"/>
+
+            <TextBlock Grid.Row="7" Grid.Column="0" HorizontalAlignment="Left"  Text="{Binding Range_RangeBrushLabel, Source={StaticResource Strings}}" />
+            <ig:XamColorPicker Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" x:Name="RangeBrush" 
+                               SelectedColor="#FF3E3E3E" SelectedColorChanged="RangeBrush_OnSelectedColorChanged" ShowAdvancedEditorButton="False"  
+                               VerticalAlignment="Center"/>
+
+            <TextBlock Grid.Row="8" Grid.Column="0" HorizontalAlignment="Left"  Text="{Binding Range_RangeOutlineBrushLabel, Source={StaticResource Strings}}" />
+            <ig:XamColorPicker Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" x:Name="RangeOutlineBrush" 
+                               SelectedColor="#FF3E3E3E" SelectedColorChanged="RangeOutlineBrush_OnSelectedColorChanged" ShowAdvancedEditorButton="False"
+                               VerticalAlignment="Center"/>
+
+            </Grid>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

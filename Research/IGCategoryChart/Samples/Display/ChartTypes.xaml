@@ -1,0 +1,64 @@
+﻿<igFramework:SampleContainer x:Class="IGCategoryChart.Samples.Data.ChartTypes"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IGCategoryChart.Samples.Data"
+             mc:Ignorable="d"
+             xmlns:ig="http://schemas.infragistics.com/xaml"
+             xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+             xmlns:resources="clr-namespace:IGCategoryChart.Resources"
+             xmlns:converters="clr-namespace:IGCategoryChart.Converters"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <!--<ResourceDictionary Source="/Infragistics.Samples.Shared;component/IG.Brushes.xaml" />-->
+                    <ResourceDictionary Source="/Infragistics.Samples.Shared;component/Assets/Global.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+                <converters:ChartTypeToVisibilityConverter x:Key="ChartTypeConverter" />
+                <resources:CategoryChartStrings x:Key="Strings"/>
+                <local:ChartTypeCollection x:Key="ChartTypes">
+                    <local:ChartTypeInfo Description="Area" Value="Area"/>
+                    <local:ChartTypeInfo Description="Auto" Value="Auto"/>
+                    <local:ChartTypeInfo Description="Column" Value="Column"/>
+                    <local:ChartTypeInfo Description="Line" Value="Line"/>
+                    <local:ChartTypeInfo Description="Point" Value="Point"/>
+                    <local:ChartTypeInfo Description="Spline" Value="Spline"/>
+                    <local:ChartTypeInfo Description="SplineArea" Value="SplineArea"/>
+                    <local:ChartTypeInfo Description="StepArea" Value="StepArea"/>
+                    <local:ChartTypeInfo Description="StepLine" Value="StepLine"/>
+                    <local:ChartTypeInfo Description="Waterfall" Value="Waterfall"/>
+                </local:ChartTypeCollection>
+            </ResourceDictionary>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ========================================================================== -->
+        <ig:XamCategoryChart x:Name="chart1" Grid.Row="1" XAxisTitle="{Binding  XCC_Country, Source={StaticResource Strings}}"
+                             YAxisTitle="{Binding XCC_Terrawatt, Source={StaticResource Strings}}"
+                             ChartType="{Binding ElementName=cmbChartType, Path=SelectedValue}" 
+                             Margin="{StaticResource CategoryChartSamplesPadding}">
+
+        </ig:XamCategoryChart>
+        <!-- ========================================================================== -->
+        <!-- #END SNIPPET# -->
+
+        <Border Grid.Row="0" Margin="{StaticResource SampleInnerNavigationPadding}" HorizontalAlignment="Left">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding XCC_ChartTypesLbl, Source={StaticResource Strings}}" Style="{StaticResource SamplesInnerNavigationTitleStyle}"/>
+                
+                <ComboBox x:Name="cmbChartType" SelectedIndex="0" Margin="0,0,2,0" Width="150" HorizontalAlignment="Left" VerticalAlignment="Center" ItemsSource="{Binding Source={StaticResource ChartTypes}}"
+                          SelectedValuePath="Value" DisplayMemberPath="Description" />
+                <Button x:Name="btnPrevious" HorizontalAlignment="Center" Cursor="Hand" Margin="0,0,2,0" Content="" Click="OnPrevButtonClick" Style="{StaticResource IGPreviousButtonStyle}" />
+                <Button x:Name="btnNext" HorizontalAlignment="Right" Cursor="Hand" Margin="0,0,2,0" Content="" Click="OnNextButtonClick"  Style="{StaticResource IGNextButtonStyle}"/>
+            </StackPanel>
+        </Border>
+
+    </Grid>
+</igFramework:SampleContainer>

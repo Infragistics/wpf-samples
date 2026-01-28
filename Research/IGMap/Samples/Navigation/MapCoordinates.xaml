@@ -1,0 +1,54 @@
+﻿<igFramework:SampleContainer x:Class="IGMap.Samples.Navigation.MapCoordinates"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:providers="clr-namespace:Infragistics.Samples.Shared.DataProviders;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+    mc:Ignorable="d"
+    d:DesignHeight="600" d:DesignWidth="1100">
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGMap;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+     
+            <Style x:Key="CoordinateMapLayerStyle" TargetType="ig:MapLayer">
+                <Setter Property="IsSensitive" Value="False" />
+                <Setter Property="Foreground" Value="#FF999999" />
+                <Setter Property="ShadowFill" Value="Transparent" />
+                <Setter Property="Stroke" Value="#FF999999" />
+                <Setter Property="StrokeThickness" Value="0.5" />
+                <Setter Property="Brushes" Value="#FF999999" />
+            </Style>
+            
+            <providers:ShapeFileProvider x:Key="ShapeFileProvider" ShapeFileRelativePath="/world" />
+     
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid>
+            <!-- #BEGIN SNIPPET# -->
+            <ig:XamMap x:Name="Map" Visibility="Visible" >
+                <ig:XamMap.Layers>
+                    <ig:MapLayer LayerName="worldMapLayer"   
+                                 Imported="OnWorldMapLayerImported"  >
+                        <ig:MapLayer.Reader>
+                            <ig:ShapeFileReader DataMapping="Name=CODE; Country=CNTRY_NAME; " 
+                                        Uri="{Binding ShapeFileAbsolutePath, Source={StaticResource ShapeFileProvider}}">
+                            </ig:ShapeFileReader>
+                        </ig:MapLayer.Reader>
+                    </ig:MapLayer>
+                    <!-- map coordinates are implemented in code-behind -->
+                    <ig:MapLayer LayerName="coordinateMapLayer" ToolTip="{}{Name}" Style="{StaticResource CoordinateMapLayerStyle}"/>
+                </ig:XamMap.Layers>
+            </ig:XamMap>
+            <!-- #END SNIPPET# -->
+        </Grid>
+       
+    </Grid>
+</igFramework:SampleContainer>

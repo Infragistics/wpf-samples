@@ -1,0 +1,80 @@
+﻿<framework:SampleContainer x:Class="IGGantt.Samples.Editing.TaskConstraints"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGGantt.Resources"
+    xmlns:viewModel="clr-namespace:IGGantt.Samples.ViewModel"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="Task Constraints">
+    
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                
+                <ResourceDictionary Source="/IGGantt;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <res:GanttStrings x:Key="Strings" />
+            
+            <viewModel:ProjectViewModel x:Key="data" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+    
+    <framework:SampleContainer.DataContext>
+        <Binding Source="{StaticResource data}" />
+    </framework:SampleContainer.DataContext>
+   
+    <Grid x:Name="LayoutRoot" Background="White">
+        <ig:XamGantt x:Name="gantt" Project="{Binding Project}" >
+            <ig:XamGantt.ViewProvider>
+                <ig:ListBackedProjectViewProvider>
+                    <ig:ListBackedProjectViewProvider.ViewItemsSource>
+                        <viewModel:ProjectViewCollection>
+                            <ig:ProjectView Key="GanttChart" TableKey="Basic" />
+                        </viewModel:ProjectViewCollection>
+                    </ig:ListBackedProjectViewProvider.ViewItemsSource>
+                    <ig:ListBackedProjectViewProvider.TableItemsSource>
+                        <viewModel:ProjectTableCollection>
+                            <ig:ProjectTable Key="Basic">
+                                <ig:ProjectTable.Columns>
+                                    <ig:ProjectColumn Key="Indicators" />
+                                    <ig:ProjectColumn Key="TaskName" />
+                                    <ig:ProjectColumn Key="ConstraintType" />
+                                    <ig:ProjectColumn Key="ConstraintDate" />
+                                    <ig:ProjectColumn Key="IsManual" />
+                                    <ig:ProjectColumn Key="ManualDuration"  />
+                                    <ig:ProjectColumn Key="ManualStart" />
+                                    <ig:ProjectColumn Key="ManualFinish" />
+                                </ig:ProjectTable.Columns>
+                            </ig:ProjectTable>
+                        </viewModel:ProjectTableCollection>
+                    </ig:ListBackedProjectViewProvider.TableItemsSource>
+                </ig:ListBackedProjectViewProvider>
+            </ig:XamGantt.ViewProvider>
+        </ig:XamGantt>
+        <controls:OptionsPanel Width="220"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Bottom"
+                               Margin="30"
+                               HeaderText="{Binding Source={StaticResource Strings},Path=TaskConstraints_Header}">
+            <StackPanel>
+                <!-- #BEGIN SNIPPET# -->
+                <ig:XamCalendar x:Name="calendar" 
+                                Margin="0,0,0,3" 
+                                DisabledDaysOfWeek="Saturday,Sunday" 
+                                SelectionMode="SingleDate"
+                                FirstDayOfWeek="Monday"/>
+                <ComboBox x:Name="Cmb_ConstraintTypes" Margin="0,0,0,6" />
+                <Button x:Name="Btn_SetConstraint" 
+                        Content="{Binding Source={StaticResource Strings},Path=SetConstraint}" 
+                        Click="Btn_SetConstraint_Click" />
+                <!-- #END SNIPPET# -->
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

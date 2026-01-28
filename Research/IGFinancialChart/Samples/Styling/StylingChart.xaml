@@ -1,0 +1,48 @@
+﻿<igFramework:SampleContainer x:Class="IGFinancialChart.Samples.Display.StylingChart"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:local="clr-namespace:IGFinancialChart.Samples"
+        xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+        xmlns:ig="http://schemas.infragistics.com/xaml"
+        xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+        mc:Ignorable="d"
+        Title="AxisSettings">
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGFinancialChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.DataContext>
+            <local:StockMultipleSources />
+        </Grid.DataContext> 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/> 
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <ig:XamFinancialChart x:Name="chart" 
+                              ItemsSource="{Binding}" 
+                              Grid.Row="1" 
+                              VolumeType="Area"
+                              ChartType="Candle"
+                              IsLegendVisible="True"
+                              IsToolbarVisible="True"/>
+        
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ================================================================================================== -->
+        <!-- Note theme are changed in code-behind -->
+        <controls:ThemeSelector x:Name="ThemeSelector" 
+                                HorizontalAlignment="Right"
+                                SelectionChanged="OnSelectionChanged"/>
+        <!-- ================================================================================================== -->
+        <!-- #END SNIPPET# -->
+        
+    </Grid>
+</igFramework:SampleContainer>

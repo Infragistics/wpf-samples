@@ -1,0 +1,215 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Display.Axes.AxisOrientation"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="AxisOrientation Page"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+      xmlns:resources="clr-namespace:IGDataChart.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <resources:DataChartStrings x:Key="Strings" />
+            <Style TargetType="{x:Type ig:Legend}">
+                <Setter Property="Background" Value="{StaticResource LegendBackgroundBrush}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource LegendBorderBrush}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+            </Style>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.DataContext>
+            <models:NumericDataModel  />
+
+        </Grid.DataContext>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+
+            <ig:XamDock Grid.Row="0" Margin="0,0,20,20" >
+                <ig:XamDataChart x:Name="xmDataChartTL">
+                    <!-- #BEGIN SNIPPET# -->
+                    <!-- ========================================================================== -->
+                    <!--This XamDataChart has inverted X-Axis using the IsInverted property -->
+                    <ig:XamDataChart.Axes>
+                        <ig:CategoryXAxis x:Name="XAxisTL"
+                                          IsInverted="True"
+                                          ItemsSource="{Binding Data}"
+                                          Label="{}{X}">
+                            <ig:CategoryXAxis.LabelSettings>
+                                <ig:AxisLabelSettings Location="OutsideTop"
+                                                      Extent="25" />
+                            </ig:CategoryXAxis.LabelSettings>
+                        </ig:CategoryXAxis>
+                        <ig:NumericYAxis x:Name="YAxisTL"
+                                         Label="{}{:N1}" >
+                            <ig:NumericYAxis.LabelSettings>
+                                <ig:AxisLabelSettings Location="OutsideLeft"
+                                                      Extent="45" />
+                            </ig:NumericYAxis.LabelSettings>
+                        </ig:NumericYAxis>
+                    </ig:XamDataChart.Axes>
+                    <!-- ========================================================================== -->
+                    <!-- #END SNIPPET# -->
+                    <ig:XamDataChart.Series>
+                        <ig:SplineSeries MarkerType="None"  Brush="{StaticResource ChartSeriesBrush5}"
+                                         Title="{Binding XWDC_AxisOrientation_InvertedXAxis, Source={StaticResource Strings}}"
+                                         ValueMemberPath="Y"
+                                         ItemsSource="{Binding Data}"
+                                         Legend="{Binding ElementName=LegendTL}"
+                                         XAxis="{Binding ElementName=XAxisTL}"
+                                         YAxis="{Binding ElementName=YAxisTL}" IsHighlightingEnabled="True" IsTransitionInEnabled="True">
+                        </ig:SplineSeries>
+                    </ig:XamDataChart.Series>
+                </ig:XamDataChart>
+                <ig:Legend x:Name="LegendTL"
+                           ig:XamDock.Edge="InsideBottom"
+                           ig:XamDock.HorizontalDockAlignment="Right"
+                           Margin="0,0,10,10"/>
+
+            </ig:XamDock>
+
+            <ig:XamDock Grid.Row="0" Margin="0,0,0,20"
+                        Grid.Column="1">
+                <ig:XamDataChart x:Name="xmDataChartTR">
+                    <!-- ========================================================================== -->
+                    <!--This XamDataChart does not have any inverted axes  -->
+                    <ig:XamDataChart.Axes>
+                        <ig:CategoryXAxis x:Name="XAxisTR"
+                                          ItemsSource="{Binding Data}"
+                                          Label="{}{X}">
+                            <ig:CategoryXAxis.LabelSettings>
+                                <ig:AxisLabelSettings Location="OutsideTop"
+                                                      Extent="25" />
+                            </ig:CategoryXAxis.LabelSettings>
+                        </ig:CategoryXAxis>
+                        <ig:NumericYAxis x:Name="YAxisTR"
+                                         Label="{}{:N1}">
+                            <ig:NumericYAxis.LabelSettings>
+                                <ig:AxisLabelSettings Location="OutsideRight"
+                                                      Extent="45" />
+                            </ig:NumericYAxis.LabelSettings>
+                        </ig:NumericYAxis>
+                    </ig:XamDataChart.Axes>
+                    <!-- ========================================================================== -->
+                    <ig:XamDataChart.Series>
+                        <ig:SplineSeries MarkerType="None" Brush="{StaticResource ChartSeriesBrush2}"
+                                         Title="{Binding XWDC_AxisOrientation_NoInvertedAxes, Source={StaticResource Strings}}"
+                                         ValueMemberPath="Y"
+                                         ItemsSource="{Binding Data}"
+                                         Legend="{Binding ElementName=LegendTR}"
+                                         XAxis="{Binding ElementName=XAxisTR}"
+                                         YAxis="{Binding ElementName=YAxisTR}" IsHighlightingEnabled="True" IsTransitionInEnabled="True">
+                        </ig:SplineSeries>
+                    </ig:XamDataChart.Series>
+                </ig:XamDataChart>
+
+                <ig:Legend x:Name="LegendTR"
+                           ig:XamDock.Edge="InsideBottom"
+                           ig:XamDock.HorizontalDockAlignment="Left"
+                           Margin="10,0,0,10"/>
+            </ig:XamDock>
+
+            <ig:XamDock Grid.Row="1" Margin="0,0,20,0">
+                <ig:XamDataChart x:Name="xmDataChartBL">
+                    <!-- ========================================================================== -->
+                    <!--This XamDataChart has inverted X-Axis and Y-axis using the IsInverted property -->
+                    <ig:XamDataChart.Axes>
+                        <ig:CategoryXAxis x:Name="XAxisBL"
+                                          IsInverted="True"
+                                          ItemsSource="{Binding Data}"
+                                          Label="{}{X}">
+                            <ig:CategoryXAxis.LabelSettings>
+                                <ig:AxisLabelSettings Location="OutsideBottom"
+                                                      Extent="25" />
+                            </ig:CategoryXAxis.LabelSettings>
+                        </ig:CategoryXAxis>
+                        <ig:NumericYAxis x:Name="YAxisBL"
+                                         IsInverted="True"
+                                         Label="{}{:N1}">
+                            <ig:NumericYAxis.LabelSettings>
+                                <ig:AxisLabelSettings Location="OutsideLeft"
+                                                      Extent="45" />
+                            </ig:NumericYAxis.LabelSettings>
+                        </ig:NumericYAxis>
+                    </ig:XamDataChart.Axes>
+                    <!-- ========================================================================== -->
+                    <ig:XamDataChart.Series>
+                        <ig:SplineSeries MarkerType="None" Legend="{Binding ElementName=LegendBL}"
+                                         Title="{Binding XWDC_AxisOrientation_InvertedBothAxes, Source={StaticResource Strings}}"
+                                         ItemsSource="{Binding Data}"
+                                         ValueMemberPath="Y"
+                                         Brush="{StaticResource ChartSeriesBrush3}"
+                                         XAxis="{Binding ElementName=XAxisBL}"
+                                         YAxis="{Binding ElementName=YAxisBL}" IsHighlightingEnabled="True" IsTransitionInEnabled="True">
+                        </ig:SplineSeries>
+                    </ig:XamDataChart.Series>
+                </ig:XamDataChart>
+
+                <ig:Legend x:Name="LegendBL"
+                           ig:XamDock.Edge="InsideTop"
+                           ig:XamDock.HorizontalDockAlignment="Right"
+                           Margin="0,10,10,0"/>
+
+            </ig:XamDock>
+
+            <ig:XamDock Grid.Row="1"
+                        Grid.Column="1">
+                <ig:XamDataChart x:Name="xmDataChartBR">
+                    <!-- ========================================================================== -->
+                    <!--This XamDataChart has inverted Y-axis using the IsInverted property -->
+                    <ig:XamDataChart.Axes>
+                        <ig:CategoryXAxis x:Name="XAxisBR"
+                                          ItemsSource="{Binding Data}"
+                                          Label="{}{X}">
+                            <ig:CategoryXAxis.LabelSettings>
+                                <ig:AxisLabelSettings Location="OutsideBottom"
+                                                      Extent="25" />
+                            </ig:CategoryXAxis.LabelSettings>
+                        </ig:CategoryXAxis>
+                        <ig:NumericYAxis x:Name="YAxisBR"
+                                         IsInverted="True"
+                                         Label="{}{:N1}">
+                            <ig:NumericYAxis.LabelSettings>
+                                <ig:AxisLabelSettings Location="OutsideRight"
+                                                      Extent="45" />
+                            </ig:NumericYAxis.LabelSettings>
+                        </ig:NumericYAxis>
+                    </ig:XamDataChart.Axes>
+                    <!-- ========================================================================== -->
+                    <ig:XamDataChart.Series>
+                        <ig:SplineSeries   MarkerType="None" Brush="{StaticResource ChartSeriesBrush1}"
+                                           Title="{Binding XWDC_AxisOrientation_InvertedYAxis, Source={StaticResource Strings}}"
+                                           ValueMemberPath="Y"
+                                           ItemsSource="{Binding Data}"
+                                           Legend="{Binding ElementName=LegendBR}"
+                                           XAxis="{Binding ElementName=XAxisBR}"
+                                           YAxis="{Binding ElementName=YAxisBR}" IsHighlightingEnabled="True" IsTransitionInEnabled="True">
+                        </ig:SplineSeries>
+                    </ig:XamDataChart.Series>
+                </ig:XamDataChart>
+                <ig:Legend x:Name="LegendBR"
+                           ig:XamDock.Edge="InsideTop"
+                           ig:XamDock.HorizontalDockAlignment="Left"
+                           Margin="10,10,0,0"/>
+
+            </ig:XamDock>
+        </Grid>
+    </Grid>
+</igFramework:SampleContainer>

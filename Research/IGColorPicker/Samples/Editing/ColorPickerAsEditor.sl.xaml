@@ -1,0 +1,49 @@
+﻿<framework:SampleContainer x:Class="IGColorPicker.Samples.Editing.ColorPickerAsEditor"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="ColorPickerAsEditor"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGColorPicker.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGColorPicker;component/Assets/Global.xaml"/>
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamColorPicker.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <res:ColorPickerStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!--#BEGIN SNIPPET#-->
+        <ig:XamColorPicker Grid.Row="0" x:Name="MyColorPicker"
+                           DerivedPalettesCount="10" Width="212" Height="30" />
+
+        <RichTextBox Grid.Row="1" x:Name="rtb" AllowDrop="True" Margin="8,10,0,8"
+                     VerticalScrollBarVisibility="Auto" FontSize="20">
+            <Paragraph FontSize="12" FontFamily="Portable User Interface"  FontWeight="Normal" FontStyle="Normal" FontStretch="Normal" TextAlignment="Left">
+                <Paragraph.Foreground>
+                    <SolidColorBrush Color="{Binding ElementName=MyColorPicker, Path=SelectedColor, Mode=OneWay}"/>
+                </Paragraph.Foreground>
+                <Run Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer mattis ligula in neque semper bibendum. Morbi imperdiet, neque et consectetur sollicitudin, sem arcu egestas diam, sit amet consequat odio velit id tortor. Quisque congue nisl sed nunc sagittis dictum. Vivamus condimentum urna lacus. Suspendisse porttitor pretium quam ut accumsan. Curabitur vulputate, felis non fringilla vehicula, turpis neque vulputate lectus, id faucibus turpis ante quis urna. Quisque sem tellus, sodales a interdum in, lacinia ut quam." />
+            </Paragraph>
+            <Paragraph FontSize="12" FontFamily="Portable User Interface" FontWeight="Normal" FontStyle="Normal" FontStretch="Normal" TextAlignment="Left" >
+                <Paragraph.Foreground>
+                    <SolidColorBrush Color="{Binding ElementName=MyColorPicker, Path=SelectedColor, Mode=OneWay}"/>
+                </Paragraph.Foreground>
+                <Run Text="Praesent sit amet odio ipsum, non fermentum nunc. Aliquam erat volutpat. Morbi sit amet enim risus. Maecenas eget odio ut massa adipiscing feugiat quis eget enim. Nulla facilisi. Phasellus condimentum, metus vel congue molestie, mi felis tempus tortor, id aliquam turpis elit vitae lorem. Morbi ut eros in lectus vehicula euismod." />
+            </Paragraph>
+        </RichTextBox>
+        <!--#END SNIPPET#-->
+    </Grid>
+</framework:SampleContainer>

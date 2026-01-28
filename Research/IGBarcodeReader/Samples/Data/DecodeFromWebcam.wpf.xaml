@@ -1,0 +1,78 @@
+﻿<framework:SampleContainer x:Class="IGBarcodeReader.Samples.Data.DecodeFromWebcam"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="DecodeFromWebcam"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGBarcodeReader.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGBarcodeReader;component/Assets/Global.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <res:BarcodeReaderStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid DataContext="{Binding}" HorizontalAlignment="Left" Margin="5,5,0,0" Height="100">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel DataContext="{Binding}">
+                <!-- #BEGIN SNIPPET# -->
+                <!--##############################-->
+                <!--The buttons bound to the WebcamCaptureViewModel-->
+                <Button Content="{Binding BarcodeReader_StartWebcam, Source={StaticResource Strings}}" Click="ButtonStartWebcam_Click" IsEnabled="{Binding CanStartWebcam}" Margin="0,5,12,5" HorizontalAlignment="Stretch" Style="{StaticResource IGGenericButton}"/>
+                <Button Content="{Binding BarcodeReader_Decode, Source={StaticResource Strings}}" Click="ButtonDecode_Click" IsEnabled="{Binding CanDecode}" Margin="0,5,12,5" HorizontalAlignment="Stretch" Style="{StaticResource IGGenericButton}"/>
+                <Button Content="{Binding BarcodeReader_StopDecoding, Source={StaticResource Strings}}" Click="ButtonStopDecoding_Click" IsEnabled="{Binding CanStop}" Margin="0,5,12,5" HorizontalAlignment="Stretch" Style="{StaticResource IGGenericButton}"/>
+                <!--##############################-->
+                <!-- #END SNIPPET# -->
+            </StackPanel>
+            <Border Grid.Column="1" Width="260" BorderThickness="1" BorderBrush="#FF9B9B9B">
+                <ScrollViewer x:Name="ScrollViewerData" DataContext="{Binding}" Padding="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Style="{StaticResource IGScrollViewerStyle}">
+                    <!-- #BEGIN SNIPPET# -->
+                    <!--##############################-->
+                    <!--The output-->
+                    <TextBox x:Name="TextBlockOutput" Text="{Binding OutputMessage, Mode=OneWay}" IsReadOnly="True" BorderThickness="0" />
+                    <!--##############################-->
+                    <!-- #END SNIPPET# -->
+                </ScrollViewer>
+            </Border>
+        </Grid>
+
+        <Border Grid.Row="1" Width="380" Height="380" HorizontalAlignment="Left" 
+                Margin="5,12,0,0" BorderThickness="1" >
+            <!-- #BEGIN SNIPPET# -->
+            <!--##############################-->
+            <!--The video from the webcam bound to the WebcamCaptureViewModel-->
+            <ContentPresenter Content="{Binding WebcamSurface}" Margin="5" />
+            <!--##############################-->
+            <!-- #END SNIPPET# -->
+        </Border>
+
+        <controls:OptionsPanel HeaderText="{Binding BarcodeReader_FilteredImage, Source={StaticResource Strings}}" 
+                               DataContext="{Binding}" Grid.RowSpan="2" Grid.ColumnSpan="2" 
+                               Margin="400,5,0,0"
+                               HorizontalAlignment="Right">
+            <!-- #BEGIN SNIPPET# -->
+            <!--##############################-->
+            <!--The filtered image bound to the WebcamCaptureViewModel-->
+            <Image Source="{Binding FilteredImage}" Stretch="Uniform" Width="230" Height="230" />
+            <!--##############################-->
+            <!-- #END SNIPPET# -->
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

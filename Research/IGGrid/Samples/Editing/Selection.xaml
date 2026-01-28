@@ -1,0 +1,88 @@
+﻿<igFramework:SampleContainer x:Class="IGGrid.Samples.Editing.Selection"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="Selection Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGGrid.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGrid;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:GridStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <ig:XamGrid x:Name="dataGrid" AutoGenerateColumns="False" ColumnWidth="*" Grid.Column="2">
+            <ig:XamGrid.Columns>
+                <ig:TextColumn Key="MLS" HeaderText="{Binding Path=XWG_Property_MLS, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="ListingDate" FormatString="{}{0:d}"
+                               HeaderText="{Binding Path=XWG_Property_ListingDate, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="Price" FormatString="{}{0:C}"
+                               HeaderText="{Binding Path=XWG_Property_Price, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="SqFeet" FormatString="{}{0:N0}"
+                               HeaderText="{Binding Path=XWG_Property_SqFeet, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="NumberOfBedRooms"
+                               HeaderText="{Binding Path=XWG_Property_NumberOfBedRooms, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="NumberOfBathRooms"
+                               HeaderText="{Binding Path=XWG_Property_NumberOfBathRooms, Source={StaticResource Strings}}" />
+            </ig:XamGrid.Columns>
+            <!-- #BEGIN SNIPPET# -->
+            <ig:XamGrid.SelectionSettings>
+                <ig:SelectionSettings CellClickAction="SelectCell" CellSelection="Single" ColumnSelection="Single" RowSelection="Single" />
+            </ig:XamGrid.SelectionSettings>
+            <!-- #END SNIPPET# -->
+            
+            <ig:XamGrid.RowSelectorSettings>
+                <ig:RowSelectorSettings Visibility="Visible"/>
+            </ig:XamGrid.RowSelectorSettings>
+            <ig:XamGrid.SortingSettings>
+                <ig:SortingSettings AllowSorting="False"/>
+            </ig:XamGrid.SortingSettings>
+        </ig:XamGrid>
+
+        <controls:OptionsPanel MinWidth="170" HeaderText="{Binding XWG_Config_Options, Source={StaticResource Strings}}" 
+                               Grid.Column="0">
+            <TextBlock Text="{Binding XWG_Selection_CellSelection, Source={StaticResource Strings}}" Style="{StaticResource OptionsPanelTitleStyle}"/>
+            <controls:EnumValuesProvider
+                DisplayTemplate="RadioButtonList"
+                EnumType="ig:SelectionType"
+                Value="{Binding ElementName=dataGrid, Path=SelectionSettings.CellSelection, Mode=TwoWay}"
+                Margin="{StaticResource OptionsElementsMargin}"/>
+
+            <TextBlock Text="{Binding XWG_Selection_RowSelection, Source={StaticResource Strings}}" Style="{StaticResource OptionsPanelTitleStyle}"/>
+            <controls:EnumValuesProvider
+                DisplayTemplate="RadioButtonList"
+                EnumType="ig:SelectionType"
+                Value="{Binding ElementName=dataGrid, Path=SelectionSettings.RowSelection, Mode=TwoWay}"
+                Margin="{StaticResource OptionsElementsMargin}"/>
+
+            <TextBlock Text="{Binding XWG_Selection_ColumnSelection, Source={StaticResource Strings}}" Style="{StaticResource OptionsPanelTitleStyle}"/>
+            <controls:EnumValuesProvider
+                DisplayTemplate="RadioButtonList"
+                EnumType="ig:SelectionType"
+                Value="{Binding ElementName=dataGrid, Path=SelectionSettings.ColumnSelection, Mode=TwoWay}"
+                Margin="{StaticResource OptionsElementsMargin}"/>
+
+            <TextBlock Text="{Binding XWG_Selection_CellClickAction, Source={StaticResource Strings}}" Style="{StaticResource OptionsPanelTitleStyle}"/>
+            <controls:EnumValuesProvider
+                DisplayTemplate="RadioButtonList"
+                EnumType="ig:CellSelectionAction"
+                Value="{Binding ElementName=dataGrid, Path=SelectionSettings.CellClickAction, Mode=TwoWay}"/>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

@@ -1,0 +1,151 @@
+<igFramework:SampleContainer x:Class="IGTreemap.Samples.RangeValueMappers"
+                 xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 mc:Ignorable="d"
+                 xmlns:ig="http://schemas.infragistics.com/xaml"
+                 xmlns:controls="clr-namespace:IGTreemap.Samples.Controls" xmlns:Models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared">
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGTreemap;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/IGTreemap;component/Assets/TreemapStyles.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <Models:ManufacturerModel x:Key="ManufacturerModel" />
+            <!-- Treemap node Style -->
+            <Style x:Key="TreemapNodeStyle1" TargetType="ig:TreemapNode">
+                <Setter Property="Fill" Value="{StaticResource TreemapContainerFill}" />
+                <Setter Property="BorderBrush" Value="{StaticResource TreemapContainerStroke}" />
+                <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Padding" Value="5" />
+                <Setter Property="Margin" Value="1" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ig:TreemapNode">
+                            <Border x:Name="NodeBorder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Fill}" CornerRadius="1" Margin="0.5">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="{TemplateBinding Text}" Foreground="{TemplateBinding Foreground}" />
+                                    <ig:NodesPanel x:Name="NodesPanel" Grid.Row="1" />
+                                </Grid>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="TreemapNodeStyle2" BasedOn="{StaticResource TreemapNodeStyle}" TargetType="ig:TreemapNode">
+                <Setter Property="Foreground" Value="{StaticResource LightForegroundBrush}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Padding" Value="5" />
+                <Setter Property="Margin" Value="1" />
+                <Setter Property="UseLayoutRounding" Value="True"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ig:TreemapNode">
+                            <Border x:Name="NodeBorder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Fill}" CornerRadius="1" Margin="0.5">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{TemplateBinding Text}" Foreground="{StaticResource LightForegroundBrush}" Margin="5,3,5,5">
+									<TextBlock.Effect>
+										<DropShadowEffect ShadowDepth="0" Opacity="0.3" Color="Black" />
+									</TextBlock.Effect>
+                                    </TextBlock>
+                                    <ig:NodesPanel x:Name="NodesPanel" Grid.Row="1" />
+                                </Grid>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Width="Auto">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+
+		<ig:XamTreemap x:Name="Treemap" 
+                       DataContext="{StaticResource ManufacturerModel}" 
+                       ItemsSource="{Binding Manufacturers}">
+			<ig:XamTreemap.DefaultStyle>
+				<Style TargetType="ig:TreemapNode">
+					<Setter Property="Fill" Value="{StaticResource TreemapContainerFill}" />
+					<Setter Property="BorderBrush" Value="{StaticResource TreemapContainerStroke}" />
+					<Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+					<Setter Property="BorderThickness" Value="1" />
+					<Setter Property="Padding" Value="5" />
+					<Setter Property="Margin" Value="1" />
+					<Setter Property="Template">
+						<Setter.Value>
+							<ControlTemplate TargetType="ig:TreemapNode">
+								<Border x:Name="NodeBorder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Fill}" CornerRadius="1" Margin="0.5">
+									<Grid>
+										<Grid.RowDefinitions>
+											<RowDefinition Height="Auto" />
+											<RowDefinition Height="*" />
+										</Grid.RowDefinitions>
+										<TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="{TemplateBinding Text}" Foreground="{TemplateBinding Foreground}" />
+										<ig:NodesPanel x:Name="NodesPanel" Grid.Row="1" />
+									</Grid>
+								</Border>
+							</ControlTemplate>
+						</Setter.Value>
+					</Setter>
+				</Style>
+			</ig:XamTreemap.DefaultStyle>
+			<!--Binding to the data-->
+			<ig:XamTreemap.NodeBinders>
+				<ig:NodeBinder TargetTypeName="Manufacturer" ValuePath="Revenue" TextPath="Name" 
+                               ItemsSourcePath="Products" NodeStyle="{StaticResource TreemapNodeStyle1}" />
+				<ig:NodeBinder TargetTypeName="Product" ValuePath="StandardCost" TextPath="Name" 
+                               NodeStyle="{StaticResource TreemapNodeStyle1}" />
+			</ig:XamTreemap.NodeBinders>
+			<!-- #BEGIN SNIPPET# -->
+            
+			<!-- range value Mappers -->
+            <ig:XamTreemap.ValueMappers>
+				<ig:ColorMapper ValueTypeName="Product" ValuePath="StandardCost" TargetProperty="Fill" 
+                                MappingMode="AllNodes" From="#FFC62D36" To="#FFE3720C" 
+                                DataMinimum="{Binding RangeMinimum, ElementName=StandardCostSlider}" 
+                                DataMaximum="{Binding RangeMaximum, ElementName=StandardCostSlider}" />
+				<ig:DoubleMapper ValueTypeName="Manufacturer" ValuePath="Revenue" TargetProperty="FontSize" 
+                                 MappingMode="AllNodes" From="8" To="15" 
+                                 DataMinimum="{Binding RangeMinimum, ElementName=RevenueSlider}" 
+                                 DataMaximum="{Binding RangeMaximum, ElementName=RevenueSlider}" />
+			</ig:XamTreemap.ValueMappers>
+			<!-- #END SNIPPET# -->
+		</ig:XamTreemap>
+		<Grid Grid.Row="1" Margin="0,15,0,0">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="60" />
+				<RowDefinition Height="60" />
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" 
+                       x:Name="StandardCostLabel"  Margin="0,0,10,22" />
+            <TextBlock Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right" 
+                       x:Name="RevenueLabel" Margin="0,0,10,22" />
+            <!-- #BEGIN SNIPPET# -->
+            <!-- range value controls -->
+            <controls:ZoombarColorScale x:Name="StandardCostSlider" Minimum="20" Maximum="120" From="#FFC62D36" To="#FFE3720C" Grid.Column="1" Grid.Row="0" Style="{StaticResource HorizontalColorScaleStyle}" Margin="5 0 15 10" />
+            <controls:ZoombarColorScale x:Name="RevenueSlider" Minimum="30000" Maximum="150000" From="White" To="Gray" Grid.Column="1" Grid.Row="1" Style="{StaticResource HorizontalColorScaleStyle}" Margin="5 0 15 10" />
+            <!-- #END SNIPPET# -->
+        </Grid>
+
+	</Grid>
+</igFramework:SampleContainer>

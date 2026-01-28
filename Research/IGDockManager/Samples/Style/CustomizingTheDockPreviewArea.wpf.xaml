@@ -1,0 +1,303 @@
+﻿<framework:SampleContainer x:Class="IGDockManager.Samples.Style.CustomizingTheDockPreviewArea"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="CustomizeContentPaneGlyphs"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:igDock="http://infragistics.com/DockManager"
+      xmlns:locCtls="clr-namespace:IGDockManager.CustomControls"
+      xmlns:res="clr-namespace:IGDockManager.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDockManager;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/IGDockManager;component/CustomControls/themes/generic.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DockManagerStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <!-- #BEGIN SNIPPET# -->
+    <!-- Create a XamDockManager control -->
+    <igDock:XamDockManager Theme="RoyalLight">
+        <igDock:XamDockManager.Resources>
+            <ResourceDictionary>
+                <!-- ========== dropPreviewTabBottom ========== -->
+                <ControlTemplate x:Key="dropPreviewTabBottom" TargetType="{x:Type Control}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <!-- We want to make sure a pixel of the body remains visible -->
+                            <RowDefinition Height="*" MinHeight="4"/>
+                            <!-- We want the majority of the space going to the tab section but it needs to be able to resize smaller -->
+                            <RowDefinition Height="4*" MaxHeight="24"/>
+                        </Grid.RowDefinitions>
+                        <Border
+                            Grid.Row="0"
+                            BorderThickness="3,3,3,0"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            Background="{TemplateBinding Background}"/>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" MaxWidth="6"/>
+                                <ColumnDefinition Width="10*" MaxWidth="46"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border BorderThickness="0,3,0,0" Grid.Column="0"
+                                    BorderBrush="{TemplateBinding BorderBrush}"/>
+                            <Border
+                                BorderThickness="3,0,3,3"
+                                Grid.Column="1"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                Background="{TemplateBinding Background}"/>
+                            <Border BorderThickness="0,3,0,0" Grid.Column="2"
+                                    BorderBrush="{TemplateBinding BorderBrush}"/>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+                <!-- ========== dropPreviewTabTop ========== -->
+                <ControlTemplate x:Key="dropPreviewTabTop" TargetType="{x:Type Control}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <!-- We want the majority of the space going to the tab section but it needs to be able to resize smaller -->
+                            <RowDefinition Height="4*" MaxHeight="24"/>
+                            <!-- We want to make sure a pixel of the body remains visible -->
+                            <RowDefinition Height="*" MinHeight="4"/>
+                        </Grid.RowDefinitions>
+                        <Border
+                            Grid.Row="1"
+                            BorderThickness="3,0,3,3"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            Background="{TemplateBinding Background}"/>
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" MaxWidth="6"/>
+                                <ColumnDefinition Width="10*" MaxWidth="46"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border BorderThickness="0,0,0,3" Grid.Column="0" BorderBrush="{TemplateBinding BorderBrush}"/>
+                            <Border
+                                BorderThickness="3,3,3,0"
+                                Grid.Column="1"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                Background="{TemplateBinding Background}"/>
+                            <Border BorderThickness="0,0,0,3" Grid.Column="2" BorderBrush="{TemplateBinding BorderBrush}"/>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+                <!-- ========== dropPreviewTabRight ========== -->
+                <ControlTemplate x:Key="dropPreviewTabRight" TargetType="{x:Type Control}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <!-- We want to make sure a pixel of the body remains visible -->
+                            <ColumnDefinition Width="*" MinWidth="4"/>
+                            <!-- We want the majority of the space going to the tab section but it needs to be able to resize smaller -->
+                            <ColumnDefinition Width="4*" MaxWidth="24"/>
+                        </Grid.ColumnDefinitions>
+                        <Border
+                            Grid.Column="0"
+                            BorderThickness="3,3,0,3"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            Background="{TemplateBinding Background}"/>
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" MaxHeight="6"/>
+                                <RowDefinition Height="10*" MaxHeight="46"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border BorderThickness="3,0,0,0" Grid.Row="0" BorderBrush="{TemplateBinding BorderBrush}"/>
+                            <Border
+                                BorderThickness="0,3,3,3"
+                                Grid.Row="1"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                Background="{TemplateBinding Background}"/>
+                            <Border BorderThickness="3,0,0,0" Grid.Row="2" BorderBrush="{TemplateBinding BorderBrush}"/>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+                <!-- ========== dropPreviewTabLeft ========== -->
+                <ControlTemplate x:Key="dropPreviewTabLeft" TargetType="{x:Type Control}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <!-- We want the majority of the space going to the tab section but it needs to be able to resize smaller -->
+                            <ColumnDefinition Width="4*" MaxWidth="24"/>
+                            <!-- We want to make sure a pixel of the body remains visible -->
+                            <ColumnDefinition Width="*" MinWidth="4"/>
+                        </Grid.ColumnDefinitions>
+                        <Border
+                            Grid.Column="1"
+                            BorderThickness="0,3,3,3"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            Background="{TemplateBinding Background}"/>
+                        <Grid Grid.Column="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="10*" MaxHeight="46"/>
+                                <RowDefinition Height="*" MaxHeight="6"/>
+                            </Grid.RowDefinitions>
+                            <Border BorderThickness="0,0,3,0" Grid.Row="0" BorderBrush="{TemplateBinding BorderBrush}"/>
+                            <Border
+                                BorderThickness="3,3,0,3"
+                                Grid.Row="1"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                Background="{TemplateBinding Background}"/>
+                            <Border BorderThickness="0,0,3,0" Grid.Row="2" BorderBrush="{TemplateBinding BorderBrush}"/>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+                <!-- ========== XamDockManager.DropPreviewStyleKey ========== -->
+                <Style x:Key="{x:Static igDock:XamDockManager.DropPreviewStyleKey}" TargetType="{x:Type Control}">
+                    <Setter Property="BorderBrush" Value="#FF00CCFF"/>
+                    <Setter Property="Background" Value="#33000000"/>
+                    <Setter Property="BorderThickness" Value="3"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Control}">
+                                <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}">
+                                    <Viewbox HorizontalAlignment="Left" VerticalAlignment="Center" MaxHeight="100">
+                                        <StackPanel
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            Width="Auto"
+                                            Height="Auto"
+                                            Orientation="Horizontal"
+                                            Margin="10">
+                                            <Grid
+                                                x:Name="dropIcon_Copy"
+                                                MaxWidth="73"
+                                                MaxHeight="73"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center">
+                                                <Rectangle
+                                                    Fill="{x:Null}"
+                                                    Stroke="#FFFFFFFF"
+                                                    StrokeThickness="4"
+                                                    RadiusX="5"
+                                                    RadiusY="5"/>
+                                                <Rectangle
+                                                    Fill="#66FFFFFF"
+                                                    Stroke="#FFFFFFFF"
+                                                    StrokeThickness="2"
+                                                    RadiusX="2"
+                                                    RadiusY="2"
+                                                    Margin="10"/>
+                                            </Grid>
+                                            <TextBlock
+                                                Text="{Binding Path=DockPreview_DropHere, Source={StaticResource Strings}}"
+                                                TextWrapping="Wrap"
+                                                VerticalAlignment="Center"
+                                                Margin="10,0,0,0"
+                                                Foreground="#FFFFFFFF"/>
+                                        </StackPanel>
+                                    </Viewbox>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="igDock:XamDockManager.DropPreviewTabLocation" Value="Bottom">
+                            <Setter Property="Template" Value="{StaticResource dropPreviewTabBottom}"/>
+                        </Trigger>
+                        <Trigger Property="igDock:XamDockManager.DropPreviewTabLocation" Value="Top">
+                            <Setter Property="Template" Value="{StaticResource dropPreviewTabTop}"/>
+                        </Trigger>
+                        <Trigger Property="igDock:XamDockManager.DropPreviewTabLocation" Value="Right">
+                            <Setter Property="Template" Value="{StaticResource dropPreviewTabRight}"/>
+                        </Trigger>
+                        <Trigger Property="igDock:XamDockManager.DropPreviewTabLocation" Value="Left">
+                            <Setter Property="Template" Value="{StaticResource dropPreviewTabLeft}"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ResourceDictionary>
+        </igDock:XamDockManager.Resources>
+        <!-- Document Content ======================================================================== -->
+        <!-- Add a DocumentContentHost here which will assign the DocumentContentHost as the Content of the
+        XamDockManager.  XamDockManager displays its content inside the dock areas.  Then add a SplitPane
+        containing a TabGroupPane with several ContentPanes that represent document content. -->
+        <igDock:DocumentContentHost>
+            <igDock:SplitPane>
+                <igDock:TabGroupPane>
+                    <igDock:ContentPane x:Name="document1"
+                                        Header="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_Page1_Header}">
+                        <locCtls:XdmStartPage Header="{Binding Source={StaticResource Strings}, Path=ThemesAndCustomStyles_CustomizingDockPreviewArea_XdmStartPage_Header}">
+                            <StackPanel>
+                                <TextBlock Text="{Binding Source={StaticResource Strings}, Path=ThemesAndCustomStyles_CustomizingDockPreviewArea_XdmStartPage_Description}" TextWrapping="Wrap"/>
+                                <Image
+                                    Source="{Binding Source={StaticResource Strings}, Path=ThemesAndCustomStyles_CustomizingDockPreviewArea_XdmStartPage_Image}"
+                                    Margin="0,10,0,0"
+                                    Stretch="None"
+                                    HorizontalAlignment="Left"/>
+                            </StackPanel>
+                        </locCtls:XdmStartPage>
+                    </igDock:ContentPane>
+                    <igDock:ContentPane x:Name="document2"
+                                        Header="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_Page2_Header}">
+                        <locCtls:XdmSampleDocumentContent Content=" "/>
+                    </igDock:ContentPane>
+                    <igDock:ContentPane x:Name="document3"
+                                        Header="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_Page3_Header}">
+                        <locCtls:XdmSampleDocumentContent Content=" "/>
+                    </igDock:ContentPane>
+                    <igDock:ContentPane x:Name="document4"
+                                        Header="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_Page4_Header}">
+                        <locCtls:XdmSampleDocumentContent Content=" "/>
+                    </igDock:ContentPane>
+                </igDock:TabGroupPane>
+            </igDock:SplitPane>
+        </igDock:DocumentContentHost>
+        <!-- Add panes to the XamDockManager's Panes collection -->
+        <igDock:XamDockManager.Panes>
+            <!-- Right Dock Area ====================================================================== -->
+            <!-- Add a SplitPane with a single ContentPane and set its initial location to DockedRight
+            The ContentPane will show up as 'pinned' since we have not set its IsPinned property which
+            defaults to true. -->
+            <igDock:SplitPane igDock:XamDockManager.InitialLocation="DockedRight"
+                              SplitterOrientation="Horizontal" Width="220">
+                <igDock:TabGroupPane>
+                    <igDock:ContentPane x:Name="rightEdgeDock"
+                                        Header="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_RightEdge_Header1}"
+                                        Image="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_RightEdge_Image1}">
+                        <locCtls:XdmSamplePaneContent Content=" "/>
+                    </igDock:ContentPane>
+                    <igDock:ContentPane x:Name="rightEdgeTeamDock"
+                                        Header="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_RightEdge_Header2}"
+                                        Image="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_RightEdge_Image2}">
+                        <locCtls:XdmSamplePaneContent Content=" "/>
+                    </igDock:ContentPane>
+                </igDock:TabGroupPane>
+                <igDock:ContentPane x:Name="rightEdgePropertiesDock"
+                                    Header="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_RightEdge_Header3}"
+                                    Image="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_RightEdge_Image3}">
+                    <locCtls:XdmSamplePaneContent Content=" "/>
+                </igDock:ContentPane>
+            </igDock:SplitPane>
+            <!-- Bottom Dock Area ===================================================================== -->
+            <!-- Add a SplitPane with a single TabGroupPane that contains multiple ContentPanes. -->
+            <igDock:SplitPane igDock:XamDockManager.InitialLocation="DockedBottom">
+                <!-- TabGroupPane containing 5 ContentPanes -->
+                <igDock:TabGroupPane>
+                    <igDock:ContentPane x:Name="bottomEdgeDock1"
+                                        Header="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_BottomEdge_Header1}"
+                                        Image="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_BottomEdge_Image1}">
+                        <locCtls:XdmSamplePaneContent Content=" "/>
+                    </igDock:ContentPane>
+                    <igDock:ContentPane x:Name="bottomEdgeDock2"
+                                        Header="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_BottomEdge_Header2}"
+                                        Image="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_BottomEdge_Image2}">
+                        <locCtls:XdmSamplePaneContent Content=" "/>
+                    </igDock:ContentPane>
+                    <igDock:ContentPane x:Name="bottomEdgeDock3"
+                                        Header="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_BottomEdge_Header3}"
+                                        Image="{Binding Source={StaticResource Strings}, Path=XamDockManager_Root_VS08_BottomEdge_Image3}">
+                        <locCtls:XdmSamplePaneContent Content=" "/>
+                    </igDock:ContentPane>
+                </igDock:TabGroupPane>
+            </igDock:SplitPane>
+        </igDock:XamDockManager.Panes>
+    </igDock:XamDockManager>
+    <!-- #END SNIPPET# -->
+</framework:SampleContainer>

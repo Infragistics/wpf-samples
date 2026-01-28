@@ -1,0 +1,55 @@
+﻿<framework:SampleContainer x:Class="IGSlider.Samples.Display.ThumbTooltip"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:ig="http://schemas.infragistics.com/xaml">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <converters:StringFormatConverter x:Key="stringFormatConverter" />
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSlider;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamSlider.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Image Source="../../Images/Sunset.jpg" Stretch="Uniform" Width="400">
+            <Image.RenderTransform>
+                <RotateTransform CenterX="200" CenterY="200" x:Name="rotateTranform" Angle="0"/>
+            </Image.RenderTransform>
+        </Image>
+        <Grid Height="60" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Width="Auto" Margin="140,0,140,20">
+            <!--#BEGIN SNIPPET#-->
+            <ig:XamNumericRangeSlider MinValue="-120" MaxValue="120"
+                                      Orientation="Horizontal" Margin="10,0" >
+                <ig:XamSliderNumericThumb x:Name="lightnessThumb"
+                                          ToolTipVisibility="Visible"
+                                          Value="{Binding Angle, ElementName=rotateTranform, Mode=TwoWay}">
+                    <ig:XamSliderNumericThumb.ToolTipTemplate>
+                        <DataTemplate>
+                            <Grid x:Name="RootElement">
+                                <Border x:Name="HorizontalThumbContent">
+                                    <Grid>
+                                        <TextBlock
+                                            Text="{Binding ElementName=lightnessThumb, Path=Value, Converter={StaticResource stringFormatConverter}, ConverterParameter=DoublePrecisionDecimal}"
+                                            HorizontalAlignment="Center"/>
+                                    </Grid>
+                                </Border>
+                                <Border x:Name="VerticalThumbContent"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ig:XamSliderNumericThumb.ToolTipTemplate>
+                </ig:XamSliderNumericThumb>
+            </ig:XamNumericRangeSlider>
+            <!--#END SNIPPET#-->
+        </Grid>
+    </Grid>
+</framework:SampleContainer>

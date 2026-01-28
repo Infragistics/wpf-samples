@@ -1,0 +1,120 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Editing.ChartHighlighting"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="ChartHighlighting Page"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:resources="clr-namespace:IGDataChart.Resources"
+      xmlns:Samples="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Samples:RandomDataCollection x:Key="data1" />
+            <Samples:RandomDataCollection x:Key="data2" />
+            <Samples:RandomDataCollection x:Key="data3" />
+
+            <resources:DataChartStrings x:Key="Strings" />
+
+            <DataTemplate x:Key="customLegendItemTemplate">
+                <StackPanel Orientation="Horizontal" Margin="1" Visibility="{Binding Series.Visibility}" Opacity="{Binding Series.Opacity}">
+                    <ContentPresenter Content="{Binding}" ContentTemplate="{Binding Series.LegendItemBadgeTemplate}" />
+                    <ContentPresenter Content="{Binding Series.Title, TargetNullValue=Series Title}" />
+                </StackPanel>
+            </DataTemplate>
+
+            <Style x:Key="seriesStyle" TargetType="ig:Series">
+                <Style.Setters>
+                    <Setter Property="Opacity" Value=".3" />
+                    <Setter Property="LegendItemTemplate" Value="{StaticResource customLegendItemTemplate}" />
+                    <Setter Property="Thickness" Value="2" />
+                </Style.Setters>
+            </Style>
+
+            <Style TargetType="{x:Type ig:Legend}">
+                <Setter Property="Background" Value="{StaticResource LegendBackgroundBrush}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource LegendBorderBrush}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+                <Setter Property="FontWeight" Value="{StaticResource FontSemiBold}"/>
+            </Style>
+        </ResourceDictionary>
+
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <ig:XamDataChart x:Name="DataChart" 
+                         Legend="{Binding ElementName=theLegend}"
+                         SeriesMouseEnter="OnSeriesMouseEnter"
+                         SeriesMouseLeave="OnSeriesMouseLeave">
+            <ig:XamDataChart.Axes>
+                <ig:CategoryXAxis x:Name="xAxis" Label="{}{Label}" ItemsSource="{StaticResource data1}">
+                </ig:CategoryXAxis>
+                <ig:NumericYAxis x:Name="yAxis">
+                </ig:NumericYAxis>
+            </ig:XamDataChart.Axes>
+            <ig:XamDataChart.Series>
+                <ig:LineSeries x:Name="line1"
+                               Title="{Binding XWDC_DataModel_CompanyFinanceCategory_Marketing, Source={StaticResource Strings}}"
+                               MarkerType="None" Thickness="2"
+                               ItemsSource="{StaticResource data1}"
+                               XAxis="{Binding ElementName=xAxis}"
+                               YAxis="{Binding ElementName=yAxis}"
+                               ValueMemberPath="Value" 
+                               IsHighlightingEnabled="False" IsTransitionInEnabled="True" >
+                </ig:LineSeries>
+                <ig:LineSeries x:Name="line2" 
+                               Title="{Binding XWDC_DataModel_CompanyFinanceCategory_Development, Source={StaticResource Strings}}"
+                               MarkerType="None" Thickness="2"
+                               ItemsSource="{StaticResource data2}"
+                               XAxis="{Binding ElementName=xAxis}"
+                               YAxis="{Binding ElementName=yAxis}"
+                               ValueMemberPath="Value" 
+                               IsHighlightingEnabled="False" IsTransitionInEnabled="True" >
+                </ig:LineSeries>
+                <ig:LineSeries x:Name="line3" 
+                               Title="{Binding XWDC_DataModel_CompanyFinanceCategory_CustomerSupport, Source={StaticResource Strings}}"
+                               MarkerType="None" Thickness="2"
+                               ItemsSource="{StaticResource data3}"
+                               XAxis="{Binding ElementName=xAxis}"
+                               YAxis="{Binding ElementName=yAxis}"
+                               ValueMemberPath="Value" 
+                               IsHighlightingEnabled="False" IsTransitionInEnabled="True" >
+                </ig:LineSeries>
+
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+
+        <Border VerticalAlignment="Top"
+                HorizontalAlignment="Right"
+                Padding="0" CornerRadius="0"  >
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ========================================================================== -->
+            <ig:Legend x:Name="theLegend" Margin="20"
+                       Content="{Binding XWDC_DataModel_CompanyFinance_Spending, Source={StaticResource Strings}}"
+                       LegendItemMouseEnter="OnLegendItemMouseEnter"
+                       LegendItemMouseLeave="OnLegendItemMouseLeave"
+                       HorizontalAlignment="Stretch"
+                       VerticalAlignment="Stretch">
+            </ig:Legend>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+        </Border>
+
+        <ig:Legend x:Name="theLegend2"
+                   Content="{Binding XWDC_DataModel_CompanyFinance_Spending, Source={StaticResource Strings}}"
+                   LegendItemMouseEnter="OnLegendItemMouseEnter"
+                   LegendItemMouseLeave="OnLegendItemMouseLeave"
+                   HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed" />
+
+    </Grid>
+
+</igFramework:SampleContainer>

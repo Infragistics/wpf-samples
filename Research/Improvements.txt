@@ -1,0 +1,70 @@
+
+
+
+WPF samples browser 2.0 has the following improvemnts
+
+
+CLEANUP in vnext branch
+===================================================================
+
+TODO REMOVE OBSOLET FOLDERS
+
+C:\WORK\wpf-samples\Research\Infragistics.Common\       local themes
+C:\WORK\wpf-samples\Research\Infragistics.Samples\      SL browser
+
+TODO REMOVE OBSOLET PROJECTS
+
+C:\WORK\wpf-samples\Research\Infragistics.Common\Infragistics.Themes.MetroTheme.WPF\Infragistics.Themes.MetroTheme.WPF.csproj
+C:\WORK\wpf-samples\Research\Infragistics.Samples\Infragistics.Samples.csproj
+C:\WORK\wpf-samples\Research\Infragistics.Samples\Infragistics.Samples.Web.Source.csproj
+C:\WORK\wpf-samples\Research\Infragistics.Samples.Assets\Infragistics.Samples.Assets.csproj
+C:\WORK\wpf-samples\Research\Infragistics.SamplesBrowser.WPF\Infragistics.SamplesBrowser.WPF.Source.csproj
+
+
+IDEAS
+===================================================================
+
+- combine projects:
+Infragistics.Samples.Framework.WPF >> Infragistics.Samples.Framework
+Infragistics.Samples.Shared.WPF    >> Infragistics.Samples.Framework
+Infragistics.Samples.Services.WPF  >> Infragistics.Samples.Framework
+
+
+- move SampleBrowser logic to SamplesManager in Infragistics.Samples.Framework 
+- move SampleBrowser tree to SamplesNavigator in Infragistics.Samples.Framework
+
+- move theme samples SB main project where theme assemblies are going to be referenced
+- combine theme toc.json with sample toc.json in the samples SB main project
+
+- fill local toc.json in sample project with basic info on reflected UserControls
+
++ convert TableOfContents.xml to TOC.JSON exported to sample.JSON
++ generate TOC.schema.json
+
+
+===================================================================
+- simplify sample projects
+	- converted sample projects to application projects that use SamplesManager
+
+
+===================================================================
+- simplify Infragistics.Samples.Assets.WPF projects
+	- removed files not used by samples: .xml, .shp, .json
+	- moved .dict files to IGSpellCheck project since they are used only there
+	- consider new Data Providers:
+	- add file caching 
+
+      public static class DataProvider 
+      {
+            public void LoadXML(string filePath) {}
+            public void LoadCVS(string filePath) {}
+            public void LoadJSON(string filePath) {}
+      }
+
+      public class DataSoource : List<DataModel> 
+      {
+            public DataSoource()
+            {
+                var content = DataProvider.LoadXML("");
+            }
+      }

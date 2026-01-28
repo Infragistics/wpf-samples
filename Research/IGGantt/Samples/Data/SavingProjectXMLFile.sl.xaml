@@ -1,0 +1,61 @@
+﻿<framework:SampleContainer x:Class="IGGantt.Samples.Data.SavingProjectXMLFile"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGGantt.Resources"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="SavingProjectXMLFile Page">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Setting the IG theme -->
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamGantt.xaml" />
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamMenu.xaml" />
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamCalendar.xaml" />
+                <ResourceDictionary Source="/IGGantt;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <res:GanttStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <!--#BEGIN SNIPPET#-->
+        <ig:XamGantt x:Name="gantt" />
+        <!--#END SNIPPET#-->
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource Strings}, Path=SavePanelHeader}"
+                               HorizontalAlignment="Right" Margin="20" Width="230">
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="Margin" Value="{StaticResource OptionsTextTopBottomMargin}"/>       		
+                </Style>     	
+            </controls:OptionsPanel.Resources>
+            <Border Margin="{StaticResource VerticalPaddingBottomSmall}">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{Binding Source={StaticResource Strings}, Path=SaveStep1}" />
+                    <ComboBox x:Name="Cmb_XMLFiles" SelectionChanged="Cmb_XMLFiles_SelectionChanged" />
+                </StackPanel>
+            </Border>
+            <Border>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock x:Name="Lbl_FileNameLoaded"
+                              Text="{Binding Source={StaticResource Strings}, Path=SaveStep2}"/>
+                    <!--#BEGIN SNIPPET#-->
+                    <Button x:Name="Btn_SaveXMLFile"
+                            Content="{Binding Source={StaticResource Strings}, Path=SaveProjectAsXML}"
+                            Click="Btn_SaveXMLFile_Click"
+                            IsEnabled="False" />
+                    <!--#END SNIPPET#-->
+                </StackPanel>
+            </Border>
+        </controls:OptionsPanel>
+        
+    </Grid>
+</framework:SampleContainer>

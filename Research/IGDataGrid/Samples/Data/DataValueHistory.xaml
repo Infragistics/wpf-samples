@@ -1,0 +1,335 @@
+﻿<igFramework:SampleContainer x:Class="IGDataGrid.Samples.Data.DataValueHistory"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="DataValueHistory"
+      Loaded="Page_Loaded"
+      Unloaded="Page_Unloaded"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:controlsLocal="clr-namespace:IGDataGrid.Controls"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:igEditors="http://infragistics.com/Editors"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGDataGrid.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataGrid;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DataGridStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid HorizontalAlignment="Left">
+        <Grid.Resources>
+            <Style x:Key="graphingCVPStyle"
+                   TargetType="{x:Type igDP:CellValuePresenter}">
+                <Setter Property="Margin"
+                        Value="0,0,0,15" />
+                 <Setter Property="Background"
+                            Value="#FFDDDDDD" />
+                     <Setter Property="BorderBrush"
+                            Value="#FFCCCCCC" />
+                      <Setter Property="BorderThickness"
+                            Value="1" />
+                <Setter Property="Foreground"
+                            Value="{StaticResource ForegroundBrush}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type igDP:CellValuePresenter}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                  <Border Background="{TemplateBinding Background}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            SnapsToDevicePixels="True">
+                                        <Label Content="{Binding Value, RelativeSource={RelativeSource TemplatedParent}}"
+                                               MinWidth="45"
+                                               FontWeight="Bold"
+                                               Foreground="{TemplateBinding Foreground}"/>
+                                    </Border>
+                               
+                                <controlsLocal:CellValueGrapher ValueHistory="{Binding ValueHistory, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                Grid.Column="1"
+                                                                MinHeight="20"
+                                                                Margin="0,5,0,5"
+                                                                PositiveSegmentBrush="#FF439C47"
+                                                                PositiveTrendBrush="#FF7DBB81"
+                                                                NegativeSegmentBrush="#FFD23C70"
+                                                                NegativeTrendBrush="#FFE77BA1"
+                                                                />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style TargetType="{x:Type igDP:LabelPresenter}">
+                 <Setter Property="Background"
+                            Value="#FFDDDDDD" />
+                     <Setter Property="BorderBrush"
+                            Value="#FFCCCCCC" />
+                      <Setter Property="BorderThickness"
+                            Value="1" />
+                    <Setter Property="Padding"
+                            Value="5" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type igDP:LabelPresenter}">
+                                <Grid>
+                                    <Border Background="{TemplateBinding Background}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            CornerRadius="1"
+                                            SnapsToDevicePixels="True">
+                                        <ContentPresenter Focusable="False"
+                                                          Content="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}"
+                                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                          ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+                                                          VerticalAlignment="Center"
+                                                          Margin="{TemplateBinding Padding}" />
+                                    </Border>
+                                </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <controls:OptionsPanel HeaderText="{Binding ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}"
+                               VerticalAlignment="Top"
+                               HorizontalAlignment="Stretch"
+                               IsMovable="False" Margin="{StaticResource GridsSamplesBottomPadding}">
+            <controls:OptionsPanel.Resources>
+                <Style x:Key="{x:Type Label}"
+                       TargetType="{x:Type Label}">
+                    <Setter Property="Width" Value="140" />
+                    <Setter Property="Margin" Value="2" />
+                    <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                    <Setter Property="HorizontalContentAlignment" Value="Right" />
+                </Style>
+            </controls:OptionsPanel.Resources>
+
+            <Grid Width="546.777" Height="89.88"
+                  d:LayoutOverrides="Width, Height"
+                  HorizontalAlignment="Left">
+                <Grid.RowDefinitions>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <!-- DataValueChangedNotificationsActive -->
+                <CheckBox x:Name="chkDataValueChangedNotificationsActive"
+                          IsChecked="True"
+                          VerticalAlignment="Center"
+                          Checked="chkDataValueChangedNotificationsActive_Checked"
+                          Unchecked="chkDataValueChangedNotificationsActive_Checked"
+                          Margin="3,0,0,0"
+                          Content="{Binding DataValueHistory_ConfigArea_DataValueChangedNotificationsActive, Source={StaticResource Strings}}"/>
+                <!-- History Limit -->
+                <StackPanel Orientation="Horizontal"
+                            Grid.Row="1">
+                    <Label Foreground="{StaticResource ForegroundBrush}" Content="{Binding DataValueHistory_ConfigArea_HistoryLimit, Source={StaticResource Strings}}" />
+                    <Slider x:Name="sliderHistoryLimit"
+                            Value="10"
+                            ValueChanged="sliderHistoryLimit_ValueChanged"
+                            Minimum="0"
+                            Maximum="100"
+                            SmallChange="1"
+                            LargeChange="10"
+                            MinWidth="150"
+                            VerticalAlignment="Center"/>
+                    <Label Width="40" Margin="2"
+                           HorizontalContentAlignment="Left"
+                           Content="{Binding Value, ElementName=sliderHistoryLimit}" />
+                </StackPanel>
+
+                <!-- Data Update Interval-->
+                <StackPanel Orientation="Horizontal"
+                            Grid.Row="2">
+                    <Label Content="{Binding DataValueHistory_ConfigArea_UpdateInterval, Source={StaticResource Strings}}" />
+                    <Slider x:Name="sliderUpdateInterval"
+                            Value="200"
+                            ValueChanged="sliderUpdateInterval_ValueChanged"
+                            Minimum="100"
+                            Maximum="1000"
+                            SmallChange="50"
+                            LargeChange="100"
+                            MinWidth="150"
+                            VerticalAlignment="Center"/>
+                    <Label Width="40" Margin="2"
+                           HorizontalContentAlignment="Left"
+                           Content="{Binding Value, ElementName=sliderUpdateInterval}" />
+                </StackPanel>
+                <Button x:Name="btnClearHistory"
+                        Content="{Binding DataValueHistory_ConfigArea_ClearHistory, Source={StaticResource Strings}}"
+                        Click="btnClearHistory_Click" VerticalAlignment="Center"
+                        HorizontalAlignment="Left"
+                        Grid.Column="1"
+                        Grid.Row="1"
+                        d:LayoutOverrides="HorizontalAlignment" />
+                <Button x:Name="btnClearHistoryForSelectedRecords"
+                        HorizontalAlignment="Left" VerticalAlignment="Center"
+                        Content="{Binding DataValueHistory_ConfigArea_ClearHistoryForSelectedRecords, Source={StaticResource Strings}}"
+                        Click="btnClearHistoryForSelectedRecords_Click"
+                        Grid.Column="1"
+                        Grid.Row="2" />
+            </Grid>
+        </controls:OptionsPanel>
+        <!-- #BEGIN SNIPPET# -->
+        <!-- Create a XamDataGrid.  Note that we do not need to add a handler for the DataValueChangeEvent since
+        we are creating custom CellValuePresenter styles that contain elements which bind to the ValueHistory
+        property of CellValuePresenter to display a representation of the history of values. -->
+        <igDP:XamDataGrid	Grid.Row="1"
+                            x:Name="XamDataGrid1"
+                            Theme="RoyalLight"
+                            GroupByAreaLocation="None">
+            <!-- #END SNIPPET# -->
+            <igDP:XamDataGrid.Resources>
+                <Style TargetType="{x:Type igEditors:XamNumericEditor}">
+                    <Setter Property="Foreground"
+                            Value="#FFFFFFFF" />
+                </Style>
+            </igDP:XamDataGrid.Resources>
+
+            <!-- Turn off cell editing for this sample to simulate typical usage for a stock price display. -->
+            <igDP:XamDataGrid.FieldSettings>
+                <igDP:FieldSettings AllowEdit="False" />
+            </igDP:XamDataGrid.FieldSettings>
+
+            <igDP:XamDataGrid.FieldLayouts>
+                <igDP:FieldLayout>
+                    <!-- To make our sample look good, specify a DataRecordCellAreaGridTemplate that we will use to
+                    arrange the stock symbol Field above its related stock price Field in the UI. -->
+                    <igDP:FieldLayout.Settings>
+                        <igDP:FieldLayoutSettings AutoGenerateFields="False"
+                                                  AutoArrangeCells="Never"
+                                                  LabelLocation="Hidden">
+                            <igDP:FieldLayoutSettings.DataRecordCellAreaGridTemplate>
+                                <ItemsPanelTemplate>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                    </Grid>
+                                </ItemsPanelTemplate>
+                            </igDP:FieldLayoutSettings.DataRecordCellAreaGridTemplate>
+                        </igDP:FieldLayoutSettings>
+                    </igDP:FieldLayout.Settings>
+
+                    <!-- Make all Fields read-only. -->
+                    <igDP:FieldLayout.FieldSettings>
+                        <igDP:FieldSettings AllowEdit="False"
+                                            CellClickAction="SelectRecord" />
+                    </igDP:FieldLayout.FieldSettings>
+
+                    <!-- Specify how we want our Fields to be laid out in the DataRecordCellAreaGridTemplate specified above.
+
+                    Also turn on DataValueChangedNotifications for the StockPrice Fields and set the
+                    DataValueChangedHistory limit to 10. -->
+                    <igDP:Field Name="PortfolioName"
+                                Row="0"
+                                Column="0"
+                                RowSpan="2" />
+
+                    <igDP:Field Name="Stock0"
+                                Row="0"
+                                Column="1" />
+                    <igDP:Field Name="Stock0Price"
+                                Row="1"
+                                Column="1">
+                        <igDP:Field.Settings>
+                            <igDP:FieldSettings DataValueChangedNotificationsActive="true"
+                                                DataValueChangedHistoryLimit="10"
+                                                CellValuePresenterStyle="{StaticResource graphingCVPStyle}"
+                                                CellWidth="150" />
+                        </igDP:Field.Settings>
+                    </igDP:Field>
+
+                    <igDP:Field Name="Stock1"
+                                Row="0"
+                                Column="2" />
+                    <igDP:Field Name="Stock1Price"
+                                Row="1"
+                                Column="2">
+                        <igDP:Field.Settings>
+                            <igDP:FieldSettings DataValueChangedNotificationsActive="true"
+                                                DataValueChangedHistoryLimit="10"
+                                                CellValuePresenterStyle="{StaticResource graphingCVPStyle}"
+                                                CellWidth="150" />
+                        </igDP:Field.Settings>
+                    </igDP:Field>
+
+                    <igDP:Field Name="Stock2"
+                                Row="0"
+                                Column="3" />
+                    <igDP:Field Name="Stock2Price"
+                                Row="1"
+                                Column="3">
+                        <igDP:Field.Settings>
+                            <igDP:FieldSettings DataValueChangedNotificationsActive="true"
+                                                DataValueChangedHistoryLimit="10"
+                                                CellValuePresenterStyle="{StaticResource graphingCVPStyle}"
+                                                CellWidth="150" />
+                        </igDP:Field.Settings>
+                    </igDP:Field>
+
+                    <igDP:Field Name="Stock3"
+                                Row="0"
+                                Column="4" />
+                    <igDP:Field Name="Stock3Price"
+                                Row="1"
+                                Column="4">
+                        <igDP:Field.Settings>
+                            <igDP:FieldSettings DataValueChangedNotificationsActive="true"
+                                                DataValueChangedHistoryLimit="10"
+                                                CellValuePresenterStyle="{StaticResource graphingCVPStyle}"
+                                                CellWidth="150" />
+                        </igDP:Field.Settings>
+                    </igDP:Field>
+
+                    <igDP:Field Name="Stock4"
+                                Row="0"
+                                Column="5" />
+                    <igDP:Field Name="Stock4Price"
+                                Row="1"
+                                Column="5">
+                        <igDP:Field.Settings>
+                            <igDP:FieldSettings DataValueChangedNotificationsActive="true"
+                                                DataValueChangedHistoryLimit="10"
+                                                CellValuePresenterStyle="{StaticResource graphingCVPStyle}"
+                                                CellWidth="150" />
+                        </igDP:Field.Settings>
+                    </igDP:Field>
+                </igDP:FieldLayout>
+            </igDP:XamDataGrid.FieldLayouts>
+        </igDP:XamDataGrid>
+    </Grid>
+</igFramework:SampleContainer>

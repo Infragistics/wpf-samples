@@ -1,0 +1,68 @@
+﻿<framework:SampleContainer x:Class="IGGrid.Samples.Display.FixedColumns"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="FixedColumns Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGGrid.Resources"
+      xmlns:commonRes="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGrid;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:GridStrings x:Key="Strings" />
+            <commonRes:CommonStrings x:Key="CommonStrings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">        
+        <ig:XamGrid x:Name="dataGrid" AutoGenerateColumns="False" ColumnWidth="*">
+            <!-- #BEGIN SNIPPET# -->
+            <ig:XamGrid.FixedColumnSettings>
+                <ig:FixedColumnSettings AllowFixedColumns="Indicator"/>
+            </ig:XamGrid.FixedColumnSettings>
+            <!-- #END SNIPPET# -->
+            <ig:XamGrid.Columns>
+                <ig:TextColumn Key="FirstName"
+                               HeaderText="{Binding Path=XWG_Patient_FirstName, Source={StaticResource CommonStrings}}" />
+                <ig:TextColumn Key="LastName"
+                               HeaderText="{Binding Path=XWG_Patient_LastName, Source={StaticResource CommonStrings}}" />
+                <ig:TextColumn Key="DOB" FormatString="{}{0:d}"
+                               HeaderText="{Binding Path=XWG_Patient_DOB, Source={StaticResource CommonStrings}}" />
+                <ig:TextColumn Key="Gender"
+                               HeaderText="{Binding Path=XWG_Patient_Gender, Source={StaticResource CommonStrings}}" />
+                <ig:TextColumn Key="AdmittanceDate" FormatString="{}{0:d}"
+                               HeaderText="{Binding Path=XWG_Patient_AdmittanceDate, Source={StaticResource CommonStrings}}" />
+                <ig:TextColumn Key="Location"
+                               HeaderText="{Binding Path=XWG_Patient_Location, Source={StaticResource CommonStrings}}" />
+                <ig:TextColumn Key="Severity"
+                               HeaderText="{Binding Path=XWG_Patient_Severity, Source={StaticResource CommonStrings}}"/>
+            </ig:XamGrid.Columns>
+        </ig:XamGrid>
+        
+        <controls:OptionsPanel Width="200" HeaderText="{Binding XWG_Config_Options, Source={StaticResource Strings}}" Margin="400,80,0,0">
+            <TextBlock Text="{Binding XWG_FixedColumns_AllowFixedColumns, Source={StaticResource Strings}}" 
+                       Margin="{StaticResource OptionsElementsMargin}"/>
+            <ListBox x:Name="lbAllowFixedColumns" 
+                     SelectionChanged="lbAllowFixedColumns_SelectionChanged" Margin="{StaticResource OptionsElementsMargin}"/>
+            <StackPanel x:Name="dropAreaGroup" Margin="{StaticResource OptionsElementsMargin}">
+                <TextBlock Text="{Binding XWG_FixedColumns_FixedDropAreaLocation, Source={StaticResource Strings}}" Margin="{StaticResource OptionsElementsMargin}"/>
+                <ListBox x:Name="lbFixedDropAreaLocation" 
+                         SelectionChanged="lbFixedDropAreaLocation_SelectionChanged"/>
+            </StackPanel>
+            <StackPanel x:Name="indicatorDirectionGroup">
+                <TextBlock Text="{Binding XWG_FixedColumns_FixedIndicatorDirection, Source={StaticResource Strings}}" Margin="{StaticResource OptionsElementsMargin}"/>
+                <ListBox x:Name="lbFixedIndicatorDirection" 
+                         SelectionChanged="lbFixedIndicatorDirection_SelectionChanged"/>
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

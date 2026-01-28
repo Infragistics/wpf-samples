@@ -1,0 +1,250 @@
+﻿<framework:SampleContainer x:Class="IGOutlookBar.Samples.Style.StylingTheSelectedGroupHeader"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="StylingTheSelectedGroupHeader"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+      xmlns:localControls="clr-namespace:IGOutlookBar.Controls"
+      xmlns:res="clr-namespace:IGOutlookBar.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGOutlookBar;component/Assets/Global.xaml"/>
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamOutlookBar.xaml"/>
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamMenu.xaml"/>
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamDialogWindow.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <res:OutlookBarStrings x:Key="Strings"/>
+            <Style x:Key="SelectedHeaderStyle" TargetType="igPrim:SelectedGroupHeader">
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <LinearGradientBrush.GradientStops>
+                                <GradientStopCollection>
+                                    <GradientStop Offset="0" Color="#FFba53be"/>
+                                    <GradientStop Offset="0.972" Color="#FF751a71"/>
+                                </GradientStopCollection>
+                            </LinearGradientBrush.GradientStops>
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="BorderBrush" Value="#FFBA53BE"/>
+                <Setter Property="Foreground" Value="#FFFFFFFF"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="igPrim:SelectedGroupHeader">
+                            <Grid Margin="0,0,0,1">
+                                <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                                    <Grid>
+                                        <Grid.Resources>
+                                            <igPrim:GroupHeaderConverter x:Key="HeaderConverter"/>
+                                            <igPrim:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+                                        </Grid.Resources>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <ContentPresenter
+                                            x:Name="ContentPresenterHeader"
+                                            Grid.Column="0"
+                                            Margin="7,7,8,3"
+                                            Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=OutlookBar.SelectedGroup.Header, Converter={StaticResource HeaderConverter}}"
+                                            ContentTemplate="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=OutlookBar.SelectedGroup.HeaderTemplate}"
+                                            Visibility="Visible"/>
+                                        <ToggleButton
+                                            x:Name="MinimizeButton"
+                                            Grid.Column="1"
+                                            Margin="0,4,0,3"
+                                            IsChecked="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=OutlookBar.IsMinimized, Mode=TwoWay}"
+                                            RenderTransformOrigin="0.5 0.5"
+                                            Style="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=OutlookBar.MinimizeToggleButtonStyle}"
+                                            Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=OutlookBar.AllowMinimized, Converter={StaticResource BoolToVisibilityConverter}}">
+                                            <ToolTipService.ToolTip>
+                                                <Grid>
+                                                    <TextBlock x:Name="ExpandTooltip" Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=OutlookBar.StringSettings.MinimizeButtonExpandTooltip}" Visibility="Collapsed"/>
+                                                    <TextBlock x:Name="MinimizeTooltip" Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=OutlookBar.StringSettings.MinimizeButtonMinimizeTooltip}"/>
+                                                </Grid>
+                                            </ToolTipService.ToolTip>
+                                            <ToggleButton.RenderTransform>
+                                                <RotateTransform x:Name="TgbRotation" Angle="0"/>
+                                            </ToggleButton.RenderTransform>
+                                        </ToggleButton>
+                                    </Grid>
+                                </Border>
+                                <Border x:Name="innerBorder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1,1,0,0"/>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="MinimizedStates">
+                                        <VisualState x:Name="Expanded">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames
+                                                    BeginTime="00:00:00"
+                                                    Duration="00:00:00.001"
+                                                    Storyboard.TargetName="ContentPresenterHeader"
+                                                    Storyboard.TargetProperty="Visibility">
+                                                    <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="Visible"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Minimized">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames
+                                                    BeginTime="00:00:00"
+                                                    Duration="00:00:00.001"
+                                                    Storyboard.TargetName="ContentPresenterHeader"
+                                                    Storyboard.TargetProperty="Visibility">
+                                                    <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="Collapsed"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames
+                                                    BeginTime="00:00:00"
+                                                    Duration="00:00:00.001"
+                                                    Storyboard.TargetName="MinimizeButton"
+                                                    Storyboard.TargetProperty="ToggleButton.RenderTransform.RotateTransform.Angle">
+                                                    <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="180"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames
+                                                    BeginTime="00:00:00"
+                                                    Duration="00:00:00.001"
+                                                    Storyboard.TargetName="MinimizeTooltip"
+                                                    Storyboard.TargetProperty="Visibility">
+                                                    <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="Collapsed"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames
+                                                    BeginTime="00:00:00"
+                                                    Duration="00:00:00.001"
+                                                    Storyboard.TargetName="ExpandTooltip"
+                                                    Storyboard.TargetProperty="Visibility">
+                                                    <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="Visible"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="OBStyle" TargetType="ig:XamOutlookBar">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ig:XamOutlookBar">
+                            <Border x:Name="root" VerticalAlignment="Stretch">
+                                <Grid VerticalAlignment="Stretch">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border
+                                        Grid.Column="1"
+                                        VerticalAlignment="Stretch"
+                                        Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        Padding="{TemplateBinding Padding}">
+                                        <Grid x:Name="MainGrid">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="*" MinHeight="{TemplateBinding SelectedAreaMinHeight}"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto" MinHeight="32"/>
+                                            </Grid.RowDefinitions>
+                                            <Canvas>
+                                                <ig:XamDialogWindow
+                                                    x:Name="NavigationPaneOptionsWindow"
+                                                    Header="{Binding RelativeSource={RelativeSource Self}, Path=StringsSettings.StringSettings.NavigationPaneOptionsDialogTitle}"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    IsResizable="False"
+                                                    MaximizeButtonVisibility="Collapsed"
+                                                    MinimizeButtonVisibility="Collapsed"
+                                                    StartupPosition="Center"
+                                                    VerticalContentAlignment="Stretch"
+                                                    WindowState="Hidden">
+                                                    <igPrim:NavigationPaneOptionsControl/>
+                                                </ig:XamDialogWindow>
+                                            </Canvas>
+                                            <igPrim:SelectedGroupHeader	x:Name="SelectedGroupHeader" Grid.Row="0" FontWeight="Bold" Style="{StaticResource SelectedHeaderStyle}"/>
+                                            <igPrim:SelectedGroupContent x:Name="SelectedGroupContent" Grid.Row="1"/>
+                                            <Thumb
+                                                x:Name="Splitter"
+                                                Grid.Row="2"
+                                                Margin="0,1,0,1"
+                                                Cursor="SizeNS"
+                                                Style="{TemplateBinding HorizontalSplitterStyle}"/>
+                                            <ItemsControl x:Name="NavigationArea" Grid.Row="3">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Top" Orientation="Vertical"/>
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                            </ItemsControl>
+                                            <igPrim:GroupOverflowArea x:Name="OverflowArea" Grid.Row="4"/>
+                                        </Grid>
+                                    </Border>
+                                </Grid>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <!--#BEGIN SNIPPET#-->
+        <ig:XamOutlookBar x:Name="XamOutlookBar" Width="250" MinimizedWidth="38" Style="{StaticResource OBStyle}">
+            <ig:OutlookBarGroup Header="{Binding Source={StaticResource Strings}, Path=XOB_Group_Header_Mail}">
+                <ig:OutlookBarGroup.LargeIconTemplate>
+                    <DataTemplate>
+                        <Image Source="/IGOutlookBar;component/Images/OBarMailLarge.png"/>
+                    </DataTemplate>
+                </ig:OutlookBarGroup.LargeIconTemplate>
+                <ig:OutlookBarGroup.SmallIconTemplate>
+                    <DataTemplate>
+                        <Image Source="/IGOutlookBar;component/Images/OBarMail.png"/>
+                    </DataTemplate>
+                </ig:OutlookBarGroup.SmallIconTemplate>
+                <localControls:XobSampleMailContent/>
+            </ig:OutlookBarGroup>
+            <ig:OutlookBarGroup Header="{Binding Source={StaticResource Strings}, Path=XOB_Group_Header_Calendar}">
+                <ig:OutlookBarGroup.LargeIconTemplate>
+                    <DataTemplate>
+                        <Image Source="/IGOutlookBar;component/Images/OBarCalendarLarge.png"/>
+                    </DataTemplate>
+                </ig:OutlookBarGroup.LargeIconTemplate>
+                <ig:OutlookBarGroup.SmallIconTemplate>
+                    <DataTemplate>
+                        <Image Source="/IGOutlookBar;component/Images/OBarCalendar.png"/>
+                    </DataTemplate>
+                </ig:OutlookBarGroup.SmallIconTemplate>
+                <localControls:XobSampleCalendarContent/>
+            </ig:OutlookBarGroup>
+            <ig:OutlookBarGroup Header="{Binding Source={StaticResource Strings}, Path=XOB_Group_Header_Folders}">
+                <ig:OutlookBarGroup.LargeIconTemplate>
+                    <DataTemplate>
+                        <Image Source="/IGOutlookBar;component/Images/OBarFolderLarge.png"/>
+                    </DataTemplate>
+                </ig:OutlookBarGroup.LargeIconTemplate>
+                <ig:OutlookBarGroup.SmallIconTemplate>
+                    <DataTemplate>
+                        <Image Source="/IGOutlookBar;component/Images/OBarFolder.png"/>
+                    </DataTemplate>
+                </ig:OutlookBarGroup.SmallIconTemplate>
+                <localControls:XobSampleFolderListContent/>
+            </ig:OutlookBarGroup>
+        </ig:XamOutlookBar>
+        <!--#END SNIPPET#-->
+    </Grid>
+</framework:SampleContainer>

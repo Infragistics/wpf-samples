@@ -1,0 +1,49 @@
+﻿<framework:SampleContainer x:Class="IGColorPicker.Samples.Display.CreateXamColorPicker"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="CreateXamColorPicker"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGColorPicker.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <res:ColorPickerStrings x:Key="Strings" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGColorPicker;component/Assets/Global.xaml"/>
+                
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamColorPicker
+            x:Name="MyColorPicker"
+            VerticalAlignment="Top"
+            DerivedPalettesCount="10"
+            Width="212" Height="30" Margin="0,15,0,0"
+            ShowAdvancedEditorButton="{Binding ElementName=ShowAdvancedEditorButtonCB, Path=IsChecked, Mode=TwoWay}"
+            ShowRecentColorsPalette="{Binding ElementName=ShowRecentColorsPaletteCB, Path=IsChecked, Mode=TwoWay}"
+            ShowDerivedColorPalettes="{Binding ElementName=ShowDerivedColorPalettesCB, Path=IsChecked, Mode=TwoWay}"/>
+        <!-- #END SNIPPET# -->
+
+        <controls:OptionsPanel HeaderText="{Binding CP_ConfigPanel_OptionsLabel, Source={StaticResource Strings}}" 
+                               HorizontalAlignment="Right" Margin="15">
+            <CheckBox x:Name="ShowAdvancedEditorButtonCB" IsChecked="True"
+                      Content="{Binding CP_ShowAdvancedEditorButton, Source={StaticResource Strings}}"
+                      Margin="{StaticResource OptionsElementsMargin}"/>
+            <CheckBox x:Name="ShowRecentColorsPaletteCB" IsChecked="True"
+                      Content="{Binding CP_ShowRecentColorsPalette, Source={StaticResource Strings}}"
+                      Margin="{StaticResource OptionsElementsMargin}"/>
+            <CheckBox x:Name="ShowDerivedColorPalettesCB" IsChecked="True"
+                      Content="{Binding CP_ShowDerivedColorPalettes, Source={StaticResource Strings}}"
+                      Margin="{StaticResource OptionsElementsMargin}"/>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

@@ -1,0 +1,87 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Display.Axes.AxisLabelTemplates"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="AxisLabelTemplates Page"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igConverters="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <igConverters:StringFormatConverter x:Key="igStringFormatConverter" />
+            <models:StockMarketDataCollection  x:Key="StockMarketData1" />
+            <models:StockMarketDataCollection  x:Key="StockMarketData2" />
+            <SolidColorBrush x:Key="AxisLabelBorderBrush" Color="#FF1C82AD" />
+
+            <SolidColorBrush x:Key="XAxisLabelBackground" Color="{StaticResource Color_000}"/>
+            <SolidColorBrush x:Key="YAxisLabelBackground" Color="{StaticResource Color_029}"/>
+        
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+
+        <ig:XamDock x:Name="xmDataChartContainer">
+            <ig:XamDataChart x:Name="xmDataChart">
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Resources>
+                    <DataTemplate x:Key="XAxisLabelTemplate">
+                        <Border Canvas.ZIndex="1" Margin="10" CornerRadius="1" 
+                        Background="{StaticResource XAxisLabelBackground}" 
+                        RenderTransformOrigin="0,0">
+                            <TextBlock Foreground="{StaticResource LightForegroundBrush}" Margin="4" 
+                               Text="{Binding Item.Date, Converter={StaticResource igStringFormatConverter}, ConverterParameter=MM/dd}">
+                            </TextBlock>
+                        </Border>
+                    </DataTemplate>
+                    <DataTemplate x:Key="YAxisLabelTemplate">
+                        <Border Canvas.ZIndex="1" HorizontalAlignment="Stretch" CornerRadius="1" Margin="10" 
+                        Background="{StaticResource YAxisLabelBackground}" >
+                            <TextBlock Foreground="{StaticResource LightForegroundBrush}" Margin="4"  
+                                   Text="{Binding Item, Converter={StaticResource igStringFormatConverter}, ConverterParameter=C0}">
+                            </TextBlock>
+                        </Border>
+                    </DataTemplate>
+                 </ig:XamDataChart.Resources>
+                <ig:XamDataChart.Axes>
+                    <ig:CategoryXAxis x:Name="xmDateXAxis"  
+                                      Label="{StaticResource XAxisLabelTemplate}"
+                                      ItemsSource="{StaticResource StockMarketData1}">
+                    </ig:CategoryXAxis>
+                    <ig:NumericYAxis x:Name="xmPriceYAxis" Interval="50" 
+                                     Label="{StaticResource YAxisLabelTemplate}">
+                    </ig:NumericYAxis>
+                </ig:XamDataChart.Axes>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+                <ig:XamDataChart.Series>
+                    <ig:SplineSeries MarkerType="None" ItemsSource="{StaticResource StockMarketData1}" 
+                                     Thickness="3" ValueMemberPath="High"
+                                     XAxis="{Binding ElementName=xmDateXAxis}" 
+                                     YAxis="{Binding ElementName=xmPriceYAxis}" 
+                                     IsHighlightingEnabled="True" IsTransitionInEnabled="True">
+                    </ig:SplineSeries>
+                    <ig:SplineSeries MarkerType="None" ItemsSource="{StaticResource StockMarketData1}" 
+                                     Thickness="3" ValueMemberPath="Low" 
+                                     XAxis="{Binding ElementName=xmDateXAxis}" 
+                                     YAxis="{Binding ElementName=xmPriceYAxis}" 
+                                     IsHighlightingEnabled="True" IsTransitionInEnabled="True">
+                    </ig:SplineSeries>
+                </ig:XamDataChart.Series>
+
+            </ig:XamDataChart>
+        </ig:XamDock>
+
+    </Grid>
+</igFramework:SampleContainer>

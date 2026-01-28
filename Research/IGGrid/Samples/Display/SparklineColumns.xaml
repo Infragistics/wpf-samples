@@ -1,0 +1,68 @@
+﻿<framework:SampleContainer x:Class="IGGrid.Samples.Display.SparklineColumns"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="Sparkline Column Page"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGGrid.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGrid;component/Assets/Global.xaml" />
+                
+                 
+            </ResourceDictionary.MergedDictionaries>
+            <res:GridStrings x:Key="Strings" />
+           
+        </ResourceDictionary>
+        
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">     
+        <Grid.Resources>
+            <Style TargetType="ig:XamSparkline">
+                <Setter Property="Margin" Value="10" />
+                <Setter Property="MinHeight" Value="50"/>
+                <Setter Property="Height" Value="90"/>
+                <Setter Property="ToolTipVisibility" Value="Visible" />
+                <Setter Property="DisplayType" Value="Line" />
+                <Setter Property="VerticalAxisVisibility" Value="Visible" />
+                <Setter Property="HorizontalAxisVisibility" Value="Visible" />
+                <Setter Property="FirstMarkerVisibility" Value="Visible" />
+                <Setter Property="LastMarkerVisibility" Value="Visible" />
+                <Setter Property="HighMarkerVisibility" Value="Visible" />
+                <Setter Property="LowMarkerVisibility" Value="Visible" />
+                <Setter Property="FirstMarkerSize" Value="2" />
+                <Setter Property="LastMarkerSize" Value="2" />
+                <Setter Property="HighMarkerSize" Value="3" />
+                <Setter Property="LowMarkerSize" Value="3" />
+                <Setter Property="NormalRangeVisibility" Value="Collapsed" />
+                <Setter Property="NormalRangeMinimum" Value="-4" />
+                <Setter Property="NormalRangeMaximum" Value="4" />
+                <Setter Property="TrendLineThickness" Value="2" />
+            </Style>
+        </Grid.Resources>
+        <ig:XamGrid x:Name="dataGrid" AutoGenerateColumns="False" ColumnWidth="*">
+            <ig:XamGrid.ColumnResizingSettings>
+                <ig:ColumnResizingSettings AllowColumnResizing="Disabled" />
+            </ig:XamGrid.ColumnResizingSettings>
+            <ig:XamGrid.Columns>
+
+                <ig:TextColumn Key="Company" HeaderText="{Binding Path=XWG_Customers_Company, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="ContactName" HeaderText="{Binding Path=XWG_Customers_ContactName, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="Country" HeaderText="{Binding Path=XWG_Customers_Country, Source={StaticResource Strings}}" />
+                    
+                <!-- #BEGIN SNIPPET# -->
+                <ig:SparklineColumn Key="Orders" ItemsSourcePath="Orders" 
+                                    LabelMemberPath="Freight" ValueMemberPath="Quantity"
+                                    HeaderText="{Binding Path=XWG_OrderDetails_Quantity, Source={StaticResource Strings}}" />
+                <!-- #END SNIPPET# -->
+            </ig:XamGrid.Columns>       
+        </ig:XamGrid>
+    </Grid>
+    </framework:SampleContainer>

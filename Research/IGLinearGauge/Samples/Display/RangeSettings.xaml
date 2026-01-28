@@ -1,0 +1,73 @@
+<framework:SampleContainer 
+    x:Class="IGLinearGauge.RangeSettings"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700" Title="SimpleData Page"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+    xmlns:res="clr-namespace:IGLinearGauge.Resources"   >
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGLinearGauge;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:LinearGaugeStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+    <Grid x:Name="LayoutRoot" Background="White"  >
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>          
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamLinearGauge MaxHeight="120"
+			               ScaleBrush="Transparent"
+                           x:Name="gauge"
+                           MinimumValue="-20"
+                           MaximumValue="60" 
+                           Value="58"   
+                           Interval="10"
+                           TickEndExtent="0.2"  
+                           MinorTickEndExtent="0.15"
+                           Title="{Binding Path=SaharaDesert, Source={StaticResource Strings}}"
+                           Subtitle="C&#186;"
+                           ShowToolTip="True"
+                           BackingStrokeThickness="0"
+                           FontFamily="{StaticResource FontFamily}" FontSize="{StaticResource FontSize}" >
+            <ig:XamLinearGauge.Ranges>
+                <ig:XamLinearGraphRange StartValue="-20"
+                                        EndValue="0"
+                                        Caption="{Binding Path=SaharaDesert_Cold, Source={StaticResource Strings}}"
+                                        Brush="#2E9CA6"
+                                        OuterStartExtent=".2"
+                                        OuterEndExtent=".3"/> 
+                <ig:XamLinearGraphRange StartValue="0"
+                                        EndValue="20"
+                                        Caption="{Binding Path=SaharaDesert_Mild, Source={StaticResource Strings}}"
+                                        Brush="#9FB328"
+                                        OuterStartExtent=".3"
+                                        OuterEndExtent=".4"/> 
+                <ig:XamLinearGraphRange StartValue="20"
+                                        EndValue="40"
+                                        Caption="{Binding Path=SaharaDesert_Warm, Source={StaticResource Strings}}"
+                                        Brush="#FF9800"
+                                        OuterStartExtent=".4"
+                                        OuterEndExtent=".5"/> 
+                <ig:XamLinearGraphRange StartValue="40"
+                                        EndValue="60"
+                                        Caption="{Binding Path=SaharaDesert_Hot, Source={StaticResource Strings}}"
+                                        Brush="#DC3F76"
+                                        OuterStartExtent=".5"
+                                        OuterEndExtent=".6"/>
+            </ig:XamLinearGauge.Ranges>
+        </ig:XamLinearGauge>
+        <!-- #END SNIPPET# --> 
+    <TextBlock Grid.Row="1"   
+               VerticalAlignment="Top"
+               TextWrapping="Wrap" 
+               Style="{StaticResource BodyStyle}"
+               Text="{Binding Path=SaharaDesert_Description, Source={StaticResource Strings}}"  /> 
+    </Grid> 
+</framework:SampleContainer> 

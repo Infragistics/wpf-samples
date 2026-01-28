@@ -1,0 +1,67 @@
+﻿<framework:SampleContainer x:Class="IGGantt.Samples.Styling.AdditionalContextMenu"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGGantt.Resources"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="Additional context menu">
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                
+                <ResourceDictionary Source="/IGGantt;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:GanttStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+    <Grid x:Name="LayoutRoot" Background="White" >
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamGantt x:Name="xamGantt" Project="{Binding}" >
+            <ig:XamGantt.ContextMenuProvider>
+                <ig:GanttContextMenuProvider>
+                    <ig:GanttContextMenuProvider.ResourceOverrides>
+                        <ResourceDictionary>
+                            <ig:XamContextMenu x:Key="TimescaleBandHeader" >
+                                <ig:XamMenuItem Header="{Binding Source={StaticResource Strings}, Path=TimescaleEllipsis}">
+                                    <ig:XamMenuItem.Icon>
+                                        <Image Source="/IGGantt;component/Images/timeline_marker32.png" />
+                                    </ig:XamMenuItem.Icon>
+                                </ig:XamMenuItem>
+                                <ig:XamMenuItem Header="{Binding Source={StaticResource Strings}, Path=ZoomEllipsis}" >
+                                    <ig:XamMenuItem.Icon>
+                                        <Image Source="/IGGantt;component/Images/zoom32.png" />
+                                    </ig:XamMenuItem.Icon>
+                                </ig:XamMenuItem>
+                                <ig:XamMenuItem Header="{Binding Source={StaticResource Strings}, Path=ChangeWorkingTimeEllipsis}">
+                                    <ig:XamMenuItem.Icon>
+                                        <Image Source="/IGGantt;component/Images/date32.png" />
+                                    </ig:XamMenuItem.Icon>
+                                </ig:XamMenuItem>
+                            </ig:XamContextMenu>
+                            <ig:XamContextMenu x:Key="TimescaleArea">
+                                <ig:XamMenuItem Header="{Binding Source={StaticResource Strings}, Path=NonWorkingTimeEllipsis}" />
+                                <ig:XamMenuItem Header="{Binding Source={StaticResource Strings}, Path=ShowTimeline}" />
+                                <ig:XamMenuItem Header="{Binding Source={StaticResource Strings}, Path=ShowSplit}" />
+                            </ig:XamContextMenu>
+                        </ResourceDictionary>
+                    </ig:GanttContextMenuProvider.ResourceOverrides>
+                </ig:GanttContextMenuProvider>
+            </ig:XamGantt.ContextMenuProvider>
+        </ig:XamGantt>
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel Canvas.ZIndex="100"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               Margin="10" 
+                               HeaderText="{Binding Source={StaticResource Strings}, Path=AdditionalContextMenu}">
+            <!-- if you copy/paste the code, you can replace OptionsPanel with a standard container of your choice - StackPanel, Grid, WrapPanel, DockPanel for example. -->
+            <!-- A minor adjustment in sample layout can be needed after this operation. -->
+            <TextBlock Text="{Binding Source={StaticResource Strings}, Path=AdditionalContextMenuDescription}" Margin="5" Width="180" TextWrapping="Wrap" />
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

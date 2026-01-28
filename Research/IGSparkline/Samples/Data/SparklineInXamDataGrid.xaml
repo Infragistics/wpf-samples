@@ -1,0 +1,79 @@
+﻿<framework:SampleContainer x:Class="IGSparkline.Samples.Data.SparklineInXamDataGrid"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:igDP="http://infragistics.com/DataPresenter"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+    xmlns:resCommon="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared"
+    xmlns:res="clr-namespace:IGSparkline.Resources"
+    xmlns:local="clr-namespace:IGSparkline.Converters"
+    xmlns:data="clr-namespace:IGSparkline.Model"
+    Title="SparklineInXamDataGrid Page">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSparkline;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <resCommon:CommonStrings x:Key="CommonStrings"/>
+            <res:SparklineStrings x:Key="SparklineStrings"/>
+            <local:SourceConverter x:Key="sourceConverter"/>
+            <data:DataUtil x:Key="data"/>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <!-- #BEGIN SNIPPET# -->
+        <igDP:XamDataGrid Name="dataGrid1" Grid.Column="1" DataSource="{Binding Source={StaticResource data},Path=CategoriesAndProducts}">
+            <igDP:XamDataGrid.FieldLayoutSettings>
+                <igDP:FieldLayoutSettings AutoGenerateFields="False"/>
+            </igDP:XamDataGrid.FieldLayoutSettings>
+            <igDP:XamDataGrid.FieldLayouts>
+                <igDP:FieldLayout>
+                    <igDP:TemplateField Name="Balance" BindingType="UseAlternateBinding" AlternateBinding="{Binding}" Converter="{StaticResource sourceConverter}">
+                        <igDP:TemplateField.Label>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{Binding XSL_Balance_Of, Source={StaticResource SparklineStrings}}" HorizontalAlignment="Center"/>
+                                <TextBlock Text="{Binding XSL_UnitsInStock_UnitsOnOrder, Source={StaticResource SparklineStrings}}" HorizontalAlignment="Stretch"/>
+                            </StackPanel>
+                        </igDP:TemplateField.Label>
+                        <igDP:TemplateField.DisplayTemplate>
+                            <DataTemplate>
+                                <ig:XamSparkline 
+                                x:Name="xamSparkline" 
+                                ItemsSource="{Binding}" 
+                                ValueMemberPath=""
+                                LabelMemberPath=""
+                                DisplayType="Column"
+                                HorizontalAlignment="Center"
+                                MinHeight="20" Height="Auto" Width="Auto"
+                                
+                                ToolTipVisibility="Visible"
+                                HorizontalAxisVisibility="Visible"
+                                VerticalAxisVisibility="Visible"
+                                
+                                MarkerVisibility="Visible"
+                                FirstMarkerVisibility="Visible"
+                                LastMarkerVisibility="Visible"
+                                NegativeMarkerVisibility="Visible"
+                                
+                                MarkerSize="2"
+                                FirstMarkerSize="2"
+                                LastMarkerSize="2"
+                                NegativeMarkerSize="2"
+                                />
+                            </DataTemplate>
+                        </igDP:TemplateField.DisplayTemplate>
+                    </igDP:TemplateField>
+                    <igDP:Field Name="CategoryID" />
+                    <igDP:Field Name="CategoryName" />
+                    <igDP:Field Name="Description" />
+                </igDP:FieldLayout>
+            </igDP:XamDataGrid.FieldLayouts>
+        </igDP:XamDataGrid>
+        <!-- #END SNIPPET# -->
+    </Grid>
+</framework:SampleContainer>

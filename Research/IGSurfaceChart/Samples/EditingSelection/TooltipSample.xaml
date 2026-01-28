@@ -1,0 +1,79 @@
+﻿<igs:SampleContainer x:Class="IGSurfaceChart.Samples.EditingSelection.TooltipSample"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:igs="http://schemas.infragistics.com/xaml/samples"
+             xmlns:res="clr-namespace:IGSurfaceChart.Resources"
+             xmlns:viewModel="clr-namespace:IGSurfaceChart.Samples.ViewModels"  
+             xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+             xmlns:local="clr-namespace:IGSurfaceChart.Samples.EditingSelection"
+             xmlns:ig="http://schemas.infragistics.com/xaml"             
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="700">
+
+    <igs:SampleContainer.DataContext>
+        <viewModel:BasicViewModel />
+    </igs:SampleContainer.DataContext>
+
+    <igs:SampleContainer.Resources>
+        <ResourceDictionary>
+            <res:SurfaceChartStrings x:Key="ChartStrings" />
+            <local:TooltipTextColorConverter x:Key="TooltipTextColorConverter" />
+            <SolidColorBrush x:Key="CustomCrosshairBrush" Color="#FF230D31"/>
+
+            <!-- #BEGIN SNIPPET# -->
+            <DataTemplate x:Key="CustomToolTipTemplate">
+                <Border BorderBrush="{StaticResource CustomTooltipBorderBrush}" BorderThickness="1" CornerRadius="2" Margin="20" Background="{StaticResource CustomTooltipBackground}" Opacity="0.8">
+                    <Grid Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="{Binding Source={StaticResource ChartStrings},Path=X_TooltipLabel}" Grid.Column="0" Grid.Row="0" Style="{StaticResource TooltipBoldText}" />
+                        <TextBlock Text="{Binding Location.X, StringFormat=N3}" Grid.Column="1" Grid.Row="0" Style="{StaticResource TooltipText}"  />
+                        <TextBlock Text="{Binding Source={StaticResource ChartStrings},Path=Y_TooltipLabel}" Grid.Column="0" Grid.Row="1" Style="{StaticResource TooltipBoldText}"/>
+                        <TextBlock Text="{Binding Location.Y, StringFormat=N3}" Grid.Column="1" Grid.Row="1" Style="{StaticResource TooltipText}"/>
+                        <TextBlock Text="{Binding Source={StaticResource ChartStrings},Path=Z_TooltipLabel}" Grid.Column="0" Grid.Row="2" Style="{StaticResource TooltipBoldText}"
+                                       Foreground="{Binding Location.Z, Converter={StaticResource TooltipTextColorConverter}}"/>
+                        <TextBlock Text="{Binding Location.Z, StringFormat=N3}" Grid.Column="1" Grid.Row="2" Style="{StaticResource TooltipText}" 
+                                       Foreground="{Binding Location.Z, Converter={StaticResource TooltipTextColorConverter}}"/>
+                    </Grid>
+                </Border>
+            </DataTemplate>
+            <!-- #END SNIPPET# -->
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSurfaceChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </igs:SampleContainer.Resources>
+
+    <Grid>
+        <ig:XamScatterSurface3D Name="SurfaceChart" ItemsSource="{Binding Path=Cone}" 
+                                XMemberPath="X" YMemberPath="Y" ZMemberPath="Z" CrosshairBrush="{StaticResource CustomCrosshairBrush}"
+                                SeriesColors="{StaticResource RedBlueColorsCollection}">
+            <ig:XamScatterSurface3D.XAxis>
+                <ig:LinearAxis Title="{Binding Source={StaticResource ChartStrings}, Path=XAxis}" />
+            </ig:XamScatterSurface3D.XAxis>
+            <ig:XamScatterSurface3D.YAxis>
+                <ig:LinearAxis Title="{Binding Source={StaticResource ChartStrings}, Path=YAxis}" />
+            </ig:XamScatterSurface3D.YAxis>
+            <ig:XamScatterSurface3D.ZAxis>
+                <ig:LinearAxis Title="{Binding Source={StaticResource ChartStrings}, Path=ZAxis}" />
+            </ig:XamScatterSurface3D.ZAxis>
+        </ig:XamScatterSurface3D>
+
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource ChartStrings}, Path=Configurations}"
+                               HorizontalAlignment="Right" VerticalAlignment="Top" >
+            <CheckBox Name="Tooltips_CheckBox" Content="{Binding Source={StaticResource ChartStrings}, Path=ApplyToolTipTemplate}"
+                      ContentTemplate="{StaticResource CheckBoxContentTemplate}" Style="{StaticResource IGCheckBoxStyle}"
+                      Checked="Tooltips_CheckBox_Checked" Unchecked="Tooltips_CheckBox_Unchecked" />
+        </controls:OptionsPanel>
+    </Grid>
+</igs:SampleContainer>

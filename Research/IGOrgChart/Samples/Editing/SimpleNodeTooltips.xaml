@@ -1,0 +1,61 @@
+﻿<framework:SampleContainer x:Class="IGOrgChart.Samples.Editing.SimpleNodeTooltips"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+    xmlns:res="clr-namespace:IGOrgChart.Resources"
+    xmlns:model="clr-namespace:IGOrgChart.Model"
+    mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <res:OrgChartStrings x:Key="Strings" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGOrgChart;component/Assets/Global.xaml" />
+                
+                
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Width="Auto">
+
+        <ig:XamOrgChart ItemsSource="{Binding Employees}">
+
+            <!--Set the data context of the OrgChart-->
+            <ig:XamOrgChart.DataContext>
+                <model:EmployeesModel />
+            </ig:XamOrgChart.DataContext>
+
+            <ig:XamOrgChart.GlobalNodeLayouts>
+                <!-- #BEGIN SNIPPET# -->
+                <!--Set the Tooltip Path to the desired property on the Data Source-->
+                <!--Use the Allow Tooltips property to toggle the visibility of the tooltips-->
+                <ig:OrgChartNodeLayout TargetTypeName="Employee"
+                                       DisplayMemberPath="JobTitle"
+                                       AllowToolTips="{Binding IsChecked, ElementName=CheckBoxAllowTooltips}"
+                                       ToolTipPath="{Binding SelectedItem.Value, ElementName=ComboBoxTooltipPath}" />
+                <!-- #END SNIPPET# -->
+            </ig:XamOrgChart.GlobalNodeLayouts>
+
+        </ig:XamOrgChart>
+
+        <!--Options panel with the tooltip settings-->
+        <controls:OptionsPanel HeaderText="{Binding OrgChart_TooltipSettings, Source={StaticResource Strings}}" 
+                               HorizontalAlignment="Right">
+            <StackPanel>
+                <!-- #BEGIN SNIPPET# -->
+                <!--Sets the AllowToolTips property of the OrgChart-->
+                <CheckBox x:Name="CheckBoxAllowTooltips" Content="{Binding OrgChart_AllowTooltips, Source={StaticResource Strings}}" IsChecked="True" Margin="{StaticResource OptionsElementsMargin}"/>
+                <TextBlock Text="{Binding OrgChart_TooltipPath, Source={StaticResource Strings}}" Margin="{StaticResource OptionsElementsMargin}"/>
+                <!--Sets the ToolTipPath for the tooltips-->
+                <ComboBox x:Name="ComboBoxTooltipPath" DisplayMemberPath="Key" />
+                <!-- #END SNIPPET# -->
+            </StackPanel>
+        </controls:OptionsPanel>
+
+    </Grid>
+</framework:SampleContainer>

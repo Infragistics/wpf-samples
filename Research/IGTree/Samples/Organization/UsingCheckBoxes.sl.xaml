@@ -1,0 +1,78 @@
+﻿<framework:SampleContainer x:Class="IGTree.Samples.Organization.UsingCheckBoxes"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="UsingCheckBoxes Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGTree.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGTree;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamTree.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <res:TreeStrings x:Key="TreeStrings" />
+
+            <!-- Options Panel Radio Button Style-->
+            <Style x:Key="OptionsPanelRadioStyle" TargetType="ListBoxItem">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ListBoxItem">
+                            <Grid Background="Transparent">
+                                <RadioButton IsHitTestVisible="False"   IsChecked="{TemplateBinding IsSelected}">
+                                    <ContentPresenter></ContentPresenter>
+                                </RadioButton>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Image Source="{Binding Source='Tree/TreeBg_Book.png', Converter={StaticResource getImageConverter}}"
+               HorizontalAlignment="Right"/>
+        <!--#BEGIN SNIPPET#-->
+        <ig:XamTree x:Name="dataTree" Background="Transparent" BorderThickness="0,0,0,0" HorizontalAlignment="Stretch"
+                    IsCheckBoxThreeState="True" CheckBoxVisibility="Visible">
+            <ig:XamTree.HierarchicalItemTemplate>
+                <ig:HierarchicalDataTemplate ItemsSource="{Binding Path=Chapters}">
+                    <ig:HierarchicalDataTemplate.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{Binding Source='Tree/PageIcon.png', Converter={StaticResource getImageConverter}}"
+                                       Width="16" Height="16" />
+                                <TextBlock Text="{Binding Path=Title}" Foreground="Gray" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ig:HierarchicalDataTemplate.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{Binding Source='Tree/BookIcon.png', Converter={StaticResource getImageConverter}}"
+                                   Width="16" Height="16" />
+                            <TextBlock Text="{Binding Path=Title}" FontWeight="Bold"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ig:HierarchicalDataTemplate>
+            </ig:XamTree.HierarchicalItemTemplate>
+        </ig:XamTree>
+        <!--#END SNIPPET#-->
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource TreeStrings}, Path=XWT_XAMLTree_UsingCheckBoxes}"
+                               Margin="400,80,0,0">
+            <CheckBox x:Name="EnableCheckBoxTriState"
+                      Content="{Binding Source={StaticResource TreeStrings}, Path=XWT_CheckBoxes_EnableTristate}"
+                      Click="EnableCheckBoxTriState_Click" Margin="3" />
+            <ListBox x:Name="lbCheckBoxMode" ItemContainerStyle="{StaticResource OptionsPanelRadioStyle}"
+                     SelectionChanged="lbCheckBoxMode_SelectionChanged" />
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

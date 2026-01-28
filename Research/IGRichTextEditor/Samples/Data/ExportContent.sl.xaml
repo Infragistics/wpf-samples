@@ -1,0 +1,56 @@
+﻿<framework:SampleContainer x:Class="IGRichTextEditor.Samples.Data.ExportContent"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGRichTextEditor.Resources"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="Export Content Page">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGRichTextEditor;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/IGRichTextEditor;component/Assets/Themes.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:RichTextEditorStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <ig:XamRichTextEditor x:Name="xamRichTextEditor1" Grid.Row="1" Margin="0,10,0,0" AllowDocumentViewSplitting="True"
+                              BorderThickness="1" BorderBrush="{StaticResource RichTextEditorBorderBrush}">
+            <ig:XamRichTextEditor.ClipboardSerializationProviders>
+                <ig:RtfSerializationProvider />
+                <ig:WordSerializationProvider />
+                <ig:HtmlSerializationProvider />
+            </ig:XamRichTextEditor.ClipboardSerializationProviders>
+        </ig:XamRichTextEditor>
+
+        <controls:OptionsPanel
+            HeaderText="{Binding ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}"
+            Margin="0,10,0,10" Grid.Row="0" IsMovable="False">
+            <StackPanel Orientation="Horizontal">
+                <!--#BEGIN SNIPPET#-->
+                <TextBlock Margin="0,5,10,0" Text="{Binding Path=lblSelectOutputFileType, Source={StaticResource Strings}}" />
+                <ComboBox x:Name="cb_lang" MinWidth="120">
+                    <ComboBoxItem Content="{Binding Path=Language_Text, Source={StaticResource Strings}}" Tag="TypeText" IsSelected="True" />
+                    <ComboBoxItem Content="{Binding Path=Language_Rtf, Source={StaticResource Strings}}" Tag="TypeRtf" />
+                    <ComboBoxItem Content="{Binding Path=Language_Docx, Source={StaticResource Strings}}" Tag="TypeDocx" />
+                    <ComboBoxItem Content="{Binding Path=Language_Html, Source={StaticResource Strings}}" Tag="TypeHtml" />
+                </ComboBox>
+                <Button Margin="10,0,0,0" Content="{Binding Path=btnExport, Source={StaticResource Strings}}" Click="Export_Click" />
+                <!--#END SNIPPET#-->
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

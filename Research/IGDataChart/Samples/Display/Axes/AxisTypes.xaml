@@ -1,0 +1,162 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Display.Axes.AxisTypes"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="AxisTypes Page"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+      xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <models:EnergyProductionModel x:Key="CategoryDataViewModel"/>
+            <models:StockMarketDataCollection x:Key="StockMarketData"/>
+            <models:ScatterDataRandomSample x:Key="ScatterData1"/>
+            <models:ScatterDataRandomSample x:Key="ScatterData2"/>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <ig:XamDataChart x:Name="ColumnChart" Grid.Row="0" Margin="0,0,20,20" 
+                         DataContext="{StaticResource CategoryDataViewModel}"
+                         IsHorizontalZoomEnabled="True" IsVerticalZoomEnabled="True">
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ========================================================================== -->
+            <!-- XamDataChart with CategoryXAxis and NumericYAxis -->
+            <!-- ========================================================================== -->
+            <ig:XamDataChart.Axes>
+                <ig:CategoryXAxis x:Name="ColumnCategoryXAxis"
+                                  ItemsSource="{Binding EnergyTop3Countries}"
+                                  Title="{Binding XWDC_AxisType_CategoryXAxis, Source={StaticResource Strings}}"
+                                  Label="{}{Country}">
+                </ig:CategoryXAxis>
+                <ig:NumericYAxis x:Name="ColumnNumericYAxis"
+                                 Title="{Binding XWDC_AxisType_NumericYAxis, Source={StaticResource Strings}}">
+                </ig:NumericYAxis>
+
+            </ig:XamDataChart.Axes>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+            <ig:XamDataChart.Series>
+                <ig:ColumnSeries ItemsSource="{Binding EnergyTop3Countries}" ValueMemberPath="Coal" 
+                                 XAxis="{Binding ElementName=ColumnCategoryXAxis}" 
+                                 YAxis="{Binding ElementName=ColumnNumericYAxis}" 
+                                 IsHighlightingEnabled="True" IsTransitionInEnabled="True">
+                </ig:ColumnSeries>
+                <ig:ColumnSeries ItemsSource="{Binding EnergyTop3Countries}" ValueMemberPath="Hydro" 
+                                 XAxis="{Binding ElementName=ColumnCategoryXAxis}" 
+                                 YAxis="{Binding ElementName=ColumnNumericYAxis}" 
+                                 IsHighlightingEnabled="True" IsTransitionInEnabled="True">
+                </ig:ColumnSeries>
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+        <ig:XamDataChart x:Name="FinancialChart" Grid.Row="1" Margin="0,0,20,0"
+                         IsHorizontalZoomEnabled="True" IsVerticalZoomEnabled="True"
+                         DataContext="{StaticResource StockMarketData}">
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ========================================================================== -->
+            <!-- XamDataChart with CategoryDateTimeXAxis and NumericYAxis -->
+            <!-- ========================================================================== -->
+            <ig:XamDataChart.Axes>
+                <ig:CategoryDateTimeXAxis x:Name="FinancialCategoryDateTimeXAxis"
+                                          ItemsSource="{Binding}"
+                                          Title="{Binding XWDC_AxisType_CategoryDateTimeXAxis, Source={StaticResource Strings}}"
+                                          Label="{}{Date:MMM}" Interval="30.0:0:0"
+                                          DateTimeMemberPath="Date"
+                                          DisplayType="Continuous">
+                </ig:CategoryDateTimeXAxis>
+                <ig:NumericYAxis x:Name="FinancialNumericYAxis" 
+                                 Title="{Binding XWDC_AxisType_NumericYAxis, Source={StaticResource Strings}}">
+                </ig:NumericYAxis>
+            </ig:XamDataChart.Axes>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+            <ig:XamDataChart.Series>
+                <ig:FinancialPriceSeries DisplayType="Candlestick"
+                                         OpenMemberPath="Open"
+                                         CloseMemberPath="Close"
+                                         HighMemberPath="High"
+                                         LowMemberPath="Low"
+                                         VolumeMemberPath="Volume"
+                                         ItemsSource="{Binding}"
+                                         XAxis="{Binding ElementName=FinancialCategoryDateTimeXAxis}"
+                                         YAxis="{Binding ElementName=FinancialNumericYAxis}"  
+                                         IsHighlightingEnabled="True" IsTransitionInEnabled="True"/>
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+        <ig:XamDataChart x:Name="BarChart" Grid.Row="0" Grid.Column="1" Margin="0,0,0,20" 
+                         DataContext="{StaticResource CategoryDataViewModel}"
+                         IsHorizontalZoomEnabled="True" IsVerticalZoomEnabled="True">
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ========================================================================== -->
+            <!-- XamDataChart with CategoryYAxis and NumericXAxis -->
+            <!-- ========================================================================== -->
+            <ig:XamDataChart.Axes>
+                <ig:NumericXAxis x:Name="BarXAxis" 
+                                 Title="{Binding XWDC_AxisType_NumericXAxis, Source={StaticResource Strings}}"/>
+                <ig:CategoryYAxis x:Name="BarYAxis" ItemsSource="{Binding EnergyTop3Countries}" 
+                                  Title="{Binding XWDC_AxisType_CategoryYAxis, Source={StaticResource Strings}}"
+                                  Label="{}{Country}" >
+                </ig:CategoryYAxis>
+            </ig:XamDataChart.Axes>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+            <ig:XamDataChart.Series>
+                <ig:BarSeries ItemsSource="{Binding EnergyTop3Countries}" ValueMemberPath="Coal" 
+                                 XAxis="{Binding ElementName=BarXAxis}" 
+                                 YAxis="{Binding ElementName=BarYAxis}" 
+                                 IsHighlightingEnabled="True" IsTransitionInEnabled="True">
+                </ig:BarSeries>
+                <ig:BarSeries ItemsSource="{Binding EnergyTop3Countries}" ValueMemberPath="Hydro" 
+                                 XAxis="{Binding ElementName=BarXAxis}" 
+                                 YAxis="{Binding ElementName=BarYAxis}" 
+                                 IsHighlightingEnabled="True" IsTransitionInEnabled="True">
+                </ig:BarSeries>
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+        <ig:XamDataChart x:Name="ScatterChart" Grid.Row="1" Grid.Column="1"    
+                         IsHorizontalZoomEnabled="True" IsVerticalZoomEnabled="True">
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ========================================================================== -->
+            <!-- XamDataChart with NumericXAxis and NumericYAxis -->
+            <!-- ========================================================================== -->
+            <ig:XamDataChart.Axes>
+                <ig:NumericXAxis x:Name="ScatterNumericXAxis" 
+                                 Title="{Binding XWDC_AxisType_NumericXAxis, Source={StaticResource Strings}}"
+                                 MinimumValue="0" MaximumValue="100">
+                </ig:NumericXAxis>
+                <ig:NumericYAxis x:Name="ScatterNumericYAxis" 
+                                 Title="{Binding XWDC_AxisType_NumericYAxis, Source={StaticResource Strings}}">
+                </ig:NumericYAxis>
+            </ig:XamDataChart.Axes>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+            <ig:XamDataChart.Series>
+                <ig:ScatterSeries ItemsSource="{StaticResource ScatterData1}" MarkerType="Circle" 
+                                  XMemberPath="X" YMemberPath="Y" 
+                                  XAxis="{Binding ElementName=ScatterNumericXAxis}" 
+                                  YAxis="{Binding ElementName=ScatterNumericYAxis}" />
+                <ig:ScatterSeries ItemsSource="{StaticResource ScatterData2}" MarkerType="Circle" 
+                                  XMemberPath="X" YMemberPath="Y" 
+                                  XAxis="{Binding ElementName=ScatterNumericXAxis}" 
+                                  YAxis="{Binding ElementName=ScatterNumericYAxis}" />
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+    </Grid>
+</igFramework:SampleContainer>

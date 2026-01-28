@@ -1,0 +1,83 @@
+﻿<framework:SampleContainer x:Class="IGOrgChart.Samples.Display.MaximumNodeDepth"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+    xmlns:model="clr-namespace:IGOrgChart.Model"
+    xmlns:res="clr-namespace:IGOrgChart.Resources"
+    mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>   
+            <res:OrgChartStrings x:Key="Strings" />		
+            <Style TargetType="TextBlock">
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGOrgChart;component/Assets/Global.xaml" />
+                
+                
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Width="Auto">
+
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamOrgChart x:Name="OrgChart" 
+                        ZoomLevel="1"
+                        ItemsSource="{Binding DepartmentGroups}"
+                        MaxDepth="{Binding ElementName=SliderMaxDepth, Path=Value}">
+        <!-- #END SNIPPET# -->
+            <!--Set the data context of the OrgChart-->
+            <ig:XamOrgChart.DataContext>       
+                <model:DepartmentModel />
+            </ig:XamOrgChart.DataContext>
+            <ig:XamOrgChart.GlobalNodeLayouts>
+                <!--Global Node Layouts-->
+                <ig:OrgChartNodeLayout TargetTypeName="DepartmentGroup"
+                                       DisplayMemberPath="GroupName" />
+
+                <ig:OrgChartNodeLayout TargetTypeName="Department"
+                                       DisplayMemberPath="DepartmentName" />
+
+                <ig:OrgChartNodeLayout TargetTypeName="EmployeePosition"
+                                       DisplayMemberPath="PositionName" />
+
+                <ig:OrgChartNodeLayout TargetTypeName="Employee"
+                                       DisplayMemberPath="FullName" />
+            </ig:XamOrgChart.GlobalNodeLayouts>
+        </ig:XamOrgChart>
+        
+        <!--Options Panel with the Depth properties-->
+        <controls:OptionsPanel HeaderText="{Binding OrgChart_NodeDepth, Source={StaticResource Strings}}"
+                               HorizontalAlignment="Right">
+            <Grid>
+                <Grid.ColumnDefinitions>
+				    <ColumnDefinition Width="135" />
+				    <ColumnDefinition Width="15" />
+			    </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="30" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="25" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding OrgChart_ActualNodeDepth, Source={StaticResource Strings}}" />
+                <!-- #BEGIN SNIPPET# -->
+                <!--Display the Actual Depth of the OrgChart's hierarchy-->
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding ActualDepth, ElementName=OrgChart}" Margin="{StaticResource OptionsTextLeftMargin}"/>
+                <!-- #END SNIPPET# -->
+				<TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding OrgChart_MaximumNodeDepth, Source={StaticResource Strings}}" 
+                           Grid.ColumnSpan="2" Style="{StaticResource OptionsPanelTitleStyle}" Margin="{StaticResource OptionsPanelTitleMargin}"/>
+			    <Slider Grid.Row="2" x:Name="SliderMaxDepth" Minimum="0" Maximum="6" Value="4" 
+                        ValueChanged="SliderMaxDepth_ValueChanged" VerticalAlignment="Center"/>
+			    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Value, ElementName=SliderMaxDepth, StringFormat=\{0:0\}}" 
+                           HorizontalAlignment="Center" VerticalAlignment="Center" Margin="{StaticResource OptionsTextLeftMargin}"/>
+            </Grid>
+        </controls:OptionsPanel>
+        
+    </Grid>
+</framework:SampleContainer>

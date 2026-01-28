@@ -1,0 +1,114 @@
+﻿<igFramework:SampleContainer x:Class="IGDataCarousel.Samples.Display.SettingItemsPerPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="SettingItemsPerPage Page"
+      Loaded="Page_Loaded"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:igWindows="http://infragistics.com/Windows"
+      xmlns:res="clr-namespace:IGDataCarousel.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataCarousel;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DataCarouselStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Path Fill="#FFFFFFFF"
+              Stretch="Fill"
+              Stroke="#FF000000"
+              Margin="16.5,15.5,-5.5,-5.5"
+              x:Name="customPath"
+              Grid.Row="1"
+              Data="M17,58 L405,347"
+              Visibility="Hidden" />
+        <Path Stretch="Fill"
+              Opacity="1"
+              Data="M 0,25.36566162109375 C0,25.36566162109375 141.962646484375,226.906494140625 294.37786865234375,342.4844970703125 451.28948974609375,461.47222900390625 677.327880859375,553 677.327880859375,553 677.327880859375,553 698,526.531494140625 698,526.531494140625 698,526.531494140625 549.7112426757812,321.82220458984375 394.5838623046875,200.57208251953125 236.191650390625,76.770263671875 19.810699462890625,0 19.810699462890625,0 19.810699462890625,0 0,25.36566162109375 0,25.36566162109375 z"
+              Grid.Row="1">
+            <Path.Fill>
+                <LinearGradientBrush StartPoint="0.10428980086799337,0.10700494859360872"
+                                     EndPoint="0.9316128181523101,0.9232092748714399">
+                    <LinearGradientBrush.GradientStops>
+                        <GradientStopCollection>
+                            <GradientStop Color="#FFffffff"
+                                          Offset="0" />
+                            <GradientStop Color="#00FDFDFD"
+                                          Offset="0.0055555556900799274" />
+                            <GradientStop Color="#29666666"
+                                          Offset="0.4555555582046509" />
+                            <GradientStop Color="#2b6A6A6A"
+                                          Offset="0.4722222089767456" />
+                            <GradientStop Color="#00ffffff"
+                                          Offset="0.9944444298744202" />
+                        </GradientStopCollection>
+                    </LinearGradientBrush.GradientStops>
+                </LinearGradientBrush>
+            </Path.Fill>
+        </Path>
+        <!-- #BEGIN SNIPPET# -->
+        <igDP:XamDataCarousel Grid.Row="1"
+                              x:Name="XamDataCarousel1"
+                              Theme="RoyalLight"
+                              GroupByAreaLocation="None">
+            <igDP:XamDataCarousel.ViewSettings>
+                <igWindows:CarouselViewSettings ItemsPerPage="10"
+                                                ItemPath="{Binding ElementName=customPath, Mode=OneWay}"
+                                                ItemPathAutoPad="False"
+                                                OpacityEffectStopDirection="UseItemPath"
+                                                ScalingEffectStopDirection="UseItemPath"
+                                                UseOpacity="True"
+                                                IsListContinuous="True"
+                                                ItemSize="150,120">
+                    <igWindows:CarouselViewSettings.OpacityEffectStops>
+                        <igWindows:OpacityEffectStopCollection>
+                            <igWindows:OpacityEffectStop />
+                            <igWindows:OpacityEffectStop Offset="0.5"
+                                                         Value="1" />
+                            <igWindows:OpacityEffectStop Offset="1" />
+                        </igWindows:OpacityEffectStopCollection>
+                    </igWindows:CarouselViewSettings.OpacityEffectStops>
+                    <igWindows:CarouselViewSettings.ScalingEffectStops>
+                        <igWindows:ScalingEffectStopCollection>
+                            <igWindows:ScalingEffectStop />
+                            <igWindows:ScalingEffectStop Offset="0.5"
+                                                         Value="1" />
+                            <igWindows:ScalingEffectStop Offset="1" />
+                        </igWindows:ScalingEffectStopCollection>
+                    </igWindows:CarouselViewSettings.ScalingEffectStops>
+                </igWindows:CarouselViewSettings>
+            </igDP:XamDataCarousel.ViewSettings>
+            <igDP:XamDataCarousel.FieldSettings>
+                <igDP:FieldSettings LabelClickAction="SortByOneFieldOnly" />
+            </igDP:XamDataCarousel.FieldSettings>
+        </igDP:XamDataCarousel>
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource CommonStrings}, Path=ConfigurationPanel_Header_Options}"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Top"
+                               Margin="50">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Source={StaticResource Strings}, Path=DataCarousel_SettingItemsPerPage_Label}"
+                           Margin="0,0,5,0"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                            />
+                <Slider Value="{Binding Path=(ViewSettings).ItemsPerPage, ElementName=XamDataCarousel1}"
+                        Grid.Row="0"
+                        Width="150"/>
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

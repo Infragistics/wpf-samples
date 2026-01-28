@@ -1,0 +1,91 @@
+﻿<framework:SampleContainer x:Class="IGOrgChart.Samples.Navigation.HighlightChildOrParentNodes"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+    xmlns:res="clr-namespace:IGOrgChart.Resources"
+    xmlns:model="clr-namespace:IGOrgChart.Model"
+    mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700"
+    Title="HighlightChildOrParentNodes Page">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>        
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGOrgChart;component/Assets/Global.xaml" />
+                
+                
+            </ResourceDictionary.MergedDictionaries> 
+            
+            <res:OrgChartStrings x:Key="Strings" />
+            
+            <SolidColorBrush x:Key="NodeBackgroundBrush1" Color="{StaticResource Color_022}"/>
+            <SolidColorBrush x:Key="NodeBorderBrush1" Color="#FFE0582D"/>
+            
+            <!--The style of the highlighted nodes-->
+            <Style x:Key="HighlightedStyle" TargetType="ig:OrgChartNodeControl" BasedOn="{StaticResource OrgChartNodeControlStyle}">
+                <Setter Property="Background" Value="{StaticResource NodeBackgroundBrush1}" />
+                <Setter Property="BorderBrush" Value="{StaticResource NodeBorderBrush1}" />
+                <Setter Property="Foreground" Value="{StaticResource ActiveForegroundBrush}" />
+            </Style>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Width="Auto">
+
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamOrgChart x:Name="OrgChart"
+                        ZoomLevel="1"
+                        ItemsSource="{Binding Employees}"
+                        SelectionType="Single"
+                        SelectedNodesCollectionChanged="OrgChart_SelectedNodesCollectionChanged">
+            
+            <!--Set the data context of the OrgChart-->
+            <ig:XamOrgChart.DataContext>
+                <model:SampleEmployeeModel />
+            </ig:XamOrgChart.DataContext>
+
+            <ig:XamOrgChart.GlobalNodeLayouts>
+                <!--Global Node Layouts-->
+                <ig:OrgChartNodeLayout TargetTypeName="Employee"
+                                       DisplayMemberPath="FullName" />
+            </ig:XamOrgChart.GlobalNodeLayouts>
+            
+        </ig:XamOrgChart>
+        <!-- #END SNIPPET# -->
+                
+        <controls:OptionsPanel HeaderText="{Binding OrgChart_HighlightNodes, Source={StaticResource Strings}}"
+                               HorizontalAlignment="Right">
+            <Grid>
+                <Grid.ColumnDefinitions>
+				    <ColumnDefinition Width="135" />
+				    <ColumnDefinition Width="15" />
+			    </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding OrgChart_Levels, Source={StaticResource Strings}}" 
+                           Style="{StaticResource OptionsPanelTitleStyle}" VerticalAlignment="Bottom" Margin="0"/>
+                <Slider Grid.Row="1" Grid.Column="0" x:Name="SliderLevels" Minimum="1" Value="3" Maximum="5" VerticalAlignment="Center" />
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Value, ElementName=SliderLevels, StringFormat=\{0:0\}}" 
+                           VerticalAlignment="Center" Margin="{StaticResource OptionsTextLeftMargin}"/>
+
+                <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" x:Name="ButtonHighlightParents" VerticalAlignment="Center"
+                        Content="{Binding OrgChart_HighlightParents, Source={StaticResource Strings}}" Click="HighlightParents_Click" />
+                <Button Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" x:Name="ButtonHighlightChildren" VerticalAlignment="Center"
+                        Content="{Binding OrgChart_HighlightChildren, Source={StaticResource Strings}}" Click="HighlightChildren_Click" />
+                <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" x:Name="ButtonClear" Click="Clear_Click" VerticalAlignment="Center"
+                        Content="{Binding OrgChart_Clear, Source={StaticResource Strings}}"/>
+                
+            </Grid>
+        </controls:OptionsPanel>
+
+    </Grid>
+</framework:SampleContainer>

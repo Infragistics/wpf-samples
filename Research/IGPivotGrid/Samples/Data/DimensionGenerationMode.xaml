@@ -1,0 +1,147 @@
+﻿<framework:SampleContainer x:Class="IGPivotGrid.Samples.Data.DimensionGenerationMode"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="DimensionGenerationMode Page"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igOlap="http://schemas.infragistics.com/olap"
+      xmlns:res="clr-namespace:IGPivotGrid.Resources"
+      xmlns:tools="clr-namespace:Infragistics.Samples.Shared.Tools;assembly=Infragistics.Samples.Shared">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGPivotGrid;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+
+            <res:PivotGridStrings x:Key="Strings" />
+
+            <!-- #BEGIN SNIPPET# -->
+            <igOlap:FlatDataConnectionSettings x:Key="FlatDataConnectionSettings" />
+
+            <igOlap:FlatDataSource x:Key="flatDataSourceProperty"
+                                   DimensionsGenerationMode="Property"
+                                   ConnectionSettings="{StaticResource FlatDataConnectionSettings}">
+                <igOlap:FlatDataSource.CubesSettings>
+                    <igOlap:CubeMetadata
+                        DataTypeFullName="IGPivotGrid.Samples.Controls.Sale"
+                        DisplayName="{tools:ObjectValue DataObject={StaticResource Strings}, PropertyName=XPG_Sales}">
+                        <igOlap:CubeMetadata.DimensionSettings>
+                            <igOlap:DimensionMetadata SourcePropertyName="Product"
+                                                      DisplayName="{tools:ObjectValue DataObject={StaticResource Strings}, PropertyName=XPG_SalesMetadata}">
+                                <igOlap:DimensionMetadata.HierarchyDescriptors>
+                                    <igOlap:HierarchyDescriptor HierarchyName="Sale Meta">
+                                        <igOlap:HierarchyDescriptor.LevelDescriptors>
+                                            <igOlap:HierarchyLevelDescriptor LevelName="{tools:ObjectValue DataObject={StaticResource Strings}, PropertyName=XPG_LiveUpdate_AllSales}"/>
+                                            <igOlap:HierarchyLevelDescriptor LevelName="{tools:ObjectValue DataObject={StaticResource Strings}, PropertyName=XPG_Sellers}"
+                                                                             LevelExpressionPath="Seller.Name"/>
+                                            <igOlap:HierarchyLevelDescriptor LevelName="{tools:ObjectValue DataObject={StaticResource Strings}, PropertyName=XPG_Cities}"
+                                                                             LevelExpressionPath="City"/>
+                                            <igOlap:HierarchyLevelDescriptor LevelName="{tools:ObjectValue DataObject={StaticResource Strings}, PropertyName=XPG_Products}"
+                                                                             LevelExpressionPath="Product.Name"/>
+                                        </igOlap:HierarchyDescriptor.LevelDescriptors>
+                                    </igOlap:HierarchyDescriptor>
+                                </igOlap:DimensionMetadata.HierarchyDescriptors>
+                            </igOlap:DimensionMetadata>
+                        </igOlap:CubeMetadata.DimensionSettings>
+                    </igOlap:CubeMetadata>
+                </igOlap:FlatDataSource.CubesSettings>
+            </igOlap:FlatDataSource>
+
+            <igOlap:FlatDataSource x:Key="flatDataSourceMetadata"
+                                   DimensionsGenerationMode="Metadata"
+                                   ConnectionSettings="{StaticResource FlatDataConnectionSettings}">
+                <igOlap:FlatDataSource.CubesSettings>
+                    <igOlap:CubeMetadata
+                        DataTypeFullName="IGPivotGrid.Samples.Controls.Sale"
+                        DisplayName="{tools:ObjectValue DataObject={StaticResource Strings}, PropertyName=XPG_Sales}">
+                        <igOlap:CubeMetadata.DimensionSettings>
+                            <igOlap:DimensionMetadata SourcePropertyName="Product"
+                                                      DisplayName="{tools:ObjectValue DataObject={StaticResource Strings}, PropertyName=XPG_SalesMetadata}"
+                                                      DimensionType="Dimension">
+                                <igOlap:DimensionMetadata.HierarchyDescriptors>
+                                    <igOlap:HierarchyDescriptor HierarchyName="Sale Meta">
+                                        <igOlap:HierarchyDescriptor.LevelDescriptors>
+                                            <igOlap:HierarchyLevelDescriptor LevelName="{tools:ObjectValue DataObject={StaticResource Strings}, PropertyName=XPG_LiveUpdate_AllSales}"/>
+                                            <igOlap:HierarchyLevelDescriptor LevelName="{tools:ObjectValue DataObject={StaticResource Strings}, PropertyName=XPG_Sellers}"
+                                                                             LevelExpressionPath="Seller.Name"/>
+                                            <igOlap:HierarchyLevelDescriptor LevelName="{tools:ObjectValue DataObject={StaticResource Strings}, PropertyName=XPG_Cities}"
+                                                                             LevelExpressionPath="City"/>
+                                            <igOlap:HierarchyLevelDescriptor LevelName="{tools:ObjectValue DataObject={StaticResource Strings}, PropertyName=XPG_Products}"
+                                                                             LevelExpressionPath="Product.Name"/>
+                                        </igOlap:HierarchyDescriptor.LevelDescriptors>
+                                    </igOlap:HierarchyDescriptor>
+                                </igOlap:DimensionMetadata.HierarchyDescriptors>
+                            </igOlap:DimensionMetadata>
+                        </igOlap:CubeMetadata.DimensionSettings>
+                    </igOlap:CubeMetadata>
+                </igOlap:FlatDataSource.CubesSettings>
+            </igOlap:FlatDataSource>
+
+            <igOlap:FlatDataSource x:Key="flatDataSourceMixed"
+                                   DimensionsGenerationMode="Mixed"
+                                   ConnectionSettings="{StaticResource FlatDataConnectionSettings}">
+                <igOlap:FlatDataSource.CubesSettings>
+                    <igOlap:CubeMetadata
+                        DataTypeFullName="IGPivotGrid.Samples.Controls.Sale"
+                        DisplayName="{tools:ObjectValue DataObject={StaticResource Strings}, PropertyName=XPG_Sales}">
+                        <igOlap:CubeMetadata.DimensionSettings>
+                            <igOlap:DimensionMetadata SourcePropertyName="Product"
+                                                      DisplayName="{tools:ObjectValue DataObject={StaticResource Strings}, PropertyName=XPG_SalesMetadata}">
+                                <igOlap:DimensionMetadata.HierarchyDescriptors>
+                                    <igOlap:HierarchyDescriptor HierarchyName="Sale Meta">
+                                        <igOlap:HierarchyDescriptor.LevelDescriptors>
+                                            <igOlap:HierarchyLevelDescriptor LevelName="{tools:ObjectValue DataObject={StaticResource Strings}, PropertyName=XPG_LiveUpdate_AllSales}"/>
+                                            <igOlap:HierarchyLevelDescriptor LevelName="{tools:ObjectValue DataObject={StaticResource Strings}, PropertyName=XPG_Sellers}"
+                                                                             LevelExpressionPath="Seller.Name"/>
+                                            <igOlap:HierarchyLevelDescriptor LevelName="{tools:ObjectValue DataObject={StaticResource Strings}, PropertyName=XPG_Cities}"
+                                                                             LevelExpressionPath="City"/>
+                                            <igOlap:HierarchyLevelDescriptor LevelName="{tools:ObjectValue DataObject={StaticResource Strings}, PropertyName=XPG_Products}"
+                                                                             LevelExpressionPath="Product.Name"/>
+                                        </igOlap:HierarchyDescriptor.LevelDescriptors>
+                                    </igOlap:HierarchyDescriptor>
+                                </igOlap:DimensionMetadata.HierarchyDescriptors>
+                            </igOlap:DimensionMetadata>
+                        </igOlap:CubeMetadata.DimensionSettings>
+                    </igOlap:CubeMetadata>
+                </igOlap:FlatDataSource.CubesSettings>
+            </igOlap:FlatDataSource>
+            <!-- #END SNIPPET# -->
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="{Binding Path=XPG_DGM_Property, Source={StaticResource Strings}}"
+                       HorizontalAlignment="Center" Style="{StaticResource SamplesTitleStyle}"/>
+        <TextBlock Text="{Binding Path=XPG_DGM_Metadata, Source={StaticResource Strings}}" 
+                       HorizontalAlignment="Center"
+                       Grid.Column="1" Style="{StaticResource SamplesTitleStyle}"/>
+        <TextBlock Text="{Binding Path=XPG_DGM_Mixed, Source={StaticResource Strings}}"
+                       HorizontalAlignment="Center"
+                       Grid.Column="2" Style="{StaticResource SamplesTitleStyle}"/>
+        <ig:XamPivotDataSelector x:Name="dataSelectorProperty"
+                                 DataSource="{StaticResource flatDataSourceProperty}"
+                                 Grid.Row="1"/>
+        <ig:XamPivotDataSelector x:Name="dataSelectorMetadata"
+                                 DataSource="{StaticResource flatDataSourceMetadata}"
+                                 Grid.Row="1" Grid.Column="1"/>
+        <ig:XamPivotDataSelector x:Name="dataSelectorMixed"
+                                 DataSource="{StaticResource flatDataSourceMixed}"
+                                 Grid.Row="1" Grid.Column="2"/>
+    </Grid>
+</framework:SampleContainer>

@@ -1,0 +1,245 @@
+﻿<UserControl x:Class="Infragistics.SamplesBrowser.Controls.SearchControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             xmlns:local="clr-namespace:Infragistics.SamplesBrowser.Controls"
+             xmlns:res="clr-namespace:Infragistics.SamplesBrowser.Properties"
+             x:Name="searchControl">
+
+    <UserControl.Resources>
+        <res:Resources x:Key="Strings"/>
+
+        <Style x:Key="SearchButton" BasedOn="{x:Null}" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Path x:Name="MagnifyGlass" Opacity="1" Fill="{TemplateBinding Background}" Stretch="Fill" Data="M 2,4.5 C2,3.1192626953125 3.1192703247070312,2 4.5,2 5.880729675292969,2 7,3.1192626953125 7,4.5 7,5.8807373046875 5.880729675292969,7 4.5,7 3.1192703247070312,7 2,5.8807373046875 2,4.5 zM 0,4.5 C0,6.985321044921875 2.0146865844726562,9 4.5,9 5.189800262451172,9 5.841176986694336,8.847190856933594 6.424999237060547,8.569999694824219 6.472402572631836,8.676193237304688 6.537296295166016,8.769271850585938 6.6165008544921875,8.848480224609375 6.6165008544921875,8.848480224609375 9.784927368164062,11.937515258789062 9.784927368164062,11.937515258789062 10.315261840820312,12.46783447265625 11.135662078857422,12.708084106445312 11.90625,11.9375 12.676837921142578,11.166915893554688 12.436580657958984,10.346511840820312 11.90625,9.816192626953125 11.90625,9.816192626953125 8.73781967163086,6.7271575927734375 8.73781967163086,6.7271575927734375 8.670049667358398,6.659385681152344 8.588081359863281,6.6044464111328125 8.5,6.55999755859375 8.818031311035156,5.9430084228515625 9,5.2419586181640625 9,4.5 9,2.014678955078125 6.985313415527344,0 4.5,0 2.0146865844726562,0 0,2.014678955078125 0,4.5 z" />
+                            <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" RecognizesAccessKey="True" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True" />
+                            <Trigger Property="IsDefaulted" Value="True" />
+                            <Trigger Property="IsMouseOver" Value="True" />
+                            <Trigger Property="IsPressed" Value="True" />
+                            <Trigger Property="IsEnabled" Value="False" />
+                            <DataTrigger Binding="{Binding ElementName=searchControl, Path=IsSearchAreaActive}" Value="True">
+                                <Setter Property="Fill" TargetName="MagnifyGlass" Value="#59000000" />
+                            </DataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=searchControl, Path=IsSearchAreaActive}" Value="True">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.2000000" Value="1" />
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.2000000" Value="0.35" />
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.ExitActions>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ClearSearchButton" BasedOn="{x:Null}" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <ControlTemplate.Resources>
+                            <Storyboard x:Key="MouseOver">
+                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="path" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.2000000" Value="1" />
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                            <Storyboard x:Key="SearchActive">
+                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="path" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.2000000" Value=".75" />
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </ControlTemplate.Resources>
+                        <Grid Background="#00FFFFFF" x:Name="grid">
+                            <Path Opacity="0.715" Fill="#FF5B5B5B" Stretch="Fill" Data="M 263.2426452636719,119.75736236572266 C262.85211181640625,119.36682891845703 262.2189636230469,119.36682891845703 261.82843017578125,119.75736236572266 261.82843017578125,119.75736236572266 259,122.58499908447266 259,122.58499908447266 259,122.58499908447266 256.17156982421875,119.75736236572266 256.17156982421875,119.75736236572266 255.78103637695312,119.36682891845703 255.14788818359375,119.36682891845703 254.75735473632812,119.75736236572266 254.36683654785156,120.14788818359375 254.36683654785156,120.78104400634766 254.75735473632812,121.17156982421875 254.75735473632812,121.17156982421875 257.5849914550781,124 257.5849914550781,124 257.5849914550781,124 254.75735473632812,126.82843017578125 254.75735473632812,126.82843017578125 254.36683654785156,127.21896362304688 254.36683654785156,127.85211181640625 254.75735473632812,128.24264526367188 255.14788818359375,128.63316345214844 255.78103637695312,128.63316345214844 256.17156982421875,128.24264526367188 256.17156982421875,128.24264526367188 259,125.41500091552734 259,125.41500091552734 259,125.41500091552734 261.82843017578125,128.24264526367188 261.82843017578125,128.24264526367188 262.2189636230469,128.63316345214844 262.85211181640625,128.63316345214844 263.2426452636719,128.24264526367188 263.6331787109375,127.85211181640625 263.6331787109375,127.21896362304688 263.2426452636719,126.82843017578125 263.2426452636719,126.82843017578125 260.4150085449219,124 260.4150085449219,124 260.4150085449219,124 263.2426452636719,121.17156982421875 263.2426452636719,121.17156982421875 263.6331787109375,120.78104400634766 263.6331787109375,120.14788818359375 263.2426452636719,119.75736236572266 z" x:Name="path" Margin="3,3,3,3" />
+                            <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" RecognizesAccessKey="True" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True" />
+                            <Trigger Property="IsDefaulted" Value="True" />
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Trigger.ExitActions>
+                                    <StopStoryboard BeginStoryboardName="MouseOver_BeginStoryboard" />
+                                </Trigger.ExitActions>
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard Storyboard="{StaticResource MouseOver}" x:Name="MouseOver_BeginStoryboard" />
+                                </Trigger.EnterActions>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True" />
+                            <Trigger Property="IsEnabled" Value="False" />
+
+                            <DataTrigger Binding="{Binding ElementName=searchControl, Path=IsSearchAreaActive}" Value="True">
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                                <SplineDoubleKeyFrame KeyTime="00:00:00.2000000" Value=".75" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.EnterActions>
+                                <DataTrigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                                <SplineDoubleKeyFrame KeyTime="00:00:00.2000000" Value="0.35" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.ExitActions>
+                            </DataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="EnterSearchMessageStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+            <Setter Property="Opacity" Value="0.6"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=searchControl, Path=IsSearchAreaActive}" Value="True">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="NoResultsMessageStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource EnterSearchMessageStyle}">
+            <Setter Property="Foreground" Value="{StaticResource SearchBoxNoResultsForegroundBrush}"/>
+        </Style>
+
+
+        <Style x:Key="SearchBoxBackgroundStyle" TargetType="{x:Type Rectangle}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=searchControl, Path=IsSearchAreaActive}" Value="True">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)">
+                                    <SplineColorKeyFrame KeyTime="00:00:00.2000000" Value="#FFF7F7F7" />
+                                </ColorAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)">
+                                    <SplineColorKeyFrame KeyTime="00:00:00.2000000" Value="White" />
+                                </ColorAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.ExitActions>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+
+        <Style x:Key="SearchTextBox" TargetType="{x:Type TextBox}">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+            <Setter Property="BorderThickness" Value="0,0,0,0" />
+            <Setter Property="Background" Value="{x:Null}"/>
+            <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="Padding" Value="2" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="AllowDrop" Value="true" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border x:Name="Bd" SnapsToDevicePixels="true" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="Disabled"/>
+                                    <VisualState x:Name="ReadOnly"/>
+                                    <VisualState x:Name="MouseOver"/>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="FocusStates">
+                                    <VisualState x:Name="Unfocused"/>
+                                    <VisualState x:Name="Focused"/>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="ValidationStates">
+                                    <VisualState x:Name="Valid"/>
+                                    <VisualState x:Name="InvalidFocused"/>
+                                    <VisualState x:Name="InvalidUnfocused"/>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Style="{DynamicResource IGScrollViewerStyle}" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Opacity" TargetName="Bd" Value="0.3" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Storyboard x:Key="NoSearchResult">
+            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="RedBackground" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <SplineDoubleKeyFrame KeyTime="00:00:00" Value="0" />
+                <SplineDoubleKeyFrame KeyTime="00:00:00.4000000" Value="0.75" />
+                <SplineDoubleKeyFrame KeyTime="00:00:00.9000000" Value="0" />
+            </DoubleAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="RedBackground" Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+                <DiscreteObjectKeyFrame KeyTime="00:00:00.9000000" Value="{x:Static Visibility.Collapsed}" />
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="searchTextBox" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <DiscreteDoubleKeyFrame KeyTime="00:00:00" Value="0" />
+                <DiscreteDoubleKeyFrame KeyTime="00:00:00.9000000" Value="1" />
+            </DoubleAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="SearchButton" Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}" />
+                <DiscreteObjectKeyFrame KeyTime="00:00:00.9000000" Value="{x:Static Visibility.Visible}" />
+            </ObjectAnimationUsingKeyFrames>
+        </Storyboard>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Rectangle x:FieldModifier="private" x:Name="SearchBoxBackground" Fill="{StaticResource SearchBoxBackgroundBrush}" Grid.ColumnSpan="3" HorizontalAlignment="Stretch"  Stroke="{x:Null}" Style="{StaticResource SearchBoxBackgroundStyle}" Width="Auto" Height="46"/>
+        <TextBox x:FieldModifier="private" x:Name="searchTextBox" Grid.Column="1" Height="Auto" HorizontalAlignment="Stretch" Margin="1,0,0,0" Style="{DynamicResource SearchTextBox}" SelectionBrush="{StaticResource TextBoxFocusedBrush}" Text="{Binding Path=SearchText, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" />
+        <TextBlock x:FieldModifier="private" x:Name="enterSearchMessage" Grid.Column="1" IsHitTestVisible="False" Margin="6,0,0,0" Style="{StaticResource EnterSearchMessageStyle}" Text="{Binding Source={StaticResource Strings}, Path=SearchControl_TextBox_EnterSearch}" VerticalAlignment="Center"/>
+        <Border x:FieldModifier="private" x:Name="RedBackground" Grid.Column="1" Background="{StaticResource SearchBoxBackgroundBrush}" HorizontalAlignment="Stretch" BorderBrush="{x:Null}" Width="Auto" Height="18" Grid.ColumnSpan="2" Opacity="0" Visibility="Collapsed">
+            <TextBlock Style="{StaticResource NoResultsMessageStyle}" Margin="6,0,0,0" IsHitTestVisible="False" Opacity="1" Text="{Binding Source={StaticResource Strings}, Path=SearchControl_TextBox_NoMatchingSamples}" TextAlignment="Center" VerticalAlignment="Center" Width="Auto" Height="Auto" HorizontalAlignment="Left" Visibility="Visible"/>
+        </Border>
+        <Button x:FieldModifier="private" x:Name="SearchButton" Command="{Binding Path=SearchCommand, Mode=OneTime}" Focusable="False" IsDefault="True" Margin="13,0,3,0" Opacity="0.35" Style="{DynamicResource SearchButton}" Width="12" Height="12" Background="Black" Cursor="Hand" />
+        <Button x:FieldModifier="private" x:Name="clearSearchButton" Grid.Column="2" Command="{Binding Path=ClearSearchCommand, Mode=OneTime}" Focusable="False" Margin="5,0,8,0" Opacity="1" Style="{DynamicResource ClearSearchButton}" Width="16" Height="16" Cursor="Hand" />
+    </Grid>
+</UserControl>

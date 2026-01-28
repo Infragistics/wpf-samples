@@ -1,0 +1,61 @@
+﻿<igSamples:SampleContainer x:Class="IGBusyIndicator.Samples.Display.ReportingProgress"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:ig="http://schemas.infragistics.com/xaml"
+             xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+             xmlns:igDP="http://infragistics.com/DataPresenter"
+             xmlns:igSamples="http://schemas.infragistics.com/xaml/samples"
+             xmlns:localResources="clr-namespace:IGBusyIndicator.Resources"
+             xmlns:data="clr-namespace:IGBusyIndicator.Samples.DataProviders"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="700">
+    
+    <igSamples:SampleContainer.Resources>
+        <ResourceDictionary> 
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGBusyIndicator;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <localResources:BusyIndicatorStrings x:Key="Strings" />
+            <Style x:Key="BusyAnimationsStyle" TargetType="igPrim:BusyAnimationPresenter" >
+                <Setter Property="Height" Value="80" />
+                <Setter Property="Width" Value="80" />
+            </Style>
+            <Style TargetType="igPrim:ProgressRingBusyAnimationPresenter" BasedOn="{StaticResource BusyAnimationsStyle}" >
+                <Setter Property="Background" Value="Transparent" /> 
+                <Setter Property="Foreground" Value="Black" />
+            </Style>
+        </ResourceDictionary>
+    </igSamples:SampleContainer.Resources>
+    
+    <igSamples:SampleContainer.DataContext>
+        <data:OrdersDataProvider />
+    </igSamples:SampleContainer.DataContext>
+    
+    <Grid>
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamBusyIndicator x:Name="BusyIndicator" IsBusy="{Binding Path=IsInProgress}"
+                             IsIndeterminate="False" ProgressValue="{Binding Path=CurrentProgress}"
+                             Animation="ProgressRing">        
+        <!-- #END SNIPPET# -->
+            <igDP:XamDataGrid x:Name="dataGrid" DataSource="{Binding Path=Orders}">
+                <igDP:XamDataGrid.FieldLayoutSettings>
+                    <igDP:FieldLayoutSettings AutoGenerateFields="False" RecordSelectorNumberType="RecordIndex"/>
+                </igDP:XamDataGrid.FieldLayoutSettings>
+                <igDP:XamDataGrid.FieldSettings>
+                    <igDP:FieldSettings AllowSorting="False" Width="*" />
+                </igDP:XamDataGrid.FieldSettings>
+                <igDP:XamDataGrid.FieldLayouts>
+                    <igDP:FieldLayout>
+                        <igDP:TextField Name="OrderNumber" Label="{Binding Path=OrderNumber, Source={StaticResource Strings}}"/>
+                        <igDP:TextField Name="SalesPrice" Label="{Binding Path=Price, Source={StaticResource Strings}}" Format="{}{0:C}"/>
+                        <igDP:TextField Name="Quantity" Label="{Binding Path=Quanity, Source={StaticResource Strings}}"/>
+                        <igDP:TextField Name="Total" Label="{Binding Path=Total, Source={StaticResource Strings}}" Format="{}{0:C}"/>
+                    </igDP:FieldLayout>
+                </igDP:XamDataGrid.FieldLayouts>
+            </igDP:XamDataGrid>
+        </ig:XamBusyIndicator>
+    </Grid>
+</igSamples:SampleContainer>

@@ -1,0 +1,143 @@
+﻿<framework:SampleContainer x:Class="IGBarcode.Samples.Styling.BarcodeStyling"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="BarcodeStyling"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGBarcode.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGBarcode;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:BarcodeStrings x:Key="Strings" />
+            <converters:SelectedIndexToDataConverter x:Key="IndexToDataConverter" />
+
+            <!-- #BEGIN SNIPPET# -->
+            <!--XamBarcode style-->
+            <Style x:Key="XamBarcodeStyle" TargetType="ig:XamCode39Barcode">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ig:XamGridBarcode">
+                            <Grid x:Name="RootGrid">
+                                <Grid.RenderTransform>
+                                    <ScaleTransform />
+                                </Grid.RenderTransform>
+
+                                <!--Visual States-->
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Pressed">
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" Storyboard.TargetName="RootGrid" d:IsOptimized="True" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="MouseOver"/>
+                                        <VisualState x:Name="Disabled" />
+                                        <VisualState x:Name="Normal" />
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="GroupBarcode">
+                                        <VisualStateGroup.Transitions>
+                                            <VisualTransition From="InvalidBarcode" GeneratedDuration="0:0:0.5" To="ValidBarcode" />
+                                        </VisualStateGroup.Transitions>
+                                        <VisualState x:Name="InvalidBarcode">
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="0:0:0.5" To="1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="ErrorImage" d:IsOptimized="True">
+                                                    <DoubleAnimation.EasingFunction>
+                                                        <CircleEase EasingMode="EaseIn" />
+                                                    </DoubleAnimation.EasingFunction>
+                                                </DoubleAnimation>
+                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="ErrorOverlay">
+                                                    <SplineDoubleKeyFrame KeyTime="0:0:0.5" Value="1" />
+                                                </DoubleAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="ValidBarcode" />
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+
+                                <!--Background Element-->
+                                <Rectangle x:Name="Background" Stroke="#FF838383" StrokeThickness=".5" Fill="White" />
+
+                                <!--The Barcode Grid-->
+                                <ig:BarcodeGrid x:Name="BarcodeGrid" Margin="5" />
+
+                                <!--The Scente Element-->
+                                <Grid x:Name="Scene" Height="85" VerticalAlignment="Top">
+                                    <Path x:Name="OceanScene" HorizontalAlignment="Center" Width="190" Fill="White" UseLayoutRounding="False" Margin="0,5,0,0" Height="80">
+                                        <Path.Data>
+                                            <GeometryGroup>
+                                                <PathGeometry>
+                                                    <!-- __________   The dots represent-->
+                                                    <!--|          |  the anchor points-->
+                                                    <!--|__.____.__|  for the BezierSegment-->
+                                                    <!--|__________|  which represents the wave-->
+                                                    <PathFigure StartPoint="0, 0">
+                                                        <!--Left line-->
+                                                        <LineSegment Point="0, 75" />
+
+                                                        <!--Wave-->
+                                                        <BezierSegment x:Name="BezierSegment" Point3="190, 75" />
+
+                                                        <!--Right line-->
+                                                        <LineSegment Point="190, 0" />
+
+                                                        <!--Top line-->
+                                                        <LineSegment Point="0, 0" />
+                                                    </PathFigure>
+                                                </PathGeometry>
+                                            </GeometryGroup>
+                                        </Path.Data>
+                                    </Path>
+                                    <Border x:Name="SkyScene" BorderThickness="0.5,0.5,0.5,0">
+                                        <Border.Background>
+                                            <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                                                <GradientStop Color="#000099FF" Offset="1" />
+                                                <GradientStop Color="#990099FF"/>
+                                            </LinearGradientBrush>
+                                        </Border.Background>
+                                    </Border>
+                                </Grid>
+
+                                <!--The Error Grid-->
+                                <Grid>
+                                    <Rectangle x:Name="ErrorOverlay" Stroke="{StaticResource ValidationErrorElement}" StrokeThickness=".5" Fill="{StaticResource ValidationErrorElement}" Opacity="0" />
+                                    <Image x:Name="ErrorImage" Source="/IGBarcode;component/Images/exclamation.png" Width="16" Height="16" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,3,3" Opacity="0" />
+                                    <TextBlock x:Name="ErrorTextBlock" TextWrapping="Wrap" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource LightForegroundBrush}" Margin="20"/>
+                                </Grid>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <!-- #END SNIPPET# -->
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <controls:OptionsPanel HeaderText="{Binding XWB_BarcodeData, Source={StaticResource Strings}}" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0">
+            <ListBox x:Name="ListBoxDataSources" SelectedIndex="0" VerticalAlignment="Top">
+                <ListBoxItem Content="{Binding XWB_ValidData, Source={StaticResource Strings}}" />
+                <ListBoxItem Content="{Binding XWB_InvalidData, Source={StaticResource Strings}}" />
+            </ListBox>
+        </controls:OptionsPanel>
+
+        <!-- #BEGIN SNIPPET# -->
+        <!--XamBarcod -->
+        <ig:XamCode39Barcode x:Name="xamCode39Barcode" Width="200" Height="200" Stretch="Fill"
+                             Data="{Binding ElementName=ListBoxDataSources, Path=SelectedIndex, Converter={StaticResource IndexToDataConverter}}"
+                             RenderTransformOrigin="0.5,0.5" Style="{StaticResource XamBarcodeStyle}"
+                             HorizontalAlignment="Center" VerticalAlignment="Center">
+        </ig:XamCode39Barcode>
+        <!-- #END SNIPPET# -->
+    </Grid>
+</framework:SampleContainer>

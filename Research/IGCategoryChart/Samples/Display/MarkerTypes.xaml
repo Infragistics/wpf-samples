@@ -1,0 +1,38 @@
+﻿<igFramework:SampleContainer x:Class="IGCategoryChart.Samples.Data.MarkerTypes"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IGCategoryChart.Samples.Data"
+             xmlns:ig="http://schemas.infragistics.com/xaml"
+             xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+             xmlns:resources="clr-namespace:IGCategoryChart.Resources"
+             xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+              xmlns:igWPF="http://schemas.infragistics.com/xaml/wpf"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="400">
+    <Grid>
+
+        <Grid.Resources>
+            <resources:CategoryChartStrings x:Key="Strings"/>
+           
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <!--#BEGIN SNIPPET#-->
+        <StackPanel Orientation="Horizontal" Margin="{StaticResource SampleInnerNavigationPadding}" HorizontalAlignment="Left">
+            <TextBlock Text="{Binding MarkerTypesText, Source={StaticResource Strings}}" VerticalAlignment="Center" Style="{StaticResource SamplesInnerNavigationTitleStyle}"/>
+            <igWPF:XamComboEditor x:Name="markerTypesCombo" Width="150" Theme="RoyalLight"
+                 DisplayMemberPath="Description" ValuePath="MarkerTypes" VerticalAlignment="Center" />
+        </StackPanel>
+        <ig:XamCategoryChart Grid.Row="1" x:Name="chart1" XAxisTitle="{Binding  XCC_Country, Source={StaticResource Strings}}"
+                             YAxisTitle="{Binding XCC_Terrawatt, Source={StaticResource Strings}}"
+                            MarkerTypes="{Binding ElementName=markerTypesCombo,Path=SelectedItem.MarkerTypes}"
+                             ChartType="Line" Margin="{StaticResource CategoryChartSamplesPadding}">
+
+        </ig:XamCategoryChart>
+        <!--#END SNIPPET#-->
+    </Grid>
+</igFramework:SampleContainer>

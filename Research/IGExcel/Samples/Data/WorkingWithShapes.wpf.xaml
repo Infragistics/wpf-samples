@@ -1,0 +1,104 @@
+﻿<igFramework:SampleContainer x:Class="IGExcel.Samples.Data.WorkingWithShapes"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="WorkingWithShapes"
+      Loaded="Sample_Loaded"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:conv="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGExcel.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGExcel;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:ExcelStrings x:Key="Strings" />
+            <conv:VisibilityConverter x:Key="BoolToVisibilityConverter" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <Border BorderThickness="1"
+                BorderBrush="{StaticResource PopupBorderBrush}">
+            <ScrollViewer Style="{StaticResource IGScrollViewerStyle}">
+                <Grid VerticalAlignment="Top"
+                      HorizontalAlignment="Left"
+                      Width="700"
+                      Height="700">
+                    <Rectangle Margin="32, 102"
+                               Width="96"
+                               Height="102"
+                               Fill="#FF9FB328"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               Visibility="{Binding Path=IsChecked, ElementName=checkBoxRectangle, Converter={StaticResource BoolToVisibilityConverter}}"
+                               Stroke="#FF333333"
+                               StrokeThickness="3"
+                               StrokeEndLineCap="Round" />
+                    <Grid Margin="160, 34"
+                          Visibility="{Binding Path=IsChecked, ElementName=checkBoxDiamond, Converter={StaticResource BoolToVisibilityConverter}}"
+                          VerticalAlignment="Top"
+                          HorizontalAlignment="Left">
+                        <Polygon Points="0, 102 96, 0 192, 102 96, 204"
+                                 Fill="#FF7446B9" />
+                        <TextBlock Text="{Binding Source={StaticResource Strings}, Path=ExcelShapes_Diamod_InsideText}"
+                                   Foreground="White"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"
+                                   FontSize="14"/>
+                    </Grid>
+                    <Line X1="32"
+                          Y1="25.5"
+                          X2="160"
+                          Y2="59.5"
+                          Visibility="{Binding Path=IsChecked, ElementName=checkBoxLine, Converter={StaticResource BoolToVisibilityConverter}}"
+                          Stroke="#FFF96232" StrokeThickness="3"/>
+                </Grid>
+            </ScrollViewer>
+        </Border>
+
+        <controls:OptionsPanel HeaderText="{Binding ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Top">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="{Binding Source={StaticResource Strings}, Path=ExcelEngine_OptionsLabel}"
+                           Margin="{StaticResource OptionsElementsMargin}"/>
+                <ComboBox Width="200"
+                          Margin="{StaticResource OptionsElementsMargin}"
+                          x:Name="ComboBox_ExcelFormat" />
+                <TextBlock Text="{Binding Source={StaticResource Strings}, Path=ExcelShapes_ShapesToExport}"
+                           Margin="{StaticResource OptionsElementsMargin}"/>
+                <CheckBox x:Name="checkBoxRectangle"
+                          Margin="{StaticResource OptionsElementsMargin}"
+                          IsChecked="True">
+                    <TextBlock Text="{Binding Source={StaticResource Strings}, Path=ExcelShapes_Rectangle}" />
+                </CheckBox>
+                <CheckBox x:Name="checkBoxDiamond"
+                          Margin="{StaticResource OptionsElementsMargin}"
+                          IsChecked="True">
+                    <TextBlock Text="{Binding Source={StaticResource Strings}, Path=ExcelShapes_Diamod}" />
+                </CheckBox>
+                <CheckBox x:Name="checkBoxLine"
+                          Margin="{StaticResource OptionsElementsMargin}"
+                          IsChecked="True">
+                    <TextBlock Text="{Binding Source={StaticResource Strings}, Path=ExcelShapes_Line}" />
+                </CheckBox>
+                <!-- #BEGIN SNIPPET# -->
+                <Button x:Name="TestExcel"
+                        Click="ExportExcel_Click"
+                        Content="{Binding Source={StaticResource Strings}, Path=Excel_ButtonCaptionExport}" />
+                <!-- #END SNIPPET# -->
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

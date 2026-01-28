@@ -1,0 +1,465 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Display.Series.GalleryCategorySeries"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="CategorySeries Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+      xmlns:resources="clr-namespace:IGDataChart.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <resources:DataChartStrings x:Key="Strings" />
+            <ig:AxisLabelSettings x:Key="AxisLabelSettings" Extent="90" Visibility="Visible" />
+            <ig:AxisLabelSettings x:Key="AxisLabelSettings2" Extent="70" />
+
+            <models:EnergyProductionModel x:Key="DataSource" />
+            
+            <Style TargetType="ig:Legend">
+                <Setter Property="Background" Value="{StaticResource LegendBackgroundBrush}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource LegendBorderBrush}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+            </Style>
+            <Style TargetType="ig:CategorySeries" x:Key="InteractiveSeries">
+                <Setter Property="ShowDefaultTooltip" Value="True"/>
+                <Setter Property="IsTransitionInEnabled" Value="True"/>
+                <Setter Property="IsHighlightingEnabled" Value="True"/>
+            </Style>
+            
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" DataContext="{StaticResource DataSource}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="1">
+            <ig:XamDataChart x:Name="BarChart" Legend="{Binding ElementName=Legend}" >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericXAxis x:Name="BarXAxis" MinimumValue="0" Interval="200" Label="{}{} TWh" />
+                    <ig:CategoryYAxis x:Name="BarYAxis" ItemsSource="{Binding EnergySampleData}" Label="{}{Country}" >
+                    </ig:CategoryYAxis>
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:BarSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Coal"
+                                  Title="{Binding StringEnergyCoal, Source={StaticResource DataSource}}"
+                                  XAxis="{Binding ElementName=BarXAxis}"
+                                  YAxis="{Binding ElementName=BarYAxis}" Style="{StaticResource InteractiveSeries}">
+                    </ig:BarSeries>
+                    <ig:BarSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Hydro"
+                                  Title="{Binding StringEnergyHydro, Source={StaticResource DataSource}}"
+                                  XAxis="{Binding ElementName=BarXAxis}"
+                                  YAxis="{Binding ElementName=BarYAxis}" Style="{StaticResource InteractiveSeries}">
+                    </ig:BarSeries>
+                    <ig:BarSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Nuclear"
+                                  Title="{Binding StringEnergyNuclear, Source={StaticResource DataSource}}"
+                                  XAxis="{Binding ElementName=BarXAxis}"
+                                  YAxis="{Binding ElementName=BarYAxis}" Style="{StaticResource InteractiveSeries}">
+                    </ig:BarSeries>
+                    <ig:BarSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Gas"
+                                  Title="{Binding StringEnergyGas, Source={StaticResource DataSource}}"
+                                  XAxis="{Binding ElementName=BarXAxis}"
+                                  YAxis="{Binding ElementName=BarYAxis}" Style="{StaticResource InteractiveSeries}">
+                    </ig:BarSeries>
+                    <ig:BarSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Oil"
+                                  Title="{Binding StringEnergyOil, Source={StaticResource DataSource}}"
+                                  XAxis="{Binding ElementName=BarXAxis}"
+                                  YAxis="{Binding ElementName=BarYAxis}" Style="{StaticResource InteractiveSeries}">
+                    </ig:BarSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+           
+            <ig:XamDataChart x:Name="ColumnChart" Legend="{Binding ElementName=Legend}" >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericYAxis x:Name="ColumnYAxis" MinimumValue="0" Interval="200" Label="{}{} TWh"  />
+                    <ig:CategoryXAxis x:Name="ColumnXAxis" ItemsSource="{Binding EnergySampleData}" Label="{}{Country}">
+                    </ig:CategoryXAxis>
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:ColumnSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Coal"
+                                     Title="{Binding StringEnergyCoal, Source={StaticResource DataSource}}"
+                                     XAxis="{Binding ElementName=ColumnXAxis}"
+                                     YAxis="{Binding ElementName=ColumnYAxis}" Style="{StaticResource InteractiveSeries}">
+                    </ig:ColumnSeries>
+                    <ig:ColumnSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Hydro"
+                                     Title="{Binding StringEnergyHydro, Source={StaticResource DataSource}}"
+                                     XAxis="{Binding ElementName=ColumnXAxis}"
+                                     YAxis="{Binding ElementName=ColumnYAxis}" Style="{StaticResource InteractiveSeries}">
+                    </ig:ColumnSeries>
+                    <ig:ColumnSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Nuclear"
+                                     Title="{Binding StringEnergyNuclear, Source={StaticResource DataSource}}"
+                                     XAxis="{Binding ElementName=ColumnXAxis}"
+                                     YAxis="{Binding ElementName=ColumnYAxis}" Style="{StaticResource InteractiveSeries}">
+                    </ig:ColumnSeries>
+                    <ig:ColumnSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Gas"
+                                     Title="{Binding StringEnergyGas, Source={StaticResource DataSource}}"
+                                     XAxis="{Binding ElementName=ColumnXAxis}"
+                                     YAxis="{Binding ElementName=ColumnYAxis}" Style="{StaticResource InteractiveSeries}">
+                    </ig:ColumnSeries>
+                    <ig:ColumnSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Oil"
+                                     Title="{Binding StringEnergyOil, Source={StaticResource DataSource}}"
+                                     XAxis="{Binding ElementName=ColumnXAxis}"
+                                     YAxis="{Binding ElementName=ColumnYAxis}" Style="{StaticResource InteractiveSeries}">
+                    </ig:ColumnSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+           
+            <ig:XamDataChart x:Name="AreaChart" Legend="{Binding ElementName=Legend}"  >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericYAxis x:Name="AreaYAxis" MinimumValue="0" Interval="200" Label="{}{} TWh"  />
+                    <ig:CategoryXAxis x:Name="AreaXAxis" ItemsSource="{Binding EnergySampleData}" Label="{}{Country}">
+                    </ig:CategoryXAxis>
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:AreaSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Coal"
+                                   Title="{Binding StringEnergyCoal, Source={StaticResource DataSource}}"
+                                   XAxis="{Binding ElementName=AreaXAxis}"
+                                   YAxis="{Binding ElementName=AreaYAxis}" Style="{StaticResource InteractiveSeries}">
+                    </ig:AreaSeries>
+                    <ig:AreaSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Hydro"
+                                   Title="{Binding StringEnergyHydro, Source={StaticResource DataSource}}"
+                                   XAxis="{Binding ElementName=AreaXAxis}"
+                                   YAxis="{Binding ElementName=AreaYAxis}" Style="{StaticResource InteractiveSeries}">
+                    </ig:AreaSeries>
+                    <ig:AreaSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Nuclear"
+                                   Title="{Binding StringEnergyNuclear, Source={StaticResource DataSource}}"
+                                   XAxis="{Binding ElementName=AreaXAxis}"
+                                   YAxis="{Binding ElementName=AreaYAxis}" Style="{StaticResource InteractiveSeries}">
+                    </ig:AreaSeries>
+                    <ig:AreaSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Gas"
+                                   Title="{Binding StringEnergyGas, Source={StaticResource DataSource}}"
+                                   XAxis="{Binding ElementName=AreaXAxis}"
+                                   YAxis="{Binding ElementName=AreaYAxis}" Style="{StaticResource InteractiveSeries}">
+                    </ig:AreaSeries>
+                    <ig:AreaSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Oil"
+                                   Title="{Binding StringEnergyOil, Source={StaticResource DataSource}}"
+                                   XAxis="{Binding ElementName=AreaXAxis}"
+                                   YAxis="{Binding ElementName=AreaYAxis}" Style="{StaticResource InteractiveSeries}">
+                    </ig:AreaSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+           
+            <ig:XamDataChart x:Name="PointChart" Legend="{Binding ElementName=Legend}"  >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericYAxis x:Name="PointYAxis" MinimumValue="0" Interval="200" Label="{}{} TWh"  />
+                    <ig:CategoryXAxis x:Name="PointXAxis" ItemsSource="{Binding EnergySampleData}" Label="{}{Country}">
+                    </ig:CategoryXAxis>
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:PointSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Coal"
+                                    Title="{Binding StringEnergyCoal, Source={StaticResource DataSource}}"
+                                    XAxis="{Binding ElementName=PointXAxis}" MarkerType="Circle"
+                                    YAxis="{Binding ElementName=PointYAxis}" Style="{StaticResource InteractiveSeries}">
+                    </ig:PointSeries>
+                    <ig:PointSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Hydro"
+                                    Title="{Binding StringEnergyHydro, Source={StaticResource DataSource}}"
+                                    XAxis="{Binding ElementName=PointXAxis}" MarkerType="Circle"
+                                    YAxis="{Binding ElementName=PointYAxis}" Style="{StaticResource InteractiveSeries}">
+                    </ig:PointSeries>
+                    <ig:PointSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Nuclear"
+                                    Title="{Binding StringEnergyNuclear, Source={StaticResource DataSource}}"
+                                    XAxis="{Binding ElementName=PointXAxis}" MarkerType="Circle"
+                                    YAxis="{Binding ElementName=PointYAxis}" Style="{StaticResource InteractiveSeries}">
+                    </ig:PointSeries>
+                    <ig:PointSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Gas"
+                                    Title="{Binding StringEnergyGas, Source={StaticResource DataSource}}"
+                                    XAxis="{Binding ElementName=PointXAxis}" MarkerType="Circle"
+                                    YAxis="{Binding ElementName=PointYAxis}" Style="{StaticResource InteractiveSeries}">
+                    </ig:PointSeries>
+                    <ig:PointSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Oil"
+                                    Title="{Binding StringEnergyOil, Source={StaticResource DataSource}}"
+                                    XAxis="{Binding ElementName=PointXAxis}" MarkerType="Circle"
+                                    YAxis="{Binding ElementName=PointYAxis}" Style="{StaticResource InteractiveSeries}">
+                    </ig:PointSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+
+            <ig:XamDataChart x:Name="LineChart" Legend="{Binding ElementName=Legend}" >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericYAxis x:Name="LineYAxis" MinimumValue="0" Interval="200" Label="{}{} TWh"  />
+                    <ig:CategoryXAxis x:Name="LineXAxis" ItemsSource="{Binding EnergySampleData}" Label="{}{Country}">
+                    </ig:CategoryXAxis>
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:LineSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Coal" Thickness="5" MarkerType="None"
+                                   Title="{Binding StringEnergyCoal, Source={StaticResource DataSource}}"
+                                   XAxis="{Binding ElementName=LineXAxis}"
+                                   YAxis="{Binding ElementName=LineYAxis}" Style="{StaticResource InteractiveSeries}">
+                    </ig:LineSeries>
+                    <ig:LineSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Hydro" Thickness="5" MarkerType="None"
+                                   Title="{Binding StringEnergyHydro, Source={StaticResource DataSource}}"
+                                   XAxis="{Binding ElementName=LineXAxis}"
+                                   YAxis="{Binding ElementName=LineYAxis}" Style="{StaticResource InteractiveSeries}">
+                    </ig:LineSeries>
+                    <ig:LineSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Nuclear" Thickness="5" MarkerType="None"
+                                   Title="{Binding StringEnergyNuclear, Source={StaticResource DataSource}}"
+                                   XAxis="{Binding ElementName=LineXAxis}"
+                                   YAxis="{Binding ElementName=LineYAxis}" Style="{StaticResource InteractiveSeries}">
+                    </ig:LineSeries>
+                    <ig:LineSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Gas" Thickness="5" MarkerType="None"
+                                   Title="{Binding StringEnergyGas, Source={StaticResource DataSource}}"
+                                   XAxis="{Binding ElementName=LineXAxis}"
+                                   YAxis="{Binding ElementName=LineYAxis}" Style="{StaticResource InteractiveSeries}">
+                    </ig:LineSeries>
+                    <ig:LineSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Oil" Thickness="5" MarkerType="None"
+                                   Title="{Binding StringEnergyOil, Source={StaticResource DataSource}}"
+                                   XAxis="{Binding ElementName=LineXAxis}"
+                                   YAxis="{Binding ElementName=LineYAxis}" Style="{StaticResource InteractiveSeries}">
+                    </ig:LineSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+           
+            <ig:XamDataChart x:Name="SplineChart" Legend="{Binding ElementName=Legend}"  >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericYAxis x:Name="SplineYAxis" MinimumValue="0" Interval="200" Label="{}{} TWh"  />
+                    <ig:CategoryXAxis x:Name="SplineXAxis" ItemsSource="{Binding EnergySampleData}" Label="{}{Country}">
+                    </ig:CategoryXAxis>
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:SplineSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Coal" Thickness="5" MarkerType="None"
+                                     Title="{Binding StringEnergyCoal, Source={StaticResource DataSource}}"
+                                     XAxis="{Binding ElementName=SplineXAxis}"
+                                     YAxis="{Binding ElementName=SplineYAxis}" Style="{StaticResource InteractiveSeries}">
+                    </ig:SplineSeries>
+                    <ig:SplineSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Hydro" Thickness="5" MarkerType="None"
+                                     Title="{Binding StringEnergyHydro, Source={StaticResource DataSource}}"
+                                     XAxis="{Binding ElementName=SplineXAxis}"
+                                     YAxis="{Binding ElementName=SplineYAxis}" Style="{StaticResource InteractiveSeries}">
+                    </ig:SplineSeries>
+                    <ig:SplineSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Nuclear" Thickness="5" MarkerType="None"
+                                     Title="{Binding StringEnergyNuclear, Source={StaticResource DataSource}}"
+                                     XAxis="{Binding ElementName=SplineXAxis}"
+                                     YAxis="{Binding ElementName=SplineYAxis}" Style="{StaticResource InteractiveSeries}">
+                    </ig:SplineSeries>
+                    <ig:SplineSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Gas" Thickness="5" MarkerType="None"
+                                     Title="{Binding StringEnergyGas, Source={StaticResource DataSource}}"
+                                     XAxis="{Binding ElementName=SplineXAxis}"
+                                     YAxis="{Binding ElementName=SplineYAxis}" Style="{StaticResource InteractiveSeries}">
+                    </ig:SplineSeries>
+                    <ig:SplineSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Oil" Thickness="5" MarkerType="None"
+                                     Title="{Binding StringEnergyOil, Source={StaticResource DataSource}}"
+                                     XAxis="{Binding ElementName=SplineXAxis}"
+                                     YAxis="{Binding ElementName=SplineYAxis}" Style="{StaticResource InteractiveSeries}">
+                    </ig:SplineSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+            
+            <ig:XamDataChart x:Name="SplineAreaChart" Legend="{Binding ElementName=Legend}"  >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericYAxis x:Name="SplineAreaYAxis" MinimumValue="0" Interval="200" Label="{}{} TWh"  />
+                    <ig:CategoryXAxis x:Name="SplineAreaXAxis" ItemsSource="{Binding EnergySampleData}" Label="{}{Country}">
+                    </ig:CategoryXAxis>
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:SplineAreaSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Coal"
+                                         Title="{Binding StringEnergyCoal, Source={StaticResource DataSource}}"
+                                         XAxis="{Binding ElementName=SplineAreaXAxis}"
+                                         YAxis="{Binding ElementName=SplineAreaYAxis}" Style="{StaticResource InteractiveSeries}">
+                    </ig:SplineAreaSeries>
+                    <ig:SplineAreaSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Hydro"
+                                         Title="{Binding StringEnergyHydro, Source={StaticResource DataSource}}"
+                                         XAxis="{Binding ElementName=SplineAreaXAxis}"
+                                         YAxis="{Binding ElementName=SplineAreaYAxis}" Style="{StaticResource InteractiveSeries}">
+                    </ig:SplineAreaSeries>
+                    <ig:SplineAreaSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Nuclear"
+                                         Title="{Binding StringEnergyNuclear, Source={StaticResource DataSource}}"
+                                         XAxis="{Binding ElementName=SplineAreaXAxis}"
+                                         YAxis="{Binding ElementName=SplineAreaYAxis}" Style="{StaticResource InteractiveSeries}">
+                    </ig:SplineAreaSeries>
+                    <ig:SplineAreaSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Gas"
+                                         Title="{Binding StringEnergyGas, Source={StaticResource DataSource}}"
+                                         XAxis="{Binding ElementName=SplineAreaXAxis}"
+                                         YAxis="{Binding ElementName=SplineAreaYAxis}" Style="{StaticResource InteractiveSeries}">
+                    </ig:SplineAreaSeries>
+                    <ig:SplineAreaSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Oil"
+                                         Title="{Binding StringEnergyOil, Source={StaticResource DataSource}}"
+                                         XAxis="{Binding ElementName=SplineAreaXAxis}"
+                                         YAxis="{Binding ElementName=SplineAreaYAxis}" Style="{StaticResource InteractiveSeries}">
+                    </ig:SplineAreaSeries>
+
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+            
+            <ig:XamDataChart x:Name="StepAreaChart" Legend="{Binding ElementName=Legend}" >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericYAxis x:Name="StepAreaYAxis" MinimumValue="0" Interval="200" Label="{}{} TWh"  />
+                    <ig:CategoryXAxis x:Name="StepAreaXAxis" ItemsSource="{Binding EnergySampleData}" Label="{}{Country}">
+                    </ig:CategoryXAxis>
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:StepAreaSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="NonRenewable"
+                                       Title="{Binding StringEnergyNonRenewable}"
+                                       XAxis="{Binding ElementName=StepAreaXAxis}"
+                                       YAxis="{Binding ElementName=StepAreaYAxis}" 
+                                       Style="{StaticResource InteractiveSeries}">
+                    </ig:StepAreaSeries>
+                    <ig:StepAreaSeries ItemsSource="{Binding EnergySampleData}" ValueMemberPath="Renewable"
+                                       Title="{Binding StringEnergyRenewable}"
+                                       XAxis="{Binding ElementName=StepAreaXAxis}"
+                                       YAxis="{Binding ElementName=StepAreaYAxis}" 
+                                       Style="{StaticResource InteractiveSeries}">
+                    </ig:StepAreaSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+            <ig:XamDataChart x:Name="StepLineChart" Legend="{Binding ElementName=Legend}" >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericYAxis x:Name="StepLineYAxis" MinimumValue="0" Interval="200" Label="{}{} TWh"  />
+                    <ig:CategoryXAxis x:Name="StepLineXAxis" ItemsSource="{Binding EnergySampleData}" Label="{}{Country}">
+                    </ig:CategoryXAxis>
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:StepLineSeries ItemsSource="{Binding EnergySampleData}"
+                                       ValueMemberPath="NonRenewable" MarkerType="None" Thickness="5"
+                                       Title="{Binding StringEnergyNonRenewable}"
+                                       XAxis="{Binding ElementName=StepLineXAxis}"
+                                       YAxis="{Binding ElementName=StepLineYAxis}" Style="{StaticResource InteractiveSeries}">
+                    </ig:StepLineSeries>
+                    <ig:StepLineSeries ItemsSource="{Binding EnergySampleData}"
+                                       ValueMemberPath="Renewable" MarkerType="None" Thickness="5"
+                                       Title="{Binding StringEnergyRenewable}"
+                                       XAxis="{Binding ElementName=StepLineXAxis}"
+                                       YAxis="{Binding ElementName=StepLineYAxis}" Style="{StaticResource InteractiveSeries}">
+                    </ig:StepLineSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+
+            <ig:XamDataChart x:Name="RangeColumnChart" Legend="{Binding ElementName=Legend}" >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericYAxis x:Name="RangeColumnYAxis" MinimumValue="0" Interval="200" Label="{}{} TWh"  />
+                    <ig:CategoryXAxis x:Name="RangeColumnXAxis" ItemsSource="{Binding EnergySampleData}" Label="{}{Country}">
+                    </ig:CategoryXAxis>
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:RangeColumnSeries ItemsSource="{Binding EnergySampleData}"
+                                          HighMemberPath="Coal" LowMemberPath="Oil"
+                                          Title="{Binding StringEnergyCoalVsOil}"
+                                          XAxis="{Binding ElementName=RangeColumnXAxis}"
+                                          YAxis="{Binding ElementName=RangeColumnYAxis}" 
+                                          Style="{StaticResource InteractiveSeries}">
+                    </ig:RangeColumnSeries>
+                    <ig:RangeColumnSeries ItemsSource="{Binding EnergySampleData}"
+                                          HighMemberPath="Hydro" LowMemberPath="Nuclear"
+                                          Title="{Binding StringEnergyHydroVsNuclear}"
+                                          XAxis="{Binding ElementName=RangeColumnXAxis}"
+                                          YAxis="{Binding ElementName=RangeColumnYAxis}" 
+                                          Style="{StaticResource InteractiveSeries}">
+                    </ig:RangeColumnSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+            <ig:XamDataChart x:Name="RangeAreaChart" Legend="{Binding ElementName=Legend}" >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericYAxis x:Name="RangeAreaYAxis" MinimumValue="0" Interval="200" Label="{}{} TWh"  />
+                    <ig:CategoryXAxis x:Name="RangeAreaXAxis" ItemsSource="{Binding EnergySampleData}" Label="{}{Country}">
+                    </ig:CategoryXAxis>
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:RangeAreaSeries ItemsSource="{Binding EnergySampleData}"
+                                        HighMemberPath="Coal" LowMemberPath="Oil"
+                                        Title="{Binding StringEnergyCoalVsOil}"
+                                        XAxis="{Binding ElementName=RangeAreaXAxis}"
+                                        YAxis="{Binding ElementName=RangeAreaYAxis}" 
+                                        Style="{StaticResource InteractiveSeries}">
+                    </ig:RangeAreaSeries>
+                    <ig:RangeAreaSeries ItemsSource="{Binding EnergySampleData}"
+                                        HighMemberPath="Hydro" LowMemberPath="Nuclear"
+                                        Title="{Binding StringEnergyHydroVsNuclear}"
+                                        XAxis="{Binding ElementName=RangeAreaXAxis}"
+                                        YAxis="{Binding ElementName=RangeAreaYAxis}" 
+                                        Style="{StaticResource InteractiveSeries}">
+                    </ig:RangeAreaSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+
+            <ig:XamDataChart x:Name="WaterfallChart" Legend="{Binding ElementName=Legend}">
+                <ig:XamDataChart.Axes>
+                    <ig:NumericYAxis x:Name="WaterfallYAxis" MinimumValue="0" Label="{}{} TWh"  />
+                    <ig:CategoryXAxis x:Name="WaterfallXAxis" ItemsSource="{Binding EnergySampleData}" Label="{}{Country}">
+                    </ig:CategoryXAxis>
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:WaterfallSeries ItemsSource="{Binding EnergySampleData}"
+                                        ValueMemberPath="Total" MarkerType="None"
+                                        Title="{Binding StringEnergyTotal}"
+                                        XAxis="{Binding ElementName=WaterfallXAxis}"
+                                        YAxis="{Binding ElementName=WaterfallYAxis}" 
+                                        Style="{StaticResource InteractiveSeries}">
+                    </ig:WaterfallSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+        </Grid>
+        <ig:Legend x:Name="Legend" HorizontalAlignment="Right" Margin="20" Grid.Column="1" Grid.Row="1"  
+                   VerticalAlignment="Top" Content="{Binding StringEnergyProduction}">
+        </ig:Legend>
+        <Border Grid.Row="0" Margin="{StaticResource SampleInnerNavigationPadding}" HorizontalAlignment="Left">
+            <StackPanel Orientation="Horizontal" Margin="6">
+                <TextBlock Text="{Binding XWDC_Global_SeriesType, Source={StaticResource Strings}}" Style="{StaticResource SamplesInnerNavigationTitleStyle}"/>
+                <ComboBox x:Name="ItemSelectionComboBox" Width="300" Margin="4,0,2,0" HorizontalAlignment="Left" VerticalAlignment="Center"  Style="{StaticResource IGComboBoxStyle}"/>
+                <Button x:Name="PrevItemButton" VerticalAlignment="Center" HorizontalAlignment="Center" Cursor="Hand" Margin="0,0,2,0" Content="" Style="{StaticResource IGPreviousButtonStyle}" />
+                <Button x:Name="NextItemButton" VerticalAlignment="Center" HorizontalAlignment="Right" Cursor="Hand" Margin="0,0,2,0" Content="" Style="{StaticResource IGNextButtonStyle}" />
+            </StackPanel>
+        </Border>
+
+    </Grid>
+</igFramework:SampleContainer>

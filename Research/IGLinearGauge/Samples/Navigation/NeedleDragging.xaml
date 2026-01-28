@@ -1,0 +1,58 @@
+﻿<framework:SampleContainer x:Class="IGLinearGauge.Samples.Navigation.NeedleDragging"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"  
+    xmlns:res="clr-namespace:IGLinearGauge.Resources" 
+    mc:Ignorable="d" d:DesignHeight="400" d:DesignWidth="700"  >
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGLinearGauge;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:LinearGaugeStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>    
+    <Grid x:Name="LayoutRoot">
+        <!-- #BEGIN SNIPPET# --> 
+        <ig:XamLinearGauge VerticalAlignment="Center"
+                           MinHeight="100" 
+			               ScaleBrush="Transparent"
+                           x:Name="gauge"
+                           MinimumValue="0"
+                           MaximumValue="10" 
+                           Value="1"
+                           ShowToolTip="True"
+                           IsNeedleDraggingEnabled="True"
+                           BackingStrokeThickness="0"
+                           FontFamily="{StaticResource FontFamily}" FontSize="{StaticResource FontSize}" >
+            <ig:XamLinearGauge.Ranges> 
+                <ig:XamLinearGraphRange StartValue="0"
+                                        EndValue="3" 
+                                        Caption="{Binding Path=NeedleDragging_Low, Source={StaticResource Strings}}"/> 
+                <ig:XamLinearGraphRange StartValue="3"
+                                        EndValue="7" 
+                                        Caption="{Binding Path=NeedleDragging_Medium, Source={StaticResource Strings}}"/> 
+                <ig:XamLinearGraphRange StartValue="7"
+                                        EndValue="10"
+                                        Caption="{Binding Path=NeedleDragging_High, Source={StaticResource Strings}}"/>
+            </ig:XamLinearGauge.Ranges>
+        </ig:XamLinearGauge> 
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel VerticalAlignment="Top" HorizontalAlignment="Right"
+                               HeaderText="{Binding Path=Options, Source={StaticResource Strings}}"
+                               Margin="0">
+            <StackPanel Orientation="Vertical">
+                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="TransitionDuration" Margin="{StaticResource OptionsElementsMargin}"/>
+                <StackPanel Orientation="Horizontal">
+                    <Slider x:Name="transitionDurationSlider" Width="100" Value="1" Minimum="0" Maximum="5" HorizontalAlignment="Stretch" ValueChanged="transitionDurationSlider_ValueChanged" />
+                    <TextBlock x:Name="labeltransitionDuration" HorizontalAlignment="Left" VerticalAlignment="Center" Text="2" Margin="{StaticResource OptionsTextLeftMargin}" />
+                </StackPanel>
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

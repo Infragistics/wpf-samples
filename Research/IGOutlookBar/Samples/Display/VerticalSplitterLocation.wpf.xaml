@@ -1,0 +1,59 @@
+﻿<framework:SampleContainer x:Class="IGOutlookBar.Samples.Display.VerticalSplitterLocation"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="VerticalSplitterLocation"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:igOB="http://infragistics.com/OutlookBar"
+      xmlns:localControls="clr-namespace:IGOutlookBar.Controls"
+      xmlns:res="clr-namespace:IGOutlookBar.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGOutlookBar;component/Assets/Global.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <res:OutlookBarStrings x:Key="OutlookBarStrings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <StackPanel Name="stackPanelMain" Orientation="Horizontal">
+            <!-- #BEGIN SNIPPET# -->
+            <igOB:XamOutlookBar
+                x:Name="xamOutlookBar" Theme="RoyalLight"
+                HorizontalAlignment="Left" VerticalAlignment="Stretch"
+                Width="250" MinimizedWidth="35"
+                VerticalSplitterLocation="{Binding ElementName=cboMinimizedLocation, Path=Value, Mode=TwoWay}"
+                IsMinimized="True" NavigationAreaMaxGroups="0">
+                <igOB:XamOutlookBar.Groups>
+                    <igOB:OutlookBarGroup IsSelected="True" Header="{Binding Source={StaticResource OutlookBarStrings},
+                        Path=CompositionWalkthrough_MinimizedXamOutlookBarWithLocation_Group1_Header}"
+                                          SmallImage="/IGOutlookBar;component/Images/OBarMail.png"
+                                          LargeImage="/IGOutlookBar;component/Images/OBarMailLarge.png">
+                        <localControls:XobSampleMailContent/>
+                    </igOB:OutlookBarGroup>
+                </igOB:XamOutlookBar.Groups>
+            </igOB:XamOutlookBar>
+            <!-- #END SNIPPET# -->
+        </StackPanel>
+        <controls:OptionsPanel Margin="400 10 0 0"
+                               HeaderText="{Binding Source={StaticResource OutlookBarStrings},
+            Path=CompositionWalkthrough_MinimizedXamOutlookBarWithLocation_ConfigArea_Header}">
+            <StackPanel Name="stackPanel1" Orientation="Horizontal" Margin="5">
+                <TextBlock VerticalAlignment="Center" Text="{Binding Source={StaticResource OutlookBarStrings},
+                    Path=CompositionWalkthrough_MinimizedXamOutlookBarWithLocation_ConfigArea_TextBlockText}" Margin="0 0 5 0">:</TextBlock>
+                <controls:EnumValuesProvider Width="75"
+                    x:Name="cboMinimizedLocation"
+                    EnumType="{x:Type igOB:VerticalSplitterLocation}"
+                    DisplayTemplate="ComboBox"
+                    SelectedEnumIndex="1"
+                    ValueChanged="cboMinimizedLocation_ValueChanged"/>
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

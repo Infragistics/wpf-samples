@@ -1,0 +1,126 @@
+﻿<framework:SampleContainer x:Class="IGGeographicMap.Samples.MapDrillDown"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:providers="clr-namespace:Infragistics.Samples.Shared.DataProviders;assembly=Infragistics.Samples.Shared" 
+    xmlns:custom="clr-namespace:IGGeographicMap.Custom.StyleSelectors" mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700">
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGeographicMap;component/Assets/Global.xaml" />
+                
+                
+            </ResourceDictionary.MergedDictionaries>
+            <!--<providers:ShapeFileProvider x:Key="shapeRegionsProvider"
+                                         ShapeFileRelativePath="/America/usa_regions_group.shp"
+                                         ShapeDatabaseRelativePath="/America/usa_regions_group.dbf"/>
+            <providers:ShapeFileProvider x:Key="shapeStatesProvider"
+                                         ShapeFileRelativePath="/America/usa_states_group.shp"
+                                         ShapeDatabaseRelativePath="/America/usa_states_group.dbf"/>
+            <providers:ShapeFileProvider x:Key="shapeCountiesProvider"
+                                         ShapeFileRelativePath="/America/usa_counties_mod.shp"
+                                         ShapeDatabaseRelativePath="/America/usa_counties_mod.dbf"/>
+            <ig:ShapefileConverter x:Key="shapeRegionsSource" 
+                                   ShapefileSource="{Binding Path=ShapeFileAbsolutePath, Source={StaticResource shapeRegionsProvider}}"
+                                   DatabaseSource="{Binding Path=ShapeDatabaseAbsolutePath, Source={StaticResource shapeRegionsProvider}}" />
+            <ig:ShapefileConverter x:Key="shapeStatesSource"
+                                   ShapefileSource="{Binding Path=ShapeFileAbsolutePath, Source={StaticResource shapeStatesProvider}}"
+                                   DatabaseSource="{Binding Path=ShapeDatabaseAbsolutePath, Source={StaticResource shapeStatesProvider}}" />
+            <ig:ShapefileConverter x:Key="shapeCountiesSource"
+                                   ShapefileSource="{Binding Path=ShapeFileAbsolutePath, Source={StaticResource shapeCountiesProvider}}"
+                                   DatabaseSource="{Binding Path=ShapeDatabaseAbsolutePath, Source={StaticResource shapeCountiesProvider}}" />-->
+            <custom:DrillDownShapePathStyleSelector x:Key="DrillDownShapeStyleSelector">
+                <custom:DrillDownShapePathStyleSelector.DrillDownStyle>
+                    <Style TargetType="Path" >
+                        <Setter Property="Fill" Value="#2C969E" />
+                        <Setter Property="Stroke" Value="#6FBBC1" />
+                    </Style>
+                    </custom:DrillDownShapePathStyleSelector.DrillDownStyle>
+            </custom:DrillDownShapePathStyleSelector>
+            <Style TargetType="Path" x:Key="regionShapeStyle">
+                 <Setter Property="Fill" Value="#FF9F7FCF" />
+                  <Setter Property="Stroke" Value="#FF6E42B2" />
+            </Style>
+            <Style TargetType="Path" x:Key="stateShapeStyle">
+                  <Setter Property="Fill" Value="#BDCB6B" />
+                   <Setter Property="Stroke" Value="#98AC26" />
+            </Style>
+            <Style TargetType="Path" x:Key="countyShapeStyle">
+                <Setter Property="Fill" Value="#FB9371" />
+                    <Setter Property="Stroke" Value="#EE5E30" />
+            </Style>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+    <Grid x:Name="LayoutRoot" Background="White">
+        <ig:XamGeographicMap x:Name="geoMap"
+                             DefaultInteraction="None"
+                             BackgroundContent="{x:Null}"
+                             OverviewPlusDetailPaneVisibility="Collapsed" 
+                             SeriesMouseLeftButtonDown="geoMap_SeriesMouseLeftButtonDown"
+                             SeriesMouseRightButtonDown="geoMap_SeriesMouseRightButtonDown"
+                             MouseRightButtonDown="geoMap_MouseRightButtonDown"
+                             Zoomable="False" >
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ==========================================================================  -->
+            <!-- Map drill-down functionality is implemented in code-behind -->
+            <ig:XamGeographicMap.Series>
+                <!-- MapSeries with U.S. regions shape file -->
+                <ig:GeographicShapeSeries Name="regionsMapSeries" 
+                                          ShapeMemberPath="ShapeRecord.Points" 
+                                          ShapeStyleSelector="{StaticResource DrillDownShapeStyleSelector}" >
+                    <ig:GeographicShapeSeries.ToolTip>
+                            <StackPanel Margin="4">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock Text="{Binding Path=Item.ShapeName}" 
+                                               Foreground="{StaticResource ForegroundBrush}" Margin="4,2,2,2" />
+                                </StackPanel> 
+                            </StackPanel>
+                    </ig:GeographicShapeSeries.ToolTip>
+                </ig:GeographicShapeSeries>
+                <!-- MapSeries with U.S. states shape file -->
+                <ig:GeographicShapeSeries Name="statesMapSeries" Visibility="Collapsed"   
+                                          ShapeMemberPath="ShapeRecord.Points" 
+                                          ShapeStyleSelector="{StaticResource DrillDownShapeStyleSelector}" >
+                    <ig:GeographicShapeSeries.ToolTip>
+                        <Border BorderBrush="{StaticResource TooltipStrokeBrush}" BorderThickness="1" 
+                                Background="{StaticResource TooltipBgBrush}">
+                            <StackPanel Margin="4">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock Text="{Binding Path=Item.ShapeName}" 
+                                               Foreground="{StaticResource ForegroundBrush}" Margin="4,2,2,2" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </ig:GeographicShapeSeries.ToolTip>
+                </ig:GeographicShapeSeries>
+                <!-- MapSeries with U.S. counties shape file -->
+                <ig:GeographicShapeSeries Name="countiesMapSeries" Visibility="Collapsed"  
+                                          ShapeMemberPath="ShapeRecord.Points" 
+                                          ShapeStyleSelector="{StaticResource DrillDownShapeStyleSelector}"  >
+                    <ig:GeographicShapeSeries.ToolTip>
+                        <Border BorderBrush="{StaticResource TooltipStrokeBrush}" BorderThickness="1" 
+                                Background="{StaticResource TooltipBgBrush}">
+                            <StackPanel Margin="4">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock Text="{Binding Path=Item.ShapeName}" 
+                                               Foreground="{StaticResource ForegroundBrush}" Margin="2,2,0,2" />
+                                    <TextBlock Text=", " Margin="2" />
+                                    <TextBlock Text="{Binding Path=Item.ShapeCode}" 
+                                               Foreground="{StaticResource ForegroundBrush}" Margin="0,2,2,2" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </ig:GeographicShapeSeries.ToolTip>
+                </ig:GeographicShapeSeries>
+            </ig:XamGeographicMap.Series>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+        </ig:XamGeographicMap>
+   
+        
+    </Grid>
+</framework:SampleContainer>

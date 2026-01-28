@@ -1,0 +1,60 @@
+﻿<framework:SampleContainer x:Class="IGBarcode.Samples.Data.DataBinding"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="DataBinding"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:local="clr-namespace:IGBarcode.Samples.Data"
+      xmlns:res="clr-namespace:IGBarcode.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGBarcode;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:BarcodeStrings x:Key="Strings" />
+            <local:BarcodeDataModel x:Key="BarcodeDataModel" PropertyChanged="BarcodeDataModel_PropertyChanged" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Border Height="120" BorderThickness="1" CornerRadius="3" Background="White" Width="320" VerticalAlignment="Top" Margin="20,70,225,0">
+
+            <!-- #BEGIN SNIPPET# -->
+            <ig:XamCode39Barcode x:Name="Barcode" Margin="5,5,5,0" Stretch="Fill"
+                                 DataContext="{StaticResource BarcodeDataModel}"
+                                 Data="{Binding SelectedProduct}" BarsFillMode="EnsureEqualSize" />
+            <!-- #END SNIPPET# -->
+        </Border>
+
+        <controls:OptionsPanel HeaderText="{Binding XWB_Settings, Source={StaticResource Strings}}" Margin="0" HorizontalAlignment="Right">
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}"/>
+            </controls:OptionsPanel.Resources>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="120" />
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="100" />
+                    <RowDefinition Height="25" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="{Binding XWB_SampleData, Source={StaticResource Strings}}" Margin="{StaticResource OptionsTextTopBottomMargin}"/>
+                <ListBox Grid.Row="1" DataContext="{StaticResource BarcodeDataModel}" ItemsSource="{Binding Products}" SelectedItem="{Binding SelectedProduct, Mode=TwoWay}" Margin="{StaticResource OptionsElementsMargin}"/>
+                <TextBlock Grid.Row="2" Text="{Binding XWB_PropertyChanged, Source={StaticResource Strings}}" FontWeight="Bold" VerticalAlignment="Center" Margin="{StaticResource OptionsTextTopBottomMargin}"/>
+                <Border Grid.Row="3" BorderThickness="1" BorderBrush="{DynamicResource ListBoxBorderBrush}" Margin="{StaticResource OptionsElementsMargin}">
+                    <ScrollViewer Grid.Row="3" x:Name="ScrollViewerOutput" Width="158" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" BorderThickness="1" >
+                        <TextBlock x:Name="TextBlockOutput" />
+                    </ScrollViewer>
+                </Border>
+                <Button Grid.Row="4" Content="{Binding Path=XWB_ButtonClear, Source={StaticResource Strings}}" Click="Button_Click" VerticalAlignment="Center" />
+            </Grid>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

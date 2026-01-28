@@ -1,0 +1,127 @@
+﻿<igFramework:SampleContainer x:Class="IGCarouselListBox.Samples.Styling.CustomCarouselListBoxItemStyle"
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+                             xmlns:igWindows="http://infragistics.com/Windows">
+	
+	<igFramework:SampleContainer.Resources>
+		<LinearGradientBrush x:Key="ListBoxItemBackground" StartPoint="0.5,1" EndPoint="0.5,-1.5">
+					<GradientStop Color="#FF838383" Offset="0" />
+					<GradientStop Color="#FFD6D6D6" Offset="1" />
+		</LinearGradientBrush>
+	</igFramework:SampleContainer.Resources>	
+	
+    <Grid>
+        <Grid.Resources>
+            <XmlDataProvider x:Key="BookData"
+                             XPath="/Books">
+                <x:XData>
+                    <Books xmlns="">
+                        <Book ISBN="0-7356-0562-9"
+                              Stock="in">
+                            <Title>XML in Action</Title>
+                            <Summary>XML Web Technology</Summary>
+                        </Book>
+                        <Book ISBN="0-7356-1377-X"
+                              Stock="in">
+                            <Title>Introducing Microsoft .NET</Title>
+                            <Summary>Overview of .NET Technology</Summary>
+                        </Book>
+                        <Book ISBN="0-7356-1448-2"
+                              Stock="out">
+                            <Title>Microsoft C# Language Specifications</Title>
+                            <Summary>The C# language definition</Summary>
+                        </Book>
+                        <Book ISBN="0-7356-1370-2"
+                              Stock="in">
+                            <Title>Programming Microsoft Windows With C#</Title>
+                            <Summary>C# Programming using the .NET Framework</Summary>
+                        </Book>
+                        <Book ISBN="0-7356-1288-9"
+                              Stock="out">
+                            <Title>Inside C#</Title>
+                            <Summary>C# Language Programming</Summary>
+                        </Book>
+                        <Book ISBN="0-7356-1448-2"
+                              Stock="out">
+                            <Title>Microsoft C# Language Specifications</Title>
+                            <Summary>The C# language definition</Summary>
+                        </Book>
+                        <Book ISBN="0-7356-1370-2"
+                              Stock="in">
+                            <Title>Programming Microsoft Windows With C#</Title>
+                            <Summary>C# Programming using the .NET Framework</Summary>
+                        </Book>
+                        <Book ISBN="0-7356-1377-X"
+                              Stock="in">
+                            <Title>Introducing Microsoft .NET</Title>
+                            <Summary>Overview of .NET Technology</Summary>
+                        </Book>
+                        <Book ISBN="0-7356-1448-2"
+                              Stock="out">
+                            <Title>Microsoft C# Language Specifications
+                            </Title>
+                            <Summary>The C# language definition
+                            </Summary>
+                        </Book>
+                    </Books>
+                </x:XData>
+            </XmlDataProvider>
+            <DataTemplate x:Key="SimpleDataTemplate">
+                <Grid Height="100"
+                      Width="220"
+                      Background="#00D22323">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Path Height="Auto"
+                          Width="Auto"
+                          Stretch="Fill"
+                          Opacity="1"
+                          Data="M 220.375,105 C220.375,105 4.625,105 4.625,105 2.0706787109375,105 0,102.9293212890625 0,100.375 0,100.375 0,4.625 0,4.625 0,2.0706787109375 2.0706787109375,0 4.625,0 4.625,0 220.375,0 220.375,0 222.9293212890625,0 225,2.0706787109375 225,4.625 225,4.625 225,100.375 225,100.375 225,102.9293212890625 222.9293212890625,105 220.375,105 z"
+                          Margin="0,0,0,0"
+                          Grid.RowSpan="2" Fill="{StaticResource ListBoxItemBackground}"/>
+                    <Rectangle Fill="{x:Null}"
+                               Stroke="#66767676"
+                               RadiusX="3"
+                               RadiusY="3"
+                               HorizontalAlignment="Stretch"
+                               Margin="1,1,1,1"
+                               Width="Auto"
+                               Grid.RowSpan="2" />
+                    <TextBlock Text="{Binding XPath=Title}"
+                               HorizontalAlignment="Left"
+                               Margin="20,10,0,0"
+                               VerticalAlignment="Top"
+                               Width="Auto"
+                               Height="Auto"
+                               FontSize="11"
+                               FontWeight="Bold"
+                               TextWrapping="Wrap"
+                               Foreground="#FFF7F3F3" />
+                    <TextBlock Text="{Binding XPath=Summary}"
+                               HorizontalAlignment="Left"
+                               Margin="20,0,0,0"
+                               VerticalAlignment="Center"
+                               Width="Auto"
+                               Height="Auto"
+                               Grid.Row="1"
+                               FontSize="11"
+                               Foreground="#FFF3EFEF"
+                               TextWrapping="Wrap" />
+                </Grid>
+            </DataTemplate>
+            <!-- _________________________ CarouselListBoxItem ______________________________________ -->
+        </Grid.Resources>
+        <!-- #BEGIN SNIPPET# -->
+        <igWindows:XamCarouselListBox ItemsSource="{Binding Source={StaticResource BookData}, XPath=Book}"
+                                      ItemTemplate="{StaticResource SimpleDataTemplate}"
+                                      SelectedIndex="0">
+            <igWindows:XamCarouselListBox.ViewSettings>
+                <igWindows:CarouselViewSettings AutoScaleItemContentsToFit="True" />
+            </igWindows:XamCarouselListBox.ViewSettings>
+        </igWindows:XamCarouselListBox>
+        <!-- #END SNIPPET# -->
+    </Grid>
+</igFramework:SampleContainer>

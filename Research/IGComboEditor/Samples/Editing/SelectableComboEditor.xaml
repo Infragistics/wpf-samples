@@ -1,0 +1,109 @@
+﻿<framework:SampleContainer x:Class="IGComboEditor.Samples.Editing.SelectableComboEditor"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="SelectableComboEditor"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGComboEditor.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGComboEditor;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:ComboEditorStrings x:Key="ComboStrings" />
+            <SolidColorBrush x:Key="TextBlockForegroundBrush" Color="#FF666666"/>
+            <Style x:Key="HeaderStyleBold" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="11"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+            </Style>
+            <Style x:Key="HeaderStyle" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="11"/>
+            </Style>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <ScrollViewer BorderBrush="{x:Null}" x:Name="scroll" VerticalScrollBarVisibility="Auto">
+            <Grid VerticalAlignment="Center" HorizontalAlignment="Center" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="50" />
+                </Grid.RowDefinitions>
+               
+                <TextBlock Text="{Binding CE_Selectable_MultiSelectReadOnlyTxt, Source={StaticResource ComboStrings}}"
+                           Margin="10,10,10,0"
+                           Foreground="{StaticResource TextBlockForegroundBrush}"
+                           VerticalAlignment="Center" Grid.Row="0" Grid.ColumnSpan="2"
+                           TextWrapping="Wrap" Style="{StaticResource HeaderStyleBold}" />
+                <TextBlock  Grid.Row="1" Grid.Column="0"
+                            Text="{Binding CE_Selectable_MultiSelectReadOnly, Source={StaticResource ComboStrings}}"
+                            Foreground="{StaticResource TextBlockForegroundBrush}"
+                            Style="{StaticResource HeaderStyle}" 
+                            VerticalAlignment="Center" Margin="10,0"/>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- Multi-Select Read-Only ComboEditor -->
+                <ig:XamComboEditor x:Name="multiselectCombo" Grid.Row="1" Grid.Column="1"
+                                   IsEditable="False" ItemsSource="{Binding}"
+                                   AllowMultipleSelection="True"
+                                   EmptyText="{Binding CE_Selectable_EmptyText1, Source={StaticResource ComboStrings}}"
+                                   Width="300" Margin="10"
+                                   VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <!-- #END SNIPPET# -->
+                <TextBlock Text="{Binding CE_Selectable_MultiSelectEditableTxt, Source={StaticResource ComboStrings}}"
+                           Margin="10,10,10,0"
+                           Foreground="{StaticResource TextBlockForegroundBrush}"
+                           VerticalAlignment="Center" Grid.Row="2" Grid.ColumnSpan="2"
+                           TextWrapping="Wrap" Style="{StaticResource HeaderStyleBold}" />
+                <TextBlock  Grid.Row="3" Grid.Column="0"
+                            Text="{Binding CE_Selectable_MultiSelectEditable, Source={StaticResource ComboStrings}}"
+                            Foreground="{StaticResource TextBlockForegroundBrush}"
+                            Style="{StaticResource HeaderStyle}"
+                            VerticalAlignment="Center" Margin="10,0"/>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- Multiselect Editable ComboEditor -->
+                <ig:XamComboEditor x:Name="multiselectComboEditable" Grid.Row="3" Grid.Column="1"
+                                   IsEditable="True" ItemsSource="{Binding}"
+                                   AllowMultipleSelection="True" MultiSelectValueDelimiter=";"
+                                   EmptyText="{Binding CE_Selectable_EmptyText1, Source={StaticResource ComboStrings}}"
+                                   Width="300" Margin="10"
+                                   VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <!-- #END SNIPPET# -->
+                <TextBlock Text="{Binding CE_Selectable_MultiChbComboTxt, Source={StaticResource ComboStrings}}"
+                           Margin="10,10,10,0"
+                           Foreground="{StaticResource TextBlockForegroundBrush}"
+                           VerticalAlignment="Center" Grid.Row="4" Grid.ColumnSpan="2"
+                           TextWrapping="Wrap" Style="{StaticResource HeaderStyleBold}" />
+                <TextBlock Grid.Row="5" Grid.Column="0"
+                           Text="{Binding CE_Selectable_MultiChbCombo, Source={StaticResource ComboStrings}}"
+                           Foreground="{StaticResource TextBlockForegroundBrush}"
+                           Style="{StaticResource HeaderStyle}"
+                           VerticalAlignment="Center" Margin="10,0"/>
+
+                <!-- #BEGIN SNIPPET# -->
+                <!-- Checkbox Multiselect Combo Editor  -->
+                <ig:XamComboEditor x:Name="multiChbCombo" Grid.Row="5" Grid.Column="1"
+                                   IsEditable="False" ItemsSource="{Binding}" CheckBoxVisibility="Visible"
+                                   AllowMultipleSelection="True"
+                                   EmptyText="{Binding CE_Selectable_EmptyText2, Source={StaticResource ComboStrings}}"
+                                   Width="300" Margin="10"
+                                   VerticalAlignment="Center" HorizontalAlignment="Left"/>
+
+                <!-- #END SNIPPET# -->
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</framework:SampleContainer>

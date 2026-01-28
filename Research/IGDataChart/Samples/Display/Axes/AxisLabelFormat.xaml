@@ -1,0 +1,75 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Display.Axes.AxisLabelFormat"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="AxisLabelFormat Page"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+
+        <ig:XamDataChart x:Name="DataChart" >
+            <ig:XamDataChart.DataContext>
+                <models:StockMarketDataCollection />
+            </ig:XamDataChart.DataContext>
+
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ========================================================================== -->
+            <ig:XamDataChart.Axes>
+                <ig:CategoryXAxis x:Name="CommonXAxis"
+                                  ItemsSource="{Binding}"
+                                  Label="{Binding XDC_AxisLabelsFormat_DateYearMonth, Source={StaticResource Strings}}">
+                    <ig:CategoryXAxis.LabelSettings>
+                        <ig:AxisLabelSettings Location="OutsideBottom" />
+                    </ig:CategoryXAxis.LabelSettings>
+                </ig:CategoryXAxis>
+                <ig:NumericYAxis x:Name="PriceYAxis"
+                                 Label="{}{0:c0}"  >
+                    <ig:NumericYAxis.LabelSettings>
+                        <ig:AxisLabelSettings Location="OutsideLeft" Margin="0,0,2,0" />
+                    </ig:NumericYAxis.LabelSettings>
+                </ig:NumericYAxis>
+                <ig:NumericYAxis x:Name="VolumeYAxis"
+                                 Label=" {}{0:#,} K"
+                                 MajorStroke="Transparent"
+                                 Strip="Transparent"
+                                 MinimumValue="1500"
+                                 Interval="50">
+                    <ig:NumericYAxis.LabelSettings>
+                        <ig:AxisLabelSettings Location="OutsideRight" Margin="2,0,0,0"/>
+                    </ig:NumericYAxis.LabelSettings>
+                </ig:NumericYAxis>
+            </ig:XamDataChart.Axes>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+            <ig:XamDataChart.Series>
+                <ig:LineSeries ValueMemberPath="Close" MarkerType="None" Thickness="2" 
+                               ItemsSource="{Binding}" 
+                               XAxis="{Binding ElementName=CommonXAxis}" 
+                               YAxis="{Binding ElementName=PriceYAxis}" 
+                               IsHighlightingEnabled="True" IsTransitionInEnabled="True">
+                </ig:LineSeries>
+                <ig:LineSeries ValueMemberPath="Volume" MarkerType="None" Thickness="2" 
+                               ItemsSource="{Binding}" 
+                               XAxis="{Binding ElementName=CommonXAxis}" 
+                               YAxis="{Binding ElementName=VolumeYAxis}" 
+                               IsHighlightingEnabled="True" IsTransitionInEnabled="True">
+                </ig:LineSeries>
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+
+    </Grid>
+</igFramework:SampleContainer>

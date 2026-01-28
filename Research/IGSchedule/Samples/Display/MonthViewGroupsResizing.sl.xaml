@@ -1,0 +1,80 @@
+﻿<igFramework:SampleContainer
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="MonthViewGroupsResizing"
+      x:Class="IGSchedule.Samples.Display.MonthViewGroupsResizing"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:data="clr-namespace:IGSchedule.DataSource"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:res="clr-namespace:IGSchedule.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <res:ScheduleStrings x:Key="resStrings" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSchedule;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <igFramework:SampleContainer.DataContext>
+        <data:ScheduleData x:Name="Data"/>
+    </igFramework:SampleContainer.DataContext>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <!--#BEGIN SNIPPET#-->
+        <ig:XamMonthView x:Name="monthView"
+                         Grid.Row="1" Margin="0,10,0,0"
+                         ShowCalendarCloseButton="{Binding ElementName=chkShowColseButton, Path=IsChecked}"
+                         ShowCalendarOverlayButton="{Binding ElementName=chkShowOverlayButton, Path=IsChecked}"
+                         AllowCalendarGroupResizing="{Binding ElementName=chkCalendarGroupResizing, Path=IsChecked, Mode=TwoWay}"
+                         >
+            <ig:XamMonthView.DataManager>
+                <ig:XamScheduleDataManager x:Name="dataManager" CurrentUserId="own1">
+                    <ig:XamScheduleDataManager.CalendarGroups>
+                        <ig:CalendarGroup InitialCalendarIds="own1,own2[cal1]" InitialSelectedCalendarId="own2[cal1]"/>
+                        <ig:CalendarGroup InitialCalendarIds="own2[cal0],own3"/>
+                    </ig:XamScheduleDataManager.CalendarGroups>
+                    <ig:XamScheduleDataManager.DataConnector>
+                        <ig:ListScheduleDataConnector
+                            ResourceItemsSource="{Binding Resources}"
+                            ResourceCalendarItemsSource="{Binding Calendars}"
+                            AppointmentItemsSource="{Binding Appointments}"/>
+                    </ig:XamScheduleDataManager.DataConnector>
+                </ig:XamScheduleDataManager>
+            </ig:XamMonthView.DataManager>
+        </ig:XamMonthView>
+        <!--#END SNIPPET#-->
+
+        <controls:OptionsPanel HeaderText="{Binding ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}" Grid.Row="0" IsMovable="False">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel>
+                    <CheckBox x:Name="chkShowColseButton" Content="{Binding ShowColseButton, Source={StaticResource resStrings}}" Margin="5,5,5,0" IsChecked="True"/>
+                    <CheckBox x:Name="chkShowOverlayButton" Content="{Binding ShowOverlayButton, Source={StaticResource resStrings}}" Margin="5,5,5,0" IsChecked="True"/>
+                </StackPanel>
+                <StackPanel Margin="20,0,0,0">
+                    <CheckBox x:Name="chkCalendarGroupResizing" Content="{Binding CalendarGroupResizable, Source={StaticResource resStrings}}" Margin="5,5,5,0" IsChecked="True" />
+                    <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
+                        <TextBlock Text="{Binding CalendarDisplayMode, Source={StaticResource resStrings}}" VerticalAlignment="Center" />
+                        <ComboBox x:Name="cboCalendarDisplayMode" SelectionChanged="cboCalendarDisplayMode_SelectionChanged" Margin="0,3,0,0">
+                            <ComboBoxItem Content="{Binding CDM_Overlay, Source={StaticResource resStrings}}" IsSelected="True"/>
+                            <ComboBoxItem Content="{Binding CDM_Separate, Source={StaticResource resStrings}}"/>
+                            <ComboBoxItem Content="{Binding CDM_Merged, Source={StaticResource resStrings}}"/>
+                        </ComboBox>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </controls:OptionsPanel>
+
+    </Grid>
+</igFramework:SampleContainer>

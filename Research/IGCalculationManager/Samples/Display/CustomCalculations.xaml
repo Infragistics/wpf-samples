@@ -1,0 +1,60 @@
+﻿<framework:SampleContainer x:Class="IGCalculationManager.Samples.Display.CustomCalculations"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="CustomCalculations"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGCalculationManager.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGCalculationManager;component/Assets/Global.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <res:CalculationManagerStrings x:Key="CalculationManagerStrings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        	<Grid.Resources>
+        		<Style TargetType="TextBlock" BasedOn="{StaticResource BodyStyle}"/>    	
+			</Grid.Resources>          	
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="130" />
+            <ColumnDefinition Width="270"/>
+        </Grid.ColumnDefinitions>
+        <ig:XamCalculationManager Name="calcManager"></ig:XamCalculationManager>
+        <!-- #BEGIN SNIPPET# -->
+        <TextBlock Style="{StaticResource SamplesTitleStyle}" Grid.Row="0" Grid.ColumnSpan="2" x:Name="ABSAVGTEXT" Text="{Binding Path=XG_CustomFunctionName,
+            Source={StaticResource CalculationManagerStrings}}"/>
+
+        <TextBlock Grid.Row="1" Grid.Column="0" x:Name="Value_1" Text="{Binding Path=XG_EnterValue1,
+            Source={StaticResource CalculationManagerStrings}}" VerticalAlignment="Center"/>
+        <TextBox Grid.Row="1" Grid.Column="1"  x:Name="Value1" Width="130" HorizontalAlignment="Left"
+                 ig:XamCalculationManager.CalculationManager="{Binding ElementName=calcManager}" VerticalAlignment="Center"/>
+
+        <TextBlock Grid.Row="2" Grid.Column="0" x:Name="Value_2" Text="{Binding Path=XG_EnterValue2,
+            Source={StaticResource CalculationManagerStrings}}" VerticalAlignment="Center"/>
+        <TextBox Grid.Row="2" Grid.Column="1" x:Name="Value2" Width="130" HorizontalAlignment="Left"
+                 ig:XamCalculationManager.CalculationManager="{Binding ElementName=calcManager}" VerticalAlignment="Center"/>
+
+        <TextBlock Grid.Row="3" Grid.Column="0" x:Name="tbEquals" Text="{Binding Path=XG_Result, Source={StaticResource CalculationManagerStrings}}" VerticalAlignment="Center"/>
+        <TextBlock Grid.Row="3" Grid.Column="1" x:Name="tbValue" ig:XamCalculationManager.CalculationManager="{Binding ElementName=calcManager}" VerticalAlignment="Center">
+            <ig:XamCalculationManager.ControlSettings>
+                <ig:ControlCalculationSettings Property="Text" TreatAsTypeName="decimal" ReferenceId="mulTotal"
+                                               Formula="absAvg([//Value1],[//Value2])" />
+            </ig:XamCalculationManager.ControlSettings>
+        </TextBlock>
+        <!-- #END SNIPPET# -->
+    </Grid>
+</framework:SampleContainer>

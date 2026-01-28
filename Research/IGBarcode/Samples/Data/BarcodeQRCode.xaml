@@ -1,0 +1,190 @@
+﻿<framework:SampleContainer x:Class="IGBarcode.Samples.Data.BarcodeQRCode"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="BarcodeQRCode"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGBarcode.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGBarcode;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:BarcodeStrings x:Key="Strings" />
+
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="1">
+            <!-- #BEGIN SNIPPET# -->
+            <ig:XamQRCodeBarcode x:Name="Barcode"
+                                 ErrorCorrectionLevel="{Binding SelectedItem, ElementName=ComboBoxErrorCorrection}"
+                                 SizeVersion="{Binding SelectedItem, ElementName=ComboBoxSizeVersion}"
+                                 EncodingMode="{Binding SelectedValue, ElementName=ComboBoxEncodingMode}"
+                                 EciHeaderDisplayMode="Hide"
+                                 EciNumber="{Binding SelectedValue, ElementName=ComboBoxEciNumber}"
+                                 Fnc1Mode="{Binding SelectedItem, ElementName=ComboBoxFnc1Mode}"
+                                 ApplicationIndicator="{Binding Text, ElementName=TextBoxApplicationIndicator}" 
+                                 BarsFillMode="EnsureEqualSize"/>
+            <!-- #END SNIPPET# -->
+        </Border>
+        <controls:OptionsPanel HeaderText="{Binding XWB_Settings, Source={StaticResource Strings}}" Grid.ColumnSpan="2">
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}"/>
+            </controls:OptionsPanel.Resources>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="130" />
+                    <ColumnDefinition Width="180" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="{Binding XWB_Data, Source={StaticResource Strings}}" Margin="{StaticResource OptionsTextTopBottomMargin}"/>
+                <Grid Grid.Row="1" Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="SampleDataText" Margin="0,0,10,0" HorizontalAlignment="Stretch"
+                             Text="{Binding SelectedItem.SampleData, ElementName=ComboBoxEciNumber, Mode=OneWay}"/>
+                    <Button Grid.Column="1" Content="{Binding Path=XWB_ApplyData, Source={StaticResource Strings}}" HorizontalAlignment="Right"
+                                Click="ButtonBase_OnClick" />
+                </Grid>
+                
+                <Rectangle Grid.Row="2" Grid.ColumnSpan="2" Style="{StaticResource DividerStyle}"/>
+
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="ErrorCorrectionLevel:" Margin="{StaticResource OptionsElementsMargin}"/>
+                <ComboBox Grid.Row="3" Grid.Column="1" x:Name="ComboBoxErrorCorrection" SelectedIndex="1" Margin="{StaticResource OptionsElementsMargin}">
+                    <ig:QRCodeErrorCorrectionLevel>Low</ig:QRCodeErrorCorrectionLevel>
+                    <ig:QRCodeErrorCorrectionLevel>Medium</ig:QRCodeErrorCorrectionLevel>
+                    <ig:QRCodeErrorCorrectionLevel>Quartil</ig:QRCodeErrorCorrectionLevel>
+                    <ig:QRCodeErrorCorrectionLevel>High</ig:QRCodeErrorCorrectionLevel>
+                </ComboBox>
+
+                <TextBlock Grid.Row="4" Grid.Column="0" Text="SizeVersion:" Margin="{StaticResource OptionsElementsMargin}"/>
+                <ComboBox Grid.Row="4" Grid.Column="1" x:Name="ComboBoxSizeVersion" SelectedIndex="0" Margin="{StaticResource OptionsElementsMargin}">
+                    <ig:SizeVersion>Undefined</ig:SizeVersion>
+                    <ig:SizeVersion>Version1</ig:SizeVersion>
+                    <ig:SizeVersion>Version2</ig:SizeVersion>
+                    <ig:SizeVersion>Version3</ig:SizeVersion>
+                    <ig:SizeVersion>Version4</ig:SizeVersion>
+                    <ig:SizeVersion>Version5</ig:SizeVersion>
+                    <ig:SizeVersion>Version6</ig:SizeVersion>
+                    <ig:SizeVersion>Version7</ig:SizeVersion>
+                    <ig:SizeVersion>Version8</ig:SizeVersion>
+                    <ig:SizeVersion>Version9</ig:SizeVersion>
+                    <ig:SizeVersion>Version10</ig:SizeVersion>
+                    <ig:SizeVersion>Version11</ig:SizeVersion>
+                    <ig:SizeVersion>Version12</ig:SizeVersion>
+                    <ig:SizeVersion>Version13</ig:SizeVersion>
+                    <ig:SizeVersion>Version14</ig:SizeVersion>
+                    <ig:SizeVersion>Version15</ig:SizeVersion>
+                    <ig:SizeVersion>Version16</ig:SizeVersion>
+                    <ig:SizeVersion>Version17</ig:SizeVersion>
+                    <ig:SizeVersion>Version18</ig:SizeVersion>
+                    <ig:SizeVersion>Version19</ig:SizeVersion>
+                    <ig:SizeVersion>Version20</ig:SizeVersion>
+                    <ig:SizeVersion>Version21</ig:SizeVersion>
+                    <ig:SizeVersion>Version22</ig:SizeVersion>
+                    <ig:SizeVersion>Version23</ig:SizeVersion>
+                    <ig:SizeVersion>Version24</ig:SizeVersion>
+                    <ig:SizeVersion>Version25</ig:SizeVersion>
+                    <ig:SizeVersion>Version26</ig:SizeVersion>
+                    <ig:SizeVersion>Version27</ig:SizeVersion>
+                    <ig:SizeVersion>Version28</ig:SizeVersion>
+                    <ig:SizeVersion>Version29</ig:SizeVersion>
+                    <ig:SizeVersion>Version30</ig:SizeVersion>
+                    <ig:SizeVersion>Version31</ig:SizeVersion>
+                    <ig:SizeVersion>Version32</ig:SizeVersion>
+                    <ig:SizeVersion>Version33</ig:SizeVersion>
+                    <ig:SizeVersion>Version34</ig:SizeVersion>
+                    <ig:SizeVersion>Version35</ig:SizeVersion>
+                    <ig:SizeVersion>Version36</ig:SizeVersion>
+                    <ig:SizeVersion>Version37</ig:SizeVersion>
+                    <ig:SizeVersion>Version38</ig:SizeVersion>
+                    <ig:SizeVersion>Version39</ig:SizeVersion>
+                    <ig:SizeVersion>Version40</ig:SizeVersion>
+                </ComboBox >
+
+                <TextBlock Grid.Row="5" Grid.Column="0" Text="Fnc1Mode:" Margin="{StaticResource OptionsElementsMargin}"/>
+                <ComboBox Grid.Row="5" Grid.Column="1" x:Name="ComboBoxFnc1Mode" SelectedIndex="0" Margin="{StaticResource OptionsElementsMargin}">
+                    <ig:Fnc1Mode>None</ig:Fnc1Mode>
+                    <ig:Fnc1Mode>Gs1</ig:Fnc1Mode>
+                    <ig:Fnc1Mode>Industry</ig:Fnc1Mode>
+                </ComboBox>
+
+                <Rectangle Grid.Row="6" Grid.ColumnSpan="2" Style="{StaticResource DividerStyle}"/>
+
+                <TextBlock Grid.Row="7" Grid.Column="0" Text="EncodingMode:" Margin="{StaticResource OptionsElementsMargin}"/>
+                <ComboBox Grid.Row="7" Grid.Column="1" x:Name="ComboBoxEncodingMode" 
+                              DisplayMemberPath="Key" SelectedValuePath="Key"
+                              Margin="{StaticResource OptionsElementsMargin}"/>
+                <TextBlock Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2"
+                               Text="{Binding SelectedItem.Value, ElementName=ComboBoxEncodingMode}" 
+                               HorizontalAlignment="Center" Margin="{StaticResource OptionsElementsMargin}"/>
+
+                <Rectangle Grid.Row="9" Grid.ColumnSpan="2" Style="{StaticResource DividerStyle}" />
+
+                <TextBlock Grid.Row="10" Grid.Column="0" Text="EciNumber:" Margin="{StaticResource OptionsElementsMargin}"/>
+                <ComboBox Grid.Row="10" Grid.Column="1" Margin="{StaticResource OptionsElementsMargin}"
+                              x:Name="ComboBoxEciNumber" 
+                              SelectedValuePath="EciNumber">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Background="Transparent" Orientation="Horizontal">
+                                <TextBlock Text="{Binding EciNumber}" HorizontalAlignment="Left" Margin="0,0,15,0" />
+                                <TextBlock Text="{Binding Description}" HorizontalAlignment="Right"  />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <TextBlock Text="EciHeaderDisplayMode:" Grid.Row="11" Margin="{StaticResource OptionsElementsMargin}"/>
+                <ComboBox Name="Cmb_EciHeaderDisplayMode" Grid.Column="1" Margin="{StaticResource OptionsElementsMargin}"
+                              Grid.Row="11" SelectionChanged="Cmb_EciHeaderDisplayMode_SelectionChanged"  />
+                <TextBlock Grid.Row="12" Grid.Column="0" Margin="{StaticResource OptionsElementsMargin}"
+                           Grid.ColumnSpan="2" Text="{Binding Source={StaticResource Strings},Path=XB_EciHeaderDisplayMode_Note}"
+                           TextWrapping="Wrap"/>
+
+                <Rectangle Grid.Row="13" Grid.ColumnSpan="2" Style="{StaticResource DividerStyle}" />
+
+                <TextBlock Grid.Row="14" Grid.Column="0" Text="ApplicationIndicator:" Margin="{StaticResource OptionsElementsMargin}"/>
+                <TextBox Grid.Row="14" Grid.Column="1" 
+                             x:Name="TextBoxApplicationIndicator" MaxLength="2"
+                             Margin="{StaticResource OptionsElementsMargin}"/>
+                <TextBlock Grid.Row="15" Grid.Column="0" Grid.ColumnSpan="2" 
+                               Text="{Binding Path=XWB_ApplicationIndicator, Source={StaticResource Strings}}" TextWrapping="Wrap"  />
+            </Grid>
+        </controls:OptionsPanel>
+
+    </Grid>
+</framework:SampleContainer>

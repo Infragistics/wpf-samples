@@ -1,0 +1,71 @@
+﻿<igFramework:SampleContainer x:Class="IGCategoryChart.Samples.Data.Theming"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IGCategoryChart.Samples.Data"
+             xmlns:ig="http://schemas.infragistics.com/xaml"
+             xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+             xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+             xmlns:resources="clr-namespace:IGCategoryChart.Resources"
+             xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+       
+        <igFramework:SampleContainer.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="/Infragistics.Samples.Shared;component/Assets/Global.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+
+                <ig:StringFormatConverter x:Key="StringFormatConverter" />
+            <resources:CategoryChartStrings x:Key="Strings"/>
+            <models:EnergyProductionModel x:Key="VM1" />
+            <models:EnergyProductionModel x:Key="VM2" />
+        </ResourceDictionary>
+        </igFramework:SampleContainer.Resources>
+        
+    <Grid x:Name="LayoutRoot" >
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" /> 
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="ChartContainer" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            
+            <ig:XamCategoryChart 
+                x:Name="chart1"  Grid.Row="0"
+                ItemsSource="{Binding EnergySampleData, Source={StaticResource VM1}}" 
+                ChartType="Column"
+                Margin="{StaticResource CategoryChartSamplesPadding}"
+                XAxisTitle="{Binding XCC_Country, Source={StaticResource Strings}}"
+                YAxisTitle="{Binding XCC_Terrawatt, Source={StaticResource Strings}}">
+            </ig:XamCategoryChart>
+
+            <ig:XamCategoryChart 
+                x:Name="chart2" Grid.Row="1"
+                ItemsSource="{Binding EnergySampleData, Source={StaticResource VM2}}"
+                ChartType="Area"
+                Margin="{StaticResource CategoryChartSamplesPadding}"
+                XAxisTitle="{Binding XCC_Country, Source={StaticResource Strings}}"
+                YAxisTitle="{Binding XCC_Terrawatt, Source={StaticResource Strings}}">
+            </ig:XamCategoryChart>
+        </Grid>
+
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ================================================================================================== -->
+        <!-- Note theme are changed in code-behind -->
+        <controls:ThemeSelector x:Name="ThemeSelector"
+                                Grid.Row="0" 
+                                HorizontalAlignment="Right"
+                                SelectionChanged="OnSelectionChanged"/>
+        <!-- ================================================================================================== -->
+        <!-- #END SNIPPET# -->
+        
+    </Grid>
+</igFramework:SampleContainer>

@@ -1,0 +1,364 @@
+﻿<igFramework:SampleContainer 
+    x:Class="IGDataChart.Samples.Display.Series.GalleryStackedSeries"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="StacledSeries Page"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+      xmlns:resources="clr-namespace:IGDataChart.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <resources:DataChartStrings x:Key="Strings" />
+            <ig:AxisLabelSettings x:Key="AxisLabelSettings" Extent="90" Visibility="Visible" />
+            <ig:AxisLabelSettings x:Key="AxisLabelSettings2" Extent="70" />
+
+            <models:EnergyProductionModel x:Key="DataSource" />
+            
+            <Style TargetType="{x:Type ig:Legend}">
+                <Setter Property="Background" Value="{StaticResource LegendBackgroundBrush}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource LegendBorderBrush}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+            </Style>
+    
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" DataContext="{StaticResource DataSource}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="1">
+
+            <ig:XamDataChart x:Name="StackedBarChart" Legend="{Binding ElementName=Legend}" >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericXAxis x:Name="StackedBarXAxis" Label="{}{} TWh" />
+                    <ig:CategoryYAxis x:Name="StackedBarYAxis" ItemsSource="{Binding EnergySampleData}"
+                                      Label="{}{Country}" />
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:StackedBarSeries XAxis="{Binding ElementName=StackedBarXAxis}"
+                                         YAxis="{Binding ElementName=StackedBarYAxis}"
+                                         ItemsSource="{Binding EnergySampleData}">
+                        <ig:StackedBarSeries.Series>
+                            <ig:StackedFragmentSeries ValueMemberPath="Coal" Title="{Binding StringEnergyCoal, Source={StaticResource DataSource}}" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Hydro" Title="{Binding StringEnergyHydro, Source={StaticResource DataSource}}" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Nuclear" Title="{Binding StringEnergyNuclear, Source={StaticResource DataSource}}" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Gas" Title="{Binding StringEnergyGas, Source={StaticResource DataSource}}" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Oil" Title="{Binding StringEnergyOil, Source={StaticResource DataSource}}" />
+                        </ig:StackedBarSeries.Series>
+                    </ig:StackedBarSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+            <ig:XamDataChart x:Name="Stacked100BarChart" Legend="{Binding ElementName=Legend}" >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericXAxis x:Name="Stacked100BarXAxis" Label="{}{} %" />
+                    <ig:CategoryYAxis x:Name="Stacked100BarYAxis" ItemsSource="{Binding EnergySampleData}"
+                                      Label="{}{Country}" />
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:Stacked100BarSeries XAxis="{Binding ElementName=Stacked100BarXAxis}"
+                                            YAxis="{Binding ElementName=Stacked100BarYAxis}"
+                                            ItemsSource="{Binding EnergySampleData}">
+                        <ig:Stacked100BarSeries.Series>
+                            <ig:StackedFragmentSeries ValueMemberPath="Coal" Title="{Binding StringEnergyCoal, Source={StaticResource DataSource}}" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Hydro" Title="{Binding StringEnergyHydro, Source={StaticResource DataSource}}" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Nuclear" Title="{Binding StringEnergyNuclear, Source={StaticResource DataSource}}" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Gas" Title="{Binding StringEnergyGas, Source={StaticResource DataSource}}" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Oil" Title="{Binding StringEnergyOil, Source={StaticResource DataSource}}" />
+                        </ig:Stacked100BarSeries.Series>
+                    </ig:Stacked100BarSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+
+            <ig:XamDataChart x:Name="Stacked100ColumnChart" Legend="{Binding ElementName=Legend}" >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericYAxis x:Name="Stacked100ColumnYAxis" Label="{}{} %" />
+                    <ig:CategoryXAxis x:Name="Stacked100ColumnXAxis" ItemsSource="{Binding EnergySampleData}"
+                                      Label="{}{Country}" />
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:Stacked100ColumnSeries XAxis="{Binding ElementName=Stacked100ColumnXAxis}"
+                                               YAxis="{Binding ElementName=Stacked100ColumnYAxis}"
+                                               ItemsSource="{Binding EnergySampleData}">
+                        <ig:Stacked100ColumnSeries.Series>
+                            <ig:StackedFragmentSeries ValueMemberPath="Coal" Title="{Binding StringEnergyCoal, Source={StaticResource DataSource}}" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Hydro" Title="{Binding StringEnergyHydro, Source={StaticResource DataSource}}" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Nuclear" Title="{Binding StringEnergyNuclear, Source={StaticResource DataSource}}" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Gas" Title="{Binding StringEnergyGas, Source={StaticResource DataSource}}" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Oil" Title="{Binding StringEnergyOil, Source={StaticResource DataSource}}" />
+                        </ig:Stacked100ColumnSeries.Series>
+                    </ig:Stacked100ColumnSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+            <ig:XamDataChart x:Name="StackedColumnChart" Legend="{Binding ElementName=Legend}" Padding="10" >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericYAxis x:Name="StackedColumnYAxis" MinimumValue="0" Interval="400" Label="{}{} TWh" />
+                    <ig:CategoryXAxis x:Name="StackedColumnXAxis" ItemsSource="{Binding EnergySampleData}"
+                                      Label="{}{Country}" />
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:StackedColumnSeries XAxis="{Binding ElementName=StackedColumnXAxis}"
+                                            YAxis="{Binding ElementName=StackedColumnYAxis}"
+                                            ItemsSource="{Binding EnergySampleData}">
+                        <ig:StackedColumnSeries.Series>
+                            <ig:StackedFragmentSeries ValueMemberPath="Coal" Title="{Binding StringEnergyCoal, Source={StaticResource DataSource}}" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Hydro" Title="{Binding StringEnergyHydro, Source={StaticResource DataSource}}" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Nuclear" Title="{Binding StringEnergyNuclear, Source={StaticResource DataSource}}" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Gas" Title="{Binding StringEnergyGas, Source={StaticResource DataSource}}" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Oil" Title="{Binding StringEnergyOil, Source={StaticResource DataSource}}" />
+                        </ig:StackedColumnSeries.Series>
+                    </ig:StackedColumnSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+
+            <ig:XamDataChart x:Name="StackedAreaChart" Legend="{Binding ElementName=Legend}" >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericYAxis x:Name="StackedAreaYAxis" MinimumValue="0" Interval="400" Label="{}{} TWh"  />
+                    <ig:CategoryXAxis x:Name="StackedAreaXAxis" ItemsSource="{Binding EnergySampleData}" Label="{}{Country}">
+                    </ig:CategoryXAxis>
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:StackedAreaSeries ItemsSource="{Binding EnergySampleData}"
+                                          Title="{Binding StringEnergyHydro, Source={StaticResource DataSource}}"
+                                          XAxis="{Binding ElementName=StackedAreaXAxis}"
+                                          YAxis="{Binding ElementName=StackedAreaYAxis}">
+                        <ig:StackedAreaSeries.Series>
+                            <ig:StackedFragmentSeries ValueMemberPath="Coal" Title="{Binding StringEnergyCoal, Source={StaticResource DataSource}}" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Hydro" Title="{Binding StringEnergyHydro, Source={StaticResource DataSource}}" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Nuclear" Title="{Binding StringEnergyNuclear, Source={StaticResource DataSource}}" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Gas" Title="{Binding StringEnergyGas, Source={StaticResource DataSource}}" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Oil" Title="{Binding StringEnergyOil, Source={StaticResource DataSource}}" />
+                        </ig:StackedAreaSeries.Series>
+                    </ig:StackedAreaSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+            <ig:XamDataChart x:Name="Stacked100AreaChart" Legend="{Binding ElementName=Legend}" >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericYAxis x:Name="Stacked100AreaYAxis" MinimumValue="0" Label="{}{} %"  />
+                    <ig:CategoryXAxis x:Name="Stacked100AreaXAxis" ItemsSource="{Binding EnergySampleData}" Label="{}{Country}">
+                    </ig:CategoryXAxis>
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:Stacked100AreaSeries ItemsSource="{Binding EnergySampleData}"
+                                             Title="{Binding StringEnergyHydro, Source={StaticResource DataSource}}"
+                                             XAxis="{Binding ElementName=Stacked100AreaXAxis}"
+                                             YAxis="{Binding ElementName=Stacked100AreaYAxis}">
+                        <ig:Stacked100AreaSeries.Series>
+                            <ig:StackedFragmentSeries ValueMemberPath="Coal" Title="{Binding StringEnergyCoal, Source={StaticResource DataSource}}" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Hydro" Title="{Binding StringEnergyHydro, Source={StaticResource DataSource}}" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Nuclear" Title="{Binding StringEnergyNuclear, Source={StaticResource DataSource}}" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Gas" Title="{Binding StringEnergyGas, Source={StaticResource DataSource}}" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Oil" Title="{Binding StringEnergyOil, Source={StaticResource DataSource}}" />
+                        </ig:Stacked100AreaSeries.Series>
+                    </ig:Stacked100AreaSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+            
+            <ig:XamDataChart x:Name="StackedLineChart" Legend="{Binding ElementName=Legend}" >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericYAxis x:Name="StackedLineYAxis" MinimumValue="0" Interval="400" Label="{}{} TWh"  />
+                    <ig:CategoryXAxis x:Name="StackedLineXAxis" ItemsSource="{Binding EnergySampleData}" Label="{}{Country}">
+                    </ig:CategoryXAxis>
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:StackedLineSeries ItemsSource="{Binding EnergySampleData}"
+                                          Title="{Binding StringEnergyHydro, Source={StaticResource DataSource}}"
+                                          XAxis="{Binding ElementName=StackedLineXAxis}"
+                                          YAxis="{Binding ElementName=StackedLineYAxis}">
+                        <ig:StackedLineSeries.Series>
+                            <ig:StackedFragmentSeries ValueMemberPath="Coal" Title="{Binding StringEnergyCoal, Source={StaticResource DataSource}}" Thickness="5" MarkerType="None" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Hydro" Title="{Binding StringEnergyHydro, Source={StaticResource DataSource}}" Thickness="5" MarkerType="None" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Nuclear" Title="{Binding StringEnergyNuclear, Source={StaticResource DataSource}}" Thickness="5" MarkerType="None" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Gas" Title="{Binding StringEnergyGas, Source={StaticResource DataSource}}" Thickness="5" MarkerType="None" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Oil" Title="{Binding StringEnergyOil, Source={StaticResource DataSource}}" Thickness="5" MarkerType="None" />
+                        </ig:StackedLineSeries.Series>
+                    </ig:StackedLineSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+            <ig:XamDataChart x:Name="Stacked100LineChart" Legend="{Binding ElementName=Legend}" >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericYAxis x:Name="Stacked100LineYAxis" Label="{}{} %"  />
+                    <ig:CategoryXAxis x:Name="Stacked100LineXAxis" ItemsSource="{Binding EnergySampleData}" Label="{}{Country}">
+                    </ig:CategoryXAxis>
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:Stacked100LineSeries ItemsSource="{Binding EnergySampleData}"
+                                             Title="{Binding StringEnergyHydro, Source={StaticResource DataSource}}"
+                                             XAxis="{Binding ElementName=Stacked100LineXAxis}"
+                                             YAxis="{Binding ElementName=Stacked100LineYAxis}">
+                        <ig:Stacked100LineSeries.Series>
+                            <ig:StackedFragmentSeries ValueMemberPath="Coal" Title="{Binding StringEnergyCoal, Source={StaticResource DataSource}}" Thickness="5" MarkerType="None" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Hydro" Title="{Binding StringEnergyHydro, Source={StaticResource DataSource}}" Thickness="5" MarkerType="None" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Nuclear" Title="{Binding StringEnergyNuclear, Source={StaticResource DataSource}}" Thickness="5" MarkerType="None" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Gas" Title="{Binding StringEnergyGas, Source={StaticResource DataSource}}" Thickness="5" MarkerType="None" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Oil" Title="{Binding StringEnergyOil, Source={StaticResource DataSource}}" Thickness="5" MarkerType="None" />
+                        </ig:Stacked100LineSeries.Series>
+                    </ig:Stacked100LineSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+
+            <ig:XamDataChart x:Name="StackedSplineChart" Legend="{Binding ElementName=Legend}"  >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericYAxis x:Name="StackedSplineYAxis" MinimumValue="0" Interval="400" Label="{}{} TWh"  />
+                    <ig:CategoryXAxis x:Name="StackedSplineXAxis" ItemsSource="{Binding EnergySampleData}" Label="{}{Country}">
+                    </ig:CategoryXAxis>
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:StackedSplineSeries ItemsSource="{Binding EnergySampleData}"
+                                            Title="{Binding StringEnergyHydro, Source={StaticResource DataSource}}"
+                                            XAxis="{Binding ElementName=StackedSplineXAxis}"
+                                            YAxis="{Binding ElementName=StackedSplineYAxis}">
+                        <ig:StackedSplineSeries.Series>
+                            <ig:StackedFragmentSeries ValueMemberPath="Coal" Title="{Binding StringEnergyCoal, Source={StaticResource DataSource}}" Thickness="5" MarkerType="None" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Hydro" Title="{Binding StringEnergyHydro, Source={StaticResource DataSource}}" Thickness="5" MarkerType="None" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Nuclear" Title="{Binding StringEnergyNuclear, Source={StaticResource DataSource}}" Thickness="5" MarkerType="None" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Gas" Title="{Binding StringEnergyGas, Source={StaticResource DataSource}}" Thickness="5" MarkerType="None" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Oil" Title="{Binding StringEnergyOil, Source={StaticResource DataSource}}" Thickness="5" MarkerType="None" />
+                        </ig:StackedSplineSeries.Series>
+                    </ig:StackedSplineSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+            <ig:XamDataChart x:Name="Stacked100SplineChart" Legend="{Binding ElementName=Legend}"  >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericYAxis x:Name="Stacked100SplineYAxis" Label="{}{} %"  />
+                    <ig:CategoryXAxis x:Name="Stacked100SplineXAxis" ItemsSource="{Binding EnergySampleData}" Label="{}{Country}">
+                    </ig:CategoryXAxis>
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:Stacked100SplineSeries ItemsSource="{Binding EnergySampleData}"
+                                               Title="{Binding StringEnergyHydro, Source={StaticResource DataSource}}"
+                                               XAxis="{Binding ElementName=Stacked100SplineXAxis}"
+                                               YAxis="{Binding ElementName=Stacked100SplineYAxis}">
+                        <ig:Stacked100SplineSeries.Series>
+                            <ig:StackedFragmentSeries ValueMemberPath="Coal" Title="{Binding StringEnergyCoal, Source={StaticResource DataSource}}" Thickness="5" MarkerType="None" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Hydro" Title="{Binding StringEnergyHydro, Source={StaticResource DataSource}}" Thickness="5" MarkerType="None" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Nuclear" Title="{Binding StringEnergyNuclear, Source={StaticResource DataSource}}" Thickness="5" MarkerType="None" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Gas" Title="{Binding StringEnergyGas, Source={StaticResource DataSource}}" Thickness="5" MarkerType="None" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Oil" Title="{Binding StringEnergyOil, Source={StaticResource DataSource}}" Thickness="5" MarkerType="None" />
+                        </ig:Stacked100SplineSeries.Series>
+                    </ig:Stacked100SplineSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+
+            <ig:XamDataChart x:Name="StackedSplineAreaChart" Legend="{Binding ElementName=Legend}" >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericYAxis x:Name="StackedSplineAreaYAxis" MinimumValue="0" Interval="400" Label="{}{} TWh"  />
+                    <ig:CategoryXAxis x:Name="StackedSplineAreaXAxis" ItemsSource="{Binding EnergySampleData}" Label="{}{Country}">
+                    </ig:CategoryXAxis>
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:StackedSplineAreaSeries ItemsSource="{Binding EnergySampleData}"
+                                                Title="{Binding StringEnergyHydro, Source={StaticResource DataSource}}"
+                                                XAxis="{Binding ElementName=StackedSplineAreaXAxis}"
+                                                YAxis="{Binding ElementName=StackedSplineAreaYAxis}">
+                        <ig:StackedSplineAreaSeries.Series>
+                            <ig:StackedFragmentSeries ValueMemberPath="Coal" Title="{Binding StringEnergyCoal, Source={StaticResource DataSource}}" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Hydro" Title="{Binding StringEnergyHydro, Source={StaticResource DataSource}}" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Nuclear" Title="{Binding StringEnergyNuclear, Source={StaticResource DataSource}}" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Gas" Title="{Binding StringEnergyGas, Source={StaticResource DataSource}}" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Oil" Title="{Binding StringEnergyOil, Source={StaticResource DataSource}}" />
+                        </ig:StackedSplineAreaSeries.Series>
+                    </ig:StackedSplineAreaSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+            <ig:XamDataChart x:Name="Stacked100SplineAreaChart" Legend="{Binding ElementName=Legend}">
+                <ig:XamDataChart.Axes>
+                    <ig:NumericYAxis x:Name="Stacked100SplineAreaYAxis" Label="{}{} %"  />
+                    <ig:CategoryXAxis x:Name="Stacked100SplineAreaXAxis" ItemsSource="{Binding EnergySampleData}" Label="{}{Country}">
+                    </ig:CategoryXAxis>
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:Stacked100SplineAreaSeries ItemsSource="{Binding EnergySampleData}"
+                                                   Title="{Binding StringEnergyHydro, Source={StaticResource DataSource}}"
+                                                   XAxis="{Binding ElementName=Stacked100SplineAreaXAxis}"
+                                                   YAxis="{Binding ElementName=Stacked100SplineAreaYAxis}">
+                        <ig:Stacked100SplineAreaSeries.Series>
+                            <ig:StackedFragmentSeries ValueMemberPath="Coal" Title="{Binding StringEnergyCoal, Source={StaticResource DataSource}}" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Hydro" Title="{Binding StringEnergyHydro, Source={StaticResource DataSource}}" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Nuclear" Title="{Binding StringEnergyNuclear, Source={StaticResource DataSource}}" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Gas" Title="{Binding StringEnergyGas, Source={StaticResource DataSource}}" />
+                            <ig:StackedFragmentSeries ValueMemberPath="Oil" Title="{Binding StringEnergyOil, Source={StaticResource DataSource}}" />
+                        </ig:Stacked100SplineAreaSeries.Series>
+                    </ig:Stacked100SplineAreaSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
+         
+            <ig:Legend x:Name="Legend" HorizontalAlignment="Right" Margin="20"  
+                       VerticalAlignment="Top" Content="{Binding StringEnergyProduction}">
+            </ig:Legend>
+        </Grid>
+        <Border Grid.Row="0" Margin="{StaticResource SampleInnerNavigationPadding}" HorizontalAlignment="Left">
+            <StackPanel Orientation="Horizontal" Margin="6">
+                <TextBlock Text="{Binding XWDC_Global_SeriesType, Source={StaticResource Strings}}" Style="{StaticResource SamplesInnerNavigationTitleStyle}"/>
+                <ComboBox x:Name="ItemSelectionComboBox" Width="300" Margin="4,0,2,0" HorizontalAlignment="Left" VerticalAlignment="Center"  Style="{StaticResource IGComboBoxStyle}"/>
+                <Button x:Name="PrevItemButton" VerticalAlignment="Center" HorizontalAlignment="Center" Cursor="Hand" Margin="0,0,2,0" Content="" Style="{StaticResource IGPreviousButtonStyle}" />
+                <Button x:Name="NextItemButton" VerticalAlignment="Center" HorizontalAlignment="Right" Cursor="Hand" Margin="0,0,2,0" Content="" Style="{StaticResource IGNextButtonStyle}" />
+            </StackPanel>
+        </Border>
+
+    </Grid>
+</igFramework:SampleContainer>

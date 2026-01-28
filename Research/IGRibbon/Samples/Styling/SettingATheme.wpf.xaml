@@ -1,0 +1,150 @@
+﻿<framework:SampleContainer x:Class="IGRibbon.Samples.Styling.SettingATheme"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="Setting a Theme"
+      xmlns:local="clr-namespace:IGRibbon.Samples.Styling"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:igRibbon="http://infragistics.com/Ribbon"
+      xmlns:res="clr-namespace:IGRibbon.Resources"
+      xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <framework:SampleContainer.DataContext>
+        <local:ThemeViewModel />
+    </framework:SampleContainer.DataContext>
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGRibbon;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:RibbonStrings x:Key="RibbonStrings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Width="Auto">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <igRibbon:XamRibbon x:Name="xamRibbon" Grid.Row="1"
+                            VerticalAlignment="Top" >
+            <!-- ApplicationMenu -->
+            <igRibbon:XamRibbon.ApplicationMenu>
+                <igRibbon:ApplicationMenu
+                    Image="/IGRibbon;component/Images/xamRibbonDefaultApplicationIcon.png"
+                    RecentItemsHeader="{Binding Shared_ApplicationMenu_RecentItems_Header}">
+                    <igRibbon:ButtonTool Caption="{Binding Shared_ApplicationMenu_Button_New, Source={StaticResource RibbonStrings}}"
+                                         LargeImage="/IGRibbon;component/Images/New_Large.png"/>
+                    <igRibbon:ButtonTool Caption="{Binding Shared_ApplicationMenu_Button_Open, Source={StaticResource RibbonStrings}}"
+                                         LargeImage="/IGRibbon;component/Images/Open_Large.png"/>
+                    <igRibbon:ButtonTool Caption="{Binding Shared_ApplicationMenu_Button_Save, Source={StaticResource RibbonStrings}}"
+                                         LargeImage="/IGRibbon;component/Images/Save_Large.png" IsEnabled="{Binding ElementName=editorWindow,Path=IsDocumentOpen}"/>
+                    <igRibbon:ButtonTool Caption="{Binding Shared_ApplicationMenu_Button_Close, Source={StaticResource RibbonStrings}}"
+                                         LargeImage="/IGRibbon;component/Images/Close_Large.png" IsEnabled="{Binding ElementName=editorWindow,Path=IsDocumentOpen}"/>
+                    <igRibbon:SeparatorTool/>
+                     
+                    <igRibbon:ApplicationMenu.RecentItems>
+                        <igRibbon:ButtonTool Caption="{Binding Shared_ApplicationMenu_RecentItems_Item1, Source={StaticResource RibbonStrings}}"/>
+                        <igRibbon:ButtonTool Caption="{Binding Shared_ApplicationMenu_RecentItems_Item2, Source={StaticResource RibbonStrings}}"/>
+                        <igRibbon:ButtonTool Caption="{Binding Shared_ApplicationMenu_RecentItems_Item3, Source={StaticResource RibbonStrings}}"/>
+                        <igRibbon:ButtonTool Caption="{Binding Shared_ApplicationMenu_RecentItems_Item4, Source={StaticResource RibbonStrings}}"/>
+                        <igRibbon:ButtonTool Caption="{Binding Shared_ApplicationMenu_RecentItems_Item5, Source={StaticResource RibbonStrings}}"/>
+                        <igRibbon:ButtonTool Caption="{Binding Shared_ApplicationMenu_RecentItems_Item6, Source={StaticResource RibbonStrings}}"/>
+                        <igRibbon:ButtonTool Caption="{Binding Shared_ApplicationMenu_RecentItems_Item7, Source={StaticResource RibbonStrings}}"/>
+                        <igRibbon:ButtonTool Caption="{Binding Shared_ApplicationMenu_RecentItems_Item8, Source={StaticResource RibbonStrings}}"/>
+                        <igRibbon:ButtonTool Caption="{Binding Shared_ApplicationMenu_RecentItems_Item9, Source={StaticResource RibbonStrings}}"/>
+                        <igRibbon:ButtonTool Caption="{Binding Shared_ApplicationMenu_RecentItems_Item10, Source={StaticResource RibbonStrings}}"/>
+                    </igRibbon:ApplicationMenu.RecentItems>
+                    <igRibbon:ApplicationMenu.FooterToolbar>
+                        <igRibbon:ApplicationMenuFooterToolbar>
+                            <igRibbon:ButtonTool Caption="{Binding Shared_ApplicationMenu_Button_Exit, Source={StaticResource RibbonStrings}}"/>
+                        </igRibbon:ApplicationMenuFooterToolbar>
+                    </igRibbon:ApplicationMenu.FooterToolbar>
+                </igRibbon:ApplicationMenu>
+            </igRibbon:XamRibbon.ApplicationMenu>
+            <!-- End ApplicationMenu -->
+            <igRibbon:XamRibbon.Tabs>
+                <igRibbon:RibbonTabItem Header="{Binding Shared_Tab_Format_Header, Source={StaticResource RibbonStrings}}">
+                    <!-- RibbonGroup-->
+                    <igRibbon:RibbonGroup Id="Clipboard" Caption="{Binding Shared_Tab_Format_Group_Clipboard_Caption,
+                        Source={StaticResource RibbonStrings}}" IsEnabled="True">
+                        <igRibbon:ToolHorizontalWrapPanel>
+                            <igRibbon:ButtonTool
+                                Caption="{Binding Shared_Tab_Format_Group_Clipboard_Button_Paste, Source={StaticResource RibbonStrings}}"
+                                igRibbon:RibbonGroup.MaximumSize="ImageAndTextLarge"
+                                SmallImage="/IGRibbon;component/Images/Paste_16x16.png"
+                                LargeImage="/IGRibbon;component/Images/Paste_32x32.png"/>
+                            <igRibbon:ButtonGroup>
+                                <igRibbon:ButtonTool Id="cutTool" SmallImage="/IGRibbon;component/Images/EditCut.png"/>
+                                <igRibbon:ButtonTool Id="copyTool" SmallImage="/IGRibbon;component/Images/EditCopy.png"/>
+                            </igRibbon:ButtonGroup>
+                            <igRibbon:ButtonGroup>
+                                <igRibbon:ButtonTool Id="undoTool" SmallImage="/IGRibbon;component/Images/EditUndo.png"/>
+                                <igRibbon:ButtonTool Id="redoTool" SmallImage="/IGRibbon;component/Images/EditRedo.png"/>
+                            </igRibbon:ButtonGroup>
+                        </igRibbon:ToolHorizontalWrapPanel>
+                    </igRibbon:RibbonGroup>
+                    <!-- End RibbonGroup-->
+                    <!-- RibbonGroup-->
+                    <igRibbon:RibbonGroup Id="Text Style" Caption="{Binding Shared_Tab_Format_Group_TextStyle_Caption,
+                        Source={StaticResource RibbonStrings}}" IsEnabled="True">
+                        <igRibbon:ToolHorizontalWrapPanel>
+                            <igRibbon:ButtonGroup>
+                                <igRibbon:ToggleButtonTool x:Name="boldTool" SmallImage="{Binding Path=Bold}" />
+                                <igRibbon:ToggleButtonTool x:Name="italicTool" SmallImage="{Binding Path=Italic}" />
+                                <igRibbon:ToggleButtonTool x:Name="underlineTool" SmallImage="{Binding Path=Underline}"/>
+                            </igRibbon:ButtonGroup>
+                            <igRibbon:ButtonGroup>
+                                <igRibbon:RadioButtonTool SmallImage="{Binding Path=LeftAlign}" IsChecked="True" />
+                                <igRibbon:RadioButtonTool SmallImage="{Binding Path=CenterAlign}" />
+                                <igRibbon:RadioButtonTool SmallImage="{Binding Path=RightAlign}" />
+                                <igRibbon:RadioButtonTool SmallImage="{Binding Path=JustifyAlign}" />
+                            </igRibbon:ButtonGroup>
+                        </igRibbon:ToolHorizontalWrapPanel>
+                    </igRibbon:RibbonGroup>
+                    <!-- End RibbonGroup-->
+                    <!-- RibbonGroup-->
+                    <igRibbon:RibbonGroup Id="FontGlobal" Caption="{Binding Shared_Tab_Format_Group_GlobalFont_Caption,
+                        Source={StaticResource RibbonStrings}}" IsEnabled="True">
+                        <igRibbon:ToolHorizontalWrapPanel>
+                            <igRibbon:ComboEditorTool
+                                Id="fontFamilyCombo"
+                                x:Name="fontFamilyCombo"
+                                DropDownResizeMode="VerticalOnly"
+                                IsEditable="False"
+                                EditAreaWidth="148.0">
+                            </igRibbon:ComboEditorTool>
+                            <igRibbon:ComboEditorTool
+                                Id="fontSizeCombo"
+                                x:Name="fontSizeCombo"
+                                IsEditable="False"
+                                DropDownResizeMode="VerticalOnly"
+                                EditAreaWidth="118.0"
+                                ValueType="{x:Type sys:Double}">
+                            </igRibbon:ComboEditorTool>
+                            <igRibbon:MenuTool igRibbon:RibbonGroup.MaximumSize="ImageOnly" SmallImage="/IGRibbon;component/Images/FontColor.png">
+                                <TextBlock Text="{Binding Shared_Tab_Format_Group_GlobalFont_ColorMenu_Color, Source={StaticResource RibbonStrings}}"/>
+                            </igRibbon:MenuTool>
+                        </igRibbon:ToolHorizontalWrapPanel>
+                    </igRibbon:RibbonGroup>
+                    <!-- End RibbonGroup-->
+                </igRibbon:RibbonTabItem>
+            </igRibbon:XamRibbon.Tabs>
+        </igRibbon:XamRibbon>
+        
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ================================================================================================== -->
+        <!-- Note theme are changed in code-behind -->
+        <controls:ThemeSelector x:Name="ThemeSelector" 
+                                HorizontalAlignment="Right"
+                                SelectionChanged="OnSelectionChanged"/>
+        <!-- ================================================================================================== -->
+        <!-- #END SNIPPET# -->
+    </Grid>
+</framework:SampleContainer>

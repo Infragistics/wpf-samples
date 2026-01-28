@@ -1,0 +1,61 @@
+﻿<framework:SampleContainer x:Class="IGExcel.Samples.Data.WorksheetCharts"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:igThemes="http://infragistics.com/Themes"
+      xmlns:local="clr-namespace:IGExcel.Samples.Data"
+      xmlns:resCommon="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGExcel.Resources"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="WorksheetCharts">
+    <framework:SampleContainer.Resources>
+        <resCommon:CommonStrings x:Key="CommonStrings"/>
+        <res:ExcelStrings x:Key="ExcelStrings"/>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="layoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <ig:XamDataChart Title="Expense Trends">
+            <ig:XamDataChart.Axes>
+                <ig:CategoryXAxis x:Name="xAxis" ItemsSource="{Binding ChartData.DefaultView}" Label="{}{Month}" Interval="1"/>
+                <ig:NumericYAxis x:Name="yAxis"/>
+            </ig:XamDataChart.Axes>
+            <ig:XamDataChart.Series>
+                <ig:LineSeries XAxis="{Binding ElementName=xAxis}" YAxis="{Binding ElementName=yAxis}" ItemsSource="{Binding ChartData.DefaultView}" ValueMemberPath="Expense 1"/>
+                <ig:LineSeries XAxis="{Binding ElementName=xAxis}" YAxis="{Binding ElementName=yAxis}" ItemsSource="{Binding ChartData.DefaultView}" ValueMemberPath="Expense 2"/>
+                <ig:LineSeries XAxis="{Binding ElementName=xAxis}" YAxis="{Binding ElementName=yAxis}" ItemsSource="{Binding ChartData.DefaultView}" ValueMemberPath="Expense 3"/>
+                <ig:LineSeries XAxis="{Binding ElementName=xAxis}" YAxis="{Binding ElementName=yAxis}" ItemsSource="{Binding ChartData.DefaultView}" ValueMemberPath="Expense 4"/>
+                <ig:LineSeries XAxis="{Binding ElementName=xAxis}" YAxis="{Binding ElementName=yAxis}" ItemsSource="{Binding ChartData.DefaultView}" ValueMemberPath="Expense 5"/>
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+
+        <igDP:XamDataGrid x:Name="xdg1" DataSource="{Binding Data.DefaultView}" AutoFit="True" Grid.Row="1" Theme="RoyalLight">
+            <igDP:XamDataGrid.Resources>
+                <Style TargetType="{x:Type igDP:CellValuePresenter}" BasedOn="{x:Static igThemes:DataPresenterRoyalLight.CellValuePresenter}">
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                </Style>
+            </igDP:XamDataGrid.Resources>
+            <igDP:XamDataGrid.FieldSettings>
+                <igDP:FieldSettings LabelTextAlignment="Center"/>
+            </igDP:XamDataGrid.FieldSettings>
+        </igDP:XamDataGrid>
+
+        <controls:OptionsPanel HeaderText="{Binding XW_Options, Source={StaticResource CommonStrings}}" HorizontalAlignment="Right">
+            <!-- Export to Excel with Sparkline -->
+            <Button Click="Button_Click"  Content="{Binding Source={StaticResource ExcelStrings}, Path=Excel_ButtonCaptionExport}"></Button>
+        </controls:OptionsPanel>
+
+    </Grid>
+    
+</framework:SampleContainer>

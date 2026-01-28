@@ -1,0 +1,612 @@
+﻿<igFramework:SampleContainer x:Class="IGDataGrid.Samples.Style.IDataErrorInfo_Styling"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="IDataErrorInfo_Styling"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:igEditors="http://infragistics.com/Editors"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGDataGrid.Resources"
+      xmlns:igThemes="http://infragistics.com/Themes">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataGrid;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DataGridStrings x:Key="Strings" />
+             <Geometry x:Key="ErrorIcon">M 507 1398 L 507 1392 L 509 1392 L 509 1398 L 507 1398 ZM 507 1402 L 507 1400 L 509 1400 L 509 1402 L 507 1402 ZM 499 1397.5294 C 499 1401.7646 503.2354 1406 508.5294 1406 C 512.7646 1406 517 1401.7646 517 1397.5294 C 517 1392.2354 512.7646 1388 508.5294 1388 C 503.2354 1388 499 1392.2354 499 1397.5294 Z</Geometry>
+            
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid>
+        <igDP:XamDataGrid x:Name="XamDataGrid1"
+                          Theme="RoyalLight">
+            <igDP:XamDataGrid.Resources>
+                <SolidColorBrush x:Key="ErrorHighlightBgBrush" Color="#FFF96232" />
+                                     
+                <!--This is the style for the data error icon itself. Here you can change the appearance of the
+                error icon.-->
+                <Style x:Key="{x:Static igDP:DataPresenterBase.DataErrorIconStyleKey}"
+                       TargetType="{x:Type Control}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Control}">
+                                <Grid>
+                                    <Path Width="16"
+                                          Height="16"
+                                          Stretch="Fill"
+                                          SnapsToDevicePixels="True"
+                                          Data="{StaticResource ErrorIcon}"
+                                          Fill="#FFFF9800"/>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+                <!--Data template used to change the location of the error icon in the cell or completely
+                change the way the data errors are displayed. The following puts the error icon on the
+                right instead of on the default which is left of the cell content. -->
+                <DataTemplate x:Key="{x:Static igDP:DataPresenterBase.DataErrorContentTemplateKey}">
+                    <Grid x:Name="panel">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Border x:Name="errorBorder"
+                                BorderThickness="1"
+                                BorderBrush="#FF5D696D"
+                                Grid.ColumnSpan="2"
+                                Visibility="Collapsed"
+                                SnapsToDevicePixels="True">
+                            <Border x:Name="innerBorder"
+                                    BorderThickness="1"
+                                    SnapsToDevicePixels="True" />
+                        </Border>
+                        <Control x:Name="errorIcon"
+                                 Visibility="Collapsed"
+                                 Margin="4,0,0,0"
+                                 Style="{DynamicResource {x:Static igDP:DataPresenterBase.DataErrorIconStyleKey}}" />
+                        <ContentPresenter x:Name="content"
+                                          ContentTemplate="{x:Null}"
+                                          Grid.Column="1"
+                                          Margin="0,0,2,0" />
+                    </Grid>
+                    <DataTemplate.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Path=Host.HasDataError}"
+                                           Value="true" />
+                                <Condition Binding="{Binding Path=Host.IsDataErrorDisplayModeIcon}"
+                                           Value="true" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="errorIcon"
+                                    Property="Visibility"
+                                    Value="Visible" />
+                            <Setter TargetName="errorIcon"
+                                    Property="ToolTip"
+                                    Value="{Binding Path=Host.DataError}" />
+                            <Setter TargetName="innerBorder"
+                                    Property="Background"
+                                    Value="{DynamicResource ErrorHighlightBgBrush}" />
+                        </MultiDataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Path=Host.HasDataError}"
+                                           Value="true" />
+                                <Condition Binding="{Binding Path=Host.IsDataErrorDisplayModeHighlight}"
+                                           Value="true" />
+                                <Condition Binding="{Binding Path=Host.IsInEditMode}"
+                                           Value="False" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="errorBorder"
+                                    Property="Visibility"
+                                    Value="Visible" />
+                            <Setter TargetName="content"
+                                    Property="TextElement.Foreground"
+                                    Value="#FFFFFFFF" />
+                            <Setter TargetName="innerBorder"
+                                    Property="Background"
+                                    Value="{DynamicResource ErrorHighlightBgBrush}" />
+                        </MultiDataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+                <Style TargetType="{x:Type igDP:RecordSelector}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type igDP:RecordSelector}">
+                                <ControlTemplate.Resources>
+                                    <Storyboard x:Key="MouseEnter">
+                                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
+                                                                       Storyboard.TargetName="selectorArrow"
+                                                                       Storyboard.TargetProperty="(UIElement.Opacity)">
+                                            <SplineDoubleKeyFrame KeyTime="00:00:00.2000000"
+                                                                  Value="0.5" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                    <Storyboard x:Key="MouseLeave">
+                                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
+                                                                       Storyboard.TargetName="selectorArrow"
+                                                                       Storyboard.TargetProperty="(UIElement.Opacity)">
+                                            <SplineDoubleKeyFrame KeyTime="00:00:00.2000000"
+                                                                  Value="0" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                    <Storyboard x:Key="RecordActiveTrue">
+                                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
+                                                                       Storyboard.TargetName="selectorArrow_Active"
+                                                                       Storyboard.TargetProperty="(UIElement.Opacity)">
+                                            <SplineDoubleKeyFrame KeyTime="00:00:00.2000000"
+                                                                  Value="1" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                    <Storyboard x:Key="RecordActiveFalse">
+                                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
+                                                                       Storyboard.TargetName="selectorArrow_Active"
+                                                                       Storyboard.TargetProperty="(UIElement.Opacity)">
+                                            <SplineDoubleKeyFrame KeyTime="00:00:00"
+                                                                  Value="1" />
+                                            <SplineDoubleKeyFrame KeyTime="00:00:00.2000000"
+                                                                  Value="0" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                    <Storyboard x:Key="HideSelector">
+                                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
+                                                                       Duration="00:00:00.0010000"
+                                                                       Storyboard.TargetName="selectors"
+                                                                       Storyboard.TargetProperty="(UIElement.Opacity)">
+                                            <SplineDoubleKeyFrame KeyTime="00:00:00"
+                                                                  Value="0" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </ControlTemplate.Resources>
+                                <Grid x:Name="MainBorder"
+                                      Background="#00FFFFFF"
+                                      Cursor="{TemplateBinding Cursor}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="20" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border x:Name="Bd"
+                                            Visibility="Collapsed"
+                                            BorderThickness="1"
+                                            BorderBrush="#FF5D696D"
+                                            Grid.ColumnSpan="3"
+                                            SnapsToDevicePixels="True">
+                                        <Border x:Name="innerBorder"
+                                                BorderThickness="1"
+                                                SnapsToDevicePixels="True" />
+                                    </Border>
+                                    <Grid x:Name="selectors"
+                                          Height="16"
+                                          Width="16"
+                                          Opacity="1">
+                                        <Path x:Name="selectorArrow"
+                                              RenderTransformOrigin="0.5,0.5"
+                                              Fill="{TemplateBinding Background}"
+                                              Stretch="Fill"
+                                              Stroke="#00CCCCCC"
+                                              StrokeThickness="1"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Margin="{TemplateBinding Padding}"
+                                              Width="7"
+                                              Height="10"
+                                              Cursor="{TemplateBinding Cursor}"
+                                              Data="M60,40L60,20 70,30z"
+                                              Visibility="Visible"
+                                              Opacity="0" />
+                                        <Path x:Name="selectorDataChanged"
+                                              Margin="0,0,0,0"
+                                              HorizontalAlignment="Left"
+                                              VerticalAlignment="Top"
+                                              Height="5.409"
+                                              Width="3.444"
+                                              Stretch="Fill"
+                                              Opacity="1"
+                                              Data="M 1,8.6568603515625 C1,8.6568603515625 1,1.3431400060653687 1,1.3431400060653687 1,1.3431400060653687 5.656859874725342,5 5.656859874725342,5 5.656859874725342,5 1,8.6568603515625 1,8.6568603515625 z"
+                                              Fill="{TemplateBinding Background}"
+                                              Visibility="Collapsed" />
+                                        <Path x:Name="selectorAddRecord"
+                                              Margin="0,0,0,0"
+                                              HorizontalAlignment="Left"
+                                              VerticalAlignment="Top"
+                                              Height="7.497498035430908"
+                                              Width="4.656859874725342"
+                                              Stretch="Fill"
+                                              Opacity="1"
+                                              Data="M 0,7.497498035430908 C0,7.497498035430908 0,0 0,0 0,0 4.656859874725342,3.748749017715454 4.656859874725342,3.748749017715454 4.656859874725342,3.748749017715454 0,7.497498035430908 0,7.497498035430908 z"
+                                              Fill="{TemplateBinding Background}"
+                                              Visibility="Collapsed" />
+                                        <Path x:Name="selectorArrow_Active"
+                                              RenderTransformOrigin="0.5,0.5"
+                                              Fill="{TemplateBinding Background}"
+                                              Stretch="Fill"
+                                              Stroke="#00CCCCCC"
+                                              StrokeThickness="1"
+                                              HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Margin="4.5,3,4.5,3"
+                                              Cursor="{TemplateBinding Cursor}"
+                                              Data="M60,40L60,20 70,30z"
+                                              Visibility="Visible"
+                                              Opacity="0" />
+                                        <Button x:Name="ClearButton"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center"
+                                                Style="{DynamicResource {x:Static igDP:DataPresenterBase.FilterRecordClearButtonStyleKey}}"
+                                                Command="{x:Static igDP:DataPresenterCommands.ClearActiveRecordCellFilters}"
+                                                Visibility="{TemplateBinding FilterClearButtonVisibility}" />
+                                    </Grid>
+                                    <Grid x:Name="icons"
+                                          Height="16"
+                                          d:LayoutOverrides="Width, Height"
+                                          HorizontalAlignment="Center"
+                                          Margin="0,0,0,0"
+                                          VerticalAlignment="Center">
+                                        <Path x:Name="addRecordOuter"
+                                              Margin="3,3,0,0"
+                                              HorizontalAlignment="Left"
+                                              VerticalAlignment="Top"
+                                              Height="10"
+                                              Width="10"
+                                              Stretch="Fill"
+                                              Opacity="1"
+                                              Data="M 10,3 C10,3 6,3 6,3 6,3 6,6 6,6 6,6 3,6 3,6 3,6 3,10 3,10 3,10 6,10 6,10 6,10 6,13 6,13 6,13 10,13 10,13 10,13 10,10 10,10 10,10 13,10 13,10 13,10 13,6 13,6 13,6 10,6 10,6 10,6 10,3 10,3 z"
+                                              Fill="#898989"
+                                              Visibility="Collapsed"
+                                              SnapsToDevicePixels="True" />
+                                        <Path x:Name="addRecordInner"
+                                              Margin="4,4,0,0"
+                                              HorizontalAlignment="Left"
+                                              VerticalAlignment="Top"
+                                              Height="8"
+                                              Width="8"
+                                              Stretch="Fill"
+                                              Opacity="1"
+                                              Data="M 9,4 C9,4 7,4 7,4 7,4 7,7 7,7 7,7 4,7 4,7 4,7 4,9 4,9 4,9 7,9 7,9 7,9 7,12 7,12 7,12 9,12 9,12 9,12 9,9 9,9 9,9 12,9 12,9 12,9 12,7 12,7 12,7 9,7 9,7 9,7 9,4 9,4 z"
+                                              Fill="#cccccc"
+                                              Visibility="Collapsed"
+                                              SnapsToDevicePixels="True" />
+                                        <Path x:Name="dataChangedActive"
+                                              Margin="4.510000228881836,4.190000057220459,0,0"
+                                              HorizontalAlignment="Left"
+                                              VerticalAlignment="Top"
+                                              Height="10.559999942779541"
+                                              Width="10.710000991821289"
+                                              Stretch="Fill"
+                                              Opacity="1"
+                                              Data="M 11.762499809265137,4.190000057220459 C11.762499809265137,4.190000057220459 13.622968673706055,5.4495320320129395 13.622968673706055,5.4495320320129395 13.622968673706055,5.4495320320129395 10.8100004196167,8.90609359741211 10.8100004196167,8.90609359741211 10.8100004196167,8.90609359741211 15.220001220703125,8.364218711853027 15.220001220703125,8.364218711853027 15.220001220703125,8.364218711853027 15.220001220703125,10.575780868530273 15.220001220703125,10.575780868530273 15.220001220703125,10.575780868530273 10.8100004196167,10.07796859741211 10.8100004196167,10.07796859741211 10.8100004196167,10.07796859741211 13.622968673706055,13.51953125 13.622968673706055,13.51953125 13.622968673706055,13.51953125 11.762499809265137,14.75 11.762499809265137,14.75 11.762499809265137,14.75 9.842968940734863,10.575780868530273 9.842968940734863,10.575780868530273 9.842968940734863,10.575780868530273 7.952969074249268,14.75 7.952969074249268,14.75 7.952969074249268,14.75 6.09250020980835,13.51953125 6.09250020980835,13.51953125 6.09250020980835,13.51953125 8.920000076293945,10.07796859741211 8.920000076293945,10.07796859741211 8.920000076293945,10.07796859741211 4.510000228881836,10.575780868530273 4.510000228881836,10.575780868530273 4.510000228881836,10.575780868530273 4.510000228881836,8.364218711853027 4.510000228881836,8.364218711853027 4.510000228881836,8.364218711853027 8.920000076293945,8.90609359741211 8.920000076293945,8.90609359741211 8.920000076293945,8.90609359741211 6.09250020980835,5.4495320320129395 6.09250020980835,5.4495320320129395 6.09250020980835,5.4495320320129395 7.952969074249268,4.190000057220459 7.952969074249268,4.190000057220459 7.952969074249268,4.190000057220459 9.842968940734863,8.247031211853027 9.842968940734863,8.247031211853027 9.842968940734863,8.247031211853027 11.762499809265137,4.190000057220459 11.762499809265137,4.190000057220459 z"
+                                              Visibility="Collapsed">
+                                            <Path.Fill>
+                                                <RadialGradientBrush>
+                                                    <GradientStop Color="#00FFFFFF"
+                                                                  Offset="0" />
+                                                    <GradientStop Color="#FFB1B1B1"
+                                                                  Offset="1" />
+                                                </RadialGradientBrush>
+                                            </Path.Fill>
+                                        </Path>
+                                        <Path x:Name="dataChanged"
+                                              Margin="2.509999990463257,2.690000057220459,0,0"
+                                              HorizontalAlignment="Left"
+                                              VerticalAlignment="Top"
+                                              Height="10.559999942779541"
+                                              Width="10.710001230239868"
+                                              Stretch="Fill"
+                                              Opacity="1"
+                                              Data="M 9.762499809265137,2.690000057220459 C9.762499809265137,2.690000057220459 11.622968673706055,3.9495320320129395 11.622968673706055,3.9495320320129395 11.622968673706055,3.9495320320129395 8.8100004196167,7.406094074249268 8.8100004196167,7.406094074249268 8.8100004196167,7.406094074249268 13.220001220703125,6.8642191886901855 13.220001220703125,6.8642191886901855 13.220001220703125,6.8642191886901855 13.220001220703125,9.075780868530273 13.220001220703125,9.075780868530273 13.220001220703125,9.075780868530273 8.8100004196167,8.57796859741211 8.8100004196167,8.57796859741211 8.8100004196167,8.57796859741211 11.622968673706055,12.01953125 11.622968673706055,12.01953125 11.622968673706055,12.01953125 9.762499809265137,13.25 9.762499809265137,13.25 9.762499809265137,13.25 7.842968940734863,9.075780868530273 7.842968940734863,9.075780868530273 7.842968940734863,9.075780868530273 5.952969074249268,13.25 5.952969074249268,13.25 5.952969074249268,13.25 4.09250020980835,12.01953125 4.09250020980835,12.01953125 4.09250020980835,12.01953125 6.920000076293945,8.57796859741211 6.920000076293945,8.57796859741211 6.920000076293945,8.57796859741211 2.509999990463257,9.075780868530273 2.509999990463257,9.075780868530273 2.509999990463257,9.075780868530273 2.509999990463257,6.8642191886901855 2.509999990463257,6.8642191886901855 2.509999990463257,6.8642191886901855 6.920000076293945,7.406094074249268 6.920000076293945,7.406094074249268 6.920000076293945,7.406094074249268 4.09250020980835,3.9495320320129395 4.09250020980835,3.9495320320129395 4.09250020980835,3.9495320320129395 5.952969074249268,2.690000057220459 5.952969074249268,2.690000057220459 5.952969074249268,2.690000057220459 7.842968940734863,6.747031211853027 7.842968940734863,6.747031211853027 7.842968940734863,6.747031211853027 9.762499809265137,2.690000057220459 9.762499809265137,2.690000057220459 z"
+                                              Visibility="Collapsed">
+                                            <Path.Fill>
+                                                <RadialGradientBrush>
+                                                    <GradientStop Color="#00FFFFFF"
+                                                                  Offset="0" />
+                                                    <GradientStop Color="#FFB1B1B1"
+                                                                  Offset="1" />
+                                                </RadialGradientBrush>
+                                            </Path.Fill>
+                                        </Path>
+                                        <Path x:Name="addRecordActiveOuter"
+                                              Margin="4,3.923218011856079,0,0"
+                                              HorizontalAlignment="Left"
+                                              VerticalAlignment="Top"
+                                              Height="10.076781988143921"
+                                              Width="10"
+                                              Stretch="Fill"
+                                              Opacity="1"
+                                              Data="M 10.990951538085938,3.923218011856079 C10.990951538085938,3.923218011856079 7,3.923218011856079 7,3.923218011856079 7,3.923218011856079 7,7 7,7 7,7 4,7 4,7 4,7 4,11 4,11 4,11 7,11 7,11 7,11 7,14 7,14 7,14 10.990951538085938,14 10.990951538085938,14 10.990951538085938,14 10.989999771118164,11 10.989999771118164,11 10.989999771118164,11 14,11 14,11 14,11 14,7 14,7 14,7 10.989999771118164,7 10.989999771118164,7 10.989999771118164,7 10.990951538085938,3.923218011856079 10.990951538085938,3.923218011856079 z"
+                                              Fill="#898989"
+                                              Visibility="Collapsed"
+                                              SnapsToDevicePixels="False" />
+                                        <Path x:Name="addRecordActiveInner"
+                                              Margin="5,5,0,0"
+                                              HorizontalAlignment="Left"
+                                              VerticalAlignment="Top"
+                                              Height="8"
+                                              Width="8"
+                                              Stretch="Fill"
+                                              Opacity="1"
+                                              Data="M 10,5 C10,5 8,5 8,5 8,5 8,8 8,8 8,8 5,8 5,8 5,8 5,10 5,10 5,10 8,10 8,10 8,10 8,13 8,13 8,13 10,13 10,13 10,13 10,10 10,10 10,10 13,10 13,10 13,10 13,8 13,8 13,8 10,8 10,8 10,8 10,5 10,5 z"
+                                              Fill="#cccccc"
+                                              Visibility="Collapsed"
+                                              SnapsToDevicePixels="False" />
+                                    </Grid>
+                                    <igDP:FixedRecordButton x:Name="FixedRecordBtn"
+                                                            Grid.Column="1"
+                                                            IsFixedOnTopAllowed="{TemplateBinding IsFixedOnTopAllowed}"
+                                                            IsFixedOnBottomAllowed="{TemplateBinding IsFixedOnBottomAllowed}"
+                                                            Visibility="{TemplateBinding FixedButtonVisibility}" />
+                                    <Control x:Name="errorIcon"
+                                             Grid.ColumnSpan="2"
+                                             Grid.Column="2"
+                                             Visibility="Collapsed"
+                                             HorizontalAlignment="Left"
+                                             Style="{DynamicResource {x:Static igDP:DataPresenterBase.DataErrorIconStyleKey}}" />
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="IsMouseOver"
+                                                       Value="True" />
+                                            <Condition Property="IsFilterRecord"
+                                                       Value="False" />
+                                        </MultiTrigger.Conditions>
+                                        <MultiTrigger.EnterActions>
+                                            <BeginStoryboard Storyboard="{StaticResource MouseEnter}" />
+                                        </MultiTrigger.EnterActions>
+                                        <MultiTrigger.ExitActions>
+                                            <BeginStoryboard Storyboard="{StaticResource MouseLeave}"
+                                                             x:Name="MouseLeave_BeginStoryboard" />
+                                        </MultiTrigger.ExitActions>
+                                    </MultiTrigger>
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="IsActive"
+                                                       Value="True" />
+                                            <Condition Property="IsFilterRecord"
+                                                       Value="False" />
+                                        </MultiTrigger.Conditions>
+                                        <MultiTrigger.ExitActions>
+                                            <BeginStoryboard Storyboard="{StaticResource RecordActiveFalse}"
+                                                             x:Name="MouseLeave_BeginStoryboard1" />
+                                        </MultiTrigger.ExitActions>
+                                        <MultiTrigger.EnterActions>
+                                            <BeginStoryboard Storyboard="{StaticResource RecordActiveTrue}"
+                                                             x:Name="RecordActiveTrue_BeginStoryboard" />
+                                        </MultiTrigger.EnterActions>
+                                    </MultiTrigger>
+                                    <Trigger Property="IsAddRecord"
+                                             Value="True">
+                                        <Setter TargetName="addRecordOuter"
+                                                Property="Visibility"
+                                                Value="Visible" />
+                                        <Setter TargetName="addRecordInner"
+                                                Property="Visibility"
+                                                Value="Visible" />
+                                        <Setter Property="Visibility"
+                                                TargetName="selectorAddRecord"
+                                                Value="Visible" />
+                                        <Setter Property="Visibility"
+                                                TargetName="selectorArrow"
+                                                Value="Collapsed" />
+                                    </Trigger>
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="IsDataChanged"
+                                                       Value="True" />
+                                            <Condition Property="IsFilterRecord"
+                                                       Value="False" />
+                                        </MultiTrigger.Conditions>
+                                        <Setter TargetName="dataChanged"
+                                                Property="Visibility"
+                                                Value="Visible" />
+                                        <Setter Property="Visibility"
+                                                TargetName="selectorDataChanged"
+                                                Value="Visible" />
+                                        <Setter Property="Visibility"
+                                                TargetName="selectorArrow"
+                                                Value="Collapsed" />
+                                    </MultiTrigger>
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="IsAddRecord"
+                                                       Value="True" />
+                                            <Condition Property="IsDataChanged"
+                                                       Value="True" />
+                                            <Condition Property="IsFilterRecord"
+                                                       Value="False" />
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="Visibility"
+                                                TargetName="dataChanged"
+                                                Value="Collapsed" />
+                                        <Setter Property="Visibility"
+                                                TargetName="dataChangedActive"
+                                                Value="Collapsed" />
+                                    </MultiTrigger>
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="HasDataError"
+                                                       Value="True" />
+                                            <Condition Property="IsDataErrorDisplayModeIcon"
+                                                       Value="True" />
+                                        </MultiTrigger.Conditions>
+                                        <Setter TargetName="errorIcon"
+                                                Property="Visibility"
+                                                Value="Visible" />
+                                        <Setter TargetName="errorIcon"
+                                                Property="ToolTip"
+                                                Value="{Binding RelativeSource={x:Static RelativeSource.TemplatedParent}, Path=DataError}" />
+                                        <Setter TargetName="innerBorder"
+                                                Property="BorderBrush"
+                                                Value="#FFD4D2D2" />
+                                        <Setter TargetName="innerBorder"
+                                                Property="Background"
+                                                Value="{DynamicResource ErrorHighlightBgBrush}" />
+                                    </MultiTrigger>
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="HasDataError"
+                                                       Value="True" />
+                                            <Condition Property="IsDataErrorDisplayModeHighlight"
+                                                       Value="True" />
+                                        </MultiTrigger.Conditions>
+                                        <Setter TargetName="Bd"
+                                                Property="Visibility"
+                                                Value="Visible" />
+                                        <Setter TargetName="innerBorder"
+                                                Property="BorderBrush"
+                                                Value="#FFD4D2D2" />
+                                        <Setter TargetName="innerBorder"
+                                                Property="Background"
+                                                Value="{DynamicResource ErrorHighlightBgBrush}" />
+                                        <Setter TargetName="MainBorder"
+                                                Property="ToolTip"
+                                                Value="{Binding RelativeSource={x:Static RelativeSource.TemplatedParent}, Path=DataError}" />
+                                    </MultiTrigger>
+                                    <Trigger Property="Location"
+                                             Value="AboveCellArea">
+                                        <Setter Property="RenderTransform"
+                                                TargetName="selectorArrow">
+                                            <Setter.Value>
+                                                <TransformGroup>
+                                                    <RotateTransform Angle="90" />
+                                                </TransformGroup>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="RenderTransform"
+                                                TargetName="selectorArrow_Active">
+                                            <Setter.Value>
+                                                <TransformGroup>
+                                                    <RotateTransform Angle="90" />
+                                                </TransformGroup>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                                    <Trigger Property="Location"
+                                             Value="BelowCellArea">
+                                        <Setter Property="RenderTransform"
+                                                TargetName="selectorArrow">
+                                            <Setter.Value>
+                                                <TransformGroup>
+                                                    <RotateTransform Angle="-90" />
+                                                </TransformGroup>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="RenderTransform"
+                                                TargetName="selectorArrow_Active">
+                                            <Setter.Value>
+                                                <TransformGroup>
+                                                    <RotateTransform Angle="-90" />
+                                                </TransformGroup>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                                    <Trigger Property="Location"
+                                             Value="RightOfCellArea">
+                                        <Setter Property="RenderTransform"
+                                                TargetName="selectorArrow">
+                                            <Setter.Value>
+                                                <TransformGroup>
+                                                    <RotateTransform Angle="180" />
+                                                </TransformGroup>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="RenderTransform"
+                                                TargetName="selectorArrow_Active">
+                                            <Setter.Value>
+                                                <TransformGroup>
+                                                    <RotateTransform Angle="180" />
+                                                </TransformGroup>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+                <Style x:Key="{x:Type igDP:DataRecordCellArea}"
+                       TargetType="{x:Type igDP:DataRecordCellArea}"
+                       BasedOn="{x:Static igThemes:DataPresenterRoyalLight.DataRecordCellArea}">
+                    <Style.Triggers>
+                        <Trigger Property="HasDataError"
+                                 Value="true">
+                            <Setter Property="Background"
+                                    Value="#FFFFE0B2"  />
+                            <Setter Property="ToolTip"
+                                    Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=DataError}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </igDP:XamDataGrid.Resources>
+            <!-- #BEGIN SNIPPET# -->
+            <!-- To enable the IDataErrorInfo support, set the SupportDataErrorInfo property of
+            the FieldLayoutSettings. -->
+            <igDP:XamDataGrid.FieldLayoutSettings>
+                <igDP:FieldLayoutSettings SupportDataErrorInfo="RecordsAndCells"
+                                          DataErrorDisplayMode="ErrorIcon"
+                                          RecordSelectorExtent="50" />
+            </igDP:XamDataGrid.FieldLayoutSettings>
+            <!-- #END SNIPPET# -->
+            <igDP:XamDataGrid.FieldLayouts>
+                <igDP:FieldLayout IsDefault="true">
+                    <igDP:FieldLayout.Fields>
+                        <igDP:Field Name="ProductName" />
+                        <igDP:Field Name="Price" />
+                        <igDP:Field Name="Quantity" />
+                    </igDP:FieldLayout.Fields>
+                </igDP:FieldLayout>
+            </igDP:XamDataGrid.FieldLayouts>
+        </igDP:XamDataGrid>
+        <controls:OptionsPanel HeaderText="{Binding ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}"
+                               Margin="10"
+                               HorizontalAlignment="Right">
+            <controls:OptionsPanel.Resources>
+                <Style x:Key="{x:Type Label}"
+                       TargetType="{x:Type Label}">
+                    <Setter Property="MinWidth"
+                            Value="140" />
+                    <Setter Property="Margin"
+                            Value="2" />
+                </Style>
+                <Style x:Key="{x:Type igEditors:XamComboEditor}"
+                       TargetType="{x:Type igEditors:XamComboEditor}">
+                    <Setter Property="Width" Value="160" />
+                    <Setter Property="Margin" Value="2" />
+                    <Style.Triggers>
+                        <Trigger Property="IsInEditMode" Value="True">
+                            <Setter Property="TextElement.Foreground" Value="#FF333333" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+                <Style x:Key="{x:Type CheckBox}"
+                       TargetType="{x:Type CheckBox}">
+                    <Setter Property="Margin"
+                            Value="8,4,4,4" />
+                </Style>
+            </controls:OptionsPanel.Resources>
+            <StackPanel Grid.Column="0"
+                        Margin="4"
+                        Orientation="Vertical">
+                <!--DataErrorDisplayMode-->
+                <StackPanel Orientation="Horizontal"
+                            Margin="0"
+                            HorizontalAlignment="Left">
+                    <Label Content="{Binding ConfigArea_DataErrorDisplayMode, Source={StaticResource Strings}}"
+                           ToolTip="{Binding ConfigArea_DataErrorDisplayMode_Tooltip, Source={StaticResource Strings}}"
+                           Style="{StaticResource LabelStyle}" VerticalAlignment="Center" Margin="{StaticResource OptionsTextRightMargin}"/>
+                    <igEditors:XamComboEditor ItemsSource="{DynamicResource enum_DataErrorDisplayMode}"
+                                              Value="{Binding FieldLayoutSettings.DataErrorDisplayMode, ElementName=XamDataGrid1}" 
+                                              MinWidth="100"
+                                              Theme="RoyalLight"/>
+                </StackPanel>
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

@@ -1,0 +1,67 @@
+﻿<igFramework:SampleContainer
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="ActivitiesCategorization"
+      x:Class="IGSchedule.Samples.Organization.ActivitiesCategorization"
+      xmlns:data="clr-namespace:IGSchedule.DataSource"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGSchedule.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ig:ActivityCategoryCollection x:Key="CategoryDataSource">
+                <ig:ActivityCategory
+                    CategoryName="My custom category"
+                    Description="Description for my custom category"
+                    Color="Cyan">
+                </ig:ActivityCategory>
+            </ig:ActivityCategoryCollection>
+            <res:ScheduleStrings x:Key="resStrings" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSchedule;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <igFramework:SampleContainer.DataContext>
+        <data:ScheduleDataCategorized x:Name="Data"/>
+    </igFramework:SampleContainer.DataContext>
+
+    <Grid>
+
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamDayView x:Name="dayView">
+            <ig:XamDayView.DataManager>
+                <ig:XamScheduleDataManager
+                    x:Name="dataManager" CurrentUserId="own1" >
+                    <ig:XamScheduleDataManager.CalendarGroups>
+                        <ig:CalendarGroup InitialCalendarIds="own1[cal0]" InitialSelectedCalendarId="own1[cal0]"/>
+                    </ig:XamScheduleDataManager.CalendarGroups>
+                    <ig:XamScheduleDataManager.DataConnector>
+                        <ig:ListScheduleDataConnector
+                            x:Name="dataConnector"
+                            ResourceItemsSource="{Binding Resources}"
+                            ResourceCalendarItemsSource="{Binding Calendars}"
+                            AppointmentItemsSource="{Binding Appointments}"
+                            ActivityCategoryItemsSource="{Binding Categories}"
+                            />
+                        <!--
+                        Attach this source for activity categories
+                        too see how you can add activity categrories using static resources in XAML
+
+                        ActivityCategoryItemsSource="{Binding Source={StaticResource CategoryDataSource}}"
+                        -->
+                    </ig:XamScheduleDataManager.DataConnector>
+                </ig:XamScheduleDataManager>
+            </ig:XamDayView.DataManager>
+        </ig:XamDayView>
+        <!-- #END SNIPPET# -->
+
+    </Grid>
+</igFramework:SampleContainer>

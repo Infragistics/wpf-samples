@@ -1,0 +1,63 @@
+﻿<framework:SampleContainer x:Class="IGBarcode.Samples.Data.ExportingToImage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="ExportingToImage Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGBarcode.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGBarcode;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamBarcode.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:BarcodeStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        
+        <TextBlock Text="{Binding XWB_QRCode, Source={StaticResource Strings}}" Margin="0,8,0,0" VerticalAlignment="Top" Style="{StaticResource SamplesTitleStyle}"/>
+        <!--#BEGIN SNIPPET#-->
+        <!--A simple barcode-->
+        <ig:XamQRCodeBarcode x:Name="qrBarcode"
+                             Data="{Binding ElementName=dataListBox, Path=SelectedItem.Content}"
+                             BarsFillMode="EnsureEqualSize"
+                             Width="200"
+                             Height="200"
+                             Stretch="Fill"
+                             VerticalAlignment="Top"
+                             HorizontalAlignment="Left"
+                             Margin="0,36,0,0" />
+        <!--#END SNIPPET#-->
+        <StackPanel Grid.Column="1" Margin="12,8,0,0">
+            <TextBlock Text="{Binding XWB_BarcodeData, Source={StaticResource Strings}}" Style="{StaticResource SamplesTitleStyle}"/>
+            <ListBox x:Name="dataListBox"  Margin="0,12,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" SelectedIndex="0" Style="{StaticResource IGListBoxStyle}" ItemContainerStyle="{StaticResource IGListBoxItemStyle}">
+                <ListBoxItem Content="http://www.infragistics.com/"/>
+                <ListBoxItem Content="http://www.silverlight.net/"/>
+                <ListBoxItem Content="http://www.microsoft.com/"/>
+            </ListBox>
+        </StackPanel>
+
+        <controls:OptionsPanel HeaderText="{Binding XWB_ExportToImage_Export_Options, Source={StaticResource Strings}}" Margin="450 10 0 0" Grid.ColumnSpan="2">
+            <TextBlock Text="{Binding XWB_ExportToImage_File_Format, Source={StaticResource Strings}}"/>
+            <ComboBox x:Name="formatCombo" Margin="0 0 0 10" SelectedIndex="0">
+                <ComboBoxItem Content="JPEG" Tag="True"/>
+                <ComboBoxItem Content="PNG" Tag="False"/>
+            </ComboBox>
+            <TextBlock Text="{Binding XWB_ExportToImage_Jpeg_Quality, Source={StaticResource Strings}}"/>
+            <Slider x:Name="qualitySlider" IsEnabled="{Binding ElementName=formatCombo, Path=SelectedItem.Tag}" Minimum="1" Maximum="100" Value="90" Width="200" Margin="0 0 0 15"/>
+            <Button x:Name="saveButton" Click="SaveButton_Click" Content="{Binding XWB_ExportToImage_Export, Source={StaticResource Strings}}"/>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

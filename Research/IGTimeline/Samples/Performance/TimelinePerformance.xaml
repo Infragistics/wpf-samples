@@ -1,0 +1,50 @@
+﻿<igFramework:SampleContainer x:Class="IGTimeline.Samples.TimelinePerformance"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGTimeline.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGTimeline;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:TimelineStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="90"/>
+            </Grid.ColumnDefinitions>
+            <!-- #BEGIN SNIPPET# -->
+            <ig:XamTimeline Grid.Row="1" x:Name="igTimeline" Grid.ColumnSpan="2">
+                <ig:XamTimeline.Series>
+                    <ig:NumericTimeSeries DataMapping="Time=Time;Duration=Duration;Title=Title;Details=Details"
+                                          DataContext="{Binding}"
+                                          Title="{Binding XWT_TimelinePerformance_HugeData, Source={StaticResource Strings}}" />
+                </ig:XamTimeline.Series>
+            </ig:XamTimeline>
+            <!-- #END SNIPPET# -->
+            <Button x:Name="buttonBind" Margin="5"
+                    Content="{Binding XWT_TimelinePerformance_Bind, Source={StaticResource Strings}}"
+                    Click="OnButtonBind_Click"
+                    Grid.Row="0"
+                    Width="150"
+                    HorizontalAlignment="Left"
+                    Style="{StaticResource IGGenericButton}"/>
+        </Grid>
+    </Grid>
+
+</igFramework:SampleContainer>

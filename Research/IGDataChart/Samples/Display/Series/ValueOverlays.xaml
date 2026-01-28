@@ -1,0 +1,236 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Display.Series.ValueOverlays"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="ValueOverlays Page"
+      xmlns:common="clr-namespace:IGDataChart.Custom.Calculators"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:local="clr-namespace:IGDataChart.Samples.Display.Series"
+      xmlns:resources="clr-namespace:IGDataChart.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>   
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <ig:StringFormatConverter x:Key="StringFormatConverter" />
+            <resources:DataChartStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <ig:XamDataChart x:Name="DataChart" Visibility="Visible" Legend="{Binding ElementName=Legend}">
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ========================================================================== -->
+            <ig:XamDataChart.Resources>
+                <local:NumericDataSample x:Key="data" />
+                <!-- Calculators provided by Infragistics Math assembly -->
+                <ig:MeanCalculator x:Key="MeanCalculator" ValueMemberPath="Y" ItemsSource="{StaticResource data}" />
+                <ig:MedianCalculator x:Key="MedianCalculator" ValueMemberPath="Y" ItemsSource="{StaticResource data}" />
+                <ig:VarianceCalculator x:Key="VarianceCalculator" ValueMemberPath="Y" ItemsSource="{StaticResource data}" />
+                <!-- Custom Calculators that calculate lowest and highest values in ItemsSource (Y data column) -->
+                <common:LowestCalculator x:Key="LowestCalculator" ValueMemberPath="Y" ItemsSource="{StaticResource data}" />
+                <common:HighestCalculator x:Key="HighestCalculator" ValueMemberPath="Y" ItemsSource="{StaticResource data}" />
+            </ig:XamDataChart.Resources>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+            <ig:XamDataChart.Axes>
+                <ig:CategoryXAxis x:Name="categoryXAxis" Interval="1" ItemsSource="{StaticResource data}" Label="{}{X}"/>
+                <ig:NumericYAxis x:Name="numericYAxis" MinimumValue="0" MaximumValue="10" Interval="1" Label="{}{:N1}" />
+            </ig:XamDataChart.Axes>
+            <ig:XamDataChart.Series>
+                <ig:ColumnSeries Title="Column Series" LegendItemTemplate="{x:Null}"
+                                 ItemsSource="{StaticResource data}"
+                                 ValueMemberPath="Y"
+                                 XAxis="{Binding ElementName=categoryXAxis}"
+                                 YAxis="{Binding ElementName=numericYAxis}" 
+                                 IsHighlightingEnabled="True" IsTransitionInEnabled="True">
+                </ig:ColumnSeries>
+
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ================================================================================================= -->
+                <!-- Binding ValueOverlay to the Value property of MedianCalculator  -->
+                <!-- ================================================================================================= -->
+                <ig:ValueOverlay x:Name="MedianValueOverlay" Title="{Binding XWDC_ValueOverlays_MedianValueOverlay, Source={StaticResource Strings}}"
+                                 Axis="{Binding ElementName=numericYAxis}"
+                                 Value="{Binding Value, Source={StaticResource MedianCalculator}}"
+                                 Thickness="10" Opacity="0.5"  
+                                 IsHighlightingEnabled="True"  >
+                    <ig:ValueOverlay.LegendItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <CheckBox Click="OnMedianValueOverlayCheckBoxClick" IsChecked="True" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                                <ContentPresenter Content="{Binding}" Margin="5,0,0,0" ContentTemplate="{Binding Series.LegendItemBadgeTemplate}" />
+                                <ContentPresenter Content="{Binding Series.Title, TargetNullValue=Series Title}" Margin="5,5,0,5" />
+                                <TextBlock VerticalAlignment="Center" Text=": "></TextBlock>
+                                <TextBlock VerticalAlignment="Center" Width="25" Text="{Binding Value, ElementName=MedianValueOverlay, Converter={StaticResource StringFormatConverter}, ConverterParameter='0.0'}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ig:ValueOverlay.LegendItemTemplate>
+                </ig:ValueOverlay>
+                <!-- ================================================================================================= -->
+                <!-- Binding ValueOverlay to the Value property of MeanCalculator  -->
+                <!-- ================================================================================================= -->
+                <ig:ValueOverlay x:Name="MeanValueOverlay" Title="{Binding XWDC_ValueOverlays_MeanValueOverlay, Source={StaticResource Strings}}"
+                                 Axis="{Binding ElementName=numericYAxis}"
+                                 Value="{Binding Value, Source={StaticResource MeanCalculator}}"
+                                 Thickness="10" Opacity="0.5"  
+                                 IsHighlightingEnabled="True"    >
+                    <ig:ValueOverlay.LegendItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <CheckBox Click="OnMeanValueOverlayCheckBoxClick" IsChecked="True" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                                <ContentPresenter Content="{Binding}" Margin="5,0,0,0" ContentTemplate="{Binding Series.LegendItemBadgeTemplate}" />
+                                <ContentPresenter Content="{Binding Series.Title, TargetNullValue=Series Title}" Margin="5,5,0,5" />
+                                <TextBlock VerticalAlignment="Center" Text=": "></TextBlock>
+                                <TextBlock VerticalAlignment="Center" Width="25" Text="{Binding Value, ElementName=MeanValueOverlay, Converter={StaticResource StringFormatConverter}, ConverterParameter='0.0'}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ig:ValueOverlay.LegendItemTemplate>
+                </ig:ValueOverlay>
+                <!-- ================================================================================================= -->
+                <!-- Binding ValueOverlay to the Value property of VarianceCalculator  -->
+                <!-- ================================================================================================= -->
+                <ig:ValueOverlay x:Name="VarianceValueOverlay" Title="{Binding XWDC_ValueOverlays_VarianceValueOverlay, Source={StaticResource Strings}}"
+                                 Axis="{Binding ElementName=numericYAxis}"
+                                 Value="{Binding Value, Source={StaticResource VarianceCalculator}}"
+                                 Thickness="10" Opacity="0.5" 
+                                 IsHighlightingEnabled="True"    >
+                    <ig:ValueOverlay.LegendItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <CheckBox Click="OnVarianceValueOverlayCheckBoxClick" IsChecked="True" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                                <ContentPresenter Content="{Binding}" Margin="5,0,0,0" ContentTemplate="{Binding Series.LegendItemBadgeTemplate}" />
+                                <ContentPresenter Content="{Binding Series.Title, TargetNullValue=Series Title}" Margin="5,5,0,5" />
+                                <TextBlock VerticalAlignment="Center" Text=": "></TextBlock>
+                                <TextBlock VerticalAlignment="Center" Width="25" Text="{Binding Value, ElementName=VarianceValueOverlay, Converter={StaticResource StringFormatConverter}, ConverterParameter='0.0'}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ig:ValueOverlay.LegendItemTemplate>
+                </ig:ValueOverlay>
+                <!-- ================================================================================================= -->
+                <!-- Binding ValueOverlay to the Value property of a custom calculator called LowestCalculator -->
+                <!-- ================================================================================================= -->
+                <ig:ValueOverlay x:Name="LowestValueOverlay" Title="{Binding XWDC_ValueOverlays_LowestValueOverlay, Source={StaticResource Strings}}"
+                                 Axis="{Binding ElementName=numericYAxis}"
+                                 Value="{Binding Value, Source={StaticResource LowestCalculator}}"
+                                 Thickness="10" Opacity="0.5"  
+                                 IsHighlightingEnabled="True"  >
+                    <ig:ValueOverlay.LegendItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <CheckBox Click="OnLowestValueOverlayCheckBoxClick" IsChecked="True" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                                <ContentPresenter Content="{Binding}" Margin="5,0,0,0" ContentTemplate="{Binding Series.LegendItemBadgeTemplate}" />
+                                <ContentPresenter Content="{Binding Series.Title, TargetNullValue=Series Title}" Margin="5,5,0,5" />
+                                <TextBlock VerticalAlignment="Center" Text=": "></TextBlock>
+                                <TextBlock VerticalAlignment="Center" Width="25" Text="{Binding Value, ElementName=LowestValueOverlay, Converter={StaticResource StringFormatConverter}, ConverterParameter='0.0'}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ig:ValueOverlay.LegendItemTemplate>
+                </ig:ValueOverlay>
+                <!-- ================================================================================================= -->
+                <!-- Binding ValueOverlay to the Value property of a custom calculator called HighestCalculator  -->
+                <!-- ================================================================================================= -->
+                <ig:ValueOverlay x:Name="HighestValueOverlay" Title="{Binding XWDC_ValueOverlays_HighestValueOverlay, Source={StaticResource Strings}}"
+                                 Axis="{Binding ElementName=numericYAxis}"
+                                 Value="{Binding Value, Source={StaticResource HighestCalculator}}"
+                                 Thickness="10" Opacity="0.5"  
+                                 IsHighlightingEnabled="True"  >
+                    <ig:ValueOverlay.LegendItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <CheckBox Click="OnHighestValueOverlayCheckBoxClick" IsChecked="True" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                                <ContentPresenter Content="{Binding}" Margin="5,0,0,0" ContentTemplate="{Binding Series.LegendItemBadgeTemplate}" />
+                                <ContentPresenter Content="{Binding Series.Title, TargetNullValue=Series Title}" Margin="5,5,0,5" />
+                                <TextBlock VerticalAlignment="Center" Text=": "></TextBlock>
+                                <TextBlock VerticalAlignment="Center" Width="25" Text="{Binding Value, ElementName=HighestValueOverlay, Converter={StaticResource StringFormatConverter}, ConverterParameter='0.0'}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ig:ValueOverlay.LegendItemTemplate>
+                </ig:ValueOverlay>
+                <!-- ================================================================================================= -->
+                <!-- Binding ValueOverlay to a fixed value  -->
+                <!-- ================================================================================================= -->
+                <ig:ValueOverlay x:Name="FixedValueOverlay" Title="{Binding XWDC_ValueOverlays_FixedValueOverlay, Source={StaticResource Strings}}"
+                                 Axis="{Binding ElementName=numericYAxis}"
+                                 Value="7.0"
+                                 Thickness="10" Opacity="0.5" 
+                                 IsHighlightingEnabled="True"   >
+                    <ig:ValueOverlay.LegendItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <CheckBox Click="OnFixedValueOverlayCheckBoxClick" IsChecked="True" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                                <ContentPresenter Content="{Binding}" Margin="5,0,0,0" ContentTemplate="{Binding Series.LegendItemBadgeTemplate}" />
+                                <ContentPresenter Content="{Binding Series.Title, TargetNullValue=Series Title}" Margin="5,5,0,5" />
+                                <TextBlock VerticalAlignment="Center" Text=": "></TextBlock>
+                                <TextBlock VerticalAlignment="Center" Width="25" Text="{Binding Value, ElementName=FixedValueOverlay, Converter={StaticResource StringFormatConverter}, ConverterParameter='0.0'}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ig:ValueOverlay.LegendItemTemplate>
+                </ig:ValueOverlay>
+                <!-- ================================================================================================= -->
+                <!-- Binding ValueOverlay to an editable value using a Slider control -->
+                <!-- ================================================================================================= -->
+                <ig:ValueOverlay x:Name="EditableValueOverlay" Title="{Binding XWDC_ValueOverlays_EditableValueOverlay, Source={StaticResource Strings}}"
+                                 Axis="{Binding ElementName=numericYAxis}"
+                                 Value="{Binding Value, ElementName=EditableValueSlider, Converter={StaticResource StringFormatConverter}, ConverterParameter='0.0'}"
+                                 Thickness="10" Opacity="0.5"  
+                                 IsHighlightingEnabled="True"  >
+                    <ig:ValueOverlay.LegendItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <CheckBox Click="OnEditableValueOverlayCheckBoxClick" IsChecked="True"
+                                          VerticalAlignment="Center" HorizontalAlignment="Left" />
+                                <ContentPresenter Content="{Binding}" Margin="5,0,0,0"
+                                                  ContentTemplate="{Binding Series.LegendItemBadgeTemplate}" />
+                                <ContentPresenter Content="{Binding Series.Title, TargetNullValue=Series Title}"
+                                                  Margin="5,5,0,5" />
+                                <TextBlock VerticalAlignment="Center" Text=": "></TextBlock>
+                                <TextBlock VerticalAlignment="Center" Width="25"
+                                           Text="{Binding Value, ElementName=EditableValueSlider, Converter={StaticResource StringFormatConverter}, ConverterParameter='0.0'}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ig:ValueOverlay.LegendItemTemplate>
+                </ig:ValueOverlay>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+
+        <controls:OptionsPanel HeaderText="{Binding XWDC_ValueOverlays_ValueOverlays, Source={StaticResource Strings}}"
+                               Grid.RowSpan="2" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,6,0">
+            <ig:Legend x:Name="Legend" Margin="0,0,0,5" >
+                <ig:Legend.Template>
+                    <ControlTemplate TargetType="ig:Legend">
+                        <Grid>
+                            <Border BorderThickness="0" CornerRadius="0" Background="Transparent">
+                                <Grid Margin="{TemplateBinding Padding}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <ContentPresenter Grid.Row="0" Content="{TemplateBinding Content}" />
+                                    <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto"
+                                                  VerticalScrollBarVisibility="Auto" BorderThickness="0">
+                                        <ContentPresenter x:Name="ContentPresenter" />
+                                    </ScrollViewer>
+                                </Grid>
+                            </Border>
+                            <Border IsHitTestVisible="False" BorderThickness="{TemplateBinding BorderThickness}"
+                                    BorderBrush="Transparent" CornerRadius="4" Background="Transparent" />
+                        </Grid>
+                    </ControlTemplate>
+                </ig:Legend.Template>
+            </ig:Legend>
+            <Slider x:Name="EditableValueSlider" Value="5" Minimum="0" Maximum="10" SmallChange="0.1"
+                    LargeChange="0.1"/>
+        </controls:OptionsPanel>
+
+    </Grid>
+</igFramework:SampleContainer>

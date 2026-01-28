@@ -1,0 +1,91 @@
+﻿<framework:SampleContainer x:Class="IGGeographicMap.Samples.Data.BindingDatabaseFiles"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="BindingDatabaseFiles Page"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:providers="clr-namespace:Infragistics.Samples.Shared.DataProviders;assembly=Infragistics.Samples.Shared"
+      xmlns:resources="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGeographicMap;component/Assets/GlobalExtended.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <SolidColorBrush x:Key="MarkerStroke" Color="{StaticResource Color_013}"/>
+             <SolidColorBrush x:Key="MarkerBackground" Color="{StaticResource Color_013}"/>
+            <resources:ModelStrings x:Key="ModelStrings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.Resources>
+             <DropShadowEffect x:Key="ShadowEffect" ShadowDepth="1" BlurRadius="5" Opacity="0.5"/>
+
+        </Grid.Resources>
+        <ig:XamGeographicMap x:Name="GeoMap" PlotAreaBackground="{StaticResource GeoMapSbPlotAreaBackgroundBrush}"
+                             OverviewPlusDetailPaneVisibility="Collapsed"
+                             OverviewPlusDetailPaneStyle="{StaticResource GeographicWorldOPDStyle}"
+                             Zoomable="True">
+            <ig:XamGeographicMap.Series>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <!-- SymbolSeries with items loaded from database file (DBF) -->
+                <ig:GeographicSymbolSeries ItemsSource="{Binding}"
+                                           LatitudeMemberPath="Fields[lat]" 
+                                           LongitudeMemberPath="Fields[lon]"
+                                           MarkerCollisionAvoidance="Fade" 
+                                           MaximumMarkers="250">
+                    <!-- custom marker with bindings to Fields data loaded from database file (DBF)  -->
+                    <ig:GeographicSymbolSeries.MarkerTemplate>
+                        <DataTemplate>
+                            <Border CornerRadius="3" Background="{StaticResource MarkerBackground}" 
+                                        BorderBrush="{StaticResource MarkerStroke}" Width="18" Height="20"
+                                        BorderThickness="1" Effect="{StaticResource ShadowEffect}">
+                                <TextBlock Text="{Binding Path=Item.Fields[magnitude], StringFormat=0.0}" 
+                                           FontSize="8" Foreground="White" Margin="2"/>
+                            </Border>
+                        </DataTemplate>
+                    </ig:GeographicSymbolSeries.MarkerTemplate>
+                    <!-- custom tooltip with bindings to Fields data loaded from database file (DBF)  -->
+                    <ig:GeographicSymbolSeries.ToolTip>
+                            <StackPanel Margin="4">
+                                <TextBlock Text="{Binding Path=XWM_Earthquake, Source={StaticResource ModelStrings}}" FontWeight="Bold" Margin="2" Foreground="{StaticResource ForegroundBrush}" />
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock Text="{Binding Path=XWM_Region, Source={StaticResource ModelStrings}}" Margin="2" />
+                                    <TextBlock Text="{Binding Path=Item.Fields[region]}" Foreground="{StaticResource ForegroundBrush}" Margin="4,2,2,2" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock Text="{Binding Path=XWM_Magnitude, Source={StaticResource ModelStrings}}" Margin="2" />
+                                    <TextBlock Text="{Binding Path=Item.Fields[magnitude], StringFormat=0.0}" Foreground="{StaticResource ForegroundBrush}" Margin="4,2,2,2" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock Text="{Binding Path=XWM_Longitude, Source={StaticResource ModelStrings}}" Margin="2" />
+                                    <TextBlock Text="{Binding Path=Item.Fields[lon], StringFormat=0.0}" Foreground="{StaticResource ForegroundBrush}" Margin="4,2,2,2" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock Text="{Binding Path=XWM_Latitude, Source={StaticResource ModelStrings}}" Margin="2" />
+                                    <TextBlock Text="{Binding Path=Item.Fields[lat], StringFormat=0.0}" Foreground="{StaticResource ForegroundBrush}" Margin="4,2,2,2" />
+                                </StackPanel>
+                            </StackPanel>
+                    </ig:GeographicSymbolSeries.ToolTip>
+                </ig:GeographicSymbolSeries>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamGeographicMap.Series>
+        </ig:XamGeographicMap>
+        <TextBlock x:Name="MapDataSource" Text="{Binding Path=XW_Source_USGS, Source={StaticResource CommonStrings}}" HorizontalAlignment="Left" 
+                   VerticalAlignment="Bottom" Style="{StaticResource SourceTextblockStyle}"/>
+        <TextBlock x:Name="OpenSourceCopyright" Text="{Binding Path=XW_OpenSourceCopyright, Source={StaticResource CommonStrings}}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Style="{StaticResource SourceTextblockStyle}" />
+        <Grid x:Name="MapLoadingContainer" Margin="0" Background="White" Canvas.ZIndex="1" Visibility="Collapsed" VerticalAlignment="Stretch">
+            <Border Background="Transparent" Opacity="0.7" CornerRadius="3" />
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                <TextBlock x:Name="MapLoadingStatus" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" Text="..." />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</framework:SampleContainer>

@@ -1,0 +1,170 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Display.Axes.BubbleAxes"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="BubbleAxes Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+      xmlns:resources="clr-namespace:IGDataChart.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <models:SampleBubbleDataCollection x:Key="bubbleData"  />
+            <resources:DataChartStrings x:Key="Strings" />
+            <DataTemplate x:Key="BubbleMarkerTemplate"  >
+                <Grid>
+                    <Ellipse Stretch="Fill"
+                             HorizontalAlignment="Stretch"
+                             VerticalAlignment="Stretch"
+                             Fill="{Binding ActualItemBrush}"
+                             Stroke="{Binding Series.ActualMarkerOutline}"
+                             StrokeThickness="2" MinWidth="5" MinHeight="5" />
+                    <Ellipse Stretch="Fill"
+                             HorizontalAlignment="Stretch"
+                             VerticalAlignment="Stretch"
+                             Fill="{Binding ActualItemBrush}"
+                             Stroke="{Binding Series.ActualMarkerOutline}"
+                             StrokeThickness="2" MinWidth="5" MinHeight="5" />
+                </Grid>
+            </DataTemplate>
+            <ig:StringFormatConverter x:Key="StringFormatConverter" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+
+        <ig:XamDataChart x:Name="dataChart"
+                         HorizontalAlignment="Stretch"
+                         HorizontalContentAlignment="Stretch"
+                         >
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ========================================================================== -->
+            <ig:XamDataChart.Axes>
+                <ig:NumericXAxis x:Name="xAxis2"
+                                 Interval="{Binding ElementName=sldNumericXAxisInterval, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}"
+                                 CrossingAxis="{Binding ElementName=yAxis2}"
+                                 CrossingValue="{Binding ElementName=sldNumericXAxisCrossing, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}"
+                                 MinimumValue="{Binding ElementName=sldNumericXAxisMinimum, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}"
+                                 MaximumValue="{Binding ElementName=sldNumericXAxisMaximum, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}"
+                                 >
+                    <ig:NumericXAxis.LabelSettings >
+                        <ig:AxisLabelSettings Location="InsideBottom" Foreground="{StaticResource ForegroundBrush}"/>
+                    </ig:NumericXAxis.LabelSettings>
+                </ig:NumericXAxis>
+
+                <ig:NumericYAxis x:Name="yAxis2"
+                                 CrossingAxis="{Binding ElementName=xAxis2}"
+                                 Interval="{Binding ElementName=sldNumericYAxisInterval, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}"
+                                 CrossingValue="{Binding ElementName=sldNumericYAxisCrossing, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}"
+                                 MinimumValue="{Binding ElementName=sldNumericYAxisMinimum, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}"
+                                 MaximumValue="{Binding ElementName=sldNumericYAxisMaximum, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}"
+                                 >
+                    <ig:NumericYAxis.LabelSettings >
+                        <ig:AxisLabelSettings Location="InsideLeft" Foreground="{StaticResource ForegroundBrush}"/>
+                    </ig:NumericYAxis.LabelSettings>
+                </ig:NumericYAxis>
+
+            </ig:XamDataChart.Axes>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+
+            <ig:XamDataChart.Series>
+                <ig:BubbleSeries  Title="BubbleSeries"
+                                  BorderThickness="2"
+                                  XAxis="{Binding ElementName=xAxis2}"
+                                  YAxis="{Binding ElementName=yAxis2}"
+                                  XMemberPath="X" YMemberPath="Y"
+                                  RadiusMemberPath="Radius"
+                                  MarkerType="Circle"
+                                  MarkerTemplate="{StaticResource BubbleMarkerTemplate}"
+                                  ItemsSource="{StaticResource bubbleData}"   >
+                </ig:BubbleSeries>
+
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+
+        <controls:OptionsPanel HeaderText="{Binding XWDC_DataChart_Options, Source={StaticResource Strings}}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,10,0,0" >
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}"/>
+            </controls:OptionsPanel.Resources>
+            <Grid x:Name="SampleEditor" Visibility="Visible">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="100"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <!--NumericXAxis -->
+                <TextBlock Grid.Row="0" Grid.ColumnSpan="3" VerticalAlignment="Center" Text="{Binding XWDC_AxisType_NumericXAxis, Source={StaticResource Strings}}" FontWeight="Bold"/>
+
+                <!--NumericXAxis Minimum -->
+                <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Text="{Binding XWDC_AxisProperty_MinimumValue, Source={StaticResource Strings}}"  HorizontalAlignment="Left"/>
+                <Slider Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" x:Name="sldNumericXAxisMinimum" Width="100" Minimum="-40" Maximum="0" Value="-20" SmallChange="5" LargeChange="5" />
+                <TextBlock Grid.Row="1" Grid.Column="2" VerticalAlignment="Center"  Width="30" Text="{Binding ElementName=sldNumericXAxisMinimum, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}"  HorizontalAlignment="Left" Margin="{StaticResource OptionsTextLeftMargin}"/>
+
+                <!--NumericXAxis Maximum -->
+                <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"  Text="{Binding XWDC_AxisProperty_MaximumValue, Source={StaticResource Strings}}"  HorizontalAlignment="Left"/>
+                <Slider Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" x:Name="sldNumericXAxisMaximum" Width="100" Minimum="0" Maximum="20" Value="15" SmallChange="5" LargeChange="5" />
+                <TextBlock Grid.Row="2" Grid.Column="2" VerticalAlignment="Center"  Width="30" Text="{Binding ElementName=sldNumericXAxisMaximum, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}"  HorizontalAlignment="Left" Margin="{StaticResource OptionsTextLeftMargin}"/>
+
+                <!--NumericXAxis Crossing -->
+                <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"  Text="{Binding XWDC_AxisProperty_CrossingValue, Source={StaticResource Strings}}"  HorizontalAlignment="Left"/>
+                <Slider Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" x:Name="sldNumericXAxisCrossing" Width="100" Minimum="-50" Maximum="1000" Value="200" SmallChange="5" LargeChange="5" />
+                <TextBlock Grid.Row="3" Grid.Column="2" VerticalAlignment="Center"  Width="30" Text="{Binding ElementName=sldNumericXAxisCrossing, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}"  HorizontalAlignment="Left" Margin="{StaticResource OptionsTextLeftMargin}"/>
+
+                <!--NumericXAxis Interval -->
+                <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"  Text="{Binding XWDC_AxisProperty_Interval, Source={StaticResource Strings}}"  HorizontalAlignment="Left"/>
+                <Slider Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" x:Name="sldNumericXAxisInterval" Width="100" Minimum="1" Maximum="10" Value="5" SmallChange="5" LargeChange="5" />
+                <TextBlock Grid.Row="4" Grid.Column="2" VerticalAlignment="Center"  Width="30" Text="{Binding ElementName=sldNumericXAxisInterval, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}"  HorizontalAlignment="Left" Margin="{StaticResource OptionsTextLeftMargin}"/>
+
+                <!--NumericYAxis -->
+                <TextBlock Grid.Row="5" Grid.ColumnSpan="3" VerticalAlignment="Center" Text="{Binding XWDC_AxisType_NumericYAxis, Source={StaticResource Strings}}" FontWeight="Bold" ></TextBlock>
+
+                <!--NumericYAxis Minimum -->
+                <TextBlock Grid.Row="6" Grid.Column="0" VerticalAlignment="Center"  Text="{Binding XWDC_AxisProperty_MinimumValue, Source={StaticResource Strings}}"  HorizontalAlignment="Left"/>
+                <Slider Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" x:Name="sldNumericYAxisMinimum" Width="100" Minimum="-100" Maximum="100" Value="100" SmallChange="5" LargeChange="5" />
+                <TextBlock Grid.Row="6" Grid.Column="2" VerticalAlignment="Center"  Width="30" Text="{Binding ElementName=sldNumericYAxisMinimum, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}"  HorizontalAlignment="Left" Margin="{StaticResource OptionsTextLeftMargin}"/>
+
+                <!--NumericYAxis Maximum -->
+                <TextBlock Grid.Row="7" Grid.Column="0" VerticalAlignment="Center"  Text="{Binding XWDC_AxisProperty_MaximumValue, Source={StaticResource Strings}}"  HorizontalAlignment="Left"/>
+                <Slider Grid.Row="7" Grid.Column="1" VerticalAlignment="Center" x:Name="sldNumericYAxisMaximum" Width="100" Minimum="100" Maximum="1000" Value="900" SmallChange="5" LargeChange="5" />
+                <TextBlock Grid.Row="7" Grid.Column="2" VerticalAlignment="Center"  Width="30" Text="{Binding ElementName=sldNumericYAxisMaximum, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}"  HorizontalAlignment="Left" Margin="{StaticResource OptionsTextLeftMargin}"/>
+
+                <!--NumericYAxis Crossing -->
+                <TextBlock Grid.Row="8" Grid.Column="0" VerticalAlignment="Center"  Text="{Binding XWDC_AxisProperty_CrossingValue, Source={StaticResource Strings}}"  HorizontalAlignment="Left"/>
+                <Slider Grid.Row="8" Grid.Column="1" VerticalAlignment="Center" x:Name="sldNumericYAxisCrossing" Width="100" Minimum="-20" Maximum="20" Value="20" SmallChange="5" LargeChange="5" />
+                <TextBlock Grid.Row="8" Grid.Column="2" VerticalAlignment="Center"  Width="30" Text="{Binding ElementName=sldNumericYAxisCrossing, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}"  HorizontalAlignment="Left" Margin="{StaticResource OptionsTextLeftMargin}"/>
+
+                <!--NumericYAxis Interval -->
+                <TextBlock Grid.Row="9" Grid.Column="0" VerticalAlignment="Center"  Text="{Binding XWDC_AxisProperty_Interval, Source={StaticResource Strings}}"  HorizontalAlignment="Left"/>
+                <Slider Grid.Row="9" Grid.Column="1" VerticalAlignment="Center" x:Name="sldNumericYAxisInterval" Width="100" Minimum="100" Maximum="500" Value="100" SmallChange="5" LargeChange="5" />
+                <TextBlock Grid.Row="9" Grid.Column="2" VerticalAlignment="Center"  Width="30" Text="{Binding ElementName=sldNumericYAxisInterval, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0'}"  HorizontalAlignment="Left" Margin="{StaticResource OptionsTextLeftMargin}"/>
+
+            </Grid>
+
+        </controls:OptionsPanel>
+
+    </Grid>
+</igFramework:SampleContainer>

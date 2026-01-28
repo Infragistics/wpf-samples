@@ -1,0 +1,192 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+                    xmlns:ig="http://schemas.infragistics.com/xaml" 
+                    xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives">
+
+	<!-- *********************************  BRUSHES  ********************************* -->
+	<SolidColorBrush x:Key="PrintHeaderCellForegroundBrush" Color="#FF6C6C6C" />
+	<SolidColorBrush x:Key="PrintHeaderCellBackgroundBrush" Color="#00FFFFFF" />
+	<SolidColorBrush x:Key="PrintHeaderCellBorderBrush" Color="#FFBABABA" />
+
+	<SolidColorBrush x:Key="PrintDataCellForegroundBrush" Color="#FF444444" />
+	<SolidColorBrush x:Key="PrintDataCellBackgroundBrush" Color="#00FFFFFF" />
+	<SolidColorBrush x:Key="PrintDataCellBorderBrush" Color="#FFBABABA" />
+
+	<SolidColorBrush x:Key="PrintMeasureFieldForegroundBrush" Color="#FF6C6C6C" />
+	<SolidColorBrush x:Key="PrintMeasureFieldBackgroundBrush" Color="#00FFFFFF" />
+	<SolidColorBrush x:Key="PrintMeasureFieldBorderBrush" Color="#FFBABABA" />
+
+	<SolidColorBrush x:Key="PrintHierarchyFieldForegroundBrush" Color="#FF6C6C6C" />
+	<SolidColorBrush x:Key="PrintHierarchyFieldBackgroundBrush" Color="#00FFFFFF" />
+	<SolidColorBrush x:Key="PrintHierarchyFieldBorderBrush" Color="#FFBABABA" />
+
+	<SolidColorBrush x:Key="PrintExpansionIndicatorForegroundBrush" Color="#FFBABABA" />
+	<SolidColorBrush x:Key="PrintExpansionIndicatorBackgroundBrush" Color="#00FFFFFF" />
+	<SolidColorBrush x:Key="PrintExpansionIndicatorBorderBrush" Color="#FFBABABA" />
+
+	<!-- *********************************  HeaderCellControlExpansionIndicator Style  ********************************* -->
+	<Style x:Key="HeaderCellControlExpansionIndicatorStyle" TargetType="ToggleButton">
+		<Setter Property="Background" Value="{StaticResource PrintExpansionIndicatorBackgroundBrush}" />
+		<Setter Property="Foreground" Value="{StaticResource PrintExpansionIndicatorForegroundBrush}" />
+		<Setter Property="BorderBrush" Value="{StaticResource PrintExpansionIndicatorBorderBrush}" />
+		<Setter Property="BorderThickness" Value=".5" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="ToggleButton">
+					<Grid Width="9" Height="9">
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CheckStates">
+								<VisualState x:Name="Checked">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="CollapseGlyph" Storyboard.TargetProperty="(UIElement.Visibility)">
+											<DiscreteObjectKeyFrame KeyTime="00:00:00">
+												<DiscreteObjectKeyFrame.Value>
+													<Visibility>Visible</Visibility>
+												</DiscreteObjectKeyFrame.Value>
+											</DiscreteObjectKeyFrame>
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ExpandGlyph" Storyboard.TargetProperty="(UIElement.Visibility)">
+											<DiscreteObjectKeyFrame KeyTime="00:00:00">
+												<DiscreteObjectKeyFrame.Value>
+													<Visibility>Collapsed</Visibility>
+												</DiscreteObjectKeyFrame.Value>
+											</DiscreteObjectKeyFrame>
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+								<VisualState x:Name="Unchecked" />
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+						<Border x:Name="BdForeground" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" />
+						<Path x:Name="ExpandGlyph" Width="5" Height="5" Fill="{TemplateBinding Foreground}" Data="M 2,0 C2,0 2,2 2,2 2,2 0,2 0,2 0,2 0,3 0,3 0,3 2,3 2,3 2,3 2,5 2,5 2,5 3,5 3,5 3,5 3,3 3,3 3,3 5,3 5,3 5,3 5,2 5,2 5,2 3,2 3,2 3,2 3,0 3,0 3,0 2,0 2,0 z" />
+						<Rectangle x:Name="CollapseGlyph" Width="5" Height="1" Fill="{TemplateBinding Foreground}" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed" />
+						<ContentPresenter x:Name="contentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" />
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<!-- *********************************  PivotReportRowHeaderCellControl Style  ********************************* -->
+	<Style TargetType="ig:PivotReportRowHeaderCellControl">
+        <Setter Property="Foreground" Value="{StaticResource PrintDataCellForegroundBrush}" />
+		<Setter Property="Background" Value="{StaticResource PrintHeaderCellBackgroundBrush}" />
+		<Setter Property="BorderBrush" Value="{StaticResource PrintHeaderCellBorderBrush}" />
+		<Setter Property="ExpansionIndicatorStyle" Value="{StaticResource HeaderCellControlExpansionIndicatorStyle}" />
+		<Setter Property="ApplyHeaderCellTemplate" Value="false" />
+	</Style>
+
+	<!-- *********************************  PivotReportColumnHeaderCellControl Style  ********************************* -->
+	<Style TargetType="ig:PivotReportColumnHeaderCellControl">
+        <Setter Property="Foreground" Value="{StaticResource PrintDataCellForegroundBrush}" />
+		<Setter Property="Background" Value="{StaticResource PrintHeaderCellBackgroundBrush}" />
+		<Setter Property="BorderBrush" Value="{StaticResource PrintHeaderCellBorderBrush}" />
+		<Setter Property="ExpansionIndicatorStyle" Value="{StaticResource HeaderCellControlExpansionIndicatorStyle}" />
+		<Setter Property="ApplyHeaderCellTemplate" Value="false" />
+	</Style>
+
+	<!-- *********************************  PivotReportDataCellControl Style  ********************************* -->
+	<Style TargetType="ig:PivotReportDataCellControl">
+		<Setter Property="Foreground" Value="{StaticResource PrintDataCellForegroundBrush}" />
+		<Setter Property="ApplyDataCellTemplate" Value="false" />
+	</Style>
+
+	<!-- *********************************  ReportFieldItemControl Style  ********************************* -->
+	<Style TargetType="ig:PivotReportFieldItemControl">
+		<Setter Property="FontSize" Value="11" />
+		<Setter Property="BorderThickness" Value="1" />
+		<Setter Property="HorizontalContentAlignment" Value="Left" />
+		<Setter Property="Padding" Value="4,2" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="ig:PivotReportFieldItemControl">
+					<Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+						<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+					</Border>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<!-- *********************************  ReportMeasureFieldItemControl Style  ********************************* -->
+    <Style TargetType="ig:PivotReportMeasureFieldItemControl" BasedOn="{StaticResource ResourceKey={x:Type ig:PivotReportFieldItemControl}}">
+		<Setter Property="Foreground" Value="{StaticResource PrintMeasureFieldForegroundBrush}" />
+		<Setter Property="Background" Value="{StaticResource PrintMeasureFieldBackgroundBrush}" />
+		<Setter Property="BorderBrush" Value="{StaticResource PrintMeasureFieldBorderBrush}" />
+	</Style>
+
+	<!-- *********************************  ReportHierarchyFieldItemControl Style  ********************************* -->
+    <Style TargetType="ig:PivotReportHierarchyFieldItemControl" BasedOn="{StaticResource ResourceKey={x:Type ig:PivotReportFieldItemControl}}">
+		<Setter Property="Foreground" Value="{StaticResource PrintHierarchyFieldForegroundBrush}" />
+		<Setter Property="Background" Value="{StaticResource PrintHierarchyFieldBackgroundBrush}" />
+		<Setter Property="BorderBrush" Value="{StaticResource PrintHierarchyFieldBorderBrush}" />
+	</Style>
+
+    <Style TargetType="ig:PivotReportFieldIconControl">
+        <Setter Property="Background" Value="{StaticResource PrintHeaderCellBorderBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource PrintHeaderCellBorderBrush}"/>
+    </Style>
+
+    <Style TargetType="ig:PivotGridReportControl">
+        <Setter Property="TitleTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock FontSize="16" Margin="20,5,5,5" Text="{Binding}" 
+                               Foreground="{StaticResource PrintDataCellForegroundBrush}"/>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="FilterFieldsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Border BorderThickness="1" 
+                                BorderBrush="{StaticResource PrintHeaderCellBorderBrush}" 
+                                Background="{StaticResource PrintHeaderCellBackgroundBrush}">
+                            <WrapPanel x:Name="FiltersPanel" Margin="5,5,0,5"/>
+                        </Border>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="MeasureFieldsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Border BorderThickness="1,0,1,0" 
+                                BorderBrush="{StaticResource PrintHeaderCellBorderBrush}" 
+                                Background="{StaticResource PrintHeaderCellBackgroundBrush}">
+                            <WrapPanel x:Name="MeasuresPanel" Margin="5,5,0,5"/>
+                        </Border>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="RowFieldsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Border BorderThickness="1,1,1,0" 
+                                BorderBrush="{StaticResource PrintHeaderCellBorderBrush}" 
+                                Background="{StaticResource PrintHeaderCellBackgroundBrush}">
+                            <WrapPanel x:Name="RowsPanel" VerticalAlignment="Top" Margin="5,5,0,5"/>
+                        </Border>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ColumnFieldsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Border BorderThickness="0,0,1,0" 
+                                BorderBrush="{StaticResource PrintHeaderCellBorderBrush}" 
+                                Background="{StaticResource PrintHeaderCellBackgroundBrush}">
+                            <WrapPanel x:Name="ColumnsPanel"  Margin="5,5,0,5"/>
+                        </Border>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

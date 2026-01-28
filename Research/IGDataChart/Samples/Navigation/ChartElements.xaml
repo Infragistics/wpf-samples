@@ -1,0 +1,258 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Navigation.ChartElements"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="ChartElements Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+      xmlns:resources="clr-namespace:IGDataChart.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <resources:DataChartStrings x:Key="Strings" />
+            <SolidColorBrush x:Key="StripBrush" Color="#3ec1c1c1" />
+            <SolidColorBrush x:Key="StrokeBrush" Color="DimGray" />
+
+            <Style x:Key="CategoryXAxisElementStyle" TargetType="ig:CategoryXAxis">
+                <Setter Property="StrokeThickness" Value="2" />
+                <Setter Property="Strip" Value="Transparent" />
+                <Setter Property="Stroke" Value="{StaticResource StrokeBrush}" />
+                <Setter Property="StrokeThickness" Value="4" />
+                <Setter Property="MajorStroke" Value="{StaticResource StrokeBrush}" />
+                <Setter Property="MajorStrokeThickness" Value="1" />
+                <Setter Property="MinorStroke" Value="{StaticResource StrokeBrush}" />
+                <Setter Property="MinorStrokeThickness" Value="0.15" />
+                <Setter Property="TickStrokeThickness" Value="1" />
+            </Style>
+
+            <Style x:Key="NumericYAxisElementStyle" TargetType="ig:NumericYAxis">
+                <Setter Property="Strip" Value="{StaticResource StripBrush}" />
+                <Setter Property="Stroke" Value="{StaticResource StrokeBrush}" />
+                <Setter Property="StrokeThickness" Value="4" />
+                <Setter Property="MajorStroke" Value="{StaticResource StrokeBrush}" />
+                <Setter Property="MajorStrokeThickness" Value="1" />
+                <Setter Property="MinorStroke" Value="{StaticResource StrokeBrush}" />
+                <Setter Property="MinorStrokeThickness" Value="0.25" />
+                <Setter Property="TickStrokeThickness" Value="1" />
+            </Style>
+
+            <Style x:Key="CrosshairStyle" TargetType="Line">
+                <!--<Setter Property="Stroke" Value="Black" />-->
+                <Setter Property="Opacity" Value="0.9" />
+                <Setter Property="StrokeThickness" Value="2.0" />
+            </Style>
+
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+
+        <Grid x:Name="ChartsContainter"
+              ig:XamDock.Edge="Central">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*" />
+                <RowDefinition Height="2*" />
+            </Grid.RowDefinitions>
+            <Grid.DataContext>
+                <models:StockMarketDataCollection />
+            </Grid.DataContext>
+
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ========================================================================== -->
+            <ig:XamDock Grid.Row="0">
+                <ig:XamDataChart x:Name="xmFinancialChart" CrosshairVisibility="Visible"
+                                 IsVerticalZoomEnabled="False" Margin="0,0,0,20"
+                                 IsHorizontalZoomEnabled="False">
+                    <ig:SyncManager.SyncSettings>
+                        <ig:SyncSettings SyncChannel="syncGroup1"
+                                         SynchronizeHorizontally="False"
+                                         SynchronizeVertically="False" />
+                    </ig:SyncManager.SyncSettings>
+                    <ig:XamDataChart.Axes>
+                        <ig:CategoryXAxis x:Name="commonXAxis" Style="{StaticResource CategoryXAxisElementStyle}"
+                                          ItemsSource="{Binding}"
+                                          Label="{}{Date:MM/dd}">
+                            <ig:CategoryXAxis.LabelSettings>
+                                <ig:AxisLabelSettings  Location="OutsideBottom" 
+                                                       Extent="35" />
+                            </ig:CategoryXAxis.LabelSettings>
+                        </ig:CategoryXAxis>
+                        <ig:NumericYAxis x:Name="priceYAxis" Style="{StaticResource NumericYAxisElementStyle}">
+                            <ig:NumericYAxis.LabelSettings>
+                                <ig:AxisLabelSettings Location="OutsideLeft"
+                                                      Extent="60" />
+                            </ig:NumericYAxis.LabelSettings>
+                        </ig:NumericYAxis>
+                        <ig:NumericYAxis x:Name="volumeYAxis"
+                                         Opacity="0"
+                                         >
+                            <ig:NumericYAxis.LabelSettings>
+                                <ig:AxisLabelSettings Location="OutsideLeft"
+                                                      Extent="60"
+                                                      Visibility="Collapsed" />
+                            </ig:NumericYAxis.LabelSettings>
+                        </ig:NumericYAxis>
+                    </ig:XamDataChart.Axes>
+                    <ig:XamDataChart.Series>
+                        <ig:LineSeries x:Name="xmVolumeSeries"
+                                       Title="{Binding XWDC_ChartElements_VolumeSeries, Source={StaticResource Strings}}"
+                                       Legend="{Binding ElementName=xmFinancialLegend}"
+                                       ItemsSource="{Binding}"
+                                       ValueMemberPath="Volume"
+                                       Thickness="2"
+                                       XAxis="{Binding ElementName=commonXAxis}"
+                                       YAxis="{Binding ElementName=volumeYAxis}"
+                                       IsHighlightingEnabled="True" IsTransitionInEnabled="True">
+                        </ig:LineSeries>
+                        <ig:FinancialPriceSeries x:Name="xmPriceSeries"
+                                                 Title="{Binding XWDC_ChartElements_PriceSeries, Source={StaticResource Strings}}"
+                                                 Legend="{Binding ElementName=xmFinancialLegend}"
+                                                 DisplayType="Candlestick"
+                                                 TrendLineType="ModifiedAverage"
+                                                 ItemsSource="{Binding}"
+                                                 OpenMemberPath="Open"
+                                                 CloseMemberPath="Close"
+                                                 HighMemberPath="High"
+                                                 LowMemberPath="Low"
+                                                 VolumeMemberPath="Volume"
+                                                 XAxis="{Binding ElementName=commonXAxis, Mode=OneWay}"
+                                                 YAxis="{Binding ElementName=priceYAxis, Mode=OneWay}" 
+                                                 IsHighlightingEnabled="True" IsTransitionInEnabled="True">
+                        </ig:FinancialPriceSeries>
+                    </ig:XamDataChart.Series>
+                </ig:XamDataChart>
+                <ig:Legend x:Name="xmFinancialLegend"
+                           Orientation="Vertical"
+                           Margin="65,19,10,10"
+                           ig:XamDock.Edge="InsideTop"
+                           ig:XamDock.HorizontalDockAlignment="Left" VerticalAlignment="Center">
+                </ig:Legend>
+            </ig:XamDock>
+            <ig:XamDock Grid.Row="1">
+                <ig:XamDataChart x:Name="xmIndicatorChart" Margin="0"
+                                 CrosshairVisibility="Visible"
+                                 IsVerticalZoomEnabled="False"
+                                 IsHorizontalZoomEnabled="False"
+                                 >
+                    <ig:SyncManager.SyncSettings>
+                        <ig:SyncSettings SyncChannel="syncGroup1"
+                                         SynchronizeHorizontally="False"
+                                         SynchronizeVertically="False" />
+                    </ig:SyncManager.SyncSettings>
+                    <ig:XamDataChart.Axes>
+                        <ig:CategoryXAxis x:Name="xmIndicatorXAxis" Style="{StaticResource CategoryXAxisElementStyle}" ItemsSource="{Binding}"
+                                          Label="{}{Date:MM/dd}">
+                            <ig:CategoryXAxis.LabelSettings>
+                                <ig:AxisLabelSettings Location="OutsideBottom" Extent="35" />
+                            </ig:CategoryXAxis.LabelSettings>
+                        </ig:CategoryXAxis>
+                        <ig:NumericYAxis x:Name="xmIndicatorYAxis" Label="{}{:N5}" Style="{StaticResource NumericYAxisElementStyle}">
+                            <ig:NumericYAxis.LabelSettings>
+                                <ig:AxisLabelSettings Location="OutsideLeft" Extent="60" />
+                            </ig:NumericYAxis.LabelSettings>
+                        </ig:NumericYAxis>
+                        <ig:NumericYAxis x:Name="xmTrendlineYAxis"
+                                         Opacity="0"
+                                         >
+                            <ig:NumericYAxis.LabelSettings>
+                                <ig:AxisLabelSettings Location="OutsideLeft"
+                                                      Extent="60"
+                                                      Visibility="Collapsed" />
+                            </ig:NumericYAxis.LabelSettings>
+                        </ig:NumericYAxis>
+                    </ig:XamDataChart.Axes>
+                    <ig:XamDataChart.Series>
+                        <ig:TRIXIndicator x:Name="xmIndicatorSeries"
+                                          Title="{Binding XWDC_ChartElements_IndicatorTRIX, Source={StaticResource Strings}}"
+                                          Legend="{Binding ElementName=xmIndicatorLegend}"
+                                          Thickness="1"
+                                          TrendLineThickness="0"
+                                          DisplayType="Area"
+                                          ItemsSource="{Binding}"
+                                          OpenMemberPath="Open"
+                                          CloseMemberPath="Close"
+                                          HighMemberPath="High"
+                                          LowMemberPath="Low"
+                                          VolumeMemberPath="Volume"
+                                          IsHighlightingEnabled="True" IsTransitionInEnabled="True"
+                                          XAxis="{Binding ElementName=xmIndicatorXAxis, Mode=OneWay}"
+                                          YAxis="{Binding ElementName=xmIndicatorYAxis, Mode=OneWay}"
+                                          >
+                        </ig:TRIXIndicator>
+                        <ig:TRIXIndicator x:Name="xmIndicatorTrendline"
+                                          Title="{Binding XWDC_ChartElements_IndicatorTrendline, Source={StaticResource Strings}}"
+                                          Legend="{Binding ElementName=xmIndicatorLegend}"
+                                          Brush="Transparent"
+                                          Opacity="0.8"
+                                          NegativeBrush="Transparent"
+                                          TrendLineType="ExponentialAverage"
+                                          TrendLineThickness="2"
+                                          TrendLineBrush="Black"
+                                          DisplayType="Line"
+                                          ItemsSource="{Binding}"
+                                          OpenMemberPath="Open"
+                                          CloseMemberPath="Close"
+                                          HighMemberPath="High"
+                                          LowMemberPath="Low"
+                                          VolumeMemberPath="Volume"
+                                          IsHighlightingEnabled="True" IsTransitionInEnabled="True"
+                                          XAxis="{Binding ElementName=xmIndicatorXAxis, Mode=OneWay}"
+                                          YAxis="{Binding ElementName=xmTrendlineYAxis, Mode=OneWay}"/>
+                    </ig:XamDataChart.Series>
+                </ig:XamDataChart>
+                <ig:Legend x:Name="xmIndicatorLegend"
+                           Orientation="Vertical"
+                           Margin="65,19,10,10"
+                           ig:XamDock.Edge="InsideTop"
+                           ig:XamDock.HorizontalDockAlignment="Left">
+                </ig:Legend>
+            </ig:XamDock>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+
+        </Grid>
+
+        <controls:OptionsPanel VerticalAlignment="Top" HorizontalAlignment="Right" Margin="10"
+                               HeaderText="{Binding XWDC_ChartElements_ShowElements, Source={StaticResource Strings}}">
+            <CheckBox Click="CheckBox_Click" Margin="{StaticResource OptionsElementsMargin}" IsChecked="True" Tag="ShowVolumeSeries" 
+                      Content="{Binding XWDC_ChartElements_VolumeSeries, Source={StaticResource Strings}}"></CheckBox>
+            <CheckBox Click="CheckBox_Click" Margin="{StaticResource OptionsElementsMargin}" IsChecked="True" Tag="ShowPriceSeries"
+                      Content="{Binding XWDC_ChartElements_PriceSeries, Source={StaticResource Strings}}"></CheckBox>
+            <CheckBox Click="CheckBox_Click" Margin="{StaticResource OptionsElementsMargin}" IsChecked="True" Tag="ShowIndicatorTRIX"
+                      Content="{Binding XWDC_ChartElements_IndicatorTRIX, Source={StaticResource Strings}}"></CheckBox>
+            <CheckBox Click="CheckBox_Click" Margin="{StaticResource OptionsElementsMargin}" IsChecked="True" Tag="ShowIndicatorTrendline"
+                      Content="{Binding XWDC_ChartElements_IndicatorTrendline, Source={StaticResource Strings}}"></CheckBox>
+            <Rectangle Fill="{StaticResource SeparatorBrush}" Height="1" Stretch="Fill" Margin="{StaticResource OptionsElementsMargin}"></Rectangle>
+            <CheckBox Click="CheckBox_Click" Margin="{StaticResource OptionsElementsMargin}" IsChecked="True" Tag="ShowAxisLines"
+                      Content="{Binding XWDC_ChartElements_AxisLines, Source={StaticResource Strings}}"></CheckBox>
+            <CheckBox Click="CheckBox_Click" Margin="{StaticResource OptionsElementsMargin}" IsChecked="True" Tag="ShowAxisMajorLines"
+                      Content="{Binding XWDC_ChartElements_AxisMajorLines, Source={StaticResource Strings}}"></CheckBox>
+            <CheckBox Click="CheckBox_Click" Margin="{StaticResource OptionsElementsMargin}" IsChecked="True" Tag="ShowAxisMinorLines"
+                      Content="{Binding XWDC_ChartElements_AxisMinorLines, Source={StaticResource Strings}}"></CheckBox>
+            <CheckBox Click="CheckBox_Click" Margin="{StaticResource OptionsElementsMargin}" IsChecked="True" Tag="ShowAxisStripes"
+                      Content="{Binding XWDC_ChartElements_AxisStripes, Source={StaticResource Strings}}"></CheckBox>
+            <CheckBox Click="CheckBox_Click" Margin="{StaticResource OptionsElementsMargin}" IsChecked="True" Tag="ShowAxisTickmarks"
+                      Content="{Binding XWDC_ChartElements_AxisTickmarks, Source={StaticResource Strings}}"></CheckBox>
+            <CheckBox Click="CheckBox_Click" Margin="{StaticResource OptionsElementsMargin}" IsChecked="True" Tag="ShowAxisLabels"
+                      Content="{Binding XWDC_ChartElements_AxisLabels, Source={StaticResource Strings}}"></CheckBox>
+            <Rectangle Fill="{StaticResource SeparatorBrush}" Height="1" Stretch="Fill" Margin="{StaticResource OptionsElementsMargin}"></Rectangle>
+            <CheckBox Click="CheckBox_Click" Margin="{StaticResource OptionsElementsMargin}" IsChecked="True" Tag="ShowLegends"
+                      Content="{Binding XWDC_ChartElements_Legends, Source={StaticResource Strings}}"></CheckBox>
+            <CheckBox Click="CheckBox_Click" Margin="{StaticResource OptionsElementsMargin}" IsChecked="True" Tag="ShowMarkers"
+                      Content="{Binding XWDC_ChartElements_Markers, Source={StaticResource Strings}}"></CheckBox>
+            <CheckBox Click="CheckBox_Click"  IsChecked="True" Tag="ShowCrosshairs"
+                      Content="{Binding XWDC_ChartElements_Crossharis, Source={StaticResource Strings}}"></CheckBox>
+        </controls:OptionsPanel>
+
+    </Grid>
+</igFramework:SampleContainer>

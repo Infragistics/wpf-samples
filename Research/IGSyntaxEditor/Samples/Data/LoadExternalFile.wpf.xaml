@@ -1,0 +1,46 @@
+﻿<framework:SampleContainer x:Class="IGSyntaxEditor.Samples.Data.LoadExternalFile"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="LoadExternalFile"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGSyntaxEditor.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                
+                <ResourceDictionary Source="/IGSyntaxEditor;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:SyntaxEditorStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamSyntaxEditor x:Name="xamSyntaxEditor1" 
+            SplitOptions="SplittingNotAllowed" ErrorDisplayMode="Never" BorderThickness="1" />
+        <!-- #END SNIPPET# -->
+
+        <controls:OptionsPanel HeaderText="{Binding ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}"
+                               HorizontalAlignment="Right" Width="160">
+            <StackPanel Orientation="Vertical" Margin="2">
+                <TextBlock Text="{Binding Path=SelectFileLanguage, Source={StaticResource Strings}}" Margin="{StaticResource OptionsElementsMargin}"/>
+                <ComboBox x:Name="cb_lang" MinWidth="120" Margin="{StaticResource OptionsElementsMargin}">
+                    <ComboBoxItem Content="{Binding Path=Language_GeneralText, Source={StaticResource Strings}}" Tag="LangText" IsSelected="True" />
+                    <ComboBoxItem Content="{Binding Path=Language_CSharp, Source={StaticResource Strings}}" Tag="LangCS" />
+                    <ComboBoxItem Content="{Binding Path=Language_VB, Source={StaticResource Strings}}" Tag="LangVB" />
+                    <ComboBoxItem Content="{Binding Path=Language_TSQL, Source={StaticResource Strings}}" Tag="LangTSQL" />
+                </ComboBox>
+                <Button x:Name="bOpen" Content="{Binding Path=OpenFile, Source={StaticResource Strings}}" Click="Open_Click" Margin="{StaticResource OptionsElementsMargin}"/>
+                <Button x:Name="bClose" Content="{Binding Path=CloseFile, Source={StaticResource Strings}}" Click="Close_Click" IsEnabled="False" />
+            </StackPanel>
+        </controls:OptionsPanel>
+
+    </Grid>
+</framework:SampleContainer>

@@ -1,0 +1,74 @@
+﻿<framework:SampleContainer
+    x:Class="IGEditors.Samples.Display.TextEditor_InvalidValueBehavior"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2006"
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+    xmlns:igEditors="http://infragistics.com/Editors"
+    xmlns:res="clr-namespace:IGEditors.Resources"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	Title="TextEditor_InvalidValueBehavior">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGEditors;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <res:EditorsStringRes x:Key="resStrings" />
+
+            <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type sys:Enum}" x:Key="odpInvalidValueBehavior">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="igEditors:InvalidValueBehavior" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+      
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+  
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition />
+		</Grid.RowDefinitions>
+    
+		<StackPanel Orientation="Horizontal" Grid.Row="1" VerticalAlignment="Top">
+            <Label Content="{Binding Source={StaticResource resStrings}, Path=StandaloneUsage_InvalidValueBehavior_Main_Label}"
+                VerticalAlignment="Center" FontWeight="Bold" />
+      
+            <!-- #BEGIN SNIPPET# -->
+			<igEditors:XamTextEditor
+				x:Name="txtEditor"
+				Width="120"
+				VerticalAlignment="Center"
+				Margin="3,0,0,0"
+                Theme="RoyalLight">
+				<igEditors:XamTextEditor.ValueConstraint>
+					<igEditors:ValueConstraint ValidateAsType="DateTime" />
+				</igEditors:XamTextEditor.ValueConstraint>
+			</igEditors:XamTextEditor>
+            <!-- #END SNIPPET# -->
+      
+		</StackPanel>
+    
+        <controls:OptionsPanel VerticalAlignment="Top" IsMovable="False" Margin="0,0,0,10"
+            HeaderText="{Binding Path=StandaloneUsage_InvalidValueBehavior_ConfigArea_Header, Source={StaticResource resStrings}}">
+			<StackPanel Orientation="Horizontal">
+				<TextBlock
+					Text="{Binding Source={StaticResource resStrings}, Path=StandaloneUsage_InvalidValueBehavior_Main_Header_Label}"
+					Margin="0,0,5,0"
+					VerticalAlignment="Center"
+					/>
+				<ComboBox
+					Grid.Row="0"
+					x:Name="cboInvalidValueBehaviors"
+					SelectedItem="{Binding Path=InvalidValueBehavior, ElementName=txtEditor}"
+					ItemsSource="{Binding Source={StaticResource odpInvalidValueBehavior}}" Width="150" />
+			</StackPanel>
+		</controls:OptionsPanel>
+      
+	</Grid>
+</framework:SampleContainer>

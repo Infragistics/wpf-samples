@@ -1,0 +1,164 @@
+﻿<framework:SampleContainer x:Class="IGGrid.Samples.Display.TemplateColumnLayout"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="TemplateColumnLayout Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGGrid.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGrid;component/Assets/Global.xaml" />
+                
+                 
+            </ResourceDictionary.MergedDictionaries>
+            <res:GridStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">       
+        <ig:XamGrid x:Name="dataGrid" AutoGenerateColumns="False" Margin="0">
+            <ig:XamGrid.Columns>
+                <ig:TextColumn Key="Company"
+                               HeaderText="{Binding Path=XWG_Customers_Company, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="ContactName"
+                               HeaderText="{Binding Path=XWG_Customers_ContactName, Source={StaticResource Strings}}" />
+                <!-- #BEGIN SNIPPET# -->
+                <ig:TemplateColumnLayout Key="CustomerID">
+                    <ig:TemplateColumnLayout.Template>
+                        <DataTemplate>
+                            <TabControl SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}">
+                                <TabItem Header="{Binding Path=XG_ImplicitDataTemplates_ContactDetails, Source={StaticResource Strings}}">
+                                    <Border CornerRadius="3" Background="#FF666666">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="1"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"  />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <Grid Background="White" Grid.Row="1" d:LayoutOverrides="GridBox" Margin="20" VerticalAlignment="Center" HorizontalAlignment="Left" >
+                                                <Grid Margin="1" Background="#FF929191">
+                                                    <Image Source="{Binding ImageResourcePath}" MaxWidth="100" Grid.Column="0" Grid.Row="0" Margin="1" />
+                                                </Grid>
+                                            </Grid>
+
+                                            <Grid Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" >
+                                                <Grid VerticalAlignment="Top">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="40"/>
+                                                        <RowDefinition Height="20"/>
+                                                        <RowDefinition Height="20"/>
+                                                        <RowDefinition Height="20"/>
+                                                        <RowDefinition Height="20"/>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock x:Name="Contact_Name" Text="{Binding ContactName}" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2" Foreground="#FFFFFFFF" FontSize="20" FontFamily="Segoe UI" />
+                                                    <TextBlock x:Name="Customer_ID" Text="{Binding CustomerID}" VerticalAlignment="Top" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Foreground="White" />
+                                                    <TextBlock x:Name="Title" Text="{Binding ContactTitle}" VerticalAlignment="Top" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Foreground="White" />
+                                                    <TextBlock x:Name="Country" Text="{Binding Country}" VerticalAlignment="Top" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" Foreground="White" />
+                                                    <TextBlock x:Name="Phone" Text="{Binding Phone}" VerticalAlignment="Top" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left" Foreground="White" />
+                                                    <TextBlock Grid.Row="1" Text="{Binding Path=XWG_Customers_CustomerID, Source={StaticResource Strings}}" TextWrapping="Wrap" HorizontalAlignment="Left" Foreground="White" Margin="0,0,5,0" Opacity="0.5"/>
+                                                    <TextBlock Grid.Row="2" Text="{Binding Path=XWG_Customers_ContactTitle, Source={StaticResource Strings}}" TextWrapping="Wrap" HorizontalAlignment="Left" Foreground="White" Margin="0,0,5,0" Opacity="0.5"/>
+                                                    <TextBlock Grid.Row="3" Text="{Binding Path=XWG_Customers_Location, Source={StaticResource Strings}}" TextWrapping="Wrap" HorizontalAlignment="Left" Foreground="White" Margin="0,0,5,0" Opacity="0.5"/>
+                                                    <TextBlock Grid.Row="4" Text="{Binding Path=XWG_Customers_Phone, Source={StaticResource Strings}}" TextWrapping="Wrap" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="0,0,5,0" Opacity="0.5"/>
+                                                </Grid>
+                                            </Grid>
+                                        </Grid>
+                                    </Border>
+                                </TabItem>
+                                <TabItem Header="{Binding Path=XWG_Orders, Source={StaticResource Strings}}">
+                                    <ig:XamGrid ItemsSource="{Binding Orders}" MaxHeight="150">
+                                        <ig:XamGrid.Columns>
+                                            <ig:TextColumn Key="OrderDate" FormatString="{}{0:d}">
+                                                <ig:TextColumn.HeaderTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Path=XWG_Orders_OrderDateLabel, Source={StaticResource Strings}}" />
+                                                    </DataTemplate>
+                                                </ig:TextColumn.HeaderTemplate>
+                                            </ig:TextColumn>
+                                            <ig:TextColumn Key="ShippedDate" FormatString="{}{0:d}">
+                                                <ig:TextColumn.HeaderTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Path=XWG_Orders_ShipDateLabel, Source={StaticResource Strings}}" />
+                                                    </DataTemplate>
+                                                </ig:TextColumn.HeaderTemplate>
+                                            </ig:TextColumn>
+                                            <ig:TextColumn Key="Freight">
+                                                <ig:TextColumn.HeaderTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Source={StaticResource Strings} , Path=XWG_Order_Freight}" />
+                                                    </DataTemplate>
+                                                </ig:TextColumn.HeaderTemplate>
+                                            </ig:TextColumn>
+                                            <ig:ColumnLayout Key="OrderDetails">
+                                                <ig:ColumnLayout.Columns>
+                                                    <ig:TextColumn Key="ProductName">
+                                                        <ig:TextColumn.HeaderTemplate>
+                                                            <DataTemplate>
+                                                                <TextBlock Text="{Binding Source={StaticResource Strings} , Path=XWG_OrderDetails_ProductNameLabel}" />
+                                                            </DataTemplate>
+                                                        </ig:TextColumn.HeaderTemplate>
+                                                    </ig:TextColumn>
+                                                    <ig:TextColumn Key="Quantity">
+                                                        <ig:TextColumn.HeaderTemplate>
+                                                            <DataTemplate>
+                                                                <TextBlock Text="{Binding Source={StaticResource Strings} , Path=XWG_OrderDetails_Quantity}" />
+                                                            </DataTemplate>
+                                                        </ig:TextColumn.HeaderTemplate>
+                                                    </ig:TextColumn>
+                                                    <ig:TextColumn Key="Discount">
+                                                        <ig:TextColumn.HeaderTemplate>
+                                                            <DataTemplate>
+                                                                <TextBlock Text="{Binding Source={StaticResource Strings} , Path=XWG_OrderDetails_Discount}" />
+                                                            </DataTemplate>
+                                                        </ig:TextColumn.HeaderTemplate>
+                                                    </ig:TextColumn>
+                                                </ig:ColumnLayout.Columns>
+                                            </ig:ColumnLayout>
+                                        </ig:XamGrid.Columns>
+                                    </ig:XamGrid>
+                                </TabItem>
+                                <TabItem Header="{Binding Path=XWG_Orders_Chart, Source={StaticResource Strings}}">
+                                    <Grid>
+                                        <ig:XamSparkline x:Name="SparklineChart" ItemsSource="{Binding Orders}"
+                                                         LabelMemberPath="OrderDate"
+                                                         ValueMemberPath="Quantity"
+                                                         ToolTipVisibility="Visible"
+                                                         DisplayType="Line"
+                                                         FirstMarkerVisibility="Visible"
+                                                         LastMarkerVisibility="Visible"
+                                                         HighMarkerVisibility="Visible"
+                                                         LowMarkerVisibility="Visible"
+                                                         VerticalAxisVisibility="Visible"
+                                                         HorizontalAxisVisibility="Visible"/>
+                                        <controls:EnumValuesProvider
+                                            EnumType="ig:SparklineDisplayType"
+                                            DisplayTemplate="ComboBox"
+                                            Value="{Binding ElementName=SparklineChart, Path=DisplayType, Mode=TwoWay}"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Top"/>
+                                    </Grid>
+                                </TabItem>
+                            </TabControl>
+                        </DataTemplate>
+                    </ig:TemplateColumnLayout.Template>
+                </ig:TemplateColumnLayout>
+                <!-- #END SNIPPET# -->
+            </ig:XamGrid.Columns>
+        </ig:XamGrid>
+        
+    </Grid>
+</framework:SampleContainer>

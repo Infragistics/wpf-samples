@@ -1,0 +1,59 @@
+﻿<framework:SampleContainer
+    x:Class="IGEditors.Samples.Display.DateTimeEditor_ComputedMinCalendarMode"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+    xmlns:igEditors="http://infragistics.com/Editors"
+    xmlns:res="clr-namespace:IGEditors.Resources"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	Title="ComputedMinCalendarMode">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGEditors;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:EditorsStringRes x:Key="resStrings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+  
+	<DockPanel>
+
+        <controls:OptionsPanel DockPanel.Dock="Top" IsMovable="False" Margin="0,0,0,10"
+            HeaderText="{Binding Path=xamDateTimeEditor_DateTimeEditor_ComputedMinCalendarMode_ConfigArea_Header, Source={StaticResource resStrings}}">
+		    <StackPanel Orientation="Horizontal">
+			    <TextBlock Text="{Binding Source={StaticResource resStrings}, Path=xamDateTimeEditor_DateTimeEditor_ComputedMinCalendarMode_ConfigArea_Mask_Label}"
+                            VerticalAlignment="Center" />
+                <ComboBox x:Name="masksComboBox" MinWidth="180" SelectedIndex="0" Margin="3,0,0,0">
+                    <ComboBoxItem Content="{Binding Source={StaticResource resStrings}, Path=xamDateTimeEditor_DateTimeEditor_ComputedMinCalendarMode_ConfigArea_Mask_Options1_Header}" Tag="{}{date}"/>
+                    <ComboBoxItem Content="{Binding Source={StaticResource resStrings}, Path=xamDateTimeEditor_DateTimeEditor_ComputedMinCalendarMode_ConfigArea_Mask_Options2_Header}" Tag="{Binding Source={StaticResource resStrings}, Path=xamDateTimeEditor_DateTimeEditor_ComputedMinCalendarMode_ConfigArea_Mask_Options2_Content}"/>
+                    <ComboBoxItem Content="{Binding Source={StaticResource resStrings}, Path=xamDateTimeEditor_DateTimeEditor_ComputedMinCalendarMode_ConfigArea_Mask_Options3_Header}" Tag="{}{date} {time}"/>
+			    </ComboBox>
+		    </StackPanel>
+	    </controls:OptionsPanel>
+      
+	    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left">
+		    <Label Content="{Binding Source={StaticResource resStrings}, Path=xamDateTimeEditor_DateTimeEditor_ComputedMinCalendarMode_Editor_Label}"
+                   FontWeight="Bold" />
+        
+            <!-- #BEGIN SNIPPET# -->
+            <igEditors:XamDateTimeEditor x:Name="editor" Mask="{Binding ElementName=masksComboBox, Path=SelectedItem.Tag, Mode=OneWay}"
+				    MinWidth="200" IsAlwaysInEditMode="True" DisplayMode="IncludeBoth" Theme="RoyalLight">
+        
+                <igEditors:XamDateTimeEditor.Resources>
+                    <Style TargetType="{x:Type igEditors:XamMonthCalendar}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=Dispatcher.Thread.CurrentUICulture.Name}"
+                                         Value="ja-JP">
+                                <Setter Property="DayOfWeekHeaderFormat" Value="SingleCharacter" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </igEditors:XamDateTimeEditor.Resources>
+        
+            </igEditors:XamDateTimeEditor>
+            <!-- #END SNIPPET# -->
+        </StackPanel>
+	</DockPanel>
+</framework:SampleContainer>

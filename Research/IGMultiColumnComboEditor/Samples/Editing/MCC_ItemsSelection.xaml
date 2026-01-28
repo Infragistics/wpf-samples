@@ -1,0 +1,130 @@
+﻿<framework:SampleContainer x:Class="IGMultiColumnComboEditor.Samples.Editing.MCC_ItemsSelection"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+             xmlns:res="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared"
+             xmlns:resCombo="clr-namespace:IGMultiColumnComboEditor.Resources"
+             xmlns:local="clr-namespace:IGMultiColumnComboEditor.Samples.Editing"
+             xmlns:ig="http://schemas.infragistics.com/xaml"
+             xmlns:igDP="http://infragistics.com/DataPresenter"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGMultiColumnComboEditor;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+
+            <res:CommonStrings x:Key="Strings" />
+            <resCombo:MultiColumnComboEditorStrings x:Key="ComboStrings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <framework:SampleContainer.DataContext>
+        <local:PatientsDataProvider />
+    </framework:SampleContainer.DataContext>
+    
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock Text="{Binding Source={StaticResource ComboStrings}, Path=XWG_Patient_SpecialPatientInformation}"
+                   Margin="0,0,0,40" FontWeight="Bold" VerticalAlignment="Top" />
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{Binding Source={StaticResource ComboStrings}, Path=CE_SpecialCases}" 
+                           HorizontalAlignment="Left" Margin="0,0,0,20"/>
+                    <ig:XamMultiColumnComboEditor x:Name="ComboEditor_Options" AutoGenerateColumns="False"
+                                                  Height="22" Width="230" 
+                                                  Margin="0,0,0,20"
+                                                  HorizontalAlignment="Left"
+                                                  SelectedIndex="0"
+                                                  DisplayMemberPath="Name"
+                                                  ItemsSource="{Binding Path=PropOptions}"
+                                                  SelectedValuePath="Identifier"
+                                                  EmptyText="{Binding Source={StaticResource ComboStrings}, Path=CE_SpecialCase}">
+                        <ig:XamMultiColumnComboEditor.Columns>
+                            <ig:TextComboColumn Key="Name" HeaderText="{Binding Source={StaticResource ComboStrings}, Path=CE_Case}" />
+                        </ig:XamMultiColumnComboEditor.Columns>
+                    </ig:XamMultiColumnComboEditor>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Right">
+                    <TextBlock Text="{Binding Source={StaticResource ComboStrings}, Path=CE_AllPatients}" 
+                           Margin="0,0,0,20" HorizontalAlignment="Left"/>
+                    <!-- #BEGIN SNIPPET# -->
+                    <ig:XamMultiColumnComboEditor x:Name="ComboEditorSource"
+                                                  Height="22" Width="340" AutoGenerateColumns="False"
+                                                  Margin="0,0,0,20"
+                                                  HorizontalAlignment="Left"
+                                                  DisplayMemberPath="FullName"
+                                                  ItemsSource="{Binding Path=Patients}"
+                                                  AllowMultipleSelection="True"
+                                                  CheckBoxVisibility="Visible"
+                                                  IsSelectedMemberPath="{Binding ElementName=ComboEditor_Options, Path=SelectedValue}">
+                        <ig:XamMultiColumnComboEditor.Columns>
+                            <ig:TextComboColumn Key="AdmittanceId"
+                                                HeaderText="{Binding Source={StaticResource Strings}, Path=XWG_Patient_AdmittanceID}"/>
+                            <ig:TextComboColumn Key="FullName" 
+                                                HeaderText="{Binding Source={StaticResource Strings}, Path=XWG_Patient_FullName}" />
+                            <ig:DateComboColumn Key="AdmittanceDate"
+                                                HeaderText="{Binding Source={StaticResource Strings}, Path=XWG_Patient_AdmittanceDate}" />
+                            <ig:TextComboColumn Key="Severity"
+                                                HeaderText="{Binding Source={StaticResource Strings}, Path=XWG_Patient_Severity}"/>
+                        </ig:XamMultiColumnComboEditor.Columns>
+                    </ig:XamMultiColumnComboEditor>
+                    <!-- #END SNIPPET# -->
+                </StackPanel>
+            </Grid>
+            <!-- #BEGIN SNIPPET# -->
+            <igDP:XamDataGrid x:Name="dataGrid"
+                    DataSource="{Binding ElementName=ComboEditorSource, Path=SelectedItems, Mode=TwoWay}"
+                    Grid.Row="1">
+                <igDP:XamDataGrid.FieldLayoutSettings>
+                    <igDP:FieldLayoutSettings AutoGenerateFields="False"/>
+                </igDP:XamDataGrid.FieldLayoutSettings>
+                <igDP:XamDataGrid.FieldSettings>
+                    <igDP:FieldSettings AllowSummaries="True" Width="*" />
+                </igDP:XamDataGrid.FieldSettings>
+                <igDP:XamDataGrid.FieldLayouts>
+                    <igDP:FieldLayout>
+                        <igDP:FieldLayout.SummaryDefinitions>
+                            <igDP:SummaryDefinition SourceFieldName="HasAllergies">
+                                <igDP:SummaryDefinition.Calculator>
+                                    <igDP:CountSummaryCalculator />
+                                </igDP:SummaryDefinition.Calculator>
+                            </igDP:SummaryDefinition>
+                            <igDP:SummaryDefinition SourceFieldName="TakeMedications">
+                                <igDP:SummaryDefinition.Calculator>
+                                    <igDP:CountSummaryCalculator />
+                                </igDP:SummaryDefinition.Calculator>
+                            </igDP:SummaryDefinition>
+                        </igDP:FieldLayout.SummaryDefinitions>
+                        <igDP:TextField Name="FirstName" Label="{Binding Path=XWG_Patient_FirstName, Source={StaticResource Strings}}"/>
+                        <igDP:TextField Name="LastName" Label="{Binding Path=XWG_Patient_LastName, Source={StaticResource Strings}}"/>
+                        <igDP:TextField Name="Gender" Label="{Binding Path=XWG_Patient_Gender, Source={StaticResource Strings}}"/>
+                        <igDP:TextField Name="Severity" Label="{Binding Path=XWG_Patient_Severity, Source={StaticResource Strings}}"/>
+                        <igDP:CheckBoxField Name="HasAllergies" Label="{Binding Path=CE_Allergies, Source={StaticResource ComboStrings}}"/>
+                        <igDP:CheckBoxField Name="TakeMedications" Label="{Binding Path=CE_ExtaMeds, Source={StaticResource ComboStrings}}" />
+                    </igDP:FieldLayout>
+                </igDP:XamDataGrid.FieldLayouts>
+            </igDP:XamDataGrid>
+        </Grid>
+    </Grid>
+</framework:SampleContainer>

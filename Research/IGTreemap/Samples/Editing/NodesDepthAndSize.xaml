@@ -1,0 +1,161 @@
+﻿<igFramework:SampleContainer x:Class="IGTreemap.Samples.NodesDepthAndSize"
+                 xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 mc:Ignorable="d"
+                 xmlns:ig="http://schemas.infragistics.com/xaml"
+                 xmlns:resources="clr-namespace:IGTreemap.Resources"
+                 xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared">
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGTreemap;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/IGTreemap;component/Assets/TreemapStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <models:ManufacturerModel x:Key="ManufacturerModel" />
+            <resources:TreemapStrings x:Key="Strings" />
+            <!-- Brushes 1 -->
+		    <SolidColorBrush x:Key="BaseBorderBrush2" Color="#FFBBBBBB" />
+            <SolidColorBrush x:Key="BaseOverlayBrush2" Color="#FFCCCCCC" />
+            <SolidColorBrush x:Key="BaseOverlayBrush3" Color="#FF9FB328" />
+		    <SolidColorBrush x:Key="BaseBorderBrush3" Color="#FF7C8C20" />
+
+		    <!-- Treemap node Style -->
+		    <Style x:Key="TreemapNodeStyle" TargetType="ig:TreemapNode">
+			    <Setter Property="Fill" Value="{StaticResource TreemapContainerFill}" />
+			    <Setter Property="BorderBrush" Value="{StaticResource TreemapContainerStroke}" />
+			    <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+			    <Setter Property="BorderThickness" Value="1" />
+			    <Setter Property="Padding" Value="5" />
+			    <Setter Property="Margin" Value="1" />
+			    <Setter Property="Template">
+				    <Setter.Value>
+					    <ControlTemplate TargetType="ig:TreemapNode">
+						    <Border BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Fill}" BorderBrush="{TemplateBinding BorderBrush}">
+							    <Grid>
+								    <Grid.RowDefinitions>
+									    <RowDefinition Height="Auto" />
+									    <RowDefinition Height="*" />
+								    </Grid.RowDefinitions>
+								    <TextBlock Text="{TemplateBinding Text}" Margin="5,3,5,5" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" TextWrapping="Wrap" Foreground="{TemplateBinding Foreground}" />
+								    <ig:NodesPanel x:Name="NodesPanel" Grid.Row="1" />
+							    </Grid>
+						    </Border>
+					    </ControlTemplate>
+				    </Setter.Value>
+			    </Setter>
+		    </Style>
+
+		    <!-- Treemap node Style 2 -->
+		    <Style x:Key="TreemapNodeStyle2" BasedOn="{StaticResource TreemapNodeStyle}" TargetType="ig:TreemapNode">
+			    <Setter Property="Fill" Value="{StaticResource BaseOverlayBrush2}" />
+			    <Setter Property="BorderBrush" Value="{StaticResource BaseBorderBrush2}" />
+			    <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+			    <Setter Property="Template">
+				    <Setter.Value>
+					    <ControlTemplate TargetType="ig:TreemapNode">
+						    <Border BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Fill}"  BorderBrush="{TemplateBinding BorderBrush}">
+							    <Grid>
+								    <Grid.RowDefinitions>
+									    <RowDefinition Height="Auto" />
+									    <RowDefinition Height="*" />
+								    </Grid.RowDefinitions>
+								    <TextBlock Text="{TemplateBinding Text}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" TextWrapping="Wrap" Foreground="{StaticResource ForegroundBrush}" Margin="5,3,5,5"/>
+								    <ig:NodesPanel x:Name="NodesPanel" Grid.Row="1" />
+							    </Grid>
+						    </Border>
+					    </ControlTemplate>
+				    </Setter.Value>
+			    </Setter>
+		    </Style>
+
+		    <!-- Treemap node Style 3 -->
+		    <Style x:Key="TreemapNodeStyle3" BasedOn="{StaticResource TreemapNodeStyle}" TargetType="ig:TreemapNode">
+			    <Setter Property="Fill" Value="{StaticResource BaseOverlayBrush3}" />
+			    <Setter Property="BorderBrush" Value="{StaticResource BaseBorderBrush3}" />
+			    <Setter Property="Foreground" Value="{StaticResource LightForegroundBrush}" />
+			    <Setter Property="Template">
+				    <Setter.Value>
+					    <ControlTemplate TargetType="ig:TreemapNode">
+						    <Border BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Fill}" BorderBrush="{TemplateBinding BorderBrush}">
+							    <Grid>
+								    <Grid.RowDefinitions>
+									    <RowDefinition Height="Auto" />
+									    <RowDefinition Height="*" />
+								    </Grid.RowDefinitions>
+								    <TextBlock Text="{TemplateBinding Text}" Margin="5,3,5,5" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" TextWrapping="Wrap" Foreground="{TemplateBinding Foreground}" />
+								    <ig:NodesPanel x:Name="NodesPanel" Grid.Row="1" />
+							    </Grid>
+						    </Border>
+					    </ControlTemplate>
+				    </Setter.Value>
+			    </Setter>
+		    </Style>
+       </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+	<Grid x:Name="LayoutRoot" Width="Auto">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="Auto" />
+		</Grid.ColumnDefinitions>
+		<!-- #BEGIN SNIPPET# -->
+		<ig:XamTreemap DataContext="{StaticResource ManufacturerModel}" ItemsSource="{Binding Manufacturers}" 
+                       ShowingDepth="{Binding ElementName=DepthSlider, Path=Value}"
+                       ItemMinSize="{Binding ElementName=SizeSlider, Path=Value}"
+                       ToolTipStyle="{StaticResource ToolTipStyle}">
+
+			<ig:XamTreemap.DefaultStyle>
+				<Style TargetType="ig:TreemapNode">
+					<Setter Property="Padding" Value="0" />
+					<Setter Property="Template">
+						<Setter.Value>
+							<ControlTemplate TargetType="ig:TreemapNode">
+								<ig:NodesPanel x:Name="NodesPanel" />
+							</ControlTemplate>
+						</Setter.Value>
+					</Setter>
+				</Style>
+			</ig:XamTreemap.DefaultStyle>
+
+			<!--Binding to the data-->
+			<ig:XamTreemap.NodeBinders>
+				<ig:NodeBinder TargetTypeName="Manufacturer" ValuePath="Revenue" TextPath="Name" 
+                               ItemsSourcePath="Products" NodeStyle="{StaticResource TreemapNodeStyle}" />
+				<ig:NodeBinder TargetTypeName="Product" ValuePath="StandardCost" TextPath="Name" 
+                               ItemsSourcePath="InventoryEntries" NodeStyle="{StaticResource TreemapNodeStyle2}" />
+				<ig:NodeBinder TargetTypeName="InventoryEntry" ValuePath="Quantity" TextPath="Shelf" 
+                               NodeStyle="{StaticResource TreemapNodeStyle3}" />
+
+			</ig:XamTreemap.NodeBinders>
+		</ig:XamTreemap>
+		<!-- #END SNIPPET# -->
+		<StackPanel Grid.Column="1" >
+            <Border Height="90" Margin="2">
+				<controls:OptionsPanel HeaderText="{Binding Path=XWT_ShowingDepth, Source={StaticResource Strings}}" Width="190" >
+					<Grid Width="120"  >
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="30" />
+						</Grid.ColumnDefinitions>
+						<Slider x:Name="DepthSlider" Minimum="1" Maximum="3" Value="3" LargeChange="1" SmallChange="1" />
+						<TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding ElementName=DepthSlider, Path=Value, StringFormat=0.}" />
+					</Grid>
+				</controls:OptionsPanel>
+			</Border>
+            <Border Height="100" Margin="2">
+				<controls:OptionsPanel HeaderText="{Binding Path=XWT_ItemMinSize, Source={StaticResource Strings}}" Margin="0,10,0,0"  Width="190">
+					<Grid Width="120"  >
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="30" />
+						</Grid.ColumnDefinitions>
+						<Slider x:Name="SizeSlider" Minimum="1" Value="1" Maximum="200" SmallChange="10" LargeChange="10" />
+						<TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding ElementName=SizeSlider, Path=Value, StringFormat=0.}" />
+					</Grid>
+				</controls:OptionsPanel>
+			</Border>
+		</StackPanel>
+	</Grid>
+</igFramework:SampleContainer>

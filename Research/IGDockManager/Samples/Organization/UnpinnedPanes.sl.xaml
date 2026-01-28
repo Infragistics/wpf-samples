@@ -1,0 +1,110 @@
+﻿<igFramework:SampleContainer x:Class="IGDockManager.Samples.Organization.UnpinnedPanes"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="Infragistics XAML Control Sample"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:res="clr-namespace:IGDockManager.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDockManager;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DockManagerStrings x:Key="Strings" />
+            <Style x:Key="BorderImageFrame" TargetType="Border">
+                <Setter Property="Padding" Value="5" />
+                <Setter Property="BorderBrush" Value="#CBCBCB" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="CornerRadius" Value="6" />
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FFFEFEFE" Offset="0" />
+                            <GradientStop Color="#FFE7E7E7" Offset="1" />
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Width" Value="110" />
+                <Setter Property="Height" Value="110" />
+            </Style>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <!--#BEGIN SNIPPET#-->
+        <!-- You can control the unpinned Content Pane hover behaviour with the XamDockManager UnpinnedTabHoverAction property.  -->
+        <!-- This property can take as a value 'None' or 'Flyout' behaviour. -->
+        <!-- The default behaviour is the flyout animation when hovering over the content pane tab. -->
+        <!-- When 'None' is set, you have to click on the tab to open the Content Pane. -->
+        <ig:XamDockManager x:Name="xamDockManager">
+            <ig:XamDockManager.Panes>
+                <!-- Only ContentPanes can be pinned or unpinned. -->
+                <!-- This is controlled by the ContentPane IsPinned propery. -->
+                <ig:ContentPane IsPinned="False"
+                                x:Name="CP_ImgList"
+                                Header="{Binding Source={StaticResource Strings}, Path=Docking_ImageBrowser}"
+                                Width="200"
+                                Image="/IGDockManager;component/Images/Folder16.png">
+                    <ig:ContentPane.Content>
+                        <ListBox x:Name="ImgList" SelectedIndex="{Binding ElementName=PreviewSlider, Path=Value, Mode=TwoWay}"/>
+                    </ig:ContentPane.Content>
+                </ig:ContentPane>
+                <!--#END SNIPPET#-->
+                <ig:ContentPane Header="{Binding Source={StaticResource Strings}, Path=Docking_Configuration}" Location="Left" Width="200">
+                    <StackPanel Orientation="Vertical" Margin="5">
+                        <TextBlock Text="{Binding Source={StaticResource Strings}, Path=Docking_Slider}" Padding="0,5,0,5"/>
+                        <Slider
+                            x:Name="PreviewSlider"
+                            Style="{StaticResource IGSliderStyle}"
+                            Minimum="0" Maximum="13"
+                            ValueChanged="PreviewSlider_ValueChanged"/>
+                        <TextBlock Text="{Binding Source={StaticResource Strings}, Path=Docking_OpacitySlider}"
+                                   Padding="0,5,0,5"/>
+                        <Slider x:Name="OpacitySlider"
+                                Style="{StaticResource IGSliderStyle}"
+                                Value="{Binding ElementName=ImageBorder, Path=Opacity, Mode=TwoWay}"
+                                ValueChanged="OpacitySlider_ValueChanged"
+                                Minimum="0" Maximum="1"
+                                SmallChange="0.2"/>
+                    </StackPanel>
+                </ig:ContentPane>
+                <ig:ContentPane
+                    Header="{Binding Source={StaticResource Strings}, Path=Docking_ImagePreview}"
+                    x:Name="CP_ImageContainer"
+                    Width="200"
+                    Location="Right"
+                    AllowClose="False"
+                    CloseButtonVisibility="Collapsed">
+                    <ig:ContentPane.Content>
+                        <Border Style="{StaticResource BorderImageFrame}" x:Name="ImageBorder">
+                            <Border.Child>
+                                <Image Source="/IGDockManager;component/Images/Texture/Texture01.jpg"
+                                       Stretch="None"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"/>
+                            </Border.Child>
+                        </Border>
+                    </ig:ContentPane.Content>
+                </ig:ContentPane>
+                <ig:ContentPane Header="{Binding Source={StaticResource Strings},Path=Docking_UnpinnedTabHoverAction}"
+                                FloatWidth="220" IsFloating="True"
+                                CloseButtonVisibility="Collapsed" AllowClose="False"
+                                FloatLeft="480" FloatTop="400">
+                    <StackPanel Margin="5">
+                        <RadioButton x:Name="Rb_Flyout" GroupName="radioGroup_TabAction"
+                                     Style="{StaticResource IGRadioButtonStyle}"
+                                     Content="Flyout" Click="Rb_Flyout_Click" IsChecked="True" />
+                        <RadioButton x:Name="Rb_None" GroupName="radioGroup_TabAction"
+                                     Style="{StaticResource IGRadioButtonStyle}"
+                                     Content="None" Click="Rb_None_Click" />
+                    </StackPanel>
+                </ig:ContentPane>
+            </ig:XamDockManager.Panes>
+        </ig:XamDockManager>
+    </Grid>
+</igFramework:SampleContainer>

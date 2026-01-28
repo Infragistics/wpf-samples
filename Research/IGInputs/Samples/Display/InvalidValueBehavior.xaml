@@ -1,0 +1,63 @@
+﻿<framework:SampleContainer x:Class="IGInputs.Samples.Display.InvalidValueBehavior"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="InvalidValueBehavior"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGInputs.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <res:InputStrings x:Key="Strings"/>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGInputs;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel
+            Orientation="Horizontal"
+            Grid.Row="1"
+            Margin="3,20,3,3"
+            VerticalAlignment="Top">
+            <TextBlock Text="{Binding Source={StaticResource Strings}, Path=EnterDate}" VerticalAlignment="Center" Margin="0,0,5,0" Foreground="{StaticResource ForegroundBrush}"/>
+            <!-- #BEGIN SNIPPET# -->
+            <ig:XamMaskedInput
+                x:Name="maskedInput"
+                Width="120"
+                VerticalAlignment="Center"
+                Margin="3"
+                AlwaysValidate="True"
+                InvalidValueBehavior="{Binding ElementName=cboInvalidValueBehaviors, Path=Value}">
+
+                <ig:XamMaskedInput.ValueConstraint>
+                    <ig:ValueConstraint ValidateAsType="DateTime"/>
+                </ig:XamMaskedInput.ValueConstraint>
+            </ig:XamMaskedInput>
+            <!-- #END SNIPPET# -->
+        </StackPanel>
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource Strings}, Path=Options}" VerticalAlignment="Top" 
+                               Grid.Row="0" Margin="10,0,0,10" IsMovable="False" HorizontalAlignment="Left">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock
+                    Text="{Binding Source={StaticResource Strings}, Path=InvalidValueBehavior}"
+                    Margin="0,0,5,0"
+                    VerticalAlignment="Center"/>
+                <controls:EnumValuesProvider x:Name="cboInvalidValueBehaviors"
+                                             EnumType="ig:InvalidValueBehavior" SelectedEnumIndex="0" Width="150"
+                                             DisplayTemplate="ComboBox"/>
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

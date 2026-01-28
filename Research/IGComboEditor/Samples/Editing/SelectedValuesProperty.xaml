@@ -1,0 +1,67 @@
+﻿<framework:SampleContainer x:Class="IGComboEditor.Samples.Editing.SelectedValuesProperty"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:ig="http://schemas.infragistics.com/xaml"
+             xmlns:data="clr-namespace:IGComboEditor.Samples.Data"
+             xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+             xmlns:res="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="900">
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGComboEditor;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+
+            <res:CommonStrings x:Key="Strings" />
+            <Style TargetType="TextBlock" BasedOn="{StaticResource BodyStyle}">
+                <Setter Property="Margin" Value="{StaticResource OptionsTextTopBottomMargin}"/>
+            </Style>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+    <Grid>
+        <Grid.DataContext>
+            <data:CustomersDataSource />
+        </Grid.DataContext>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Vertical"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                <TextBlock Text="{Binding Source={StaticResource CommonStrings},Path=TxtBlock_TradeCompanies}" 
+                           HorizontalAlignment="Left" />
+                <ig:XamComboEditor x:Name="ComboEditorProducts" 
+                                   Width="250" 
+                                   ItemsSource="{Binding Path=Customers}"
+                                   EmptyText="{Binding Source={StaticResource CommonStrings}, Path=CE_SelectCompanies}"
+                                   DisplayMemberPath="Company"
+                                   SelectedValuePath="ContactNameCompanyPhone"
+                                   AllowMultipleSelection="True"
+                                   CheckBoxVisibility="Visible"
+                                   HorizontalAlignment="Left"/>
+            </StackPanel>
+
+            <Button Click="ButtonBase_OnClick" Grid.Column="1" Margin="0,21,0,0"
+                    Content="{Binding Source={StaticResource CommonStrings}, Path=Btn_ViewContacts}"
+                   Width="100"
+                    HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+            <StackPanel Orientation="Vertical" Grid.Column="2"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                <TextBlock Text="{Binding Source={StaticResource CommonStrings}, Path=TxtBlock_PeopleToContact}"
+                           HorizontalAlignment="Left" />
+                <ListBox x:Name="ListBoxCustomers" Style="{StaticResource IGListBoxStyle}"
+                         Height="200" Width="300"
+                         HorizontalAlignment="Left"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</framework:SampleContainer>

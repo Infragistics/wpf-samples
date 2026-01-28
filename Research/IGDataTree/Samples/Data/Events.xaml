@@ -1,0 +1,92 @@
+﻿<framework:SampleContainer x:Class="IGDataTree.Samples.Data.Events"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="Events"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGDataTree.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataTree;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:DataTreeStrings x:Key="DataTreeStrings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+    <Grid>
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamDataTree x:Name="MyTree"
+                        ActiveNodeChanged="MyTree_ActiveNodeChanged"
+                        DragEnter="MyTree_DragEnter"
+                        DragLeave="MyTree_DragLeave"
+                        DragOver="MyTree_DragOver"
+                        Drop="MyTree_Drop"
+                        NodeCheckedChanged="MyTree_NodeCheckedChanged"
+                        NodeDragCancel="MyTree_NodeDragCancel"
+                        NodeDragDrop="MyTree_NodeDragDrop"
+                        NodeDragEnd="MyTree_NodeDragEnd"
+                        NodeDraggingStart="MyTree_NodeDraggingStart"
+                        NodeEnteredEditMode="MyTree_NodeEnteredEditMode"
+                        NodeEnteringEditMode="MyTree_NodeEnteringEditMode"
+                        NodeExitedEditMode="MyTree_NodeExitedEditMode"
+                        NodeExitingEditMode="MyTree_NodeExitingEditMode"
+                        NodeExpansionChanged="MyTree_NodeExpansionChanged"
+                        NodeExpansionChanging="MyTree_NodeExpansionChanging"
+                        NodeLayoutAssigned="MyTree_NodeLayoutAssigned">
+            <!-- #END SNIPPET# -->
+            <ig:XamDataTree.EditingSettings>
+                <ig:TreeEditingSettings AllowDeletion="True"
+                                        AllowEditing="True"
+                                        IsEnterKeyEditingEnabled="True"
+                                        IsF2EditingEnabled="True"
+                                        IsMouseActionEditingEnabled="DoubleClick"
+                                        IsOnNodeActiveEditingEnabled="True" />
+            </ig:XamDataTree.EditingSettings>
+            <ig:XamDataTree.CheckBoxSettings>
+                <ig:CheckBoxSettings CheckBoxVisibility="Visible"
+                                     CheckBoxMode="Manual"
+                                     IsCheckBoxThreeState="True" />
+            </ig:XamDataTree.CheckBoxSettings>
+            <ig:XamDataTree.GlobalNodeLayouts>
+                <ig:NodeLayout Key="ContactLayout"
+                               TargetTypeName="Contact"
+                               DisplayMemberPath="Name" />
+                <ig:NodeLayout Key="ContactDetailLayout"
+                               TargetTypeName="ContactDetail"
+                               DisplayMemberPath="Name" />
+            </ig:XamDataTree.GlobalNodeLayouts>
+        </ig:XamDataTree>
+        <controls:OptionsPanel x:Name="optPanel"
+                               HeaderText="{Binding XDT_Events_PanelHeader, Source={StaticResource DataTreeStrings}}"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Top"
+                               Width="280">
+            <StackPanel Orientation="Vertical">
+                <Border BorderBrush="{StaticResource ListBoxBorderBrush}" BorderThickness="1"
+                        Margin="{StaticResource OptionsElementsMargin}">
+                    <TextBox TextAlignment="Left"
+                         x:Name="txtBox"
+                         Height="280"
+                         Margin="3"
+                         Background="Transparent"
+                         HorizontalScrollBarVisibility="Hidden"
+                         VerticalScrollBarVisibility="Auto"
+                         IsReadOnly="True"
+                         BorderBrush="Gray"
+                         FontSize="12"
+                         Width="300" />
+                </Border>
+                <Button x:Name="BtnClearLog"
+                        Content="{Binding Path=XDT_Button_Clear, Source={StaticResource DataTreeStrings}}"
+                        Click="BtnClearLog_Click"/>
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

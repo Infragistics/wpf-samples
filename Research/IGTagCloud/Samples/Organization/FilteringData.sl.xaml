@@ -1,0 +1,188 @@
+﻿<framework:SampleContainer x:Class="IGTagCloud.Samples.Organization.FilteringData"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGTagCloud.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGTagCloud;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamTagCloud.xaml"/>
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamGrid.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <res:TagCloudStrings x:Key="TagCloudStrings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <!--#BEGIN SNIPPET#-->
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <ig:XamTagCloud x:Name="dataTagCloud"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        FontSize="24"
+                        Width="180"
+                        Grid.Row="0"
+                        Grid.RowSpan="2"
+                        Grid.Column="0"
+                        ItemsSource="{Binding Tags}"
+                        DisplayMemberPath="Content"
+                        WeightMemberPath="Weight"
+                        NavigateUriMemberPath="NavigateUri"
+                        TargetName="_blank"
+                        TabNavigation="Cycle"
+                        XamTagCloudItemClicked="dataTagCloud_XamTagCloudItemClicked"/>
+        <HyperlinkButton x:Name="ClearFilter" Content="{Binding XTC_ClearFilter, Source={StaticResource TagCloudStrings}}"
+                         Grid.Column="0"  Grid.Row="2"
+                         Click="ClearFilter_Click" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+
+        <StackPanel Orientation="Horizontal" Grid.Column="1">
+            <Grid>
+                <Border CornerRadius="4,4,0,0">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0.301,0" EndPoint="0.301,1">
+                            <LinearGradientBrush.GradientStops>
+                                <GradientStopCollection>
+                                    <GradientStop Offset="0" Color="#FFa2adb8"/>
+                                    <GradientStop Offset="1" Color="#FFd0d6db"/>
+                                </GradientStopCollection>
+                            </LinearGradientBrush.GradientStops>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Border
+                        Margin="1"
+                        BorderBrush="#7FFFFFFF"
+                        BorderThickness="0,1,0,0"
+                        CornerRadius="3"
+                        Padding="10,5,20,5">
+                        <Grid>
+                            <StackPanel Orientation="Horizontal" Margin="0,1,0,0">
+                                <TextBlock x:Name="CategoryFilterCaptionShdw" Text="{Binding XTC_CategoryFilter,
+                                    Source={StaticResource TagCloudStrings}}" FontWeight="Bold" Foreground="#A5FFFFFF"/>
+                                <TextBlock x:Name="CategoryFilterShdw" Text="{Binding CategoryFilter}" Margin="10,0,0,0"
+                                           Foreground="#A5FFFFFF"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock x:Name="CategoryFilterCaption" Text="{Binding XTC_CategoryFilter,
+                                    Source={StaticResource TagCloudStrings}}" FontWeight="Bold"/>
+                                <TextBlock x:Name="CategoryFilter" Text="{Binding CategoryFilter}" Margin="10,0,0,0" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Border>
+            </Grid>
+            <Grid Margin="-10,0,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2">
+                    </ColumnDefinition>
+                    <ColumnDefinition Width="*">
+                    </ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Border
+                    Width="10"
+                    Grid.ColumnSpan="2"
+                    HorizontalAlignment="Left"
+                    Background="#33000000"
+                    BorderBrush="#19000000"
+                    BorderThickness="1,0,0,0"
+                    CornerRadius="4,4,0,0"/>
+                <Border Grid.Column="1" CornerRadius="4,4,0,0">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0.301,0" EndPoint="0.301,1">
+                            <LinearGradientBrush.GradientStops>
+                                <GradientStopCollection>
+                                    <GradientStop Offset="0" Color="#FFa2adb8"/>
+                                    <GradientStop Offset="1" Color="#FFd0d6db"/>
+                                </GradientStopCollection>
+                            </LinearGradientBrush.GradientStops>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Border
+                        Margin="1"
+                        BorderBrush="#7FFFFFFF"
+                        BorderThickness="0,1,0,0"
+                        CornerRadius="3"
+                        Padding="10,5">
+                        <Grid>
+                            <StackPanel Orientation="Horizontal" Margin="0,1,0,0">
+                                <TextBlock x:Name="ProductFilterCaptionShdw" Text="{Binding XTC_ProductFilter,
+                                    Source={StaticResource TagCloudStrings}}" FontWeight="Bold" Foreground="#A5FFFFFF"/>
+                                <TextBlock x:Name="ProductFilterShdw" Text="{Binding ProductFilter}" Margin="10,0,0,0" Foreground="#A5FFFFFF"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock x:Name="ProductFilterCaption" Text="{Binding XTC_ProductFilter,
+                                    Source={StaticResource TagCloudStrings}}" FontWeight="Bold"/>
+                                <TextBlock x:Name="ProductFilter" Text="{Binding ProductFilter}" Margin="10,0,0,0" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Border>
+            </Grid>
+        </StackPanel>
+
+        <ig:XamGrid x:Name="dataGrid" AutoGenerateColumns="false" ItemsSource="{Binding OrderHistory}"
+                    Grid.Column="1" Grid.Row="1" Grid.RowSpan="2">
+            <ig:XamGrid.Columns>
+                <ig:TextColumn Key="OrderDate" FormatString="{}{0:d}" >
+                    <ig:TextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding XWG_OrderDate, Source={StaticResource TagCloudStrings}}" />
+                        </DataTemplate>
+                    </ig:TextColumn.HeaderTemplate>
+                </ig:TextColumn>
+                <ig:TextColumn Key="ShipName">
+                    <ig:TextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding XWG_ShipName, Source={StaticResource TagCloudStrings}}" />
+                        </DataTemplate>
+                    </ig:TextColumn.HeaderTemplate>
+                </ig:TextColumn>
+                <ig:TextColumn Key="Price" FormatString="{}{0:C}">
+                    <ig:TextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding XWG_Price, Source={StaticResource TagCloudStrings}}" />
+                        </DataTemplate>
+                    </ig:TextColumn.HeaderTemplate>
+                </ig:TextColumn>
+                <ig:TextColumn Key="Supplier">
+                    <ig:TextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding XWG_Supplier, Source={StaticResource TagCloudStrings}}" />
+                        </DataTemplate>
+                    </ig:TextColumn.HeaderTemplate>
+                </ig:TextColumn>
+                <ig:TextColumn Key="CategoryName">
+                    <ig:TextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding XWG_CategoryName, Source={StaticResource TagCloudStrings}}" />
+                        </DataTemplate>
+                    </ig:TextColumn.HeaderTemplate>
+                </ig:TextColumn>
+                <ig:TextColumn Key="ProductName">
+                    <ig:TextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding XWG_ProductName, Source={StaticResource TagCloudStrings}}" />
+                        </DataTemplate>
+                    </ig:TextColumn.HeaderTemplate>
+                </ig:TextColumn>
+            </ig:XamGrid.Columns>
+        </ig:XamGrid>
+
+    </Grid>
+    <!--#END SNIPPET#-->
+</framework:SampleContainer>

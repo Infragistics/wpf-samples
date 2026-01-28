@@ -1,0 +1,93 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Display.Series.DataLegendGroupingAndHighlighting"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="CategorySeries Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+      xmlns:resources="clr-namespace:IGDataChart.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <resources:DataChartStrings x:Key="Strings" />
+            <ig:AxisLabelSettings x:Key="AxisLabelSettings" Extent="90" Visibility="Visible" />
+            <ig:AxisLabelSettings x:Key="AxisLabelSettings2" Extent="70" />
+
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <ig:XamDataLegend x:Name="Legend" GroupRowVisible="True"/>
+
+        <ig:XamDataChart x:Name="ColumnChart" Margin="0,20,0,0" Grid.Column="1" HighlightedValuesDisplayMode="Overlay" ShouldAutoExpandMarginForInitialLabels="true" ComputedPlotAreaMarginMode="Series" IsHorizontalZoomEnabled="False" IsVerticalZoomEnabled="False">
+            <ig:XamDataChart.Axes>
+                <ig:CategoryXAxis
+    Name="xAxis"
+    ItemsSource="{Binding OlympicMedalsTotals}"
+    Label="{}{Year}">
+                </ig:CategoryXAxis>
+                <ig:NumericYAxis
+    Name="yAxis">
+                </ig:NumericYAxis>
+            </ig:XamDataChart.Axes>
+            <ig:XamDataChart.Series>
+                <ig:ColumnSeries
+    Name="ColumnSeries1"
+    XAxis="{Binding ElementName=xAxis}"
+    YAxis="{Binding ElementName=yAxis}"
+    ItemsSource="{Binding OlympicMedalsTotals}"
+    Title="America"
+    ValueMemberPath="America"
+    DataLegendGroup="Olympic Medals"
+    HighlightedValuesDataLegendGroup="Gold Medals"
+    HighlightedValueMemberPath="AmericaGold"
+    HighlightedTitleSuffix=""
+    >
+                </ig:ColumnSeries>
+                <ig:ColumnSeries
+    Name="ColumnSeries2"
+    XAxis="{Binding ElementName=xAxis}"
+    YAxis="{Binding ElementName=yAxis}"
+    ItemsSource="{Binding OlympicMedalsTotals}"
+    Title="China"
+    ValueMemberPath="China"
+    DataLegendGroup="Olympic Medals"
+    HighlightedValuesDataLegendGroup="Gold Medals"
+    HighlightedValueMemberPath="ChinaGold"
+    HighlightedTitleSuffix=""
+    >
+                </ig:ColumnSeries>
+                <ig:ColumnSeries
+    Name="ColumnSeries3"
+    XAxis="{Binding ElementName=xAxis}"
+    YAxis="{Binding ElementName=yAxis}"
+    ItemsSource="{Binding OlympicMedalsTotals}"
+    Title="Russia"
+    ValueMemberPath="Russia"
+    DataLegendGroup="Olympic Medals"
+    HighlightedValuesDataLegendGroup="Gold Medals"
+    HighlightedValueMemberPath="RussiaGold"
+    HighlightedTitleSuffix=""
+    >
+                </ig:ColumnSeries>
+            </ig:XamDataChart.Series>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+        </ig:XamDataChart>
+    </Grid>
+</igFramework:SampleContainer>

@@ -1,0 +1,303 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Display.Series.BarAndColumnSeries" 
+           xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"              
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+           mc:Ignorable="d"
+           Width="700" Height="500"
+           xmlns:ig="http://schemas.infragistics.com/xaml"
+           Title="Infragistics XAML Control Sample"      
+           
+           xmlns:models="clr-namespace:IGDataChart.Model.Common"
+           xmlns:dataChartModels="clr-namespace:IGDataChart.Model.DataChart"
+           xmlns:res="clr-namespace:IGDataChart.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataChart;component/IG.xamDataChart.xaml" />
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DataChartStrings x:Key="Strings" />
+            <dataChartModels:StackableDataCollection x:Key="stackedData" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    
+    <Grid x:Name="LayoutRoot" Width="Auto" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <ig:Legend x:Name="legend" Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10" Padding="10,5,10,5" >
+            <ig:Legend.Content>
+                <StackPanel>
+                    <TextBlock Text="{Binding XWDC_DataModel_StackedData_Title, Source={StaticResource Strings}}"></TextBlock>
+                </StackPanel>
+            </ig:Legend.Content>
+        </ig:Legend>
+        <Border Margin="10,10,10,5" VerticalAlignment="Top"
+                HorizontalAlignment="Right"
+                Style="{StaticResource ChartsTopBorderStyle}">
+        	<StackPanel Orientation="Horizontal" Margin="6">
+        		<TextBlock Text="{Binding XWDC_Global_SeriesType, Source={StaticResource Strings}}" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,4,0" Style="{StaticResource OptionPanelLabels}"/>
+                	<ComboBox x:Name="cbSeriesType" Margin="0,0,2,0" Width="200" HorizontalAlignment="Left" VerticalAlignment="Center" SelectionChanged="OnSeriesTypeChanged"/>
+        		<Button x:Name="btnPrevious" HorizontalAlignment="Center" Cursor="Hand" Margin="0,0,2,0" Content="" Click="OnPreviousItemButtonClick" Style="{StaticResource PreviousButtonStyle}" />
+        		<Button x:Name="btnNext" HorizontalAlignment="Right" Cursor="Hand" Margin="0,0,2,0" Content="" Click="OnNextItemButtonClick" Style="{StaticResource NextButtonStyle}" />
+        	</StackPanel>
+        
+        </Border>
+        
+        <!-- Bar Chart -->
+        <ig:XamDataChart x:Name="barChart"
+                         Grid.Row="1"
+                         Legend="{Binding ElementName=legend}"
+                         HorizontalZoomable="True" 
+                         HorizontalZoombarVisibility="Visible"
+                         VerticalZoomable="True"
+                         VerticalZoombarVisibility="Visible"
+                         >
+            <ig:XamDataChart.Axes>
+                <ig:CategoryYAxis
+                    x:Name="xmYAxis"
+                    ItemsSource="{StaticResource stackedData}"
+                    Label="{}{Region}">
+                    <ig:CategoryYAxis.LabelSettings>
+                        <ig:AxisLabelSettings Location="OutsideLeft"
+                                              />
+                    </ig:CategoryYAxis.LabelSettings>
+                </ig:CategoryYAxis>
+                <ig:NumericXAxis x:Name="xmXAxis" 
+                                 MinimumValue="0"
+                                 />
+            </ig:XamDataChart.Axes>
+            <ig:XamDataChart.Series>
+                <!--#BEGIN SNIPPET#-->
+                <ig:BarSeries ItemsSource="{StaticResource stackedData}" 
+                              ValueMemberPath="Model1" 
+                              Title="{Binding XWDC_DataModel_StackedData_BMV, Source={StaticResource Strings}}"
+                              XAxis="{Binding ElementName=xmXAxis}" 
+                              YAxis="{Binding ElementName=xmYAxis}"
+                              />
+                <ig:BarSeries ItemsSource="{StaticResource stackedData}" 
+                              ValueMemberPath="Model2" 
+                              Title="{Binding XWDC_DataModel_StackedData_Auti, Source={StaticResource Strings}}"
+                              XAxis="{Binding ElementName=xmXAxis}" 
+                              YAxis="{Binding ElementName=xmYAxis}"
+                              />
+                <ig:BarSeries ItemsSource="{StaticResource stackedData}" 
+                              ValueMemberPath="Model3" 
+                              Title="{Binding XWDC_DataModel_StackedData_Masda, Source={StaticResource Strings}}"
+                              XAxis="{Binding ElementName=xmXAxis}" 
+                              YAxis="{Binding ElementName=xmYAxis}"
+                              />
+                <!--#END SNIPPET#-->
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+
+        <!-- Stacked Bar Chart -->
+        <ig:XamDataChart x:Name="stackedBarChart"
+                         Grid.Row="1"
+                         Legend="{Binding ElementName=legend}"
+                         HorizontalZoomable="True" 
+                         HorizontalZoombarVisibility="Visible"
+                         VerticalZoomable="True"
+                         VerticalZoombarVisibility="Visible"
+                         >
+            <ig:XamDataChart.Axes>
+                <ig:CategoryYAxis
+                    x:Name="xmYAxis2"
+                    ItemsSource="{StaticResource stackedData}"
+                    Label="{}{Region}">
+                    <ig:CategoryYAxis.LabelSettings>
+                        <ig:AxisLabelSettings Location="OutsideLeft"
+                                              />
+                    </ig:CategoryYAxis.LabelSettings>
+                </ig:CategoryYAxis>
+                <ig:NumericXAxis x:Name="xmXAxis2" 
+                                 MinimumValue="0"
+                                 />
+            </ig:XamDataChart.Axes>
+            <ig:XamDataChart.Series>
+                <ig:StackedBarSeries ItemsSource="{StaticResource stackedData}"
+                              XAxis="{Binding ElementName=xmXAxis2}"  
+                              YAxis="{Binding ElementName=xmYAxis2}">
+                    <ig:StackedBarSeries.Series>
+                        <ig:StackedFragmentSeries ValueMemberPath="Model1"
+                                                  Title="{Binding XWDC_DataModel_StackedData_BMV, Source={StaticResource Strings}}" />
+                        <ig:StackedFragmentSeries ValueMemberPath="Model2"
+                                                  Title="{Binding XWDC_DataModel_StackedData_Auti, Source={StaticResource Strings}}" />
+                        <ig:StackedFragmentSeries ValueMemberPath="Model3"
+                                                  Title="{Binding XWDC_DataModel_StackedData_Masda, Source={StaticResource Strings}}" />
+                    </ig:StackedBarSeries.Series>
+                </ig:StackedBarSeries>
+                
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+
+        <!-- Stacked 100 Bar Chart -->
+        <ig:XamDataChart x:Name="stacked100BarChart"
+                         Grid.Row="1"
+                         Legend="{Binding ElementName=legend}"
+                         HorizontalZoomable="True" 
+                         HorizontalZoombarVisibility="Visible"
+                         VerticalZoomable="True"
+                         VerticalZoombarVisibility="Visible"
+                         >
+            <ig:XamDataChart.Axes>
+                <ig:CategoryYAxis
+                    x:Name="xmYAxis3"
+                    ItemsSource="{StaticResource stackedData}"
+                    Label="{}{Region}">
+                    <ig:CategoryYAxis.LabelSettings>
+                        <ig:AxisLabelSettings Location="OutsideLeft"
+                                              />
+                    </ig:CategoryYAxis.LabelSettings>
+                </ig:CategoryYAxis>
+                <ig:NumericXAxis x:Name="xmXAxis3" 
+                                 MinimumValue="0"
+                                 />
+            </ig:XamDataChart.Axes>
+            <ig:XamDataChart.Series>
+                <ig:Stacked100BarSeries ItemsSource="{StaticResource stackedData}"
+                              XAxis="{Binding ElementName=xmXAxis3}" 
+                              YAxis="{Binding ElementName=xmYAxis3}">
+                    <ig:StackedBarSeries.Series>
+                        <ig:StackedFragmentSeries ValueMemberPath="Model1"
+                                                  Title="{Binding XWDC_DataModel_StackedData_BMV, Source={StaticResource Strings}}" />
+                        <ig:StackedFragmentSeries ValueMemberPath="Model2"
+                                                  Title="{Binding XWDC_DataModel_StackedData_Auti, Source={StaticResource Strings}}" />
+                        <ig:StackedFragmentSeries ValueMemberPath="Model3"
+                                                  Title="{Binding XWDC_DataModel_StackedData_Masda, Source={StaticResource Strings}}" />
+                    </ig:StackedBarSeries.Series>
+                </ig:Stacked100BarSeries>
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+        
+        <!-- Column Chart -->
+        <ig:XamDataChart x:Name="columnChart"
+                         Grid.Row="1"
+                         Legend="{Binding ElementName=legend}"
+                         HorizontalZoomable="True" 
+                         HorizontalZoombarVisibility="Visible"
+                         VerticalZoomable="True"
+                         VerticalZoombarVisibility="Visible"
+                         >
+            <ig:XamDataChart.Axes>
+                <ig:CategoryXAxis
+                    x:Name="xmXAxis4"
+                    ItemsSource="{StaticResource stackedData}"
+                    Label="{}{Region}">
+                    <ig:CategoryXAxis.LabelSettings>
+                        <ig:AxisLabelSettings Location="OutsideLeft"
+                                              />
+                    </ig:CategoryXAxis.LabelSettings>
+                </ig:CategoryXAxis>
+                <ig:NumericYAxis x:Name="xmYAxis4" 
+                                 MinimumValue="0"
+                                 />
+            </ig:XamDataChart.Axes>
+            <ig:XamDataChart.Series>
+                <ig:ColumnSeries ItemsSource="{StaticResource stackedData}" 
+                              ValueMemberPath="Model1" 
+                              Title="{Binding XWDC_DataModel_StackedData_BMV, Source={StaticResource Strings}}"
+                              XAxis="{Binding ElementName=xmXAxis4}" 
+                              YAxis="{Binding ElementName=xmYAxis4}"
+                              />
+                <ig:ColumnSeries ItemsSource="{StaticResource stackedData}" 
+                              ValueMemberPath="Model2" 
+                              Title="{Binding XWDC_DataModel_StackedData_Auti, Source={StaticResource Strings}}"
+                              XAxis="{Binding ElementName=xmXAxis4}" 
+                              YAxis="{Binding ElementName=xmYAxis4}"
+                              />
+                <ig:ColumnSeries ItemsSource="{StaticResource stackedData}" 
+                              ValueMemberPath="Model3" 
+                              Title="{Binding XWDC_DataModel_StackedData_Masda, Source={StaticResource Strings}}"
+                              XAxis="{Binding ElementName=xmXAxis4}" 
+                              YAxis="{Binding ElementName=xmYAxis4}"
+                              />
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+
+        <!-- Stacked Column Chart -->
+        <ig:XamDataChart x:Name="stackedColumnChart"
+                         Grid.Row="1"
+                         Legend="{Binding ElementName=legend}"
+                         HorizontalZoomable="True" 
+                         HorizontalZoombarVisibility="Visible"
+                         VerticalZoomable="True"
+                         VerticalZoombarVisibility="Visible"
+                         >
+            <ig:XamDataChart.Axes>
+                <ig:CategoryXAxis
+                    x:Name="xmXAxis5"
+                    ItemsSource="{StaticResource stackedData}"
+                    Label="{}{Region}">
+                    <ig:CategoryXAxis.LabelSettings>
+                        <ig:AxisLabelSettings Location="OutsideLeft"
+                                              />
+                    </ig:CategoryXAxis.LabelSettings>
+                </ig:CategoryXAxis>
+                <ig:NumericYAxis x:Name="xmYAxis5" 
+                                 MinimumValue="0"
+                                 />
+            </ig:XamDataChart.Axes>
+            <ig:XamDataChart.Series>
+                <ig:StackedColumnSeries ItemsSource="{StaticResource stackedData}"
+                              XAxis="{Binding ElementName=xmXAxis5}" 
+                              YAxis="{Binding ElementName=xmYAxis5}">
+                    <ig:StackedColumnSeries.Series>
+                        <ig:StackedFragmentSeries ValueMemberPath="Model1"
+                                                  Title="{Binding XWDC_DataModel_StackedData_BMV, Source={StaticResource Strings}}" />
+                        <ig:StackedFragmentSeries ValueMemberPath="Model2"
+                                                  Title="{Binding XWDC_DataModel_StackedData_Auti, Source={StaticResource Strings}}" />
+                        <ig:StackedFragmentSeries ValueMemberPath="Model3"
+                                                  Title="{Binding XWDC_DataModel_StackedData_Masda, Source={StaticResource Strings}}" />
+                    </ig:StackedColumnSeries.Series>
+                </ig:StackedColumnSeries>
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+
+        <!-- Stacked 100 Column Chart -->
+        <ig:XamDataChart x:Name="stacked100ColumnChart"
+                         Grid.Row="1"
+                         Legend="{Binding ElementName=legend}"
+                         HorizontalZoomable="True" 
+                         HorizontalZoombarVisibility="Visible"
+                         VerticalZoomable="True"
+                         VerticalZoombarVisibility="Visible"
+                         >
+            <ig:XamDataChart.Axes>
+                <ig:CategoryXAxis
+                    x:Name="xmXAxis6"
+                    ItemsSource="{StaticResource stackedData}"
+                    Label="{}{Region}">
+                    <ig:CategoryXAxis.LabelSettings>
+                        <ig:AxisLabelSettings Location="OutsideLeft"
+                                              />
+                    </ig:CategoryXAxis.LabelSettings>
+                </ig:CategoryXAxis>
+                <ig:NumericYAxis x:Name="xmYAxis6" 
+                                 MinimumValue="0"
+                                 />
+            </ig:XamDataChart.Axes>
+            <ig:XamDataChart.Series>
+                <ig:Stacked100ColumnSeries ItemsSource="{StaticResource stackedData}"
+                              XAxis="{Binding ElementName=xmXAxis6}" 
+                              YAxis="{Binding ElementName=xmYAxis6}">
+                    <ig:StackedColumnSeries.Series>
+                        <ig:StackedFragmentSeries ValueMemberPath="Model1"
+                                                  Title="{Binding XWDC_DataModel_StackedData_BMV, Source={StaticResource Strings}}" />
+                        <ig:StackedFragmentSeries ValueMemberPath="Model2"
+                                                  Title="{Binding XWDC_DataModel_StackedData_Auti, Source={StaticResource Strings}}" />
+                        <ig:StackedFragmentSeries ValueMemberPath="Model3"
+                                                  Title="{Binding XWDC_DataModel_StackedData_Masda, Source={StaticResource Strings}}" />
+                    </ig:StackedColumnSeries.Series>
+                </ig:Stacked100ColumnSeries>
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+        
+    </Grid>
+</igFramework:SampleContainer>

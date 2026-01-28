@@ -1,0 +1,210 @@
+﻿<igFramework:SampleContainer x:Class="IGDataGrid.Samples.Style.CellValuePresenterStylingSimple"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="CellValuePresenterStylingSimple"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:fb="clr-namespace:IGDataGrid.Datasources"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:igThemes="http://infragistics.com/Themes"
+      xmlns:igEditors="http://infragistics.com/Editors"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGDataGrid.Resources"
+      xmlns:System="clr-namespace:System;assembly=mscorlib">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataGrid;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DataGridStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.Resources>
+            <XmlDataProvider x:Key="QuarterbackData" />
+            <ObjectDataProvider x:Key="odpForeground"
+                                ObjectType="{x:Type fb:NamedColors}" />
+            <CollectionViewSource Source="{Binding Source={x:Static Fonts.SystemFontFamilies}}"
+                                  x:Key="cvsFontFamily" />
+        </Grid.Resources>
+
+        <!-- #BEGIN SNIPPET# -->
+        <igDP:XamDataGrid x:Name="XamDataGrid1"
+                          Theme="RoyalLight"
+                          DataSource="{Binding Source={StaticResource QuarterbackData}, XPath=season}">
+
+            <igDP:XamDataGrid.Resources>
+                <!--
+                    Using the native WPF Styling architecture, its easy to create styles
+                    which override the default style of the xamDataGrid's editors. This sample
+                    demonstrates one way of using styles to change the ediutor's font family.
+                -->
+                <Style TargetType="{x:Type igEditors:XamNumericEditor}" BasedOn="{x:Static igThemes:EditorsRoyalLight.XamNumericEditor}">
+                    <Setter Property="FontFamily" Value="{Binding SelectedItem, ElementName=cboFontFamily}" />
+                </Style>
+                <Style TargetType="{x:Type igEditors:XamTextEditor}" BasedOn="{x:Static igThemes:EditorsRoyalLight.XamTextEditor}">
+                    <Setter Property="FontFamily" Value="{Binding SelectedItem, ElementName=cboFontFamily}" />
+                </Style>
+                <!--
+                    Because no key was added to this style, it will be applied to all
+                    CellValuePresenter controls found within this xamDataGrid.
+                -->
+                <Style TargetType="{x:Type igDP:CellValuePresenter}" BasedOn="{x:Static igThemes:DataPresenterRoyalLight.CellValuePresenter}">
+                    <Setter Property="Foreground" Value="{Binding SelectedItem, ElementName=cboForeground}" />
+                </Style>
+            </igDP:XamDataGrid.Resources>
+            
+            <!--
+            Using the properties of the Field object, you can define custom
+            header labels and also control the visibility of Fields within a
+            FieldLayout -->
+            <igDP:XamDataGrid.FieldLayouts>
+                <igDP:FieldLayout>
+                    <!--
+                    NOTE: Most of these fields have their EditAsType set because the data source is XML.
+                    The XamDataGrid treats XML data as strings unless you specify otherwise.
+                    -->
+                    <igDP:Field Name="year" Label="Year">
+                        <igDP:Field.Settings>
+                            <igDP:FieldSettings EditAsType="{x:Type System:Int32}" />
+                        </igDP:Field.Settings>
+                    </igDP:Field>
+                    <igDP:Field Name="team" Label="Team">
+                        
+                    </igDP:Field>
+                    <igDP:Field Name="games" Label="Games">
+                        <igDP:Field.Settings>
+                            <igDP:FieldSettings EditAsType="{x:Type System:Int32}" />
+                        </igDP:Field.Settings>
+                    </igDP:Field>
+                    <igDP:Field Name="qbrate" Label="Rating">
+                        <igDP:Field.Settings>
+                            <igDP:FieldSettings EditAsType="{x:Type System:Double}" />
+                        </igDP:Field.Settings>
+                    </igDP:Field>
+                    <igDP:Field Name="comp" Label="Completions">
+                        <igDP:Field.Settings>
+                            <igDP:FieldSettings EditAsType="{x:Type System:Int32}" />
+                        </igDP:Field.Settings>
+                    </igDP:Field>
+                    <igDP:Field Name="att" Label="Attempts">
+                        <igDP:Field.Settings>
+                            <igDP:FieldSettings EditAsType="{x:Type System:Int32}" />
+                        </igDP:Field.Settings>
+                    </igDP:Field>
+                    <igDP:Field Name="pct" Label="Passing %">
+                        <igDP:Field.Settings>
+                            <igDP:FieldSettings EditAsType="{x:Type System:Double}" />
+                        </igDP:Field.Settings>
+                    </igDP:Field>
+                    <igDP:Field Name="passingyards" Label="Total Passing Yards">
+                        <igDP:Field.Settings>
+                            <igDP:FieldSettings EditAsType="{x:Type System:Int32}" />
+                        </igDP:Field.Settings>
+                    </igDP:Field>
+                    <igDP:Field Name="passingyardsperattempt" Label="Passing Yards/Attempt">
+                        <igDP:Field.Settings>
+                            <igDP:FieldSettings EditAsType="{x:Type System:Double}" />
+                        </igDP:Field.Settings>
+                    </igDP:Field>
+                    <igDP:Field Name="passingyardspergame" Label="Passing Yards/Game">
+                        <igDP:Field.Settings>
+                            <igDP:FieldSettings EditAsType="{x:Type System:Double}" />
+                        </igDP:Field.Settings>
+                    </igDP:Field>
+                    <igDP:Field Name="passingtd" Label="Passing Touchdowns">
+                        <igDP:Field.Settings>
+                            <igDP:FieldSettings EditAsType="{x:Type System:Int32}" />
+                        </igDP:Field.Settings>
+                    </igDP:Field>
+                    <igDP:Field Name="int" Label="Interceptions">
+                        <igDP:Field.Settings>
+                            <igDP:FieldSettings EditAsType="{x:Type System:Int32}" />
+                        </igDP:Field.Settings>
+                    </igDP:Field>
+                    <igDP:Field Name="rushs" Label="Rushes">
+                        <igDP:Field.Settings>
+                            <igDP:FieldSettings EditAsType="{x:Type System:Int32}" />
+                        </igDP:Field.Settings>
+                    </igDP:Field>
+                    <igDP:Field Name="rushyrds" Label="Rushing Yards">
+                        <igDP:Field.Settings>
+                            <igDP:FieldSettings EditAsType="{x:Type System:Int32}" />
+                        </igDP:Field.Settings>
+                    </igDP:Field>
+                    <igDP:Field Name="rushyardspergame" Label="Rushing Yard/Game">
+                        <igDP:Field.Settings>
+                            <igDP:FieldSettings EditAsType="{x:Type System:Double}" />
+                        </igDP:Field.Settings>
+                    </igDP:Field>
+                    <igDP:Field Name="rushavg" Label="Rushing Average">
+                        <igDP:Field.Settings>
+                            <igDP:FieldSettings EditAsType="{x:Type System:Double}" />
+                        </igDP:Field.Settings>
+                    </igDP:Field>
+                    <igDP:Field Name="rushtd" Label="Rushing Touchdowns">
+                        <igDP:Field.Settings>
+                            <igDP:FieldSettings EditAsType="{x:Type System:Int32}" />
+                        </igDP:Field.Settings>
+                    </igDP:Field>
+                    <igDP:Field Name="sack" Label="Sacks">
+                        <igDP:Field.Settings>
+                            <igDP:FieldSettings EditAsType="{x:Type System:Int32}" />
+                        </igDP:Field.Settings>
+                    </igDP:Field>
+                    <igDP:Field Name="yardslost" Label="Yards Lost">
+                        <igDP:Field.Settings>
+                            <igDP:FieldSettings EditAsType="{x:Type System:Int32}" />
+                        </igDP:Field.Settings>
+                    </igDP:Field>
+                    <igDP:Field Name="fum" Label="Fumbles" Visibility="Collapsed" />
+                    <igDP:Field Name="fuml" Label="Fumbles Lost" Visibility="Collapsed" />
+                </igDP:FieldLayout>
+            </igDP:XamDataGrid.FieldLayouts>
+        </igDP:XamDataGrid>
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel HeaderText="{Binding ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}"
+                               Margin="10"
+                               HorizontalAlignment="Right">
+            <Grid>
+                <Grid d:LayoutOverrides="Height"
+                      HorizontalAlignment="Left"
+                      VerticalAlignment="Top">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                        <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding ConfigArea_FontFamily, Source={StaticResource Strings}}"
+                               VerticalAlignment="Center" Margin="{StaticResource OptionsTextRightMargin}"/>
+                    <ComboBox x:Name="cboFontFamily"
+                              VerticalAlignment="Center"
+                              ItemsSource="{Binding Source={StaticResource cvsFontFamily}}"
+                              SelectedIndex="0"
+                              Grid.Column="1"
+                              MinWidth="200" />
+                    <TextBlock Width="Auto"
+                               Text="{Binding ConfigArea_ForegroundColor, Source={StaticResource Strings}}"
+                               VerticalAlignment="Center" Margin="{StaticResource OptionsTextRightMargin}"
+                               Grid.Row="1" />
+                    <ComboBox x:Name="cboForeground"
+                              ItemsSource="{Binding Source={StaticResource odpForeground}}"
+                              SelectedItem="Black"
+                              Grid.Column="1"
+                              Grid.Row="1"
+                              VerticalAlignment="Center"
+                              MinWidth="200" />
+                </Grid>
+            </Grid>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

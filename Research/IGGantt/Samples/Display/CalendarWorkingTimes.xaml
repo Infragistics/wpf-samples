@@ -1,0 +1,100 @@
+﻿<framework:SampleContainer x:Class="IGGantt.Samples.Display.CalendarWorkingTimes"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:igEdit="http://infragistics.com/Editors"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGGantt.Resources"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="Calendar Working Time">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                
+                <ResourceDictionary Source="/IGGantt;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <res:GanttStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+    <Grid x:Name="LayoutRoot" Background="White">
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamGantt x:Name="xamGantt" Project="{Binding}">
+            <ig:XamGantt.ViewSettings>
+                <ig:ProjectViewSettings>
+                    <ig:ProjectViewSettings.Timescale>
+                        <ig:Timescale>
+                            <ig:TimescaleBand DisplayFormat="dddd MMMM dd" Unit="Days" />
+                            <ig:TimescaleBand DisplayFormat="HH" Unit="Hours" />
+                        </ig:Timescale>
+                    </ig:ProjectViewSettings.Timescale>
+                </ig:ProjectViewSettings>
+            </ig:XamGantt.ViewSettings>
+        </ig:XamGantt>
+        <!-- #END SNIPPET# -->
+        <!-- if you copy/paste the code, you can replace OptionsPanel with a standard container of your choice - StackPanel, Grid, WrapPanel, DockPanel for example. -->
+        <!-- A minor adjustment in sample layout can be needed after this operation. -->
+        <controls:OptionsPanel Canvas.ZIndex="100" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="7"
+                               HeaderText="{Binding Source={StaticResource Strings}, Path=ChangeWorkingTimeEllipsis}">
+            <StackPanel>
+                <TextBlock Text="{Binding Source={StaticResource Strings}, Path=SpecifyStartAndEndDate}" Margin="3" TextWrapping="Wrap" FontWeight="Bold"/>
+            
+                    <StackPanel>
+
+                        <TextBlock Text="{Binding Source={StaticResource Strings}, Path=SelectStartDate}" Margin="3" />
+                        <igEdit:XamDateTimeEditor DropDownButtonDisplayMode="Always" Value="{Binding SelectedStartDate, Mode=TwoWay}" 
+                                             Margin="5" x:Name="xamdtiStart" Width="120" />
+                        <TextBlock Text="{Binding Source={StaticResource Strings}, Path=SelectEndDate}" Margin="3" />
+                        <igEdit:XamDateTimeEditor DropDownButtonDisplayMode="Always" Value="{Binding SelectedEndDate, Mode=TwoWay}" 
+                                             Margin="5" x:Name="xamdtiFinish" Width="120" />
+
+                    </StackPanel>
+              
+                <TextBlock Text="{Binding Source={StaticResource Strings}, Path=SetWorkingTimeForWeek}" Margin="3" FontWeight="Bold"/>
+                    <StackPanel  Margin="5">
+                        <TextBlock Text="{Binding Source={StaticResource Strings}, Path=SelectDayOfWeek}" Margin="3" />
+                        <ComboBox x:Name="cbWorkingDays" ItemsSource="{Binding Days}" DisplayMemberPath="Name" 
+                                  SelectedItem="{Binding SelectedDayInfo, Mode=TwoWay}" Margin="3" Width="120"/>
+                        <TextBlock Text="{Binding Source={StaticResource Strings}, Path=SpecifyWorkingTimeForTheDay}" Margin="3" />
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Margin="3" Text="{Binding Source={StaticResource Strings}, Path=FirstShift}" Grid.Row="1" Grid.Column="0" />
+                            <TextBlock Margin="3" Text="{Binding Source={StaticResource Strings}, Path=SecondShift}" Grid.Row="2" Grid.Column="0"/>
+                            <TextBlock Margin="3" Text="{Binding Source={StaticResource Strings}, Path=Start}" Grid.Row="0" Grid.Column="1" />
+                            <TextBlock Margin="3" Text="{Binding Source={StaticResource Strings}, Path=End}" Grid.Row="0" Grid.Column="2" />
+
+                            <igEdit:XamDateTimeEditor Value="{Binding FirstShiftStart, Mode=TwoWay}" Margin="3" Mask="{}{time}" 
+                                     Grid.Row="1" Grid.Column="1" IsEnabled="{Binding IsWorkingDay, Mode=TwoWay}" />
+                            <igEdit:XamDateTimeEditor Value="{Binding FirstShiftEnd, Mode=TwoWay}" Margin="3" Mask="{}{time}" 
+                                     Grid.Row="1" Grid.Column="2" IsEnabled="{Binding IsWorkingDay, Mode=TwoWay}"/>
+                            <igEdit:XamDateTimeEditor Value="{Binding SecondShiftStart, Mode=TwoWay}" Margin="3" Mask="{}{time}" 
+                                     Grid.Row="2" Grid.Column="1" IsEnabled="{Binding IsWorkingDay, Mode=TwoWay}"/>
+                            <igEdit:XamDateTimeEditor Value="{Binding SecondShiftEnd, Mode=TwoWay}" Margin="3" Mask="{}{time}" 
+                                     Grid.Row="2" Grid.Column="2" IsEnabled="{Binding IsWorkingDay, Mode=TwoWay}"/>
+                        </Grid>
+
+                        <CheckBox IsChecked="{Binding IsWorkingDay, Mode=TwoWay}" 
+                                  Content="{Binding Source={StaticResource Strings}, Path=IsItWorkingDay}" Margin="3" />
+
+                    </StackPanel>
+                <Button Content="{Binding Source={StaticResource Strings}, Path=RefreshCalendar}" Click="OnRefreshButtonClick" Margin="3" Width="120"/>
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

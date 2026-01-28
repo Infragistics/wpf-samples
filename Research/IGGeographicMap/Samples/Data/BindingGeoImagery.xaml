@@ -1,0 +1,81 @@
+﻿<igFramework:SampleContainer x:Class="IGGeographicMap.Samples.Data.BindingGeoImagery" 
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+           xmlns:ig="http://schemas.infragistics.com/xaml"
+           mc:Ignorable="d"
+           xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+           xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+           xmlns:extensions="clr-namespace:IGGeographicMap.Extensions" xmlns:strings="clr-namespace:IGGeographicMap.Resources" d:DesignWidth="640" d:DesignHeight="480">
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGeographicMap;component/Assets/GlobalExtended.xaml" />
+                
+                
+                
+            </ResourceDictionary.MergedDictionaries>
+
+            <strings:MapStrings x:Key="MapStrings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <Grid x:Name="LayoutRoot">
+        <ig:XamGeographicMap x:Name="GeoMap" 
+                             Background="Transparent" 
+                             PlotAreaBackground="Transparent"
+                             OverviewPlusDetailPaneVisibility="Collapsed"
+                             OverviewPlusDetailPaneStyle="{StaticResource GeographicWorldOPDStyle}"
+                             Zoomable="True"> 
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ========================================================================== -->
+            <!-- Refer to code-behind for examples of using other sources of Geo-Imagery -->
+            <ig:XamGeographicMap.BackgroundContent>
+                <ig:OpenStreetMapImagery />
+            </ig:XamGeographicMap.BackgroundContent>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+        </ig:XamGeographicMap>
+        <TextBlock x:Name="MapDataSource" Text="{Binding Path=XW_Source_GeoImagery, Source={StaticResource CommonStrings}}" Style="{StaticResource SourceDataTextBoxStyle}" />
+        
+        <controls:OptionsPanel HeaderText="{Binding Path=XWGM_GeoImagerySource, Source={StaticResource MapStrings}}" 
+                               HorizontalAlignment="Right">
+            <ListBox x:Name="GeoImageryViewComboBox" Width="265" Height="250" DisplayMemberPath="ImageryName"
+                      SelectionChanged="OnGeoImageryViewComboBoxSelectionChanged">
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ============================================================================================= -->
+                <ListBox.ItemsSource>
+                    <extensions:GeoImageryViews>
+                        <!-- OpenStreetMapImageryView  -->
+                        <extensions:OpenStreetMapImageryView />
+                        <!-- BingMapsImageryView  -->
+                        <extensions:BingMapsImageryView ImageryStyle="Aerial" />
+                        <extensions:BingMapsImageryView ImageryStyle="AerialWithLabels" />
+                        <extensions:BingMapsImageryView ImageryStyle="Road" />
+                        <!-- Esri MapImageryView added in code behind  -->
+                        <extensions:EsriMapImageryView />
+                    </extensions:GeoImageryViews>
+                </ListBox.ItemsSource>
+                <!-- ============================================================================================= -->
+                <!-- #END SNIPPET# -->
+            </ListBox>
+        </controls:OptionsPanel>
+
+        <ig:XamDialogWindow x:Name="DialogInfoPanel" 
+                            HorizontalAlignment="Left"
+						    Margin="15" VerticalAlignment="Top" Width="250"
+							Visibility="Collapsed"  IsResizable="False" 
+							MinimizeButtonVisibility="Collapsed"   
+							MaximizeButtonVisibility="Collapsed" 
+                            CloseButtonVisibility="Collapsed" 
+							IsModal="False" StartupPosition="Manual" >
+            
+            <StackPanel>
+                <TextBlock x:Name="DialogInfoTextBlock"  TextWrapping="Wrap"
+                           Text="{Binding Path=XWGM_MissingBingMapKey, Source={StaticResource MapStrings}}" Margin="5"/>
+                <Button Content="OK" Click="ButtonClick" Margin="5" Style="{StaticResource IGGenericButton}"/>
+            </StackPanel>
+        </ig:XamDialogWindow>
+
+    </Grid>
+</igFramework:SampleContainer>

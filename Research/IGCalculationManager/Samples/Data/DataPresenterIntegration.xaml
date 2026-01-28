@@ -1,0 +1,204 @@
+﻿<framework:SampleContainer x:Class="IGCalculationManager.Samples.Data.DataPresenterIntegration"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="DataPresenterIntegration"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:res="clr-namespace:IGCalculationManager.Resources"
+      xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGCalculationManager;component/Assets/Global.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <ig:XamCalculationManager x:Key="CalculationManager" />
+            <XmlDataProvider x:Key="QuarterbackData"/>
+            <res:CalculationManagerStrings x:Key="CalculationManagerStrings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+			<RowDefinition Height="12"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="{Binding Source={StaticResource CalculationManagerStrings}, Path=XG_PresentationFormat}" Margin="0,0,12,0" Style="{StaticResource SamplesTitleStyle}" VerticalAlignment="Center"/>
+
+        <ComboBox SelectionChanged="ComboBox_SelectionChanged" SelectedIndex="0" Grid.Column="1"  Margin="5,12" HorizontalAlignment="Left"
+                  Style="{StaticResource IGComboBoxStyle}">
+            <ComboBoxItem Content="xamDataGrid"/>
+            <ComboBoxItem Content="xamDataCards"/>
+            <ComboBoxItem Content="xamDataCarousel"/>
+        </ComboBox>
+
+        <igDP:XamDataPresenter x:Name="dataPresenter" Grid.Row="1" Grid.ColumnSpan="2"
+                               GroupByAreaLocation="None" Theme="RoyalLight"
+                               RecordContainerGenerationMode="LazyLoad"
+                               DataSource="{Binding Source={StaticResource QuarterbackData}, XPath=season}"
+                               ig:XamCalculationManager.CalculationManager="{StaticResource CalculationManager}">
+            <!-- #BEGIN SNIPPET# -->
+            <!-- The CalculationAdapter property must be set to an instance of the
+            DataPresenterCaluculationAdapter in order to integrate the XamDataPresenter
+            with the XamCalculationManager. -->
+            <igDP:XamDataPresenter.CalculationAdapter>
+                <igDP:DataPresenterCalculationAdapter ReferenceId="dataPresenterAdapter"/>
+            </igDP:XamDataPresenter.CalculationAdapter>
+
+            <igDP:XamDataPresenter.FieldLayoutSettings>
+                <igDP:FieldLayoutSettings AutoGenerateFields="False"/>
+            </igDP:XamDataPresenter.FieldLayoutSettings>
+
+            <igDP:XamDataPresenter.FieldSettings>
+                <igDP:FieldSettings AllowSummaries="True" SummaryDisplayArea="TopFixed"/>
+            </igDP:XamDataPresenter.FieldSettings>
+
+            <igDP:XamDataPresenter.FieldLayouts>
+                <igDP:FieldLayout CalculationReferenceId="Quarterback">
+                    <igDP:FieldLayout.Fields>
+                        <!-- The values of the first five fields are calculated by the
+                        XamCalculationManager using the formulas that are set. -->
+
+                        <igDP:UnboundField Name="pct" Label="{Binding Source={StaticResource CalculationManagerStrings}, Path=XG_Passing}">
+                            <igDP:UnboundField.CalculationSettings>
+                                <igDP:FieldCalculationSettings Formula="round([comp]/[att]*100,2)" ReferenceId="pctformula"/>
+                            </igDP:UnboundField.CalculationSettings>
+                        </igDP:UnboundField>
+                        <igDP:UnboundField Name="passingyardsperattempt" Label="{Binding Source={StaticResource CalculationManagerStrings}, Path=XG_PassingYardsAttempt}">
+                            <igDP:UnboundField.CalculationSettings>
+                                <igDP:FieldCalculationSettings Formula="round([passingyards]/[att],2)" ReferenceId="passingyardsperattemptformula"/>
+                            </igDP:UnboundField.CalculationSettings>
+                        </igDP:UnboundField>
+                        <igDP:UnboundField Name="passingyardspergame" Label="{Binding Source={StaticResource CalculationManagerStrings}, Path=XG_PassingYardsGame}">
+                            <igDP:UnboundField.CalculationSettings>
+                                <igDP:FieldCalculationSettings Formula="round([passingyards]/[games],2)" ReferenceId="passingyardspergameformula"/>
+                            </igDP:UnboundField.CalculationSettings>
+                        </igDP:UnboundField>
+                        <igDP:UnboundField Name="rushyardspergame" Label="{Binding Source={StaticResource CalculationManagerStrings}, Path=XG_RushingYardsGame}">
+                            <igDP:UnboundField.CalculationSettings>
+                                <igDP:FieldCalculationSettings Formula="round([rushyrds]/[games],2)" ReferenceId="rushyardspergameformula"/>
+                            </igDP:UnboundField.CalculationSettings>
+                        </igDP:UnboundField>
+                        <igDP:UnboundField Name="rushavg" Label="{Binding Source={StaticResource CalculationManagerStrings}, Path=XG_RushingAverage}">
+                            <igDP:UnboundField.CalculationSettings>
+                                <igDP:FieldCalculationSettings Formula="round([rushyrds]/[rushs],2)" ReferenceId="rushavgformula"/>
+                            </igDP:UnboundField.CalculationSettings>
+                        </igDP:UnboundField>
+
+                        <igDP:Field Name="year" Label="{Binding Source={StaticResource CalculationManagerStrings}, Path=XG_Year}">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type sys:Int32}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="team" Label="{Binding Source={StaticResource CalculationManagerStrings}, Path=XG_Team}"/>
+                        <igDP:Field Name="games" Label="{Binding Source={StaticResource CalculationManagerStrings}, Path=XG_Games}">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type sys:Int32}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="qbrate" Label="{Binding Source={StaticResource CalculationManagerStrings}, Path=XG_Rating}">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type sys:Double}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="comp" Label="{Binding Source={StaticResource CalculationManagerStrings}, Path=XG_Completions}">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type sys:Int32}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="att" Label="{Binding Source={StaticResource CalculationManagerStrings}, Path=XG_Attempts}">
+                            <igDP:Field.CalculationSettings>
+                                <igDP:FieldCalculationSettings ReferenceId="attformula"/>
+                            </igDP:Field.CalculationSettings>
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type sys:Int32}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="passingyards" Label="{Binding Source={StaticResource CalculationManagerStrings}, Path=XG_TotalPassingYards}">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type sys:Int32}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="passingtd" Label="{Binding Source={StaticResource CalculationManagerStrings}, Path=XG_PassingTouchdowns}">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type sys:Int32}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="int" Label="{Binding Source={StaticResource CalculationManagerStrings}, Path=XG_Interceptions}">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type sys:Int32}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="rushs" Label="{Binding Source={StaticResource CalculationManagerStrings}, Path=XG_Rushes}">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type sys:Int32}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="rushyrds" Label="{Binding Source={StaticResource CalculationManagerStrings}, Path=XG_RushingYards}">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type sys:Int32}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="rushtd" Label="{Binding Source={StaticResource CalculationManagerStrings}, Path=XG_RushingTouchdowns}">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type sys:Int32}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="sack" Label="{Binding Source={StaticResource CalculationManagerStrings}, Path=XG_Sacks}">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type sys:Int32}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="yardslost" Label="{Binding Source={StaticResource CalculationManagerStrings}, Path=XG_YardsLost}">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings EditAsType="{x:Type sys:Int32}" />
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                    </igDP:FieldLayout.Fields>
+                    <!-- You can create summaries for all data records. The summary below
+                    will display the average of all the values of the Passing % (pct) fields. -->
+                    <igDP:FieldLayout.SummaryDefinitions>
+                        <igDP:SummaryDefinition Position="Left" Key="{Binding Source={StaticResource CalculationManagerStrings}, Path=XG_AveragePassing}">
+                            <igDP:SummaryDefinition.CalculationSettings>
+                                <igDP:SummaryCalculationSettings Formula="average([pctformula])" ReferenceId="pctavg"/>
+                            </igDP:SummaryDefinition.CalculationSettings>
+                        </igDP:SummaryDefinition>
+                    </igDP:FieldLayout.SummaryDefinitions>
+                </igDP:FieldLayout>
+            </igDP:XamDataPresenter.FieldLayouts>
+            <!-- #END SNIPPET# -->
+        </igDP:XamDataPresenter>
+
+
+        <TextBlock Text="{Binding Source={StaticResource CalculationManagerStrings},
+            Path=XG_ThirdRecordPassing}" Grid.Row="3" Margin="0,0,8,12" Style="{StaticResource SamplesTitleStyle}"/>
+        <TextBlock Text="{Binding Source={StaticResource CalculationManagerStrings},
+            Path=XG_AveragePassing}" Grid.Row="4" Margin="0,0,8,12" Style="{StaticResource SamplesTitleStyle}"/>
+
+        <TextBlock x:Name="tbThirdRecordPct" Grid.Row="3" Grid.Column="1"
+                   ig:XamCalculationManager.CalculationManager="{StaticResource CalculationManager}" HorizontalAlignment="Left">
+            <ig:XamCalculationManager.ControlSettings>
+                <ig:ControlCalculationSettings Formula="[//dataPresenterAdapter/Quarterback(2)/pctformula]"/>
+            </ig:XamCalculationManager.ControlSettings>
+        </TextBlock>
+
+        <TextBlock x:Name="tbTotalAttFormula" Grid.Row="4" Grid.Column="1"
+                   ig:XamCalculationManager.CalculationManager="{StaticResource CalculationManager}" HorizontalAlignment="Left">
+            <ig:XamCalculationManager.ControlSettings>
+                <ig:ControlCalculationSettings Formula="[//dataPresenterAdapter/Quarterback/pctavg]"/>
+            </ig:XamCalculationManager.ControlSettings>
+        </TextBlock>
+    </Grid>
+</framework:SampleContainer>

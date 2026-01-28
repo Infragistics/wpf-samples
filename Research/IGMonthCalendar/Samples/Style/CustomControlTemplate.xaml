@@ -1,0 +1,108 @@
+﻿<igFramework:SampleContainer x:Class="IGMonthCalendar.Samples.Style.CustomControlTemplate"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="CustomControlTemplate"
+      xmlns:igEditors="http://infragistics.com/Editors"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared">
+
+    <igFramework:SampleContainer.Resources>
+        <!-- #BEGIN SNIPPET# -->
+        <ControlTemplate x:Key="customTemplate"
+                         TargetType="{x:Type igEditors:XamMonthCalendar}">
+            <Border BorderBrush="{TemplateBinding Border.BorderBrush}"
+                    BorderThickness="{TemplateBinding Border.BorderThickness}"
+                    Background="{TemplateBinding Panel.Background}"
+                    SnapsToDevicePixels="True"
+                    Padding="{TemplateBinding Padding}">
+                <DockPanel SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                    <!-- Today button -->
+                    <Button DockPanel.Dock="Bottom"
+                            Style="{DynamicResource {x:Static igEditors:XamMonthCalendar.TodayButtonStyleKey}}"
+                            Visibility="{TemplateBinding TodayButtonVisibility}" />
+                    <!-- Months -->
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Image Source="/IGMonthCalendar;component/Resources/Calendar1Day256.png"
+                               StretchDirection="DownOnly"
+                               Stretch="Uniform"
+                               Grid.Row="0"
+                               Grid.Column="0"
+                               Width="128"
+                               Height="128"
+                               SnapsToDevicePixels="True" />
+                        <!-- Previous Group -->
+                        <Viewbox StretchDirection="DownOnly"
+                                 Margin="2,0"
+                                 Grid.Row="0"
+                                 Grid.Column="1">
+                            <igEditors:CalendarItemGroup ReferenceGroupOffset="-1"
+                                                         ScrollPreviousButtonVisibility="Collapsed"
+                                                         ScrollNextButtonVisibility="Collapsed"
+                                                         ShowTrailingDates="False"
+                                                         IsLeadingGroup="True" />
+                        </Viewbox>
+                        <!-- Next Group -->
+                        <Viewbox StretchDirection="DownOnly"
+                                 Margin="2,0"
+                                 Grid.Row="0"
+                                 Grid.Column="2">
+                            <igEditors:CalendarItemGroup ReferenceGroupOffset="1"
+                                                         ScrollPreviousButtonVisibility="Collapsed"
+                                                         ScrollNextButtonVisibility="Collapsed"
+                                                         ShowLeadingDates="False"
+                                                         IsTrailingGroup="True" />
+                        </Viewbox>
+                        <!-- Main Calendar -->
+                        <igEditors:CalendarItemGroup ReferenceGroupOffset="0"
+                                                     Grid.Row="1"
+                                                     Grid.ColumnSpan="3"
+                                                     Margin="5"
+                                                     ShowLeadingDates="False"
+                                                     ShowTrailingDates="False" />
+                    </Grid>
+                </DockPanel>
+            </Border>
+        </ControlTemplate>
+        <!-- #END SNIPPET# -->
+    </igFramework:SampleContainer.Resources>
+    <!-- #BEGIN SNIPPET# -->
+    <!-- The AllowLeadingAndTrailingGroupActivation and the use of the
+    Is(Leading|Trailing)Group is not required when retemplating. However
+    in this case you may want the main large group to be the group the
+    end user interacts with and interacting with the small groups are
+    more like interacting with leading/trailing dates. -->
+    <igEditors:XamMonthCalendar Theme="RoyalLight"
+                                Template="{StaticResource customTemplate}"
+                                AllowLeadingAndTrailingGroupActivation="False">
+        <igEditors:XamMonthCalendar.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="/IGMonthCalendar;component/Assets/Global.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+
+                <Style TargetType="{x:Type igEditors:XamMonthCalendar}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=Dispatcher.Thread.CurrentUICulture.Name}"
+                                     Value="ja-JP">
+                            <Setter Property="DayOfWeekHeaderFormat"
+                                    Value="SingleCharacter" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ResourceDictionary>
+        </igEditors:XamMonthCalendar.Resources>
+    </igEditors:XamMonthCalendar>
+    <!-- #END SNIPPET# -->
+</igFramework:SampleContainer>

@@ -1,0 +1,71 @@
+﻿<framework:SampleContainer x:Class="IGFunnelChart.Samples.Display.SliceSelection"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:model="clr-namespace:IGFunnelChart.Model"
+      xmlns:res="clr-namespace:IGFunnelChart.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGFunnelChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <SolidColorBrush x:Key="LightForegroundBrush" Color="White" />
+            <model:TestData x:Key="data" />
+            <res:FunnelChartStrings x:Key="Strings" />
+            <DataTemplate x:Key="outerLabelTemplate" >
+                <Grid>
+                    <TextBlock Text="{Binding}"
+                               FontSize="15"
+                               Foreground="{StaticResource ForegroundBrush}" />
+                </Grid>
+            </DataTemplate>
+            <DataTemplate x:Key="InnerLabelTemplate">
+                <Grid>
+                    <TextBlock Text="{Binding}"
+                               FontSize="15"
+                               Foreground="{StaticResource LightForegroundBrush}" />
+                </Grid>
+            </DataTemplate>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamFunnelChart x:Name="funnel"
+                           Margin="10,10,200,10"
+                           ItemsSource="{StaticResource data}"
+                           ValueMemberPath="Value"
+                           UseOuterLabelsForLegend="True"
+                           InnerLabelMemberPath="Value"
+                           InnerLabelVisibility="Visible"
+                           OuterLabelMemberPath="Label"
+                           OuterLabelVisibility="Visible"
+                           UseUnselectedStyle="True"
+                           OuterLabelTemplate="{StaticResource outerLabelTemplate}"
+                           AllowSliceSelection="{Binding ElementName=selectionCheckbox, Path=IsChecked}"
+                           InnerLabelTemplate="{StaticResource InnerLabelTemplate}"
+                           SliceClicked="TheChartSliceClicked">
+            <ig:XamFunnelChart.ToolTip>
+                <TextBlock Text="{Binding Item.Label}" />
+            </ig:XamFunnelChart.ToolTip>
+        </ig:XamFunnelChart>
+        <!-- #END SNIPPET# -->
+
+        <controls:OptionsPanel HeaderText="{Binding XFC_FunnelChart_FunnelOptions, Source={StaticResource Strings}}"
+                               VerticalAlignment="Top" HorizontalAlignment="Right" Margin="50">
+            <CheckBox x:Name="selectionCheckbox" IsChecked="False"
+                      Content="{Binding XFC_FunnelChart_AllowSliceSelection, Source={StaticResource Strings}}"
+                      Margin="3" />
+            <controls:EnumValuesProvider x:Name="sliceDisplayCombo" SelectedEnumIndex="0"
+                                         EnumType="ig:FunnelSliceDisplay" DisplayTemplate="ComboBox" Margin="3"
+                                         Value="{Binding ElementName=funnel, Path=FunnelSliceDisplay, Mode=TwoWay}" />
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

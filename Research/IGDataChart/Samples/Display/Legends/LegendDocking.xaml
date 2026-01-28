@@ -1,0 +1,247 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Display.Legends.LegendDocking"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="LegendDocking Page"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+      xmlns:resources="clr-namespace:IGDataChart.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <resources:DataChartStrings x:Key="Strings"/>
+            <ig:AxisLabelSettings x:Key="AxisLabelSettings" Visibility="Collapsed" />
+            <Style x:Key="AxisStyle" TargetType="ig:Axis">
+                <Setter Property="LabelSettings" Value="{StaticResource AxisLabelSettings}"/>
+            </Style>
+            <Style TargetType="{x:Type ig:Legend}">
+                <Setter Property="Background" Value="{StaticResource LegendBackgroundBrush}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource LegendBorderBrush}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+            </Style>
+            <Style TargetType="ig:LineSeries">
+                <Setter Property="ValueMemberPath" Value="High"/>
+                <Setter Property="MarkerType" Value="None"/> 
+                <Setter Property="Thickness" Value="2"/>  
+                <Setter Property="Brush" Value="{StaticResource ChartSeriesBrush1}"/>  
+                <Setter Property="Title" Value="{Binding XWDC_LegendDocking_SeriesTitle, Source={StaticResource Strings}}"/> 
+            </Style>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+
+        <ig:XamDock x:Name="xmDockContainer">
+            <ig:XamDataChart x:Name="xmDataChart" ig:XamDock.Edge="Central"
+                             VerticalZoombarVisibility="Collapsed" HorizontalZoombarVisibility="Collapsed">
+                <ig:XamDataChart.DataContext>
+                    <models:StockMarketDataCollection/>
+                </ig:XamDataChart.DataContext>
+                <ig:XamDataChart.Axes>
+                    <ig:CategoryXAxis x:Name="xmXAxis"
+                                      ItemsSource="{Binding}"
+                                      Label="{}{Date:MM}"
+                                      Style="{StaticResource AxisStyle}" />
+                    <ig:NumericYAxis x:Name="xmYAxis"
+                                     Style="{StaticResource AxisStyle}" />
+                    <ig:NumericYAxis x:Name="xmYAxis2"
+                                     Style="{StaticResource AxisStyle}" />
+                </ig:XamDataChart.Axes>
+                <ig:XamDataChart.Series>
+                    <ig:LineSeries ItemsSource="{Binding}"
+                                   Legend="{Binding ElementName=xmLegendOTL}"
+                                   XAxis="{Binding ElementName=xmXAxis}"
+                                   YAxis="{Binding ElementName=xmYAxis}">
+                    </ig:LineSeries>
+                    <ig:LineSeries ItemsSource="{Binding}"
+                                   Legend="{Binding ElementName=xmLegendOTC}"
+                                   XAxis="{Binding ElementName=xmXAxis}"
+                                   YAxis="{Binding ElementName=xmYAxis}">
+                    </ig:LineSeries>
+                    <ig:LineSeries ItemsSource="{Binding}"
+                                   Legend="{Binding ElementName=xmLegendOTR}"
+                                   XAxis="{Binding ElementName=xmXAxis}"
+                                   YAxis="{Binding ElementName=xmYAxis}">
+                    </ig:LineSeries>
+                    <ig:LineSeries ItemsSource="{Binding}"
+                                   Legend="{Binding ElementName=xmLegendOLC}"
+                                   XAxis="{Binding ElementName=xmXAxis}"
+                                   YAxis="{Binding ElementName=xmYAxis}">
+                    </ig:LineSeries>
+                    <ig:LineSeries ItemsSource="{Binding}"
+                                   Legend="{Binding ElementName=xmLegendORC}"
+                                   XAxis="{Binding ElementName=xmXAxis}"
+                                   YAxis="{Binding ElementName=xmYAxis}">
+                    </ig:LineSeries>
+                    <ig:LineSeries ItemsSource="{Binding}"
+                                   Legend="{Binding ElementName=xmLegendOBL}"
+                                   XAxis="{Binding ElementName=xmXAxis}"
+                                   YAxis="{Binding ElementName=xmYAxis}">
+                    </ig:LineSeries>
+                    <ig:LineSeries ItemsSource="{Binding}"
+                                   Legend="{Binding ElementName=xmLegendOBC}"
+                                   XAxis="{Binding ElementName=xmXAxis}"
+                                   YAxis="{Binding ElementName=xmYAxis}">
+                    </ig:LineSeries>
+                    <ig:LineSeries ItemsSource="{Binding}"
+                                   Legend="{Binding ElementName=xmLegendOBR}"
+                                   XAxis="{Binding ElementName=xmXAxis}"
+                                   YAxis="{Binding ElementName=xmYAxis}">
+                    </ig:LineSeries>
+                    <ig:LineSeries ItemsSource="{Binding}"
+                                   Legend="{Binding ElementName=xmLegendITC}"
+                                   XAxis="{Binding ElementName=xmXAxis}"
+                                   YAxis="{Binding ElementName=xmYAxis}">
+                    </ig:LineSeries>
+                    <ig:LineSeries ItemsSource="{Binding}"
+                                   Legend="{Binding ElementName=xmLegendITL}"
+                                   XAxis="{Binding ElementName=xmXAxis}"
+                                   YAxis="{Binding ElementName=xmYAxis}">
+                    </ig:LineSeries>
+                    <ig:LineSeries ItemsSource="{Binding}"
+                                   Legend="{Binding ElementName=xmLegendITR}"
+                                   XAxis="{Binding ElementName=xmXAxis}"
+                                   YAxis="{Binding ElementName=xmYAxis}">
+                    </ig:LineSeries>
+                    <ig:LineSeries ItemsSource="{Binding}"
+                                   Legend="{Binding ElementName=xmLegendILC}"
+                                   XAxis="{Binding ElementName=xmXAxis}"
+                                   YAxis="{Binding ElementName=xmYAxis}">
+                    </ig:LineSeries>
+                    <ig:LineSeries ItemsSource="{Binding}"
+                                   Legend="{Binding ElementName=xmLegendIRC}"
+                                   XAxis="{Binding ElementName=xmXAxis}"
+                                   YAxis="{Binding ElementName=xmYAxis}">
+                    </ig:LineSeries>
+                    <ig:LineSeries ItemsSource="{Binding}"
+                                   Legend="{Binding ElementName=xmLegendC}"
+                                   XAxis="{Binding ElementName=xmXAxis}"
+                                   YAxis="{Binding ElementName=xmYAxis}">
+                    </ig:LineSeries>
+                    <ig:LineSeries ItemsSource="{Binding}"
+                                   Legend="{Binding ElementName=xmLegendIBC}"
+                                   XAxis="{Binding ElementName=xmXAxis}"
+                                   YAxis="{Binding ElementName=xmYAxis}">
+                    </ig:LineSeries>
+                    <ig:LineSeries ItemsSource="{Binding}"
+                                   Legend="{Binding ElementName=xmLegendIBL}"
+                                   XAxis="{Binding ElementName=xmXAxis}"
+                                   YAxis="{Binding ElementName=xmYAxis}">
+                    </ig:LineSeries>
+                    <ig:LineSeries ItemsSource="{Binding}"
+                                   Legend="{Binding ElementName=xmLegendIBR}"
+                                   XAxis="{Binding ElementName=xmXAxis}"
+                                   YAxis="{Binding ElementName=xmYAxis}">
+                    </ig:LineSeries>
+                    <ig:LineSeries ItemsSource="{Binding}" 
+                                   Thickness="4"
+                                   XAxis="{Binding ElementName=xmXAxis}"
+                                   YAxis="{Binding ElementName=xmYAxis}">
+                    </ig:LineSeries>
+                </ig:XamDataChart.Series>
+            </ig:XamDataChart>
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ========================================================================== -->
+            <!-- View full XAML code to see how Legend binding is used with Series in the XamDataChart control -->
+            <!-- ========================================================================== -->
+            <ig:Legend x:Name="xmLegendOTC" Content="{Binding XWDC_LegendDocking_OutsideTopCenter, Source={StaticResource Strings}}"
+                       ig:XamDock.Edge="OutsideTop" 
+                       ig:XamDock.HorizontalDockAlignment="Center"  
+                       HorizontalAlignment="Center" />
+
+            <ig:Legend x:Name="xmLegendOTL" Content="{Binding XWDC_LegendDocking_OutsideTopLeft, Source={StaticResource Strings}}"
+                       ig:XamDock.Edge="OutsideTop" 
+                       ig:XamDock.HorizontalDockAlignment="Left"/>
+            
+            <ig:Legend x:Name="xmLegendOTR" Content="{Binding XWDC_LegendDocking_OutsideTopRight, Source={StaticResource Strings}}"
+                       ig:XamDock.Edge="OutsideTop" 
+                       ig:XamDock.VerticalDockAlignment="Top" 
+                       ig:XamDock.HorizontalDockAlignment="Right" />
+            
+            <ig:Legend x:Name="xmLegendOLC" Content="{Binding XWDC_LegendDocking_OutsideMiddleLeft, Source={StaticResource Strings}}"
+                       ig:XamDock.Edge="OutsideLeft" 
+                       ig:XamDock.VerticalDockAlignment="Center" 
+                       ig:XamDock.HorizontalDockAlignment="Center" />
+            
+            <ig:Legend x:Name="xmLegendORC" Content="{Binding XWDC_LegendDocking_OutsideMiddleRight, Source={StaticResource Strings}}"
+                       ig:XamDock.Edge="OutsideRight" 
+                       ig:XamDock.VerticalDockAlignment="Center" 
+                       ig:XamDock.HorizontalDockAlignment="Center" />
+            
+            <ig:Legend x:Name="xmLegendOBL" Content="{Binding XWDC_LegendDocking_OutsideBottomLeft, Source={StaticResource Strings}}"
+                       ig:XamDock.Edge="OutsideBottom"
+                       ig:XamDock.VerticalDockAlignment="Center"
+                       ig:XamDock.HorizontalDockAlignment="Left" />
+            
+            <ig:Legend x:Name="xmLegendOBC" Content="{Binding XWDC_LegendDocking_OutsideBottomCenter, Source={StaticResource Strings}}"
+                       ig:XamDock.Edge="OutsideBottom" 
+                       ig:XamDock.VerticalDockAlignment="Center" 
+                       ig:XamDock.HorizontalDockAlignment="Center"  
+                       HorizontalAlignment="Center" />
+            
+            <ig:Legend x:Name="xmLegendOBR" Content="{Binding XWDC_LegendDocking_OutsideBottomRight, Source={StaticResource Strings}}"
+                       ig:XamDock.Edge="OutsideBottom" 
+                       ig:XamDock.VerticalDockAlignment="Center"
+                       ig:XamDock.HorizontalDockAlignment="Right" />
+            
+            <ig:Legend x:Name="xmLegendITC" Content="{Binding XWDC_LegendDocking_InsideTopLeft, Source={StaticResource Strings}}"
+                       ig:XamDock.Edge="InsideTop" Margin="4" 
+                       ig:XamDock.VerticalDockAlignment="Top" 
+                       ig:XamDock.HorizontalDockAlignment="Left" />
+            
+            <ig:Legend x:Name="xmLegendITL" Content="{Binding XWDC_LegendDocking_InsideTopCenter, Source={StaticResource Strings}}"
+                       ig:XamDock.Edge="InsideTop"  Margin="4" 
+                       ig:XamDock.VerticalDockAlignment="Top"
+                       ig:XamDock.HorizontalDockAlignment="Center"  
+                       HorizontalAlignment="Center" />
+            
+            <ig:Legend x:Name="xmLegendITR" Content="{Binding XWDC_LegendDocking_InsideTopRight, Source={StaticResource Strings}}"
+                       ig:XamDock.Edge="InsideTop" Margin="4" 
+                       ig:XamDock.VerticalDockAlignment="Top" 
+                       ig:XamDock.HorizontalDockAlignment="Right" />
+            
+            <ig:Legend x:Name="xmLegendILC" Content="{Binding XWDC_LegendDocking_InsideMiddleLeft, Source={StaticResource Strings}}"
+                       ig:XamDock.Edge="InsideLeft"  Margin="4" 
+                       ig:XamDock.VerticalDockAlignment="Center"
+                       ig:XamDock.HorizontalDockAlignment="Center" />
+            
+            <ig:Legend x:Name="xmLegendIRC" Content="{Binding XWDC_LegendDocking_InsideMiddleRight, Source={StaticResource Strings}}"
+                       ig:XamDock.Edge="InsideRight"  Margin="4" 
+                       ig:XamDock.VerticalDockAlignment="Center" 
+                       ig:XamDock.HorizontalDockAlignment="Center" />
+            
+            <ig:Legend x:Name="xmLegendC" Content="{Binding XWDC_LegendDocking_InsideMiddleCenter, Source={StaticResource Strings}}"
+                       Width="160" ig:XamDock.Edge="Central"  Margin="4" 
+                       VerticalAlignment="Center" 
+                       HorizontalAlignment="Center"/>
+            
+            <ig:Legend x:Name="xmLegendIBC" Content="{Binding XWDC_LegendDocking_InsideBottomLeft, Source={StaticResource Strings}}"
+                       ig:XamDock.Edge="InsideBottom"  Margin="4" 
+                       ig:XamDock.VerticalDockAlignment="Top"
+                       ig:XamDock.HorizontalDockAlignment="Left" />
+            
+            <ig:Legend x:Name="xmLegendIBL" Content="{Binding XWDC_LegendDocking_InsideBottomCenter, Source={StaticResource Strings}}"
+                       ig:XamDock.Edge="InsideBottom"  Margin="4" 
+                       ig:XamDock.VerticalDockAlignment="Top" 
+                       ig:XamDock.HorizontalDockAlignment="Center" 
+                       HorizontalAlignment="Center"/>
+            
+            <ig:Legend x:Name="xmLegendIBR" Content="{Binding XWDC_LegendDocking_InsideBottomRight, Source={StaticResource Strings}}"
+                       ig:XamDock.Edge="InsideBottom"  Margin="4" 
+                       ig:XamDock.VerticalDockAlignment="Top" 
+                       ig:XamDock.HorizontalDockAlignment="Right" />
+            
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+        </ig:XamDock>
+
+    </Grid>
+</igFramework:SampleContainer>

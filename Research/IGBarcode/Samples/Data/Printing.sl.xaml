@@ -1,0 +1,89 @@
+﻿<framework:SampleContainer x:Class="IGBarcode.Samples.Data.Printing"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="Printing"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGBarcode.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGBarcode;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamBarcode.xaml" />
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamGrid.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:BarcodeStrings x:Key="Strings" />
+            <!--#BEGIN SNIPPET#-->
+            <!--######################################-->
+            <!--A Data Template for the rows of the printed grid-->
+            <DataTemplate x:Key="ProductTemplate">
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="{Binding Name}" Grid.Column="0" />
+                        <TextBlock Text="{Binding Id}" Grid.Column="1" />
+
+                        <!--Note that the barcode has set Width and Height,
+                        BarsFillMode is EnsureEqualSize and the
+                        used Stretch is None-->
+                        <ig:XamEanUpcBarcode Data="{Binding Id}" CodeType="Ean8" BarsFillMode="EnsureEqualSize" Stretch="None" Width="130" Height="110" Margin="0,2,0,2" Grid.Column="2" />
+                    </Grid>
+                    <Border BorderBrush="Black" BorderThickness="0,1,0,0" />
+                </StackPanel>
+            </DataTemplate>
+            <!--######################################-->
+            <!--#END SNIPPET#-->
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <StackPanel x:Name="LayoutRoot" Width="Auto">
+
+        <Grid Width="130" Margin="10" Height="140">
+            <Grid Margin="15,0,15,30" Height="100" Width="100" VerticalAlignment="Top">
+                <Rectangle StrokeThickness="1" Grid.Row="1" Height="25" VerticalAlignment="Bottom" Margin="0,0,0,-25" />
+                <Border VerticalAlignment="Top" d:LayoutOverrides="HorizontalMargin" Padding="0">
+                    <!--#BEGIN SNIPPET#-->
+                    <!--A simple barcode-->
+                    <!--######################################-->
+                    <!--Note that the barcode has set Width and Height,
+                    BarsFillMode is EnsureEqualSize and the
+                    used Stretch is None-->
+                    <ig:XamQRCodeBarcode x:Name="qrBarcode"
+                                         Data="http://www.infragistics.com/"
+                                         BarsFillMode="EnsureEqualSize"
+                                         Stretch="None"
+                                         Height="100"
+                                         Width="100" />
+                    <!--######################################-->
+                    <!--#END SNIPPET#-->
+                </Border>
+            </Grid>
+            <Button Content="{Binding XWB_Print, Source={StaticResource Strings}}" Click="OnPrintQRBracode" VerticalAlignment="Bottom" HorizontalAlignment="Center" 
+                    Style="{StaticResource IGGenericButton}"/>
+        </Grid>
+        <Grid Width="250" Height="300" Margin="10">
+            <ig:XamGrid x:Name="DataGrid" AutoGenerateColumns="False" 
+                        Margin="0,0,0,30" ColumnWidth="*">
+                <ig:XamGrid.SortingSettings>
+                    <ig:SortingSettings AllowSorting="False"/>
+                </ig:XamGrid.SortingSettings>
+                <ig:XamGrid.Columns>
+                    <ig:TextColumn Key="Name" HeaderText="Name" />
+                    <ig:TextColumn Key="Id" HeaderText="Id" />
+                </ig:XamGrid.Columns>
+            </ig:XamGrid>
+            <Button Content="{Binding XWB_Print, Source={StaticResource Strings}}" Click="OnPrintDataGrid" VerticalAlignment="Bottom" 
+                    Style="{StaticResource IGGenericButton}"/>
+        </Grid>
+    </StackPanel>
+</framework:SampleContainer>

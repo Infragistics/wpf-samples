@@ -1,0 +1,246 @@
+﻿<framework:SampleContainer x:Class="IGGeographicMap.Samples.GeoScatterAreaSeries"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="Scatter Area Series"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:ex="clr-namespace:Infragistics.Samples.Controls;assembly=Infragistics.Samples.Services"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:providers="clr-namespace:Infragistics.Samples.Shared.DataProviders;assembly=Infragistics.Samples.Shared" 
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared" 
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+      xmlns:strings="clr-namespace:IGGeographicMap.Resources">
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGeographicMap;component/Assets/GlobalExtended.xaml" />
+                
+                
+            </ResourceDictionary.MergedDictionaries>
+
+            <ig:StringFormatConverter x:Key="StringFormatConverter" />
+            <strings:AssetsLocalizer x:Key="AssetsLocalizer" />
+            <ex:ColorsPaletteCollection x:Key="ColorPalettes">
+                <ex:ColorsPalette>
+                    <Color>#FF8670CB</Color>
+                    <Color>#FF513E8C</Color>
+                    <Color>#FF003F5E</Color>
+                    <Color>#FF0C6B99</Color>
+                    <Color>#FF1AA1E2</Color>
+                    <Color>#FF4AC4FF</Color>
+                    <Color>#FFB5CC2E</Color>
+                    <Color>#FFFFD034</Color>
+                    <Color>#FFFC8612</Color>
+                </ex:ColorsPalette>
+                <ex:ColorsPalette>
+                    <Color>#FFFC8612</Color>
+                    <Color>#FFFFD034</Color>
+                    <Color>#FFB5CC2E</Color>
+                    <Color>#FF4AC4FF</Color>
+                    <Color>#FF1AA1E2</Color>
+                    <Color>#FF0C6B99</Color>
+                    <Color>#FF003F5E</Color>
+                    <Color>#FF513E8C</Color>
+                    <Color>#FF8670CB</Color>
+                </ex:ColorsPalette>
+                <ex:ColorsPalette>
+                    <Color>#FF0A4D6D</Color>
+                    <Color>#FF197AA8</Color>
+                    <Color>#FF4AC4FF</Color>
+                </ex:ColorsPalette>
+                <ex:ColorsPalette>
+                    <Color>#FF4AC4FF</Color>
+                    <Color>#FF197AA8</Color>
+                    <Color>#FF0A4D6D</Color>
+                </ex:ColorsPalette>
+                <ex:ColorsPalette>
+                    <Color>DarkRed</Color>
+                    <Color>Orange</Color>
+                    <Color>Yellow</Color>
+                </ex:ColorsPalette>
+                <ex:ColorsPalette>
+                    <Color>Yellow</Color>
+                    <Color>Orange</Color>
+                    <Color>DarkRed</Color>
+                </ex:ColorsPalette>
+                <ex:ColorsPalette>
+                    <Color>DarkGreen</Color>
+                    <Color>Green</Color>
+                    <Color>LightGreen</Color>
+                </ex:ColorsPalette>
+                <ex:ColorsPalette>
+                    <Color>LightGreen</Color>
+                    <Color>Green</Color>
+                    <Color>DarkGreen</Color>
+                </ex:ColorsPalette>
+                <ex:ColorsPalette>
+                    <Color>Black</Color>
+                    <Color>DimGray</Color>
+                    <Color>LightGray</Color>
+                </ex:ColorsPalette>
+                <ex:ColorsPalette>
+                    <Color>LightGray</Color>
+                    <Color>DimGray</Color>
+                    <Color>Black</Color>
+                </ex:ColorsPalette>
+                <ex:ColorsPalette>
+                    <Color>#FFB70221</Color>
+                    <Color>#FFFFD034</Color>
+                    <Color>#FF4AC4FF</Color>
+                </ex:ColorsPalette>
+                <ex:ColorsPalette>
+                    <Color>#FF017605</Color>
+                    <Color>#FFB5CC2E</Color>
+                    <Color>#FF4AC4FF</Color>
+                </ex:ColorsPalette>
+                <ex:ColorsPalette>
+                    <Color>#FF513E8C</Color>
+                    <Color>#FF8670CB</Color>
+                    <Color>#FF4AC4FF</Color>
+                </ex:ColorsPalette>
+              
+               
+            </ex:ColorsPaletteCollection>
+
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" >
+        <Grid.Resources>
+            <providers:ShapeFileProvider x:Key="ShapeFileProvider3"
+                                         ShapeFileRelativePath="/Weather/Precipitation/nws_precip_2011091820.itf"/>
+            <!-- ItfConverter loads points of pre-triangulated shapes from ITF files and -->
+            <!-- stores them in the Points and Triangles properties -->
+            <providers:ShapeFileProvider x:Key="ShapeFileProvider"
+                                         ShapeFileRelativePath="/Weather/Precipitation/nws_precip_1day_observed_20110831.itf"/>
+            <ig:ItfConverter x:Key="itfConverter"
+                             PropertyChanged="OnTriangulatedProviderPropertyChanged"
+                             Source="{Binding Path=ShapeFileAbsolutePath, Source={StaticResource ShapeFileProvider}}" />
+        </Grid.Resources>
+        <ig:XamGeographicMap x:Name="GeoMap" WorldRect="-131, 15, 60, 40"
+                             PlotAreaBackground="{StaticResource GeoMapSbPlotAreaBackgroundBrush}"
+                             OverviewPlusDetailPaneVisibility="Collapsed"
+                             OverviewPlusDetailPaneStyle="{StaticResource GeographicWorldOPDStyle}"
+                             Zoomable="True">
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ========================================================================== -->
+            <ig:XamGeographicMap.Series>
+                <ig:GeographicScatterAreaSeries ColorMemberPath="Value" Opacity="1.0"
+                                                LongitudeMemberPath="Point.X"
+                                                LatitudeMemberPath="Point.Y"
+                                                ItemsSource="{Binding TriangulationSource.Points, Source={StaticResource itfConverter}}"
+                                                TrianglesSource="{Binding TriangulationSource.Triangles, Source={StaticResource itfConverter}}"
+                                                TriangleVertexMemberPath1="V1"
+                                                TriangleVertexMemberPath2="V2"
+                                                TriangleVertexMemberPath3="V3">
+                    <ig:GeographicScatterAreaSeries.ColorScale>
+                        <ig:CustomPaletteColorScale MinimumValue=".05" MaximumValue="1.8"
+                                                    InterpolationMode="InterpolateRGB">
+                            <ig:CustomPaletteColorScale.Palette>
+                                <models:ColorCollection  >
+                                    <Color>#FF8670CB</Color>
+                                    <Color>#FF513E8C</Color>
+                                    <Color>#FF003F5E</Color>
+                                    <Color>#FF0C6B99</Color>
+                                    <Color>#FF1AA1E2</Color>
+                                    <Color>#FF4AC4FF</Color>
+                                    <Color>#FFB5CC2E</Color>
+                                    <Color>#FFFFD034</Color>
+                                    <Color>#FFFC8612</Color>
+                                </models:ColorCollection>
+                            </ig:CustomPaletteColorScale.Palette>
+                        </ig:CustomPaletteColorScale>
+                    </ig:GeographicScatterAreaSeries.ColorScale>
+                    <ig:GeographicScatterAreaSeries.ToolTip>
+                            <StackPanel Margin="4">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock Text="{Binding Path=ModelStrings.XWM_Precipitation, Source={StaticResource AssetsLocalizer}}" FontWeight="Bold" />
+                                    <TextBlock Text="{Binding Path=Item.Value, StringFormat='0.0'}" Foreground="{StaticResource ForegroundBrush}" Margin="4,2,2,2" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock Text="{Binding Path=ModelStrings.XWM_Longitude, Source={StaticResource AssetsLocalizer}}" FontWeight="Bold" />
+                                    <TextBlock Text="{Binding Path=Item.Point.X, StringFormat='0.0'}" Foreground="{StaticResource ForegroundBrush}" Margin="4,2,2,2" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock Text="{Binding Path=ModelStrings.XWM_Latitude, Source={StaticResource AssetsLocalizer}}" FontWeight="Bold" />
+                                    <TextBlock Text="{Binding Path=Item.Point.Y, StringFormat='0.0'}" Foreground="{StaticResource ForegroundBrush}" Margin="4,2,2,2" />
+                                </StackPanel>
+                            </StackPanel>
+                    </ig:GeographicScatterAreaSeries.ToolTip>
+                </ig:GeographicScatterAreaSeries>
+              </ig:XamGeographicMap.Series>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+        </ig:XamGeographicMap>
+        <TextBlock x:Name="OpenSourceCopyright" Text="{Binding Path=XW_OpenSourceCopyright, Source={StaticResource CommonStrings}}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Style="{StaticResource SourceTextblockStyle}"  />
+        <controls:OptionsPanel HeaderText="{Binding Path=XWGM_GeoSeriesFillScale, Source={StaticResource MapStrings}}"
+                               Margin="0" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}"/>
+            </controls:OptionsPanel.Resources>
+            <StackPanel Orientation="Vertical"  >
+
+                <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}">
+                    <TextBlock Text="{Binding Path=XWGM_ScalePalette, Source={StaticResource MapStrings}}"/>
+                    <TextBlock Text=":" VerticalAlignment="Center" Margin="-5,0,0,0"/>
+                </StackPanel>
+                <ComboBox x:Name="BrushPaletteComboBox2" SelectedIndex="0" Width="160" Margin="{StaticResource OptionsElementsMargin}"
+                          ItemsSource="{StaticResource ColorPalettes}" 
+                          SelectionChanged="BrushPaletteComboBox_SelectionChanged" >
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <ex:ColorsPaletteViewer PaletteColors="{Binding}" HorizontalAlignment="Stretch" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}">
+                        <TextBlock Text="{Binding Path=XWGM_ScaleInterpolationMode, Source={StaticResource MapStrings}}" VerticalAlignment="Center"  />
+                        <TextBlock Text=":" VerticalAlignment="Center" Margin="-5,0,0,0"/>
+                    </StackPanel>
+                    <ComboBox x:Name="BrushInterpolationModeComboBox" SelectedIndex="0" Margin="{StaticResource OptionsElementsMargin}"
+                          SelectionChanged="BrushInterpolationModeComboBox_SelectionChanged">
+                        <ComboBox.Items>
+                            <ig:ColorScaleInterpolationMode>InterpolateRGB</ig:ColorScaleInterpolationMode>
+                            <ig:ColorScaleInterpolationMode>InterpolateHSV</ig:ColorScaleInterpolationMode>
+                        </ComboBox.Items>
+                    </ComboBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}">
+                    <TextBlock Text="{Binding Path=XWGM_MinimumValue, Source={StaticResource MapStrings}}" VerticalAlignment="Center"  />
+                    <TextBlock Text=":" Margin="-5,0,5,0" VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding ElementName=BrushScaleMinimumValueSlider, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0.00'}" VerticalAlignment="Center" HorizontalAlignment="Right"  />
+                </StackPanel>
+                <Slider x:Name="BrushScaleMinimumValueSlider" Value="0.05" Minimum="0.00" Maximum="0.5" SmallChange="0.01" LargeChange="0.01" 
+                        VerticalAlignment="Stretch" ValueChanged="BrushScaleMinimumValueSlider_ValueChanged" Margin="{StaticResource OptionsElementsMargin}"/>
+
+                <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}">
+                    <TextBlock Text="{Binding Path=XWGM_MaximumValue, Source={StaticResource MapStrings}}" VerticalAlignment="Center"  />
+                    <TextBlock Text=":" Margin="-5,0,5,0"  VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding ElementName=BrushScaleMaximumValueSlider, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0.00'}" VerticalAlignment="Center" HorizontalAlignment="Right"  />
+                </StackPanel>
+                <Slider x:Name="BrushScaleMaximumValueSlider" Value="1.8" Minimum="0.5" Maximum="2" SmallChange="0.01" LargeChange="0.01" 
+                        VerticalAlignment="Stretch" ValueChanged="BrushScaleMaximumValueSlider_ValueChanged" Margin="{StaticResource OptionsElementsMargin}"/>
+
+                <StackPanel Orientation="Horizontal" Margin="{StaticResource OptionsElementsMargin}">
+                    <TextBlock Text="{Binding Path=XW_Opacity, Source={StaticResource CommonStrings}}" VerticalAlignment="Center"  />
+                    <TextBlock Text=":" Margin="-5,0,5,0" VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding ElementName=BrushOpacityValueSlider, Path=Value, Converter={StaticResource StringFormatConverter}, ConverterParameter='0.00'}" VerticalAlignment="Center" HorizontalAlignment="Right"  />
+                </StackPanel>
+                <Slider x:Name="BrushOpacityValueSlider" Value="1.0" Minimum="0.1" Maximum="1" SmallChange="0.05" LargeChange="0.05" 
+                        VerticalAlignment="Stretch" ValueChanged="BrushOpacityValueSlider_ValueChanged" />
+
+            </StackPanel>
+        </controls:OptionsPanel>
+        <TextBlock x:Name="MapDataSource" Text="{Binding Path=XW_Source_NOAA, Source={StaticResource CommonStrings}}" Style="{StaticResource SourceDataTextBoxStyle}"/>
+        <Grid x:Name="MapLoadingContainer" Margin="0"  Opacity="0.7" Background="White" Canvas.ZIndex="1" Visibility="Collapsed" VerticalAlignment="Stretch">
+            <Border Background="Transparent" Opacity="0.7" CornerRadius="3" />
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                <TextBlock x:Name="MapLoadingStatus" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" Text="..." />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</framework:SampleContainer>

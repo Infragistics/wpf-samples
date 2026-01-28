@@ -1,0 +1,54 @@
+﻿<framework:SampleContainer x:Class="IGGrid.Samples.Organization.Sorting"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="Sorting Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGGrid.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGrid;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:GridStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">      
+        <ig:XamGrid x:Name="dataGrid" AutoGenerateColumns="false" ColumnWidth="*">
+            <ig:XamGrid.Columns>
+                <ig:TextColumn Key="CustomerID"
+                               HeaderText="{Binding Path=XWG_Customers_CustomerID, Source={StaticResource Strings}}"/>
+                <ig:TextColumn Key="Company"
+                               HeaderText="{Binding Path=XWG_Customers_Company, Source={StaticResource Strings}}"/>
+                <ig:TextColumn Key="ContactName"
+                               HeaderText="{Binding Path=XWG_Customers_ContactName, Source={StaticResource Strings}}"/>
+                <ig:TextColumn Key="ContactTitle"
+                               HeaderText="{Binding Path=XWG_Customers_ContactTitle, Source={StaticResource Strings}}"/>
+            </ig:XamGrid.Columns>
+            
+            <!-- #BEGIN SNIPPET# -->
+            <ig:XamGrid.SortingSettings>
+                <ig:SortingSettings AllowSorting="True" AllowMultipleColumnSorting="True" ShowSortIndicator="True"/>
+            </ig:XamGrid.SortingSettings>
+            <!-- #END SNIPPET# -->
+        </ig:XamGrid>
+        
+        <controls:OptionsPanel Width="200" HeaderText="{Binding XWG_Config_Options, Source={StaticResource Strings}}" Margin="400,80,0,0">
+            <TextBlock Text="{Binding XWG_Config_SortingSettings, Source={StaticResource Strings}}"  Margin="{StaticResource OptionsElementsMargin}"/>
+            <CheckBox x:Name="EnableAllowSort" IsChecked="True" Content="{Binding Path=XWG_Config_AllowSort, Source={StaticResource Strings}}" 
+                      Click="EnableAllowSort_Click" Margin="{StaticResource OptionsElementsMargin}"/>
+            <CheckBox x:Name="EnableMultiSort" IsChecked="True" Content="{Binding Path=XWG_Config_MultiSort, Source={StaticResource Strings}}"
+                      Click="EnableMultiSort_Click" Margin="{StaticResource OptionsElementsMargin}"/>
+            <CheckBox x:Name="EnableShowIndicator" IsChecked="True" Content="{Binding Path=XWG_Config_ShowIndicator, Source={StaticResource Strings}}" 
+                      Click="EnableShowIndicator_Click"/>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

@@ -1,0 +1,64 @@
+﻿<igSamples:SampleContainer x:Class="IGSurfaceChart.Samples.Display.RotationUsingMouse"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:igSamples="http://schemas.infragistics.com/xaml/samples"
+             xmlns:viewModel="clr-namespace:IGSurfaceChart.Samples.ViewModels"
+             xmlns:res="clr-namespace:IGSurfaceChart.Resources"
+             xmlns:ig="http://schemas.infragistics.com/xaml"
+             xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="700">
+    
+    <igSamples:SampleContainer.DataContext>
+        <viewModel:BasicViewModel />
+    </igSamples:SampleContainer.DataContext>
+
+    <igSamples:SampleContainer.Resources>
+        <ResourceDictionary>
+            <res:SurfaceChartStrings x:Key="ChartStrings" />
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSurfaceChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </igSamples:SampleContainer.Resources>
+
+    <Grid>
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamScatterSurface3D Name="SurfaceChart" ItemsSource="{Binding Path=XCuPlusYCuData}" Width="800" Height="800"
+                                XMemberPath="X" YMemberPath="Y" ZMemberPath="Z" 
+                                SeriesColors="{StaticResource GreenBlueColorsCollection}"/>
+        <!-- #END SNIPPET# -->
+
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource ChartStrings}, Path=Configurations}"
+                               Margin="5" HorizontalAlignment="Right" VerticalAlignment="Top">
+            <Grid Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="180"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Content="{Binding Source={StaticResource ChartStrings}, Path=MouseRotation}" 
+                       Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource HeaderLabelStyle}"/>
+                <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Vertical" Margin="5">
+                    <CheckBox Name="Chb_RotationX" Content="{Binding Source={StaticResource ChartStrings}, Path=X}" ContentTemplate="{StaticResource CheckBoxContentTemplate}"
+                              IsChecked="True" Checked="RotationCheckBox_Checked" Unchecked="RotationCheckBox_Checked"/>
+                    <CheckBox Name="Chb_RotationY" Content="{Binding Source={StaticResource ChartStrings}, Path=Y}" ContentTemplate="{StaticResource CheckBoxContentTemplate}"
+                              IsChecked="True" Checked="RotationCheckBox_Checked" Unchecked="RotationCheckBox_Checked"/>
+                    <CheckBox Name="Chb_RotationZ" Content="{Binding Source={StaticResource ChartStrings}, Path=Z}" ContentTemplate="{StaticResource CheckBoxContentTemplate}"
+                              IsChecked="True" Checked="RotationCheckBox_Checked" Unchecked="RotationCheckBox_Checked"/>
+                    <CheckBox Name="Chb_NoRotation" Content="{Binding Source={StaticResource ChartStrings}, Path=DisableRotation}" ContentTemplate="{StaticResource CheckBoxContentTemplate}"
+                              Checked="RotationCheckBox_Checked" Unchecked="RotationCheckBox_Checked"/>
+                </StackPanel>
+            </Grid>
+        </controls:OptionsPanel>
+    </Grid>
+</igSamples:SampleContainer>

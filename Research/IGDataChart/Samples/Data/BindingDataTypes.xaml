@@ -1,0 +1,89 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Data.BindingDataTypes"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      Title="BindingDataTypes Page"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:resources="clr-namespace:IGDataChart.Resources"
+      xmlns:local="clr-namespace:IGDataChart.Samples.Data">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <ig:XamDataChart x:Name="DataChart" Grid.Row="1"
+                         IsHorizontalZoomEnabled="True" IsVerticalZoomEnabled="True"
+                         Title="{Binding XWDC_BindingDataTypes_ChartTitle, Source={StaticResource Strings}}"
+                         Subtitle="{Binding DataSubtitle}">
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ========================================================================== -->
+            <!-- Refer to code behind for binding different data types to XamDataChart-->
+            <ig:XamDataChart.DataContext>
+                <local:DataViewModel  />
+            </ig:XamDataChart.DataContext>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+            <ig:XamDataChart.Axes>
+                <ig:CategoryDateTimeXAxis x:Name="XmXAxis" 
+                                          DateTimeMemberPath="Date" 
+                                          ItemsSource="{Binding DataItems}" 
+                                          Label="{}{Date:yyyy}">
+                </ig:CategoryDateTimeXAxis>
+                <ig:NumericYAxis x:Name="XmYAxisPrice"
+                                 >
+                </ig:NumericYAxis>
+            </ig:XamDataChart.Axes>
+            <ig:XamDataChart.Series>
+                <ig:AreaSeries Thickness="1"
+                                 MarkerType="None"
+                                 ItemsSource="{Binding DataItems}" 
+                                 ValueMemberPath="Value"
+                                 XAxis="{Binding ElementName=XmXAxis}"
+                                 YAxis="{Binding ElementName=XmYAxisPrice}"
+                                 IsHighlightingEnabled="True"
+                                 IsTransitionInEnabled="True">
+                </ig:AreaSeries>
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+
+        <Border  VerticalAlignment="Top" Grid.Row="0"
+                HorizontalAlignment="Left" Padding="{StaticResource SampleInnerNavigationPadding}">
+
+            <StackPanel Orientation="Horizontal" >
+                <TextBlock Text="{Binding XWDC_BindingDataTypes_DataTypes, Source={StaticResource Strings}}"
+                           Style="{StaticResource SamplesInnerNavigationTitleStyle}"
+                           VerticalAlignment="Center"/>
+                <ComboBox x:Name="CbDataContext" Width="150" Margin="4,0,2,0" HorizontalAlignment="Left" VerticalAlignment="Center" SelectionChanged="OnDataContextSelectionChanged" 
+                          Style="{StaticResource IGComboBoxStyle}">
+                    <ComboBoxItem Tag="CollectionData" Content="{Binding XWDC_BindingDataTypes_CollectionData, Source={StaticResource Strings}}"/>
+                    <ComboBoxItem Tag="EnumerableData" Content="{Binding XWDC_BindingDataTypes_EnumerableData, Source={StaticResource Strings}}"/>
+                    <ComboBoxItem Tag="ListData" Content="{Binding XWDC_BindingDataTypes_ListData, Source={StaticResource Strings}}"/>
+                    <ComboBoxItem Tag="LinkedListData" Content="{Binding XWDC_BindingDataTypes_LinkedListData, Source={StaticResource Strings}}"/>
+                    <ComboBoxItem Tag="QueueData" Content="{Binding XWDC_BindingDataTypes_QueueData, Source={StaticResource Strings}}"/>
+                    <ComboBoxItem Tag="StackData" Content="{Binding XWDC_BindingDataTypes_StackData, Source={StaticResource Strings}}"/>
+                </ComboBox>
+                <Button x:Name="BtnPrev" HorizontalAlignment="Center" Cursor="Hand" Width="20" Height="20" Margin="0,0,2,0" Content="" Click="OnPrevDataContextButtonClick" Style="{StaticResource IGPreviousButtonStyle}" />
+                <Button x:Name="BtnNext" HorizontalAlignment="Right" Cursor="Hand" Width="20" Height="20" Margin="0,0,2,0" Content="" Click="OnNextDataContextButtonClick" Style="{StaticResource IGNextButtonStyle}" />
+
+            </StackPanel>
+        </Border>
+        <TextBlock Grid.Row="2" 
+                   HorizontalAlignment="Right" VerticalAlignment="Bottom" 
+                   Text="{Binding XWDC_BindingDataTypes_Source, Source={StaticResource Strings}}" 
+                   Style="{StaticResource SourceTextblockStyle}" />
+    </Grid>
+</igFramework:SampleContainer>

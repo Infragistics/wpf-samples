@@ -1,0 +1,68 @@
+﻿<igFramework:SampleContainer x:Class="IGPieChart.Samples.Display.OthersCategory"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:IGPieChart.Model"
+      xmlns:res="clr-namespace:IGPieChart.Resources"
+      xmlns:resources="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGPieChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:PieChartStrings x:Key="Strings"/>
+            <resources:CommonStrings x:Key="CommonStrings"/>
+            <models:TestData x:Key="testData"/>
+            <Style x:Key="OptionPanelLabels" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+                <Setter Property="FontWeight" Value="Normal"/>
+                <Setter Property="HorizontalAlignment" Value="Right"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="0 0 5 0"/>
+            </Style>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <Grid Margin="25">
+        <ig:ItemLegend x:Name="Legend" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Right"
+                       Margin="10" Padding="10,5,10,5"/>
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamPieChart Name="pieChart" Grid.Row="2"
+                        ItemsSource="{StaticResource testData}"
+                        LabelMemberPath="Label"
+                        LabelsPosition="BestFit"
+                        ValueMemberPath="Value"
+                        ToolTip="{}{Label}"
+                        Legend="{Binding ElementName=Legend}"
+                        AllowSliceExplosion="True"
+                        LeaderLineVisibility="Visible"
+                        OthersCategoryThreshold="2"
+                        OthersCategoryType="Number"
+                        OthersCategoryText="{Binding Source={StaticResource Strings}, Path=XPC_Others}"
+                        />
+        <!-- #END SNIPPET# -->
+
+        <controls:OptionsPanel VerticalAlignment="Top" HorizontalAlignment="Left"
+                               HeaderText="{Binding Source={StaticResource CommonStrings}, Path=XW_Options}"
+                               Margin="0,10,10,0" MinWidth="150">
+            <TextBlock Text="{Binding XPC_Category_Threshold, Source={StaticResource Strings}}"
+                       Style="{StaticResource OptionPanelLabels}" HorizontalAlignment="Left" Margin="3"/>
+            <ComboBox x:Name="comboBoxOthers" SelectionChanged="comboBoxOthers_SelectionChanged" Margin="3">
+                <ComboBox.Items>
+                    <ComboBoxItem Content="0"/>
+                    <ComboBoxItem Content="1"/>
+                    <ComboBoxItem Content="2" IsSelected="True"/>
+                    <ComboBoxItem Content="3"/>
+                    <ComboBoxItem Content="5"/>
+                </ComboBox.Items>
+            </ComboBox>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

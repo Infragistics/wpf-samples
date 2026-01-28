@@ -1,0 +1,85 @@
+﻿<framework:SampleContainer
+    x:Class="IGEditors.Samples.Styling.Theming"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+    xmlns:igEditors="http://infragistics.com/Editors"
+    xmlns:igThemes="http://infragistics.com/Themes"
+    xmlns:res="clr-namespace:IGEditors.Resources"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	Title="Theming">
+	
+    <framework:SampleContainer.Resources>
+        <res:EditorsStringRes x:Key="Strings" />
+		
+        <Style TargetType="{x:Type DockPanel}" x:Key="editorPanel">
+			<Setter Property="HorizontalAlignment" Value="Left" />
+			<Setter Property="MinWidth" Value="300" />
+            <Setter Property="Margin" Value="0,0,0,5" />
+        </Style>
+		
+        <Style TargetType="{x:Type Label}" x:Key="lblEditor">
+            <Setter Property="MinWidth" Value="130" />
+            <Setter Property="FontFamily" Value="Segoe UI Semibold" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Foreground" Value="#FF666666" />
+            <Setter Property="Margin" Value="0,0,6,0" />
+        </Style>
+	</framework:SampleContainer.Resources>
+	
+	<Grid x:Name="LayoutRoot" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions> 
+        
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ================================================================================================== -->
+        <!-- Note theme are changed in code-behind -->
+        <controls:ThemeSelector x:Name="ThemeSelector" 
+                                HorizontalAlignment="Center"
+                                SelectionChanged="OnSelectionChanged"/>
+        <!-- ================================================================================================== -->
+        <!-- #END SNIPPET# -->
+        
+		<StackPanel Grid.Row="1" HorizontalAlignment="Center">
+             
+			<DockPanel Style="{StaticResource editorPanel}">
+                <Label Content="{Binding Source={StaticResource Strings}, Path=ThemesandCustomStyles_SettingTheTheme_TextEditor_Label}"
+                       Style="{StaticResource lblEditor}" />
+                <igEditors:XamTextEditor  Width="150" />
+			</DockPanel>
+			<DockPanel Style="{StaticResource editorPanel}">
+                <Label Content="{Binding Source={StaticResource Strings}, Path=ThemesandCustomStyles_SettingTheTheme_ComboEditor_Label}"
+                       Style="{StaticResource lblEditor}" />
+				<igEditors:XamComboEditor ValueType="{x:Type sys:String}"  Width="150">
+					<igEditors:XamComboEditor.ItemsProvider>
+						<igEditors:ComboBoxItemsProvider ItemsSource="{x:Static Fonts.SystemFontFamilies}" />
+					</igEditors:XamComboEditor.ItemsProvider>
+				</igEditors:XamComboEditor>
+			</DockPanel>
+			<DockPanel Style="{StaticResource editorPanel}">
+                <Label Content="{Binding Source={StaticResource Strings}, Path=ThemesandCustomStyles_SettingTheTheme_MaskedEditor_Label}"
+                       Style="{StaticResource lblEditor}" />
+                <igEditors:XamMaskedEditor  Width="150" />
+			</DockPanel>
+			<DockPanel Style="{StaticResource editorPanel}">
+                <Label Content="{Binding Source={StaticResource Strings}, Path=ThemesandCustomStyles_SettingTheTheme_DateTimeEditor_Label}"
+                       Style="{StaticResource lblEditor}" />
+                <igEditors:XamDateTimeEditor  Width="150" />
+            </DockPanel>
+			<DockPanel Style="{StaticResource editorPanel}">
+                <Label Content="{Binding Source={StaticResource Strings}, Path=ThemesandCustomStyles_SettingTheTheme_NumericEditor_Label}"
+                       Style="{StaticResource lblEditor}" />
+                <igEditors:XamNumericEditor  Width="150" />
+			</DockPanel>
+			<DockPanel Style="{StaticResource editorPanel}">
+                <Label Content="{Binding Source={StaticResource Strings}, Path=ThemesandCustomStyles_SettingTheTheme_CurrencyEditor_Label}"
+                       Style="{StaticResource lblEditor}" />
+                <igEditors:XamCurrencyEditor  Width="150" />
+			</DockPanel> 
+            
+		</StackPanel>
+	</Grid>
+</framework:SampleContainer>

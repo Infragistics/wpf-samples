@@ -1,0 +1,166 @@
+﻿<igFramework:SampleContainer x:Class="IGTabControl.Samples.Display.ControllingTabItemLayoutAndMinimization"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="ControllingTabItemLayoutAndMinimization"
+      Loaded="Page_Loaded"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:igEditors="http://infragistics.com/Editors"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:igWindows="http://infragistics.com/Windows"
+      xmlns:res="clr-namespace:IGTabControl.Resources"
+      xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <res:TabControlStrings x:Key="Strings" />
+            <controls:EnumValuesProvider EnumType="{x:Type igWindows:TabLayoutStyle}"
+                                         DisplayTemplate="None"
+                                         x:Key="TabLayoutStyle" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGTabControl;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <Grid>
+        <!-- #BEGIN SNIPPET# -->
+        <igWindows:XamTabControl x:Name="tabControl"
+                                 Theme="RoyalLight"
+                                 TabStripPlacement="Left"
+                                 TabLayoutStyle="{Binding ElementName=cbTabLayoutStyle, Path=SelectedItem.Value}" />
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource CommonStrings}, Path=ConfigurationPanel_Header_Options}"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Top"
+                               Margin="50">
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}"/>
+            </controls:OptionsPanel.Resources>
+            <Grid>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="Auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto"
+                                      MinWidth="130" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding Source={StaticResource Strings}, Path=TabControl_ControllingTabItemLayoutAndMinimization_ConfigArea_TabLayout_Label}"
+                           Style="{StaticResource OptionsPanelTitleStyle}"
+                           Grid.ColumnSpan="2" />
+                <TextBlock Text="{Binding Source={StaticResource Strings}, Path=TabControl_ControllingTabItemLayoutAndMinimization_ConfigArea_TabStripPlacement_Label}"
+                           Grid.Row="1" />
+                <controls:EnumValuesProvider x:Name="cbTabStripPlacement"
+                                             EnumType="Dock"
+                                             DisplayTemplate="ComboBox"
+                                             SelectedEnumIndex="0"
+                                             Value="{Binding ElementName=tabControl, Path=TabStripPlacement, Mode=TwoWay}"
+                                             Grid.Row="1"
+                                             Grid.Column="1" VerticalAlignment="Center"/>
+                <TextBlock x:Name="lblTabLayoutStyle"
+                           Text="{Binding Source={StaticResource Strings}, Path=TabControl_ControllingTabItemLayoutAndMinimization_ConfigArea_TabLayoutStyle_Label}"
+                           Grid.Row="2" />
+                <ComboBox x:Name="cbTabLayoutStyle"
+                          ItemsSource="{Binding Source={StaticResource TabLayoutStyle}, Path=EnumValueHolders}"
+                          SelectionChanged="cbTabLayoutStyle_SelectionChanged"
+                          SelectedIndex="0" Style="{StaticResource IGComboBoxStyle}"
+                          VerticalAlignment="Center"
+                          Grid.Row="2"
+                          Grid.Column="1" />
+                <TextBlock Text="{Binding Source={StaticResource Strings}, Path=TabControl_ControllingTabItemLayoutAndMinimization_ConfigArea_MaximumTabRows_Label}"
+                           Grid.Row="3" />
+                <igEditors:XamNumericEditor x:Name="numEditorMaximumTabRows"
+                                            Value="{Binding ElementName=tabControl, Path=MaximumTabRows, Mode=TwoWay}"
+                                            ValueType="{x:Type sys:Int32}"
+                                            Theme="RoyalLight"
+                                            Mask="nn"
+                                            MinWidth="130"
+                                            Grid.Row="3"
+                                            Grid.Column="1"
+                                            IsEnabled="False" VerticalAlignment="Center">
+                    <igEditors:XamNumericEditor.ValueConstraint>
+                        <igEditors:ValueConstraint MinInclusive="1"
+                                                   MaxInclusive="99" />
+                    </igEditors:XamNumericEditor.ValueConstraint>
+                </igEditors:XamNumericEditor>
+                <TextBlock Text="{Binding Source={StaticResource Strings}, Path=TabControl_ControllingTabItemLayoutAndMinimization_ConfigArea_TabMinimization_Label}"
+                           Style="{StaticResource OptionsPanelTitleStyle}"
+                           Grid.Row="4"
+                           Margin="0,10,0,0"
+                           Grid.ColumnSpan="2" />
+                <CheckBox 
+                          IsChecked="{Binding ElementName=tabControl, Path=AllowMinimize, Mode=TwoWay}"
+                          Content="{Binding Source={StaticResource Strings}, Path=TabControl_ControllingTabItemLayoutAndMinimization_ConfigArea_AllowMinimize_Label}"
+                          Grid.Row="5"
+                          Grid.ColumnSpan="2" />
+                <CheckBox 
+                          IsChecked="{Binding ElementName=tabControl, Path=IsMinimized, Mode=TwoWay}"
+                          Content="{Binding Source={StaticResource Strings}, Path=TabControl_ControllingTabItemLayoutAndMinimization_ConfigArea_IsMinimized_Label}"
+                          Grid.Row="6"
+                          Grid.ColumnSpan="2" />
+                <TextBlock Text="{Binding Source={StaticResource Strings}, Path=TabControl_ControllingTabItemLayoutAndMinimization_ConfigArea_NumberOfTabs_Label}"
+                           Style="{StaticResource OptionsPanelTitleStyle}"
+                           Margin="0,10,0,0"
+                           Grid.Row="7"
+                           Grid.ColumnSpan="2" />
+                <igWindows:CardPanel Height="{Binding ElementName=btnAdd, Path=ActualHeight}"
+                                     Grid.Row="8">
+                    <TextBlock Text="{Binding Source={StaticResource Strings}, Path=TabControl_AddRemoveTabs_ConfigArea_TabsLiteral_Label}" />
+                </igWindows:CardPanel>
+                <Grid Grid.Row="8"
+                      Grid.Column="1"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <igEditors:XamNumericEditor x:Name="numEditorAdd"
+                                                Value="7" Margin="{StaticResource OptionsTextRightMargin}"
+                                                ValueType="{x:Type sys:Int32}"
+                                                Mask="nnn"
+                                                MinWidth="30"
+                                                VerticalContentAlignment="Center"
+                                                Theme="RoyalLight">
+                        <igEditors:XamNumericEditor.ValueConstraint>
+                            <igEditors:ValueConstraint MinInclusive="1"
+                                                       MaxInclusive="50" />
+                        </igEditors:XamNumericEditor.ValueConstraint>
+                    </igEditors:XamNumericEditor>
+                    <Button x:Name="btnAdd"
+                            Click="btnAdd_Click"
+                            Tag="{Binding Source={StaticResource Strings}, Path=TabControl_AddRemoveTabs_ConfigArea_AddTabs_Label}"
+                            FontWeight="Normal"
+                            Style="{DynamicResource IconButtonStyle}"
+                            HorizontalAlignment="Stretch"
+                            Grid.Column="1">
+                        <Path Data="{StaticResource PlusIcon}" Width="8" Height="8" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=ContentControl}}" Stretch="Fill" Margin="0,0,-2,0"/>
+
+                    </Button>
+                </Grid>
+                <Button x:Name="btnRemove"
+                        Click="btnRemove_Click"
+                        Tag="{Binding Source={StaticResource Strings}, Path=TabControl_AddRemoveTabs_ConfigArea_RemoveTabs_Label}"
+                        Style="{DynamicResource IconButtonStyle}"
+                        VerticalAlignment="Center"
+                        Grid.Row="9"
+                        Grid.Column="1">
+                    <Path Data="{StaticResource MinusIcon}" Width="8" Height="2" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=ContentControl}}" Stretch="Fill" Margin="0,0,-2,0"/>
+                </Button>
+            </Grid>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

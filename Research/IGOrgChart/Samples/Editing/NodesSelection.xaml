@@ -1,0 +1,106 @@
+﻿<framework:SampleContainer x:Class="IGOrgChart.Samples.Editing.NodesSelection"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+    xmlns:res="clr-namespace:IGOrgChart.Resources"
+    xmlns:model="clr-namespace:IGOrgChart.Model"
+    xmlns:converters="clr-namespace:IGOrgChart.Converters"
+    mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <res:OrgChartStrings x:Key="Strings" />
+            <converters:NodeDepartmentDataToDescriptionConverter x:Key="NodeDepartmentDataToDescriptionConverter" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGOrgChart;component/Assets/Global.xaml" />
+                
+                
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Width="Auto">
+        
+        <!-- #BEGIN SNIPPET# -->
+        <!--Set the Selection Mode of OrgChart and attach to the SelectedNodesCollectionChanged event-->
+        <ig:XamOrgChart x:Name="OrgChart"
+                        ZoomLevel="1"
+                        ItemsSource="{Binding DepartmentGroups}"
+                        NodeArrangementStrategy="Stagger"
+                        SelectionType="{Binding SelectedItem, ElementName=ComboBoxSelectionType}"
+                        SelectedNodesCollectionChanged="OrgChart_SelectedNodesCollectionChanged">
+        <!-- #END SNIPPET# -->
+            
+            <!--Set the data context of the OrgChart-->
+            <ig:XamOrgChart.DataContext>
+                <model:DepartmentModel />
+            </ig:XamOrgChart.DataContext>
+            
+            <ig:XamOrgChart.GlobalNodeLayouts>
+                <!--Global Node Layouts-->
+                <ig:OrgChartNodeLayout TargetTypeName="DepartmentGroup"
+                                       DisplayMemberPath="GroupName" />
+
+                <ig:OrgChartNodeLayout TargetTypeName="Department"
+                                       DisplayMemberPath="DepartmentName" />
+
+                <ig:OrgChartNodeLayout TargetTypeName="EmployeePosition"
+                                       DisplayMemberPath="PositionName" />
+
+                <ig:OrgChartNodeLayout TargetTypeName="Employee"
+                                       DisplayMemberPath="FullName" />
+                <!---->
+            </ig:XamOrgChart.GlobalNodeLayouts>
+            
+        </ig:XamOrgChart>
+        
+        <!--Options panel with selection settings-->
+        <controls:OptionsPanel HeaderText="{Binding OrgChart_SelectionSettings, Source={StaticResource Strings}}"
+                               HorizontalAlignment="Right">
+                    <controls:OptionsPanel.Resources>
+                        <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}"/>
+                    </controls:OptionsPanel.Resources>
+                    <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="120" />
+                    <RowDefinition Height="Auto" />
+                    <!--<RowDefinition Height="Auto" />-->
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="100" />
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding OrgChart_SelectionType, Source={StaticResource Strings}}"/>
+                <!--#BEGIN SIPPET#-->
+                <!--The selection types of the OrgChart-->
+                <ComboBox Grid.Row="0" Grid.Column="1" x:Name="ComboBoxSelectionType" SelectedIndex="1" VerticalAlignment="Center" >
+                    <ig:OrgChartSelectionType>None</ig:OrgChartSelectionType>
+                    <ig:OrgChartSelectionType>Single</ig:OrgChartSelectionType>
+                    <ig:OrgChartSelectionType>Multiple</ig:OrgChartSelectionType>
+                    <ig:OrgChartSelectionType>Extended</ig:OrgChartSelectionType>
+                </ComboBox>
+                <!-- #END SNIPPET# -->
+                
+                <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding OrgChart_SelectedNodes, Source={StaticResource Strings}}"
+                           Style="{StaticResource OptionsPanelTitleStyle}" Margin="{StaticResource OptionsPanelTitleMargin}"/>
+                        <ListBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" x:Name="ListBoxSelectedNodes" Margin="{StaticResource OptionsElementsMargin}">
+                     <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Data, Converter={StaticResource NodeDepartmentDataToDescriptionConverter}}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>                
+                <Button Grid.Row="3" Content="{Binding OrgChart_SelectAll, Source={StaticResource Strings}}" Click="SelectAll_Click" Margin="0,0,4,0"/>
+                <Button Grid.Row="3" Grid.Column="1" Content="{Binding OrgChart_ClearSelection, Source={StaticResource Strings}}" Click="ClearSelection_Click" Margin="4,0,0,0"/>
+            </Grid>
+        </controls:OptionsPanel>
+        
+    </Grid>
+</framework:SampleContainer>

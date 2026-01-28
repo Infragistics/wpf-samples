@@ -1,0 +1,138 @@
+<framework:SampleContainer  
+    x:Class="IGBulletGraph.ToolTipSettings"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700" Title="SimpleData Page"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+    xmlns:resources="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGBulletGraph.Resources" 
+    xmlns:local="clr-namespace:IGBulletGraph">
+    
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGBulletGraph;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:BulletGraphStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock Text="{Binding Path=Tasks_Title, Source={StaticResource Strings}}" 
+                   TextWrapping="Wrap"
+                   Style="{StaticResource SamplesBigTitleStyle}"
+                   Margin="{StaticResource BottomPaddingLarge}"/>
+        <!-- #BEGIN SNIPPET# -->        
+        <ig:XamBulletGraph ShowToolTip="True"
+                           MaxHeight="100"
+                           x:Name="DevBulletGraph"
+                           Margin="0"
+                           Grid.Row="1" 
+                           MaximumValue="100" 
+                           TargetValue="80"
+                           Value="60" 
+                           Title="{Binding Path=Task_Dev, Source={StaticResource Strings}}" 
+                           TitlesHorizontalRatio=".15"
+                           FontFamily="{StaticResource FontFamily}" FontSize="{StaticResource FontSize}" >
+            <!-- #END SNIPPET# -->
+            <ig:XamBulletGraph.Ranges>
+                <ig:XamLinearGraphRange StartValue="0" 
+                                        EndValue="40" 
+                                        Caption="{Binding Path=ToolTipSettings_Low, Source={StaticResource Strings}}" 
+                                        Brush="#C62828"/>
+                <ig:XamLinearGraphRange StartValue="40" 
+                                        EndValue="70" 
+                                        Caption="{Binding Path=ToolTipSettings_Medium, Source={StaticResource Strings}}" 
+                                        Brush="#FF9800"/>
+                <ig:XamLinearGraphRange StartValue="70" 
+                                        EndValue="100" 
+                                        Caption="{Binding Path=ToolTipSettings_High, Source={StaticResource Strings}}" 
+                                        Brush="#439C47"/>
+            </ig:XamBulletGraph.Ranges> 
+        </ig:XamBulletGraph>
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamBulletGraph ShowToolTip="True"
+                           MaxHeight="100"
+                           x:Name="QABulletGraph"                           
+                           Grid.Row="2" 
+                           MaximumValue="50" 
+                           TargetValue="40"
+                           Value="23"
+                           ValueName="{Binding Path=Tasks_Spent, Source={StaticResource Strings}}"
+                           Title="{Binding Path=Task_QA, Source={StaticResource Strings}}"
+                           TitlesHorizontalRatio=".15"
+                           FontFamily="{StaticResource FontFamily}" FontSize="{StaticResource FontSize}" >
+            <ig:XamBulletGraph.Ranges>
+                <ig:XamLinearGraphRange StartValue="0" 
+                                        EndValue="20" 
+                                        Caption="{Binding Path=ToolTipSettings_Low, Source={StaticResource Strings}}"                                      
+                                       Brush="#C62828"/>
+                <ig:XamLinearGraphRange StartValue="20" 
+                                        EndValue="35" 
+                                        Caption="{Binding Path=ToolTipSettings_Medium, Source={StaticResource Strings}}" 
+                                         Brush="#FF9800"/>
+                <ig:XamLinearGraphRange StartValue="35" 
+                                        EndValue="50" 
+                                        Caption="{Binding Path=ToolTipSettings_High, Source={StaticResource Strings}}"  
+                                        Brush="#439C47"/>
+            </ig:XamBulletGraph.Ranges>
+            <ig:XamBulletGraph.RangeToolTip>
+                <Border Background="{StaticResource TooltipBackgroundBrush}" BorderBrush="{StaticResource TooltipBorderBrush}" Padding="10,5" >
+                    <Border.Resources>
+                        <Style TargetType="TextBlock" >
+                            <Setter Property="Foreground" Value="{Binding Item.Brush}" />
+                            <Setter Property="FontWeight" Value="Bold" />
+                            <Setter Property="FontSize" Value="12" />
+                        </Style>
+                    </Border.Resources>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Path=Item.Caption}" />
+                        <TextBlock >
+                            <Run Text="{Binding Path=TaskStart, Source={StaticResource Strings}, Mode=OneWay}"/><Run Text=":" />
+                            <Run Text="{Binding Path=Item.StartValue}" />
+                        </TextBlock>
+                        <TextBlock >
+                            <Run Text="{Binding Path=TaskEnd, Source={StaticResource Strings}, Mode=OneWay}"/><Run Text=":" />
+                            <Run Text="{Binding Path=Item.EndValue}" />
+                        </TextBlock> 
+                    </StackPanel>
+                </Border>
+            </ig:XamBulletGraph.RangeToolTip>
+            <ig:XamBulletGraph.ValueToolTip>
+                <Border Background="{StaticResource TooltipBackgroundBrush}" BorderBrush="{StaticResource TooltipBorderBrush}" Padding="10,5" >
+                    <TextBlock Foreground="{Binding Path=Brush}"
+                               FontWeight="Bold"
+                               FontSize="12">
+                        <Run Text="{Binding Path=ItemName}" /><Run Text=":" />
+                        <Run Text="{Binding Path=Item}" /><Run Text="{Binding Path=Tasks_Hours, Source={StaticResource Strings}, Mode=OneWay}" />
+                    </TextBlock>                      
+                </Border>
+            </ig:XamBulletGraph.ValueToolTip>
+            <ig:XamBulletGraph.TargetValueToolTip>
+                <Border Background="{StaticResource TooltipBackgroundBrush}" BorderBrush="{StaticResource TooltipBorderBrush}" Padding="10,5" >
+                        <TextBlock Foreground="{Binding Path=Brush}"
+                                   FontWeight="Bold"
+                                   FontSize="12"
+                                   Margin="3,2">
+                            <Run Text="{Binding Path=Tasks_Planned, Source={StaticResource Strings}, Mode=OneWay}" /><Run Text=":" />
+                            <Run Text="{Binding Path=Item}" /><Run Text="{Binding Path=Tasks_Hours, Source={StaticResource Strings}, Mode=OneWay}" />
+                        </TextBlock>
+                </Border>
+            </ig:XamBulletGraph.TargetValueToolTip>
+            <!-- #END SNIPPET# -->            
+        </ig:XamBulletGraph>
+        <TextBlock Grid.Row="3"                    
+                   Text="{Binding Path=Tasks_Description, Source={StaticResource Strings}}"
+                   Style="{StaticResource BodyStyle}"
+                   TextWrapping="Wrap"
+                   d:LayoutOverrides="GridBox" />
+    </Grid> 
+</framework:SampleContainer>

@@ -1,0 +1,86 @@
+﻿<UserControl x:Class="IGRibbon.CustomControls.XobSampleMailContent"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+	xmlns:vsm="clr-namespace:System.Windows;assembly=System.Windows"
+    xmlns:res="clr-namespace:IGRibbon.CustomControls.Resources"
+    d:DesignHeight="300" d:DesignWidth="400">
+<UserControl.Resources>
+        <Style x:Key="ButtonStyle1" TargetType="Button">
+            <Setter Property="Padding" Value="3"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid Background="#00000000" x:Name="grid">
+                            <vsm:VisualStateManager.VisualStateGroups>
+                                <vsm:VisualStateGroup x:Name="CommonStates">
+                                    <vsm:VisualState x:Name="Normal"/>
+                                    <vsm:VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames
+												BeginTime="00:00:00"
+												Duration="00:00:00.0010000"
+												Storyboard.TargetName="grid"
+												Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                                <SplineColorKeyFrame KeyTime="00:00:00" Value="#FFE5E5E5"/>
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </vsm:VisualState>
+                                    <vsm:VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames
+												BeginTime="00:00:00"
+												Duration="00:00:00.0010000"
+												Storyboard.TargetName="grid"
+												Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                                <SplineColorKeyFrame KeyTime="00:00:00" Value="#FFE5E5E5"/>
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </vsm:VisualState>
+                                    <vsm:VisualState x:Name="Disabled">
+                                        <Storyboard/>
+                                    </vsm:VisualState>
+                                </vsm:VisualStateGroup>
+                                <vsm:VisualStateGroup x:Name="FocusStates">
+                                    <vsm:VisualState x:Name="Focused">
+                                        <Storyboard/>
+                                    </vsm:VisualState>
+                                    <vsm:VisualState x:Name="Unfocused"/>
+                                </vsm:VisualStateGroup>
+                            </vsm:VisualStateManager.VisualStateGroups>
+                            <StackPanel Orientation="Horizontal" Margin="5,2,5,2">
+                                <ContentPresenter/>
+                                <TextBlock Text="{TemplateBinding Tag}" TextWrapping="Wrap" Margin="5,0,0,0"/>
+                            </StackPanel>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.Resources>
+            <res:OutlookBarStrings x:Key="OutlookBarStrings" />
+        </Grid.Resources>
+        <StackPanel>
+            <Button Style="{StaticResource ButtonStyle1}" Tag="{Binding Source={StaticResource OutlookBarStrings}, Path=XOB_SampleMail_InboxLabel}">
+                <Image Source="/IGRibbon;component/CustomControls/OutlookBar/OBarFolder.png"/>
+            </Button>
+            <Button Style="{StaticResource ButtonStyle1}" Tag="{Binding Source={StaticResource OutlookBarStrings}, Path=XOB_SampleMail_DraftsLabel}">
+                <Image Source="/IGRibbon;component/CustomControls/OutlookBar/imgDrafts.png"/>
+            </Button>
+            <Button Style="{StaticResource ButtonStyle1}" Tag="{Binding Source={StaticResource OutlookBarStrings}, Path=XOB_SampleMail_DeletedLabel}">
+                <Image Source="/IGRibbon;component/CustomControls/OutlookBar/imgTrash.png"/>
+            </Button>
+            <Button Style="{StaticResource ButtonStyle1}" Tag="{Binding Source={StaticResource OutlookBarStrings}, Path=XOB_SampleMail_ContactsLabel}">
+                <Image Source="/IGRibbon;component/CustomControls/OutlookBar/imgContacts.png"/>
+            </Button>
+            <Button Style="{StaticResource ButtonStyle1}" Tag="{Binding Source={StaticResource OutlookBarStrings}, Path=XOB_SampleMail_OutboxLabel}">
+                <Image Source="/IGRibbon;component/CustomControls/OutlookBar/OBarFolder.png"/>
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

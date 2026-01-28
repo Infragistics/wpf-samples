@@ -1,0 +1,324 @@
+﻿<framework:SampleContainer x:Class="IGRibbon.Samples.Navigation.DialogBoxLauncher"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="DialogBoxLauncherPage"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:igRibbon="http://infragistics.com/Ribbon"
+      xmlns:igWindows="http://infragistics.com/Windows"
+      xmlns:res="clr-namespace:IGRibbon.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGRibbon;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:RibbonStrings x:Key="RibbonStrings" />
+            <!-- Add a DataTemplate to be used inside the Footer of a ScreenTip -->
+            <DataTemplate x:Key="FooterTemplateWithHelpIcon">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0"/>
+                    <TextBlock
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Margin="9,0,0,0"
+                        FontWeight="Bold"
+                        Foreground="DimGray"
+                        Text="{Binding RelativeSource={RelativeSource FindAncestor,
+                        AncestorType={x:Type igWindows:XamScreenTip}}, Path=Footer}"/>
+                </Grid>
+            </DataTemplate>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid Margin="0,0,0,10">
+        <igRibbon:XamRibbon x:Name="xamRibbon" VerticalAlignment="Top" Theme="RoyalLight">
+            <igRibbon:XamRibbon.Tabs>
+                <igRibbon:RibbonTabItem Header="{Binding Shared_Tab_Format_Header, Source={StaticResource RibbonStrings}}">
+                    <!-- RibbonGroup-->
+                    <igRibbon:RibbonGroup Id="Clipboard" Caption="{Binding Shared_Tab_Format_Group_Clipboard_Caption, Source={StaticResource RibbonStrings}}">
+                        <igRibbon:RibbonGroup.ToolTip>
+                            <!-- Add a XamRibbonScreenTip to this RibbonGroup ToolTip. -->
+                            <igRibbon:XamRibbonScreenTip
+                                DataContext="{StaticResource RibbonStrings}"
+                                Header="{Binding Path=Shared_Tab_Format_Group_Clipboard_ScreenTip_Header}"
+                                FooterSeparatorVisibility="Hidden"
+                                Content="{Binding Path=Shared_Tab_Format_Group_Clipboard_ScreenTip_Content}"/>
+                        </igRibbon:RibbonGroup.ToolTip>
+                        <igRibbon:ToolHorizontalWrapPanel>
+                            <igRibbon:ButtonTool
+                                Caption="{Binding Shared_Tab_Format_Group_Clipboard_Button_Paste, Source={StaticResource RibbonStrings}}"
+                                igRibbon:RibbonGroup.MaximumSize="ImageAndTextLarge"
+                                SmallImage="/IGRibbon;component/Images/Paste_16x16.png"
+                                LargeImage="/IGRibbon;component/Images/Paste_32x32.png">
+                                <igRibbon:ButtonTool.ToolTip>
+                                    <igRibbon:XamRibbonScreenTip
+                                        DataContext="{StaticResource RibbonStrings}"
+                                        Header="{Binding Path=Shared_Tab_Format_Group_Clipboard_Button_Paste_ScreenTip_Header}"
+                                        FooterSeparatorVisibility="Collapsed">
+                                        <igRibbon:XamRibbonScreenTip.Content>
+                                            <TextBlock
+                                                Text="{Binding Path=Shared_Tab_Format_Group_Clipboard_Button_Paste_ScreenTip_Content}"
+                                                TextWrapping="Wrap"
+                                                VerticalAlignment="Center"/>
+                                        </igRibbon:XamRibbonScreenTip.Content>
+                                    </igRibbon:XamRibbonScreenTip>
+                                </igRibbon:ButtonTool.ToolTip>
+                            </igRibbon:ButtonTool>
+                            <igRibbon:ButtonGroup>
+                                <igRibbon:ButtonTool SmallImage="/IGRibbon;component/Images/EditCut.png">
+                                    <igRibbon:ButtonTool.ToolTip>
+                                        <igRibbon:XamRibbonScreenTip
+                                            DataContext="{StaticResource RibbonStrings}"
+                                            Header="{Binding Path=Shared_Tab_Format_Group_Clipboard_Button_Cut_ScreenTip_Header}"
+                                            FooterSeparatorVisibility="Collapsed">
+                                            <igRibbon:XamRibbonScreenTip.Content>
+                                                <TextBlock
+                                                    Text="{Binding Path=Shared_Tab_Format_Group_Clipboard_Button_Cut_ScreenTip_Content}"
+                                                    TextWrapping="Wrap"
+                                                    VerticalAlignment="Center"/>
+                                            </igRibbon:XamRibbonScreenTip.Content>
+                                        </igRibbon:XamRibbonScreenTip>
+                                    </igRibbon:ButtonTool.ToolTip>
+                                </igRibbon:ButtonTool>
+                                <igRibbon:ButtonTool SmallImage="/IGRibbon;component/Images/FormatPainter.png">
+                                    <igRibbon:ButtonTool.ToolTip>
+                                        <igRibbon:XamRibbonScreenTip
+                                            DataContext="{StaticResource RibbonStrings}"
+                                            Header="{Binding Path=Shared_Tab_Format_Group_Clipboard_Button_FormatPainter_ScreenTip_Header}"
+                                            Footer="{Binding Path=Shared_Tab_Format_Group_Clipboard_Button_FormatPainter_ScreenTip_Footer}"
+                                            FooterSeparatorVisibility="Visible"
+                                            FooterTemplate="{StaticResource FooterTemplateWithHelpIcon}">
+                                            <igRibbon:XamRibbonScreenTip.Content>
+                                                <TextBlock>
+                                                    <TextBlock
+                                                        Text="{Binding Path=Shared_Tab_Format_Group_Clipboard_Button_FormatPainter_ScreenTip_Content_Top}"
+                                                        TextWrapping="Wrap"
+                                                        VerticalAlignment="Center"/>
+                                                    <LineBreak />
+                                                    <LineBreak />
+                                                    <TextBlock
+                                                        Text="{Binding Path=Shared_Tab_Format_Group_Clipboard_Button_FormatPainter_ScreenTip_Content_Bottom}"
+                                                        TextWrapping="Wrap"
+                                                        VerticalAlignment="Center" />
+                                                </TextBlock>
+                                            </igRibbon:XamRibbonScreenTip.Content>
+                                        </igRibbon:XamRibbonScreenTip>
+                                    </igRibbon:ButtonTool.ToolTip>
+                                </igRibbon:ButtonTool>
+                                <igRibbon:ToggleButtonTool
+                                    Caption="{Binding Shared_Tab_Format_Group_Clipboard_Button_Watermark, Source={StaticResource RibbonStrings}}"
+                                    LargeImage="/IGRibbon;component/Images/WatermarkTool.png"
+                                    SmallImage="/IGRibbon;component/Images/WatermarkTool.png">
+                                    <igRibbon:ToggleButtonTool.ToolTip>
+                                        <igRibbon:XamRibbonScreenTip
+                                            ContentImage="/IGRibbon;component/Images/Watermark.png"
+                                            DataContext="{StaticResource RibbonStrings}"
+                                            FooterSeparatorVisibility="Collapsed"
+                                            Header="{Binding Path=Shared_Tab_Format_Group_Clipboard_Button_Watermark_ScreenTip_Header}" >
+                                            <igRibbon:XamRibbonScreenTip.Content>
+                                                <TextBlock>
+                                                    <TextBlock
+                                                        Text="{Binding Path=Shared_Tab_Format_Group_Clipboard_Button_Watermark_ScreenTip_Content_Top}"
+                                                        TextWrapping="Wrap"
+                                                        VerticalAlignment="Top"/>
+                                                    <LineBreak/>
+                                                    <LineBreak/>
+                                                    <TextBlock
+                                                        Text="{Binding Path=Shared_Tab_Format_Group_Clipboard_Button_Watermark_ScreenTip_Content_Bottom}"
+                                                        TextWrapping="Wrap"
+                                                        VerticalAlignment="Top"/>
+                                                </TextBlock>
+                                            </igRibbon:XamRibbonScreenTip.Content>
+                                        </igRibbon:XamRibbonScreenTip>
+                                    </igRibbon:ToggleButtonTool.ToolTip>
+                                </igRibbon:ToggleButtonTool>
+                            </igRibbon:ButtonGroup>
+                            <igRibbon:ButtonGroup>
+                                <!-- Un-Do ButtonTool -->
+                                <igRibbon:ButtonTool Id="undoTool" SmallImage="/IGRibbon;component/Images/EditUndo.png">
+                                    <igRibbon:ButtonTool.ToolTip>
+                                        <igRibbon:XamRibbonScreenTip
+                                            DataContext="{StaticResource RibbonStrings}"
+                                            FooterSeparatorVisibility="Collapsed"
+                                            Header="{Binding Path=Shared_Tab_Format_Group_Clipboard_Button_Undo_ScreenTip_Header}">
+                                            <igRibbon:XamRibbonScreenTip.Content>
+                                                <TextBlock
+                                                    Text="{Binding Path=Shared_Tab_Format_Group_Clipboard_Button_Undo_ScreenTip_Content}"
+                                                    TextWrapping="Wrap"
+                                                    VerticalAlignment="Center"/>
+                                            </igRibbon:XamRibbonScreenTip.Content>
+                                        </igRibbon:XamRibbonScreenTip>
+                                    </igRibbon:ButtonTool.ToolTip>
+                                </igRibbon:ButtonTool>
+                                <!-- Re-Do ButtonTool -->
+                                <igRibbon:ButtonTool Id="redoTool" SmallImage="/IGRibbon;component/Images/EditRedo.png">
+                                    <igRibbon:ButtonTool.ToolTip>
+                                        <igRibbon:XamRibbonScreenTip
+                                            DataContext="{StaticResource RibbonStrings}"
+                                            FooterSeparatorVisibility="Collapsed"
+                                            Header="{Binding Path=Shared_Tab_Format_Group_Clipboard_Button_Redo_ScreenTip_Header}">
+                                            <igRibbon:XamRibbonScreenTip.Content>
+                                                <TextBlock
+                                                    Text="{Binding Path=Shared_Tab_Format_Group_Clipboard_Button_Redo_ScreenTip_Content}"
+                                                    TextWrapping="Wrap"
+                                                    VerticalAlignment="Center"/>
+                                            </igRibbon:XamRibbonScreenTip.Content>
+                                        </igRibbon:XamRibbonScreenTip>
+                                    </igRibbon:ButtonTool.ToolTip>
+                                </igRibbon:ButtonTool>
+                            </igRibbon:ButtonGroup>
+                        </igRibbon:ToolHorizontalWrapPanel>
+                    </igRibbon:RibbonGroup>
+                    <!-- End RibbonGroup-->
+
+                    <!-- #BEGIN SNIPPET# -->
+                    <!-- RibbonGroup-->
+                    <!-- Look in the CodeView Sample file to see how to Assign Screentips
+                    and actions to this group through Code-Behind. You will see this in action in
+                    the CreateLauncherTool() Method. -->
+                    <igRibbon:RibbonGroup
+                        x:Name="grpTextStyle"
+                        Caption="{Binding Shared_Tab_Format_Group_TextStyle_Caption, Source={StaticResource RibbonStrings}}"
+                        Id="Text Style">
+                        <igRibbon:ToolHorizontalWrapPanel>
+                            <igRibbon:ButtonGroup>
+                                <!-- BOLD Tool -->
+                                <igRibbon:ToggleButtonTool x:Name="boldTool" SmallImage="/IGRibbon;component/Images/Bold.png">
+                                    <igRibbon:ToggleButtonTool.ToolTip>
+                                        <!-- Add a XamRibbonScreenTip to this ToggleButtonTool ToolTip. -->
+                                        <igRibbon:XamRibbonScreenTip
+                                            Content="{Binding Path=Shared_Tab_Format_Group_TextStyle_Button_Bold_ScreenTip_Content}"
+                                            DataContext="{StaticResource RibbonStrings}"
+                                            FooterSeparatorVisibility="Hidden"
+                                            Header="{Binding Path=Shared_Tab_Format_Group_TextStyle_Button_Bold_ScreenTip_Header}"/>
+                                    </igRibbon:ToggleButtonTool.ToolTip>
+                                </igRibbon:ToggleButtonTool>
+                                <!-- ITALIC Tool -->
+                                <igRibbon:ToggleButtonTool x:Name="italicTool" SmallImage="/IGRibbon;component/Images/Italic.png">
+                                    <igRibbon:ToggleButtonTool.ToolTip>
+                                        <!-- Add a XamRibbonScreenTip to this ToggleButtonTool ToolTip. -->
+                                        <igRibbon:XamRibbonScreenTip
+                                            Content="{Binding Path=Shared_Tab_Format_Group_TextStyle_Button_Italic_ScreenTip_Content}"
+                                            DataContext="{StaticResource RibbonStrings}"
+                                            FooterSeparatorVisibility="Hidden"
+                                            Header="{Binding Path=Shared_Tab_Format_Group_TextStyle_Button_Italic_ScreenTip_Header}"/>
+                                    </igRibbon:ToggleButtonTool.ToolTip>
+                                </igRibbon:ToggleButtonTool>
+                                <!-- UNDERLINE Tool -->
+                                <igRibbon:ToggleButtonTool x:Name="underlineTool" SmallImage="/IGRibbon;component/Images/Underline.png">
+                                    <igRibbon:ToggleButtonTool.ToolTip>
+                                        <!-- Add a XamRibbonScreenTip to this ToggleButtonTool ToolTip. -->
+                                        <igRibbon:XamRibbonScreenTip
+                                            Content="{Binding Path=Shared_Tab_Format_Group_TextStyle_Button_Underline_ScreenTip_Content}"
+                                            DataContext="{StaticResource RibbonStrings}"
+                                            FooterSeparatorVisibility="Hidden"
+                                            Header="{Binding Path=Shared_Tab_Format_Group_TextStyle_Button_Underline_ScreenTip_Header}"/>
+                                    </igRibbon:ToggleButtonTool.ToolTip>
+                                </igRibbon:ToggleButtonTool>
+                            </igRibbon:ButtonGroup>
+                            <igRibbon:ButtonGroup>
+                                <igRibbon:RadioButtonTool IsChecked="True" SmallImage="/IGRibbon;component/Images/LeftAlign.png">
+                                    <igRibbon:RadioButtonTool.ToolTip>
+                                        <!-- Add a XamRibbonScreenTip to this RadioButtonTool ToolTip. -->
+                                        <igRibbon:XamRibbonScreenTip
+                                            Content="{Binding Path=Shared_Tab_Format_Group_TextStyle_Button_LeftAlign_ScreenTip_Content}"
+                                            DataContext="{StaticResource RibbonStrings}"
+                                            FooterSeparatorVisibility="Hidden"
+                                            Header="{Binding Path=Shared_Tab_Format_Group_TextStyle_Button_LeftAlign_ScreenTip_Header}"/>
+                                    </igRibbon:RadioButtonTool.ToolTip>
+                                </igRibbon:RadioButtonTool>
+                                <igRibbon:RadioButtonTool SmallImage="/IGRibbon;component/Images/CenterAlign.png">
+                                    <igRibbon:RadioButtonTool.ToolTip>
+                                        <!-- Add a XamRibbonScreenTip to this RadioButtonTool ToolTip. -->
+                                        <igRibbon:XamRibbonScreenTip
+                                            Content="{Binding Path=Shared_Tab_Format_Group_TextStyle_Button_CenterAlign_ScreenTip_Content}"
+                                            DataContext="{StaticResource RibbonStrings}"
+                                            FooterSeparatorVisibility="Hidden"
+                                            Header="{Binding Path=Shared_Tab_Format_Group_TextStyle_Button_CenterAlign_ScreenTip_Header}"/>
+                                    </igRibbon:RadioButtonTool.ToolTip>
+                                </igRibbon:RadioButtonTool>
+                                <igRibbon:RadioButtonTool SmallImage="/IGRibbon;component/Images/RightAlign.png">
+                                    <igRibbon:RadioButtonTool.ToolTip>
+                                        <!-- Add a XamRibbonScreenTip to this RadioButtonTool ToolTip. -->
+                                        <igRibbon:XamRibbonScreenTip
+                                            Content="{Binding Path=Shared_Tab_Format_Group_TextStyle_Button_RightAlign_ScreenTip_Content}"
+                                            DataContext="{StaticResource RibbonStrings}"
+                                            FooterSeparatorVisibility="Hidden"
+                                            Header="{Binding Path=Shared_Tab_Format_Group_TextStyle_Button_RightAlign_ScreenTip_Header}"/>
+                                    </igRibbon:RadioButtonTool.ToolTip>
+                                </igRibbon:RadioButtonTool>
+                                <igRibbon:RadioButtonTool SmallImage="/IGRibbon;component/Images/JustifyAlign.png">
+                                    <igRibbon:RadioButtonTool.ToolTip>
+                                        <!-- Add a XamRibbonScreenTip to this RadioButtonTool ToolTip. -->
+                                        <igRibbon:XamRibbonScreenTip
+                                            Content="{Binding Path=Shared_Tab_Format_Group_TextStyle_Button_JustifyAlign_ScreenTip_Content}"
+                                            DataContext="{StaticResource RibbonStrings}"
+                                            FooterSeparatorVisibility="Hidden"
+                                            Header="{Binding Path=Shared_Tab_Format_Group_TextStyle_Button_JustifyAlign_ScreenTip_Header}"/>
+                                    </igRibbon:RadioButtonTool.ToolTip>
+                                </igRibbon:RadioButtonTool>
+                            </igRibbon:ButtonGroup>
+                        </igRibbon:ToolHorizontalWrapPanel>
+                    </igRibbon:RibbonGroup>
+                    <!-- End RibbonGroup-->
+                    <!-- RibbonGroup-->
+                    <igRibbon:RibbonGroup Id="FontGlobal" Caption="{Binding Shared_Tab_Format_Group_GlobalFont_Caption, Source={StaticResource RibbonStrings}}">
+                        <igRibbon:RibbonGroup.DialogBoxLauncherTool>
+                            <igRibbon:ButtonTool Click="LauncherShow_Click">
+                                <igRibbon:ButtonTool.ToolTip>
+                                    <!-- Add a XamRibbonScreenTip to this ToolTip and also give it a ContentImage and Content. -->
+                                    <igRibbon:XamRibbonScreenTip
+                                        Content="{Binding Path=Shared_Tab_Format_Group_GlobalFont_ScreenTip_Content}"
+                                        ContentImage="/IGRibbon;component/Images/FontDlgs.png"
+                                        DataContext="{StaticResource RibbonStrings}"
+                                        Footer="{Binding Path=Shared_Tab_Format_Group_GlobalFont_ScreenTip_Footer}"
+                                        FooterSeparatorVisibility="Visible"
+                                        FooterTemplate="{StaticResource FooterTemplateWithHelpIcon}"
+                                        Header="{Binding Path=Shared_Tab_Format_Group_GlobalFont_ScreenTip_Header}"/>
+                                </igRibbon:ButtonTool.ToolTip>
+                            </igRibbon:ButtonTool>
+                        </igRibbon:RibbonGroup.DialogBoxLauncherTool>
+                        <igRibbon:ToolHorizontalWrapPanel>
+                            <igRibbon:ComboEditorTool
+                                x:Name="fontFamilyCombo"
+                                DropDownResizeMode="VerticalOnly"
+                                IsEditable="False"
+                                EditAreaWidth="148.0"/>
+                            <igRibbon:ComboEditorTool
+                                x:Name="fontSizeCombo"
+                                IsEditable="False"
+                                DropDownResizeMode="VerticalOnly"
+                                EditAreaWidth="118.0"/>
+                            <igRibbon:MenuTool
+                                igRibbon:RibbonGroup.MaximumSize="ImageOnly"
+                                SmallImage="/IGRibbon;component/Images/FontColor.png">
+                                <igRibbon:MenuTool.ToolTip>
+                                    <!-- Add a XamRibbonScreenTip to this MenuTool ToolTip. -->
+                                    <igRibbon:XamRibbonScreenTip
+                                        Content="{Binding Path=Shared_Tab_Format_Group_GlobalFont_ColorMenu_ScreenTip_Content}"
+                                        DataContext="{StaticResource RibbonStrings}"
+                                        FooterSeparatorVisibility="Hidden"
+                                        Header="{Binding Path=Shared_Tab_Format_Group_GlobalFont_ColorMenu_ScreenTip_Header}"/>
+                                </igRibbon:MenuTool.ToolTip>
+                                <TextBlock Text="{Binding Shared_Tab_Format_Group_GlobalFont_ColorMenu_Color, Source={StaticResource RibbonStrings}}" />
+                            </igRibbon:MenuTool>
+                        </igRibbon:ToolHorizontalWrapPanel>
+                    </igRibbon:RibbonGroup>
+                    <!-- #END SNIPPET# -->
+                    <!-- End RibbonGroup-->
+                </igRibbon:RibbonTabItem>
+                <igRibbon:RibbonTabItem Header="{Binding Shared_Tab_Insert_Header, Source={StaticResource RibbonStrings}}">
+                    <igRibbon:RibbonGroup Id="ClipArt" Caption="{Binding Shared_Tab_Insert_Group_ClipArt_Caption, Source={StaticResource RibbonStrings}}" />
+                </igRibbon:RibbonTabItem>
+            </igRibbon:XamRibbon.Tabs>
+        </igRibbon:XamRibbon>
+    </Grid>
+</framework:SampleContainer>

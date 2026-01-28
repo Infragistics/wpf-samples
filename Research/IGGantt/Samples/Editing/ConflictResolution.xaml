@@ -1,0 +1,69 @@
+﻿<framework:SampleContainer x:Class="IGGantt.Samples.Editing.ConflictResolution"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:viewModel="clr-namespace:IGGantt.Samples.ViewModel"
+    xmlns:res="clr-namespace:IGGantt.Resources"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="Conflict Resolution">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                
+                <ResourceDictionary Source="/IGGantt;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <res:GanttStrings x:Key="Strings" />
+            
+            <viewModel:ConflictResolutionViewModel x:Key="dc" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+    <framework:SampleContainer.DataContext>
+        <Binding Source="{StaticResource dc}" />
+    </framework:SampleContainer.DataContext>
+    <Grid x:Name="LayoutRoot" Background="White">
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamGantt x:Name="xamGantt">
+            <ig:XamGantt.Project>
+                <ig:ListBackedProject TaskItemsSource="{Binding Tasks}" 
+                                      TaskConstraintWarning="OnTaskConstraintWarning" DependencyCircularityDetected="OnDependencyCircularityDetected" 
+                                      TaskInNonWorkingDayWarning="OnTaskInNonWorkingDayWarning">
+                    <ig:ListBackedProject.TaskPropertyMappings>
+                        <ig:ProjectTaskPropertyMapping TaskProperty="DataItemId" DataObjectProperty="DataItemId" />
+                        <ig:ProjectTaskPropertyMapping TaskProperty="TaskName" DataObjectProperty="TaskName" />
+                        <ig:ProjectTaskPropertyMapping TaskProperty="Start" DataObjectProperty="Start" />
+                        <ig:ProjectTaskPropertyMapping TaskProperty="Duration" DataObjectProperty="Duration" />
+                        <ig:ProjectTaskPropertyMapping TaskProperty="Tasks" DataObjectProperty="Tasks" />
+                        <ig:ProjectTaskPropertyMapping TaskProperty="Predecessors" DataObjectProperty="Predecessors" />
+                        <ig:ProjectTaskPropertyMapping TaskProperty="ConstraintDate" DataObjectProperty="ConstraintDate" />
+                        <ig:ProjectTaskPropertyMapping TaskProperty="ConstraintType" DataObjectProperty="ConstraintType" />
+                        <ig:ProjectTaskPropertyMapping TaskProperty="DurationFormat" DataObjectProperty="DurationFormat" />
+                    </ig:ListBackedProject.TaskPropertyMappings>
+                </ig:ListBackedProject>
+            </ig:XamGantt.Project>
+            <!-- #END SNIPPET# -->
+        </ig:XamGantt>
+        <!-- if you copy/paste the code, you can replace OptionsPanel with a standard container of your choice - StackPanel, Grid, WrapPanel, DockPanel for example. -->
+        <!-- A minor adjustment in sample layout can be needed after this operation. -->
+        <controls:OptionsPanel Canvas.ZIndex="100" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10"
+                               HeaderText="{Binding Source={StaticResource Strings}, Path=ConflictResolution}" >
+            <Border  Grid.Row="0" BorderThickness="1" Margin="3,0,3,5">
+                <Grid Width="600" Height="200">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height=".85*" />
+                        <RowDefinition Height=".15*" />
+                    </Grid.RowDefinitions>
+                    <ListBox x:Name="lbWarnings" Grid.Row="0" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
+                    <Button x:Name="btnClear" Width="120" HorizontalAlignment="Right" Content="{Binding Source={StaticResource Strings}, Path=ClearList}" 
+                            Grid.Row="1" Click="OnClear" />
+                </Grid>
+            </Border>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

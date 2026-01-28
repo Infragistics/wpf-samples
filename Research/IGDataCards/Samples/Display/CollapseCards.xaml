@@ -1,0 +1,61 @@
+﻿<igFramework:SampleContainer x:Class="IGDataCards.Samples.Display.CollapseCards"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="CollapseCards"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:converters="clr-namespace:IGDataCards.Converters"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGDataCards.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataCards;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DataCardsStrings x:Key="DataCardsStrings" />
+            <converters:VisibilityToBooleanConverter x:Key="visToBoolConverter" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid>
+        <!-- #BEGIN SNIPPET# -->
+        <igDP:XamDataCards Name="xamDataCards1"
+                           BindToSampleData="True"
+                           Theme="RoyalLight">
+            <igDP:XamDataCards.ViewSettings>
+                <igDP:CardViewSettings CollapseCardButtonVisibility="Visible"
+                                       ShouldCollapseCards="False" />
+            </igDP:XamDataCards.ViewSettings>
+        </igDP:XamDataCards>
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource DataCardsStrings},
+            Path=LayoutAndBehavior_CollapseCards_ConfigArea_Header}"
+                               HorizontalAlignment="Right">
+            <StackPanel>
+                <TextBlock Text="{Binding Source={StaticResource DataCardsStrings}, Path=LayoutAndBehavior_CollapseCards_ConfigArea_Orientation}"
+                           Margin="{StaticResource OptionsElementsMargin}" />
+                <controls:EnumValuesProvider x:Name="cboOrientation"
+                                             Margin="{StaticResource OptionsElementsMargin}"
+                                             EnumType="Orientation"
+                                             DisplayTemplate="ComboBox"
+                                             SelectedEnumIndex="0"
+                                             Value="{Binding ElementName=xamDataCards1, Path=ViewSettings.Orientation}" />
+                <CheckBox Content="{Binding Source={StaticResource DataCardsStrings}, Path=LayoutAndBehavior_CollapseCards_ConfigArea_Setting_CollapseCardButton}"
+                          IsChecked="{Binding ElementName=xamDataCards1, Path=ViewSettings.CollapseCardButtonVisibility, Converter={StaticResource visToBoolConverter}}" 
+                          Margin="{StaticResource OptionsElementsMargin}"/>
+                <CheckBox Content="{Binding Source={StaticResource DataCardsStrings}, Path=LayoutAndBehavior_CollapseCards_ConfigArea_Setting_CollapseAll}"
+                          IsChecked="{Binding ElementName=xamDataCards1, Path=ViewSettings.ShouldCollapseCards}" 
+                          Margin="{StaticResource OptionsElementsMargin}"/>
+                <Button Content="{Binding Source={StaticResource DataCardsStrings}, Path=LayoutAndBehavior_CollapseCards_ConfigArea_Setting_CollapseSingleCard}"
+                        Command="{x:Static igDP:DataPresenterCommands.ToggleCardCollapsedState}"
+                        CommandTarget="{Binding ElementName=xamDataCards1}"
+                        CommandParameter="{Binding ElementName=xamDataCards1, Path=ActiveRecord}" />
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

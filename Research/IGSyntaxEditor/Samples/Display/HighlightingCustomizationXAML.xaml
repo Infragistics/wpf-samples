@@ -1,0 +1,60 @@
+﻿<framework:SampleContainer x:Class="IGSyntaxEditor.Samples.Display.HighlightingCustomizationXAML"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+    xmlns:res="clr-namespace:IGSyntaxEditor.Resources"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="HighlightingCustomizationXAML Page">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                
+                <ResourceDictionary Source="/IGSyntaxEditor;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- #BEGIN SNIPPET# -->
+            <ig:ClassificationAppearanceMap x:Key="CustomClassificationMap">
+                <ig:ClassificationAppearanceMapInitializationEntry Classification="Keyword">
+                    <ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+                        <ig:TextDocumentAppearance FontBold="True">
+                            <ig:TextDocumentAppearance.Foreground>
+                                <SolidColorBrush Color="#FFC62828" />
+                            </ig:TextDocumentAppearance.Foreground>
+                        </ig:TextDocumentAppearance>
+                    </ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+                </ig:ClassificationAppearanceMapInitializationEntry>
+                <ig:ClassificationAppearanceMapInitializationEntry Classification="StringLiteral">
+                    <ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+                        <ig:TextDocumentAppearance FontItalic="True">
+                            <ig:TextDocumentAppearance.Foreground>
+                                <SolidColorBrush Color="#FFDC3F76" />
+                            </ig:TextDocumentAppearance.Foreground>
+                        </ig:TextDocumentAppearance>
+                    </ig:ClassificationAppearanceMapInitializationEntry.Appearance>
+                </ig:ClassificationAppearanceMapInitializationEntry>
+            </ig:ClassificationAppearanceMap>
+            <!-- #END SNIPPET# -->
+
+            <res:SyntaxEditorStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+
+        <ig:XamSyntaxEditor
+            x:Name="xamSyntaxEditor1"
+            BorderThickness="1"
+            SplitOptions="SplittingNotAllowed"
+            ErrorDisplayMode="Never"
+            ClassificationAppearanceMap="{StaticResource CustomClassificationMap}"
+        />
+        
+    </Grid>
+</framework:SampleContainer>

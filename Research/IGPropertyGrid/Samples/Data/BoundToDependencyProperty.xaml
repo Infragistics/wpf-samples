@@ -1,0 +1,61 @@
+﻿<framework:SampleContainer x:Class="IGPropertyGrid.Samples.Data.BoundToDependencyProperty"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:data="clr-namespace:IGPropertyGrid.Samples.DataModel"
+    xmlns:res="clr-namespace:IGPropertyGrid.Resources"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="BoundToDependencyProperty Page">
+    
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGPropertyGrid;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/IGPropertyGrid;component/Assets/Themes.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:PropertyGridStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <framework:SampleContainer.DataContext>
+        <data:MyDependencyObject />
+    </framework:SampleContainer.DataContext>
+   
+    <Grid x:Name="LayoutRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <controls:OptionsPanel HeaderText="{Binding ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}">
+            <StackPanel Margin="3">
+                <TextBlock Text="{Binding Source={StaticResource Strings}, Path=lblBindingValue}" Margin="0,0,0,3" />
+                <TextBox Text="{Binding Source={StaticResource Strings}, Path=txtDependencyPropertyTestValue, Mode=OneWay}"
+                         x:Name="myTextBox" Margin="0,0,0,10" />
+                <CheckBox IsThreeState="False" x:Name="cbPreventEditOfBoundProps" Margin="0,0,0,10"
+                          IsChecked="{Binding ElementName=xamPropertyGrid1, Path=PreventEditingOfBoundProperties}"
+                          Content="{Binding Source={StaticResource Strings}, Path=lblPreventEditingOfBoundProperties}" />
+                <Button Content="{Binding Source={StaticResource Strings}, Path=btnAddBindingToDP}"
+                        Click="AddBinding_Click" Margin="0,0,0,5" x:Name="ButtonAdd" />
+                <Button Content="{Binding Source={StaticResource Strings}, Path=btnRemoveBindingFromDP}"
+                        IsEnabled="False"
+                        Click="RemoveBinding_Click" Margin="0,0,0,5" x:Name="ButtonRemove" />
+            </StackPanel>
+        </controls:OptionsPanel>
+        
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamPropertyGrid Grid.Column="1" x:Name="xamPropertyGrid1" Width="400" PreventEditingOfBoundProperties="False"
+                            SelectedObject="{Binding}" PropertyItemValueChanged="XamPropertyGrid1_PropertyItemValueChanged">
+            <ig:XamPropertyGrid.ItemFilters>
+                <ig:PropertyGridComparisonCondition Operator="StartsWith" Value="My" />
+            </ig:XamPropertyGrid.ItemFilters>
+        </ig:XamPropertyGrid>
+        <!-- #END SNIPPET# -->
+
+    </Grid>
+</framework:SampleContainer>

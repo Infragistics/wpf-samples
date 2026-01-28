@@ -1,0 +1,264 @@
+﻿<framework:SampleContainer x:Class="IGDragDropFramework.Samples.Editing.DropChannels"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="DropChannels"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGDragDropFramework.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <res:DragAndDropStrings x:Key="DragDropStrings" />
+
+            <LinearGradientBrush x:Key="mainBgBrush" StartPoint="0.50,0.98" EndPoint="0.50,-0.01">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Offset="0" Color="#FF1e2324"/>
+                        <GradientStop Offset="0.97" Color="#FF79848a"/>
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <DataTemplate x:Key="DraggedElementOverTarget" >
+                <Image Source="{Binding Data}" Opacity="0.3" >
+                    <Image.RenderTransform>
+                        <ScaleTransform ScaleX="0.5" ScaleY="0.5" />
+                    </Image.RenderTransform>
+                </Image>
+            </DataTemplate>
+
+            <DataTemplate x:Key="DraggedElementOutOfTarget">
+                <Image Source="{Binding Data}" >
+                    <Image.RenderTransform>
+                        <ScaleTransform ScaleX="0.5" ScaleY="0.5" />
+                    </Image.RenderTransform>
+                </Image>
+            </DataTemplate>
+
+            <Style x:Key="imageContainerStyle" TargetType="ContentControl">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ContentControl">
+                            <Border BorderBrush="#FF555555" Margin="15" BorderThickness="1">
+                                <Border Background="#FF4B4B4B" Margin="2" Height="83" Width="83">
+                                    <ContentPresenter />
+                                </Border>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDragDropFramework;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="{StaticResource mainBgBrush}" >
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="/IGDragDropFramework;component/Assets/SamplesStyles.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="55"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="90"/>
+        </Grid.RowDefinitions>
+        <Grid Background="White">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10">
+                <Grid x:Name="searchIcon" Width="29" Height="33">
+                    <Path
+                        Width="20"
+                        Height="24"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Data="M 1.5,0.5 C1.5,0.5 1.5,0.5 1.5,0.5 3.5,-0.5 6.67,-0.19 8.18,1.84 8.18,1.84 19.09,16.61 19.09,16.61 20.59,18.65 20.5,21.5 18.5,23.5 18.5,23.5 18.5,23.5 18.5,23.5 16.5,24.5 13.32,24.19 11.81,22.15 11.81,22.15 0.90,7.38 0.90,7.38 -0.59,5.34 -0.5,2.5 1.5,0.5 z"
+                        Fill="#676767"
+                        Opacity="1"
+                        Stretch="Fill"/>
+                    <Ellipse
+                        Width="26"
+                        Height="26"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Fill="#FFFFFFFF"
+                        Stroke="#FF666666"
+                        StrokeThickness="7"/>
+                </Grid>
+                <TextBlock Text="{Binding DD_SearchLabel, Source={StaticResource DragDropStrings}}"
+                           Foreground="#FF333333" VerticalAlignment="Center" FontSize="14"
+                           FontFamily="/Infragistics.Web.SampleBrowser.SilverlightLOB;component/Fonts/Gotham-Book.ttf#Gotham Book"
+                           Margin="10,0,0,0"/>
+                <TextBlock Text="{Binding DD_TextureLabel, Source={StaticResource DragDropStrings}}" Foreground="#FFFF6600"
+                           VerticalAlignment="Center" FontSize="14"
+                           FontFamily="/Infragistics.Web.SampleBrowser.SilverlightLOB;component/Fonts/Gotham-Book.ttf#Gotham Book"
+                           Margin="5,0,0,0"/>
+            </StackPanel>
+
+            <TextBlock Text="{Binding DD_ItemsLabel, Source={StaticResource DragDropStrings}}" Foreground="#FF333333"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Right" Margin="10" FontSize="14"/>
+        </Grid>
+
+        <!--#BEGIN SNIPPET#-->
+        <StackPanel x:Name="searchResults" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1">
+
+            <ig:DragDropManager.DragSource>
+                <ig:DragSource IsDraggable="True"
+                               Drop="SearchResults_Drop"
+                               DragStart="OnDragStart" />
+            </ig:DragDropManager.DragSource>
+
+            <StackPanel Orientation="Horizontal">
+                <ContentControl Style="{StaticResource imageContainerStyle}">
+                    <Image Height="83" Width="83" Source="/IGDragDropFramework;component/Images/Texture01.jpg" />
+                </ContentControl>
+                <ContentControl Style="{StaticResource imageContainerStyle}">
+                    <Image Height="83" Width="83" Source="/IGDragDropFramework;component/Images/Texture02.jpg"/>
+                </ContentControl>
+                <ContentControl Style="{StaticResource imageContainerStyle}">
+                    <Image Height="83" Width="83" Source="/IGDragDropFramework;component/Images/Texture03.jpg"/>
+                </ContentControl>
+                <ContentControl Style="{StaticResource imageContainerStyle}">
+                    <Image Height="83" Width="83" Source="/IGDragDropFramework;component/Images/Texture04.jpg"/>
+                </ContentControl>
+                <ContentControl Style="{StaticResource imageContainerStyle}">
+                    <Image Height="83" Width="83" Source="/IGDragDropFramework;component/Images/Texture05.jpg"/>
+                </ContentControl>
+                <ContentControl Style="{StaticResource imageContainerStyle}">
+                    <Image Height="83" Width="83" Source="/IGDragDropFramework;component/Images/Texture06.jpg"/>
+                </ContentControl>
+                <ContentControl Style="{StaticResource imageContainerStyle}">
+                    <Image Height="83" Width="83" Source="/IGDragDropFramework;component/Images/Texture07.jpg"/>
+                </ContentControl>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <ContentControl Style="{StaticResource imageContainerStyle}">
+                    <Image Height="83" Width="83" Source="/IGDragDropFramework;component/Images/Texture08.jpg"/>
+                </ContentControl>
+                <ContentControl Style="{StaticResource imageContainerStyle}">
+                    <Image Height="83" Width="83" Source="/IGDragDropFramework;component/Images/Texture09.jpg"/>
+                </ContentControl>
+                <ContentControl Style="{StaticResource imageContainerStyle}">
+                    <Image Height="83" Width="83" Source="/IGDragDropFramework;component/Images/Texture010.jpg"/>
+                </ContentControl>
+                <ContentControl Style="{StaticResource imageContainerStyle}">
+                    <Image Height="83" Width="83" Source="/IGDragDropFramework;component/Images/Texture011.jpg"/>
+                </ContentControl>
+                <ContentControl Style="{StaticResource imageContainerStyle}">
+                    <Image Height="83" Width="83" Source="/IGDragDropFramework;component/Images/Texture012.jpg"/>
+                </ContentControl>
+                <ContentControl Style="{StaticResource imageContainerStyle}">
+                    <Image Height="83" Width="83" Source="/IGDragDropFramework;component/Images/Texture013.jpg"/>
+                </ContentControl>
+                <ContentControl Style="{StaticResource imageContainerStyle}">
+                    <Image Height="83" Width="83" Source="/IGDragDropFramework;component/Images/Texture014.jpg" />
+                </ContentControl>
+            </StackPanel>
+        </StackPanel>
+
+        <Rectangle Grid.Row="1"  Height="1" VerticalAlignment="Top" Fill="#FFFFFFFF" Opacity="0.4" Margin="0,1"/>
+
+        <Grid  Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="100" />
+            </Grid.ColumnDefinitions>
+            <Grid.Effect>
+                <DropShadowEffect BlurRadius="4" Opacity="0.10" Direction="55" ShadowDepth="7"/>
+            </Grid.Effect>
+            <!-- Flag as both a DropTarget and DragSource.
+            DragChannels set to '1' so that items can only be Dragged
+            from here to the trash icon. -->
+
+            <ScrollViewer BorderBrush="{x:Null}" BorderThickness="0"
+                          Style="{StaticResource CodeViewerScrollViewer}"
+                          Background="Transparent"
+                          HorizontalScrollBarVisibility="Auto"
+                          VerticalScrollBarVisibility="Hidden">
+                <StackPanel Background="{StaticResource UniformStackPanelBgBrush}"
+                            x:Name="lightbox"
+                            Orientation="Horizontal" Grid.Row="2" Margin="0" >
+                    <ig:DragDropManager.DropTarget>
+                        <ig:DropTarget IsDropTarget="True" />
+                    </ig:DragDropManager.DropTarget>
+                    <ig:DragDropManager.DragSource>
+                        <ig:DragSource
+                            IsDraggable="True"
+                            DragChannels="1"
+                            Drop="Lightbox_Drop"
+                            DragEnter="Trash_DragEnter"
+                            DragLeave="Trash_DragLeave"
+                            DragStart="OnDragStart"/>
+                    </ig:DragDropManager.DragSource>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- TrashCan Icon -->
+            <Grid Grid.Column="1" Background="{StaticResource UniformStackPanelBgBrush}" >
+
+                <!-- Flag as DropTarget and Set DropChannels -->
+                <ig:DragDropManager.DropTarget>
+                    <ig:DropTarget IsDropTarget="True" DropChannels="1" />
+                </ig:DragDropManager.DropTarget>
+                <Path  x:Name="trash"
+                       Margin="0,0,0,0"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Height="38"
+                       Width="28"
+                       Stretch="Fill"
+                       Opacity="1"
+                       Data="M 9.1265869140625,1.7674560546875 C9.1265869140625,1.7674560546875 9.1265869140625,2.47442626953125 9.1265869140625,2.47442626953125 9.1265869140625,2.47442626953125 18.8734130859375,2.47442626953125 18.8734130859375,2.47442626953125 18.8734130859375,2.47442626953125 18.8734130859375,1.7674560546875 18.8734130859375,1.7674560546875 18.8734130859375,0.88372802734375 17.9873046875,0 17.101318359375,0 17.101318359375,0 10.898681640625,0 10.898681640625,0 10.0126953125,0 9.1265869140625,0.88372802734375 9.1265869140625,1.7674560546875 zM 18.8734130859375,14.3162841796875 C18.8734130859375,13.6092529296875 19.582275390625,12.90228271484375 20.2911376953125,12.90228271484375 21,12.90228271484375 21.7088623046875,13.6092529296875 21.7088623046875,14.3162841796875 21.7088623046875,14.3162841796875 21.7088623046875,32.34417724609375 21.7088623046875,32.34417724609375 21.7088623046875,33.0511474609375 21,33.75811767578125 20.2911376953125,33.75811767578125 19.582275390625,33.75811767578125 18.8734130859375,33.0511474609375 18.8734130859375,32.34417724609375 18.8734130859375,32.34417724609375 18.8734130859375,14.3162841796875 18.8734130859375,14.3162841796875 zM 12.49365234375,14.3162841796875 C12.49365234375,13.6092529296875 13.2025146484375,12.90228271484375 13.911376953125,12.90228271484375 14.6202392578125,12.90228271484375 15.3291015625,13.6092529296875 15.3291015625,14.3162841796875 15.3291015625,14.3162841796875 15.3291015625,32.34417724609375 15.3291015625,32.34417724609375 15.3291015625,33.0511474609375 14.6202392578125,33.75811767578125 13.911376953125,33.75811767578125 13.2025146484375,33.75811767578125 12.49365234375,33.0511474609375 12.49365234375,32.34417724609375 12.49365234375,32.34417724609375 12.49365234375,14.3162841796875 12.49365234375,14.3162841796875 zM 6.2911376953125,14.3162841796875 C6.2911376953125,13.6092529296875 7,12.90228271484375 7.7088623046875,12.90228271484375 8.417724609375,12.90228271484375 9.1265869140625,13.6092529296875 9.1265869140625,14.3162841796875 9.1265869140625,14.3162841796875 9.1265869140625,32.34417724609375 9.1265869140625,32.34417724609375 9.1265869140625,33.0511474609375 8.417724609375,33.75811767578125 7.7088623046875,33.75811767578125 7,33.75811767578125 6.2911376953125,33.0511474609375 6.2911376953125,32.34417724609375 6.2911376953125,32.34417724609375 6.2911376953125,14.3162841796875 6.2911376953125,14.3162841796875 zM 2.0379638671875,10.7813720703125 C2.0379638671875,10.7813720703125 2.0379638671875,33.75811767578125 2.0379638671875,33.75811767578125 2.0379638671875,35.87908935546875 4.16455078125,38 6.2911376953125,38 6.2911376953125,38 21.7088623046875,38 21.7088623046875,38 23.83544921875,38 25.9620361328125,35.87908935546875 25.9620361328125,33.75811767578125 25.9620361328125,33.75811767578125 25.9620361328125,10.7813720703125 25.9620361328125,10.7813720703125 25.9620361328125,10.7813720703125 2.0379638671875,10.7813720703125 2.0379638671875,10.7813720703125 zM 0,7.9534912109375 C0,7.9534912109375 0,9.013916015625 0,9.013916015625 0,9.013916015625 28,9.013916015625 28,9.013916015625 28,9.013916015625 28,7.9534912109375 28,7.9534912109375 28,5.83251953125 25.8734130859375,3.71160888671875 23.746826171875,3.71160888671875 23.746826171875,3.71160888671875 4.253173828125,3.71160888671875 4.253173828125,3.71160888671875 2.1265869140625,3.71160888671875 0,5.83251953125 0,7.9534912109375 z" UseLayoutRounding="False">
+                    <Path.Fill>
+                        <LinearGradientBrush
+                            StartPoint="0.5,0"
+                            EndPoint="0.5,1">
+                            <LinearGradientBrush.GradientStops>
+                                <GradientStopCollection>
+                                    <GradientStop
+                                        Color="#6dffffff"
+                                        Offset="0" />
+                                    <GradientStop
+                                        Color="#FFffffff"
+                                        Offset="0.9888889789581299" />
+                                </GradientStopCollection>
+                            </LinearGradientBrush.GradientStops>
+                        </LinearGradientBrush>
+                    </Path.Fill>
+
+                </Path>
+
+            </Grid>
+        </Grid>
+        <!--#END SNIPPET#-->
+
+        <Rectangle Stroke="#FFFFFFFF" Opacity="0.23" Grid.Row="2" StrokeThickness="1" Margin="1"/>
+        <Border Grid.Row="2"
+                Margin="28,-23,0,0"
+                Height="24"
+                Background="{StaticResource TabVisualBgBrush}"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                CornerRadius="4,4,0,0">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="4" Opacity="0.10" Direction="55" ShadowDepth="7"/>
+            </Border.Effect>
+            <Grid>
+                <Rectangle Height="1" VerticalAlignment="Bottom" Fill="#FF292929" Margin="2,0,2,-1"/>
+                <Border BorderBrush="#FFFFFFFF" Opacity="0.23" BorderThickness="1,1,1,0"
+                        CornerRadius="3,3,0,0" Margin="1,1,1,0"/>
+                <TextBlock Text="{Binding DD_LightboxLabel, Source={StaticResource DragDropStrings}}"
+                           Foreground="LightGray" HorizontalAlignment="Center"
+                           VerticalAlignment="Center" Padding="8,0"  />
+            </Grid>
+        </Border>
+    </Grid>
+</framework:SampleContainer>

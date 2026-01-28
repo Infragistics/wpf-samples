@@ -1,0 +1,161 @@
+﻿<framework:SampleContainer x:Class="IGGantt.Samples.Display.ControllingUInteractions"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" 
+    xmlns:res="clr-namespace:IGGantt.Resources"
+    xmlns:viewModel="clr-namespace:IGGantt.Samples.ViewModel"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700"
+    Title="ControllingUInteractions Page">  
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                
+                <ResourceDictionary Source="/IGGantt;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:GanttStrings x:Key="Strings" />
+            <viewModel:DataBindingUsingListBackedProjectViewModel x:Key="dc" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources> 
+    <framework:SampleContainer.DataContext>
+        <Binding Source="{StaticResource dc}" />
+    </framework:SampleContainer.DataContext>
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <ig:ListBackedProject x:Name="dataProvider" TaskItemsSource="{Binding Tasks}">
+            <ig:ListBackedProject.TaskPropertyMappings>
+                <ig:ProjectTaskPropertyMappingCollection UseDefaultMappings="True" >
+                    <ig:ProjectTaskPropertyMapping TaskProperty="DataItemId" 
+                                                   DataObjectProperty="TaskID" />
+                    <ig:ProjectTaskPropertyMapping TaskProperty="TaskName" 
+                                                   DataObjectProperty="Name" />
+                    <ig:ProjectTaskPropertyMapping TaskProperty="Start" 
+                                                   DataObjectProperty="Start" />
+                    <ig:ProjectTaskPropertyMapping TaskProperty="IsMilestone" 
+                                                   DataObjectProperty="IsMilestone" />
+                    <ig:ProjectTaskPropertyMapping TaskProperty="IsActive" 
+                                                   DataObjectProperty="IsInProgress" />
+                    <ig:ProjectTaskPropertyMapping TaskProperty="Duration" 
+                                                   DataObjectProperty="DurationInHours" />
+                    <ig:ProjectTaskPropertyMapping TaskProperty="IsManual" 
+                                                   DataObjectProperty="IsUndetermined" />
+                    <ig:ProjectTaskPropertyMapping TaskProperty="ConstraintType" 
+                                                   DataObjectProperty="ConstraintType" />
+                    <ig:ProjectTaskPropertyMapping TaskProperty="Deadline" 
+                                                   DataObjectProperty="DeadlineDate" />
+                    <ig:ProjectTaskPropertyMapping TaskProperty="ConstraintDate" 
+                                                   DataObjectProperty="ConstraintDate" />
+                    <ig:ProjectTaskPropertyMapping TaskProperty="DurationFormat" 
+                                                   DataObjectProperty="DurationFormat" />
+                    <ig:ProjectTaskPropertyMapping TaskProperty="Tasks" 
+                                                   DataObjectProperty="Tasks" />
+                </ig:ProjectTaskPropertyMappingCollection>
+            </ig:ListBackedProject.TaskPropertyMappings>
+            <!-- #BEGIN SNIPPET# -->
+            <ig:ListBackedProject.TaskSettings>
+                <ig:ProjectTaskSettings AllowChangeIndentation="True" 
+                                        AllowDelete="True"
+                                        AllowDragDeadline="True"
+                                        AllowDragMilestone="True"
+                                        AllowDragPercentComplete="True"
+                                        AllowDragSummary="Always"
+                                        AllowDragTask="True"                              
+                                        AllowInsert="True" 
+                                        AllowResizeSummary="Always"
+                                        AllowResizeTask="True"/>
+            </ig:ListBackedProject.TaskSettings>
+            <!-- #END SNIPPET# -->
+        </ig:ListBackedProject>
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamGantt x:Name="gantt" 
+                     Project="{Binding ElementName=dataProvider}" 
+                     Grid.Row="1">
+            <ig:XamGantt.DefaultColumnSettings>
+                <ig:ProjectColumnSettings AllowHide="True"
+                                          AllowMove="True"
+                                          AllowResize="True"
+                                          AllowShow="True"  />                                    
+            </ig:XamGantt.DefaultColumnSettings>
+        </ig:XamGantt>
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel VerticalAlignment="Stretch"
+                               HorizontalAlignment="Stretch"
+                               HeaderText="{Binding Source={StaticResource Strings},Path=EnableDisableInteractions}"
+                               IsMovable="False"
+                               Grid.Row="0">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{Binding Source={StaticResource Strings},Path=Allow}"
+                               FontWeight="Bold"/>
+                    <CheckBox x:Name="Cb_AllowInsert" Margin="0,0,5,3"
+                              Content="{Binding Source={StaticResource Strings},Path=AllowInsertingTasks}"          
+                              IsChecked="{Binding ElementName=dataProvider, Path=TaskSettings.AllowInsert, Mode=TwoWay}" />
+                    <CheckBox x:Name="Cb_AllowDelete" Margin="0,0,5,3"
+                              Content="{Binding Source={StaticResource Strings},Path=AllowDeletingTasks}" 
+                              IsChecked="{Binding ElementName=dataProvider, Path=TaskSettings.AllowDelete, Mode=TwoWay}" />
+                    <CheckBox x:Name="Cb_AllowResizeTask" Margin="0,0,5,3"
+                              Content="{Binding Source={StaticResource Strings},Path=AllowResizingTasks}" 
+                              IsChecked="{Binding ElementName=dataProvider, Path=TaskSettings.AllowResizeTask, Mode=TwoWay}" />
+                    <CheckBox x:Name="Cb_AllowChangeIndentation" Margin="0,0,5,0"
+                              Content="{Binding Source={StaticResource Strings},Path=AllowIndentingTasks}" 
+                              IsChecked="{Binding ElementName=dataProvider, Path=TaskSettings.AllowChangeIndentation, Mode=TwoWay}" />
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{Binding Source={StaticResource Strings},Path=AllowDragging}"
+                               FontWeight="Bold"/>
+                    <CheckBox x:Name="Cb_AllowDragTask" Margin="0,0,5,3"
+                              Content="{Binding Source={StaticResource Strings},Path=AllowDraggingTasks}" 
+                              IsChecked="{Binding ElementName=dataProvider, Path=TaskSettings.AllowDragTask, Mode=TwoWay}" />
+                    <CheckBox x:Name="Cb_AllowDragDeadline" Margin="0,0,5,3"
+                              Content="{Binding Source={StaticResource Strings},Path=AllowDraggingDeadlines}" 
+                              IsChecked="{Binding ElementName=dataProvider, Path=TaskSettings.AllowDragDeadline, Mode=TwoWay}" />
+                    <CheckBox x:Name="Cb_AllowDragMilestone" Margin="0,0,5,3"
+                              Content="{Binding Source={StaticResource Strings},Path=AllowDraggingMilestones}" 
+                              IsChecked="{Binding ElementName=dataProvider, Path=TaskSettings.AllowDragMilestone, Mode=TwoWay}" />
+                    <CheckBox x:Name="Cb_AllowDragPercentComplete" Margin="0,0,5,0"
+                              Content="{Binding Source={StaticResource Strings},Path=AllowDraggingPercentComplete}" 
+                              IsChecked="{Binding ElementName=dataProvider, Path=TaskSettings.AllowDragPercentComplete, Mode=TwoWay}" />                  
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{Binding Source={StaticResource Strings},Path=Allow}"
+                               FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Source={StaticResource Strings},Path=AllowDraggingSummaryTasks}" Margin="0,0,5,3" />
+                    <ComboBox x:Name="Cmb_AllowDragSummary" Margin="0,0,5,3"
+                              SelectionChanged="Cmb_AllowDragSummary_SelectionChanged" />
+                    <TextBlock Text="{Binding Source={StaticResource Strings},Path=AllowResizingSummaryTasks}" Margin="0,0,5,3" />
+                    <ComboBox x:Name="Cmb_AllowResizeSummary" Margin="0,0,5,0"
+                              SelectionChanged="Cmb_AllowResizeSummary_SelectionChanged" />
+                </StackPanel>
+                <StackPanel Orientation="Vertical" >
+                    <TextBlock Text="{Binding Source={StaticResource Strings},Path=Allow}"
+                               FontWeight="Bold"/>
+
+                    <CheckBox x:Name="Cb_AllowShow" Margin="0,0,5,3"
+                              Content="{Binding Source={StaticResource Strings},Path=ShowingColumns}"                     
+                              IsChecked="{Binding ElementName=gantt, Path=DefaultColumnSettings.AllowShow, Mode=TwoWay}" />
+                    <CheckBox x:Name="Cb_AllowHide" Margin="0,0,5,3"
+                              Content="{Binding Source={StaticResource Strings},Path=HidingColumns}"                     
+                              IsChecked="{Binding ElementName=gantt, Path=DefaultColumnSettings.AllowHide, Mode=TwoWay}" />
+                    <CheckBox x:Name="Cb_AllowMove" Margin="0,0,5,3"
+                              Content="{Binding Source={StaticResource Strings},Path=MovingColumns}"                     
+                              IsChecked="{Binding ElementName=gantt, Path=DefaultColumnSettings.AllowMove, Mode=TwoWay}" />
+                    <CheckBox x:Name="Cb_AllowResize" Margin="0,0,5,3"
+                              Content="{Binding Source={StaticResource Strings},Path=ResizingColumns}"                     
+                              IsChecked="{Binding ElementName=gantt, Path=DefaultColumnSettings.AllowResize, Mode=TwoWay}" />
+                </StackPanel>
+                <StackPanel>
+                    <CheckBox x:Name="Cb_IsReadOnly" Margin="5,16,5,5"
+                              Content="{Binding Source={StaticResource Strings},Path=ReadOnly}"                     
+                              IsChecked="{Binding ElementName=dataProvider, Path=IsReadOnly, Mode=TwoWay}" />
+                </StackPanel>
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

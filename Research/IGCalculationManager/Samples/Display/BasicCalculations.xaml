@@ -1,0 +1,151 @@
+﻿<framework:SampleContainer x:Class="IGCalculationManager.Samples.Display.BasicCalculations"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="BasicCalculations"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGCalculationManager.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGCalculationManager;component/Assets/Global.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <ig:XamCalculationManager x:Key="CalculationManager" />
+            <res:CalculationManagerStrings x:Key="CalculationManagerStrings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        	<Grid.Resources>
+        		<Style TargetType="TextBlock" BasedOn="{StaticResource BodyStyle}"/>    	
+			</Grid.Resources>          	
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="80" />
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="15"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="100"/>
+        </Grid.ColumnDefinitions>
+        <!-- #BEGIN SNIPPET# -->
+
+        <!-- Addition -->
+        <TextBlock Grid.Row="0" Grid.Column="0" x:Name="AddText" Width="100"
+                   Text="{Binding Source={StaticResource CalculationManagerStrings}, Path=XG_Addition}" VerticalAlignment="Center" Margin="0"/>
+        <TextBlock Grid.Row="0" Grid.Column="1" x:Name="SymbolAddText" Width="100" Text="|" VerticalAlignment="Center"/>
+        <TextBox Grid.Row="0" Grid.Column="2" Text="25" x:Name="addQuantity" Width="100"
+                 ig:XamCalculationManager.CalculationManager="{StaticResource CalculationManager}" VerticalAlignment="Center">
+            <ig:XamCalculationManager.ControlSettings>
+                <ig:ControlCalculationSettings Property="Text" TreatAsTypeName="Int32" ReferenceId="addQty"/>
+            </ig:XamCalculationManager.ControlSettings>
+        </TextBox>
+        <TextBlock Grid.Row="0" Grid.Column="3" x:Name="Addition" Width="100" Text=" +" VerticalAlignment="Center"/>
+        <TextBox Grid.Row="0" Grid.Column="4" Text="25" x:Name="addPrice" Width="100"
+                 ig:XamCalculationManager.CalculationManager="{StaticResource CalculationManager}" VerticalAlignment="Center">
+            <ig:XamCalculationManager.ControlSettings>
+                <ig:ControlCalculationSettings Property="Text" TreatAsTypeName="double" ReferenceId="addPrice"/>
+            </ig:XamCalculationManager.ControlSettings>
+        </TextBox>
+        <TextBlock Grid.Row="0" Grid.Column="5" x:Name="AdditionEquals" Width="100" Text="=" VerticalAlignment="Center" Margin="3,0,0,0"/>
+        <TextBlock Grid.Row="0" Grid.Column="6" x:Name="addResult" Width="100"
+                   ig:XamCalculationManager.CalculationManager="{StaticResource CalculationManager}" VerticalAlignment="Center" Margin="3,0,0,0">
+            <ig:XamCalculationManager.ControlSettings>
+                <ig:ControlCalculationSettings Property="Text" TreatAsTypeName="decimal" ReferenceId="addTotal"
+                                               Formula="[addQty] + [addPrice]" />
+            </ig:XamCalculationManager.ControlSettings>
+        </TextBlock>
+
+        <!-- Subtraction -->
+        <TextBlock Grid.Row="1" Grid.Column="0" x:Name="SubText" Width="100"
+                   Text="{Binding Source={StaticResource CalculationManagerStrings}, Path=XG_Subtraction}" VerticalAlignment="Center" Margin="0"/>
+        <TextBlock Grid.Row="1" Grid.Column="1" x:Name="SymbolSubText" Width="100" Text="|" VerticalAlignment="Center"/>
+        <TextBox Grid.Row="1" Grid.Column="2" Text="25" x:Name="subQuantity" Width="100"
+                 ig:XamCalculationManager.CalculationManager="{StaticResource CalculationManager}" VerticalAlignment="Center">
+            <ig:XamCalculationManager.ControlSettings>
+                <ig:ControlCalculationSettings Property="Text" TreatAsTypeName="Int32" ReferenceId="subQty"/>
+            </ig:XamCalculationManager.ControlSettings>
+        </TextBox>
+        <TextBlock Grid.Row="1" Grid.Column="3" x:Name="Subtraction" Width="100" Text=" -" VerticalAlignment="Center"/>
+        <TextBox Grid.Row="1" Grid.Column="4" Text="25" x:Name="subPrice" Width="100"
+                 ig:XamCalculationManager.CalculationManager="{StaticResource CalculationManager}" VerticalAlignment="Center">
+            <ig:XamCalculationManager.ControlSettings>
+                <ig:ControlCalculationSettings Property="Text" TreatAsTypeName="double" ReferenceId="subPrice"/>
+            </ig:XamCalculationManager.ControlSettings>
+        </TextBox>
+        <TextBlock Grid.Row="1" Grid.Column="5" x:Name="SubEquals" Width="100" Text="=" VerticalAlignment="Center" Margin="3,0,0,0"/>
+        <TextBlock Grid.Row="1" Grid.Column="6" x:Name="subResult" Width="100"
+                   ig:XamCalculationManager.CalculationManager="{StaticResource CalculationManager}" VerticalAlignment="Center" Margin="3,0,0,0">
+            <ig:XamCalculationManager.ControlSettings>
+                <ig:ControlCalculationSettings Property="Text" TreatAsTypeName="decimal" ReferenceId="subTotal"
+                                               Formula="[subQty] - [subPrice]" />
+            </ig:XamCalculationManager.ControlSettings>
+        </TextBlock>
+
+        <!-- Multiplication -->
+        <TextBlock Grid.Row="2" Grid.Column="0" x:Name="MulText" Width="100"
+                   Text="{Binding Source={StaticResource CalculationManagerStrings}, Path=XG_Multiplication}" VerticalAlignment="Center" Margin="0"/>
+        <TextBlock Grid.Row="2" Grid.Column="1" x:Name="SymbolMulText" Width="100" Text="|" VerticalAlignment="Center"/>
+        <TextBox Grid.Row="2" Grid.Column="2" Text="25" x:Name="mulQuantity" Width="100"
+                 ig:XamCalculationManager.CalculationManager="{StaticResource CalculationManager}" VerticalAlignment="Center">
+            <ig:XamCalculationManager.ControlSettings>
+                <ig:ControlCalculationSettings Property="Text" TreatAsTypeName="Int32" ReferenceId="mulQty"/>
+            </ig:XamCalculationManager.ControlSettings>
+        </TextBox>
+        <TextBlock Grid.Row="2" Grid.Column="3" x:Name="Multiply" Width="100" Text=" x" VerticalAlignment="Center"/>
+        <TextBox Grid.Row="2" Grid.Column="4" Text="25" x:Name="mulPrice" Width="100"
+                 ig:XamCalculationManager.CalculationManager="{StaticResource CalculationManager}" VerticalAlignment="Center">
+            <ig:XamCalculationManager.ControlSettings>
+                <ig:ControlCalculationSettings Property="Text" TreatAsTypeName="double" ReferenceId="mulPrice"/>
+            </ig:XamCalculationManager.ControlSettings>
+        </TextBox>
+        <TextBlock Grid.Row="2" Grid.Column="5" x:Name="MulEquals" Width="100" Text="=" VerticalAlignment="Center" Margin="3,0,0,0"/>
+        <TextBlock Grid.Row="2" Grid.Column="6" x:Name="mulResult" Width="100"
+                   ig:XamCalculationManager.CalculationManager="{StaticResource CalculationManager}" VerticalAlignment="Center" Margin="3,0,0,0">
+            <ig:XamCalculationManager.ControlSettings>
+                <ig:ControlCalculationSettings Property="Text" TreatAsTypeName="decimal" ReferenceId="mulTotal"
+                                               Formula="[mulQty] * [mulPrice]" />
+            </ig:XamCalculationManager.ControlSettings>
+        </TextBlock>
+
+        <!-- Division Stack Panel -->
+        <TextBlock Grid.Row="3" Grid.Column="0" x:Name="DivText" Width="100"
+                   Text="{Binding Source={StaticResource CalculationManagerStrings}, Path=XG_Division}" VerticalAlignment="Center" Margin="0"/>
+        <TextBlock Grid.Row="3" Grid.Column="1" x:Name="SymbolDivText" Width="100" Text="|" VerticalAlignment="Center"/>
+        <TextBox Grid.Row="3" Grid.Column="2" Text="25" x:Name="divQuantity" Width="100"
+                 ig:XamCalculationManager.CalculationManager="{StaticResource CalculationManager}" VerticalAlignment="Center">
+            <ig:XamCalculationManager.ControlSettings>
+                <ig:ControlCalculationSettings Property="Text" ReferenceId="divQty"/>
+            </ig:XamCalculationManager.ControlSettings>
+        </TextBox>
+        <TextBlock Grid.Row="3" Grid.Column="3" x:Name="Divide" Width="100" Text=" /" VerticalAlignment="Center"/>
+        <TextBox Grid.Row="3" Grid.Column="4" Text="25" x:Name="divPrice" Width="100"
+                 ig:XamCalculationManager.CalculationManager="{StaticResource CalculationManager}" VerticalAlignment="Center">
+            <ig:XamCalculationManager.ControlSettings>
+                <ig:ControlCalculationSettings Property="Text" TreatAsTypeName="double" ReferenceId="divPrice"/>
+            </ig:XamCalculationManager.ControlSettings>
+        </TextBox>
+        <TextBlock Grid.Row="3" Grid.Column="5" x:Name="DivEquals" Width="100" Text="=" VerticalAlignment="Center" Margin="3,0,0,0"/>
+        <TextBlock Grid.Row="3" Grid.Column="6" x:Name="divResult" Width="100"
+                   ig:XamCalculationManager.CalculationManager="{StaticResource CalculationManager}" VerticalAlignment="Center" Margin="3,0,0,0">
+            <ig:XamCalculationManager.ControlSettings>
+                <ig:ControlCalculationSettings Property="Text" ReferenceId="divTotal"
+                                               Formula="[divQty] / [divPrice]" />
+            </ig:XamCalculationManager.ControlSettings>
+        </TextBlock>
+
+        <!-- #END SNIPPET# -->
+    </Grid>
+</framework:SampleContainer>

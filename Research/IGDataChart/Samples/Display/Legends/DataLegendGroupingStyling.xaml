@@ -1,0 +1,66 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Display.Series.DataLegendGroupingStyling"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="CategorySeries Page"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+      xmlns:resources="clr-namespace:IGDataChart.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <resources:DataChartStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>       
+
+        <ig:XamDataLegend x:Name="Legend" GroupRowVisible="True" GroupTextColor="Purple" GroupTextFontSize="20" GroupTextFontFamily="Arial" GroupTextFontStyle="Italic" GroupTextFontWeight="Bold"/>
+
+        <ig:XamDataChart x:Name="ColumnChart" Margin="0,20,0,0" Grid.Row="1" ShouldAutoExpandMarginForInitialLabels="true" ComputedPlotAreaMarginMode="Series" HighlightedValuesDisplayMode="Overlay" IsHorizontalZoomEnabled="False" IsVerticalZoomEnabled="False">
+            <ig:XamDataChart.Axes>
+                <ig:CategoryXAxis
+                Name="xAxis"
+                ItemsSource="{Binding OlympicMedalsTotals}"
+                Label="{}{Year}">
+                </ig:CategoryXAxis>
+                <ig:NumericYAxis
+                Name="yAxis">
+                </ig:NumericYAxis>
+            </ig:XamDataChart.Axes>
+            <!-- #BEGIN SNIPPET# -->
+            <!-- ========================================================================== -->
+            <ig:XamDataChart.Series>
+                <ig:ColumnSeries
+                Name="ColumnSeries1"
+                XAxis="{Binding ElementName=xAxis}"
+                YAxis="{Binding ElementName=yAxis}"
+                ItemsSource="{Binding OlympicMedalsTotals}"
+                Title=""
+                ValueMemberPath="Total"
+                DataLegendGroup="Total Medals"
+                HighlightedValuesDataLegendGroup="Country"
+                HighlightedValueMemberPath="America"
+                HighlightedTitleSuffix="America">
+                </ig:ColumnSeries>
+                
+            </ig:XamDataChart.Series>
+            <!-- ========================================================================== -->
+            <!-- #END SNIPPET# -->
+        </ig:XamDataChart>
+
+    </Grid>
+</igFramework:SampleContainer>

@@ -1,0 +1,156 @@
+﻿<igFramework:SampleContainer x:Class="IGDataGrid.Samples.Editing.TemplateFields"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      mc:Ignorable="d" 
+      d:DesignHeight="500" d:DesignWidth="700"
+      xmlns:igDP="http://infragistics.com/DataPresenter"  
+      xmlns:igEditors="http://infragistics.com/Editors" 
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:resources="clr-namespace:IGDataGrid.Resources"
+      xmlns:data="clr-namespace:IGDataGrid.Samples.ViewModel"
+      Title="TemplateFields">
+   
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataGrid;component/Assets/Global.xaml" />
+                 
+                 
+                 
+            </ResourceDictionary.MergedDictionaries>
+
+            <data:CarTypes x:Key="CarTypes"  />
+            <data:ColorToBrushConverter x:Key="ColorToBrushConverter" />
+            <resources:DataGridStrings x:Key="DataGridStrings" />
+        </ResourceDictionary>        
+    </igFramework:SampleContainer.Resources>
+
+    <igFramework:SampleContainer.DataContext>
+        <data:CarsBusinessLogicExtended />
+    </igFramework:SampleContainer.DataContext>
+    
+    <Grid>
+        <igDP:XamDataGrid x:Name="XamDataGrid1"
+                          Theme="RoyalLight" 
+                          AutoFit="True"
+                          DataSource="{Binding Path=Cars}">
+            <igDP:XamDataGrid.FieldLayoutSettings>
+                <igDP:FieldLayoutSettings AutoGenerateFields="False"
+                                          AutoFitMode="Always" />
+            </igDP:XamDataGrid.FieldLayoutSettings>
+            <igDP:XamDataGrid.FieldLayouts>
+                <igDP:FieldLayout>
+                    <igDP:FieldLayout.Fields>
+                        <igDP:TextField Name="Make" Label="{Binding Source={StaticResource DataGridStrings}, Path=Car_Make}" />
+                        <igDP:TextField Name="Model" Label="{Binding Source={StaticResource DataGridStrings}, Path=Car_Model}"/>
+                            <!-- #BEGIN SNIPPET# -->
+                            <igDP:TemplateField Name="Color" Width="130"
+                                            Label="{Binding Source={StaticResource DataGridStrings}, Path=Car_Color}" >
+                            <igDP:TemplateField.DisplayTemplate>
+                                <DataTemplate>
+                                    <Rectangle Width="130" Height="20"
+                                               Fill="{Binding Path=(igEditors:TemplateEditor.Editor).Value, 
+                                        Converter={StaticResource ColorToBrushConverter},
+                                        RelativeSource={RelativeSource Self}}"/>                                           
+                                </DataTemplate>
+                            </igDP:TemplateField.DisplayTemplate>
+                            <igDP:TemplateField.EditTemplate>
+                                <DataTemplate>
+                                    <ig:XamColorPicker Width="130" Height="20" 
+                                                       SelectedColor="{Binding Path=(igEditors:TemplateEditor.Editor).Value, 
+                                        RelativeSource={RelativeSource Self}, 
+                                        UpdateSourceTrigger=PropertyChanged, 
+                                        Mode=TwoWay}" />
+                                </DataTemplate>
+                            </igDP:TemplateField.EditTemplate>
+                        </igDP:TemplateField>
+                            <!-- #END SNIPPET# -->
+                            <igDP:TemplateField Name="BasePrice" 
+                                            Label="{Binding Source={StaticResource DataGridStrings}, Path=Car_BasePrice}">
+                            <igDP:TemplateField.DisplayTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{igEditors:TemplateEditorValueBinding}" />
+                                </DataTemplate>
+                            </igDP:TemplateField.DisplayTemplate>
+                            <igDP:TemplateField.EditTemplate>
+                                <DataTemplate>
+                                    <ig:XamNumericRangeSlider MinValue="100" MaxValue="60000" Margin="3"
+                                                              IncreaseButtonVisibility="Collapsed" 
+                                                              DecreaseButtonVisibility="Collapsed"  >
+
+                                        <ig:XamNumericRangeSlider.TickMarks>
+                                            <ig:SliderTickMarks NumberOfTickMarks="3" UseFrequency="False" />
+                                        </ig:XamNumericRangeSlider.TickMarks>
+                                        <ig:XamSliderNumericThumb x:Name="thumb"
+                                                                  ToolTipVisibility="Visible"
+                                                                  Value="{Binding Path=(igEditors:TemplateEditor.Editor).Value, 
+                                                                                  RelativeSource={RelativeSource Self}, 
+                                                                                  UpdateSourceTrigger=PropertyChanged,
+                                                                                  Mode=TwoWay,
+                                                                                  Converter={x:Static data:IntToDoubleConverter.Instance }}" />
+                                    </ig:XamNumericRangeSlider>
+                                </DataTemplate>
+                            </igDP:TemplateField.EditTemplate>
+                        </igDP:TemplateField>                       
+                        <igDP:TemplateField Name="CarType"
+                                            Label="{Binding Source={StaticResource DataGridStrings}, Path=Car_CarType}">
+                            <igDP:TemplateField.DisplayTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{igEditors:TemplateEditorValueBinding}"/>
+                                </DataTemplate>
+                            </igDP:TemplateField.DisplayTemplate>
+                            <igDP:TemplateField.EditTemplate>
+                                <DataTemplate>
+                                    <igEditors:XamComboEditor ItemsSource="{Binding Source={StaticResource CarTypes}}" 
+                                                              IsAlwaysInEditMode="True"
+                                                              Value="{igEditors:TemplateEditorValueBinding}"/>
+                                </DataTemplate>
+                            </igDP:TemplateField.EditTemplate>
+                        </igDP:TemplateField>                       
+                        <igDP:TemplateField Name="Rating"
+                                            Label="{Binding Source={StaticResource DataGridStrings}, Path=Car_Rating}">
+                            <igDP:TemplateField.DisplayTemplate>
+                                <DataTemplate>
+                                    <ProgressBar Value="{igEditors:TemplateEditorValueBinding}"
+                                                 Minimum="0"
+                                                 Maximum="5"                                               
+                                                 Height="20"/>
+                                </DataTemplate>
+                            </igDP:TemplateField.DisplayTemplate>
+                            <igDP:TemplateField.EditTemplate>
+                                <DataTemplate>
+                                    <igEditors:XamNumericEditor Mask="{}{number:0-5}"
+                                                        SpinIncrement="1"
+                                                        SpinButtonDisplayMode="Always" 
+                                                        Value="{igEditors:TemplateEditorValueBinding}"/>
+                                </DataTemplate>
+                            </igDP:TemplateField.EditTemplate>
+                        </igDP:TemplateField>
+                            <!-- #BEGIN SNIPPET# -->
+                            <igDP:TemplateField Name="Year" 
+                                                Label="{Binding Source={StaticResource DataGridStrings}, Path=Car_Year}">
+                            <igDP:TemplateField.DisplayTemplate>
+                                <DataTemplate>
+                                    <igEditors:XamDateTimeEditor Mask="{Binding Source={StaticResource DataGridStrings}, Path=DateFormatShort}" 
+                                                                 Value="{igEditors:TemplateEditorValueBinding}"/>
+                                    </DataTemplate>
+                                </igDP:TemplateField.DisplayTemplate>
+                                <igDP:TemplateField.EditTemplate>
+                                    <DataTemplate>
+                                    <igEditors:XamDateTimeEditor Mask="{Binding Source={StaticResource DataGridStrings}, Path=DateFormatShort}" 
+                                                                 Value="{igEditors:TemplateEditorValueBinding}"
+                                                                 IsAlwaysInEditMode="True"/>
+                                    </DataTemplate>
+                                </igDP:TemplateField.EditTemplate>
+                            </igDP:TemplateField>
+                            <!-- #END SNIPPET# -->
+                        </igDP:FieldLayout.Fields>
+                    </igDP:FieldLayout>
+                </igDP:XamDataGrid.FieldLayouts>
+            </igDP:XamDataGrid>
+
+</Grid>
+</igFramework:SampleContainer>

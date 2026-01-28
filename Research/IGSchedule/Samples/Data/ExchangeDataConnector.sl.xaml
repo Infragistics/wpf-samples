@@ -1,0 +1,78 @@
+﻿<igFramework:SampleContainer
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="Exchange Data Connector"
+      x:Class="IGSchedule.Samples.Data.ExchangeDataConnector"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:res="clr-namespace:IGSchedule.Resources"
+      xmlns:sys="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <res:ScheduleStrings x:Key="resStrings" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSchedule;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid>
+        <!--#BEGIN SNIPPET#-->
+        <ig:XamScheduleDataManager Name="dataManager" Grid.Row="1">
+            <ig:XamScheduleDataManager.DataConnector>
+                <ig:ExchangeScheduleDataConnector Name="exchangeConnector" />
+            </ig:XamScheduleDataManager.DataConnector>
+        </ig:XamScheduleDataManager>
+        <!--#END SNIPPET#-->
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="13" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <controls:OptionsPanel HeaderText="{Binding Source={StaticResource CommonStrings}, Path=ConfigurationPanel_Header_Options}" IsMovable="False" Grid.Column="0">
+                <TextBlock Text="{Binding Source={StaticResource resStrings}, Path=ServerAddress}" />
+                <TextBox x:Name="SrvAddr" Margin="0,0,0,10" />
+
+                <TextBlock Text="{Binding Source={StaticResource resStrings}, Path=ServerType}" />
+                <ComboBox x:Name="SrvType" Margin="0,0,0,15" />
+
+                <Grid Margin="0,0,0,10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" x:Name="tName" HorizontalAlignment="Left" VerticalAlignment="Center" Width="70" Text="{Binding Source={StaticResource resStrings}, Path=UserName}" Margin="0,5,0,0" />
+                    <TextBox Grid.Row="0" x:Name="tfName" Margin="75,0,0,0" />
+                    <TextBlock Grid.Row="1" x:Name="tPass" HorizontalAlignment="Left" VerticalAlignment="Center" Width="70" Text="{Binding Source={StaticResource resStrings}, Path=Password}" Margin="0,5,0,0" />
+                    <PasswordBox Grid.Row="1" x:Name="tfPass" Margin="75,4,0,4" />
+                    <TextBlock Grid.Row="2" x:Name="tDomain" HorizontalAlignment="Left" VerticalAlignment="Center" Width="70" Text="{Binding Source={StaticResource resStrings}, Path=Domain}" Margin="0,5,0,0" />
+                    <TextBox Grid.Row="2" x:Name="tfDomain" Margin="75,0,0,0" />
+                </Grid>
+
+                <Button x:Name="ConnectButton" Click="ConnectButton_Click" Margin="0,0,0,5" />
+
+                <ig:XamDateNavigator x:Name="dateNavigator" DataManager="{Binding ElementName=dataManager}" />
+            </controls:OptionsPanel>
+
+            <sys:GridSplitter Grid.Column="1" Width="3" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="5,0,5,0" />
+
+            <ig:XamOutlookCalendarView
+                Grid.Column="2"
+                Name="xamOutlookView"
+                DataManager="{Binding ElementName=dataManager}"
+                DateNavigator="{Binding ElementName=dateNavigator}"
+                CurrentViewMode="DayViewWorkWeek"
+                />
+        </Grid>
+    </Grid>
+</igFramework:SampleContainer>

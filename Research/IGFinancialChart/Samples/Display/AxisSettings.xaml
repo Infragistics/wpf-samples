@@ -1,0 +1,98 @@
+﻿<igFramework:SampleContainer x:Class="IGFinancialChart.Samples.Display.AxisSettings"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+        xmlns:local="clr-namespace:IGFinancialChart.Samples"
+        xmlns:ig="http://schemas.infragistics.com/xaml"
+        xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+        xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+        xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared" 
+        mc:Ignorable="d"
+        Title="AxisSettings">
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGFinancialChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+   
+            <local:StockMultipleSources x:Key="DataSources" />
+            <converters:VisibilityToBoolConverter x:Key="VisibilityConverter"/>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="layoutRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions> 
+
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ========================================================================== -->
+        <ig:XamFinancialChart XAxisMode="Ordinal" 
+                              YAxisMode="Numeric"
+                              XAxisLabelVisibility="Visible" 
+                              YAxisLabelVisibility="Visible"
+                              XAxisLabelFontSize="12"
+                              YAxisLabelFontSize="12" 
+                              VolumeType="None"    
+                              ZoomSliderType="Line" 
+                              ChartType="Line"
+                              ItemsSource="{StaticResource DataSources}"
+                              x:Name="Chart" Grid.Column="1"/>
+        <!-- ========================================================================== -->
+        <!-- #END SNIPPET# -->
+ 
+        <controls:OptionsPanel HeaderText="{Binding XFC_OptionsPanelHeader, Source={StaticResource Strings}}"
+                               HorizontalAlignment="Left" VerticalAlignment="Stretch"
+                               Margin="0 0 20 0">
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}"/>
+                <Style TargetType="Slider" BasedOn="{StaticResource IGSliderStyle}" >
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+                <Style TargetType="ComboBox" BasedOn="{StaticResource IGComboBoxStyle}" >
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style> 
+            </controls:OptionsPanel.Resources>
+
+            <StackPanel> 
+                <TextBlock Text="{Binding XFC_XAxisModeLabel, Source={StaticResource Strings}}" />
+                <igFramework:EnumComboBox ItemType="ig:FinancialChartXAxisMode" 
+                          SelectedItem="{Binding ElementName=Chart, Path=XAxisMode, Mode=TwoWay}" Grid.Column="1"/>  
+                 
+                <TextBlock Text="{Binding XFC_YAxisModeLabel, Source={StaticResource Strings}}" Grid.Row="1"/>
+                <igFramework:EnumComboBox ItemType="ig:FinancialChartYAxisMode" 
+                          SelectedItem="{Binding ElementName=Chart, Path=YAxisMode, Mode=TwoWay}" Grid.Row="1" Grid.Column="1"/>
+                                 
+ 
+                <CheckBox Content="{Binding XFC_XAxisLabelVisibility, Source={StaticResource Strings}}" Grid.Row="2"
+                          IsChecked="True" Margin="0 10 0 0"
+                          Click="XAxisLabelVisibility_Checked"/>
+                
+                <CheckBox Content="{Binding XFC_YAxisLabelVisibility, Source={StaticResource Strings}}" Grid.Row="3"
+                          IsChecked="True" Margin="0 0 0 10"
+                          Click="YAxisLabelVisibility_Checked"/>
+                 
+                <TextBlock Text="{Binding XFC_XAxisFontSize, Source={StaticResource Strings}}"/>
+                <Slider Value="{Binding ElementName=Chart, Path=XAxisLabelFontSize, Mode=TwoWay}" 
+                        Minimum="8" Maximum="20" 
+                        SmallChange="2" LargeChange="4" />
+                <TextBlock Text="{Binding XFC_YAxisFontSize, Source={StaticResource Strings}}"/>
+                <Slider Value="{Binding ElementName=Chart, Path=YAxisLabelFontSize, Mode=TwoWay}" 
+                        Minimum="8" Maximum="20" 
+                        SmallChange="2" LargeChange="4"/>
+                 
+                <TextBlock Text="X-Axis Label Angle" />
+                <Slider Value="{Binding ElementName=Chart, Path=XAxisLabelAngle, Mode=TwoWay}" 
+                        Minimum="-180" Maximum="180" 
+                        SmallChange="15" LargeChange="15" />
+                <TextBlock Text="Y-Axis Label Angle" />
+                <Slider Value="{Binding ElementName=Chart, Path=YAxisLabelAngle, Mode=TwoWay}" 
+                        Minimum="-180" Maximum="180" 
+                        SmallChange="15" LargeChange="15" />
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

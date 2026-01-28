@@ -1,0 +1,79 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Display.Series.ValueLines"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="ValueOverlays Page"
+      xmlns:common="clr-namespace:IGDataChart.Custom.Calculators"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:sharedResources="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared"
+      xmlns:local="clr-namespace:IGDataChart.Samples.Display.Series"
+      xmlns:resources="clr-namespace:IGDataChart.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <sharedResources:CommonStrings x:Key="CommonStrings" />
+            <resources:DataChartStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White" >
+
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ========================================================================== -->
+
+        <ig:XamDataChart x:Name="chart">
+            <ig:XamDataChart.Axes>
+                <ig:CategoryXAxis x:Name="xAxis" ItemsSource="{Binding Data}" Label="{}{Label}" />
+                <ig:NumericYAxis x:Name="yAxis" />
+            </ig:XamDataChart.Axes>
+            <ig:XamDataChart.Series>
+                <ig:ColumnSeries XAxis="{Binding ElementName=xAxis}" YAxis="{Binding ElementName=yAxis}" ItemsSource="{Binding Data}"
+                                 ValueMemberPath="temperatureHigh" />
+                <ig:ColumnSeries XAxis="{Binding ElementName=xAxis}" YAxis="{Binding ElementName=yAxis}" ItemsSource="{Binding Data}"
+                                 ValueMemberPath="temperatureLow" />
+
+                <ig:ValueLayer ValueMode="Auto" IsAxisAnnotationEnabled="True"/>
+
+            </ig:XamDataChart.Series>
+        </ig:XamDataChart>
+                
+        <!-- ========================================================================== -->
+        <!-- #END SNIPPET# -->
+
+        <controls:OptionsPanel HeaderText="{Binding ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}"
+                               HorizontalAlignment="Left" VerticalAlignment="Top"
+                               Padding="1" IsExpanded="True" Margin="0 15 0 0">
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}">
+                </Style>
+                <Style TargetType="RadioButton">
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                    <Setter Property="Margin" Value="0 2 0 2" />
+                </Style>
+            </controls:OptionsPanel.Resources>
+
+            <StackPanel DataContext="{StaticResource Strings}">
+                <TextBlock Text="Value Lines" />
+
+                <RadioButton Content="Auto" IsChecked="True" GroupName="valueLineGroup" Checked="RadioButton_Checked" />
+
+                <RadioButton Content="Average" GroupName="valueLineGroup" Checked="RadioButton_Checked" />
+
+                <RadioButton Content="Global Average" GroupName="valueLineGroup" Checked="RadioButton_Checked" />
+
+                <RadioButton Content="Global Maximum" GroupName="valueLineGroup" Checked="RadioButton_Checked" />
+
+                <RadioButton Content="Global Minimum" GroupName="valueLineGroup" Checked="RadioButton_Checked" />
+
+                <RadioButton Content="Maximum" GroupName="valueLineGroup" Checked="RadioButton_Checked" />
+
+                <RadioButton Content="Minimum" GroupName="valueLineGroup" Checked="RadioButton_Checked" />
+            </StackPanel>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

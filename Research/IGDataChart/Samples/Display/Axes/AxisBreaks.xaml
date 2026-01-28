@@ -1,0 +1,94 @@
+﻿<igFramework:SampleContainer x:Class="IGDataChart.Samples.Display.Axes.AxisBreaks"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:models="clr-namespace:Infragistics.Samples.Shared.Models;assembly=Infragistics.Samples.Shared"
+      xmlns:resources="clr-namespace:IGDataChart.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGDataChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <resources:DataChartStrings x:Key="Strings" /> 
+
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <Grid.DataContext>
+            <models:StockMarketDataCollection />
+        </Grid.DataContext>
+
+        <StackPanel Orientation="Vertical" Margin="{StaticResource SampleInnerNavigationPadding}">
+            <RadioButton Checked="IncludeWeekends_Checked" Margin="2"
+                         Content="{Binding XWDC_IncludeWeekends, Source={StaticResource Strings}}" />
+            <RadioButton Checked="ExcludeWeekends_Checked" Margin="2" IsChecked="True"
+                         Content="{Binding XWDC_ExcludeWeekends, Source={StaticResource Strings}}"/>
+        </StackPanel>
+        
+        <ig:XamDataChart x:Name="DataChart" Grid.Row="1" 
+                         Title="{Binding XWDC_BindingLiveData_ChartTitle, Source={StaticResource Strings}}" 
+                         TitleHorizontalAlignment="Center" 
+                         IsHorizontalZoomEnabled="True"
+                         IsVerticalZoomEnabled="False" >
+            <ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <!-- A collection of TimeAxisBreaks can be added to TimeXAxis to exclude 
+                    data items for the specfied dates on the axis -->
+                <ig:TimeXAxis x:Name="XAxis"
+                              ItemsSource="{Binding DataSource}" 
+                              DateTimeMemberPath="Date" >
+                    <ig:TimeXAxis.Breaks>
+                        <ig:TimeAxisBreak 
+                            x:Name="allSaturdaysAxisBreak" 
+                            Start="2009-12-26T00:00:00"
+                              End="2009-12-26T23:59:59"
+                            Interval="7"/>
+                        <ig:TimeAxisBreak 
+                            x:Name="allSundaysAxisBreak" 
+                            Start="2009-12-27T00:00:00"
+                              End="2009-12-27T23:59:59"
+                            Interval="7"/>
+                    </ig:TimeXAxis.Breaks>
+                    <ig:TimeXAxis.LabelSettings>
+                        <ig:AxisLabelSettings Angle="90" />
+                    </ig:TimeXAxis.LabelSettings>
+                </ig:TimeXAxis>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+                <ig:NumericYAxis x:Name="YAxis" Label="{}{0:C}" />
+
+            </ig:XamDataChart.Axes>
+            <ig:XamDataChart.Series> 
+                <ig:FinancialPriceSeries ItemsSource="{Binding DataSource}" 
+                                         DisplayType="Candlestick"
+                                         OpenMemberPath="Open" 
+                                         CloseMemberPath="Close" 
+                                         HighMemberPath="High" 
+                                         LowMemberPath="Low" 
+                                         VolumeMemberPath="Volume" 
+                                         IsHighlightingEnabled="True" 
+                                         IsTransitionInEnabled="True"
+                                         ShowDefaultTooltip="True"
+                                         XAxis="{Binding ElementName=XAxis}" 
+                                         YAxis="{Binding ElementName=YAxis}">
+                </ig:FinancialPriceSeries>
+            </ig:XamDataChart.Series>
+
+        </ig:XamDataChart>
+    </Grid>
+</igFramework:SampleContainer>

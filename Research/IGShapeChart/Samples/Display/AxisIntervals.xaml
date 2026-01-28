@@ -1,0 +1,155 @@
+﻿<igFramework:SampleContainer 
+    x:Class="IGShapeChart.Samples.Display.AxisIntervals"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+    xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:local="clr-namespace:IGShapeChart.Samples"
+    xmlns:resources="clr-namespace:IGShapeChart.Resources"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" d:DesignWidth="700">
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- this loads IG styles for MS controls -->
+                <ResourceDictionary Source="/IGShapeChart;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            
+            <local:ShapefileLoader x:Key="Shapefile" OffsetX="-306" OffsetY="60"
+                                   FilePath="/IGShapeChart;component/shapefiles/airplane-shape.shp"   />  
+           
+            <resources:ShapeChartStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <!-- #BEGIN SNIPPET# -->
+        <!-- ========================================================================== -->
+        <ig:XamShapeChart x:Name="Chart" Grid.Column="1"
+                          ItemsSource="{StaticResource Shapefile}"
+                          XAxisMinimumValue="-500"
+                          XAxisMaximumValue="500"
+                          YAxisMinimumValue="0"
+                          YAxisMaximumValue="1000"
+                          XAxisInterval="250"
+                          YAxisInterval="250"
+                          XAxisMinorInterval="50"
+                          YAxisMinorInterval="50"
+                          XAxisMinorStrokeThickness="0.5"
+                          YAxisMinorStrokeThickness="0.5"
+                          XAxisMajorStrokeThickness="1.0"
+                          YAxisMajorStrokeThickness="1.0"
+                          XAxisMinorStroke="LightGray"
+                          YAxisMinorStroke="LightGray"
+                          XAxisMajorStroke="Gray"
+                          YAxisMajorStroke="Gray"
+                          XAxisExtent="30"
+                          YAxisExtent="70" 
+                          CrosshairsAnnotationEnabled="false"
+                          CrosshairsDisplayMode="None"
+                          ToolTipType="Default"/>
+        <!-- ========================================================================== -->
+        <!-- #END SNIPPET# -->
+  
+        <controls:OptionsPanel HeaderText="{Binding XW_AxisIntervals_Options, Source={StaticResource Strings}}"
+                               VerticalAlignment="Top"  Grid.Column="0"
+                               HorizontalAlignment="Stretch">
+            <controls:OptionsPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource OptionsPanelTextStyle}"/>
+                <Style TargetType="Slider" BasedOn="{StaticResource IGSliderStyle}">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                </Style>
+            </controls:OptionsPanel.Resources>
+            <Grid DataContext="{Binding ElementName=Chart}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition MinWidth="{StaticResource OptionsMiddleColumnMinWidth}"/>
+                    <ColumnDefinition MinWidth="{StaticResource OptionsLastColumnMinWidth}"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="{Binding XW_XAxis, Source={StaticResource Strings}}" Style="{StaticResource OptionsPanelTitleStyle}"/>
+ 
+                <TextBlock  Grid.Row="1" Grid.Column="0" Text="{Binding XW_AxisMajorInterval, Source={StaticResource Strings}}" />
+                <Slider     Grid.Row="1" Grid.Column="1" Value="{Binding XAxisInterval, Mode=TwoWay}" Maximum="500" Minimum="100"  IsSnapToTickEnabled="True" TickFrequency="10"/>
+                <TextBlock  Grid.Row="1" Grid.Column="2" Text="{Binding XAxisInterval, StringFormat='##0', Mode=OneWay}" Margin="{StaticResource OptionsTextLeftMargin}"/>
+                <TextBlock  Grid.Row="2" Grid.Column="0" Text="{Binding XW_AxisMinorInterval, Source={StaticResource Strings}}"/>
+                <Slider     Grid.Row="2" Grid.Column="1" Value="{Binding XAxisMinorInterval, Mode=TwoWay}" Maximum="100" Minimum="50" IsSnapToTickEnabled="True" TickFrequency="10"/>
+                <TextBlock  Grid.Row="2" Grid.Column="2" Text="{Binding XAxisMinorInterval, StringFormat='##0', Mode=OneWay}" Margin="{StaticResource OptionsTextLeftMargin}"/>
+
+                <TextBlock  Grid.Row="3" Grid.Column="0" Text="{Binding XW_AxisMinorStrokeThickness, Source={StaticResource Strings}}"/>
+                <Slider     Grid.Row="3" Grid.Column="1" Value="{Binding XAxisMinorStrokeThickness, Mode=TwoWay}" Maximum="10" Minimum="0"/>
+                <TextBlock  Grid.Row="3" Grid.Column="2" Text="{Binding XAxisMinorStrokeThickness, StringFormat='#0', Mode=OneWay}" Margin="{StaticResource OptionsTextLeftMargin}"/>
+                <TextBlock  Grid.Row="4" Grid.Column="0" Text="{Binding XW_AxisMajorStrokeThickness, Source={StaticResource Strings}}"/>
+                <Slider     Grid.Row="4" Grid.Column="1" Value="{Binding XAxisMajorStrokeThickness, Mode=TwoWay}" Maximum="10" Minimum="0"/>
+                <TextBlock  Grid.Row="4" Grid.Column="2" Text="{Binding XAxisMajorStrokeThickness, StringFormat='#0', Mode=OneWay}" Margin="{StaticResource OptionsTextLeftMargin}"/>
+
+                <TextBlock  Grid.Row="5" Grid.Column="0" Text="{Binding XW_AxisMinimumValue, Source={StaticResource Strings}}" />
+                <Slider     Grid.Row="5" Grid.Column="1" Value="{Binding XAxisMinimumValue, Mode=TwoWay}" Maximum="0" Minimum="-500"  IsSnapToTickEnabled="True" TickFrequency="10"/>
+                <TextBlock  Grid.Row="5" Grid.Column="2" Text="{Binding XAxisMinimumValue, StringFormat='##0', Mode=OneWay}" Margin="{StaticResource OptionsTextLeftMargin}"/>
+                <TextBlock  Grid.Row="6" Grid.Column="0" Text="{Binding XW_AxisMaximumValue, Source={StaticResource Strings}}" />
+                <Slider     Grid.Row="6" Grid.Column="1" Value="{Binding XAxisMaximumValue, Mode=TwoWay}" Maximum="500" Minimum="0"  IsSnapToTickEnabled="True" TickFrequency="10"/>
+                <TextBlock  Grid.Row="6" Grid.Column="2" Text="{Binding XAxisMaximumValue, StringFormat='##0', Mode=OneWay}" Margin="{StaticResource OptionsTextLeftMargin}"/>
+            
+            </Grid>
+            
+            <Rectangle Fill="{StaticResource SeparatorBrush}" Height="1" Stretch="Fill" Margin="0,10"/>
+            
+            <Grid DataContext="{Binding ElementName=Chart}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition MinWidth="{StaticResource OptionsMiddleColumnMinWidth}"/>
+                    <ColumnDefinition MinWidth="{StaticResource OptionsLastColumnMinWidth}"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                    <RowDefinition Height="auto" MinHeight="{StaticResource OptionsMinRowHeight}"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="{Binding XW_YAxis, Source={StaticResource Strings}}" Style="{StaticResource OptionsPanelTitleStyle}"/>
+ 
+                <TextBlock  Grid.Row="1" Grid.Column="0" Text="{Binding XW_AxisMajorInterval, Source={StaticResource Strings}}" />
+                <Slider     Grid.Row="1" Grid.Column="1" Value="{Binding YAxisInterval, Mode=TwoWay}" Maximum="500" Minimum="100"  IsSnapToTickEnabled="True" TickFrequency="10"/>
+                <TextBlock  Grid.Row="1" Grid.Column="2" Text="{Binding YAxisInterval, StringFormat='##0', Mode=OneWay}" Margin="{StaticResource OptionsTextLeftMargin}"/>
+                <TextBlock  Grid.Row="2" Grid.Column="0" Text="{Binding XW_AxisMinorInterval, Source={StaticResource Strings}}"/>
+                <Slider     Grid.Row="2" Grid.Column="1" Value="{Binding YAxisMinorInterval, Mode=TwoWay}" Maximum="100" Minimum="50" IsSnapToTickEnabled="True" TickFrequency="10"/>
+                <TextBlock  Grid.Row="2" Grid.Column="2" Text="{Binding YAxisMinorInterval, StringFormat='##0', Mode=OneWay}" Margin="{StaticResource OptionsTextLeftMargin}"/>
+
+                <TextBlock  Grid.Row="3" Grid.Column="0" Text="{Binding XW_AxisMinorStrokeThickness, Source={StaticResource Strings}}"/>
+                <Slider     Grid.Row="3" Grid.Column="1" Value="{Binding YAxisMinorStrokeThickness, Mode=TwoWay}" Maximum="10" Minimum="0"/>
+                <TextBlock  Grid.Row="3" Grid.Column="2" Text="{Binding YAxisMinorStrokeThickness, StringFormat='#0', Mode=OneWay}" Margin="{StaticResource OptionsTextLeftMargin}"/>
+                <TextBlock  Grid.Row="4" Grid.Column="0" Text="{Binding XW_AxisMajorStrokeThickness, Source={StaticResource Strings}}"/>
+                <Slider     Grid.Row="4" Grid.Column="1" Value="{Binding YAxisMajorStrokeThickness, Mode=TwoWay}" Maximum="10" Minimum="0"/>
+                <TextBlock  Grid.Row="4" Grid.Column="2" Text="{Binding YAxisMajorStrokeThickness, StringFormat='#0', Mode=OneWay}" Margin="{StaticResource OptionsTextLeftMargin}"/>
+
+                <TextBlock  Grid.Row="5" Grid.Column="0" Text="{Binding XW_AxisMinimumValue, Source={StaticResource Strings}}" />
+                <Slider     Grid.Row="5" Grid.Column="1" Value="{Binding YAxisMinimumValue, Mode=TwoWay}" Maximum="500" Minimum="0"  IsSnapToTickEnabled="True" TickFrequency="10"/>
+                <TextBlock  Grid.Row="5" Grid.Column="2" Text="{Binding YAxisMinimumValue, StringFormat='##0', Mode=OneWay}" Margin="{StaticResource OptionsTextLeftMargin}"/>
+                <TextBlock  Grid.Row="6" Grid.Column="0" Text="{Binding XW_AxisMaximumValue, Source={StaticResource Strings}}" />
+                <Slider     Grid.Row="6" Grid.Column="1" Value="{Binding YAxisMaximumValue, Mode=TwoWay}" Maximum="1000" Minimum="500"  IsSnapToTickEnabled="True" TickFrequency="10"/>
+                <TextBlock  Grid.Row="6" Grid.Column="2" Text="{Binding YAxisMaximumValue, StringFormat='##0', Mode=OneWay}" Margin="{StaticResource OptionsTextLeftMargin}"/>
+            
+            </Grid>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

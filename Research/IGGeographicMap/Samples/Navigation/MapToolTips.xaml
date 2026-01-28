@@ -1,0 +1,76 @@
+﻿<framework:SampleContainer x:Class="IGGeographicMap.Samples.MapToolTips"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="MapToolTips Page"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:providers="clr-namespace:Infragistics.Samples.Shared.DataProviders;assembly=Infragistics.Samples.Shared"
+      xmlns:resources="clr-namespace:Infragistics.Samples.Shared.Resources;assembly=Infragistics.Samples.Shared">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGeographicMap;component/Assets/Global.xaml" />
+                
+                
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.Resources>
+            <resources:ModelStrings x:Key="ModelStrings" />
+              
+        </Grid.Resources>
+        <ig:XamGeographicMap x:Name="GeoMap"
+                             PlotAreaBackground="{StaticResource GeoMapSbPlotAreaBackgroundBrush}"
+                             OverviewPlusDetailPaneVisibility="Collapsed"
+                             Zoomable="True">
+            <ig:XamGeographicMap.Series>
+                <!-- symbol series with locations of earthquakes as data source -->
+                <ig:GeographicSymbolSeries ItemsSource="{Binding}"
+                                           LatitudeMemberPath="Fields[lat]" MarkerCollisionAvoidance="None" MaximumMarkers="2200"
+                                           LongitudeMemberPath="Fields[lon]">
+                    <!-- #BEGIN SNIPPET# -->
+                    <!-- ========================================================================== -->
+                    <!-- custom tooltip with bindings to data loaded from database file (DBF) -->
+                    <ig:GeographicSymbolSeries.ToolTip>
+                            <StackPanel Margin="4">
+                                <TextBlock Text="{Binding Path=XWM_Earthquake, Source={StaticResource ModelStrings}}" FontWeight="Bold" Margin="2" Foreground="{StaticResource ForegroundBrush}"/>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock Text="{Binding Path=XWM_Region, Source={StaticResource ModelStrings}}" Margin="2" />
+                                    <TextBlock Text="{Binding Path=Item.Fields[region]}" Foreground="{StaticResource ForegroundBrush}" Margin="4,2,2,2" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock Text="{Binding Path=XWM_Magnitude, Source={StaticResource ModelStrings}}" Margin="2" />
+                                    <TextBlock Text="{Binding Path=Item.Fields[magnitude], StringFormat=0.0}" Foreground="{StaticResource ForegroundBrush}" Margin="4,2,2,2" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock Text="{Binding Path=XWM_Depth, Source={StaticResource ModelStrings}}" Margin="2" />
+                                    <TextBlock Text="{Binding Path=Item.Fields[depth], StringFormat=0.0}" Foreground="{StaticResource ForegroundBrush}" Margin="4,2,2,2" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock Text="{Binding Path=XWM_Longitude, Source={StaticResource ModelStrings}}" Margin="2" />
+                                    <TextBlock Text="{Binding Path=Item.Fields[lon], StringFormat=0.0}" Foreground="{StaticResource ForegroundBrush}" Margin="4,2,2,2" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock Text="{Binding Path=XWM_Latitude, Source={StaticResource ModelStrings}}" Margin="2" />
+                                    <TextBlock Text="{Binding Path=Item.Fields[lat], StringFormat=0.0}" Foreground="{StaticResource ForegroundBrush}" Margin="4,2,2,2" />
+                                </StackPanel>
+                            </StackPanel>
+                    </ig:GeographicSymbolSeries.ToolTip>
+                    <!-- ========================================================================== -->
+                    <!-- #END SNIPPET# -->
+                </ig:GeographicSymbolSeries>
+            </ig:XamGeographicMap.Series>
+        </ig:XamGeographicMap>
+        <TextBlock x:Name="MapDataSource" Text="{Binding Path=XW_Source_USGS, Source={StaticResource CommonStrings}}" Style="{StaticResource SourceDataTextBoxStyle}"  />
+        <TextBlock x:Name="OpenSourceCopyright" Text="{Binding Path=XW_OpenSourceCopyright, Source={StaticResource CommonStrings}}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Style="{StaticResource SourceTextblockStyle}"  />
+              
+
+    </Grid>
+</framework:SampleContainer>

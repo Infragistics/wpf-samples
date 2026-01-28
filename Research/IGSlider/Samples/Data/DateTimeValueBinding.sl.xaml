@@ -1,0 +1,83 @@
+﻿<framework:SampleContainer x:Class="IGSlider.Samples.Data.DateTimeValueBinding"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d" d:DesignHeight="400" d:DesignWidth="700"
+      xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:mscontrols="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <converters:FormatConverter x:Key="dateConverter" />
+
+            <LinearGradientBrush x:Key="TrackFillBrush"  EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FF3AB5E9" />
+                <GradientStop Color="#FF2380A8" Offset="1" />
+            </LinearGradientBrush>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGSlider;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/IGSlider;component/Assets/SharedSampleStyles.xaml" />
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamSlider.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+    
+    <Grid x:Name="LayoutRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.353*"/>
+            <ColumnDefinition Width="0.647*"/>
+        </Grid.ColumnDefinitions>
+
+        <mscontrols:Calendar x:Name="calendarRight" VerticalAlignment="Center"
+                             SelectedDatesChanged="calendarRight_SelectedDatesChanged" IsTodayHighlighted="False"
+                             DisplayDateChanged="calendarRight_DisplayDateChanged" d:LayoutOverrides="Width" Margin="0,0,10,0" 
+                             Style="{StaticResource CalendarStyle}"/>
+        <Grid Height="70" VerticalAlignment="Center" d:LayoutOverrides="GridBox" Grid.Column="1" Margin="10,0">
+
+            <!--#BEGIN SNIPPET#-->
+            <ig:XamDateTimeSlider x:Name="sliderRight"
+                                  TrackClickAction="MoveToPoint" IsMouseWheelEnabled="True"
+                                  MinValue="09/01/2013" 
+                                  MaxValue="09/30/2013" 
+                                  Value="{Binding DisplayDate, ElementName=calendarRight, Mode=TwoWay}"
+                                  Foreground="#FF333333"
+                                  Height="70">
+
+                <ig:XamDateTimeSlider.Thumb>
+                    <ig:XamSliderDateTimeThumb IsSnapToTickEnabled="True" TrackFillBrush="{StaticResource TrackFillBrush}"/>
+                </ig:XamDateTimeSlider.Thumb>
+
+                <ig:XamDateTimeSlider.TickMarks>
+                    <ig:DateTimeSliderTickMarks FrequencyType="Days" TickMarksFrequency="1" IncludeSliderEnds="True">
+                        <ig:DateTimeSliderTickMarks.HorizontalTickMarksTemplate>
+                            <DataTemplate>
+                                <Rectangle Width="1" Height="8" Fill="#FF8D9CA0" Margin="0,0,0,10" />
+                            </DataTemplate>
+                        </ig:DateTimeSliderTickMarks.HorizontalTickMarksTemplate>
+                    </ig:DateTimeSliderTickMarks>
+                    <ig:DateTimeSliderTickMarks FrequencyType="Days" TickMarksFrequency="7" IncludeSliderEnds="True">
+                        <ig:DateTimeSliderTickMarks.HorizontalTickMarksTemplate>
+                            <DataTemplate>
+                                <Rectangle Width="1" Height="12" Fill="#FF333333" Margin="0,0,0,14" />
+                            </DataTemplate>
+                        </ig:DateTimeSliderTickMarks.HorizontalTickMarksTemplate>
+                    </ig:DateTimeSliderTickMarks>
+
+                    <ig:DateTimeSliderTickMarks UseFrequency="False" FrequencyType="Hours" NumberOfTickMarks="1" IncludeSliderEnds="True">
+                        <ig:DateTimeSliderTickMarks.HorizontalTickMarksTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Converter={StaticResource dateConverter}, ConverterParameter=DATE}" Margin="0,37,0,0"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ig:DateTimeSliderTickMarks.HorizontalTickMarksTemplate>
+                    </ig:DateTimeSliderTickMarks>
+                </ig:XamDateTimeSlider.TickMarks>
+            </ig:XamDateTimeSlider>
+            <!--#END SNIPPET#-->
+        </Grid>
+    </Grid>
+</framework:SampleContainer>

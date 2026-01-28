@@ -1,0 +1,94 @@
+﻿<framework:SampleContainer
+    x:Class="IGEditors.Samples.Display.TextEditor_Mask"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+    xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+    xmlns:igEditors="http://infragistics.com/Editors"
+    xmlns:res="clr-namespace:IGEditors.Resources"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	Title="TextEditor Mask">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGEditors;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <res:EditorsStringRes x:Key="resStrings" />
+
+            <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type sys:Enum}" x:Key="odpDataMode">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="igEditors:MaskMode" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+    
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+  
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition />
+		</Grid.RowDefinitions>
+    
+		<StackPanel
+			Orientation="Horizontal"
+			Grid.Row="1"
+			Margin="3"
+			VerticalAlignment="Top">
+			<Label Content="{Binding Source={StaticResource resStrings}, Path=StandaloneUsage_MaskDataMode_Main_Label1}" FontWeight="Bold" />
+      
+            <!-- #BEGIN SNIPPET# -->
+			<igEditors:XamMaskedEditor
+				x:Name="txtEditor"
+				Mask="{Binding Source={StaticResource resStrings}, Path=StandaloneUsage_MaskDataMode_Main_Label2}"
+				Width="120"
+				VerticalAlignment="Center"
+				Margin="3"
+				Text="1234567890"
+                Theme="RoyalLight" />
+            <!-- #END SNIPPET# -->
+    
+		</StackPanel>
+    
+		<StackPanel
+			Orientation="Horizontal"
+			Grid.Row="2"
+			Margin="3"
+			VerticalAlignment="Top">
+			<Label Content="{Binding Source={StaticResource resStrings}, Path=StandaloneUsage_MaskDataMode_Main_Label3}" FontWeight="Bold" />
+			<igEditors:XamTextEditor
+				x:Name="txtValue"
+				Width="120"
+				VerticalAlignment="Center"
+				Margin="3"
+				Text="{Binding Source={StaticResource resStrings}, Path=StandaloneUsage_MaskDataMode_Main_Label4, Mode=OneWay}"
+				Value="{Binding Path=Value, ElementName=txtEditor, Mode=Default}"
+				ReadOnly="True"
+                Theme="RoyalLight" />
+		</StackPanel>
+
+        <controls:OptionsPanel VerticalAlignment="Top" IsMovable="False" Margin="0,0,0,10"
+            HeaderText="{Binding Path=StandaloneUsage_MaskDataMode_Main_Label5, Source={StaticResource resStrings}}">
+			<Grid>
+				<StackPanel Orientation="Horizontal">
+					<TextBlock
+						Text="{Binding Source={StaticResource resStrings}, Path=StandaloneUsage_MaskDataMode_Main_Label6}"
+						Margin="0,0,5,0"
+						VerticalAlignment="Center"
+						 />
+					<ComboBox
+						Grid.Row="0"
+						x:Name="cboInvalidValueBehaviors"
+						SelectedItem="{Binding Path=DataMode, ElementName=txtEditor}"
+						ItemsSource="{Binding Source={StaticResource odpDataMode}}"
+                        SelectionChanged="cboInvalidValueBehaviors_SelectionChanged" />
+				</StackPanel>
+			</Grid>
+        </controls:OptionsPanel>
+    
+	</Grid>
+</framework:SampleContainer>

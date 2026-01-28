@@ -1,0 +1,256 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace IGDataChart.Models
+{
+    public class StockTeslaPrice
+    {
+        public double Open { get; set; }
+        public double Close { get; set; }
+        public double High { get; set; }
+        public double Low { get; set; }
+        public double Volume { get; set; }
+        public double Change { get; set; }
+
+        public string Date { get; set; }
+        public int Index { get; set; }
+    }
+
+    public class StockTeslaData : List<StockTeslaPrice>
+    {
+        public StockTeslaData()
+        {
+            Add(new StockTeslaPrice { Date = "2019-01-10", Index = 0, Open = 20.4, Close = 23, High = 23, Low = 19.8, Change = 12.7, Volume = 779333701 });
+            Add(new StockTeslaPrice { Date = "2019-01-22", Index = 1, Open = 22.8, Close = 19.9, High = 23.5, Low = 19.7, Change = -12.6, Volume = 911781100 });
+            Add(new StockTeslaPrice { Date = "2019-01-31", Index = 2, Open = 19.5, Close = 20.5, High = 20.8, Low = 18.6, Change = 5, Volume = 926375717 });
+            Add(new StockTeslaPrice { Date = "2019-02-11", Index = 3, Open = 20.4, Close = 20.9, High = 21.6, Low = 19.9, Change = 2.4, Volume = 687520471 });
+            Add(new StockTeslaPrice { Date = "2019-02-21", Index = 4, Open = 21.1, Close = 19.4, High = 21.2, Low = 19.4, Change = -7.9, Volume = 597552272 });
+            Add(new StockTeslaPrice { Date = "2019-03-04", Index = 5, Open = 19.6, Close = 19, High = 21.3, Low = 18.9, Change = -3.1, Volume = 1218669201 });
+            Add(new StockTeslaPrice { Date = "2019-03-13", Index = 6, Open = 18.8, Close = 19.3, High = 19.5, Low = 18, Change = 2.5, Volume = 1034156904 });
+            Add(new StockTeslaPrice { Date = "2019-03-22", Index = 7, Open = 19.5, Close = 17.6, High = 19.7, Low = 17.6, Change = -9.5, Volume = 980694095 });
+            Add(new StockTeslaPrice { Date = "2019-04-02", Index = 8, Open = 17.3, Close = 19.1, High = 19.3, Low = 17, Change = 10.1, Volume = 788473494 });
+            Add(new StockTeslaPrice { Date = "2019-04-11", Index = 9, Open = 19.2, Close = 17.9, High = 19.7, Low = 17.4, Change = -6.6, Volume = 1165555442 });
+            Add(new StockTeslaPrice { Date = "2019-04-23", Index = 10, Open = 18, Close = 17.6, High = 18.3, Low = 17, Change = -2.3, Volume = 870373200 });
+            Add(new StockTeslaPrice { Date = "2019-05-02", Index = 11, Open = 17.6, Close = 16.3, High = 17.7, Low = 15.4, Change = -7.5, Volume = 1629432326 });
+            Add(new StockTeslaPrice { Date = "2019-05-13", Index = 12, Open = 16.3, Close = 15.1, High = 17.2, Low = 15, Change = -6.9, Volume = 1131045605 });
+            Add(new StockTeslaPrice { Date = "2019-05-22", Index = 13, Open = 15.3, Close = 12.8, High = 15.6, Low = 12.8, Change = -15.9, Volume = 1455503588 });
+            Add(new StockTeslaPrice { Date = "2019-06-03", Index = 14, Open = 13, Close = 11.9, High = 13.3, Low = 11.8, Change = -7.9, Volume = 1415442268 });
+            Add(new StockTeslaPrice { Date = "2019-06-12", Index = 15, Open = 12.1, Close = 14, High = 14.9, Low = 12, Change = 15.6, Volume = 1515000443 });
+            Add(new StockTeslaPrice { Date = "2019-06-21", Index = 16, Open = 14, Close = 14.8, High = 15.6, Low = 13.8, Change = 5.5, Volume = 1009123371 });
+            Add(new StockTeslaPrice { Date = "2019-07-02", Index = 17, Open = 14.9, Close = 15, High = 15.5, Low = 14.5, Change = 0.6, Volume = 766921642 });
+            Add(new StockTeslaPrice { Date = "2019-07-12", Index = 18, Open = 16, Close = 16.3, High = 16.4, Low = 15.2, Change = 2.4, Volume = 887983836 });
+            Add(new StockTeslaPrice { Date = "2019-07-23", Index = 19, Open = 16.5, Close = 17.3, High = 17.5, Low = 16.3, Change = 4.9, Volume = 788941000 });
+            Add(new StockTeslaPrice { Date = "2019-08-01", Index = 20, Open = 17.3, Close = 15.6, High = 17.7, Low = 14.8, Change = -9.8, Volume = 1175082297 });
+            Add(new StockTeslaPrice { Date = "2019-08-12", Index = 21, Open = 15.4, Close = 15.3, High = 16, Low = 15, Change = -1, Volume = 560129569 });
+            Add(new StockTeslaPrice { Date = "2019-08-21", Index = 22, Open = 15.3, Close = 14.7, High = 15.7, Low = 14.1, Change = -3.5, Volume = 677293701 });
+            Add(new StockTeslaPrice { Date = "2019-08-30", Index = 23, Open = 14.9, Close = 15, High = 15.5, Low = 14.1, Change = 1.3, Volume = 650239370 });
+            Add(new StockTeslaPrice { Date = "2019-09-11", Index = 24, Open = 14.9, Close = 16.5, High = 16.5, Low = 14.6, Change = 10.3, Volume = 636766167 });
+            Add(new StockTeslaPrice { Date = "2019-09-20", Index = 25, Open = 16.5, Close = 16, High = 16.9, Low = 15.9, Change = -2.9, Volume = 572802643 });
+            Add(new StockTeslaPrice { Date = "2019-10-01", Index = 26, Open = 16, Close = 16.3, High = 16.6, Low = 14.6, Change = 2, Volume = 931821239 });
+            Add(new StockTeslaPrice { Date = "2019-10-10", Index = 27, Open = 16.2, Close = 16.3, High = 16.6, Low = 15, Change = 0.6, Volume = 891798049 });
+            Add(new StockTeslaPrice { Date = "2019-10-21", Index = 28, Open = 16.5, Close = 16.9, High = 17.7, Low = 16.5, Change = 2.6, Volume = 713093463 });
+            Add(new StockTeslaPrice { Date = "2019-10-30", Index = 29, Open = 17, Close = 21, High = 22.7, Low = 16.7, Change = 23.9, Volume = 1752943598 });
+            Add(new StockTeslaPrice { Date = "2019-11-08", Index = 30, Open = 20.9, Close = 22.5, High = 22.8, Low = 20.6, Change = 7.7, Volume = 834957256 });
+            Add(new StockTeslaPrice { Date = "2019-11-19", Index = 31, Open = 22.9, Close = 24, High = 24, Low = 22.8, Change = 4.5, Volume = 738746390 });
+            Add(new StockTeslaPrice { Date = "2019-11-29", Index = 32, Open = 24, Close = 22, High = 24.1, Low = 21.8, Change = -8.4, Volume = 870685288 });
+            Add(new StockTeslaPrice { Date = "2019-12-10", Index = 33, Open = 22, Close = 23.3, High = 23.4, Low = 21.8, Change = 5.9, Volume = 712016613 });
+            Add(new StockTeslaPrice { Date = "2019-12-19", Index = 34, Open = 23.5, Close = 26.9, High = 27.1, Low = 23.4, Change = 14.8, Volume = 1203765433 });
+            Add(new StockTeslaPrice { Date = "2019-12-31", Index = 35, Open = 27.4, Close = 27.9, High = 29, Low = 26.7, Change = 2, Volume = 1195073357 });
+            Add(new StockTeslaPrice { Date = "2020-01-10", Index = 36, Open = 28.3, Close = 31.9, High = 33.3, Low = 28.1, Change = 12.6, Volume = 1925386078 });
+            Add(new StockTeslaPrice { Date = "2020-01-22", Index = 37, Open = 32.9, Close = 38, High = 39.6, Low = 32.8, Change = 15.4, Volume = 2364043518 });
+            Add(new StockTeslaPrice { Date = "2020-01-31", Index = 38, Open = 37.6, Close = 43.4, High = 43.5, Low = 36, Change = 15.3, Volume = 1835141382 });
+            Add(new StockTeslaPrice { Date = "2020-02-11", Index = 39, Open = 44.9, Close = 51.6, High = 64.6, Low = 44.9, Change = 14.9, Volume = 3748903126 });
+            Add(new StockTeslaPrice { Date = "2020-02-21", Index = 40, Open = 51.9, Close = 60.1, High = 63, Low = 49, Change = 15.8, Volume = 1921517039 });
+            Add(new StockTeslaPrice { Date = "2020-03-03", Index = 41, Open = 55.9, Close = 49.7, High = 57.6, Low = 40.8, Change = -11.1, Volume = 2121850940 });
+            Add(new StockTeslaPrice { Date = "2020-03-12", Index = 42, Open = 50.9, Close = 37.4, High = 51.1, Low = 36.4, Change = -26.6, Volume = 1553329923 });
+            Add(new StockTeslaPrice { Date = "2020-03-23", Index = 43, Open = 39.7, Close = 29, High = 40.5, Low = 23.4, Change = -27, Volume = 2487688157 });
+            Add(new StockTeslaPrice { Date = "2020-04-01", Index = 44, Open = 31.8, Close = 32.1, High = 37.3, Low = 31.6, Change = 0.9, Volume = 1785601357 });
+            Add(new StockTeslaPrice { Date = "2020-04-13", Index = 45, Open = 32.1, Close = 43.4, High = 43.5, Low = 29.8, Change = 35.3, Volume = 1860352620 });
+            Add(new StockTeslaPrice { Date = "2020-04-22", Index = 46, Open = 46.6, Close = 48.8, High = 51.7, Low = 44.9, Change = 4.7, Volume = 2056797321 });
+            Add(new StockTeslaPrice { Date = "2020-05-01", Index = 47, Open = 48.5, Close = 46.8, High = 58, Low = 45.5, Change = -3.6, Volume = 2093959203 });
+            Add(new StockTeslaPrice { Date = "2020-05-12", Index = 48, Open = 46.7, Close = 54, High = 56.2, Low = 46.5, Change = 15.5, Volume = 1611543246 });
+            Add(new StockTeslaPrice { Date = "2020-05-21", Index = 49, Open = 54.7, Close = 55.2, High = 55.6, Low = 50.9, Change = 0.8, Volume = 1262468113 });
+            Add(new StockTeslaPrice { Date = "2020-06-02", Index = 50, Open = 54.8, Close = 58.8, High = 60.6, Low = 52.3, Change = 7.2, Volume = 1160487993 });
+            Add(new StockTeslaPrice { Date = "2020-06-11", Index = 51, Open = 59.2, Close = 64.9, High = 68.5, Low = 57.2, Change = 9.5, Volume = 1270377400 });
+            Add(new StockTeslaPrice { Date = "2020-06-22", Index = 52, Open = 65.3, Close = 66.3, High = 67.9, Low = 60.6, Change = 1.5, Volume = 1217946366 });
+            Add(new StockTeslaPrice { Date = "2020-07-01", Index = 53, Open = 66.6, Close = 74.6, High = 75.7, Low = 62.5, Change = 12.1, Volume = 1120591270 });
+            Add(new StockTeslaPrice { Date = "2020-07-13", Index = 54, Open = 81.4, Close = 99.8, High = 119.7, Low = 79, Change = 22.6, Volume = 2244920779 });
+            Add(new StockTeslaPrice { Date = "2020-07-22", Index = 55, Open = 103.7, Close = 106.2, High = 111.7, Low = 95.4, Change = 2.3, Volume = 1662846099 });
+            Add(new StockTeslaPrice { Date = "2020-07-31", Index = 56, Open = 111.9, Close = 95.4, High = 112.6, Low = 91.1, Change = -14.8, Volume = 1573159944 });
+            Add(new StockTeslaPrice { Date = "2020-08-11", Index = 57, Open = 96.6, Close = 91.6, High = 101.8, Low = 91, Change = -5.2, Volume = 798587331 });
+            Add(new StockTeslaPrice { Date = "2020-08-20", Index = 58, Open = 98, Close = 133.5, High = 134.8, Low = 95.7, Change = 36.2, Volume = 1866534416 });
+            Add(new StockTeslaPrice { Date = "2020-08-31", Index = 59, Open = 136.3, Close = 166.1, High = 166.7, Low = 128.5, Change = 21.9, Volume = 2008507459 });
+            Add(new StockTeslaPrice { Date = "2020-09-10", Index = 60, Open = 167.4, Close = 123.8, High = 167.5, Low = 110, Change = -26, Volume = 1992227059 });
+            Add(new StockTeslaPrice { Date = "2020-09-21", Index = 61, Open = 127.3, Close = 149.8, High = 154, Low = 120.2, Change = 17.7, Volume = 1758737696 });
+            Add(new StockTeslaPrice { Date = "2020-09-30", Index = 62, Open = 143.2, Close = 143, High = 145.9, Low = 117.1, Change = -0.1, Volume = 1459893236 });
+            Add(new StockTeslaPrice { Date = "2020-10-09", Index = 63, Open = 146.9, Close = 144.7, High = 149.6, Low = 135.4, Change = -1.5, Volume = 985545158 });
+            Add(new StockTeslaPrice { Date = "2020-10-20", Index = 64, Open = 147.3, Close = 140.6, High = 155.3, Low = 139.7, Change = -4.5, Volume = 773077727 });
+            Add(new StockTeslaPrice { Date = "2020-10-29", Index = 65, Open = 140.9, Close = 136.9, High = 148.4, Low = 135.3, Change = -2.8, Volume = 615339122 });
+            Add(new StockTeslaPrice { Date = "2020-11-09", Index = 66, Open = 135.6, Close = 140.4, High = 150.8, Low = 126.4, Change = 3.5, Volume = 669171368 });
+            Add(new StockTeslaPrice { Date = "2020-11-18", Index = 67, Open = 140, Close = 162.2, High = 165.3, Low = 132, Change = 15.8, Volume = 760451265 });
+            Add(new StockTeslaPrice { Date = "2020-11-30", Index = 68, Open = 164, Close = 189.2, High = 202.6, Low = 162.5, Change = 15.4, Volume = 1046371155 });
+            Add(new StockTeslaPrice { Date = "2020-12-09", Index = 69, Open = 199.2, Close = 201.5, High = 218.1, Low = 180.4, Change = 1.2, Volume = 1055933265 });
+            Add(new StockTeslaPrice { Date = "2020-12-18", Index = 70, Open = 191.5, Close = 231.7, High = 231.7, Low = 188.8, Change = 21, Volume = 1593943601 });
+            Add(new StockTeslaPrice { Date = "2020-12-30", Index = 71, Open = 222.1, Close = 231.6, High = 232.2, Low = 204.7, Change = 4.3, Volume = 791942570 });
+            Add(new StockTeslaPrice { Date = "2021-01-11", Index = 72, Open = 233.3, Close = 270.4, High = 294.8, Low = 230.4, Change = 15.9, Volume = 1084025779 });
+            Add(new StockTeslaPrice { Date = "2021-01-21", Index = 73, Open = 277, Close = 281.7, High = 289.3, Low = 273, Change = 1.7, Volume = 663774487 });
+            Add(new StockTeslaPrice { Date = "2021-02-01", Index = 74, Open = 278.1, Close = 279.9, High = 300.1, Low = 260, Change = 0.7, Volume = 595397009 });
+            Add(new StockTeslaPrice { Date = "2021-02-10", Index = 75, Open = 281.6, Close = 268.3, High = 293.5, Low = 266.7, Change = -4.7, Volume = 445813486 });
+            Add(new StockTeslaPrice { Date = "2021-02-22", Index = 76, Open = 270.8, Close = 238.2, High = 276.6, Low = 236.7, Change = -12.1, Volume = 496372009 });
+            Add(new StockTeslaPrice { Date = "2021-03-03", Index = 77, Open = 220.7, Close = 217.7, High = 290.7, Low = 206.3, Change = -1.3, Volume = 793689739 });
+            Add(new StockTeslaPrice { Date = "2021-03-12", Index = 78, Open = 218.6, Close = 231.2, High = 291.3, Low = 179.8, Change = 5.8, Volume = 1215209162 });
+            Add(new StockTeslaPrice { Date = "2021-03-23", Index = 79, Open = 231.4, Close = 220.7, High = 237.7, Low = 208.2, Change = -4.6, Volume = 744776145 });
+            Add(new StockTeslaPrice { Date = "2021-04-01", Index = 80, Open = 222.6, Close = 220.6, High = 230.8, Low = 197, Change = -0.9, Volume = 730733684 });
+            Add(new StockTeslaPrice { Date = "2021-04-13", Index = 81, Open = 235.9, Close = 254.1, High = 254.3, Low = 222.6, Change = 7.7, Volume = 646721884 });
+            Add(new StockTeslaPrice { Date = "2021-04-22", Index = 82, Open = 256.9, Close = 239.9, High = 260.3, Low = 230.6, Change = -6.6, Volume = 740840774 });
+            Add(new StockTeslaPrice { Date = "2021-05-03", Index = 83, Open = 239.9, Close = 228.3, High = 249.8, Low = 222, Change = -4.8, Volume = 623423313 });
+            Add(new StockTeslaPrice { Date = "2021-05-12", Index = 84, Open = 226.3, Close = 196.6, High = 230, Low = 195.6, Change = -13.1, Volume = 643844974 });
+            Add(new StockTeslaPrice { Date = "2021-05-21", Index = 85, Open = 200.5, Close = 193.6, High = 202.2, Low = 182.3, Change = -3.4, Volume = 729192883 });
+            Add(new StockTeslaPrice { Date = "2021-06-02", Index = 86, Open = 193.9, Close = 201.7, High = 211.9, Low = 191.2, Change = 4, Volume = 545095944 });
+            Add(new StockTeslaPrice { Date = "2021-06-11", Index = 87, Open = 200.6, Close = 203.3, High = 207.7, Low = 190.4, Change = 1.3, Volume = 478366128 });
+            Add(new StockTeslaPrice { Date = "2021-06-22", Index = 88, Open = 204.1, Close = 207.9, High = 210.5, Low = 197.8, Change = 1.9, Volume = 454698495 });
+            Add(new StockTeslaPrice { Date = "2021-07-01", Index = 89, Open = 210.7, Close = 226, High = 232.5, Low = 210, Change = 7.3, Volume = 558441596 });
+            Add(new StockTeslaPrice { Date = "2021-07-13", Index = 90, Open = 226.3, Close = 222.8, High = 233.3, Low = 206.8, Change = -1.5, Volume = 470942387 });
+            Add(new StockTeslaPrice { Date = "2021-07-22", Index = 91, Open = 223.6, Close = 216.4, High = 226.2, Low = 207.1, Change = -3.2, Volume = 372195097 });
+            Add(new StockTeslaPrice { Date = "2021-08-02", Index = 92, Open = 215.5, Close = 236.6, High = 242.3, Low = 209.1, Change = 9.8, Volume = 547284685 });
+            Add(new StockTeslaPrice { Date = "2021-08-11", Index = 93, Open = 239.7, Close = 235.9, High = 241.6, Low = 232.5, Change = -1.6, Volume = 315341455 });
+            Add(new StockTeslaPrice { Date = "2021-08-20", Index = 94, Open = 235.4, Close = 226.8, High = 243.3, Low = 216.3, Change = -3.7, Volume = 392227478 });
+            Add(new StockTeslaPrice { Date = "2021-08-31", Index = 95, Open = 228.5, Close = 245.2, High = 246.8, Low = 226.9, Change = 7.3, Volume = 337503634 });
+            Add(new StockTeslaPrice { Date = "2021-09-10", Index = 96, Open = 244.7, Close = 245.4, High = 254.8, Low = 241.4, Change = 0.3, Volume = 328100734 });
+            Add(new StockTeslaPrice { Date = "2021-09-21", Index = 97, Open = 246.7, Close = 246.5, High = 253.7, Low = 236.3, Change = -0.1, Volume = 420153012 });
+            Add(new StockTeslaPrice { Date = "2021-09-30", Index = 98, Open = 247.8, Close = 258.5, High = 266.3, Low = 246.4, Change = 4.3, Volume = 422393262 });
+            Add(new StockTeslaPrice { Date = "2021-10-11", Index = 99, Open = 259.5, Close = 264, High = 269, Low = 254.5, Change = 1.7, Volume = 392144589 });
+            Add(new StockTeslaPrice { Date = "2021-10-20", Index = 100, Open = 267, Close = 288.6, High = 292.6, Low = 265.5, Change = 8.1, Volume = 368796877 });
+            Add(new StockTeslaPrice { Date = "2021-10-29", Index = 101, Open = 285.3, Close = 371.3, High = 371.7, Low = 285.2, Change = 30.1, Volume = 825862313 });
+            Add(new StockTeslaPrice { Date = "2021-11-09", Index = 102, Open = 381.7, Close = 341.2, High = 414.5, Low = 337.2, Change = -10.6, Volume = 818978542 });
+            Add(new StockTeslaPrice { Date = "2021-11-18", Index = 103, Open = 336.8, Close = 365.5, High = 373.2, Low = 326.2, Change = 8.5, Volume = 613304311 });
+            Add(new StockTeslaPrice { Date = "2021-11-30", Index = 104, Open = 366.3, Close = 381.6, High = 400.6, Low = 354, Change = 4.2, Volume = 515052382 });
+            Add(new StockTeslaPrice { Date = "2021-12-09", Index = 105, Open = 386.9, Close = 334.6, High = 390.9, Low = 316.8, Change = -13.5, Volume = 473333567 });
+            Add(new StockTeslaPrice { Date = "2021-12-20", Index = 106, Open = 336.2, Close = 300, High = 340.3, Low = 297.8, Change = -10.8, Volume = 524367113 });
+            Add(new StockTeslaPrice { Date = "2021-12-30", Index = 107, Open = 305.6, Close = 356.8, High = 373, Low = 295.4, Change = 16.7, Volume = 492530059 });
+            Add(new StockTeslaPrice { Date = "2022-01-10", Index = 108, Open = 357.8, Close = 352.7, High = 402.7, Low = 326.7, Change = -1.4, Volume = 592103938 });
+            Add(new StockTeslaPrice { Date = "2022-01-20", Index = 109, Open = 351.2, Close = 332.1, High = 371.9, Low = 331.3, Change = -5.4, Volume = 532857144 });
+            Add(new StockTeslaPrice { Date = "2022-01-31", Index = 110, Open = 332.1, Close = 312.2, High = 334.8, Low = 264, Change = -6, Volume = 833589022 });
+            Add(new StockTeslaPrice { Date = "2022-02-09", Index = 111, Open = 311.7, Close = 310.7, High = 315.9, Low = 293.5, Change = -0.3, Volume = 456395505 });
+            Add(new StockTeslaPrice { Date = "2022-02-18", Index = 112, Open = 302.8, Close = 285.7, High = 314.6, Low = 279.2, Change = -5.7, Volume = 446153356 });
+            Add(new StockTeslaPrice { Date = "2022-03-02", Index = 113, Open = 278, Close = 293.3, High = 296.6, Low = 233.3, Change = 5.5, Volume = 638352514 });
+            Add(new StockTeslaPrice { Date = "2022-03-11", Index = 114, Open = 292.9, Close = 265.1, High = 295.5, Low = 260.7, Change = -9.5, Volume = 466566467 });
+            Add(new StockTeslaPrice { Date = "2022-03-22", Index = 115, Open = 260.2, Close = 331.3, High = 332.6, Low = 252, Change = 27.3, Volume = 576869668 });
+            Add(new StockTeslaPrice { Date = "2022-03-31", Index = 116, Open = 326.6, Close = 359.2, High = 371.6, Low = 325.5, Change = 10, Volume = 536607263 });
+            Add(new StockTeslaPrice { Date = "2022-04-11", Index = 117, Open = 360.4, Close = 325.3, High = 384.3, Low = 324.9, Change = -9.7, Volume = 499682510 });
+            Add(new StockTeslaPrice { Date = "2022-04-21", Index = 118, Open = 332.5, Close = 336.3, High = 364.1, Low = 324.4, Change = 1.1, Volume = 457210487 });
+            Add(new StockTeslaPrice { Date = "2022-05-02", Index = 119, Open = 338.3, Close = 301, High = 345, Low = 273.9, Change = -11, Volume = 639990965 });
+            Add(new StockTeslaPrice { Date = "2022-05-11", Index = 120, Open = 301.1, Close = 244.7, High = 318.5, Low = 242.4, Change = -18.7, Volume = 583211967 });
+            Add(new StockTeslaPrice { Date = "2022-05-20", Index = 121, Open = 233.7, Close = 221.3, High = 262.4, Low = 211, Change = -5.3, Volume = 721880082 });
+            Add(new StockTeslaPrice { Date = "2022-06-01", Index = 122, Open = 218.3, Close = 246.8, High = 259.6, Low = 206.9, Change = 13, Volume = 644596235 });
+            Add(new StockTeslaPrice { Date = "2022-06-10", Index = 123, Open = 244.2, Close = 232.2, High = 264.2, Low = 227.9, Change = -4.9, Volume = 633672873 });
+            Add(new StockTeslaPrice { Date = "2022-06-22", Index = 124, Open = 223.2, Close = 236.1, High = 246.8, Low = 208.7, Change = 5.8, Volume = 744240764 });
+            Add(new StockTeslaPrice { Date = "2022-07-01", Index = 125, Open = 237.9, Close = 227.3, High = 252.1, Low = 218.9, Change = -4.5, Volume = 631776422 });
+            Add(new StockTeslaPrice { Date = "2022-07-13", Index = 126, Open = 223, Close = 237, High = 255, Low = 216.2, Change = 6.3, Volume = 625812242 });
+            Add(new StockTeslaPrice { Date = "2022-07-22", Index = 127, Open = 234.9, Close = 272.2, High = 280.8, Low = 229.3, Change = 15.9, Volume = 646037224 });
+            Add(new StockTeslaPrice { Date = "2022-08-02", Index = 128, Open = 272.2, Close = 300.6, High = 311.9, Low = 256.3, Change = 10.4, Volume = 611660612 });
+            Add(new StockTeslaPrice { Date = "2022-08-11", Index = 129, Open = 305, Close = 286.6, High = 313.6, Low = 279.4, Change = -6, Volume = 616204291 });
+            Add(new StockTeslaPrice { Date = "2022-08-22", Index = 130, Open = 289.4, Close = 289.9, High = 314.7, Low = 285, Change = 0.2, Volume = 490658060 });
+            Add(new StockTeslaPrice { Date = "2022-08-31", Index = 131, Open = 291.5, Close = 275.6, High = 303.6, Low = 271.8, Change = -5.4, Volume = 376152572 });
+            Add(new StockTeslaPrice { Date = "2022-09-12", Index = 132, Open = 272.6, Close = 304.4, High = 305.5, Low = 265.7, Change = 11.7, Volume = 367924580 });
+            Add(new StockTeslaPrice { Date = "2022-09-21", Index = 133, Open = 292.9, Close = 300.8, High = 313.8, Low = 290.4, Change = 2.7, Volume = 477171180 });
+            Add(new StockTeslaPrice { Date = "2022-09-30", Index = 134, Open = 299.9, Close = 265.2, High = 301.3, Low = 262.5, Change = -11.5, Volume = 454307920 });
+            Add(new StockTeslaPrice { Date = "2022-10-11", Index = 135, Open = 254.5, Close = 216.5, High = 257.5, Low = 215, Change = -14.9, Volume = 593078170 });
+            Add(new StockTeslaPrice { Date = "2022-10-20", Index = 136, Open = 215.3, Close = 207.3, High = 229.8, Low = 202, Change = -3.7, Volume = 592158560 });
+            Add(new StockTeslaPrice { Date = "2022-10-31", Index = 137, Open = 206.4, Close = 227.5, High = 233.8, Low = 198.6, Change = 10.2, Volume = 550341050 });
+            Add(new StockTeslaPrice { Date = "2022-11-09", Index = 138, Open = 234, Close = 177.6, High = 237.4, Low = 177.1, Change = -24.1, Volume = 630702790 });
+            Add(new StockTeslaPrice { Date = "2022-11-18", Index = 139, Open = 189.9, Close = 180.2, High = 200.8, Low = 176.6, Change = -5.1, Volume = 637579480 });
+            Add(new StockTeslaPrice { Date = "2022-11-30", Index = 140, Open = 175.8, Close = 194.7, High = 194.8, Low = 166.2, Change = 10.7, Volume = 617126140 });
+            Add(new StockTeslaPrice { Date = "2022-12-09", Index = 141, Open = 197.1, Close = 179, High = 198.9, Low = 169.1, Change = -9.1, Volume = 625675690 });
+            Add(new StockTeslaPrice { Date = "2022-12-20", Index = 142, Open = 176.1, Close = 137.8, High = 177.4, Low = 137.7, Change = -21.7, Volume = 986660100 });
+            Add(new StockTeslaPrice { Date = "2022-12-30", Index = 143, Open = 139.3, Close = 123.2, High = 141.3, Low = 108.2, Change = -11.6, Volume = 1331911900 });
+            Add(new StockTeslaPrice { Date = "2023-01-11", Index = 144, Open = 118.5, Close = 123.2, High = 126, Low = 101.8, Change = 4, Volume = 1332426500 });
+            Add(new StockTeslaPrice { Date = "2023-01-23", Index = 145, Open = 122.6, Close = 143.8, High = 145.4, Low = 115.6, Change = 17.3, Volume = 1244541500 });
+            Add(new StockTeslaPrice { Date = "2023-02-01", Index = 146, Open = 143, Close = 181.4, High = 183.8, Low = 138.1, Change = 26.9, Volume = 1534337700 });
+            Add(new StockTeslaPrice { Date = "2023-02-10", Index = 147, Open = 187.3, Close = 196.9, High = 214, Low = 182.6, Change = 5.1, Volume = 1423167800 });
+            Add(new StockTeslaPrice { Date = "2023-02-22", Index = 148, Open = 194.4, Close = 200.9, High = 217.6, Low = 187.6, Change = 3.3, Volume = 1386211900 });
+            Add(new StockTeslaPrice { Date = "2023-03-03", Index = 149, Open = 203.9, Close = 197.8, High = 211.2, Low = 186, Change = -3, Volume = 1095786600 });
+            Add(new StockTeslaPrice { Date = "2023-03-14", Index = 150, Open = 198.5, Close = 183.3, High = 198.6, Low = 163.9, Change = -7.7, Volume = 1101144600 });
+            Add(new StockTeslaPrice { Date = "2023-03-23", Index = 151, Open = 180.8, Close = 192.2, High = 200.7, Low = 176, Change = 6.3, Volume = 978213300 });
+            Add(new StockTeslaPrice { Date = "2023-04-03", Index = 152, Open = 191.6, Close = 194.8, High = 207.8, Low = 185.4, Change = 1.6, Volume = 909718040 });
+            Add(new StockTeslaPrice { Date = "2023-04-13", Index = 153, Open = 197.3, Close = 185.9, High = 198.7, Low = 176.1, Change = -5.8, Volume = 905319000 });
+            Add(new StockTeslaPrice { Date = "2023-04-24", Index = 154, Open = 184, Close = 162.6, High = 189.7, Low = 158.6, Change = -11.6, Volume = 905416980 });
+            Add(new StockTeslaPrice { Date = "2023-05-03", Index = 155, Open = 159.8, Close = 160.6, High = 165.5, Low = 152.4, Change = 0.5, Volume = 881897100 });
+            Add(new StockTeslaPrice { Date = "2023-05-12", Index = 156, Open = 162.7, Close = 168, High = 177.4, Low = 159.6, Change = 3.2, Volume = 785510430 });
+            Add(new StockTeslaPrice { Date = "2023-05-23", Index = 157, Open = 167.7, Close = 185.8, High = 193, Low = 164.4, Change = 10.8, Volume = 864025390 });
+            Add(new StockTeslaPrice { Date = "2023-06-02", Index = 158, Open = 182.2, Close = 214, High = 217.2, Low = 178.2, Change = 17.4, Volume = 988496020 });
+            Add(new StockTeslaPrice { Date = "2023-06-13", Index = 159, Open = 217.8, Close = 258.7, High = 259.7, Low = 212.5, Change = 18.8, Volume = 1161622400 });
+            Add(new StockTeslaPrice { Date = "2023-06-23", Index = 160, Open = 260.2, Close = 256.6, High = 277, Low = 247.3, Change = -1.4, Volume = 1220407300 });
+            Add(new StockTeslaPrice { Date = "2023-07-05", Index = 161, Open = 250.1, Close = 282.5, High = 284.2, Low = 240.7, Change = 13, Volume = 999163700 });
+            Add(new StockTeslaPrice { Date = "2023-07-14", Index = 162, Open = 278.1, Close = 281.4, High = 285.3, Low = 265.1, Change = 1.2, Volume = 774400400 });
+            Add(new StockTeslaPrice { Date = "2023-07-25", Index = 163, Open = 286.6, Close = 265.3, High = 299.3, Low = 254.1, Change = -7.4, Volume = 973076400 });
+            Add(new StockTeslaPrice { Date = "2023-08-03", Index = 164, Open = 263.2, Close = 259.3, High = 269.1, Low = 250.5, Change = -1.5, Volume = 678809820 });
+            Add(new StockTeslaPrice { Date = "2023-08-14", Index = 165, Open = 261, Close = 239.8, High = 264.8, Low = 233.8, Change = -8.1, Volume = 716008860 });
+            Add(new StockTeslaPrice { Date = "2023-08-23", Index = 166, Open = 238.7, Close = 236.9, High = 240.8, Low = 212.4, Change = -0.8, Volume = 825055300 });
+            Add(new StockTeslaPrice { Date = "2023-09-01", Index = 167, Open = 238.7, Close = 245, High = 261.2, Low = 228.2, Change = 2.7, Volume = 811502630 });
+            Add(new StockTeslaPrice { Date = "2023-09-13", Index = 168, Open = 245, Close = 271.3, High = 278.4, Low = 243.3, Change = 10.7, Volume = 902643400 });
+            Add(new StockTeslaPrice { Date = "2023-09-22", Index = 169, Open = 271.3, Close = 244.9, High = 279, Low = 244.5, Change = -9.7, Volume = 816639600 });
+            Add(new StockTeslaPrice { Date = "2023-10-03", Index = 170, Open = 243.4, Close = 246.5, High = 254.8, Low = 234.6, Change = 1.3, Volume = 814604700 });
+            Add(new StockTeslaPrice { Date = "2023-10-12", Index = 171, Open = 248.1, Close = 258.9, High = 268.9, Low = 247.6, Change = 4.3, Volume = 806250900 });
+            Add(new StockTeslaPrice { Date = "2023-10-23", Index = 172, Open = 258.9, Close = 212.1, High = 259.6, Low = 202.5, Change = -18.1, Volume = 869390890 });
+            Add(new StockTeslaPrice { Date = "2023-11-01", Index = 173, Open = 216.5, Close = 205.7, High = 222, Low = 194.1, Change = -5, Volume = 811468170 });
+            Add(new StockTeslaPrice { Date = "2023-11-10", Index = 174, Open = 213, Close = 214.6, High = 226.4, Low = 205.7, Change = 0.8, Volume = 859763700 });
+            Add(new StockTeslaPrice { Date = "2023-11-21", Index = 175, Open = 215.6, Close = 241.2, High = 246.7, Low = 211.6, Change = 11.9, Volume = 959006600 });
+            Add(new StockTeslaPrice { Date = "2023-12-01", Index = 176, Open = 242, Close = 238.8, High = 252.8, Low = 231.4, Change = -1.3, Volume = 832910200 });
+            Add(new StockTeslaPrice { Date = "2023-12-12", Index = 177, Open = 235.8, Close = 237, High = 246.7, Low = 233.3, Change = 0.5, Volume = 772018400 });
+            Add(new StockTeslaPrice { Date = "2023-12-21", Index = 178, Open = 234.2, Close = 254.5, High = 259.8, Low = 228.2, Change = 8.7, Volume = 900893400 });
+            Add(new StockTeslaPrice { Date = "2024-01-03", Index = 179, Open = 256.8, Close = 238.4, High = 265.1, Low = 236.3, Change = -7.1, Volume = 727005170 });
+            Add(new StockTeslaPrice { Date = "2024-01-12", Index = 180, Open = 239.2, Close = 218.9, High = 242.7, Low = 217.2, Change = -8.5, Volume = 697536380 });
+            Add(new StockTeslaPrice { Date = "2024-01-24", Index = 181, Open = 215.1, Close = 207.8, High = 223.5, Low = 206.3, Change = -3.4, Volume = 777303400 });
+            Add(new StockTeslaPrice { Date = "2024-02-02", Index = 182, Open = 189.7, Close = 187.9, High = 196.4, Low = 180.1, Change = -0.9, Volume = 846092780 });
+            Add(new StockTeslaPrice { Date = "2024-02-13", Index = 183, Open = 184.3, Close = 184, High = 194.7, Low = 175, Change = -0.1, Volume = 718274070 });
+            Add(new StockTeslaPrice { Date = "2024-02-23", Index = 184, Open = 185.3, Close = 192, High = 203.2, Low = 183.4, Change = 3.6, Volume = 693352670 });
+            Add(new StockTeslaPrice { Date = "2024-03-05", Index = 185, Open = 192.3, Close = 180.7, High = 205.6, Low = 177.6, Change = -6, Volume = 742344460 });
+            Add(new StockTeslaPrice { Date = "2024-03-14", Index = 186, Open = 180, Close = 162.5, High = 182.9, Low = 160.5, Change = -9.7, Volume = 701227950 });
+            Add(new StockTeslaPrice { Date = "2024-03-25", Index = 187, Open = 163.2, Close = 172.6, High = 178.2, Low = 160.8, Change = 5.8, Volume = 589466660 });
+            Add(new StockTeslaPrice { Date = "2024-04-04", Index = 188, Open = 178.6, Close = 171.1, High = 184.2, Low = 163.3, Change = -4.2, Volume = 676969950 });
+            Add(new StockTeslaPrice { Date = "2024-04-15", Index = 189, Open = 169.1, Close = 161.5, High = 179.2, Low = 160.5, Change = -4.5, Volume = 694829970 });
+            Add(new StockTeslaPrice { Date = "2024-04-24", Index = 190, Open = 156.7, Close = 162.1, High = 168, Low = 138.8, Change = 3.4, Volume = 775433710 });
+            Add(new StockTeslaPrice { Date = "2024-05-03", Index = 191, Open = 159, Close = 181.2, High = 198.9, Low = 158.4, Change = 14, Volume = 864614000 });
+            Add(new StockTeslaPrice { Date = "2024-05-14", Index = 192, Open = 183.8, Close = 177.6, High = 187.6, Low = 167.8, Change = -3.4, Volume = 531409380 });
+            Add(new StockTeslaPrice { Date = "2024-05-23", Index = 193, Open = 179.9, Close = 173.7, High = 186.9, Low = 171.4, Change = -3.4, Volume = 554203970 });
+            Add(new StockTeslaPrice { Date = "2024-06-04", Index = 194, Open = 174.8, Close = 174.8, High = 182.7, Low = 173.2, Change = -0, Volume = 453828370 });
+            Add(new StockTeslaPrice { Date = "2024-06-13", Index = 195, Open = 175.4, Close = 182.5, High = 191.1, Low = 167.4, Change = 4.1, Volume = 509090870 });
+            Add(new StockTeslaPrice { Date = "2024-06-25", Index = 196, Open = 185.8, Close = 187.4, High = 188.8, Low = 176.9, Change = 0.8, Volume = 505399520 });
+            Add(new StockTeslaPrice { Date = "2024-07-05", Index = 197, Open = 186.5, Close = 251.5, High = 252.4, Low = 186.4, Change = 34.8, Volume = 925723660 });
+            Add(new StockTeslaPrice { Date = "2024-07-16", Index = 198, Open = 247.7, Close = 256.6, High = 271, Low = 233.1, Change = 3.6, Volume = 1097390000 });
+            Add(new StockTeslaPrice { Date = "2024-07-25", Index = 199, Open = 252.7, Close = 220.2, High = 258.5, Low = 214.7, Change = -12.9, Volume = 795590700 });
+            Add(new StockTeslaPrice { Date = "2024-08-05", Index = 200, Open = 221.2, Close = 198.9, High = 234.7, Low = 182, Change = -10.1, Volume = 658914080 });
+            Add(new StockTeslaPrice { Date = "2024-08-14", Index = 201, Open = 200.8, Close = 201.4, High = 208.5, Low = 191.5, Change = 0.3, Volume = 479168160 });
+            Add(new StockTeslaPrice { Date = "2024-08-23", Index = 202, Open = 205, Close = 220.3, High = 228.2, Low = 204.8, Change = 7.5, Volume = 560235700 });
+            Add(new StockTeslaPrice { Date = "2024-09-04", Index = 203, Open = 218.8, Close = 219.4, High = 222.2, Low = 202.6, Change = 0.3, Volume = 469284350 });
+            Add(new StockTeslaPrice { Date = "2024-09-13", Index = 204, Open = 223.5, Close = 230.3, High = 235, Low = 210.5, Change = 3, Volume = 592950440 });
+            Add(new StockTeslaPrice { Date = "2024-09-24", Index = 205, Open = 229.3, Close = 254.3, High = 257.2, Low = 223.5, Change = 10.9, Volume = 577086700 });
+            Add(new StockTeslaPrice { Date = "2024-10-03", Index = 206, Open = 252.5, Close = 240.7, High = 264.9, Low = 237.8, Change = -4.7, Volume = 546148740 });
+            Add(new StockTeslaPrice { Date = "2024-10-14", Index = 207, Open = 246.7, Close = 219.2, High = 251, Low = 213.7, Change = -11.2, Volume = 589440130 });
+            Add(new StockTeslaPrice { Date = "2024-10-23", Index = 208, Open = 220, Close = 213.6, High = 224.3, Low = 212.1, Change = -2.9, Volume = 384561880 });
+            Add(new StockTeslaPrice { Date = "2024-11-01", Index = 209, Open = 244.7, Close = 249, High = 273.5, Low = 242.6, Change = 1.8, Volume = 732392780 });
+            Add(new StockTeslaPrice { Date = "2024-11-12", Index = 210, Open = 244.6, Close = 328.5, High = 358.6, Low = 238.9, Change = 34.3, Volume = 991653160 });
+            Add(new StockTeslaPrice { Date = "2024-11-21", Index = 211, Open = 335.8, Close = 339.6, High = 348.5, Low = 309.2, Change = 1.1, Volume = 700324320 });
+            Add(new StockTeslaPrice { Date = "2024-12-03", Index = 212, Open = 341.1, Close = 351.4, High = 361.9, Low = 326.6, Change = 3, Volume = 478645220 });
+            Add(new StockTeslaPrice { Date = "2024-12-12", Index = 213, Open = 353, Close = 418.1, High = 429.3, Low = 348.6, Change = 18.4, Volume = 599082110 });
+            Add(new StockTeslaPrice { Date = "2024-12-23", Index = 214, Open = 420, Close = 430.6, High = 481.5, Low = 415.4, Change = 2.5, Volume = 807128120 });
+            Add(new StockTeslaPrice { Date = "2025-01-03", Index = 215, Open = 435.9, Close = 410.4, High = 465.3, Low = 373, Change = -5.8, Volume = 565769940 });
+            Add(new StockTeslaPrice { Date = "2025-01-15", Index = 216, Open = 423.2, Close = 428.2, High = 429.8, Low = 377.3, Change = 1.2, Volume = 530063170 });
+            Add(new StockTeslaPrice { Date = "2025-01-27", Index = 217, Open = 423.5, Close = 397.2, High = 439.7, Low = 389, Change = -6.2, Volume = 476854060 });
+            Add(new StockTeslaPrice { Date = "2025-02-05", Index = 218, Open = 396.9, Close = 378.2, High = 420, Low = 374.4, Change = -4.7, Volume = 507024510 });
+            Add(new StockTeslaPrice { Date = "2025-02-14", Index = 219, Open = 373, Close = 355.8, High = 380.6, Low = 325.1, Change = -4.6, Volume = 607376290 });
+            Add(new StockTeslaPrice { Date = "2025-02-26", Index = 220, Open = 355, Close = 290.8, High = 367.3, Low = 288, Change = -18.1, Volume = 549149490 });
+            Add(new StockTeslaPrice { Date = "2025-03-07", Index = 221, Open = 291.2, Close = 262.7, High = 303.9, Low = 250.7, Change = -9.8, Volume = 754567280 });
+            Add(new StockTeslaPrice { Date = "2025-03-18", Index = 222, Open = 252.5, Close = 225.3, High = 253.4, Low = 217, Change = -10.8, Volume = 944623000 });
+            Add(new StockTeslaPrice { Date = "2025-03-27", Index = 223, Open = 231.6, Close = 273.1, High = 291.8, Low = 229.2, Change = 17.9, Volume = 982018670 });
+            Add(new StockTeslaPrice { Date = "2025-04-07", Index = 224, Open = 275.6, Close = 233.3, High = 285, Low = 214.2, Change = -15.3, Volume = 1117950500 });
+            Add(new StockTeslaPrice { Date = "2025-04-16", Index = 225, Open = 245, Close = 241.6, High = 274.7, Low = 217.8, Change = -1.4, Volume = 993815820 });
+            Add(new StockTeslaPrice { Date = "2025-04-28", Index = 226, Open = 243.5, Close = 285.9, High = 294.9, Low = 222.8, Change = 17.4, Volume = 866169890 });
+        }
+    }
+
+}

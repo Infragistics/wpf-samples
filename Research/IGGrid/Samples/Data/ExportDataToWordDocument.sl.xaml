@@ -1,0 +1,109 @@
+﻿<igFramework:SampleContainer x:Class="IGGrid.Samples.Data.ExportDataToWordDocument"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:res="clr-namespace:IGGrid.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGrid;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamGrid.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:GridStrings x:Key="Strings" />
+            <ig:XamGridWordWriter x:Key="wordWriter" ExportEnded="XamGridWordWriter_ExportEnded"
+                                  ExcludeFilters="{Binding ElementName=Chb_ExcFilters, Path=IsChecked}"
+                                  ExcludeFixedColumns="{Binding ElementName=Chb_ExcFixedColumns, Path=IsChecked}"
+                                  ExcludeGroupBy="{Binding ElementName=Chb_ExcGroupBy, Path=IsChecked}"
+                                  ExcludeSort="{Binding ElementName=Chb_ExcSort, Path=IsChecked}"
+                                  ExcludeSummaries="{Binding ElementName=Chb_ExcSummaries, Path=IsChecked}"
+                                  ExcludeColumnFormatString="{Binding ElementName=Chb_ExcColumnFormatStr, Path=IsChecked}"/>
+            <!--#END SNIPPET#-->
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+    <Grid x:Name="LayoutRoot">
+        <ig:XamGrid x:Name="xamGrid" AutoGenerateColumns="False" ColumnWidth="*">
+            <ig:XamGrid.Columns>
+                <ig:TextColumn Key="SKU" HeaderText="{Binding Path=XWG_Grid_ProductSKU, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="Name" HeaderText="{Binding Path=XWG_Grid_ProductName, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="Category" HeaderText="{Binding Path=XWG_Grid_ProductCategory, Source={StaticResource Strings}}"  />
+                <ig:TextColumn Key="Supplier"  HeaderText="{Binding Path=XWG_Supplier, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="QuantityPerUnit" HeaderText="{Binding Path=XWG_Data_QuantityLabel, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="UnitPrice" HeaderText="{Binding Path=XWG_Grid_UnitPrice, Source={StaticResource Strings}}"
+                               FormatString="{}{0:C}" />
+                <ig:TextColumn Key="UnitsInStock" HeaderText="{Binding Path=XWG_Data_UnitStockLabel, Source={StaticResource Strings}}" />
+            </ig:XamGrid.Columns>
+            <!-- Filtering Enabled -->
+            <ig:XamGrid.FilteringSettings>
+                <ig:FilteringSettings AllowFiltering="FilterRowTop" FilteringScope="ColumnLayout" />
+            </ig:XamGrid.FilteringSettings>
+            <!-- Group By Enabled -->
+            <ig:XamGrid.GroupBySettings>
+                <ig:GroupBySettings AllowGroupByArea="Top" />
+            </ig:XamGrid.GroupBySettings>
+            <!-- Summaries Enabled -->
+            <ig:XamGrid.SummaryRowSettings>
+                <ig:SummaryRowSettings AllowSummaryRow="Bottom" SummaryScope="ColumnLayout" />
+            </ig:XamGrid.SummaryRowSettings>
+            <!-- Fixed Columns Enabled -->
+            <ig:XamGrid.FixedColumnSettings>
+                <ig:FixedColumnSettings AllowFixedColumns="Indicator" />
+            </ig:XamGrid.FixedColumnSettings>
+            <!-- Paging Added -->
+            <ig:XamGrid.PagerSettings>
+                <ig:PagerSettings AllowPaging="Bottom" PageSize="12" />
+            </ig:XamGrid.PagerSettings>
+            <!-- Adding new row enabled -->
+            <ig:XamGrid.AddNewRowSettings>
+                <ig:AddNewRowSettings   AllowAddNewRow="Top"
+                                        IsEnterKeyEditingEnabled="True"
+                                        IsF2EditingEnabled="True"
+                                        IsMouseActionEditingEnabled="SingleClick"
+                                        IsOnCellActiveEditingEnabled="True" />
+            </ig:XamGrid.AddNewRowSettings>
+            <ig:XamGrid.EditingSettings>
+                <ig:EditingSettings AllowEditing="Row" IsEnterKeyEditingEnabled="True"
+                                    IsF2EditingEnabled="True" IsMouseActionEditingEnabled="SingleClick"
+                                    IsOnCellActiveEditingEnabled="True" />
+            </ig:XamGrid.EditingSettings>
+        </ig:XamGrid>
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource Strings},Path=XG_ExportToWord}"
+                               Width="220" Margin="480,160,0,0">
+            <Border BorderBrush="#FF494949" BorderThickness="1" Margin="0,0,0,2">
+                <StackPanel>
+                    <TextBlock Text="{Binding Source={StaticResource Strings}, Path=Export_Exclude}" Margin="3,3,3,0"/>
+                    <CheckBox x:Name="Chb_ExcFilters" IsChecked="False" Margin="3"
+                              Content="{Binding Source={StaticResource Strings}, Path=Export_ExcludeFilters}" />
+                    <CheckBox x:Name="Chb_ExcFixedColumns" IsChecked="False" Margin="3"
+                              Content="{Binding Source={StaticResource Strings}, Path=Export_ExcludeFixedColumns}" />
+                    <CheckBox x:Name="Chb_ExcGroupBy" IsChecked="False" Margin="3"
+                              Content="{Binding Source={StaticResource Strings}, Path=Export_ExcludeGroupBy}" />
+                    <CheckBox x:Name="Chb_ExcSort" IsChecked="False" Margin="3"
+                              Content="{Binding Source={StaticResource Strings},Path=Export_ExcludeSort}" />
+                    <CheckBox x:Name="Chb_ExcSummaries" IsChecked="False" Margin="3"
+                              Content="{Binding Source={StaticResource Strings},Path=Export_ExcludeSummaries}"  />
+                    <CheckBox x:Name="Chb_ExcColumnFormatStr" IsChecked="False" Margin="3"
+                              Content="{Binding Source={StaticResource Strings},Path=Export_ExcludeColumnFormatStr}"  />
+                </StackPanel>
+            </Border>
+            <Border BorderBrush="#FF494949" BorderThickness="1">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{Binding Source={StaticResource Strings}, Path=Exporter_ExportRange}"
+                               Margin="3"/>
+                    <ListBox x:Name="WordExportRangeOptions" BorderThickness="0" Margin="3,0,3,3"
+                             SelectionChanged="WordExportRangeOptions_SelectionChanged" >
+                    </ListBox>
+                </StackPanel>
+            </Border>
+            <Button Content="{Binding Source={StaticResource Strings}, Path=XWG_Excel_ButtonCaptionExport}"
+                    x:Name="Btn_Export" Margin="0,3,0,3"
+                    Click="Btn_Export_Click"/>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

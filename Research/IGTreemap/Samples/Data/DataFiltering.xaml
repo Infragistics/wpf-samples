@@ -1,0 +1,70 @@
+﻿<igFramework:SampleContainer x:Class="IGTreemap.Samples.DataFiltering"
+                 xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared" 
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 mc:Ignorable="d"
+                 xmlns:ig="http://schemas.infragistics.com/xaml"
+                 xmlns:resources="clr-namespace:IGTreemap.Resources"
+                 xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared" >
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                
+                <ResourceDictionary Source="/IGTreemap;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/IGTreemap;component/Assets/TreemapStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <resources:TreemapStrings x:Key="MapStrings" />
+            <Style TargetType="ig:TreemapNode">
+                <Setter Property="BorderThickness" Value="0" />
+            </Style>
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Width="Auto">
+        <!-- #BEGIN SNIPPET# -->
+        <Border  BorderThickness="1" BorderBrush="{StaticResource TreemapBorderBrush}" 
+                Background="{StaticResource TreemapBackgroundBrush}"  >
+            <!--Treemap-->
+            <ig:XamTreemap x:Name="Treemap" 
+                           ItemsSource="{Binding}" Margin="3">
+                <ig:XamTreemap.DefaultStyle>
+                    <Style TargetType="ig:TreemapNode">
+                        <Setter Property="Padding" Value="0" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ig:TreemapNode">
+                                    <ig:NodesPanel x:Name="NodesPanel" />
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ig:XamTreemap.DefaultStyle>
+                <!--Binding to the data item: Infragistics.Samples.Shared.Models.CountryDataModel -->
+                <ig:XamTreemap.NodeBinders>
+                    <ig:NodeBinder TargetTypeName="CountryDataModel" 
+                                   TextPath="CountryCode" ValuePath="BirthRate" 
+                                   NodeStyle="{StaticResource TreemapNodeStyle}"
+                                   ToolTipContentTemplate="{StaticResource ToolTipDataTemplate}"/>
+                </ig:XamTreemap.NodeBinders>
+                <!--Color mapping-->
+                <ig:XamTreemap.ValueMappers>
+                    <ig:ColorMapper TargetProperty="Fill" From="#ffc925" To="#719700" ValuePath="BirthRate" />
+                </ig:XamTreemap.ValueMappers>
+            </ig:XamTreemap>
+        </Border>
+
+        <!--Categories-->
+        <controls:OptionsPanel HeaderText="{Binding XWM_WorldData_DataTypeLabel, Source={StaticResource MapStrings}}" HorizontalAlignment="Right">
+            <ListBox x:Name="ListBoxFilters" SelectedValuePath="Value">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Key}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </controls:OptionsPanel>
+        <!-- #END SNIPPET# -->
+    </Grid>
+</igFramework:SampleContainer>

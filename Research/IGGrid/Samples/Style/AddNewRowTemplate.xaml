@@ -1,0 +1,191 @@
+﻿<framework:SampleContainer x:Class="IGGrid.Samples.Style.AddNewRowTemplate"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="AddNewRowTemplate Page"
+      xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:provider="clr-namespace:Infragistics.Samples.Shared.DataProviders;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGGrid.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGrid;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:GridStrings x:Key="Strings" />
+            <provider:ProductCategoryProvider x:Key="categoryProvider"/>
+            <converters:ProductCategoryConverter x:Key="categoryConverter" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <!-- #BEGIN SNIPPET# -->
+        <ig:XamGrid x:Name="dataGrid" AutoGenerateColumns="False" ColumnWidth="*">
+            <ig:XamGrid.Columns>
+                <ig:TextColumn Key="SKU"
+                               AddNewRowEditorTemplateHorizontalContentAlignment="Stretch"
+                               AddNewRowEditorTemplateVerticalContentAlignment="Stretch"
+                               AddNewRowItemTemplateHorizontalContentAlignment="Stretch"
+                               AddNewRowItemTemplateVerticalContentAlignment="Stretch">
+                    <ig:TextColumn.AddNewRowItemTemplate>
+                        <DataTemplate>
+                            <TextBox Background="#FFBDCB6B" Text="{Binding Path=XWG_Grid_EnterValue, Source={StaticResource Strings}, Mode=OneWay}"/>
+                        </DataTemplate>
+                    </ig:TextColumn.AddNewRowItemTemplate>
+                    <ig:TextColumn.AddNewRowEditorTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding SKU, Mode=TwoWay,UpdateSourceTrigger=Explicit}"  Background="#FFBDCB6B" Margin="5"/>
+                        </DataTemplate>
+                    </ig:TextColumn.AddNewRowEditorTemplate>
+                    <ig:TextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=XWG_Grid_ProductSKU, Source={StaticResource Strings}}" />
+                        </DataTemplate>
+                    </ig:TextColumn.HeaderTemplate>
+                </ig:TextColumn>
+                <ig:TextColumn Key="Name"
+                               AddNewRowEditorTemplateHorizontalContentAlignment="Stretch"
+                               AddNewRowEditorTemplateVerticalContentAlignment="Stretch"
+                               AddNewRowItemTemplateHorizontalContentAlignment="Stretch"
+                               AddNewRowItemTemplateVerticalContentAlignment="Stretch">
+                    <ig:TextColumn.AddNewRowItemTemplate>
+                        <DataTemplate>
+                            <TextBox Background="#FFBDCB6B" Text="{Binding Path=XWG_Grid_EnterValue, Source={StaticResource Strings}, Mode=OneWay}"/>
+                        </DataTemplate>
+                    </ig:TextColumn.AddNewRowItemTemplate>
+                    <ig:TextColumn.AddNewRowEditorTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding Name, Mode=TwoWay,UpdateSourceTrigger=Explicit}"  Background="#FFBDCB6B" Margin="5"/>
+                        </DataTemplate>
+                    </ig:TextColumn.AddNewRowEditorTemplate>
+                    <ig:TextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=XWG_Grid_ProductName, Source={StaticResource Strings}}" />
+                        </DataTemplate>
+                    </ig:TextColumn.HeaderTemplate>
+                </ig:TextColumn>
+                <ig:TemplateColumn Key="Category" Width="120" HorizontalContentAlignment="Stretch"
+                                   AddNewRowItemTemplateHorizontalContentAlignment="Stretch"
+                                   AddNewRowItemTemplateVerticalContentAlignment="Stretch">
+                    <ig:TemplateColumn.AddNewRowItemTemplate>
+                        <DataTemplate>
+                            <TextBox Background="#FFBDCB6B" Text="{Binding Path=XWG_Grid_EnterValue, Source={StaticResource Strings}, Mode=OneWay}"/>
+                        </DataTemplate>
+                    </ig:TemplateColumn.AddNewRowItemTemplate>
+
+                    <ig:TemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=XWG_Grid_ProductCategory, Source={StaticResource Strings}}" />
+                        </DataTemplate>
+                    </ig:TemplateColumn.HeaderTemplate>
+                    <ig:TemplateColumn.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock x:Name="CategoryDisplay" Text="{Binding Category}" />
+                        </DataTemplate>
+                    </ig:TemplateColumn.ItemTemplate>
+                    <ig:TemplateColumn.EditorTemplate>
+                        <DataTemplate>
+                            <ComboBox x:Name="CategoryEditList"
+                                      ItemsSource="{StaticResource categoryProvider}"
+                                      SelectedItem="{Binding Category,
+                                Mode=TwoWay,
+                                Converter={StaticResource categoryConverter},
+                                ConverterParameter={StaticResource categoryProvider}}"
+                                      DisplayMemberPath="Value"/>
+                        </DataTemplate>
+                    </ig:TemplateColumn.EditorTemplate>
+                </ig:TemplateColumn>
+                <ig:CheckBoxColumn Key="OnBackOrder"
+                                   AddNewRowItemTemplateHorizontalContentAlignment="Stretch"
+                                   AddNewRowItemTemplateVerticalContentAlignment="Stretch"
+                                   >
+                    <ig:CheckBoxColumn.AddNewRowItemTemplate>
+                        <DataTemplate>
+                            <TextBox Background="#FFBDCB6B" Text="{Binding Path=XWG_Grid_EnterValue, Source={StaticResource Strings}, Mode=OneWay}"/>
+                        </DataTemplate>
+                    </ig:CheckBoxColumn.AddNewRowItemTemplate>
+                    <ig:CheckBoxColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=XWG_Grid_OnBackOrder, Source={StaticResource Strings}}"  />
+                        </DataTemplate>
+                    </ig:CheckBoxColumn.HeaderTemplate>
+                </ig:CheckBoxColumn>
+                <ig:TextColumn Key="UnitPrice" FormatString="{}{0:C}"
+                               AddNewRowEditorTemplateHorizontalContentAlignment="Stretch"
+                               AddNewRowEditorTemplateVerticalContentAlignment="Center"
+                               AddNewRowItemTemplateHorizontalContentAlignment="Stretch"
+                               AddNewRowItemTemplateVerticalContentAlignment="Stretch" >
+                    <ig:TextColumn.AddNewRowItemTemplate>
+                        <DataTemplate>
+                            <TextBox Background="#FFBDCB6B" Text="{Binding Path=XWG_Grid_EnterValue, Source={StaticResource Strings}, Mode=OneWay}" />
+                        </DataTemplate>
+                    </ig:TextColumn.AddNewRowItemTemplate>
+                    <ig:TextColumn.AddNewRowEditorTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding UnitPrice, Mode=TwoWay,UpdateSourceTrigger=Explicit}" Background="#FFBDCB6B" Margin="5,5,5,5"/>
+                        </DataTemplate>
+                    </ig:TextColumn.AddNewRowEditorTemplate>
+                    <ig:TextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=XWG_Grid_UnitPrice, Source={StaticResource Strings}}" />
+                        </DataTemplate>
+                    </ig:TextColumn.HeaderTemplate>
+                </ig:TextColumn>
+                <ig:TextColumn Key="UnitsInStock"
+                               AddNewRowEditorTemplateHorizontalContentAlignment="Stretch"
+                               AddNewRowEditorTemplateVerticalContentAlignment="Center"
+                               AddNewRowItemTemplateHorizontalContentAlignment="Stretch"
+                               AddNewRowItemTemplateVerticalContentAlignment="Stretch" >
+                    <ig:TextColumn.AddNewRowItemTemplate>
+                        <DataTemplate>
+                            <TextBox Background="#FFBDCB6B" Text="{Binding Path=XWG_Grid_EnterValue, Source={StaticResource Strings}, Mode=OneWay}"/>
+                        </DataTemplate>
+                    </ig:TextColumn.AddNewRowItemTemplate>
+                    <ig:TextColumn.AddNewRowEditorTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <ig:XamNumericSlider  x:Name="slider1"  SmallChange="20" LargeChange="50"
+                                                      MinValue="0" MaxValue="100" Grid.Column="0" TrackClickAction="LargeChange"
+                                                      Value="{Binding UnitsInStock, Mode=TwoWay, UpdateSourceTrigger=Explicit}" >
+                                    <ig:XamNumericSlider.TickMarks>
+                                        <ig:SliderTickMarks NumberOfTickMarks="5"
+                                        UseFrequency="False"
+                                        IncludeSliderEnds="True" />
+                                    </ig:XamNumericSlider.TickMarks>
+                                </ig:XamNumericSlider>
+                                <TextBlock Text="{Binding Value, ElementName=slider1}" HorizontalAlignment="Center" Grid.Column="1"/>
+                            </Grid>
+                        </DataTemplate>
+
+                    </ig:TextColumn.AddNewRowEditorTemplate>
+                    <ig:TextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=XWG_Grid_UnitsStock, Source={StaticResource Strings}}" />
+                        </DataTemplate>
+                    </ig:TextColumn.HeaderTemplate>
+                </ig:TextColumn>
+            </ig:XamGrid.Columns>
+            <ig:XamGrid.AddNewRowSettings>
+                <ig:AddNewRowSettings   AllowAddNewRow="Top"
+                                        IsEnterKeyEditingEnabled="True"
+                                        IsF2EditingEnabled="True"
+                                        IsMouseActionEditingEnabled="SingleClick"
+                                        IsOnCellActiveEditingEnabled="True"/>
+            </ig:XamGrid.AddNewRowSettings>
+            <ig:XamGrid.EditingSettings>
+                <ig:EditingSettings AllowEditing="Row" IsEnterKeyEditingEnabled="True" IsF2EditingEnabled="True" IsMouseActionEditingEnabled="SingleClick" IsOnCellActiveEditingEnabled="True" />
+            </ig:XamGrid.EditingSettings>
+        </ig:XamGrid>
+        <!-- #END SNIPPET# -->
+    </Grid>
+</framework:SampleContainer>

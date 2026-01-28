@@ -1,0 +1,70 @@
+﻿<igFramework:SampleContainer x:Class="IGExcel.Samples.Data.WorkbookObjectModel"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="WorkbookObjectModel"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:res="clr-namespace:IGExcel.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGExcel;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:ExcelStrings x:Key="ExcelStrings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot">       
+        <DataGrid x:Name="dataGrid"
+                  AutoGenerateColumns="False"
+                  CanUserResizeColumns="True"
+                  CanUserReorderColumns="False"
+                  CurrentCellChanged="dataGrid_CurrentCellChanged"
+                  SelectionUnit="Cell"
+                  SelectionMode="Single"
+                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch"
+                  IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Cells[0].Value}" />
+                <DataGridTextColumn Binding="{Binding Cells[1].Value}" />
+                <DataGridCheckBoxColumn Binding="{Binding Cells[2].Value}" />
+                <DataGridTextColumn Binding="{Binding Cells[3].Value}" />
+            </DataGrid.Columns>
+        </DataGrid>       
+
+        <controls:OptionsPanel HeaderText="{Binding ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Top"
+                               MinWidth="200">
+            <!-- #BEGIN SNIPPET# -->
+            <StackPanel>
+                <TextBlock Text="{Binding Excel_Format_String, Source={StaticResource ExcelStrings}}" Margin="{StaticResource OptionsElementsMargin}"/>
+                <ComboBox x:Name="comboBoxFormat"
+                          Margin="{StaticResource BottomPaddingMid}"
+                          SelectionChanged="SetFormat" />
+
+                <TextBlock Text="{Binding Excel_Cell_Formula, Source={StaticResource ExcelStrings}}" Margin="{StaticResource OptionsElementsMargin}"/>
+                <TextBox x:Name="textBoxFormula"
+                         Margin="{StaticResource OptionsElementsMargin}"/>
+                <Button Content="{Binding Excel_Set_Formula, Source={StaticResource ExcelStrings}}"
+                        Click="SetFormula" Margin="{StaticResource BottomPaddingMid}" />
+
+                <TextBlock Text="{Binding Excel_Cell_Comment, Source={StaticResource ExcelStrings}}" Margin="{StaticResource OptionsElementsMargin}"/>
+                <TextBox x:Name="textBoxComment"
+                         Margin="{StaticResource OptionsElementsMargin}"/>
+                <Button Content="{Binding Excel_Set_Comment, Source={StaticResource ExcelStrings}}"
+                        Click="SetComment" Margin="{StaticResource OptionsElementsMargin}"/>
+
+                <Button Click="SaveWorkbook"
+                        Content="{Binding Excel_ButtonCaptionExport, Source={StaticResource ExcelStrings}}"/>
+            </StackPanel>
+            <!-- #END SNIPPET# -->
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>

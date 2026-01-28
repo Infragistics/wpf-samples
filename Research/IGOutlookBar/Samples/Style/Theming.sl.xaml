@@ -1,0 +1,57 @@
+﻿<framework:SampleContainer x:Class="IGOutlookBar.Samples.Style.Theming"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="Theming"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:localControls="clr-namespace:IGOutlookBar.Controls"
+      xmlns:res="clr-namespace:IGOutlookBar.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGOutlookBar;component/Assets/Global.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <res:OutlookBarStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <!--#BEGIN SNIPPET#-->
+        <ig:XamOutlookBar x:Name="XamOutlookBar" Width="250" MinimizedWidth="38" >
+            <ig:OutlookBarGroup
+                Header="{Binding Source={StaticResource Strings}, Path=XOB_Group_Header_Mail}"
+                IsSelected="True">
+                <ig:OutlookBarGroup.LargeIconTemplate>
+                    <DataTemplate>
+                        <Image Source="/IGOutlookBar;component/Images/OBarMailLarge.png"/>
+                    </DataTemplate>
+                </ig:OutlookBarGroup.LargeIconTemplate>
+                <ig:OutlookBarGroup.SmallIconTemplate>
+                    <DataTemplate>
+                        <Image Source="/IGOutlookBar;component/Images/OBarMail.png"/>
+                    </DataTemplate>
+                </ig:OutlookBarGroup.SmallIconTemplate>
+                <localControls:XobSampleMailContent />
+            </ig:OutlookBarGroup>
+        </ig:XamOutlookBar>
+        <!--#END SNIPPET#-->
+        <controls:OptionsPanel Width="200" Grid.ColumnSpan="2" HeaderText="{Binding ConfigurationPanel_Header_Options, Source={StaticResource CommonStrings}}" Margin="400,80,0,0">
+            <TextBlock Text="{Binding ThemeSupport_ComboLabel, Source={StaticResource CommonStrings}}" />
+            <ComboBox
+                x:Name="themeChangeCombo"
+                Height="22"
+                DisplayMemberPath="ThemeName"
+                SelectionChanged="themeChangeCombo_SelectionChanged"/>
+        </controls:OptionsPanel>
+    </Grid>
+</framework:SampleContainer>

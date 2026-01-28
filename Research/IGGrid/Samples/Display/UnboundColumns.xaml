@@ -1,0 +1,52 @@
+﻿<framework:SampleContainer x:Class="IGGrid.Samples.Display.UnboundColumns"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="UnboundColumns Page"
+      xmlns:converters="clr-namespace:Infragistics.Samples.Shared.Converters;assembly=Infragistics.Samples.Shared"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGGrid.Resources"
+      xmlns:tools="clr-namespace:IGGrid.Tools">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGGrid;component/Assets/Global.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+            <res:GridStrings x:Key="Strings" />
+            <converters:TotalUnitsConverter x:Key="TotalUnitsConverter" />
+            <tools:MyCustomSort x:Key="MyCustomSort"/>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">      
+        <ig:XamGrid x:Name="MyDataGrid" AutoGenerateColumns="false"
+                    ColumnWidth="*">
+            <ig:XamGrid.SummaryRowSettings>
+                <ig:SummaryRowSettings AllowSummaryRow="Top"/>
+            </ig:XamGrid.SummaryRowSettings>
+            <ig:XamGrid.Columns>
+                <!-- #BEGIN SNIPPET# -->
+                <ig:UnboundColumn Key="Total Units" ValueConverter="{StaticResource TotalUnitsConverter}"
+                                  SortComparer="{StaticResource MyCustomSort}"
+                                  IsSortable="True" IsSummable="True" 
+                                  HeaderText="{Binding Path=XWG_Grid_TotalUnits, Source={StaticResource Strings}}" />
+                <!-- #END SNIPPET# -->
+                <ig:TextColumn Key="Name" HeaderText="{Binding Path=XWG_Grid_ProductName, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="SKU" HeaderText="{Binding Path=XWG_Grid_ProductSKU, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="UnitPrice" FormatString="{}{0:C}"
+                               HeaderText="{Binding Path=XWG_Grid_UnitPrice, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="UnitsInStock"
+                               HeaderText="{Binding Path=XWG_Grid_UnitsStock, Source={StaticResource Strings}}" />
+                <ig:TextColumn Key="UnitsOnOrder"
+                               HeaderText="{Binding Path=XWG_Grid_UnitsOnOrder, Source={StaticResource Strings}}" />
+            </ig:XamGrid.Columns>
+        </ig:XamGrid>
+        
+    </Grid>
+</framework:SampleContainer>

@@ -1,0 +1,172 @@
+﻿<framework:SampleContainer x:Class="IGBulletGraph.Samples.Data.ProgrammaticallySettingValues"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="BulletGraphSettingValues Page"
+      xmlns:framework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Framework"
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:res="clr-namespace:IGBulletGraph.Resources">
+
+    <framework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGBulletGraph;component/Assets/Global.xaml" />
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamMenu.xaml" />
+                <ResourceDictionary Source="/Infragistics.Themes.IGTheme;component/IG.xamGauge.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:BulletGraphStrings x:Key="Strings" />
+            <LinearGradientBrush x:Key="Range1Bg" EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FFF1C04F" />
+                <GradientStop Color="#FFC19C40" Offset="1" />
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="Range2Bg" EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FFE8B02E" />
+                <GradientStop Color="#FFB98E23" Offset="1" />
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="QuantitativeScaleBg" EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FFD2981F" />
+                <GradientStop Color="#FFA47315" Offset="1" />
+            </LinearGradientBrush>
+        </ResourceDictionary>
+    </framework:SampleContainer.Resources>
+
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Image Source="/IGBulletGraph;component/Images/Software.png" Height="151" Width="138" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" Margin="0,20,0,0" />
+        <TextBlock Grid.Column="1" Grid.Row="0" Margin="0,42,0,10" Width="220" TextWrapping="Wrap" Text="{Binding Path=XWBG_BulletGraphSetValues_SideDescription, Source={StaticResource Strings}}" Style="{StaticResource BodyStyle}" HorizontalAlignment="Left" VerticalAlignment="Top" />
+
+        <Border Grid.RowSpan="2" BorderBrush="#FFEAEAEA" BorderThickness="0" Margin="0,0,20,0">
+            <StackPanel Orientation="Vertical" d:LayoutOverrides="Height">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Style="{StaticResource SamplesBigTitleStyle}" Text="{Binding Path=XWBG_BulletGraphSetValues_TechIndustryHeader, Source={StaticResource Strings}}" d:LayoutOverrides="GridBox" />
+
+                </StackPanel>
+
+                <Grid Margin="0,20" VerticalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="80" />
+                        <RowDefinition Height="80" />
+                        <RowDefinition Height="80" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Height="80" Grid.Row="0" Margin="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="{Binding Path=BulletGraphSettingValues_hardware, Source={StaticResource Strings}}" Grid.Column="0" TextWrapping="Wrap"  Width="80" VerticalAlignment="Center" Style="{StaticResource SamplesTitleStyle}" HorizontalAlignment="Left" />
+
+                        <!-- #BEGIN SNIPPET# -->
+                        <!-- ================================================================== -->
+                        <ig:XamBulletGraph Grid.Column="1" Margin="0" HorizontalContentAlignment="Stretch" x:Name="BulletGraph_Hardware" Height="80" InnerMargin="25,14">
+                            <ig:XamBulletGraph.Scale>
+                                <ig:QuantitativeScale Minimum="0" Maximum="0" Interval="0">
+                                    <ig:QuantitativeScale.TickMarkGroup>
+                                        <ig:BulletGraphTickMarkGroup Thickness="1" />
+                                    </ig:QuantitativeScale.TickMarkGroup>
+                                    <ig:QuantitativeScale.LabelGroup>
+                                        <ig:BulletGraphLabelGroup StringFormat="{}{0:N0} K" />
+                                    </ig:QuantitativeScale.LabelGroup>
+                                    <ig:QuantitativeScale.Ranges>
+                                        <ig:QualitativeRange Value="0" Background="{StaticResource Range1Bg}" />
+                                        <ig:QualitativeRange Value="0" Background="{StaticResource Range2Bg}" />
+                                    </ig:QuantitativeScale.Ranges>
+                                </ig:QuantitativeScale>
+                            </ig:XamBulletGraph.Scale>
+                            <ig:XamBulletGraph.FeaturedMeasures>
+                                <ig:FeaturedMeasure Value="0" StartExtent="0.4" EndExtent="0.6" Width="0" />
+                            </ig:XamBulletGraph.FeaturedMeasures>
+                            <ig:XamBulletGraph.ComparativeMeasures>
+                                <ig:ComparativeMeasure Value="0" Width="3" Thickness="3" EndExtent="1" StartExtent="0" />
+                            </ig:XamBulletGraph.ComparativeMeasures>
+                        </ig:XamBulletGraph>
+                        <!-- ================================================================== -->
+                        <!-- #END SNIPPET# -->
+
+                    </Grid>
+                    <Grid Height="80" Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0"  Text="{Binding Path=BulletGraphSettingValues_software, Source={StaticResource Strings}}" TextWrapping="Wrap" Width="80" VerticalAlignment="Center" Style="{StaticResource SamplesTitleStyle}" HorizontalAlignment="Left"/>
+
+                        <!-- ================================================================== -->
+                        <ig:XamBulletGraph x:Name="BulletGraph_Software" Height="80" InnerMargin="25,14" HorizontalContentAlignment="Stretch" Margin="0" Grid.Column="1">
+                            <ig:XamBulletGraph.Scale>
+                                <ig:QuantitativeScale Minimum="0" Maximum="0" Interval="0">
+                                    <ig:QuantitativeScale.TickMarkGroup>
+                                        <ig:BulletGraphTickMarkGroup Thickness="1" />
+                                    </ig:QuantitativeScale.TickMarkGroup>
+                                    <ig:QuantitativeScale.LabelGroup>
+                                        <ig:BulletGraphLabelGroup StringFormat="{}{0:N0} K" />
+                                    </ig:QuantitativeScale.LabelGroup>
+                                    <ig:QuantitativeScale.Ranges>
+                                        <ig:QualitativeRange Value="0" Background="{StaticResource Range1Bg}" />
+                                        <ig:QualitativeRange Value="0" Background="{StaticResource Range2Bg}" />
+                                    </ig:QuantitativeScale.Ranges>
+                                </ig:QuantitativeScale>
+                            </ig:XamBulletGraph.Scale>
+                            <ig:XamBulletGraph.FeaturedMeasures>
+                                <ig:FeaturedMeasure Value="0" StartExtent="0.4" EndExtent="0.6" Width="0" />
+                            </ig:XamBulletGraph.FeaturedMeasures>
+                            <ig:XamBulletGraph.ComparativeMeasures>
+                                <ig:ComparativeMeasure Value="0" Width="3" Thickness="3" EndExtent="1" StartExtent="0" />
+                            </ig:XamBulletGraph.ComparativeMeasures>
+                        </ig:XamBulletGraph>
+                        <!-- ================================================================== -->
+
+                    </Grid>
+                    <Grid Height="80" Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0"  Text="{Binding Path=BulletGraphSettingValues_services, Source={StaticResource Strings}}" TextWrapping="Wrap" Width="80" VerticalAlignment="Center" Style="{StaticResource SamplesTitleStyle}" HorizontalAlignment="Left"/>
+
+                        <!-- ================================================================== -->
+                        <ig:XamBulletGraph Grid.Column="1" HorizontalContentAlignment="Stretch" Margin="0" x:Name="BulletGraph_Service" Height="80" InnerMargin="25,14">
+                            <ig:XamBulletGraph.Scale>
+                                <ig:QuantitativeScale Minimum="0" Maximum="0" Interval="0">
+                                    <ig:QuantitativeScale.TickMarkGroup>
+                                        <ig:BulletGraphTickMarkGroup Stroke="#FF999999" Thickness="1" />
+                                    </ig:QuantitativeScale.TickMarkGroup>
+                                    <ig:QuantitativeScale.LabelGroup>
+                                        <ig:BulletGraphLabelGroup StringFormat="{}{0:N0} K" />
+                                    </ig:QuantitativeScale.LabelGroup>
+                                    <ig:QuantitativeScale.Ranges>
+                                        <ig:QualitativeRange Value="0" Background="{StaticResource Range1Bg}" />
+                                        <ig:QualitativeRange Value="0" Background="{StaticResource Range2Bg}" />
+                                    </ig:QuantitativeScale.Ranges>
+                                </ig:QuantitativeScale>
+                            </ig:XamBulletGraph.Scale>
+                            <ig:XamBulletGraph.FeaturedMeasures>
+                                <ig:FeaturedMeasure Value="0" StartExtent="0.4" EndExtent="0.6" Width="0" />
+                            </ig:XamBulletGraph.FeaturedMeasures>
+                            <ig:XamBulletGraph.ComparativeMeasures>
+                                <ig:ComparativeMeasure Value="0" Width="3" Thickness="3" EndExtent="1" StartExtent="0" />
+                            </ig:XamBulletGraph.ComparativeMeasures>
+                        </ig:XamBulletGraph>
+                        <!-- ================================================================== -->
+
+                    </Grid>
+                </Grid>
+
+            </StackPanel>
+        </Border>
+
+    </Grid>
+
+</framework:SampleContainer>

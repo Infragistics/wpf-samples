@@ -1,0 +1,196 @@
+﻿<igFramework:SampleContainer x:Class="IGDataGrid.Samples.Data.AsynchronousDataLoading"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="AsynchronousDataLoading"
+      xmlns:controls="clr-namespace:Infragistics.Samples.Shared.Controls;assembly=Infragistics.Samples.Shared"
+      xmlns:igDP="http://infragistics.com/DataPresenter"
+      xmlns:igEditors="http://infragistics.com/Editors"
+      xmlns:igFramework="clr-namespace:Infragistics.Samples.Framework;assembly=Infragistics.Samples.Shared"
+      xmlns:local="clr-namespace:IGDataGrid.Samples.Data"
+      xmlns:res="clr-namespace:IGDataGrid.Resources">
+
+    <igFramework:SampleContainer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IGDataGrid;component/Assets/Global.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <res:DataGridStrings x:Key="Strings" />
+        </ResourceDictionary>
+    </igFramework:SampleContainer.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <!-- #BEGIN SNIPPET# -->
+        <igDP:XamDataGrid x:Name="XamDataGrid1"
+                          Grid.Row="1"
+                          Theme="RoyalLight">
+            <igDP:XamDataGrid.FieldLayouts>
+                <igDP:FieldLayout Key="{x:Type local:Fund}">
+                    <igDP:FieldLayout.Settings>
+                        <igDP:FieldLayoutSettings AutoArrangeCells="Never"
+                                                  AutoGenerateFields="False" />
+                    </igDP:FieldLayout.Settings>
+                    <igDP:FieldLayout.Fields>
+                        <igDP:Field Name="Name"
+                                    Label="Name"
+                                    Row="0"
+                                    Column="0" />
+                        <igDP:Field Name="Symbol"
+                                    Label="Symbol"
+                                    Row="0"
+                                    Column="1" />
+                        <igDP:Field Name="Family"
+                                    Label="Fund Family"
+                                    Row="0"
+                                    Column="2" />
+                        <igDP:Field Name="InceptionDate"
+                                    Label="Inception"
+                                    Row="0"
+                                    Column="3" />
+                        <igDP:Field Name="Category"
+                                    Label="Category"
+                                    Row="0"
+                                    Column="4" />
+                        <igDP:Field Name="RankInCategory"
+                                    Label="Rank In Category"
+                                    Row="0"
+                                    Column="5" />
+                        <igDP:Field Name="TradeTime"
+                                    Label="Time Trading"
+                                    Row="0"
+                                    Column="6" />
+                        <igDP:Field Name="FundSummary"
+                                    Label="Summary"
+                                    Row="1"
+                                    Column="0"
+                                    ColumnSpan="11">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings>
+                                    <igDP:FieldSettings.EditorStyle>
+                                        <Style TargetType="{x:Type igEditors:XamTextEditor}">
+                                            <Setter Property="TextWrapping"
+                                                    Value="Wrap" />
+                                        </Style>
+                                    </igDP:FieldSettings.EditorStyle>
+                                </igDP:FieldSettings>
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="MorningstarOverallRating"
+                                    Label="Morningstar Overall"
+                                    Row="2"
+                                    Column="0" />
+                        <igDP:Field Name="MorningstarRiskRanking"
+                                    Label="Morningstar Risk"
+                                    Row="2"
+                                    Column="1" />
+                        <igDP:Field Name="FiveYearAverageReturn"
+                                    Label="5 Yr Avg Return"
+                                    Row="2"
+                                    Column="2" />
+                        <igDP:Field Name="Beta"
+                                    Label="Beta"
+                                    Row="2"
+                                    Column="3" />
+                        <igDP:Field Name="TotalExpenseRatio"
+                                    Label="Expense Ratio"
+                                    Row="2"
+                                    Column="4" />
+                        <igDP:Field Name="YTDReturn"
+                                    Label="YTD Return"
+                                    Row="2"
+                                    Column="5" />
+                        <igDP:Field Name="PercentRankInCategory"
+                                    Label="Category Rating"
+                                    Row="2"
+                                    Column="6" />
+                        <igDP:Field Name="NetAssetValue"
+                                    Label="Net Assets Value"
+                                    Row="2"
+                                    Column="7" />
+                        <igDP:Field Name="PreviousClose"
+                                    Label="Previous Close"
+                                    Row="2"
+                                    Column="8" />
+                        <igDP:Field Name="Change"
+                                    Label="% Change"
+                                    Row="2"
+                                    Column="9" />
+                        <igDP:Field Name="TotalAssets"
+                                    Label="Total Assets"
+                                    Row="2"
+                                    Column="10" />
+                        <igDP:Field Name="Manager"
+                                    Label="Manager"
+                                    Row="3"
+                                    Column="0" />
+                        <igDP:Field Name="ManagerSince"
+                                    Label="Manager Since"
+                                    Row="3"
+                                    Column="1"
+                                    ColumnSpan="10" />
+                        <igDP:Field Name="ManagerBio"
+                                    Label="Manager Bio"
+                                    Row="4"
+                                    ColumnSpan="11"
+                                    Column="0">
+                            <igDP:Field.Settings>
+                                <igDP:FieldSettings>
+                                    <igDP:FieldSettings.EditorStyle>
+                                        <Style TargetType="{x:Type igEditors:XamTextEditor}">
+                                            <Setter Property="TextWrapping"
+                                                    Value="Wrap" />
+                                        </Style>
+                                    </igDP:FieldSettings.EditorStyle>
+                                </igDP:FieldSettings>
+                            </igDP:Field.Settings>
+                        </igDP:Field>
+                        <igDP:Field Name="Holdings" />
+                    </igDP:FieldLayout.Fields>
+                </igDP:FieldLayout>
+            </igDP:XamDataGrid.FieldLayouts>
+            <igDP:XamDataGrid.FieldLayoutSettings>
+                <igDP:FieldLayoutSettings DataRecordSizingMode="SizedToContentAndIndividuallySizable" />
+            </igDP:XamDataGrid.FieldLayoutSettings>
+        </igDP:XamDataGrid>
+        <!-- #END SNIPPET# -->
+        <controls:OptionsPanel HeaderText="{Binding Source={StaticResource CommonStrings}, Path=ConfigurationPanel_Header_Options}"
+                               Grid.RowSpan="1" Margin="{StaticResource GridsSamplesBottomPadding}">
+            <Grid>
+                <StackPanel d:LayoutOverrides="Width, Height"
+                            Orientation="Horizontal"
+                            Margin="0,0,0,0">
+                    <TextBlock Text="{Binding AsynchronousDataLoading_ConfigArea_StepOne, Source={StaticResource Strings}}"
+                               Margin="0,0,5,0"
+                               VerticalAlignment="Center"
+                                />
+                    <Button x:Name="btnLoadData"
+                            Click="btnLoadData_Click"
+                            Margin="0,0,10,0"
+                            VerticalAlignment="Center"
+                            Content="{Binding AsynchronousDataLoading_ConfigArea_LoadData, Source={StaticResource Strings}}" />
+                    <Label x:Name="lblStatus"
+                           Content=""
+                           Margin="0,0,10,0"
+                           VerticalAlignment="Center"
+                           Width="80" />
+                    <TextBlock Text="{Binding AsynchronousDataLoading_ConfigArea_StepTwo, Source={StaticResource Strings}}"
+                               Margin="0,0,5,0"
+                               VerticalAlignment="Center"
+                                />
+                    <Button x:Name="btnBindData"
+                            Click="btnBindData_Click"
+                            IsEnabled="False"
+                            VerticalAlignment="Center"
+                            Content="{Binding AsynchronousDataLoading_ConfigArea_BindData, Source={StaticResource Strings}}" />
+                </StackPanel>
+            </Grid>
+        </controls:OptionsPanel>
+    </Grid>
+</igFramework:SampleContainer>
