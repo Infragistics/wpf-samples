@@ -1906,6 +1906,15 @@ namespace IGDataChart.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Range Bar Series.
+        /// </summary>
+        public static string XWDC_CategorySeries_RangeBarSeries {
+            get {
+                return ResourceManager.GetString("XWDC_CategorySeries_RangeBarSeries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Spline Area Series.
         /// </summary>
         public static string XWDC_CategorySeries_SplineAreaSeries {

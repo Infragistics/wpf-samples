@@ -32,6 +32,7 @@ namespace IGDataChart.Samples.Display.Series
             _vm.AddSample(this.StepAreaChart, DataChartStrings.XWDC_CategorySeries_StepAreaSeries);
             _vm.AddSample(this.RangeColumnChart, DataChartStrings.XWDC_CategorySeries_RangeColumnSeries);
             _vm.AddSample(this.RangeAreaChart, DataChartStrings.XWDC_CategorySeries_RangeAreaSeries);
+            _vm.AddSample(this.RangeBarChart, DataChartStrings.XWDC_CategorySeries_RangeBarSeries);
             _vm.AddSample(this.WaterfallChart, DataChartStrings.XWDC_CategorySeries_WaterfallSeries);
             _vm.AddSample(this.BarChart, DataChartStrings.XWDC_CategorySeries_BarSeries);
             

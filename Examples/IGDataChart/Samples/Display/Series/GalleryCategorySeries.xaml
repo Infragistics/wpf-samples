@@ -427,6 +427,33 @@
                 <!-- ========================================================================== -->
                 <!-- #END SNIPPET# -->
             </ig:XamDataChart>
+            <ig:XamDataChart x:Name="RangeBarChart" Legend="{Binding ElementName=Legend}" >
+                <ig:XamDataChart.Axes>
+                    <ig:NumericXAxis x:Name="RangeBarXAxis" MinimumValue="0" Interval="200" Label="{}{} TWh" />
+                    <ig:CategoryYAxis x:Name="RangeBarYAxis" ItemsSource="{Binding EnergySampleData}" Label="{}{Country}">
+                    </ig:CategoryYAxis>
+                </ig:XamDataChart.Axes>
+                <!-- #BEGIN SNIPPET# -->
+                <!-- ========================================================================== -->
+                <ig:XamDataChart.Series>
+                    <ig:RangeBarSeries ItemsSource="{Binding EnergySampleData}"
+                                       HighMemberPath="Coal" LowMemberPath="Oil"
+                                       Title="{Binding StringEnergyCoalVsOil}"
+                                       XAxis="{Binding ElementName=RangeBarXAxis}"
+                                       YAxis="{Binding ElementName=RangeBarYAxis}"
+                                       Style="{StaticResource InteractiveSeries}">
+                    </ig:RangeBarSeries>
+                    <ig:RangeBarSeries ItemsSource="{Binding EnergySampleData}"
+                                       HighMemberPath="Hydro" LowMemberPath="Nuclear"
+                                       Title="{Binding StringEnergyHydroVsNuclear}"
+                                       XAxis="{Binding ElementName=RangeBarXAxis}"
+                                       YAxis="{Binding ElementName=RangeBarYAxis}"
+                                       Style="{StaticResource InteractiveSeries}">
+                    </ig:RangeBarSeries>
+                </ig:XamDataChart.Series>
+                <!-- ========================================================================== -->
+                <!-- #END SNIPPET# -->
+            </ig:XamDataChart>
 
             <ig:XamDataChart x:Name="WaterfallChart" Legend="{Binding ElementName=Legend}">
                 <ig:XamDataChart.Axes>
