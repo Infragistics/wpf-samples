@@ -1,7 +1,7 @@
 ﻿
 
-$assemblyShortVerOld = '25.1.17'
-$assemblyShortVerNew = '25.2.59'
+$assemblyShortVerOld = '25.2.59'
+$assemblyShortVerNew = '26.1.14'
 
 $assemblyPartsVerOld = $assemblyShortVerOld -split '\.'
 $assemblyPartsVerNew = $assemblyShortVerNew -split '\.'
@@ -10,8 +10,8 @@ $assemblyPartsVerNew = $assemblyShortVerNew -split '\.'
 $assemblyLongVerOld = ($assemblyPartsVerOld[0] + "." + $assemblyPartsVerOld[1] + ".20" + $assemblyPartsVerOld[0] + $assemblyPartsVerOld[1] + "." + $assemblyPartsVerOld[2]).Trim();
 $assemblyLongVerNew = ($assemblyPartsVerNew[0] + "." + $assemblyPartsVerNew[1] + ".20" + $assemblyPartsVerNew[0] + $assemblyPartsVerNew[1] + "." + $assemblyPartsVerNew[2]).Trim();
 
-# $repoLocation = 'C:\Work\wpf-samples'
-$repoLocation = '.\..'
+$repoLocation = 'C:\Work\wpf-samples'
+#$repoLocation = '.\..'
 ###############################
 
 Write-Host "this script is replacing:"
